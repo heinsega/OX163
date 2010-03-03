@@ -1,6 +1,5 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.OCX"
 Begin VB.Form script_from 
    Caption         =   "OX163 Script Setting"
    ClientHeight    =   4905
@@ -17,14 +16,6 @@ Begin VB.Form script_from
       Interval        =   10
       Left            =   720
       Top             =   1800
-   End
-   Begin InetCtlsObjects.Inet script_load 
-      Left            =   0
-      Top             =   1680
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      _Version        =   393216
-      RequestTimeout  =   30
    End
    Begin MSComctlLib.ImageList Image_over 
       Left            =   0
@@ -96,15 +87,15 @@ Begin VB.Form script_from
    End
    Begin MSComctlLib.Toolbar Toolbar 
       Align           =   1  'Align Top
-      Height          =   690
+      Height          =   705
       Left            =   0
       TabIndex        =   1
       Top             =   0
       Width           =   7065
       _ExtentX        =   12462
-      _ExtentY        =   1217
+      _ExtentY        =   1244
       ButtonWidth     =   1455
-      ButtonHeight    =   1164
+      ButtonHeight    =   1191
       AllowCustomize  =   0   'False
       Wrappable       =   0   'False
       Appearance      =   1
