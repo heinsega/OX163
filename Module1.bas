@@ -268,17 +268,21 @@ GetCookie = Left(buf_Cookies, cLen)
 End Function
 
 
-   Public Function GetShortName(ByVal sLongFileName As String) As String
-       Dim lRetVal As Long, sShortPathName As String, iLen As Integer
-       'Set up buffer area for API function call return
-       sShortPathName = Space(255)
-       iLen = Len(sShortPathName)
+Public Function GetShortName(ByVal sLongFileName As String) As String
+    On Error Resume Next
+    Dim lRetVal As Long, sShortPathName As String, iLen As Integer
+    'Set up buffer area for API function call return
+    sShortPathName = Space(255)
+    If Right(sLongFileName, 1) <> "\" Then sLongFileName = sLongFileName & "\"
+    sLongFileName = Left(sLongFileName, Len(sLongFileName) - 1)
+    iLen = LenB(sShortPathName)
 
-       'Call the function
-       lRetVal = GetShortPathName(sLongFileName, sShortPathName, iLen)
-       'Strip away unwanted characters.
-       GetShortName = Left(sShortPathName, lRetVal)
-   End Function
+    'Call the function
+    lRetVal = GetShortPathName(sLongFileName, sShortPathName, iLen)
+    'Strip away unwanted characters.
+    
+    GetShortName = Left(sShortPathName, lRetVal)
+End Function
 
 
 Public Function GetSysDir() As String

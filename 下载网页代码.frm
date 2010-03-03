@@ -5585,6 +5585,7 @@ End If
 End Sub
 
 
+
 'Private Sub Web_Browser_DocumentComplete(ByVal pDisp As Object, URL As Variant)
 'On Error Resume Next
 'If down_count = 0 Then
@@ -7836,11 +7837,14 @@ End If
 End Sub
 
 
-
-
-
-
-
+Private Sub Web_Browser_StatusTextChange(ByVal Text As String)
+On Error Resume Next
+If Text = "" Or Text = "Íê³É" Or Text = LCase("completed") Then
+StatusBar.Panels(2) = show_inform(0)
+Else
+StatusBar.Panels(2) = Text
+End If
+End Sub
 
 Private Sub Web_Search_DragOver(Source As Control, x As Single, Y As Single, State As Integer)
 On Error Resume Next
