@@ -1,8 +1,7 @@
 VERSION 5.00
-Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "shdocvw.dll"
+Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "ieframe.dll"
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.OCX"
 Begin VB.Form Form1 
    Caption         =   "OX163"
    ClientHeight    =   9060
@@ -75,14 +74,6 @@ Begin VB.Form Form1
       Visible         =   0   'False
       Width           =   870
    End
-   Begin InetCtlsObjects.Inet fast_down 
-      Left            =   600
-      Top             =   7440
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      _Version        =   393216
-      RequestTimeout  =   30
-   End
    Begin VB.FileListBox url_Filelist 
       Appearance      =   0  'Flat
       Height          =   1830
@@ -132,14 +123,6 @@ Begin VB.Form Form1
          Strikethrough   =   0   'False
       EndProperty
       MouseIcon       =   "ÏÂÔØÍøÒ³´úÂë.frx":4D3B
-   End
-   Begin InetCtlsObjects.Inet check_header 
-      Left            =   1800
-      Top             =   7440
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      _Version        =   393216
-      RequestTimeout  =   15
    End
    Begin VB.Timer Timer3 
       Interval        =   200
@@ -253,14 +236,6 @@ Begin VB.Form Form1
          Text            =   "Url"
          Object.Width           =   2117
       EndProperty
-   End
-   Begin InetCtlsObjects.Inet update 
-      Left            =   1200
-      Top             =   7440
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      _Version        =   393216
-      RequestTimeout  =   15
    End
    Begin VB.TextBox text_sortname 
       Height          =   270
@@ -889,15 +864,6 @@ Begin VB.Form Form1
       Left            =   0
       Top             =   8040
    End
-   Begin InetCtlsObjects.Inet Inet1 
-      Left            =   0
-      Top             =   7440
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      _Version        =   393216
-      URL             =   "http://"
-      RequestTimeout  =   20
-   End
    Begin SHDocVwCtl.WebBrowser Web_Search 
       Height          =   6120
       Left            =   45
@@ -923,7 +889,7 @@ Begin VB.Form Form1
       NoFolders       =   0   'False
       Transparent     =   0   'False
       ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-      Location        =   "http:///"
+      Location        =   ""
    End
    Begin VB.PictureBox web_Picture 
       BorderStyle     =   0  'None
@@ -958,7 +924,7 @@ Begin VB.Form Form1
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   "http:///"
+         Location        =   ""
       End
    End
    Begin MSComDlg.CommonDialog CommonDialog1 
