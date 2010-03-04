@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "ieframe.dll"
+Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "shdocvw.dll"
 Begin VB.Form BrowserW 
    BorderStyle     =   0  'None
    Caption         =   "Browser Windows"
@@ -49,7 +49,7 @@ Begin VB.Form BrowserW
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   ""
+         Location        =   "http:///"
       End
    End
 End
@@ -84,10 +84,10 @@ BrowserW_load_ok = True
 End Sub
 
 
-'Private Sub WebBrowser_FileDownload(Cancel As Boolean)
-'On Error Resume Next
-'Cancel = True
-'End Sub
+Private Sub WebBrowser_FileDownload(Cancel As Boolean)
+On Error Resume Next
+Cancel = True
+End Sub
 
 Private Sub WebBrowser_NewWindow2(ppDisp As Object, Cancel As Boolean)
 On Error Resume Next
