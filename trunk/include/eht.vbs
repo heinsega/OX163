@@ -1,4 +1,4 @@
-'2010-3-2 163.shanhaijing.net
+'2010-3-5 163.shanhaijing.net
 Dim start_time,counts
 Dim delay_tf
 Dim page_url,page
@@ -107,7 +107,7 @@ End Function
 '-------------------------------------------------
 Function return_download_list(ByVal html_str, ByVal url_str)
 On Error Resume Next
-If DateDiff("s", start_time, Now()) < 0 Then
+If DateDiff("s", start_time, Now()) < 6 Then
 	return_download_list="1|inet|10,13|http://www.163.com/?Delay_5s-ÀûÓÃ163Ò³ÃæÑÓ³Ù5Ãë"
 	Exit Function
 ElseIf delay_tf=1 Then
@@ -117,9 +117,51 @@ ElseIf delay_tf=1 Then
 	Exit Function
 End If
 
-If InStr(LCase(html_str),"title=""last""")>0 Then
+Dim file_name,file_type
+
+If InStr(LCase(html_str),"</script></div><a href=""")>0 Then
 		
-	Dim file_name,file_type
+	If InStr(LCase(html_str),"<h1 class=""")>0 Then
+		file_name=Mid(html_str,InStr(LCase(html_str),"<h1 class="""))
+		file_name=Mid(file_name,InStr(file_name,">")+1)
+		file_name=replace(Mid(file_name,1,InStr(file_name,"<")-1),"|","_") & "_"
+		If Len(file_name)>100 Then file_name=Left(file_name,100) & "_"
+	Else
+		file_name=""
+	End If
+	
+	'pic_url
+	html_str=Mid(html_str,InStr(LCase(html_str),"</script></div><a href="""))
+	html_str=Mid(html_str,InStr(LCase(html_str),"<img src=""")+10)
+	file_type=Mid(html_str,InStr(html_str,Chr(34))+1)
+	
+	html_str=Mid(html_str,1,InStr(html_str,Chr(34))-1)
+	html_str=replace(html_str,"&amp;","&")
+	
+	file_type=Mid(file_type,InStr(LCase(file_type)," alt=""")+6)
+	file_type=Mid(file_type,1,InStr(file_type,Chr(34))-1)
+	
+	If file_type<>"" Then
+		If file_type<>"" Then
+			If Mid(file_type,InStrrev(file_type,"."))=Mid(html_str,InStrrev(html_str,".")) Then
+				file_name=file_name & file_type
+			Else
+				file_name=file_name & file_type & Mid(html_str,instrrev(html_str,"."))
+			End If
+		End If
+	Else
+		'http://rsb.hentaiverse.net/ehg/image.php?f=7767ec5a5347dc720950fc49420ca6189dc89c05-306395-950-1328-jpg&t=348757-8ae15de1553bb3afc9a9a84ca75ce23fa80421f8&n=hanaharu200810_4.jpg
+		'http://gu.e-hentai.org/image.php?f=7767ec5a5347dc720950fc49420ca6189dc89c05-306395-950-1328-jpg&t=348757-ed799eecd5330a109cad57d15f04cb3ff32d12b8&n=hanaharu200810_4.jpg
+		file_name=file_name & Mid(html_str,instrrev(html_str,"/")+1)
+	End If
+	
+	file_name=replace(replace(file_name,Chr(10),""),Chr(13),"")
+	file_name=rename_utf8(file_name)
+	
+	return_download_list="|" & html_str & "|" & file_name & "|" & file_name & vbCrLf & "0"'&nl=1
+	
+ElseIf InStr(LCase(html_str),"title=""last""")>0 Then
+		
 	If InStr(LCase(html_str),"<h1 class=""")>0 Then
 		file_name=Mid(html_str,InStr(LCase(html_str),"<h1 class="""))
 		file_name=Mid(file_name,InStr(file_name,">")+1)
