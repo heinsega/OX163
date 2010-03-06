@@ -49,7 +49,7 @@ Begin VB.Form BrowserW
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   "http:///"
+         Location        =   ""
       End
    End
 End
@@ -63,34 +63,34 @@ Public BrowserW_load_ok As Boolean
 
 
 Private Sub Form_Load()
-On Error Resume Next
-BrowserW_load_ok = False
-
-BrowserW.Height = 0
-BrowserW.Width = 0
-BrowserW.Top = 0
-BrowserW.Left = 0
-
-'BrowserW.Height = 5000
-'BrowserW.Width = 5000
-'BrowserW.Top = 1
-'BrowserW.Left = 1
-'Picture1.Visible = True
-'Picture1.Enabled = True
-'Me.Enabled = True
-
-
-BrowserW_load_ok = True
+    On Error Resume Next
+    BrowserW_load_ok = False
+    
+    BrowserW.Height = 0
+    BrowserW.Width = 0
+    BrowserW.Top = 0
+    BrowserW.Left = 0
+    
+    'BrowserW.Height = 5000
+    'BrowserW.Width = 5000
+    'BrowserW.Top = 1
+    'BrowserW.Left = 1
+    'Picture1.Visible = True
+    'Picture1.Enabled = True
+    'Me.Enabled = True
+    
+    
+    BrowserW_load_ok = True
 End Sub
 
 
 Private Sub WebBrowser_FileDownload(Cancel As Boolean)
-On Error Resume Next
-Cancel = True
+    On Error Resume Next
+    Cancel = True
 End Sub
 
 Private Sub WebBrowser_NewWindow2(ppDisp As Object, Cancel As Boolean)
-On Error Resume Next
-Cancel = True
+    On Error Resume Next
+    Cancel = True
 End Sub
 
