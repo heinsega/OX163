@@ -94,6 +94,15 @@ Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (By
 
 Public Declare Function InternetGetCookie Lib "wininet.dll" Alias "InternetGetCookieA" (ByVal lpszUrlName As String, ByVal lpszCookieName As String, ByVal lpszCookieData As String, ByRef lpdwSize As Long) As Long
 
+
+'-------------------------------解Gzip压缩数组------------------------------------------
+'Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (hpvDest As Any, hpvSource As Any, ByVal cbCopy As Long) '已经定义
+Private Declare Function InitDecompression Lib "gzip.dll" () As Long
+Private Declare Function CreateDecompression Lib "gzip.dll" (ByRef context As Long, ByVal Flags As Long) As Long
+Private Declare Function DestroyDecompression Lib "gzip.dll" (ByRef context As Long) As Long
+Private Declare Function Decompress Lib "gzip.dll" (ByVal context As Long, inBytes As Any, ByVal input_size As Long, outBytes As Any, ByVal output_size As Long, ByRef input_used As Long, ByRef output_used As Long) As Long
+'Private Const OFFSET As Long = &H8
+
 ''----------------------------------代替CommonDialog--------------------------------------------
 '
 'Private Declare Function GetOpenFileName Lib "comdlg32.dll" Alias "GetOpenFileNameA" (pOpenfilename As OPENFILENAME) As Long
@@ -728,3 +737,32 @@ Public Function FARPROC(pfn As Long) As Long
     FARPROC = pfn
 End Function
 '---------------------调用shell选择保存目录------end---------------------------------------------
+
+
+'-------------------------------解Gzip压缩数组------------------------------------------
+Public Function UnCompressGzipByte(ByteArray() As Byte) As Variant
+    Dim BufferSize  As Long
+    Dim buffer()    As Byte
+    Dim lReturn    As Long
+    
+    Dim outUsed    As Long
+    Dim inUsed      As Long
+    
+    '创建解压缩后的缓存
+    CopyMemory BufferSize, ByteArray(0), &H8 'OFFSET
+    BufferSize = BufferSize + (BufferSize * 0.01) + 12
+    ReDim buffer(BufferSize) As Byte
+    
+    '创建解压缩进程
+    Dim contextHandle As Long: InitDecompression
+    CreateDecompression contextHandle, 1  '创建
+    
+    '解压缩数据
+    lReturn = Decompress(ByVal contextHandle, ByteArray(0), UBound(ByteArray) + 1, buffer(0), BufferSize, inUsed, outUsed)
+    
+    DestroyDecompression contextHandle
+    
+    '删除重复的数据
+    ReDim Preserve ByteArray(0 To outUsed - 1)
+    CopyMemory ByteArray(0), buffer(0), outUsed
+End Function
