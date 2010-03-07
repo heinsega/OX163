@@ -1517,31 +1517,23 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
+Public Function description_strings()
+    description_strings = Array("导出带有自动更名的LST下载列表" & vbCrLf & "适用于flashget1.96等经典版本", _
+    "导出带有全部下载信息的htm页面" & vbCrLf & "可以直接调用迅雷等下载软件", _
+    "导出一个仅有下载地址的txt文档" & vbCrLf & "同时生成一个bat文档用于重命名")
+End Function
 Private Sub Combo_lst_Click()
     'lst (for flashget)
     'htm(for All Tools)
     'txt & bat(for All)
-    If Combo_lst.ListIndex = 0 Then
-        Combo_lst1.Caption = "导出带有自动更名的LST下载列表" & vbCrLf & "适用于flashget1.96等经典版本"
-    ElseIf Combo_lst.ListIndex = 1 Then
-        Combo_lst1.Caption = "导出带有全部下载信息的htm页面" & vbCrLf & "可以直接调用迅雷等下载软件"
-    ElseIf Combo_lst.ListIndex = 2 Then
-        Combo_lst1.Caption = "导出一个仅有下载地址的txt文档" & vbCrLf & "同时生成一个bat文档用于重命名"
-    End If
+    Combo_lst1.Caption = description_strings(Combo_lst.ListIndex)
 End Sub
 
 Private Sub Combo_lst_KeyPress(KeyAscii As Integer)
     'lst (for flashget)
     'htm(for All Tools)
     'txt & bat(for All)
-    If Combo_lst.ListIndex = 0 Then
-        Combo_lst1.Caption = "导出带有自动更名的LST下载列表" & vbCrLf & "适用于flashget1.96等经典版本"
-    ElseIf Combo_lst.ListIndex = 1 Then
-        Combo_lst1.Caption = "导出带有全部下载信息的htm页面" & vbCrLf & "可以直接调用迅雷等下载软件"
-    ElseIf Combo_lst.ListIndex = 2 Then
-        Combo_lst1.Caption = "导出一个仅有下载地址的txt文档" & vbCrLf & "同时生成一个bat文档用于重命名"
-    End If
+    Combo_lst1.Caption = description_strings(Combo_lst.ListIndex)
 End Sub
 
 

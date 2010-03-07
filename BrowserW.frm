@@ -49,7 +49,7 @@ Begin VB.Form BrowserW
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   "http:///"
+         Location        =   ""
       End
    End
 End
@@ -64,27 +64,27 @@ Dim doc As Object
 
 
 Private Sub Form_Load()
-On Error Resume Next
-BrowserW_load_ok = False
-
-BrowserW.Height = 0
-BrowserW.Width = 0
-BrowserW.Top = 0
-BrowserW.Left = 0
-BrowserW.Enabled = False
-
-'BrowserW.Height = 5200
-'BrowserW.Width = 10000
-'Picture1.Height = 5200
-'Picture1.Width = 10000
-'BrowserW.Top = 1
-'BrowserW.Left = 1
-'Picture1.Visible = True
-'Picture1.Enabled = True
-'Me.Enabled = True
-
-
-BrowserW_load_ok = True
+    On Error Resume Next
+    BrowserW_load_ok = False
+    
+    BrowserW.Height = 0
+    BrowserW.Width = 0
+    BrowserW.Top = 0
+    BrowserW.Left = 0
+    BrowserW.Enabled = False
+    
+    'BrowserW.Height = 5200
+    'BrowserW.Width = 10000
+    'Picture1.Height = 5200
+    'Picture1.Width = 10000
+    'BrowserW.Top = 1
+    'BrowserW.Left = 1
+    'Picture1.Visible = True
+    'Picture1.Enabled = True
+    'Me.Enabled = True
+    
+    
+    BrowserW_load_ok = True
 End Sub
 
 
@@ -94,17 +94,17 @@ Private Sub WebBrowser_DownloadComplete()
 End Sub
 
 Private Sub WebBrowser_FileDownload(Cancel As Boolean)
-On Error Resume Next
-Cancel = True
+    On Error Resume Next
+    Cancel = True
 End Sub
 
 Private Sub WebBrowser_NewWindow2(ppDisp As Object, Cancel As Boolean)
-On Error Resume Next
-Cancel = True
+    On Error Resume Next
+    Cancel = True
 End Sub
 
 Private Sub WebBrowser_StatusTextChange(ByVal Text As String)
-If InStr(Text, "http://") > 0 And InStr(Text, BrowserW_url) <= 0 Then
-    WebBrowser.Stop
-End If
+    If InStr(Text, "http://") > 0 And InStr(Text, BrowserW_url) <= 0 Then
+        WebBrowser.Stop
+    End If
 End Sub
