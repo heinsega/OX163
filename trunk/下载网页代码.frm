@@ -1288,6 +1288,14 @@ Dim Content_Range As String
 Dim new_win As Boolean
 Public OX163_WebBrowser_scriptCode As String
 
+'Special Characters RegExp Predefs
+Private Const oxSep As String = "\|"
+'Escape Sequence RegExp Predefs
+Private Const oxEscChr As String = "\\", oxEscBase As String = oxSep & oxEscChr
+Private Const oxEscSeq = oxEscChr & "[" & oxEscBase & "]", oxEscStr = "(?:[^" & oxEscBase & "]|" & oxEscSeq & ")*"
+
+Private mEscHandler As New EscapeHandler
+
 'Dim download_speed As Integer
 
 
@@ -1747,6 +1755,9 @@ Private Sub Form_Load()
     'Label_text.Font = "新細明體"
     'user_list.Font = "新細明體"
     'text_sortname.Font = "新細明體"
+    
+    'EscapeHandler
+    mEscHandler.SetFormat oxEscChr, oxEscBase
     
     '------------------导出列表图标-------------------
     If sysSet.list_type >= 0 And sysSet.list_type <= 2 Then
@@ -8930,30 +8941,49 @@ Private Sub list_album_script(ByVal album_info)
     
     Dim pw_file_tf As Boolean
     
-    If Dir(pw_163) <> "" Then
-        pw_file_tf = True
-    Else
-        pw_file_tf = False
-    End If
+    pw_file_tf = (Dir(pw_163) <> "")
+    
     '--------------------------------------------------------------------
     
-    run_script_str = Split(album_info, "|")
+    Dim results As MatchCollection, result As match, expression As New regExp
+    expression.Global = True
+    expression.IgnoreCase = True
+    'tom.vbs|vbscript|GB2312|album|http://photo.tom.com/pim.php?*
+    expression.Pattern = "(" & oxEscStr & "\.(?:vbs|js))" & oxSep & "(vbscript|javascript)" & oxSep & "(" & oxEscStr & ")" & oxSep & "(album|photo)" & oxSep & "(" & oxEscStr & ")"
+    Set results = expression.Execute(album_info)
+    If results.count = 0 Then Exit Sub
+    Set result = results.Item(0)
     
-    If LCase$(run_script_str(1)) = "vbscript" Then
-        script_app.Language = "vbscript"
-        script_code = "dim OX163_urlpage_Referer,OX163_urlpage_Cookies" & vbCrLf & load_script(App.Path & "\include\" & run_script_str(0)) & vbCrLf & "Function set_urlpagecookies(byVal set_str)" & vbCrLf & "On Error Resume Next" & vbCrLf & "OX163_urlpage_Cookies=set_str" & vbCrLf & "End Function"
-    Else
-        script_app.Language = "javascript"
-        script_code = "var OX163_urlpage_Referer='';var OX163_urlpage_Cookies='';" & vbCrLf & load_script(App.Path & "\include\" & run_script_str(0)) & vbCrLf & "function set_urlpagecookies(set_str)" & vbCrLf & "{OX163_urlpage_Cookies=set_str;}"
-    End If
+    Dim scriptFileName As String, scriptLanguage As String, webpageEncoding As String, webpageType As String, webpageCriteria As String
+    scriptFileName = mEscHandler.DeEscape(result.SubMatches(0))
+    scriptLanguage = LCase$(mEscHandler.DeEscape(result.SubMatches(1)))
+    webpageEncoding = mEscHandler.DeEscape(result.SubMatches(2))
+    webpageType = mEscHandler.DeEscape(result.SubMatches(3))
+    webpageCriteria = mEscHandler.DeEscape(result.SubMatches(4))
     
-    
+    Select Case scriptLanguage
+    Case "vbscript"
+        script_code = "dim OX163_urlpage_Referer,OX163_urlpage_Cookies" & vbCrLf & _
+        load_script(App.Path & "\include\" & scriptFileName) & vbCrLf & _
+        "Function set_urlpagecookies(byVal set_str)" & vbCrLf & _
+        "On Error Resume Next" & vbCrLf & _
+        "OX163_urlpage_Cookies = set_str" & vbCrLf & _
+        "End Function"
+    Case "javascript"
+        script_code = "var OX163_urlpage_Referer='';var OX163_urlpage_Cookies='';" & vbCrLf & _
+        load_script(App.Path & "\include\" & scriptFileName) & vbCrLf & _
+        "function set_urlpagecookies(set_str)" & vbCrLf & _
+        "{OX163_urlpage_Cookies=set_str;}"
+    Case Else
+        Exit Sub
+    End Select
+    script_app.Language = scriptLanguage
     script_app.AddCode (script_code)
     
     
     'get album Url----------------------------------------------------------------------------
     DoEvents
-    If form_quit = True Then Exit Sub
+    If form_quit Then Exit Sub
     
     Err.Number = 0
     
@@ -8968,13 +8998,13 @@ Private Sub list_album_script(ByVal album_info)
     
     'get cookies--------------------------------------------------------------------------------------
     
-    cookies_text = GetCookie(run_script_str(4))
+    cookies_text = GetCookie(webpageCriteria)
     
     If script_app.Language = "vbscript" Then
         
         cookies_text = Replace$(cookies_text, Chr(34), Chr(34) & Chr(34))
-        cookies_text = Replace$(cookies_text, Chr(10), Chr(34) & " & Chr(10) & " & Chr(34))
-        cookies_text = Replace$(cookies_text, Chr(13), Chr(34) & " & Chr(13) & " & Chr(34))
+        cookies_text = Replace$(cookies_text, vbLf, Chr(34) & " & vbLf & " & Chr(34))
+        cookies_text = Replace$(cookies_text, vbCr, Chr(34) & " & vbCr & " & Chr(34))
         
         cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
         
@@ -8984,8 +9014,8 @@ Private Sub list_album_script(ByVal album_info)
         'String.fromCharCode(x)
         
         cookies_text = Replace$(cookies_text, Chr(34), "\" & Chr(34))
-        cookies_text = Replace$(cookies_text, Chr(10), Chr(34) & "+String.fromCharCode(10)+" & Chr(34))
-        cookies_text = Replace$(cookies_text, Chr(13), Chr(34) & "+String.fromCharCode(13)+" & Chr(34))
+        cookies_text = Replace$(cookies_text, vbLf, Chr(34) & "+String.fromCharCode(10)+" & Chr(34))
+        cookies_text = Replace$(cookies_text, vbCr, Chr(34) & "+String.fromCharCode(13)+" & Chr(34))
         
         'cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
         
@@ -8995,7 +9025,7 @@ Private Sub list_album_script(ByVal album_info)
     '--------------------------------------------------------------------------------------
     
     
-    script_retrun_temp = script_app.Eval("return_download_url(" & Chr(34) & run_script_str(4) & Chr(34) & ")")
+    script_retrun_temp = script_app.Eval("return_download_url(" & Chr(34) & webpageCriteria & Chr(34) & ")")
     
     urlpage_Referer = Trim(script_app.Eval("OX163_urlpage_Referer"))
     
@@ -9088,7 +9118,7 @@ next_page:
         
         fast_down.Cancel
         download_ok = False
-        htmlCharsetType = run_script_str(2)
+        htmlCharsetType = webpageEncoding
         
         'start_fast_method = "" 不清空post方式
         If UBound(script_retrun_code) > 3 Then start_fast_method = Replace(Replace(script_retrun_code(4), "&for_ox163_replace_vbcrlf&", vbCrLf), "&for_ox163_replace_vline&", "|")
@@ -9123,13 +9153,13 @@ next_page:
     
     If script_app.Language = "vbscript" Then
         Html_Temp = Replace$(Html_Temp, Chr(34), Chr(34) & Chr(34))
-        Html_Temp = Replace$(Html_Temp, Chr(10), Chr(34) & " & Chr(10) & " & Chr(34))
-        Html_Temp = Replace$(Html_Temp, Chr(13), Chr(34) & " & Chr(13) & " & Chr(34))
+        Html_Temp = Replace$(Html_Temp, vbLf, Chr(34) & " & vbLf & " & Chr(34))
+        Html_Temp = Replace$(Html_Temp, vbCr, Chr(34) & " & vbCr & " & Chr(34))
     Else
         'String.fromCharCode(x)
         Html_Temp = Replace$(Html_Temp, Chr(34), "\" & Chr(34))
-        Html_Temp = Replace$(Html_Temp, Chr(10), Chr(34) & "+String.fromCharCode(10)+" & Chr(34))
-        Html_Temp = Replace$(Html_Temp, Chr(13), Chr(34) & "+String.fromCharCode(13)+" & Chr(34))
+        Html_Temp = Replace$(Html_Temp, vbLf, Chr(34) & "+String.fromCharCode(10)+" & Chr(34))
+        Html_Temp = Replace$(Html_Temp, vbCr, Chr(34) & "+String.fromCharCode(13)+" & Chr(34))
     End If
     
     'list albums Url----------------------------------------------------------------------------
@@ -9143,8 +9173,8 @@ next_page:
     If script_app.Language = "vbscript" Then
         
         cookies_text = Replace$(cookies_text, Chr(34), Chr(34) & Chr(34))
-        cookies_text = Replace$(cookies_text, Chr(10), Chr(34) & " & Chr(10) & " & Chr(34))
-        cookies_text = Replace$(cookies_text, Chr(13), Chr(34) & " & Chr(13) & " & Chr(34))
+        cookies_text = Replace$(cookies_text, vbLf, Chr(34) & " & vbLf & " & Chr(34))
+        cookies_text = Replace$(cookies_text, vbCr, Chr(34) & " & vbCr & " & Chr(34))
         
         cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
         
@@ -9154,8 +9184,8 @@ next_page:
         'String.fromCharCode(x)
         
         cookies_text = Replace$(cookies_text, Chr(34), "\" & Chr(34))
-        cookies_text = Replace$(cookies_text, Chr(10), Chr(34) & "+String.fromCharCode(10)+" & Chr(34))
-        cookies_text = Replace$(cookies_text, Chr(13), Chr(34) & "+String.fromCharCode(13)+" & Chr(34))
+        cookies_text = Replace$(cookies_text, vbLf, Chr(34) & "+String.fromCharCode(10)+" & Chr(34))
+        cookies_text = Replace$(cookies_text, vbCr, Chr(34) & "+String.fromCharCode(13)+" & Chr(34))
         
         cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
         
@@ -9174,7 +9204,7 @@ next_page:
     top_Picture(1).Enabled = False
     
     
-    script_retrun_temp = script_app.Eval("return_albums_list(" & Chr(34) & Html_Temp & Chr(34) & "," & Chr(34) & run_script_str(4) & Chr(34) & ")")
+    script_retrun_temp = script_app.Eval("return_albums_list(" & Chr(34) & Html_Temp & Chr(34) & "," & Chr(34) & webpageCriteria & Chr(34) & ")")
     urlpage_Referer = Trim(script_app.Eval("OX163_urlpage_Referer"))
     
     If Form1.WindowState = 0 Then always_on_top sysSet.always_top
