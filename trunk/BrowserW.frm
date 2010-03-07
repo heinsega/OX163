@@ -3,16 +3,16 @@ Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "shdocvw.dll"
 Begin VB.Form BrowserW 
    BorderStyle     =   0  'None
    Caption         =   "Browser Windows"
-   ClientHeight    =   90
+   ClientHeight    =   1920
    ClientLeft      =   -105
    ClientTop       =   -105
-   ClientWidth     =   90
+   ClientWidth     =   2430
    Enabled         =   0   'False
    LinkTopic       =   "BrowserW"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   90
-   ScaleWidth      =   90
+   ScaleHeight     =   1920
+   ScaleWidth      =   2430
    ShowInTaskbar   =   0   'False
    Begin VB.PictureBox Picture1 
       BorderStyle     =   0  'None
@@ -49,7 +49,7 @@ Begin VB.Form BrowserW
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   ""
+         Location        =   "http:///"
       End
    End
 End
@@ -59,38 +59,52 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Public BrowserW_load_ok As Boolean
-
+Public BrowserW_url As String
+Dim doc As Object
 
 
 Private Sub Form_Load()
-    On Error Resume Next
-    BrowserW_load_ok = False
-    
-    BrowserW.Height = 0
-    BrowserW.Width = 0
-    BrowserW.Top = 0
-    BrowserW.Left = 0
-    
-    'BrowserW.Height = 5000
-    'BrowserW.Width = 5000
-    'BrowserW.Top = 1
-    'BrowserW.Left = 1
-    'Picture1.Visible = True
-    'Picture1.Enabled = True
-    'Me.Enabled = True
-    
-    
-    BrowserW_load_ok = True
+On Error Resume Next
+BrowserW_load_ok = False
+
+BrowserW.Height = 0
+BrowserW.Width = 0
+BrowserW.Top = 0
+BrowserW.Left = 0
+BrowserW.Enabled = False
+
+'BrowserW.Height = 5200
+'BrowserW.Width = 10000
+'Picture1.Height = 5200
+'Picture1.Width = 10000
+'BrowserW.Top = 1
+'BrowserW.Left = 1
+'Picture1.Visible = True
+'Picture1.Enabled = True
+'Me.Enabled = True
+
+
+BrowserW_load_ok = True
 End Sub
 
 
+Private Sub WebBrowser_DownloadComplete()
+    WebBrowser.Stop
+    
+End Sub
+
 Private Sub WebBrowser_FileDownload(Cancel As Boolean)
-    On Error Resume Next
-    Cancel = True
+On Error Resume Next
+Cancel = True
 End Sub
 
 Private Sub WebBrowser_NewWindow2(ppDisp As Object, Cancel As Boolean)
-    On Error Resume Next
-    Cancel = True
+On Error Resume Next
+Cancel = True
 End Sub
 
+Private Sub WebBrowser_StatusTextChange(ByVal Text As String)
+If InStr(Text, "http://") > 0 And InStr(Text, BrowserW_url) <= 0 Then
+    WebBrowser.Stop
+End If
+End Sub
