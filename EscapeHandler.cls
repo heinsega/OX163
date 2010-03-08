@@ -20,11 +20,11 @@ Public Sub SetFormat(ByVal escChar As String, ByVal escBase As String)
 End Sub
 
 Public Function Escape(ByVal literal As String) As String
-    Escape = EscapeProcessor.Escape(literal, mEscFormat.escChar, mEscFormat.escBase)
+    Escape = Escaping.Escape(literal, mEscFormat)
 End Function
 
 Public Function DeEscape(ByVal escaped As String) As String
-    DeEscape = EscapeProcessor.DeEscape(escaped, mEscFormat.escChar, mEscFormat.escBase)
+    DeEscape = Escaping.DeEscape(escaped, mEscFormat)
 End Function
 
 
