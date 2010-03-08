@@ -1288,12 +1288,6 @@ Dim Content_Range As String
 Dim new_win As Boolean
 Public OX163_WebBrowser_scriptCode As String
 
-'Special Characters RegExp Predefs
-Private Const oxSep As String = "\|"
-'Escape Sequence RegExp Predefs
-Private Const oxEscChr As String = "\\", oxEscBase As String = oxSep & oxEscChr
-Private Const oxEscSeq = oxEscChr & "[" & oxEscBase & "]", oxEscStr = "(?:[^" & oxEscBase & "]|" & oxEscSeq & ")*"
-
 Private mEscHandler As New EscapeHandler
 
 'Dim download_speed As Integer
@@ -1741,7 +1735,7 @@ Private Sub Form_Click()
     url_Filelist.Visible = False
 End Sub
 
-Private Sub Form_DragOver(Source As Control, x As Single, Y As Single, State As Integer)
+Private Sub Form_DragOver(source As Control, x As Single, Y As Single, State As Integer)
     If down_count = 0 Then
         If x > 5200 Then text_pic.Width = x + 260
         If Y > 1720 Then text_pic.Height = Y + 260
@@ -1757,7 +1751,7 @@ Private Sub Form_Load()
     'text_sortname.Font = "新細明體"
     
     'EscapeHandler
-    mEscHandler.SetFormat oxEscChr, oxEscBase
+    mEscHandler.SetFormat OX_ESC_CHAR, OX_RESERVED
     
     '------------------导出列表图标-------------------
     If sysSet.list_type >= 0 And sysSet.list_type <= 2 Then
@@ -2504,11 +2498,11 @@ End Sub
 '
 'End Sub
 
-Private Sub text_easy_DragDrop(Source As Control, x As Single, Y As Single)
+Private Sub text_easy_DragDrop(source As Control, x As Single, Y As Single)
     text_resize
 End Sub
 
-Private Sub text_easy_DragOver(Source As Control, x As Single, Y As Single, State As Integer)
+Private Sub text_easy_DragOver(source As Control, x As Single, Y As Single, State As Integer)
     If x > 5200 Then
         text_pic.Width = x + 260
     Else
@@ -2598,11 +2592,11 @@ Private Sub text_im3_MouseMove(Button As Integer, Shift As Integer, x As Single,
 End Sub
 
 
-Private Sub text_pic_DragDrop(Source As Control, x As Single, Y As Single)
+Private Sub text_pic_DragDrop(source As Control, x As Single, Y As Single)
     text_resize
 End Sub
 
-Private Sub text_pic_DragOver(Source As Control, x As Single, Y As Single, State As Integer)
+Private Sub text_pic_DragOver(source As Control, x As Single, Y As Single, State As Integer)
     If x > 5200 Then text_pic.Width = x + 260
     If Y > 1720 Then text_pic.Height = Y + 260
 End Sub
@@ -7844,7 +7838,7 @@ End Sub
 'If top_Picture(0).Visible = False Then always_on_top False
 'End Sub
 
-Private Sub Web_Browser_DragOver(Source As Control, x As Single, Y As Single, State As Integer)
+Private Sub Web_Browser_DragOver(source As Control, x As Single, Y As Single, State As Integer)
     On Error Resume Next
     If down_count = 0 Then
         If x > 5200 Then text_pic.Width = x + 260
@@ -7862,7 +7856,7 @@ Private Sub Web_Browser_StatusTextChange(ByVal Text As String)
     End If
 End Sub
 
-Private Sub Web_Search_DragOver(Source As Control, x As Single, Y As Single, State As Integer)
+Private Sub Web_Search_DragOver(source As Control, x As Single, Y As Single, State As Integer)
     On Error Resume Next
     If down_count = 0 Then
         If x > 5200 Then text_pic.Width = x + 260
@@ -8945,11 +8939,12 @@ Private Sub list_album_script(ByVal album_info)
     
     '--------------------------------------------------------------------
     
-    Dim results As MatchCollection, result As match, expression As New regExp
+    Dim results As MatchCollection, result As Match, expression As New RegExp
     expression.Global = True
     expression.IgnoreCase = True
     'tom.vbs|vbscript|GB2312|album|http://photo.tom.com/pim.php?*
-    expression.Pattern = "(" & oxEscStr & "\.(?:vbs|js))" & oxSep & "(vbscript|javascript)" & oxSep & "(" & oxEscStr & ")" & oxSep & "(album|photo)" & oxSep & "(" & oxEscStr & ")"
+    expression.Pattern = "(" & OX_ESCAPED & "\.(?:vbs|js))" & OX_SEPARATOR & "(vbscript|javascript)" & OX_SEPARATOR & _
+    "(" & OX_ESCAPED & ")" & OX_SEPARATOR & "(album|photo)" & OX_SEPARATOR & "(" & OX_ESCAPED & ")"
     Set results = expression.Execute(album_info)
     If results.count = 0 Then Exit Sub
     Set result = results.Item(0)
@@ -9000,27 +8995,25 @@ Private Sub list_album_script(ByVal album_info)
     
     cookies_text = GetCookie(webpageCriteria)
     
-    If script_app.Language = "vbscript" Then
-        
-        cookies_text = Replace$(cookies_text, Chr(34), Chr(34) & Chr(34))
+    Select Case script_app.Language
+    Case "vbscript"
+        cookies_text = Replace$(cookies_text, """", Chr(34) & Chr(34))
         cookies_text = Replace$(cookies_text, vbLf, Chr(34) & " & vbLf & " & Chr(34))
         cookies_text = Replace$(cookies_text, vbCr, Chr(34) & " & vbCr & " & Chr(34))
         
         cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
-        
         script_retrun_temp = script_app.Eval(cookies_text)
         
-    Else
-        'String.fromCharCode(x)
-        
+    Case "javascript"
         cookies_text = Replace$(cookies_text, Chr(34), "\" & Chr(34))
         cookies_text = Replace$(cookies_text, vbLf, Chr(34) & "+String.fromCharCode(10)+" & Chr(34))
         cookies_text = Replace$(cookies_text, vbCr, Chr(34) & "+String.fromCharCode(13)+" & Chr(34))
         
         'cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
-        
         script_retrun_temp = script_app.Eval("set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")")
-    End If
+    Case Else
+        Exit Sub
+    End Select
     script_retrun_temp = ""
     '--------------------------------------------------------------------------------------
     
