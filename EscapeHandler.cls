@@ -12,6 +12,7 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
+
 Private mEscFormat As EscapeFormat
 
 Public Sub SetFormat(ByVal escChar As String, ByVal escBase As String)

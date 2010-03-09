@@ -19,6 +19,7 @@ Form=BrowserW.frm
 Class=EscapeHandler; EscapeHandler.cls
 Module=Escaping; Escaping.bas
 Module=Predefinition; Predefinition.bas
+Module=Transcoding; Transcoding.bas
 IconForm="start_ox163"
 Startup="Sub Main"
 HelpFile=""
