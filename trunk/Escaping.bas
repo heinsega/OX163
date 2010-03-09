@@ -1,4 +1,6 @@
 Attribute VB_Name = "Escaping"
+Option Explicit
+
 Public Type EscapeFormat
     escChar As String
     escBase As String

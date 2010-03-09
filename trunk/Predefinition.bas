@@ -1,4 +1,6 @@
 Attribute VB_Name = "Predefinition"
+Option Explicit
+
 'Reserved Character RegExp Predefs
 Public Const OX_SEPARATOR As String = "\|"
 'Escape Sequence RegExp Predefs
