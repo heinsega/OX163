@@ -6,6 +6,11 @@ Public Type EscapeFormat
     escBase As String
 End Type
 
+Public Sub SetEscapeFormat(ByRef format As EscapeFormat, ByVal escChar As String, ByVal escBase As String)
+    format.escChar = escChar
+    format.escBase = escBase
+End Sub
+
 Public Function Escape(ByVal literal As String, ByRef escFormat As EscapeFormat) As String
     Escape = Translate(literal, "(" & escFormat.escBase & ")", escFormat.escChar & "$1")
 End Function
