@@ -1,6 +1,11 @@
 Attribute VB_Name = "Predefinition"
 Option Explicit
 
+Public Enum DownloadMode
+     OX_INET
+     OX_WEB
+End Enum
+
 'Reserved Character RegExp Predefs
 Public Const OX_SEPARATOR As String = "\|"
 'Escape Sequence RegExp Predefs
