@@ -1300,7 +1300,6 @@ End Sub
 Private Sub DisplayCaption(caption As String)
     Label_url.caption = caption
     Label_url1.caption = caption
-    'DoEvents
 End Sub
 
 Private Function Download(ByVal mode As DownloadMode) As Boolean
@@ -1311,11 +1310,10 @@ Private Function Download(ByVal mode As DownloadMode) As Boolean
         download_ok = False
         Call start_fast
         Do While Not download_ok
-            DoEvents
             If form_quit Then Download = True: Exit Function
-            Sleep 10
+            DoEvents
+            Call Sleep(10)
         Loop
-        
     Case OX_WEB
         BrowserW.Show
         Do While Not BrowserW.BrowserW_load_ok
@@ -1522,11 +1520,11 @@ Public Sub fast_down_StateChanged(ByVal State As Integer)
                 DoEvents
                 vtData = fast_down.GetChunk(25600, icByteArray)
                 binBuffer = vtData
-                If firt_byte = False Then
+                If firt_byte Then
+                    buff = UniteByteArray(buff, binBuffer)
+                Else
                     buff = vtData
                     firt_byte = True
-                Else
-                    buff = UniteByteArray(buff, binBuffer)
                 End If
                 
                 lblProgressInfo.caption = "正在下载(" & Int(UBound(buff) / 1024) & "KB)" & strURL
@@ -8964,7 +8962,6 @@ Private Sub list_album_script(ByVal album_info)
     Dim scriptCtrl As New ScriptControl
     Dim scriptRetBuffer As String
     
-    
     '----------------定义url文件名----------------------------------------------------
     Dim url_file_name As String
     url_file_name = rename_url(url_input.Text)
@@ -8999,16 +8996,13 @@ Private Sub list_album_script(ByVal album_info)
     
     '调用脚本得到return_download_url值---------------------------------------------------
     Call DisplayCaption("执行return_download_url")
-    If form_quit Then Exit Sub
     
     If Form1.WindowState = 0 Then Call always_on_top(False)
     top_Picture(0).Enabled = False
     top_Picture(1).Enabled = False
     
     Err.Number = 0
-    '得到Cookies--------------------------------------------------------------------------------------
     Call scriptCtrl.Run("set_urlpagecookies", GetCookie(scrInfo.criteria))
-    
     scriptRetBuffer = scriptCtrl.Run("return_download_url", scrInfo.criteria)
     urlpage_Referer = Trim$(scriptCtrl.Eval("OX163_urlpage_Referer"))
     Call CheckScriptError
@@ -9027,30 +9021,25 @@ Private Sub list_album_script(ByVal album_info)
         
         '下载指定文档-------------------------------------------------------------------------
         Call DisplayCaption("正在下载" & dnldInfo.regularURL)
-        If form_quit Then Exit Sub
         
         htmlCharsetType = scrInfo.encoding
         strURL = dnldInfo.regularURL
-        urlpage_Referer = dnldInfo.refererURL
+        url_Referer = dnldInfo.refererURL
         start_fast_method = dnldInfo.method
         If Download(dnldInfo.mode) Then Exit Sub
-        DoEvents
         
         '替换指定字符----------------------------------------------------------------------------
         Html_Temp = Filter(Html_Temp, dnldInfo.excludeChar)
         
         '调用脚本得到return_albums_list值-----------------------------------------------------------------
         Call DisplayCaption("执行return_albums_list")
-        If form_quit Then Exit Sub
         
         If Form1.WindowState = 0 Then always_on_top False
         top_Picture(0).Enabled = False
         top_Picture(1).Enabled = False
         
         Err.Number = 0
-        '得到cookies--------------------------------------------------------------------------------------
         scriptCtrl.Run "set_urlpagecookies", GetCookie(dnldInfo.regularURL)
-        
         scriptRetBuffer = scriptCtrl.Run("return_albums_list", Html_Temp, scrInfo.criteria)
         urlpage_Referer = Trim$(scriptCtrl.Eval("OX163_urlpage_Referer"))
         Call CheckScriptError
@@ -9061,7 +9050,6 @@ Private Sub list_album_script(ByVal album_info)
         
         '分析下载到的文档---------------------------------------------------------------------------------
         Call DisplayCaption("正在分析" & dnldInfo.regularURL)
-        If form_quit Then Exit Sub
         
         Dim index As Integer, albmInfos() As AlbumInfo
         albmInfos = ParseAlbum(scriptRetBuffer, m_escFormat)
@@ -9098,6 +9086,7 @@ Private Sub list_album_script(ByVal album_info)
         End If
     Loop
 End Sub
+
 
 
 Private Function check_album_password(ByVal album_info, ByVal pass_word) As Boolean
