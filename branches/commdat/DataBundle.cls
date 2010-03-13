@@ -13,6 +13,6 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-Public urlEntries As Collection
-Public albumEntries As Collection
-Public pictEntries As Collection
+Public albumEntries As New Collection
+Public pictEntries As New Collection
+Public urlEntries As New Collection

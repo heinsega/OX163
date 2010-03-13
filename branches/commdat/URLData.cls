@@ -19,20 +19,29 @@ Public Enum DownloadMode
 End Enum
 
 Public isFinal As Boolean
-Public mode As DownloadMode
-Private m_excludeChars() As String
+Public dlmMode As DownloadMode
+Private arrExcludeChars() As String
 Public regularURL As String
 Public refererURL As String
 Public method As String
 
-Public Property Get excludeChar(ByVal index As Integer) As String
-    excludeChar = m_excludeChars(index)
+Public Property Let mode(ByVal modeString As String)
+    Select Case LCase$(modeString)
+    Case "inet"
+        dlmMode = OX_INET
+    Case "web"
+        dlmMode = OX_WEB
+    Case ""
+        dlmMode = Empty
+    Case Else
+        Debug.Assert False
+    End Select
 End Property
 
-Public Property Let excludeChar(ByVal index As Integer, ByVal excludeChar As String)
-    m_excludeChars(index) = excludeChar
+Public Property Let excludeChars(ByVal delimitedString As String)
+    arrExcludeChars = Split(delimitedString, ",")
 End Property
 
-Public Property Get excludeChars() As String()
-    excludeChars = m_excludeChars
+Public Property Get excludeCharsArray() As String()
+    excludeCharsArray = arrExcludeChars
 End Property
