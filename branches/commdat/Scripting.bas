@@ -2,12 +2,15 @@ Attribute VB_Name = "Scripting"
 Public Function ReadTextFile(file_name) As String
     On Error Resume Next
     
-    Dim fso As Object, textStream As Object
-    Set fso = CreateObject("Scripting.FileSystemObject")
-    Set textStream = fso.OpenTextFile(file_name, 1, False, 0)
+    Const ForReading = 1, ForWriting = 2, ForAppending = 8
+    Const TristateFalse = 0, TristateTrue = -1, TristateUseDefault = -2
+    Dim FSO As Object, textStream As Object
+    Set FSO = CreateObject("Scripting.FileSystemObject")
+    Set textStream = FSO.OpenTextFile(file_name, ForReading, False, TristateFalse)
     ReadTextFile = textStream.ReadAll
     textStream.Close
-    Set fso = Nothing
+    Set textStream = Nothing
+    Set FSO = Nothing
 End Function
 
 Public Function LoadScript(ByVal flags As Byte, ParamArray scriptArgs() As Variant) As ScriptControl

@@ -9,7 +9,8 @@ Public Const OX_INCL_ALL As Byte = OX_INCL_COMMON Or OX_INCL_TYPELIB
 
 'External Paths
 Public Const OX_PATH_TYPELIB As String = "OX163_TypeLib"
-Public Const OX_PATH_COMMON_INCL As String = "OX163_Common", OX_PATH_TYPELIB_INCL As String = "OX163_TypeLibInterface"
+Public Const OX_PATH_COMMON_INCL As String = "OX163_Common"
+Public Const OX_PATH_TYPELIB_INCL As String = "OX163_TypeLibInterface"
 
 'RegExp Macros
 Public Const OX_SEPARATOR As String = "\|"

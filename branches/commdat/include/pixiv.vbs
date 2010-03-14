@@ -75,7 +75,7 @@ On Error Resume Next
 		regex.Pattern = "<div[^>]*>\s*<a[^>]*href=""member\.php\?id=(\d+)[^""]*""[^>]*>(?:(?!</a>).)*</a>\s*<div[^>]*>([^<" & name_filter_str & "]+)[^<]*</div>(?:\s*<a[^>]*href=""jump.php\?([^""\s]+)[^""]*""[^>]*>|(?:(?!</div>).)+)+</div>"
 		Set matches = regex.Execute(html_str)
 		If matches.Count = 0 Then
-			process_retry
+			Call process_retry
 		Else
 			retries_count = 0
 			For Each match In matches
@@ -91,113 +91,113 @@ On Error Resume Next
 			Set next_page_data = get_next_url(html_str)
 		End If
 	Else
-		check_login
+		Call check_login
 	End If
 	
 	Call Entry(next_page_data, OX_ENTRY_URL)
 	Set return_albums_list = GetBundle()
 End Function
 
-'Function return_download_list(ByVal html_str, ByVal url_str)
-'On Error Resume Next
-'	return_download_list = ""
-'	Dim page_count, regex, matches
-'	Set regex = new RegExp
-'	regex.Global = True
-'	
-'	If started Then	
-'		'<a href="member_illust.php?mode=medium&illust_id=8645263"><img src="http://img15.pixiv.net/img/hounori/8645263_s.jpg"alt="咲夜に背中流され隊" border="0" /></a>
-'		regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&illust_id=(\d+))""[^>]*>\s*<img[^>]*src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""[^>]*alt=""([^""]+)""[^>]*>\s*</a>"
-'		Set matches = regex.Execute(html_str)
-'		If matches.Count = 0 Then
-'			process_retry
-'		Else
-'			retries_count = 0
-'			For Each match In matches
-'				Select Case match.SubMatches(1)
-'					Case "medium"
-'						If InStr(next_page_data, match.SubMatches(2)) = 0 Then
-'							If brief_mode Then
-'								add_download_list_entry match, return_download_list, 0
-'							Else
-'								Set matches_cache = matches
-'								Exit For
-'							End If
-'						End If
-'					Case "big"
-'						If InStr(next_page_data, match.SubMatches(2)) > 0 Then
-'							add_download_list_entry match, return_download_list, 0
-'							Exit For
-'						End If
-'					Case "manga"
-'						If InStr(next_page_data, match.SubMatches(2)) > 0 Then
-'							'<span style="color:#666666;float:left;">全3ページ</span>
-'							regex.Pattern = "<span[^>]*>全(\d+)ページ"
-'							page_count = regex.Execute(html_str).Item(0).SubMatches(0)
-'							For page_index = 0 To page_count - 1
-'								add_download_list_entry match, return_download_list, page_index
-'							Next
-'							Exit For
-'						End If
-'					Case Else
-'						Exit Function
-'				End Select
-'			Next
-'			
-'			next_page_data = "0"
-'			If multi_page Then
-'				If cache_index = 0 Then
-'					next_page_data = get_next_url(html_str)
-'					parent_next_page_data = next_page_data
-'				End If
-'				If Not brief_mode Then
-'					If cache_index < matches_cache.Count Then
-'						next_page_data = "1|inet|10,13|" & root_str & "/" & matches_cache.Item(cache_index).SubMatches(0)
-'						cache_index = cache_index + 1
-'					Else
-'						next_page_data = parent_next_page_data
-'						cache_index = 0
-'					End If
-'					If next_page_data = "0" and brief_mode_rf="" Then
-'						MsgBox "分析已完成。", vbOKOnly, "提醒"
-'					End If
-'				End If
-'			End If
-'		End If
-'	Else
-'		check_login
-'	End If
-'	
-'	return_download_list = return_download_list & next_page_data
-'End Function
+Function return_download_list(ByVal html_str, ByVal url_str)
+On Error Resume Next
+	Dim page_count, regex, matches
+	Set regex = new RegExp
+	regex.Global = True
+	
+	If started Then
+		'<a href="member_illust.php?mode=medium&illust_id=8645263"><img src="http://img15.pixiv.net/img/hounori/8645263_s.jpg"alt="咲夜に背中流され隊" border="0" /></a>
+		regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&illust_id=(\d+))""[^>]*>\s*<img[^>]*src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""[^>]*alt=""([^""]+)""[^>]*>\s*</a>"
+		Set matches = regex.Execute(html_str)
+		If matches.Count = 0 Then
+			Call process_retry
+		Else
+			retries_count = 0
+			For Each match In matches
+				Select Case match.SubMatches(1)
+					Case "medium"
+						If InStr(url_str, match.SubMatches(2)) = 0 Then
+							If brief_mode Then
+								Call add_download_list_entry(match, 0)
+							Else
+								Set matches_cache = matches
+								Exit For
+							End If
+						End If
+					Case "big"
+						If InStr(url_str, match.SubMatches(2)) > 0 Then
+							Call add_download_list_entry(match, 0)
+							Exit For
+						End If
+					Case "manga"
+						If InStr(url_str, match.SubMatches(2)) > 0 Then
+							'<span style="color:#666666;float:left;">全3ページ</span>
+							regex.Pattern = "<span[^>]*>全(\d+)ページ"
+							page_count = regex.Execute(html_str).Item(0).SubMatches(0)
+							For page_index = 0 To page_count - 1
+								Call add_download_list_entry(match, page_index)
+							Next
+							Exit For
+						End If
+					Case Else
+						Exit Function
+				End Select
+			Next
+			
+			Set next_page_data = Page(True, Empty, Empty, Empty, Empty, Empty)
+			If multi_page Then
+				If cache_index = 0 Then
+					Set next_page_data = get_next_url(html_str)
+					Set parent_next_page_data = next_page_data
+				End If
+				If Not brief_mode Then
+					If cache_index < matches_cache.Count Then
+						Set next_page_data = Page(False, "inet", "10,13", root_str & "/" & matches_cache.Item(cache_index).SubMatches(0), Empty, Empty)
+						cache_index = cache_index + 1
+					Else
+						Set next_page_data = parent_next_page_data
+						cache_index = 0
+					End If
+					If next_page_data.isFinal And brief_mode_rf="" Then
+						Call MsgBox("分析已完成。", vbOKOnly, "提醒")
+					End If
+				End If
+			End If
+		End If
+	Else
+		Call check_login
+	End If
+	
+	Call Entry(next_page_data, OX_ENTRY_URL)
+	Set return_download_list = GetBundle()
+End Function
 
 Private Function process_retry()
 	retries_count = retries_count + 1
 	If retries_count > 3 Then
-		MsgBox "分析由于网络原因中断。", vbOKOnly + vbExclamation, "提醒"
+		Call MsgBox("分析由于网络原因中断。", vbOKOnly + vbExclamation, "提醒")
 		Set next_page_data = Page(True, Empty, Empty, Empty, Empty, Empty)
 	End If
 End Function
 
-'Function add_download_list_entry(ByRef match, ByRef download_list, ByVal page_index)
-'	Dim format_str, link_str, rename_str, description_str
-'	format_str = match.SubMatches(4)
-'	link_str = match.SubMatches(3) & match.SubMatches(2)
-'	rename_str = rename_utf8(match.SubMatches(5)) & "_" & match.SubMatches(2)
-'	description_str = rename_utf8(match.SubMatches(5))
-'	
-'	Select Case match.SubMatches(1)
-'		Case "medium", "big"
-'			link_str = link_str & "." & format_str
-'		Case "manga"
-'			link_str = link_str & "_p" & page_index & "." & format_str
-'			rename_str = rename_str & "_p" & page_index
-'			description_str = description_str & " - " & (page_index + 1)
-'		Case Else
-'			Exit Function
-'	End Select
-'	download_list = download_list & format_str & "|" & link_str & "|" & rename_str & "|" & description_str & vbCrLf
-'End Function
+Private Sub add_download_list_entry(ByRef match, ByVal page_index)
+	Dim format_str, link_str, rename_str, description_str
+	format_str = match.SubMatches(4)
+	link_str = match.SubMatches(3) & match.SubMatches(2)
+	rename_str = match.SubMatches(5) & "_" & match.SubMatches(2)
+	description_str = match.SubMatches(5)
+	
+	Select Case match.SubMatches(1)
+		Case "medium", "big"
+			link_str = link_str & "." & format_str
+		Case "manga"
+			link_str = link_str & "_p" & page_index & "." & format_str
+			rename_str = rename_str & "_p" & page_index
+			description_str = description_str & " - " & (page_index + 1)
+		Case Else
+			Exit Sub
+	End Select
+	Call Entry(Picture(format_str, link_str, rename_str, description_str), OX_ENTRY_PICT)
+End Sub
 
 Private Function check_login()
 	Dim regex, matches
@@ -207,7 +207,7 @@ Private Function check_login()
 	'<input type="hidden" name="mode" value="login">
 	regex.Pattern = "<input[^>]*value=""login""[^>]*>"
 	If regex.Execute(html_str).Count > 0 Then
-		MsgBox "您还没有登陆PIXIV。" & vbCrLf & "请使用内置浏览器登陆或使用IE类浏览器登陆" & vbCrLf & "并勾选“次回から自動的にログイン”保存cookies。", vbOKOnly + vbExclamation, "提醒"
+		Call MsgBox("您还没有登陆PIXIV。" & vbCrLf & "请使用内置浏览器登陆或使用IE类浏览器登陆" & vbCrLf & "并勾选“次回から自動的にログイン”保存cookies。", vbOKOnly + vbExclamation, "提醒")
 		Set next_page_data = Page(True, Empty, Empty, Empty, Empty, Empty)
 	Else
 		started = True

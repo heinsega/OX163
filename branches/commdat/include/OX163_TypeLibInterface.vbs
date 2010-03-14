@@ -31,6 +31,14 @@ Private Function Album(ByVal hasPassword, ByVal picCount, ByVal URL, ByVal dirNa
 	Album.description = description
 End Function
 
+Private Function Picture(ByVal fileFormat, ByVal URL, ByVal filename, ByVal description)
+	Set Picture = CreateObject("OX163TypeLib.PictData")
+	Picture.fileFormat = fileFormat
+	Picture.URL = URL
+	Picture.filename = filename
+	Picture.description = description
+End Function
+
 Private Sub ResetBundle()
 	Set datBundle = Nothing
 	Set datBundle = CreateObject("OX163TypeLib.DataBundle")
