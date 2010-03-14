@@ -301,8 +301,7 @@ Public Function GetSysDir() As String
     strBuf = Space(255)
     lngBuf = 255
     
-    lngBuf = GetSystemDirectory(ByVal strBuf, lngBuf)
-    
+    lngBuf = GetSystemDirectory(strBuf, lngBuf)
     GetSysDir = Left$(strBuf, lngBuf)
 End Function
 
@@ -562,13 +561,13 @@ End Function
 
 '---------------------------------------------------------------
 
-Public Function GetEncoding(ByVal FileName) As String
+Public Function GetEncoding(ByVal filename) As String
     On Error GoTo Err
     
     Dim fBytes(1) As Byte, freeNum As Integer
     freeNum = FreeFile
     
-    Open FileName For Binary Access Read As #freeNum
+    Open filename For Binary Access Read As #freeNum
     Get #freeNum, , fBytes(0)
     Get #freeNum, , fBytes(1)
     Close #freeNum
@@ -579,14 +578,14 @@ Public Function GetEncoding(ByVal FileName) As String
 Err:
 End Function
 
-Public Sub FileToUTF8(FileName As String)
+Public Sub FileToUTF8(filename As String)
     Dim fBytes() As Byte, uniString As String, freeNum As Integer
     Dim ADO_Stream As Object
     
     freeNum = FreeFile
     
-    ReDim fBytes(FileLen(FileName))
-    Open FileName For Binary Access Read As #freeNum
+    ReDim fBytes(FileLen(filename))
+    Open filename For Binary Access Read As #freeNum
     Get #freeNum, , fBytes
     Close #freeNum
     
@@ -595,11 +594,11 @@ Public Sub FileToUTF8(FileName As String)
     Set ADO_Stream = CreateObject("ADODB.Stream")
     With ADO_Stream
         .Type = 2
-        .Mode = 3
+        .mode = 3
         .Charset = "utf-8"
         .Open
         .WriteText uniString
-        .SaveToFile FileName, 2
+        .SaveToFile filename, 2
         .Close
     End With
     Set ADO_Stream = Nothing

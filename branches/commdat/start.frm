@@ -94,167 +94,161 @@ Private Sub Com3_Click()
     End
 End Sub
 
-
-
 Private Sub Com5_Click()
     Unload start_ox163
 End Sub
-
-
-
-'Private Sub Form_Initialize()
-'InitCommonControls
-'End Sub
 
 Private Sub Form_Load()
     Timer1.Interval = 100
     Timer1.Enabled = True
 End Sub
 
+Private Function CompareVersion(ByVal versionStringA As String, ByVal versionStringB As String) As Integer
+    Dim verNumArrayA() As String, verNumArrayB() As String
+    verNumArrayA = Split(versionStringA, ".")
+    verNumArrayB = Split(versionStringB, ".")
+    Dim index As Long
+    For index = 0 To Min(UBound(verNumArrayA), UBound(verNumArrayB))
+        If CLng(verNumArrayA(index)) < CLng(verNumArrayB(index)) Then
+            CompareVersion = -1
+            Exit Function
+        ElseIf CLng(verNumArrayA(index)) > CLng(verNumArrayB(index)) Then
+            CompareVersion = 1
+            Exit Function
+        End If
+    Next
+    Dim lengthDiff As Long
+    lengthDiff = UBound(verNumArrayA) - UBound(verNumArrayB)
+    CompareVersion = IIf(lengthDiff > 0, 1, IIf(lengthDiff < 0, -1, 0))
+End Function
+
+Private Sub CheckReference(ByVal filename As String)
+    start_text.Text = start_text.Text & "检查" & filename & vbCrLf
+    
+    Dim expectedFilePath As String, existingFilePath As String
+    expectedFilePath = GetSysDir & "\" & filename
+    existingFilePath = App.Path & "\" & filename
+    
+    Dim FSO As Object
+    Set FSO = CreateObject("Scripting.FileSystemObject")
+    If Dir(expectedFilePath) = "" Then
+        start_text.Text = start_text.Text & filename & "不存在" & vbCrLf
+        Call FileCopy(existingFilePath, expectedFilePath)
+    ElseIf CompareVersion(FSO.GetFileVersion(expectedFilePath), FSO.GetFileVersion(existingFilePath)) < 0 Then
+        'ElseIf FileDateTime(GetSysDir & "\msvbvm60.dll") < FileDateTime(App.Path & "\msvbvm60.dll") Then
+        start_text.Text = start_text.Text & filename & "版本低"
+        Call FileCopy(existingFilePath, expectedFilePath)
+    End If
+    If Err.Number <> 0 Then
+        start_text.Text = start_text.Text & "错误" & Err.Number & "：" & Err.Description & vbCrLf
+        Err.Number = 0
+    Else
+        start_text.Text = start_text.Text & "...OK" & vbCrLf
+    End If
+    
+    start_text.SelStart = Len(start_text.Text)
+End Sub
+
 Private Sub Timer1_Timer()
     On Error Resume Next
     
-    Timer1.Enabled = False
-    
     Dim err_report As Boolean
-    Dim test_Object As Object
     
+    Timer1.Enabled = False
     start_text.Text = ""
     
-    '------------------------------------------------------------------------------------------
-    start_text.Text = start_text.Text & vbCrLf & "检查msvbvm60.dll"
+    Call CheckReference("msvbvm60.dll")
+    Call CheckReference("ole32.dll")
+    Call CheckReference("comdlg32.ocx")
+    Call CheckReference("msinet.ocx")
+    Call CheckReference("mscomctl.ocx")
+    Call CheckReference("wininet.dll")
+    Call CheckReference("msscript.ocx")
+    Call CheckReference("scrrun.dll")
     
-    If Dir(GetSysDir & "\msvbvm60.dll") = "" Then
-        start_text.Text = start_text.Text & "msvbvm60.dll不存在"
-        FileCopy App.Path & "\msvbvm60.dll", GetSysDir & "\msvbvm60.dll"
-    ElseIf FileDateTime(GetSysDir & "\msvbvm60.dll") < FileDateTime(App.Path & "\msvbvm60.dll") Then
-        start_text.Text = start_text.Text & "msvbvm60.dll版本低"
-        FileCopy App.Path & "\msvbvm60.dll", GetSysDir & "\msvbvm60.dll"
-    End If
-    If Err.Number <> 0 Then
-        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-        Err.Number = 0
-    Else
-        start_text.Text = start_text.Text & "...OK"
-    End If
-    
-    start_text.SelStart = Len(start_text.Text)
-    '------------------------------------------------------------------------------------------
-    
-    start_text.Text = start_text.Text & vbCrLf & "检查ole32.dll"
-    
-    If Dir(GetSysDir & "\ole32.dll") = "" Then
-        start_text.Text = start_text.Text & "ole32.dll不存在"
-        FileCopy App.Path & "\ole32.dll", GetSysDir & "\ole32.dll"
-    ElseIf FileDateTime(GetSysDir & "\ole32.dll") < FileDateTime(App.Path & "\ole32.dll") Then
-        start_text.Text = start_text.Text & "ole32.dll版本低"
-    End If
-    If Err.Number <> 0 Then
-        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-        Err.Number = 0
-    Else
-        start_text.Text = start_text.Text & "...OK"
-    End If
-    
-    start_text.SelStart = Len(start_text.Text)
-    '------------------------------------------------------------------------------------------
-    
-    start_text.Text = start_text.Text & vbCrLf & "检查COMDLG32.OCX" & vbCrLf & "创建CommonDialog"
-    Set test_Object = CreateObject("MSComDlg.CommonDialog")
-    If Err.Number <> 0 Then
-        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-    Else
-        start_text.Text = start_text.Text & "...OK"
-    End If
-    
-    Set test_Object = Nothing
-    Err.Number = 0
-    
-    start_text.SelStart = Len(start_text.Text)
-    '------------------------------------------------------------------------------------------
-    
-    start_text.Text = start_text.Text & vbCrLf & "检查MSINET.OCX" & vbCrLf & "创建Inet"
-    Set test_Object = CreateObject("InetCtls.Inet")
-    If Err.Number <> 0 Then
-        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-    Else
-        start_text.Text = start_text.Text & "...OK"
-    End If
-    
-    Set test_Object = Nothing
-    Err.Number = 0
-    
-    start_text.SelStart = Len(start_text.Text)
-    
-    '------------------------------------------------------------------------------------------
+    '    '------------------------------------------------------------------------------------------
+    '    start_text.Text = start_text.Text & vbCrLf & "检查COMDLG32.OCX" & vbCrLf & "创建CommonDialog"
+    '    Set test_Object = CreateObject("MSComDlg.CommonDialog")
+    '    If Err.Number <> 0 Then
+    '        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
+    '    Else
+    '        start_text.Text = start_text.Text & "...OK"
+    '    End If
     '
-    'start_text.Text = start_text.Text &   vbCrLf & "检查shdocvw.dll" & vbCrLf & "创建WebBrowser"
-    'Set test_Object = CreateObject("SHDocVwCtl.WebBrowser_V1")
+    '    Set test_Object = Nothing
+    '    Err.Number = 0
     '
-    'If Err.Number <> 0 Then
-    'start_text.Text = start_text.Text &   vbCrLf & "错误" & Err.Number & "：" & Err.Description
-    'Else
-    'start_text.Text = start_text.Text & "...OK"
-    'End If
+    '    start_text.SelStart = Len(start_text.Text)
     '
-    'Set test_Object = Nothing
-    'Err.Number = 0
+    '    '------------------------------------------------------------------------------------------
+    '    start_text.Text = start_text.Text & vbCrLf & "检查MSINET.OCX" & vbCrLf & "创建Inet"
+    '    Set test_Object = CreateObject("InetCtls.Inet")
+    '    If Err.Number <> 0 Then
+    '        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
+    '    Else
+    '        start_text.Text = start_text.Text & "...OK"
+    '    End If
     '
-    'start_text.SelStart = Len(start_text.Text)
-    '------------------------------------------------------------------------------------------
-    start_text.Text = start_text.Text & vbCrLf & "检查MSCOMCTL.OCX" & vbCrLf & "创建ListView"
-    Set test_Object = CreateObject("MSComctlLib.ListViewctrl")
-    If Err.Number <> 0 Then
-        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-    Else
-        start_text.Text = start_text.Text & "...OK"
-    End If
-    
-    Set test_Object = Nothing
-    Err.Number = 0
-    
-    start_text.SelStart = Len(start_text.Text)
-    
-    '------------------------------------------------------------------------------------------
-    start_text.Text = start_text.Text & vbCrLf & "检查wininet.dll" & vbCrLf & "创建InternetGetCookie"
-    
-    GetCookie "http://www.163.com"
-    If Err.Number <> 0 Then
-        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-    Else
-        start_text.Text = start_text.Text & "...OK"
-    End If
-    
-    Err.Number = 0
-    
-    start_text.SelStart = Len(start_text.Text)
-    
-    '------------------------------------------------------------------------------------------
-    start_text.Text = start_text.Text & vbCrLf & "检查msscript.ocx" & vbCrLf & "创建ScriptControl"
-    Set test_Object = CreateObject("MSScriptControl.ScriptControl")
-    If Err.Number <> 0 Then
-        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-    Else
-        start_text.Text = start_text.Text & "...OK"
-    End If
-    
-    Set test_Object = Nothing
-    Err.Number = 0
-    
-    start_text.SelStart = Len(start_text.Text)
-    '------------------------------------------------------------------------------------------
-    start_text.Text = start_text.Text & vbCrLf & "检查scrrun.dll" & vbCrLf & "创建FileSystemObject"
-    Set test_Object = CreateObject("Scripting.FileSystemObject")
-    If Err.Number <> 0 Then
-        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-    Else
-        start_text.Text = start_text.Text & "...OK"
-    End If
-    
-    Set test_Object = Nothing
-    Err.Number = 0
-    
-    start_text.SelStart = Len(start_text.Text)
+    '    Set test_Object = Nothing
+    '    Err.Number = 0
+    '
+    '    start_text.SelStart = Len(start_text.Text)
+    '
+    '    '------------------------------------------------------------------------------------------
+    '    start_text.Text = start_text.Text & vbCrLf & "检查MSCOMCTL.OCX" & vbCrLf & "创建ListView"
+    '    Set test_Object = CreateObject("MSComctlLib.ListViewctrl")
+    '    If Err.Number <> 0 Then
+    '        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
+    '    Else
+    '        start_text.Text = start_text.Text & "...OK"
+    '    End If
+    '
+    '    Set test_Object = Nothing
+    '    Err.Number = 0
+    '
+    '    start_text.SelStart = Len(start_text.Text)
+    '
+    '    '------------------------------------------------------------------------------------------
+    '    start_text.Text = start_text.Text & vbCrLf & "检查wininet.dll" & vbCrLf & "创建InternetGetCookie"
+    '
+    '    GetCookie "http://www.163.com"
+    '    If Err.Number <> 0 Then
+    '        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
+    '    Else
+    '        start_text.Text = start_text.Text & "...OK"
+    '    End If
+    '
+    '    Err.Number = 0
+    '
+    '    start_text.SelStart = Len(start_text.Text)
+    '
+    '    '------------------------------------------------------------------------------------------
+    '    start_text.Text = start_text.Text & vbCrLf & "检查msscript.ocx" & vbCrLf & "创建ScriptControl"
+    '    Set test_Object = CreateObject("MSScriptControl.ScriptControl")
+    '    If Err.Number <> 0 Then
+    '        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
+    '    Else
+    '        start_text.Text = start_text.Text & "...OK"
+    '    End If
+    '
+    '    Set test_Object = Nothing
+    '    Err.Number = 0
+    '
+    '    start_text.SelStart = Len(start_text.Text)
+    '
+    '    '------------------------------------------------------------------------------------------
+    '    start_text.Text = start_text.Text & vbCrLf & "检查scrrun.dll" & vbCrLf & "创建FileSystemObject"
+    '    Set test_Object = CreateObject("Scripting.FileSystemObject")
+    '    If Err.Number <> 0 Then
+    '        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
+    '    Else
+    '        start_text.Text = start_text.Text & "...OK"
+    '    End If
+    '
+    '    Set test_Object = Nothing
+    '    Err.Number = 0
+    '
+    '    start_text.SelStart = Len(start_text.Text)
     
     '------------------------------------------------------------------------------------------
     start_text.Text = start_text.Text & vbCrLf & "检查文件夹"
