@@ -62,7 +62,7 @@ Begin VB.Form new163_passcode
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   ""
+         Location        =   "http:///"
       End
    End
    Begin VB.CommandButton Command1 
@@ -89,75 +89,75 @@ Attribute VB_Exposed = False
 Public isDown As Integer
 
 Private Sub Command1_Click()
-    On Error Resume Next
-    Text1.Text = Replace(Replace(Text1.Text, Chr(13), ""), Chr(10), "")
-    If Text1.Text = "163" Then MsgBox "验证码不正确！", vbOKOnly, "警告": Exit Sub
-    If Len(Text1.Text) > 0 Then
-        If Len(Text1.Text) > 5 Then alt_msg = MsgBox("验证码不正确，仍然发送？", vbYesNo + vbExclamation + vbDefaultButton2, "警告")
-        If alt_msg = vbNo Then Exit Sub
-        
-        Form1.pass_code = Trim(Text1.Text)
-        
-        Unload Me
-    Else
-        MsgBox "验证码不能为空！", vbOKOnly + vbExclamation, "警告"
-    End If
+On Error Resume Next
+Text1.Text = Replace(Replace(Text1.Text, Chr(13), ""), Chr(10), "")
+If Text1.Text = "163" Then MsgBox "验证码不正确！", vbOKOnly, "警告": Exit Sub
+If Len(Text1.Text) > 0 Then
+    If Len(Text1.Text) > 5 Then alt_msg = MsgBox("验证码不正确，仍然发送？", vbYesNo + vbExclamation + vbDefaultButton2, "警告")
+    If alt_msg = vbNo Then Exit Sub
+    
+    Form1.pass_code = Trim(Text1.Text)
+
+    Unload Me
+Else
+    MsgBox "验证码不能为空！", vbOKOnly + vbExclamation, "警告"
+End If
 End Sub
 
 Private Sub Command2_Click()
-    On Error Resume Next
-    Me.Enabled = False
-    WebBrowser.Refresh
-    Do While WebBrowser.Busy = True
-        DoEvents
-    Loop
-    Me.Enabled = True
-    Text1.SetFocus
+On Error Resume Next
+Me.Enabled = False
+WebBrowser.Refresh
+Do While WebBrowser.Busy = True
+DoEvents
+Loop
+Me.Enabled = True
+Text1.SetFocus
 End Sub
 
 Private Sub Form_Load()
-    Me.Enabled = False
-    WebBrowser.Silent = True
-    Form1.always_on_top False
-    show_pass_code
+Me.Enabled = False
+WebBrowser.Silent = True
+Form1.always_on_top False
+show_pass_code
 End Sub
 
 
 Private Sub Form_Unload(Cancel As Integer)
-    On Error Resume Next
-    If Form1.WindowState = 0 Then Form1.always_on_top sysSet.always_top
-    If isDown = 0 Then alt_msg = MsgBox("是否测试验证码的正确性？", vbYesNo + vbExclamation, "询问")
-    If alt_msg = vbYes Then
-        Call Form1.new163_check_passcode(True, isDown)
-    End If
-    Form1.Enabled = True
+On Error Resume Next
+If Form1.WindowState = 0 Then Form1.always_on_top sysSet.always_top
+If isDown = 0 Then alt_msg = MsgBox("是否测试验证码的正确性？", vbYesNo + vbExclamation, "询问")
+If alt_msg = vbYes Then
+Call Form1.new163_check_passcode(True, isDown)
+End If
+Form1.Enabled = True
 End Sub
 
 Public Sub show_pass_code()
-    On Error Resume Next
-    Dim url_links As String
-    url_links = "http://photo.163.com/photo/verify/image.jpg?t=12345678"
-    WebBrowser.Navigate url_links
+On Error Resume Next
+Dim url_links As String
+url_links = "http://photo.163.com/photo/cap/captcha.jpgx?parentId=" & Int(Time() * 100000000) & "&t=" & Int(Time() * 10000000000#)
+WebBrowser.Navigate url_links
 End Sub
 
 Private Sub Text1_DblClick()
-    Text1.SelStart = 0
-    Text1.SelLength = Len(Text1.Text)
+Text1.SelStart = 0
+Text1.SelLength = Len(Text1.Text)
 End Sub
 
 Private Sub Text1_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        Command1_Click
-    ElseIf KeyAscii = 27 Then
-        Unload Me
-    End If
+If KeyAscii = 13 Then
+Command1_Click
+ElseIf KeyAscii = 27 Then
+Unload Me
+End If
 End Sub
 
 Private Sub Timer1_Timer()
-    On Error Resume Next
-    Timer1.Interval = 0
-    Do While WebBrowser.Busy = True
-        DoEvents
-    Loop
-    Command2_Click
+On Error Resume Next
+Timer1.Interval = 0
+Do While WebBrowser.Busy = True
+DoEvents
+Loop
+Command2_Click
 End Sub

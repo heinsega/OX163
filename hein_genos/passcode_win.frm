@@ -63,7 +63,7 @@ Begin VB.Form passcode_win
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   ""
+         Location        =   "http:///"
       End
    End
 End
@@ -76,62 +76,62 @@ Public isDown As Integer
 Public html_str As String
 
 Private Sub Command1_Click()
-    On Error Resume Next
-    Text1.Text = Replace(Replace(Text1.Text, Chr(13), ""), Chr(10), "")
-    If Len(Text1.Text) > 0 Then
-        If Len(Text1.Text) > 6 Then alt_msg = MsgBox("验证码不正确，仍然发送？", vbYesNo + vbExclamation + vbDefaultButton2, "警告")
-        If alt_msg = vbNo Then Exit Sub
-        
-        Form1.pass_code = "&encrypted_code=" & URLEncode(html_str) & "&code=" & Trim(Text1.Text)
-        
-        Unload Me
-    Else
-        MsgBox "验证码不能为空！", vbOKOnly + vbExclamation, "警告"
-    End If
+On Error Resume Next
+Text1.Text = Replace(Replace(Text1.Text, Chr(13), ""), Chr(10), "")
+If Len(Text1.Text) > 0 Then
+    If Len(Text1.Text) > 6 Then alt_msg = MsgBox("验证码不正确，仍然发送？", vbYesNo + vbExclamation + vbDefaultButton2, "警告")
+    If alt_msg = vbNo Then Exit Sub
+    
+    Form1.pass_code = "&encrypted_code=" & URLEncode(html_str) & "&code=" & Trim(Text1.Text)
+
+    Unload Me
+Else
+    MsgBox "验证码不能为空！", vbOKOnly + vbExclamation, "警告"
+End If
 End Sub
 
 Private Sub Form_Load()
-    Form1.always_on_top False
+Form1.always_on_top False
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-    On Error Resume Next
-    If Form1.WindowState = 0 Then Form1.always_on_top sysSet.always_top
-    If isDown = 0 Then alt_msg = MsgBox("是否测试验证码的正确性？", vbYesNo + vbExclamation, "询问")
-    If alt_msg = vbYes Then
-        Call Form1.check_pass_code(True, isDown)
-    End If
-    Form1.Enabled = True
+On Error Resume Next
+If Form1.WindowState = 0 Then Form1.always_on_top sysSet.always_top
+If isDown = 0 Then alt_msg = MsgBox("是否测试验证码的正确性？", vbYesNo + vbExclamation, "询问")
+If alt_msg = vbYes Then
+Call Form1.check_pass_code(True, isDown)
+End If
+Form1.Enabled = True
 End Sub
 
 Public Sub show_pass_code()
-    On Error Resume Next
-    If InStr(html_str, "/captcha.php?code=") > 0 Then
-        Dim url_links As String
-        url_links = Mid$(html_str, InStr(html_str, "/captcha.php?code="))
-        url_links = "http://photo.163.com" & Mid$(url_links, 1, InStr(url_links, Chr(34)) - 1)
-        WebBrowser.Navigate url_links
-        html_str = Mid$(html_str, InStr(html_str, "input name=" & Chr(34) & "encrypted_code" & Chr(34) & " type="))
-        html_str = Mid$(html_str, InStr(html_str, "value=") + 7)
-        html_str = Mid$(html_str, 1, InStr(html_str, Chr(34)) - 1)
-    Else
-        
-        MsgBox "可能已经通过验证", vbOKOnly, "提醒"
-        Form1.pass_code = "&encrypted_code=&code="
-        Unload Me
-        
-    End If
+On Error Resume Next
+If InStr(html_str, "/captcha.php?code=") > 0 Then
+Dim url_links As String
+url_links = Mid$(html_str, InStr(html_str, "/captcha.php?code="))
+url_links = "http://photo.163.com" & Mid$(url_links, 1, InStr(url_links, Chr(34)) - 1)
+WebBrowser.Navigate url_links
+html_str = Mid$(html_str, InStr(html_str, "input name=" & Chr(34) & "encrypted_code" & Chr(34) & " type="))
+html_str = Mid$(html_str, InStr(html_str, "value=") + 7)
+html_str = Mid$(html_str, 1, InStr(html_str, Chr(34)) - 1)
+Else
+
+MsgBox "可能已经通过验证", vbOKOnly, "提醒"
+Form1.pass_code = "&encrypted_code=&code="
+Unload Me
+
+End If
 End Sub
 
 Private Sub Text1_DblClick()
-    Text1.SelStart = 0
-    Text1.SelLength = Len(Text1.Text)
+Text1.SelStart = 0
+Text1.SelLength = Len(Text1.Text)
 End Sub
 
 Private Sub Text1_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        Command1_Click
-    ElseIf KeyAscii = 27 Then
-        Unload Me
-    End If
+If KeyAscii = 13 Then
+Command1_Click
+ElseIf KeyAscii = 27 Then
+Unload Me
+End If
 End Sub

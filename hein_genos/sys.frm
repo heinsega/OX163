@@ -1517,790 +1517,798 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Public Function description_strings()
-    description_strings = Array("导出带有自动更名的LST下载列表" & vbCrLf & "适用于flashget1.96等经典版本", _
-    "导出带有全部下载信息的htm页面" & vbCrLf & "可以直接调用迅雷等下载软件", _
-    "导出一个仅有下载地址的txt文档" & vbCrLf & "同时生成一个bat文档用于重命名")
-End Function
+
 Private Sub Combo_lst_Click()
-    'lst (for flashget)
-    'htm(for All Tools)
-    'txt & bat(for All)
-    Combo_lst1.Caption = description_strings(Combo_lst.ListIndex)
+'lst (for flashget)
+'htm(for All Tools)
+'txt & bat(for All)
+If Combo_lst.ListIndex = 0 Then
+Combo_lst1.Caption = "导出带有自动更名的LST下载列表" & vbCrLf & "适用于flashget1.96等经典版本"
+ElseIf Combo_lst.ListIndex = 1 Then
+Combo_lst1.Caption = "导出带有全部下载信息的htm页面" & vbCrLf & "可以直接调用迅雷等下载软件"
+ElseIf Combo_lst.ListIndex = 2 Then
+Combo_lst1.Caption = "导出一个仅有下载地址的txt文档" & vbCrLf & "同时生成一个bat文档用于重命名"
+End If
 End Sub
 
 Private Sub Combo_lst_KeyPress(KeyAscii As Integer)
-    'lst (for flashget)
-    'htm(for All Tools)
-    'txt & bat(for All)
-    Combo_lst1.Caption = description_strings(Combo_lst.ListIndex)
+'lst (for flashget)
+'htm(for All Tools)
+'txt & bat(for All)
+If Combo_lst.ListIndex = 0 Then
+Combo_lst1.Caption = "导出带有自动更名的LST下载列表" & vbCrLf & "适用于flashget1.96等经典版本"
+ElseIf Combo_lst.ListIndex = 1 Then
+Combo_lst1.Caption = "导出带有全部下载信息的htm页面" & vbCrLf & "可以直接调用迅雷等下载软件"
+ElseIf Combo_lst.ListIndex = 2 Then
+Combo_lst1.Caption = "导出一个仅有下载地址的txt文档" & vbCrLf & "同时生成一个bat文档用于重命名"
+End If
 End Sub
 
 
 
 Private Sub Combo_rar_name_Click()
-    If Combo_rar_name.ListIndex > 0 Then
-        fix_name_Text.Text = Combo_rar_name.List(Combo_rar_name.ListIndex)
-        Command1.Caption = "修改后缀"
-    Else
-        fix_name_Text.Text = ""
-        Command1.Caption = "添加后缀"
-    End If
+If Combo_rar_name.ListIndex > 0 Then
+fix_name_Text.Text = Combo_rar_name.List(Combo_rar_name.ListIndex)
+Command1.Caption = "修改后缀"
+Else
+fix_name_Text.Text = ""
+Command1.Caption = "添加后缀"
+End If
 End Sub
 
 
 Private Sub Command2_Click()
-    On Error Resume Next
-    sys.Enabled = False
-    Command2.Caption = "正在查找,请等待..."
-    Dim html, split_html
-    html = Form1.update.OpenURL("http://www.shanhaijing.net/163/passcode_inf.txt?ntime=" & CDbl(Now()))
-    split_html = Split(html, vbCrLf)
-    Randomize
-    a_count = Int(Rnd * (UBound(split_html) + 1))
-    
-    html = Split(split_html(a_count), "|")
-    
-    If UBound(html) > 1 Then
-        If html(0) <> "" And html(1) <> "" And html(2) <> "" Then
-            passcode_text(0) = html(0)
-            passcode_text(1) = html(1)
-            passcode_text(2) = html(2)
-        End If
+On Error Resume Next
+sys.Enabled = False
+Command2.Caption = "正在查找,请等待..."
+Dim html, split_html
+html = Form1.update.OpenURL("http://www.shanhaijing.net/163/passcode_inf.txt?ntime=" & CDbl(Now()))
+split_html = Split(html, vbCrLf)
+Randomize
+a_count = Int(Rnd * (UBound(split_html) + 1))
+
+html = Split(split_html(a_count), "|")
+
+If UBound(html) > 1 Then
+    If html(0) <> "" And html(1) <> "" And html(2) <> "" Then
+        passcode_text(0) = html(0)
+        passcode_text(1) = html(1)
+        passcode_text(2) = html(2)
     End If
-    Command2.Caption = "自动填写"
-    sys.Enabled = True
+End If
+Command2.Caption = "自动填写"
+sys.Enabled = True
 End Sub
 
 
 
 Private Sub Command4_Click()
-    Form1.Timer3.Enabled = True
-    Command4.Caption = "再次检查更新"
+Form1.Timer3.Enabled = True
+Command4.Caption = "再次检查更新"
 End Sub
 
 
 Private Sub def_path_Click(Index As Integer)
-    If def_path(1).Value = True Then
-        def_path_com.Enabled = True
-    Else
-        def_path_com.Enabled = False
-    End If
+If def_path(1).Value = True Then
+def_path_com.Enabled = True
+Else
+def_path_com.Enabled = False
+End If
 End Sub
 
 Private Sub def_path_com_Click()
-    On Error Resume Next
+On Error Resume Next
 retry:
-    Folder_path = ""
-    If Right(def_path_txt, 1) <> "\" Then def_path_txt = def_path_txt & "\"
-    Folder_path = GetFolder("请选择默认文件夹", def_path_txt, True)
-    
-    If Mid$(Folder_path, 2, 2) = ":\" Then
-        If (GetFileAttributes(Folder_path) = -1) Then MsgBox "该路径不能保存文件", vbOKOnly + vbExclamation, "警告": GoTo retry
-        def_path_txt = GetShortName(Folder_path)
-    End If
+Folder_path = ""
+If Right(def_path_txt, 1) <> "\" Then def_path_txt = def_path_txt & "\"
+Folder_path = GetFolder("请选择默认文件夹", def_path_txt, True)
+
+If Mid$(Folder_path, 2, 2) = ":\" Then
+    If (GetFileAttributes(Folder_path) = -1) Then MsgBox "该路径不能保存文件", vbOKOnly + vbExclamation, "警告": GoTo retry
+    def_path_txt = GetShortName(Folder_path)
+End If
 End Sub
 
 Private Sub downHS_Change()
-    downText.Text = downHS.Value / 2 & "KB"
-    downOp(5).Value = True
+downText.Text = downHS.Value / 2 & "KB"
+downOp(5).Value = True
 End Sub
 
 Private Sub fix_name_Text_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        Command1_Click
-    End If
+If KeyAscii = 13 Then
+Command1_Click
+End If
 End Sub
 
 
 
 Private Sub Form_Load()
-    On Error Resume Next
-    sys.Width = 7320
-    sys.Height = 5955
-    Frame1.Top = 480
-    Frame1.Left = 240
-    Frame2.Top = 480
-    Frame2.Left = 240
-    Frame3.Top = 480
-    Frame3.Left = 240
-    Frame4.Top = 480
-    Frame4.Left = 240
-    Frame5.Top = 480
-    Frame5.Left = 240
-    Frame6.Top = 480
-    Frame6.Left = 240
-    TabStrip_Click
-    Form1.always_on_top False
-    'Dim flags As Integer
-    'flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
-    'SetWindowPos Me.hwnd, HWND_TOPMOST, 0, 0, 0, 0, flags
-    Form1.Enabled = False
-    sys_def
-    laod_ini
+On Error Resume Next
+sys.Width = 7320
+sys.Height = 5955
+Frame1.Top = 480
+Frame1.Left = 240
+Frame2.Top = 480
+Frame2.Left = 240
+Frame3.Top = 480
+Frame3.Left = 240
+Frame4.Top = 480
+Frame4.Left = 240
+Frame5.Top = 480
+Frame5.Left = 240
+Frame6.Top = 480
+Frame6.Left = 240
+TabStrip_Click
+Form1.always_on_top False
+'Dim flags As Integer
+'flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
+'SetWindowPos Me.hwnd, HWND_TOPMOST, 0, 0, 0, 0, flags
+Form1.Enabled = False
+sys_def
+laod_ini
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-    If Form1.WindowState = 0 Then Form1.always_on_top sysSet.always_top
-    Form1.Enabled = True
+If Form1.WindowState = 0 Then Form1.always_on_top sysSet.always_top
+Form1.Enabled = True
 End Sub
 
 Private Sub list_copy_Click(Index As Integer)
-    If list_copy(1).Value = True Then
-        ubb_copy(0).Value = True
-    Else
-        ubb_copy(1).Value = True
-    End If
+If list_copy(1).Value = True Then
+ubb_copy(0).Value = True
+Else
+ubb_copy(1).Value = True
+End If
 End Sub
 
 Private Sub proxy_com1_Click()
-    proxy_txt1(0).Text = ""
-    proxy_txt1(1).Text = ""
-    proxy_txt1(2).Text = ""
-    proxy_txt2(0).Text = ""
-    proxy_txt2(1).Text = ""
-    proxy_txt2(2).Text = ""
-    ProxyComb(0).ListIndex = 0
-    ProxyComb(1).ListIndex = 0
+proxy_txt1(0).Text = ""
+proxy_txt1(1).Text = ""
+proxy_txt1(2).Text = ""
+proxy_txt2(0).Text = ""
+proxy_txt2(1).Text = ""
+proxy_txt2(2).Text = ""
+ProxyComb(0).ListIndex = 0
+ProxyComb(1).ListIndex = 0
 End Sub
 
 Private Sub proxy_com2_Click()
-    proxy_txt2(0).Text = proxy_txt1(0).Text
-    proxy_txt2(1).Text = proxy_txt1(1).Text
-    proxy_txt2(2).Text = proxy_txt1(2).Text
-    ProxyComb(1).ListIndex = ProxyComb(0).ListIndex
+proxy_txt2(0).Text = proxy_txt1(0).Text
+proxy_txt2(1).Text = proxy_txt1(1).Text
+proxy_txt2(2).Text = proxy_txt1(2).Text
+ProxyComb(1).ListIndex = ProxyComb(0).ListIndex
 End Sub
 
 Private Sub proxy_com3_Click()
-    proxy_txt1(0).Text = proxy_txt2(0).Text
-    proxy_txt1(1).Text = proxy_txt2(1).Text
-    proxy_txt1(2).Text = proxy_txt2(2).Text
-    ProxyComb(0).ListIndex = ProxyComb(1).ListIndex
+proxy_txt1(0).Text = proxy_txt2(0).Text
+proxy_txt1(1).Text = proxy_txt2(1).Text
+proxy_txt1(2).Text = proxy_txt2(2).Text
+ProxyComb(0).ListIndex = ProxyComb(1).ListIndex
 End Sub
 
 Private Sub TabStrip_Click()
-    Frame1.Visible = False
-    Frame2.Visible = False
-    Frame3.Visible = False
-    Frame4.Visible = False
-    Frame5.Visible = False
-    Frame6.Visible = False
-    Select Case TabStrip.SelectedItem.Tag
-    Case "TabStrip_1"
-        Frame1.Visible = True
-    Case "TabStrip_2"
-        Frame2.Visible = True
-    Case "TabStrip_3"
-        Frame3.Visible = True
-    Case "TabStrip_4"
-        Frame4.Visible = True
-    Case "TabStrip_5"
-        Frame5.Visible = True
-    Case "TabStrip_6"
-        Frame6.Visible = True
-    End Select
+Frame1.Visible = False
+Frame2.Visible = False
+Frame3.Visible = False
+Frame4.Visible = False
+Frame5.Visible = False
+Frame6.Visible = False
+Select Case TabStrip.SelectedItem.Tag
+Case "TabStrip_1"
+Frame1.Visible = True
+Case "TabStrip_2"
+Frame2.Visible = True
+Case "TabStrip_3"
+Frame3.Visible = True
+Case "TabStrip_4"
+Frame4.Visible = True
+Case "TabStrip_5"
+Frame5.Visible = True
+Case "TabStrip_6"
+Frame6.Visible = True
+End Select
 End Sub
 
 Private Sub Timer1_Timer()
-    Timer1.Enabled = False
-    End
+Timer1.Enabled = False
+End
 End Sub
 
 Private Sub ubb_copy_Click(Index As Integer)
-    If ubb_copy(1).Value = True Then
-        list_copy(0).Value = True
-    Else
-        list_copy(1).Value = True
-    End If
+If ubb_copy(1).Value = True Then
+list_copy(0).Value = True
+Else
+list_copy(1).Value = True
+End If
 End Sub
 
 Private Sub sys_def_com_Click(Index As Integer)
-    sys_def
+sys_def
 End Sub
 
 Private Sub sys_def()
-    downOp(3).Value = True
-    autoOp(1).Value = True
-    quitOp(1).Value = True
-    listOp(0).Value = True
-    saveOp(1).Value = True
-    changepsw(1).Value = True
-    askfloder(1).Value = True
-    ie_window(1).Value = True
-    ox163_window(1).Value = True
-    def_path(0).Value = True
-    VS_timeout.Value = 30
-    VS_retry.Value = 5
-    Combo_rar.ListIndex = 1
-    Combo_lst.ListIndex = 1
-    fix_name_list "RAR|ZIP|7Z|PNG|BMP"
-    Combo_rar_name.ListIndex = 0
-    set_tray(1).Value = True
-    new163passrule(1).Value = True
-    def_path_txt = ""
-    scriptOP(0).Value = True
-    list_copy(1).Value = True
-    file_compare(1).Value = True
-    set_sbar(1).Value = True
-    passcode_text(0) = "wehi"
-    passcode_text(1) = "1530930"
-    passcode_text(2) = "asd"
-    set_checkall(1).Value = True
-    proxy_txt1(0).Text = ""
-    proxy_txt1(1).Text = ""
-    proxy_txt1(2).Text = ""
-    proxy_txt2(0).Text = ""
-    proxy_txt2(1).Text = ""
-    proxy_txt2(2).Text = ""
-    ProxyComb(0).ListIndex = 0
-    ProxyComb(1).ListIndex = 0
-    set_url_folder(0).Value = True
+downOp(3).Value = True
+autoOp(1).Value = True
+quitOp(1).Value = True
+listOp(0).Value = True
+saveOp(1).Value = True
+changepsw(1).Value = True
+askfloder(1).Value = True
+ie_window(1).Value = True
+ox163_window(1).Value = True
+def_path(0).Value = True
+VS_timeout.Value = 30
+VS_retry.Value = 5
+Combo_rar.ListIndex = 1
+Combo_lst.ListIndex = 1
+fix_name_list "RAR|ZIP|7Z|PNG|BMP"
+Combo_rar_name.ListIndex = 0
+set_tray(1).Value = True
+new163passrule(1).Value = True
+def_path_txt = ""
+scriptOP(0).Value = True
+list_copy(1).Value = True
+file_compare(1).Value = True
+set_sbar(1).Value = True
+passcode_text(0) = "wehi"
+passcode_text(1) = "1530930"
+passcode_text(2) = "asd"
+set_checkall(1).Value = True
+proxy_txt1(0).Text = ""
+proxy_txt1(1).Text = ""
+proxy_txt1(2).Text = ""
+proxy_txt2(0).Text = ""
+proxy_txt2(1).Text = ""
+proxy_txt2(2).Text = ""
+ProxyComb(0).ListIndex = 0
+ProxyComb(1).ListIndex = 0
+set_url_folder(0).Value = True
 End Sub
 
 Private Sub sys_no_Click()
-    Unload sys
+Unload sys
 End Sub
 
 Private Sub laod_ini()
-    Select Case CLng(GetIniStr("maincenter", "downloadblock"))
-    Case 512
-        downOp(0).Value = True
-    Case 1024
-        downOp(1).Value = True
-    Case 2048
-        downOp(2).Value = True
-    Case 5120
-        downOp(3).Value = True
-    Case 10240
-        downOp(4).Value = True
-    Case Else
-        downOp(5).Value = True
-        If CLng(GetIniStr("maincenter", "downloadblock")) <= 204800 Then
-            downHS.Value = Int(CLng(GetIniStr("maincenter", "downloadblock")) / 512)
-        Else
-            downHS.Value = 400
-        End If
-    End Select
-    
-    If CInt(GetIniStr("maincenter", "time_out")) <= 200 And CInt(GetIniStr("maincenter", "time_out")) >= 10 Then
-        VS_timeout.Value = CInt(GetIniStr("maincenter", "time_out"))
-    Else
-        VS_timeout.Value = 30
-    End If
-    
-    If CInt(GetIniStr("maincenter", "retry_times")) <= 255 And CInt(GetIniStr("maincenter", "time_out")) >= 0 Then
-        VS_retry.Value = CInt(GetIniStr("maincenter", "retry_times"))
-    Else
-        VS_retry.Value = 20
-    End If
-    
-    passcode_text(0) = GetIniStr("maincenter", "new163passcode_user")
-    passcode_text(1) = GetIniStr("maincenter", "new163passcode_album")
-    passcode_text(2) = GetIniStr("maincenter", "new163passcode_pw")
-    
-    If passcode_text(0) = "" Or passcode_text(1) = "" Or passcode_text(2) = "" Then
-        passcode_text(0) = "wehi"
-        passcode_text(1) = "1530930"
-        passcode_text(2) = "asd"
-    End If
-    
-    If GetIniTF("maincenter", "autocheck") = False Then autoOp(0).Value = True
-    If GetIniTF("maincenter", "askquit") = False Then quitOp(0).Value = True
-    If GetIniTF("maincenter", "listshow") = True Then listOp(1).Value = True
-    If GetIniTF("maincenter", "savedef") = False Then saveOp(0).Value = True
-    If GetIniTF("maincenter", "openfloder") = False Then askfloder(0).Value = True
-    If GetIniTF("maincenter", "change_psw") = False Then changepsw(0).Value = True
-    If GetIniTF("maincenter", "new_ie_win") = False Then ie_window(0).Value = True
-    If GetIniTF("maincenter", "ox163_ie_win") = False Then ox163_window(0).Value = True
-    If GetIniTF("maincenter", "sysTray") = False Then set_tray(0).Value = True
-    
-    If GetIniTF("maincenter", "new163pass_rules") = False Then new163passrule(0).Value = True
-    
-    
-    If GetIniTF("maincenter", "list_copy") = False Then list_copy(0).Value = True
-    
-    If CInt(GetIniStr("maincenter", "file_compare")) = 0 Then
-        file_compare(0).Value = True
-    ElseIf CInt(GetIniStr("maincenter", "file_compare")) = 2 Then
-        file_compare(2).Value = True
-    Else
-        file_compare(1).Value = True
-    End If
-    
-    If GetIniTF("maincenter", "bottom_StatusBar") = False Then set_sbar(0).Value = True
-    
-    If GetIniTF("maincenter", "url_folder") = True Then set_url_folder(1).Value = True
-    
-    If GetIniTF("maincenter", "def_path_tf") = True Then def_path(1).Value = True
-    def_path_txt = GetIniStr("maincenter", "def_path")
-    
-    If CByte(GetIniStr("maincenter", "list_type")) >= 0 And CByte(GetIniStr("maincenter", "list_type")) < 3 Then
-        Combo_lst.ListIndex = CByte(GetIniStr("maincenter", "list_type"))
-    End If
-    
-    If CByte(GetIniStr("maincenter", "fix_rar")) >= 0 And CByte(GetIniStr("maincenter", "fix_rar")) < 3 Then
-        Combo_rar.ListIndex = CByte(GetIniStr("maincenter", "fix_rar"))
-    End If
-    
-    fix_name_list Trim(GetIniStr("maincenter", "fix_rar_name"))
-    
-    Select Case GetIniStr("maincenter", "include_script")
-    Case "first"
-        scriptOP(1).Value = True
-    Case "close"
-        scriptOP(2).Value = True
-    Case Else
-        scriptOP(0).Value = True
-    End Select
-    
-    If GetIniTF("maincenter", "check_all") = False Then set_checkall(0).Value = True
-    
-    
-    'proxy
-    Select Case GetIniStr("proxyset", "proxy_A_type")
-    Case "icDirect"
-        ProxyComb(0).ListIndex = 1
-    Case "icNamedProxy"
-        ProxyComb(0).ListIndex = 2
-    Case Else
-        ProxyComb(0).ListIndex = 0
-    End Select
-    
-    Select Case GetIniStr("proxyset", "proxy_B_type")
-    Case "icDirect"
-        ProxyComb(1).ListIndex = 1
-    Case "icNamedProxy"
-        ProxyComb(1).ListIndex = 2
-    Case Else
-        ProxyComb(1).ListIndex = 0
-    End Select
-    
-    
-    Dim proxy_str(2) As String
-    Dim split_str
-    proxy_str(0) = Trim(GetIniStr("proxyset", "proxy_A"))
-    proxy_str(1) = Trim(GetIniStr("proxyset", "proxy_A_user"))
-    proxy_str(2) = GetIniStr("proxyset", "proxy_A_pw")
-    
-    proxy_str(0) = Replace(Replace(proxy_str(0), Chr(10), ""), Chr(13), "")
-    proxy_str(1) = Replace(Replace(proxy_str(1), Chr(10), ""), Chr(13), "")
-    proxy_str(2) = Replace(Replace(proxy_str(2), Chr(10), ""), Chr(13), "")
-    
-    If Len(proxy_str(0)) > 0 Then
-        proxy_txt1(0) = proxy_str(0)
-        proxy_txt1(1) = proxy_str(1)
-        proxy_txt1(2) = proxy_str(2)
-    End If
-    
-    proxy_str(0) = Trim(GetIniStr("proxyset", "proxy_B"))
-    proxy_str(1) = Trim(GetIniStr("proxyset", "proxy_B_user"))
-    proxy_str(2) = GetIniStr("proxyset", "proxy_B_pw")
-    
-    proxy_str(0) = Replace(Replace(proxy_str(0), Chr(10), ""), Chr(13), "")
-    proxy_str(1) = Replace(Replace(proxy_str(1), Chr(10), ""), Chr(13), "")
-    proxy_str(2) = Replace(Replace(proxy_str(2), Chr(10), ""), Chr(13), "")
-    
-    If Len(proxy_str(0)) > 0 Then
-        proxy_txt2(0) = proxy_str(0)
-        proxy_txt2(1) = proxy_str(1)
-        proxy_txt2(2) = proxy_str(2)
-    End If
-    
+Select Case CLng(GetIniStr("maincenter", "downloadblock"))
+Case 512
+downOp(0).Value = True
+Case 1024
+downOp(1).Value = True
+Case 2048
+downOp(2).Value = True
+Case 5120
+downOp(3).Value = True
+Case 10240
+downOp(4).Value = True
+Case Else
+downOp(5).Value = True
+If CLng(GetIniStr("maincenter", "downloadblock")) <= 204800 Then
+downHS.Value = Int(CLng(GetIniStr("maincenter", "downloadblock")) / 512)
+Else
+downHS.Value = 400
+End If
+End Select
+
+If CInt(GetIniStr("maincenter", "time_out")) <= 200 And CInt(GetIniStr("maincenter", "time_out")) >= 10 Then
+VS_timeout.Value = CInt(GetIniStr("maincenter", "time_out"))
+Else
+VS_timeout.Value = 30
+End If
+
+If CInt(GetIniStr("maincenter", "retry_times")) <= 255 And CInt(GetIniStr("maincenter", "time_out")) >= 0 Then
+VS_retry.Value = CInt(GetIniStr("maincenter", "retry_times"))
+Else
+VS_retry.Value = 20
+End If
+
+passcode_text(0) = GetIniStr("maincenter", "new163passcode_user")
+passcode_text(1) = GetIniStr("maincenter", "new163passcode_album")
+passcode_text(2) = GetIniStr("maincenter", "new163passcode_pw")
+
+If passcode_text(0) = "" Or passcode_text(1) = "" Or passcode_text(2) = "" Then
+passcode_text(0) = "wehi"
+passcode_text(1) = "1530930"
+passcode_text(2) = "asd"
+End If
+
+If GetIniTF("maincenter", "autocheck") = False Then autoOp(0).Value = True
+If GetIniTF("maincenter", "askquit") = False Then quitOp(0).Value = True
+If GetIniTF("maincenter", "listshow") = True Then listOp(1).Value = True
+If GetIniTF("maincenter", "savedef") = False Then saveOp(0).Value = True
+If GetIniTF("maincenter", "openfloder") = False Then askfloder(0).Value = True
+If GetIniTF("maincenter", "change_psw") = False Then changepsw(0).Value = True
+If GetIniTF("maincenter", "new_ie_win") = False Then ie_window(0).Value = True
+If GetIniTF("maincenter", "ox163_ie_win") = False Then ox163_window(0).Value = True
+If GetIniTF("maincenter", "sysTray") = False Then set_tray(0).Value = True
+
+If GetIniTF("maincenter", "new163pass_rules") = False Then new163passrule(0).Value = True
+
+
+If GetIniTF("maincenter", "list_copy") = False Then list_copy(0).Value = True
+
+If CInt(GetIniStr("maincenter", "file_compare")) = 0 Then
+file_compare(0).Value = True
+ElseIf CInt(GetIniStr("maincenter", "file_compare")) = 2 Then
+file_compare(2).Value = True
+Else
+file_compare(1).Value = True
+End If
+
+If GetIniTF("maincenter", "bottom_StatusBar") = False Then set_sbar(0).Value = True
+
+If GetIniTF("maincenter", "url_folder") = True Then set_url_folder(1).Value = True
+
+If GetIniTF("maincenter", "def_path_tf") = True Then def_path(1).Value = True
+def_path_txt = GetIniStr("maincenter", "def_path")
+
+If CByte(GetIniStr("maincenter", "list_type")) >= 0 And CByte(GetIniStr("maincenter", "list_type")) < 3 Then
+Combo_lst.ListIndex = CByte(GetIniStr("maincenter", "list_type"))
+End If
+
+If CByte(GetIniStr("maincenter", "fix_rar")) >= 0 And CByte(GetIniStr("maincenter", "fix_rar")) < 3 Then
+Combo_rar.ListIndex = CByte(GetIniStr("maincenter", "fix_rar"))
+End If
+
+fix_name_list Trim(GetIniStr("maincenter", "fix_rar_name"))
+
+Select Case GetIniStr("maincenter", "include_script")
+Case "first"
+scriptOP(1).Value = True
+Case "close"
+scriptOP(2).Value = True
+Case Else
+scriptOP(0).Value = True
+End Select
+
+If GetIniTF("maincenter", "check_all") = False Then set_checkall(0).Value = True
+
+
+'proxy
+Select Case GetIniStr("proxyset", "proxy_A_type")
+Case "icDirect"
+ProxyComb(0).ListIndex = 1
+Case "icNamedProxy"
+ProxyComb(0).ListIndex = 2
+Case Else
+ProxyComb(0).ListIndex = 0
+End Select
+
+Select Case GetIniStr("proxyset", "proxy_B_type")
+Case "icDirect"
+ProxyComb(1).ListIndex = 1
+Case "icNamedProxy"
+ProxyComb(1).ListIndex = 2
+Case Else
+ProxyComb(1).ListIndex = 0
+End Select
+
+
+Dim proxy_str(2) As String
+Dim split_str
+proxy_str(0) = Trim(GetIniStr("proxyset", "proxy_A"))
+proxy_str(1) = Trim(GetIniStr("proxyset", "proxy_A_user"))
+proxy_str(2) = GetIniStr("proxyset", "proxy_A_pw")
+
+proxy_str(0) = Replace(Replace(proxy_str(0), Chr(10), ""), Chr(13), "")
+proxy_str(1) = Replace(Replace(proxy_str(1), Chr(10), ""), Chr(13), "")
+proxy_str(2) = Replace(Replace(proxy_str(2), Chr(10), ""), Chr(13), "")
+
+If Len(proxy_str(0)) > 0 Then
+proxy_txt1(0) = proxy_str(0)
+proxy_txt1(1) = proxy_str(1)
+proxy_txt1(2) = proxy_str(2)
+End If
+
+proxy_str(0) = Trim(GetIniStr("proxyset", "proxy_B"))
+proxy_str(1) = Trim(GetIniStr("proxyset", "proxy_B_user"))
+proxy_str(2) = GetIniStr("proxyset", "proxy_B_pw")
+
+proxy_str(0) = Replace(Replace(proxy_str(0), Chr(10), ""), Chr(13), "")
+proxy_str(1) = Replace(Replace(proxy_str(1), Chr(10), ""), Chr(13), "")
+proxy_str(2) = Replace(Replace(proxy_str(2), Chr(10), ""), Chr(13), "")
+
+If Len(proxy_str(0)) > 0 Then
+proxy_txt2(0) = proxy_str(0)
+proxy_txt2(1) = proxy_str(1)
+proxy_txt2(2) = proxy_str(2)
+End If
+
 End Sub
 Sub fix_name_list(ByVal fix_rar_name As String)
-    Combo_rar_name.Clear
-    Combo_rar_name.AddItem "添加新后缀", 0
-    Combo_rar_name.ListIndex = 0
-    If fix_rar_name = "" Or fix_rar_name = "-1" Then Exit Sub
-    name_list = Split(fix_rar_name, "|")
-    For i = 0 To UBound(name_list)
-        name_list(i) = Trim(name_list(i))
-        If Len(name_list(i)) > 0 And is_fileName(name_list(i)) Then Combo_rar_name.AddItem name_list(i), i + 1
-    Next i
-    Combo_rar_name.ListIndex = 0
+Combo_rar_name.Clear
+Combo_rar_name.AddItem "添加新后缀", 0
+Combo_rar_name.ListIndex = 0
+If fix_rar_name = "" Or fix_rar_name = "-1" Then Exit Sub
+name_list = Split(fix_rar_name, "|")
+For i = 0 To UBound(name_list)
+    name_list(i) = Trim(name_list(i))
+    If Len(name_list(i)) > 0 And is_fileName(name_list(i)) Then Combo_rar_name.AddItem name_list(i), i + 1
+Next i
+Combo_rar_name.ListIndex = 0
 End Sub
 
 Private Function is_fileName(ByVal file_name As String) As Boolean
-    is_fileName = True
-    If InStr(file_name, Chr(92)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(47)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(34)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(63)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(58)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(42)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(60)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(62)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(124)) > 0 Then is_fileName = False: Exit Function
-    
-    If Left(rename_str, 1) = "." Then is_fileName = False: Exit Function
-    If Right(rename_str, 1) = "." Then is_fileName = False: Exit Function
+is_fileName = True
+If InStr(file_name, Chr(92)) > 0 Then is_fileName = False: Exit Function
+If InStr(file_name, Chr(47)) > 0 Then is_fileName = False: Exit Function
+If InStr(file_name, Chr(34)) > 0 Then is_fileName = False: Exit Function
+If InStr(file_name, Chr(63)) > 0 Then is_fileName = False: Exit Function
+If InStr(file_name, Chr(58)) > 0 Then is_fileName = False: Exit Function
+If InStr(file_name, Chr(42)) > 0 Then is_fileName = False: Exit Function
+If InStr(file_name, Chr(60)) > 0 Then is_fileName = False: Exit Function
+If InStr(file_name, Chr(62)) > 0 Then is_fileName = False: Exit Function
+If InStr(file_name, Chr(124)) > 0 Then is_fileName = False: Exit Function
+
+If Left(rename_str, 1) = "." Then is_fileName = False: Exit Function
+If Right(rename_str, 1) = "." Then is_fileName = False: Exit Function
 End Function
 
 
 Private Sub Command1_Click()
-    Dim pos_i As Integer
-    pos_i = Combo_rar_name.ListIndex
-    For i = 1 To Combo_rar_name.ListCount - 1
-        If UCase(fix_name_Text.Text) = UCase(Combo_rar_name.List(i)) Then
-            MsgBox "文件后缀名重复！", vbOKOnly + vbExclamation, "警告"
-            Combo_rar_name.ListIndex = pos_i
-            Exit Sub
-        End If
-    Next i
-    Combo_rar_name.ListIndex = pos_i
-    If Combo_rar_name.ListIndex = 0 Then
-        If is_fileName(fix_name_Text.Text) And fix_name_Text.Text <> "" Then
-            Combo_rar_name.AddItem fix_name_Text.Text
-            Combo_rar_name.ListIndex = Combo_rar_name.ListCount - 1
-        Else
-            MsgBox "文件后缀名不正确！", vbOKOnly + vbExclamation, "警告"
-        End If
+Dim pos_i As Integer
+pos_i = Combo_rar_name.ListIndex
+For i = 1 To Combo_rar_name.ListCount - 1
+If UCase(fix_name_Text.Text) = UCase(Combo_rar_name.List(i)) Then
+MsgBox "文件后缀名重复！", vbOKOnly + vbExclamation, "警告"
+Combo_rar_name.ListIndex = pos_i
+Exit Sub
+End If
+Next i
+Combo_rar_name.ListIndex = pos_i
+If Combo_rar_name.ListIndex = 0 Then
+    If is_fileName(fix_name_Text.Text) And fix_name_Text.Text <> "" Then
+    Combo_rar_name.AddItem fix_name_Text.Text
+    Combo_rar_name.ListIndex = Combo_rar_name.ListCount - 1
     Else
-        If is_fileName(fix_name_Text.Text) And fix_name_Text.Text <> "" Then
-            Combo_rar_name.AddItem fix_name_Text.Text, Combo_rar_name.ListCount
-        ElseIf fix_name_Text.Text = "" Then
-            Combo_rar_name.RemoveItem Combo_rar_name.ListIndex
-            Combo_rar_name.ListIndex = 0
-        Else
-            MsgBox "文件后缀名不正确！", vbOKOnly + vbExclamation, "警告"
-        End If
+    MsgBox "文件后缀名不正确！", vbOKOnly + vbExclamation, "警告"
     End If
+Else
+    If is_fileName(fix_name_Text.Text) And fix_name_Text.Text <> "" Then
+    Combo_rar_name.AddItem fix_name_Text.Text, Combo_rar_name.ListCount
+    ElseIf fix_name_Text.Text = "" Then
+    Combo_rar_name.RemoveItem Combo_rar_name.ListIndex
+    Combo_rar_name.ListIndex = 0
+    Else
+    MsgBox "文件后缀名不正确！", vbOKOnly + vbExclamation, "警告"
+    End If
+End If
 End Sub
 
 
 Private Sub sys_rec_Click(Index As Integer)
-    sys_def
-    laod_ini
+sys_def
+laod_ini
 End Sub
 
 Private Sub sys_yes_Click()
-    passcode_text(0) = Replace(Replace(passcode_text(0), Chr(10), ""), Chr(13), "")
-    passcode_text(1) = Replace(Replace(passcode_text(1), Chr(10), ""), Chr(13), "")
-    passcode_text(2) = Replace(Replace(passcode_text(2), Chr(10), ""), Chr(13), "")
-    
-    If passcode_text(0) = "" Or passcode_text(1) = "" Or passcode_text(2) = "" Then
-        If MsgBox("验证码信息不能为空，是否恢复默认？", vbYesNo + vbExclamation, "警告") = vbYes Then
-            passcode_text(0) = "wehi"
-            passcode_text(1) = "1530930"
-            passcode_text(2) = "asd"
-        End If
-        Exit Sub
+passcode_text(0) = Replace(Replace(passcode_text(0), Chr(10), ""), Chr(13), "")
+passcode_text(1) = Replace(Replace(passcode_text(1), Chr(10), ""), Chr(13), "")
+passcode_text(2) = Replace(Replace(passcode_text(2), Chr(10), ""), Chr(13), "")
+
+If passcode_text(0) = "" Or passcode_text(1) = "" Or passcode_text(2) = "" Then
+    If MsgBox("验证码信息不能为空，是否恢复默认？", vbYesNo + vbExclamation, "警告") = vbYes Then
+    passcode_text(0) = "wehi"
+    passcode_text(1) = "1530930"
+    passcode_text(2) = "asd"
     End If
-    
-    sys.Enabled = False
-    
-    WriteIniStr "maincenter", "new163passcode_user", passcode_text(0)
-    WriteIniStr "maincenter", "new163passcode_album", passcode_text(1)
-    WriteIniStr "maincenter", "new163passcode_pw", passcode_text(2)
-    
-    For i = 0 To 5
-        If downOp(i).Value = True Then
-            Select Case i
-            Case 0
-                WriteIniStr "maincenter", "downloadblock", "512"
-            Case 1
-                WriteIniStr "maincenter", "downloadblock", "1024"
-            Case 2
-                WriteIniStr "maincenter", "downloadblock", "2048"
-            Case 3
-                WriteIniStr "maincenter", "downloadblock", "5120"
-            Case 4
-                WriteIniStr "maincenter", "downloadblock", "10240"
-            Case Else
-                Dim block As Long
-                block = downHS.Value
-                WriteIniStr "maincenter", "downloadblock", block * 512
-            End Select
-            
-            Exit For
-        End If
-        
+    Exit Sub
+End If
+
+sys.Enabled = False
+
+WriteIniStr "maincenter", "new163passcode_user", passcode_text(0)
+WriteIniStr "maincenter", "new163passcode_album", passcode_text(1)
+WriteIniStr "maincenter", "new163passcode_pw", passcode_text(2)
+
+For i = 0 To 5
+If downOp(i).Value = True Then
+Select Case i
+Case 0
+WriteIniStr "maincenter", "downloadblock", "512"
+Case 1
+WriteIniStr "maincenter", "downloadblock", "1024"
+Case 2
+WriteIniStr "maincenter", "downloadblock", "2048"
+Case 3
+WriteIniStr "maincenter", "downloadblock", "5120"
+Case 4
+WriteIniStr "maincenter", "downloadblock", "10240"
+Case Else
+Dim block As Long
+block = downHS.Value
+WriteIniStr "maincenter", "downloadblock", block * 512
+End Select
+
+Exit For
+End If
+
+Next i
+
+If scriptOP(0).Value = True Then
+WriteIniStr "maincenter", "include_script", "delay"
+ElseIf scriptOP(1).Value = True Then
+WriteIniStr "maincenter", "include_script", "first"
+Else
+WriteIniStr "maincenter", "include_script", "close"
+End If
+
+If autoOp(1).Value = True Then
+WriteIniTF "maincenter", "autocheck", True
+Else
+WriteIniTF "maincenter", "autocheck", False
+End If
+
+If quitOp(1).Value = True Then
+WriteIniTF "maincenter", "askquit", True
+Else
+WriteIniTF "maincenter", "askquit", False
+End If
+
+If listOp(1).Value = True Then
+WriteIniTF "maincenter", "listshow", True
+Else
+WriteIniTF "maincenter", "listshow", False
+End If
+
+If saveOp(1).Value = True Then
+WriteIniTF "maincenter", "savedef", True
+Else
+WriteIniTF "maincenter", "savedef", False
+End If
+
+If askfloder(1).Value = True Then
+WriteIniTF "maincenter", "openfloder", True
+Else
+WriteIniTF "maincenter", "openfloder", False
+End If
+
+If changepsw(1).Value = True Then
+WriteIniTF "maincenter", "change_psw", True
+Else
+WriteIniTF "maincenter", "change_psw", False
+End If
+
+If ie_window(1).Value = True Then
+WriteIniTF "maincenter", "new_ie_win", True
+Else
+WriteIniTF "maincenter", "new_ie_win", False
+End If
+
+If ox163_window(1).Value = True Then
+WriteIniTF "maincenter", "ox163_ie_win", True
+Else
+WriteIniTF "maincenter", "ox163_ie_win", False
+End If
+
+If set_tray(1).Value = True Then
+WriteIniTF "maincenter", "sysTray", True
+Else
+WriteIniTF "maincenter", "sysTray", False
+End If
+
+If new163passrule(1).Value = True Then
+WriteIniTF "maincenter", "new163pass_rules", True
+Else
+WriteIniTF "maincenter", "new163pass_rules", False
+End If
+
+
+If list_copy(1).Value = True Then
+WriteIniTF "maincenter", "list_copy", True
+Else
+WriteIniTF "maincenter", "list_copy", False
+End If
+
+If file_compare(1).Value = True Then
+WriteIniStr "maincenter", "file_compare", "1"
+ElseIf file_compare(2).Value = True Then
+WriteIniStr "maincenter", "file_compare", "2"
+Else
+WriteIniStr "maincenter", "file_compare", "0"
+End If
+
+
+If set_sbar(1).Value = True Then
+WriteIniTF "maincenter", "bottom_StatusBar", True
+Else
+WriteIniTF "maincenter", "bottom_StatusBar", False
+End If
+
+If set_checkall(1).Value = True Then
+WriteIniTF "maincenter", "check_all", True
+Else
+WriteIniTF "maincenter", "check_all", False
+End If
+
+If set_url_folder(1).Value = True Then
+WriteIniTF "maincenter", "url_folder", True
+Else
+WriteIniTF "maincenter", "url_folder", False
+End If
+
+If def_path(1).Value = True Then
+WriteIniTF "maincenter", "def_path_tf", True
+WriteIniStr "maincenter", "def_path", def_path_txt.Text
+Else
+WriteIniTF "maincenter", "def_path_tf", False
+WriteIniStr "maincenter", "def_path", ""
+End If
+
+WriteIniStr "maincenter", "time_out", VS_timeout.Value
+WriteIniStr "maincenter", "retry_times", VS_retry.Value
+WriteIniStr "maincenter", "list_type", Combo_lst.ListIndex
+WriteIniStr "maincenter", "fix_rar", Combo_rar.ListIndex
+
+fix_rar_name = ""
+If Combo_rar_name.ListCount > 1 Then
+    For i = 1 To Combo_rar_name.ListCount - 1
+    fix_rar_name = fix_rar_name & Combo_rar_name.List(i) & "|"
     Next i
-    
-    If scriptOP(0).Value = True Then
-        WriteIniStr "maincenter", "include_script", "delay"
-    ElseIf scriptOP(1).Value = True Then
-        WriteIniStr "maincenter", "include_script", "first"
-    Else
-        WriteIniStr "maincenter", "include_script", "close"
-    End If
-    
-    If autoOp(1).Value = True Then
-        WriteIniTF "maincenter", "autocheck", True
-    Else
-        WriteIniTF "maincenter", "autocheck", False
-    End If
-    
-    If quitOp(1).Value = True Then
-        WriteIniTF "maincenter", "askquit", True
-    Else
-        WriteIniTF "maincenter", "askquit", False
-    End If
-    
-    If listOp(1).Value = True Then
-        WriteIniTF "maincenter", "listshow", True
-    Else
-        WriteIniTF "maincenter", "listshow", False
-    End If
-    
-    If saveOp(1).Value = True Then
-        WriteIniTF "maincenter", "savedef", True
-    Else
-        WriteIniTF "maincenter", "savedef", False
-    End If
-    
-    If askfloder(1).Value = True Then
-        WriteIniTF "maincenter", "openfloder", True
-    Else
-        WriteIniTF "maincenter", "openfloder", False
-    End If
-    
-    If changepsw(1).Value = True Then
-        WriteIniTF "maincenter", "change_psw", True
-    Else
-        WriteIniTF "maincenter", "change_psw", False
-    End If
-    
-    If ie_window(1).Value = True Then
-        WriteIniTF "maincenter", "new_ie_win", True
-    Else
-        WriteIniTF "maincenter", "new_ie_win", False
-    End If
-    
-    If ox163_window(1).Value = True Then
-        WriteIniTF "maincenter", "ox163_ie_win", True
-    Else
-        WriteIniTF "maincenter", "ox163_ie_win", False
-    End If
-    
-    If set_tray(1).Value = True Then
-        WriteIniTF "maincenter", "sysTray", True
-    Else
-        WriteIniTF "maincenter", "sysTray", False
-    End If
-    
-    If new163passrule(1).Value = True Then
-        WriteIniTF "maincenter", "new163pass_rules", True
-    Else
-        WriteIniTF "maincenter", "new163pass_rules", False
-    End If
-    
-    
-    If list_copy(1).Value = True Then
-        WriteIniTF "maincenter", "list_copy", True
-    Else
-        WriteIniTF "maincenter", "list_copy", False
-    End If
-    
-    If file_compare(1).Value = True Then
-        WriteIniStr "maincenter", "file_compare", "1"
-    ElseIf file_compare(2).Value = True Then
-        WriteIniStr "maincenter", "file_compare", "2"
-    Else
-        WriteIniStr "maincenter", "file_compare", "0"
-    End If
-    
-    
-    If set_sbar(1).Value = True Then
-        WriteIniTF "maincenter", "bottom_StatusBar", True
-    Else
-        WriteIniTF "maincenter", "bottom_StatusBar", False
-    End If
-    
-    If set_checkall(1).Value = True Then
-        WriteIniTF "maincenter", "check_all", True
-    Else
-        WriteIniTF "maincenter", "check_all", False
-    End If
-    
-    If set_url_folder(1).Value = True Then
-        WriteIniTF "maincenter", "url_folder", True
-    Else
-        WriteIniTF "maincenter", "url_folder", False
-    End If
-    
-    If def_path(1).Value = True Then
-        WriteIniTF "maincenter", "def_path_tf", True
-        WriteIniStr "maincenter", "def_path", def_path_txt.Text
-    Else
-        WriteIniTF "maincenter", "def_path_tf", False
-        WriteIniStr "maincenter", "def_path", ""
-    End If
-    
-    WriteIniStr "maincenter", "time_out", VS_timeout.Value
-    WriteIniStr "maincenter", "retry_times", VS_retry.Value
-    WriteIniStr "maincenter", "list_type", Combo_lst.ListIndex
-    WriteIniStr "maincenter", "fix_rar", Combo_rar.ListIndex
-    
-    fix_rar_name = ""
-    If Combo_rar_name.ListCount > 1 Then
-        For i = 1 To Combo_rar_name.ListCount - 1
-            fix_rar_name = fix_rar_name & Combo_rar_name.List(i) & "|"
-        Next i
-    End If
-    If Right$(fix_rar_name, 1) = "|" Then fix_rar_name = Left$(fix_rar_name, Len(fix_rar_name) - 1)
-    WriteIniStr "maincenter", "fix_rar_name", fix_rar_name
-    
-    
-    Select Case ProxyComb(0).ListIndex
-    Case 1
-        WriteIniStr "proxyset", "proxy_A_type", "icDirect"
-    Case 2
-        WriteIniStr "proxyset", "proxy_A_type", "icNamedProxy"
-    Case Else
-        WriteIniStr "proxyset", "proxy_A_type", "icUseDefault"
-    End Select
-    
-    Select Case ProxyComb(1).ListIndex
-    Case 1
-        WriteIniStr "proxyset", "proxy_B_type", "icDirect"
-    Case 2
-        WriteIniStr "proxyset", "proxy_B_type", "icNamedProxy"
-    Case Else
-        WriteIniStr "proxyset", "proxy_B_type", "icUseDefault"
-    End Select
-    
-    
-    proxy_txt1(0) = Trim(Replace(Replace(proxy_txt1(0), Chr(10), ""), Chr(13), ""))
-    proxy_txt1(1) = Trim(Replace(Replace(proxy_txt1(1), Chr(10), ""), Chr(13), ""))
-    proxy_txt1(2) = Trim(Replace(Replace(proxy_txt1(2), Chr(10), ""), Chr(13), ""))
-    proxy_txt2(0) = Trim(Replace(Replace(proxy_txt2(0), Chr(10), ""), Chr(13), ""))
-    proxy_txt2(1) = Trim(Replace(Replace(proxy_txt2(1), Chr(10), ""), Chr(13), ""))
-    proxy_txt2(2) = Trim(Replace(Replace(proxy_txt2(2), Chr(10), ""), Chr(13), ""))
-    
-    
-    WriteIniStr "proxyset", "proxy_A", proxy_txt1(0)
-    WriteIniStr "proxyset", "proxy_A_user", proxy_txt1(1)
-    WriteIniStr "proxyset", "proxy_A_pw", proxy_txt1(2)
-    WriteIniStr "proxyset", "proxy_B", proxy_txt2(0)
-    WriteIniStr "proxyset", "proxy_B_user", proxy_txt2(1)
-    WriteIniStr "proxyset", "proxy_B_pw", proxy_txt2(2)
-    
-    
-    '重新载入设定
-    sysSet.ver = CInt(GetIniStr("maincenter", "ver"))
-    sysSet.downloadblock = CLng(GetIniStr("maincenter", "downloadblock"))
-    sysSet.include_script = GetIniStr("maincenter", "include_script")
-    sysSet.autocheck = GetIniTF("maincenter", "autocheck")
-    sysSet.askquit = GetIniTF("maincenter", "askquit")
-    sysSet.listshow = GetIniTF("maincenter", "listshow")
-    sysSet.savedef = GetIniTF("maincenter", "savedef")
-    sysSet.openfloder = GetIniTF("maincenter", "openfloder")
-    sysSet.change_psw = GetIniTF("maincenter", "change_psw")
-    sysSet.always_top = GetIniTF("maincenter", "always_top")
-    sysSet.new_ie_win = GetIniTF("maincenter", "new_ie_win")
-    sysSet.ox163_ie_win = GetIniTF("maincenter", "ox163_ie_win")
-    sysSet.time_out = CInt(GetIniStr("maincenter", "time_out"))
-    sysSet.retry_times = CInt(GetIniStr("maincenter", "retry_times"))
-    
-    sysSet.list_type = CByte(GetIniStr("maincenter", "list_type"))
-    
-    sysSet.fix_rar = CByte(GetIniStr("maincenter", "fix_rar"))
-    sysSet.fix_rar_name = Trim(GetIniStr("maincenter", "fix_rar_name"))
-    
-    sysSet.sysTray = GetIniTF("maincenter", "sysTray")
-    sysSet.list_copy = GetIniTF("maincenter", "list_copy")
-    
-    sysSet.file_compare = CInt(GetIniStr("maincenter", "file_compare"))
-    
-    sysSet.check_all = GetIniTF("maincenter", "check_all")
-    
-    sysSet.url_folder = GetIniTF("maincenter", "url_folder")
-    
-    sysSet.new163passcode_def(0) = GetIniStr("maincenter", "new163passcode_user")
-    sysSet.new163passcode_def(1) = GetIniStr("maincenter", "new163passcode_album")
-    sysSet.new163passcode_def(2) = GetIniStr("maincenter", "new163passcode_pw")
-    
-    sysSet.bottom_StatusBar = GetIniTF("maincenter", "bottom_StatusBar")
-    If sysSet.bottom_StatusBar = True Then
-        Form1.show_StatusBar = 255
-        Form1.StatusBar.Visible = True
-        If Form1.form_height < 3000 Then Form1.form_height = 1470 + Form1.show_StatusBar
-        If Form1.Height < 1470 + Form1.show_StatusBar Then Form1.Height = 1470 + Form1.show_StatusBar
-        Form1.frame_resize
-    Else
-        Form1.show_StatusBar = 0
-        Form1.StatusBar.Visible = False
-        If Form1.form_height < 3000 Then Form1.form_height = 1470
-        Form1.frame_resize
-    End If
-    
-    sysSet.def_path_tf = GetIniTF("maincenter", "def_path_tf")
-    
-    If sysSet.def_path_tf = True Then
-        sysSet.def_path = GetIniStr("maincenter", "def_path")
-        Label1.Caption = "准备OX163..." & vbCrLf & "    检查下载路径"
+End If
+If Right$(fix_rar_name, 1) = "|" Then fix_rar_name = Left$(fix_rar_name, Len(fix_rar_name) - 1)
+WriteIniStr "maincenter", "fix_rar_name", fix_rar_name
+
+
+Select Case ProxyComb(0).ListIndex
+Case 1
+WriteIniStr "proxyset", "proxy_A_type", "icDirect"
+Case 2
+WriteIniStr "proxyset", "proxy_A_type", "icNamedProxy"
+Case Else
+WriteIniStr "proxyset", "proxy_A_type", "icUseDefault"
+End Select
+
+Select Case ProxyComb(1).ListIndex
+Case 1
+WriteIniStr "proxyset", "proxy_B_type", "icDirect"
+Case 2
+WriteIniStr "proxyset", "proxy_B_type", "icNamedProxy"
+Case Else
+WriteIniStr "proxyset", "proxy_B_type", "icUseDefault"
+End Select
+
+
+proxy_txt1(0) = Trim(Replace(Replace(proxy_txt1(0), Chr(10), ""), Chr(13), ""))
+proxy_txt1(1) = Trim(Replace(Replace(proxy_txt1(1), Chr(10), ""), Chr(13), ""))
+proxy_txt1(2) = Trim(Replace(Replace(proxy_txt1(2), Chr(10), ""), Chr(13), ""))
+proxy_txt2(0) = Trim(Replace(Replace(proxy_txt2(0), Chr(10), ""), Chr(13), ""))
+proxy_txt2(1) = Trim(Replace(Replace(proxy_txt2(1), Chr(10), ""), Chr(13), ""))
+proxy_txt2(2) = Trim(Replace(Replace(proxy_txt2(2), Chr(10), ""), Chr(13), ""))
+
+
+WriteIniStr "proxyset", "proxy_A", proxy_txt1(0)
+WriteIniStr "proxyset", "proxy_A_user", proxy_txt1(1)
+WriteIniStr "proxyset", "proxy_A_pw", proxy_txt1(2)
+WriteIniStr "proxyset", "proxy_B", proxy_txt2(0)
+WriteIniStr "proxyset", "proxy_B_user", proxy_txt2(1)
+WriteIniStr "proxyset", "proxy_B_pw", proxy_txt2(2)
+
+
+'重新载入设定
+sysSet.ver = CInt(GetIniStr("maincenter", "ver"))
+sysSet.downloadblock = CLng(GetIniStr("maincenter", "downloadblock"))
+sysSet.include_script = GetIniStr("maincenter", "include_script")
+sysSet.autocheck = GetIniTF("maincenter", "autocheck")
+sysSet.askquit = GetIniTF("maincenter", "askquit")
+sysSet.listshow = GetIniTF("maincenter", "listshow")
+sysSet.savedef = GetIniTF("maincenter", "savedef")
+sysSet.openfloder = GetIniTF("maincenter", "openfloder")
+sysSet.change_psw = GetIniTF("maincenter", "change_psw")
+sysSet.always_top = GetIniTF("maincenter", "always_top")
+sysSet.new_ie_win = GetIniTF("maincenter", "new_ie_win")
+sysSet.ox163_ie_win = GetIniTF("maincenter", "ox163_ie_win")
+sysSet.time_out = CInt(GetIniStr("maincenter", "time_out"))
+sysSet.retry_times = CInt(GetIniStr("maincenter", "retry_times"))
+
+sysSet.list_type = CByte(GetIniStr("maincenter", "list_type"))
+
+sysSet.fix_rar = CByte(GetIniStr("maincenter", "fix_rar"))
+sysSet.fix_rar_name = Trim(GetIniStr("maincenter", "fix_rar_name"))
+
+sysSet.sysTray = GetIniTF("maincenter", "sysTray")
+sysSet.list_copy = GetIniTF("maincenter", "list_copy")
+
+sysSet.file_compare = CInt(GetIniStr("maincenter", "file_compare"))
+
+sysSet.check_all = GetIniTF("maincenter", "check_all")
+
+sysSet.url_folder = GetIniTF("maincenter", "url_folder")
+
+sysSet.new163passcode_def(0) = GetIniStr("maincenter", "new163passcode_user")
+sysSet.new163passcode_def(1) = GetIniStr("maincenter", "new163passcode_album")
+sysSet.new163passcode_def(2) = GetIniStr("maincenter", "new163passcode_pw")
+
+sysSet.bottom_StatusBar = GetIniTF("maincenter", "bottom_StatusBar")
+If sysSet.bottom_StatusBar = True Then
+Form1.show_StatusBar = 255
+Form1.StatusBar.Visible = True
+If Form1.form_height < 3000 Then Form1.form_height = 1470 + Form1.show_StatusBar
+If Form1.Height < 1470 + Form1.show_StatusBar Then Form1.Height = 1470 + Form1.show_StatusBar
+Form1.frame_resize
+Else
+Form1.show_StatusBar = 0
+Form1.StatusBar.Visible = False
+If Form1.form_height < 3000 Then Form1.form_height = 1470
+Form1.frame_resize
+End If
+
+sysSet.def_path_tf = GetIniTF("maincenter", "def_path_tf")
+
+If sysSet.def_path_tf = True Then
+    sysSet.def_path = GetIniStr("maincenter", "def_path")
+    Label1.Caption = "准备OX163..." & vbCrLf & "    检查下载路径"
         If Mid$(sysSet.def_path, 2, 2) <> ":\" Then GoTo reset_path
         If Right(sysSet.def_path, 1) = "\" Then sysSet.def_path = Mid$(sysSet.def_path, 1, Len(sysSet.def_path) - 1): WriteIniStr "maincenter", "def_path", sysSet.def_path
-        Dim check_path
-        check_path = Split(sysSet.def_path, "\")
-        
+    Dim check_path
+    check_path = Split(sysSet.def_path, "\")
+    
         For i = 0 To UBound(check_path)
             If i > 0 Then
-                sysSet.def_path = sysSet.def_path & "\" & check_path(i)
+            sysSet.def_path = sysSet.def_path & "\" & check_path(i)
                 If Dir(sysSet.def_path, vbDirectory) = "" Then
-                    MkDir sysSet.def_path
+                MkDir sysSet.def_path
                 End If
             Else
-                sysSet.def_path = check_path(0)
+            sysSet.def_path = check_path(0)
             End If
         Next i
-        If (GetFileAttributes(sysSet.def_path) = -1) Then GoTo reset_path
-    Else
+If (GetFileAttributes(sysSet.def_path) = -1) Then GoTo reset_path
+Else
 reset_path:
-        If sysSet.def_path <> "" Then sysSet.def_path = "": WriteIniStr "maincenter", "def_path", ""
-    End If
-    
-    sysSet.proxy_A = GetIniStr("proxyset", "proxy_A_type")
-    Select Case sysSet.proxy_A
-    Case "icDirect"
-        sysSet.proxy_A_type = 1
-    Case "icNamedProxy"
-        sysSet.proxy_A_type = 2
-    Case Else
-        sysSet.proxy_A_type = 0
-    End Select
-    
-    sysSet.proxy_A = GetIniStr("proxyset", "proxy_B_type")
-    Select Case sysSet.proxy_A
-    Case "icDirect"
-        sysSet.proxy_B_type = 1
-    Case "icNamedProxy"
-        sysSet.proxy_B_type = 2
-    Case Else
-        sysSet.proxy_B_type = 0
-    End Select
-    
-    sysSet.proxy_A = Trim(GetIniStr("proxyset", "proxy_A"))
-    sysSet.proxy_A_user = Trim(GetIniStr("proxyset", "proxy_A_user"))
-    sysSet.proxy_A_pw = GetIniStr("proxyset", "proxy_A_pw")
-    sysSet.proxy_B = Trim(GetIniStr("proxyset", "proxy_B"))
-    sysSet.proxy_B_user = Trim(GetIniStr("proxyset", "proxy_B_user"))
-    sysSet.proxy_B_pw = GetIniStr("proxyset", "proxy_B_pw")
-    
-    Proxy_set
-    
-    If sysSet.list_type >= 0 And sysSet.list_type <= 2 Then
-        Form1.list_output.Picture = Form1.output_img(sysSet.list_type).Picture
-        Form1.user_list_output.Picture = Form1.output_img(sysSet.list_type).Picture
-        Form1.out_all.Picture = Form1.output_img(sysSet.list_type).Picture
-    End If
-    
-    sys.Enabled = True
-    Unload sys
+    If sysSet.def_path <> "" Then sysSet.def_path = "": WriteIniStr "maincenter", "def_path", ""
+End If
+
+sysSet.proxy_A = GetIniStr("proxyset", "proxy_A_type")
+Select Case sysSet.proxy_A
+Case "icDirect"
+sysSet.proxy_A_type = 1
+Case "icNamedProxy"
+sysSet.proxy_A_type = 2
+Case Else
+sysSet.proxy_A_type = 0
+End Select
+
+sysSet.proxy_A = GetIniStr("proxyset", "proxy_B_type")
+Select Case sysSet.proxy_A
+Case "icDirect"
+sysSet.proxy_B_type = 1
+Case "icNamedProxy"
+sysSet.proxy_B_type = 2
+Case Else
+sysSet.proxy_B_type = 0
+End Select
+
+sysSet.proxy_A = Trim(GetIniStr("proxyset", "proxy_A"))
+sysSet.proxy_A_user = Trim(GetIniStr("proxyset", "proxy_A_user"))
+sysSet.proxy_A_pw = GetIniStr("proxyset", "proxy_A_pw")
+sysSet.proxy_B = Trim(GetIniStr("proxyset", "proxy_B"))
+sysSet.proxy_B_user = Trim(GetIniStr("proxyset", "proxy_B_user"))
+sysSet.proxy_B_pw = GetIniStr("proxyset", "proxy_B_pw")
+
+Proxy_set
+
+If sysSet.list_type >= 0 And sysSet.list_type <= 2 Then
+Form1.list_output.Picture = Form1.output_img(sysSet.list_type).Picture
+Form1.user_list_output.Picture = Form1.output_img(sysSet.list_type).Picture
+Form1.out_all.Picture = Form1.output_img(sysSet.list_type).Picture
+End If
+
+sys.Enabled = True
+Unload sys
 End Sub
 
 
 Private Sub VS_retry_Change()
-    If VS_retry.Value > 0 Then
-        LB_retry.Caption = VS_retry.Value & "次"
-    Else
-        LB_retry.Caption = "无限重试"
-    End If
+If VS_retry.Value > 0 Then
+LB_retry.Caption = VS_retry.Value & "次"
+Else
+LB_retry.Caption = "无限重试"
+End If
 End Sub
 
 Private Sub VS_timeout_Change()
-    LB_timeout.Caption = VS_timeout.Value & "秒"
+LB_timeout.Caption = VS_timeout.Value & "秒"
 End Sub
 
 '------------------------------------------------------------------------------------------
@@ -2308,8 +2316,8 @@ End Sub
 '------------------------------------------------------------------------------------------
 
 Private Sub Com3_Click()
-    On Error Resume Next
-    Shell "OX163_SystemRecovery.exe"
-    End
+On Error Resume Next
+Shell "OX163_SystemRecovery.exe"
+End
 End Sub
 
