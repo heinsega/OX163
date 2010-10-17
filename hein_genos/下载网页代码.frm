@@ -1351,39 +1351,62 @@ Dim url_text_keyupdown As Boolean
 Dim Web_Browser_header_tf As Boolean
 Dim Content_Range As String
 Dim new_win As Boolean
-Public OX163_WebBrowser_scriptCode As String
 'Dim download_speed As Integer
 
-Public Function get_cookies(ByVal html_cookie) As String
-    cookies_text = GetCookie(Trim$(script_retrun_code(2)))
-    
-    If script_app.language = "vbscript" Then
-        
-        cookies_text = Replace$(cookies_text, Chr(34), Chr(34) & Chr(34))
-        cookies_text = Replace$(cookies_text, Chr(10), Chr(34) & " & Chr(10) & " & Chr(34))
-        cookies_text = Replace$(cookies_text, Chr(13), Chr(34) & " & Chr(13) & " & Chr(34))
-        
-        cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
-        
-        script_retrun_temp = script_app.Eval(cookies_text)
-        
-    Else
-        'String.fromCharCode(x)
-        
-        cookies_text = Replace$(cookies_text, Chr(34), "\" & Chr(34))
-        cookies_text = Replace$(cookies_text, Chr(10), Chr(34) & "+String.fromCharCode(10)+" & Chr(34))
-        cookies_text = Replace$(cookies_text, Chr(13), Chr(34) & "+String.fromCharCode(13)+" & Chr(34))
-        
-        cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
-        
-        script_retrun_temp = script_app.Eval(cookies_text)
-    End If
-    script_retrun_temp = ""
+Private Function ScriptDownload(ByVal mode As DownloadMode) As Boolean
+    On Error Resume Next
+    Dim doc As Object
+    Select Case mode
+    Case OX_INET
+        Call fast_down.Cancel
+        download_ok = False
+        Call start_fast
+        Do While download_ok = False
+            If form_quit = True Then Download = True: Exit Function
+            DoEvents
+            Sleep 10
+            DoEvents
+        Loop
+    Case OX_WEB
+        BrowserW.Show
+        Do While BrowserW_load_ok = False
+            DoEvents
+            Sleep 10
+            DoEvents
+        Loop
+        Do While BrowserW.WebBrowser.Busy
+            If form_quit = True Then BrowserW.WebBrowser.Stop: BrowserW.Hide: Download = True: Exit Function
+            DoEvents
+            Sleep 10
+            DoEvents
+        Loop
+        download_ok = False
+        Call startBrowser_fast
+        Call delay(1)
+        Do While BrowserW.WebBrowser.Busy
+            If form_quit = True Then BrowserW.WebBrowser.Stop: BrowserW.Hide: Download = True: Exit Function
+            DoEvents
+            Sleep 10
+        Loop
+        DoEvents
+        Set doc = BrowserW.WebBrowser.Document
+        'Set objhtml = doc.Body.createtextrange
+        'Html_Temp =doc.Body.OuterHtml
+        Err.Number = 0
+        Html_Temp = doc.All(0).outerHTML
+        If Err.Number <> 0 Or Trim(Html_Temp) = "" Then Html_Temp = doc.All(1).outerHTML
+        BrowserW.WebBrowser.Stop
+        BrowserW.Hide
+        download_ok = True
+    Case Else
+        Debug.Assert False
+    End Select
+    Download = False
 End Function
 
 Private Sub CheckScriptError()
     If Err.Number <> 0 Then
-        Call MsgBox("错误：" & vbCrLf & Err.Description, vbOKOnly + vbExclamation, "执行脚本错误")
+        Call MsgBox("错误：" & vbCrLf & Err.description, vbOKOnly + vbExclamation, "执行脚本错误")
         Err.Number = 0
     End If
 End Sub
@@ -1921,11 +1944,7 @@ Private Sub Form_Load()
     Frame2.Top = Frame1.Top
     'Web_Browser_url = ""
     Content_Range = ""
-    OX163_WebBrowser_scriptCode = ""
-    If Dir(App.Path & "\include\OX163_Web_Browser_ctrl.vbs") <> "" Then
-        OX163_WebBrowser_scriptCode = load_script(App.Path & "\include\OX163_Web_Browser_ctrl.vbs")
-        OX163_WebBrowser_scriptCode = Trim(OX163_WebBrowser_scriptCode)
-    End If
+    Call load_in_Script_Code
     
     'Inet1.AccessType = icDirect
     'check_header.AccessType = icDirect
@@ -2592,20 +2611,20 @@ Private Sub text_im4_Click()
     CommonDialog1.CancelError = True
     On Error GoTo ErrHandler
     CommonDialog1.Filter = "Save Lst(*.lst)|*.lst|"
-    CommonDialog1.filename = ""
+    CommonDialog1.FileName = ""
     CommonDialog1.ShowSave
     
     If CommonDialog1.CancelError = False Then
 ErrHandler:
         Exit Sub
     Else
-        If Dir(CommonDialog1.filename) <> "" Then
+        If Dir(CommonDialog1.FileName) <> "" Then
             answer_save = MsgBox("该文件已存在，是否覆盖？", vbYesNo + vbExclamation + vbDefaultButton2, "警告")
             If answer_save = vbNo Then Exit Sub
         End If
     End If
     
-    save_text CommonDialog1.filename
+    save_text CommonDialog1.FileName
 End Sub
 
 Private Sub text_im4_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
@@ -2710,7 +2729,7 @@ ErrHandler:
         Exit Sub
     Else
         text_easy.Text = text_easy.Text & vbCrLf
-        load_text CommonDialog1.filename
+        load_text CommonDialog1.FileName
     End If
 End Sub
 
@@ -3238,7 +3257,7 @@ Private Sub input_lst_sub(ByVal LstFileName)
                 Set BytesStream = CreateObject("ADODB.Stream") '建立一个流对象
                 With BytesStream
                     .Type = 2
-                    .Mode = 3
+                    .mode = 3
                     .Charset = "UTF-8"
                     .Open
                     .LoadFromFile bat_txt
@@ -3270,7 +3289,7 @@ Private Sub input_lst_sub(ByVal LstFileName)
         Set BytesStream = CreateObject("ADODB.Stream") '建立一个流对象
         With BytesStream
             .Type = 2
-            .Mode = 3
+            .mode = 3
             .Charset = "UTF-8"
             .Open
             .LoadFromFile LstFileName
@@ -3481,7 +3500,7 @@ Private Sub input_lst_Click()
     On Error GoTo ErrHandler
     
     CommonDialog1.Filter = "All List Files(*.htm;*.lst;*.txt)|*.htm;*.lst;*.txt|All Files (*.*)|*.*|"
-    CommonDialog1.filename = ""
+    CommonDialog1.FileName = ""
     CommonDialog1.ShowOpen
     
     If CommonDialog1.CancelError = False Then
@@ -3489,7 +3508,7 @@ ErrHandler:
         Exit Sub
     Else
         Dim txtpath As String
-        txtpath = CommonDialog1.filename
+        txtpath = CommonDialog1.FileName
         
         input_lst_sub txtpath
     End If
@@ -3530,20 +3549,20 @@ Private Sub list_output_Click()
         CommonDialog1.Filter = "Save Lst(*.lst)|*.lst|"
     End Select
     
-    CommonDialog1.filename = ""
+    CommonDialog1.FileName = ""
     CommonDialog1.ShowSave
     
     If CommonDialog1.CancelError = False Then
 ErrHandler:
         Exit Sub
     Else
-        If Dir(CommonDialog1.filename) <> "" Then
+        If Dir(CommonDialog1.FileName) <> "" Then
             answer_save = MsgBox("该文件已存在，是否覆盖？", vbYesNo + vbExclamation + vbDefaultButton2, "警告")
             If answer_save = vbNo Then Exit Sub
         End If
     End If
     
-    list_save CommonDialog1.filename
+    list_save CommonDialog1.FileName
     
 End Sub
 
@@ -4584,50 +4603,12 @@ End Sub
 
 Private Sub url_Filelist_Click()
     Dim File_urlstr As String
-    File_urlstr = rename_urlfile(url_Filelist.filename)
+    File_urlstr = rename_urlfile(url_Filelist.FileName)
     If File_urlstr <> "" Then
         url_input.Text = File_urlstr
         url_input_DblClick
     End If
 End Sub
-
-Private Function rename_url(ByVal old_url)
-    '＼／＂？：＊＜＞｜
-    '\/"?:*<>|
-    If IsNull(old_url) Or IsEmpty(old_url) Then
-        rename_url = ""
-        Exit Function
-    End If
-    If Left(old_url, 1) = "." Then old_url = Mid$(old_url, 2)
-    
-    code_E = Array("＼", "／", Chr(-23646), "？", "：", "＊", "＜", "＞", "｜")
-    code_F = Array(Chr(92), Chr(47), Chr(34), Chr(63), Chr(58), Chr(42), Chr(60), Chr(62), Chr(124))
-    
-    rename_url = old_url
-    
-    For i = 0 To 8
-        rename_url = Replace(rename_url, code_F(i), code_E(i))
-    Next
-    
-End Function
-
-Private Function rename_urlfile(ByVal old_url)
-    If IsNull(old_url) Or IsEmpty(old_url) Then
-        rename_urlfile = ""
-        Exit Function
-    End If
-    If Left(old_url, 1) = "." Then old_url = Mid$(old_url, 2)
-    
-    code_E = Array("＼", "／", Chr(-23646), "？", "：", "＊", "＜", "＞", "｜")
-    code_F = Array(Chr(92), Chr(47), Chr(34), Chr(63), Chr(58), Chr(42), Chr(60), Chr(62), Chr(124))
-    
-    rename_urlfile = old_url
-    
-    For i = 0 To 8
-        rename_urlfile = Replace(rename_urlfile, code_E(i), code_F(i))
-    Next
-    
-End Function
 
 
 Private Sub url_input_LostFocus()
@@ -5715,7 +5696,7 @@ End Sub
 
 
 
-Private Sub Web_Browser_BeforeNavigate2(ByVal pDisp As Object, url As Variant, flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
+Private Sub Web_Browser_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
     
     On Error GoTo Web_Browser_BeforeNavigate_error
     
@@ -5731,27 +5712,27 @@ Private Sub Web_Browser_BeforeNavigate2(ByVal pDisp As Object, url As Variant, f
     If Web_Browser_header_tf = True Then GoTo Web_Browser_BeforeNavigate_error
     
     
-    Dim script_app As New ScriptControl
+    Dim Script_App As New ScriptControl
     Dim script_retrun_code As String
     Dim run_script_str
     
-    script_app.language = "vbscript"
-    script_app.AddCode (OX163_WebBrowser_scriptCode)
+    Script_App.Language = "vbscript"
+    Script_App.AddCode (OX163_WebBrowser_scriptCode)
     
-    script_retrun_code = script_app.Eval("OX163_Web_Browser_ctrl(" & Chr(34) & url & Chr(34) & "," & Chr(34) & flags & Chr(34) & "," & Chr(34) & TargetFrameName & Chr(34) & "," & Chr(34) & PostData & Chr(34) & "," & Chr(34) & Headers & Chr(34) & ")")
+    script_retrun_code = Script_App.Eval("OX163_Web_Browser_ctrl(" & Chr(34) & URL & Chr(34) & "," & Chr(34) & flags & Chr(34) & "," & Chr(34) & TargetFrameName & Chr(34) & "," & Chr(34) & PostData & Chr(34) & "," & Chr(34) & Headers & Chr(34) & ")")
     
     '0-URL, 1-Flags, 2-TargetFrameName, 3-PostData, 4-Headers
     run_script_str = Split(script_retrun_code, vbCrLf & vbCrLf)
     
     If (run_script_str(0) <> "" Or run_script_str(1) <> "" Or run_script_str(2) <> "" Or run_script_str(3) <> "" Or run_script_str(4) <> "") And Web_Browser_header_tf = False Then
-        If run_script_str(0) <> "" Then url = run_script_str(0)
+        If run_script_str(0) <> "" Then URL = run_script_str(0)
         If run_script_str(1) <> "" Then flags = run_script_str(1)
         If run_script_str(2) <> "" Then TargetFrameName = run_script_str(2)
         If run_script_str(3) <> "" Then PostData = run_script_str(3)
         If run_script_str(4) <> "" Then Headers = run_script_str(4) ': MsgBox URL & vbCrLf & flags & vbCrLf & TargetFrameName & vbCrLf & PostData & vbCrLf & Headers
         Web_Browser_header_tf = True
         Cancel = True
-        pDisp.Navigate url, flags, TargetFrameName, PostData, Headers
+        pDisp.Navigate URL, flags, TargetFrameName, PostData, Headers
         'URL = Replace(URL, "g.e-hentai.org", "www.hentaiverse.net")
         'Web_Browser.Navigate URL, , , PostData, "Host: 95.211.21.16" & vbCrLf & "Referer: http://g.e-hentai.org/"
         
@@ -5793,17 +5774,17 @@ End Sub
 'Web_Browser_header_tf = False
 'End Sub
 
-Private Sub Web_Browser_NavigateComplete2(ByVal pDisp As Object, url As Variant)
+Private Sub Web_Browser_NavigateComplete2(ByVal pDisp As Object, URL As Variant)
     On Error Resume Next
     
     If down_count = 0 Then
-        Dim script_app As New ScriptControl
+        Dim Script_App As New ScriptControl
         Dim script_retrun_code As String
         
-        script_app.language = "vbscript"
-        script_app.AddCode (OX163_WebBrowser_scriptCode)
+        Script_App.Language = "vbscript"
+        Script_App.AddCode (OX163_WebBrowser_scriptCode)
         script_retrun_code = Web_Browser.LocationURL
-        script_retrun_code = script_app.Eval("OX163_Web_Browser_url(" & Chr(34) & script_retrun_code & Chr(34) & ")")
+        script_retrun_code = Script_App.Eval("OX163_Web_Browser_url(" & Chr(34) & script_retrun_code & Chr(34) & ")")
         If Web_Browser.Visible = True And script_retrun_code <> Replace$(App.Path & "\start.htm", "\\start.htm", "\start.htm") Then
             url_temp = script_retrun_code
             url_input.Text = script_retrun_code
@@ -5825,15 +5806,15 @@ Private Sub Web_Browser_DownloadBegin()
     End If
 End Sub
 
-Private Sub path_url(ByVal kind)
+Private Sub path_url(ByVal vb_kind)
     url_input.Text = Trim(url_input.Text)
-    If kind = vbYes Then
+    If vb_kind = vbYes Then
         If InStr(url_input.Text, "#p") > 0 Then
             url_input.Text = Mid$(url_input.Text, 1, InStr(url_input.Text, "#p") - 1)
         ElseIf Right$(url_input.Text, 1) <> "/" Then
             url_input.Text = url_input.Text & "/"
         End If
-    ElseIf kind = vbNo Then
+    ElseIf vb_kind = vbNo Then
         If InStr(url_input.Text, "#p") < 1 And Right$(url_input.Text, 1) <> "/" Then url_input.Text = url_input.Text & "/"
     End If
 End Sub
@@ -6371,16 +6352,13 @@ err_end:
     
 End Sub
 
-
 Sub start_fast()
     DoEvents
     Dim Referer_temp As String
     '文件大小值复位
     On Error GoTo err_ctrl
-    
     '定义ITC控件使用的协议为HTTP协议
     fast_down.Protocol = icHTTP
-    
     '调用Execute方法向Web服务器发送HTTP请求
     If start_fast_method = "" Then
         If urlpage_Referer = "" Then
@@ -6396,26 +6374,17 @@ Sub start_fast()
             Referer_temp = Referer_page_check
             fast_down.Execute Trim$(strURL), "POST", start_fast_method, Referer_temp
         End If
-        
     End If
-    
     Exit Sub
-    
 err_ctrl:
-    
     fast_down.Cancel
-    
-    
     download_ok = True
-    
 End Sub
 
 Sub startBrowser_fast()
     DoEvents
-    
     Dim Referer_temp As String
     Dim PostData() As Byte
-    
     On Error Resume Next
     BrowserW_url = strURL
     If start_fast_method = "" Then
@@ -6433,9 +6402,7 @@ Sub startBrowser_fast()
             Referer_temp = Referer_page_check
             BrowserW.WebBrowser.Navigate Trim$(strURL), , , PostData, Referer_temp
         End If
-        
     End If
-    
 End Sub
 
 Sub new163_check_passcode(ByVal code_type As Boolean, ByVal isDown As Integer)
@@ -8052,15 +8019,15 @@ Private Sub Web_Browser_NewWindow2(ppDisp As Object, Cancel As Boolean)
     End If
 End Sub
 
-Private Sub Web_Search_BeforeNavigate2(ByVal pDisp As Object, url As Variant, flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
+Private Sub Web_Search_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
     On Error Resume Next
     If new_win = True Then
         new_win = False
         Cancel = True
         If Form1.WindowState = 2 Then
-            Shell "OX163.exe " & url & vbCrLf & "0|0|0|0"
+            Shell "OX163.exe " & URL & vbCrLf & "0|0|0|0"
         Else
-            Shell "OX163.exe " & url & vbCrLf & Form1.Top & "|" & Form1.Left & "|" & Form1.Width & "|" & Form1.Height
+            Shell "OX163.exe " & URL & vbCrLf & Form1.Top & "|" & Form1.Left & "|" & Form1.Width & "|" & Form1.Height
         End If
         Exit Sub
     End If
@@ -8604,10 +8571,10 @@ Private Sub list_photo_script(ByVal photo_info)
     On Error Resume Next
     
     Dim run_script_str
-    Dim script_app As New ScriptControl
+    Dim Script_App As New ScriptControl
     Dim script_code As String
     Dim script_retrun_code
-    Dim script_retrun_temp As String
+    Dim Script_Retrun_Temp As String
     Dim script_code_replace
     Dim i As Long
     Dim doc As Object
@@ -8616,15 +8583,15 @@ Private Sub list_photo_script(ByVal photo_info)
     run_script_str = Split(photo_info, "|")
     
     If LCase$(run_script_str(1)) = "vbscript" Then
-        script_app.language = "vbscript"
+        Script_App.Language = "vbscript"
         script_code = "dim OX163_urlpage_Referer,OX163_urlpage_Cookies" & vbCrLf & load_script(App.Path & "\include\" & run_script_str(0)) & vbCrLf & "Function set_urlpagecookies(byval set_str)" & vbCrLf & "On Error Resume Next" & vbCrLf & "OX163_urlpage_Cookies=set_str" & vbCrLf & "End Function"
     Else
-        script_app.language = "javascript"
+        Script_App.Language = "javascript"
         script_code = "var OX163_urlpage_Referer='';var OX163_urlpage_Cookies='';" & vbCrLf & load_script(App.Path & "\include\" & run_script_str(0)) & vbCrLf & "function set_urlpagecookies(set_str)" & vbCrLf & "{OX163_urlpage_Cookies=set_str;}"
     End If
     
     
-    script_app.AddCode (script_code)
+    Script_App.AddCode (script_code)
     
     
     
@@ -8646,7 +8613,7 @@ Private Sub list_photo_script(ByVal photo_info)
     
     cookies_text = GetCookie(run_script_str(4))
     
-    If script_app.language = "vbscript" Then
+    If Script_App.Language = "vbscript" Then
         
         cookies_text = Replace$(cookies_text, Chr(34), Chr(34) & Chr(34))
         cookies_text = Replace$(cookies_text, Chr(10), Chr(34) & " & Chr(10) & " & Chr(34))
@@ -8654,7 +8621,7 @@ Private Sub list_photo_script(ByVal photo_info)
         
         cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
         
-        script_retrun_temp = script_app.Eval(cookies_text)
+        Script_Retrun_Temp = Script_App.Eval(cookies_text)
         
     Else
         'String.fromCharCode(x)
@@ -8665,21 +8632,21 @@ Private Sub list_photo_script(ByVal photo_info)
         
         cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
         
-        script_retrun_temp = script_app.Eval(cookies_text)
+        Script_Retrun_Temp = Script_App.Eval(cookies_text)
     End If
-    script_retrun_temp = ""
+    Script_Retrun_Temp = ""
     '--------------------------------------------------------------------------------------
     
-    script_retrun_temp = script_app.Eval("return_download_url(" & Chr(34) & run_script_str(4) & Chr(34) & ")")
+    Script_Retrun_Temp = Script_App.Eval("return_download_url(" & Chr(34) & run_script_str(4) & Chr(34) & ")")
     
-    urlpage_Referer = Trim(script_app.Eval("OX163_urlpage_Referer"))
+    urlpage_Referer = Trim(Script_App.Eval("OX163_urlpage_Referer"))
     
     If Form1.WindowState = 0 Then always_on_top sysSet.always_top
     top_Picture(0).Enabled = True
     top_Picture(1).Enabled = True
     
     If Err.Number <> 0 Then
-        MsgBox "错误：" & vbCrLf & Err.Description, vbOKOnly + vbExclamation, "执行脚本错误"
+        MsgBox "错误：" & vbCrLf & Err.description, vbOKOnly + vbExclamation, "执行脚本错误"
         Err.Number = 0
     End If
     
@@ -8687,10 +8654,10 @@ Private Sub list_photo_script(ByVal photo_info)
     
 next_page:
     
-    If script_retrun_temp = "" Then Exit Sub
+    If Script_Retrun_Temp = "" Then Exit Sub
     'inet|10,13|url|url_Referer|POST method
     
-    script_retrun_code = Split(script_retrun_temp, "|")
+    script_retrun_code = Split(Script_Retrun_Temp, "|")
     
     If UBound(script_retrun_code) > 2 Then url_Referer = Replace(Replace(script_retrun_code(3), "&for_ox163_replace_vbcrlf&", vbCrLf), "&for_ox163_replace_vline&", "|")
     
@@ -8740,7 +8707,6 @@ next_page:
         Err.Number = 0
         Html_Temp = doc.All(0).outerHTML
         If Err.Number <> 0 Or Trim(Html_Temp) = "" Then Html_Temp = doc.All(1).outerHTML
-        
         BrowserW.WebBrowser.Stop
         
         BrowserW.Hide
@@ -8787,7 +8753,7 @@ next_page:
         
     End If
     
-    If script_app.language = "vbscript" Then
+    If Script_App.Language = "vbscript" Then
         Html_Temp = Replace$(Html_Temp, Chr(34), Chr(34) & Chr(34))
         Html_Temp = Replace$(Html_Temp, Chr(10), Chr(34) & " & Chr(10) & " & Chr(34))
         Html_Temp = Replace$(Html_Temp, Chr(13), Chr(34) & " & Chr(13) & " & Chr(34))
@@ -8808,7 +8774,7 @@ next_page:
     
     cookies_text = GetCookie(Trim$(script_retrun_code(2)))
     
-    If script_app.language = "vbscript" Then
+    If Script_App.Language = "vbscript" Then
         
         cookies_text = Replace$(cookies_text, Chr(34), Chr(34) & Chr(34))
         cookies_text = Replace$(cookies_text, Chr(10), Chr(34) & " & Chr(10) & " & Chr(34))
@@ -8816,7 +8782,7 @@ next_page:
         
         cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
         
-        script_retrun_temp = script_app.Eval(cookies_text)
+        Script_Retrun_Temp = Script_App.Eval(cookies_text)
         
     Else
         'String.fromCharCode(x)
@@ -8827,9 +8793,9 @@ next_page:
         
         cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
         
-        script_retrun_temp = script_app.Eval(cookies_text)
+        Script_Retrun_Temp = Script_App.Eval(cookies_text)
     End If
-    script_retrun_temp = ""
+    Script_Retrun_Temp = ""
     '--------------------------------------------------------------------------------------
     
     
@@ -8843,9 +8809,9 @@ next_page:
     top_Picture(1).Enabled = False
     
     
-    script_retrun_temp = script_app.Eval("return_download_list(" & Chr(34) & Html_Temp & Chr(34) & "," & Chr(34) & run_script_str(4) & Chr(34) & ")")
+    Script_Retrun_Temp = Script_App.Eval("return_download_list(" & Chr(34) & Html_Temp & Chr(34) & "," & Chr(34) & run_script_str(4) & Chr(34) & ")")
     
-    urlpage_Referer = Trim(script_app.Eval("OX163_urlpage_Referer"))
+    urlpage_Referer = Trim(Script_App.Eval("OX163_urlpage_Referer"))
     
     If Form1.WindowState = 0 Then always_on_top sysSet.always_top
     top_Picture(0).Enabled = True
@@ -8853,7 +8819,7 @@ next_page:
     
     
     If Err.Number <> 0 Then
-        MsgBox "错误：" & vbCrLf & Err.Description, vbOKOnly + vbExclamation, "执行脚本错误"
+        MsgBox "错误：" & vbCrLf & Err.description, vbOKOnly + vbExclamation, "执行脚本错误"
         Err.Number = 0
     End If
     
@@ -8861,7 +8827,7 @@ next_page:
     Label_url.caption = runtime_Label
     Label_url1.caption = runtime_Label
     
-    script_code_replace = Split(script_retrun_temp, vbCrLf)
+    script_code_replace = Split(Script_Retrun_Temp, vbCrLf)
     
     For i = 0 To UBound(script_code_replace)
         
@@ -8916,7 +8882,7 @@ next_page:
                 
                 If IsNumeric(script_retrun_code(0)) Then
                     
-                    If script_retrun_code(0) > 0 Then script_retrun_temp = Join(script_retrun_code, "|"): script_retrun_temp = Mid$(script_retrun_temp, InStr(script_retrun_temp, "|") + 1): GoTo next_page
+                    If script_retrun_code(0) > 0 Then Script_Retrun_Temp = Join(script_retrun_code, "|"): Script_Retrun_Temp = Mid$(Script_Retrun_Temp, InStr(Script_Retrun_Temp, "|") + 1): GoTo next_page
                     
                 End If
                 
@@ -8931,281 +8897,119 @@ End Sub
 
 Private Sub list_album_script(ByVal album_info)
     On Error Resume Next
-    
-    Dim script_app As New ScriptControl
-    Dim script_retrun_temp As String
-    
-    
-    
-    Dim run_script_str
-    Dim script_code As String
-    Dim script_retrun_code
-    Dim script_code_replace
-    Dim i As Long
-    Dim doc As Object
-    
-    '----------------定义url文件名----------------------------------------------------
+    Dim Script_App As New ScriptControl, Script_Retrun_Temp As String, i As Long
+    '定义url文件名----------------------------------------------------
     Dim url_file_name As String
     url_file_name = rename_url(url_input.Text)
     pw_163 = App.Path & "\url\" & url_file_name
-    
     Dim pw_file_tf As Boolean
     pw_file_tf = (Dir(pw_163) <> "")
-    '--------------------------------------------------------------------
-
-    run_script_str = Split(album_info, "|")
-    
-    If LCase$(run_script_str(1)) = "vbscript" Then
-        script_app.language = "vbscript"
-        script_code = "dim OX163_urlpage_Referer,OX163_urlpage_Cookies" & vbCrLf & load_script(App.Path & "\include\" & run_script_str(0)) & vbCrLf & "Function set_urlpagecookies(byVal set_str)" & vbCrLf & "On Error Resume Next" & vbCrLf & "OX163_urlpage_Cookies=set_str" & vbCrLf & "End Function"
+    '取得外部脚本信息以及原始链接-----------------------------------------------
+    Dim Script_Info As ScriptInfo
+    Script_Info = ParseInclude(album_info)
+    '加载OX163脚本默认函数----------------------------------------------------
+    If Script_Info.Language = "vbscript" Then
+        Script_App.Language = "vbscript"
+        Script_Retrun_Temp = in_Script_Code.OX163_vbs_var & load_script(App.Path & "\include\" & Script_Info.FileName) & in_Script_Code.OX163_vbs_fn
     Else
-        script_app.language = "javascript"
-        script_code = "var OX163_urlpage_Referer='';var OX163_urlpage_Cookies='';" & vbCrLf & load_script(App.Path & "\include\" & run_script_str(0)) & vbCrLf & "function set_urlpagecookies(set_str)" & vbCrLf & "{OX163_urlpage_Cookies=set_str;}"
+        Script_App.Language = "javascript"
+        Script_Retrun_Temp = in_Script_Code.OX163_js_var & load_script(App.Path & "\include\" & Script_Info.FileName) & in_Script_Code.OX163_js_fn
     End If
-    
-    
-    Call script_app.AddCode(script_code)
-    
-    
-    'get album Url----------------------------------------------------------------------------
+    Call Script_App.AddCode(Script_Retrun_Temp)
+    Script_Retrun_Temp = ""
+    '-------------------------------------------------------------------------
     DoEvents
     If form_quit = True Then Exit Sub
-    
-    Err.Number = 0
-    
     Call DisplayCaption("执行return_download_url")
-    
     If Form1.WindowState = 0 Then always_on_top False
     top_Picture(0).Enabled = False
     top_Picture(1).Enabled = False
     Err.Number = 0
-    
-    'get cookies--------------------------------------------------------------------------------------
-    cookies_text = GetCookie(run_script_str(4))
-    Call script_app.Run("set_urlpagecookies", cookies_text)
-    '--------------------------------------------------------------------------------------
-    script_retrun_temp = run_script_str(4)
-    script_retrun_temp = script_app.Run("return_download_url", script_retrun_temp)
-    'script_retrun_temp = script_app.Eval("return_download_url(" & Chr(34) & run_script_str(4) & Chr(34) & ")")
-    urlpage_Referer = Trim$(script_app.Eval("OX163_urlpage_Referer"))
-    
-    
+    'get cookies----------------------------------------------------------------
+    cookies_text = GetCookie(Script_Info.Criteria)
+    Call Script_App.Run("set_urlpagecookies", cookies_text)
+    '---------------------------------------------------------------------------
+    '取得格式化后的链接地址信息
+    Script_Retrun_Temp = Script_App.Run("return_download_url", Script_Info.Criteria)
+    '取得格式化后的改业面的引用页、头信息等
+    urlpage_Referer = Trim$(Script_App.Eval("OX163_urlpage_Referer"))
     Call CheckScriptError
     If Form1.WindowState = 0 Then always_on_top sysSet.always_top
     top_Picture(0).Enabled = True
     top_Picture(1).Enabled = True
-    
-    
-    
-    start_fast_method = ""
-    
-next_page:
-    
-    If script_retrun_temp = "" Then Exit Sub
-    
-    'inet|10,13|url|url_Referer|POST method
-    
-    script_retrun_code = Split(script_retrun_temp, "|")
-    
-    If UBound(script_retrun_code) > 2 Then url_Referer = Replace(Replace(script_retrun_code(3), "&for_ox163_replace_vbcrlf&", vbCrLf), "&for_ox163_replace_vline&", "|")
-    
-    '--------------------------------------------------------------------------------------------
-    
-    runtime_Label = "正在下载" & Trim$(script_retrun_code(2))
-    Label_url.caption = runtime_Label
-    Label_url1.caption = runtime_Label
-    
-    If LCase$(script_retrun_code(0)) = "web" Then
-        
-        
-        'Dim doc As Object
-        '    web_Picture.Visible = False
-        '    Web_Browser.Visible = True
-        '
-        '    Web_Browser.Navigate Trim$(script_retrun_code(2))
-        '    'Web_Browser.Refresh
-        
-        BrowserW.Show
-        
-        Do While BrowserW_load_ok = False
-            DoEvents
-            Sleep 10
-            DoEvents
-        Loop
-        
-        
-        Do While BrowserW.WebBrowser.Busy
-            If form_quit = True Then BrowserW.WebBrowser.Stop: BrowserW.Hide: Exit Sub
-            DoEvents
-            Sleep 10
-            DoEvents
-        Loop
-        
-        'start_fast_method = "" 不清空post方式
-        If UBound(script_retrun_code) > 3 Then start_fast_method = Replace(Replace(script_retrun_code(4), "&for_ox163_replace_vbcrlf&", vbCrLf), "&for_ox163_replace_vline&", "|")
-        
-        download_ok = False
-        'BrowserW.WebBrowser.Navigate------------------------------------------------------------------
-        strURL = Trim$(script_retrun_code(2))
-        Call startBrowser_fast
-        delay 1
-        '-------------------------------------------------------------------------------------------
-        Do While BrowserW.WebBrowser.Busy
-            If form_quit = True Then BrowserW.WebBrowser.Stop: BrowserW.Hide: Exit Sub
-            DoEvents
-            Sleep 10
-            DoEvents
-        Loop
-        
-        Set doc = BrowserW.WebBrowser.Document
-        'Set objhtml = doc.Body.createtextrange
-        'Html_Temp =doc.Body.OuterHtml
-        Err.Number = 0
-        Html_Temp = doc.All(0).outerHTML
-        If Err.Number <> 0 Or Trim(Html_Temp) = "" Then Html_Temp = doc.All(1).outerHTML
-        
-        BrowserW.WebBrowser.Stop
-        BrowserW.Hide
-        
-        download_ok = True
-        
-        '            Web_Browser.Visible = False
-        '            web_Picture.Visible = True
-        
-    Else
-        
-        strURL = Trim$(script_retrun_code(2))
-        
-        fast_down.Cancel
-        download_ok = False
-        htmlCharsetType = run_script_str(2)
-        
-        'start_fast_method = "" 不清空post方式
-        If UBound(script_retrun_code) > 3 Then start_fast_method = Replace(Replace(script_retrun_code(4), "&for_ox163_replace_vbcrlf&", vbCrLf), "&for_ox163_replace_vline&", "|")
-        start_fast
-        
-        Do While download_ok = False
-            If form_quit = True Then Exit Sub
-            DoEvents
-            Sleep 10
-            DoEvents
-        Loop
-        
-    End If
-       
-    'replace html----------------------------------------------------------------------------
-    Html_Temp = OX_FilterKeywords(Html_Temp, script_retrun_code(1))
-    'Html_Temp = OX_CInternal(Html_Temp, script_app.Language)'使用script_app.Run方式不需要替换回车，引号等特殊字符
-    
-    '---------------------------------------------------------------------------------------
-    DoEvents
-    If form_quit = True Then Exit Sub
-    'get cookies--------------------------------------------------------------------------------------
-    cookies_text = GetCookie(run_script_str(4))
-    Call script_app.Run("set_urlpagecookies", cookies_text)
-    '--------------------------------------------------------------------------------------
-    
-    Err.Number = 0
-    runtime_Label = "执行return_download_list"
-    Label_url.caption = runtime_Label
-    Label_url1.caption = runtime_Label
-    
-    If Form1.WindowState = 0 Then always_on_top False
-    top_Picture(0).Enabled = False
-    top_Picture(1).Enabled = False
-    
-    'list albums Url----------------------------------------------------------------------------
-    
-    'script_retrun_temp = script_app.Eval("return_albums_list(" & Chr(34) & Html_Temp & Chr(34) & "," & Chr(34) & run_script_str(4) & Chr(34) & ")")
-    script_retrun_temp = script_app.Run("return_albums_list", Html_Temp, run_script_str(4))
-    urlpage_Referer = Trim$(script_app.Eval("OX163_urlpage_Referer"))
-    
-    If Form1.WindowState = 0 Then always_on_top sysSet.always_top
-    top_Picture(0).Enabled = True
-    top_Picture(1).Enabled = True
-    
-    If Err.Number <> 0 Then
-        MsgBox "错误：" & vbCrLf & Err.Description, vbOKOnly + vbExclamation, "执行脚本错误"
-        Err.Number = 0
-    End If
-    
-    runtime_Label = "正在分析" & Trim$(script_retrun_code(2))
-    Label_url.caption = runtime_Label
-    Label_url1.caption = runtime_Label
-    
-    script_code_replace = Split(script_retrun_temp, vbCrLf)
-    
-    
-    For i = 0 To UBound(script_code_replace)
+    '正式函数开始前，初始个参数
+    url_Referer = ""       '重置下载文件时使用的引用页、头信息等
+    start_fast_method = "" '重置以前留下的POST方式信息，该信息为空时，不使用POST方式，仅使用GET方式
+    Dim Dl_Info As downloadInfo
+    Dl_Info = ParseDownloadURL(Script_Retrun_Temp)
+    '函数正式开始-----------------------------------------------------------------------------
+    Do
+        Call DisplayCaption("正在下载" & Dl_Info.downloadURL)
+        '定义下载全局变量
+        htmlCharsetType = Script_Info.Encoding '页面字符集
+        strURL = Dl_Info.downloadURL '下载页连接
+        If Dl_Info.refererINFO <> "" Then url_Referer = Dl_Info.refererINFO '重置下载文件时使用的引用页、头信息等
+        If Dl_Info.POSTmethod <> "" Then start_fast_method = Dl_Info.POSTmethod 'POST方式发送信息，可为空
+        '执行下载页面函数
+        If ScriptDownload(Dl_Info.mode) Then Exit Sub
+        'replace html----------------------------------------------------------------------------
+        Html_Temp = OX_FilterKeywords(Html_Temp, Dl_Info.excludeChar)    'Html_Temp = OX_CInternal(Html_Temp, script_app.Language)'使用script_app.Run方式不需要替换回车，引号等特殊字符
         DoEvents
+        If form_quit = True Then Exit Sub
+        Call DisplayCaption("执行return_download_list")
+        If Form1.WindowState = 0 Then always_on_top False
+        top_Picture(0).Enabled = False
+        top_Picture(1).Enabled = False
+        Err.Number = 0
+        'get cookies---------------------------------------------------------------------------------
+        cookies_text = GetCookie(Dl_Info.downloadURL)
+        Call Script_App.Run("set_urlpagecookies", cookies_text)
+        'list albums Url 取得相册链接地址等信息------------------------------------------------------
+        Script_Retrun_Temp = Script_App.Run("return_albums_list", Html_Temp, Script_Info.Criteria)
+        '取得格式化后的改业面的引用页、头信息等
+        urlpage_Referer = Trim$(Script_App.Eval("OX163_urlpage_Referer"))
         
-        script_retrun_code = Split(script_code_replace(i), "|")
+        Call CheckScriptError
+        If Form1.WindowState = 0 Then always_on_top sysSet.always_top
+        top_Picture(0).Enabled = True
+        top_Picture(1).Enabled = True
+        Call DisplayCaption("正在分析" & Dl_Info.downloadURL)
         
-        If i < UBound(script_code_replace) Then
-            
+        Dim albmInfos() As AlbumInfo
+        albmInfos = ParseAlbum(Script_Retrun_Temp)
+        
+        For i = 0 To UBound(albmInfos)
             DoEvents
-            If form_quit = True Then Exit Sub
-            
-            
-            'list_album_name
-            user_list.ListItems.Add user_list.ListItems.count + 1, , fix_code(script_retrun_code(3))
-            
-            'list_album_password
-            If script_retrun_code(0) <> "0" Then
-                script_retrun_code(0) = ""
-                If pw_file_tf = True Then script_retrun_code(0) = GetUrlStr("password", rename_ini_str(script_retrun_code(2)), pw_163)
-                If script_retrun_code(0) = "" Then script_retrun_code(0) = "请填写密码............" & vbCrLf & ".........."
-            Else
-                script_retrun_code(0) = ""
-            End If
-            
-            user_list.ListItems.Item(user_list.ListItems.count).ListSubItems.Add , , script_retrun_code(0)
-            
-            'list_album_url
-            user_list.ListItems.Item(user_list.ListItems.count).ListSubItems.Add , , script_retrun_code(2)
-            
-            'list_album_photo_numbers
-            If IsNumeric(script_retrun_code(1)) Then
-                If script_retrun_code(1) > 0 Then
-                    script_retrun_code(1) = Format$(script_retrun_code(1), "00000") & "张"
-                Else
-                    script_retrun_code(1) = ""
+            If i < UBound(albmInfos) Then
+                DoEvents
+                If form_quit = True Then Exit Sub
+                Dim currentListItem As ListItem
+                'album_name
+                Set currentListItem = user_list.ListItems.Add(user_list.ListItems.count + 1, , albmInfos(i).AlbumName)
+                'list_album_password
+                Script_Retrun_Temp = ""
+                If albmInfos(i).hasPassword = True Then
+                    If pw_file_tf = True Then Script_Retrun_Temp = GetUrlStr("password", rename_ini_str(albmInfos(i).URL), pw_163)
+                    If Script_Retrun_Temp = "" Then Script_Retrun_Temp = "请填写密码............" & vbCrLf & ".........."
                 End If
+                Call currentListItem.ListSubItems.Add(, , Script_Retrun_Temp)
+                Script_Retrun_Temp = ""
+                'list_album_url
+                Call currentListItem.ListSubItems.Add(, , albmInfos(i).URL)
+                'list_album_photo_numbers
+                Call currentListItem.ListSubItems.Add(, , albmInfos(i).picCount)
+                'list_album_disc
+                Call currentListItem.ListSubItems.Add(, , Format$(user_list.ListItems.count, "00000") & " - " & albmInfos(i).description)
+                'list_album_undown
+                Call currentListItem.ListSubItems.Add(, , "")
             Else
-                script_retrun_code(1) = ""
+                If albmInfos(i).URL = "" Or albmInfos(i).URL = "0" Then Exit Sub
+                Dl_Info = ParseDownloadURL(albmInfos(i).URL)
+                If Dl_Info.isFinal = True Then Exit Sub
             End If
-            user_list.ListItems.Item(user_list.ListItems.count).ListSubItems.Add , , script_retrun_code(1)
-            
-            'list_album_disc
-            script_retrun_code(0) = Format$(user_list.ListItems.count, "00000") & " - "
-            For j = 4 To UBound(script_retrun_code)
-                script_retrun_code(0) = script_retrun_code(0) & script_retrun_code(j)
-            Next j
-            user_list.ListItems.Item(user_list.ListItems.count).ListSubItems.Add , , fix_code(Trim$(script_retrun_code(0)))
-            
-            'list_album_undown
-            user_list.ListItems.Item(user_list.ListItems.count).ListSubItems.Add , , ""
-            
-        Else
-            
-            If UBound(script_retrun_code) = 0 Then Exit Sub
-            
-            If LCase(script_retrun_code(1)) = "inet" Or LCase(script_retrun_code(1)) = "web" Then
-                
-                If IsNumeric(script_retrun_code(0)) Then
-                    
-                    If script_retrun_code(0) > 0 Then script_retrun_temp = Join(script_retrun_code, "|"): script_retrun_temp = Mid$(script_retrun_temp, InStr(script_retrun_temp, "|") + 1): GoTo next_page
-                    
-                End If
-                
-            End If
-            
-        End If
-        count1.caption = user_list.ListItems.count
-        
-    Next i
-    
-    
+            count1.caption = user_list.ListItems.count
+        Next i
+    Loop While (Dl_Info.isFinal = False And Dl_Info.downloadURL <> "")
 End Sub
 
 Private Function check_album_password(ByVal album_info, ByVal pass_word) As Boolean
@@ -9214,24 +9018,24 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
     check_album_password = False
     
     Dim run_script_str
-    Dim script_app As New ScriptControl
+    Dim Script_App As New ScriptControl
     Dim script_code As String
     Dim script_retrun_code
-    Dim script_retrun_temp As String
+    Dim Script_Retrun_Temp As String
     Dim script_code_replace
     Dim doc As Object
     
     run_script_str = Split(album_info, "|")
     
     If LCase$(run_script_str(1)) = "vbscript" Then
-        script_app.language = "vbscript"
+        Script_App.Language = "vbscript"
         script_code = "dim OX163_urlpage_Referer,OX163_urlpage_Cookies" & vbCrLf & load_script(App.Path & "\include\" & run_script_str(0)) & vbCrLf & "Function set_urlpagecookies(byval set_str)" & vbCrLf & "On Error Resume Next" & vbCrLf & "OX163_urlpage_Cookies=set_str" & vbCrLf & "End Function"
     Else
-        script_app.language = "javascript"
+        Script_App.Language = "javascript"
         script_code = "var OX163_urlpage_Referer='';var OX163_urlpage_Cookies='';" & vbCrLf & load_script(App.Path & "\include\" & run_script_str(0)) & vbCrLf & "function set_urlpagecookies(set_str)" & vbCrLf & "{OX163_urlpage_Cookies=set_str;}"
     End If
     
-    script_app.AddCode (script_code)
+    Script_App.AddCode (script_code)
     
     'get album Url----------------------------------------------------------------------------
     DoEvents
@@ -9251,7 +9055,7 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
     
     cookies_text = GetCookie(run_script_str(4))
     
-    If script_app.language = "vbscript" Then
+    If Script_App.Language = "vbscript" Then
         
         cookies_text = Replace$(cookies_text, Chr(34), Chr(34) & Chr(34))
         cookies_text = Replace$(cookies_text, Chr(10), Chr(34) & " & Chr(10) & " & Chr(34))
@@ -9259,7 +9063,7 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
         
         cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
         
-        script_retrun_temp = script_app.Eval(cookies_text)
+        Script_Retrun_Temp = Script_App.Eval(cookies_text)
         
     Else
         'String.fromCharCode(x)
@@ -9270,30 +9074,30 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
         
         cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
         
-        script_retrun_temp = script_app.Eval(cookies_text)
+        Script_Retrun_Temp = Script_App.Eval(cookies_text)
     End If
     
-    script_retrun_temp = ""
+    Script_Retrun_Temp = ""
     '--------------------------------------------------------------------------------------
     
     
-    script_retrun_temp = script_app.Eval("return_download_url(" & Chr(34) & run_script_str(4) & Chr(34) & ")")
+    Script_Retrun_Temp = Script_App.Eval("return_download_url(" & Chr(34) & run_script_str(4) & Chr(34) & ")")
     
-    urlpage_Referer = Trim(script_app.Eval("OX163_urlpage_Referer"))
+    urlpage_Referer = Trim(Script_App.Eval("OX163_urlpage_Referer"))
     
     If Form1.WindowState = 0 Then always_on_top sysSet.always_top
     top_Picture(0).Enabled = True
     top_Picture(1).Enabled = True
     
     If Err.Number <> 0 Then
-        MsgBox "错误：" & vbCrLf & Err.Description, vbOKOnly + vbExclamation, "执行脚本错误"
+        MsgBox "错误：" & vbCrLf & Err.description, vbOKOnly + vbExclamation, "执行脚本错误"
         Err.Number = 0
     End If
     
-    If script_retrun_temp = "" Then Exit Function
+    If Script_Retrun_Temp = "" Then Exit Function
     'inet|10,13|url|url_Referer|POST method
     
-    script_retrun_code = Split(script_retrun_temp, "|")
+    script_retrun_code = Split(Script_Retrun_Temp, "|")
     If UBound(script_retrun_code) > 2 Then url_Referer = Replace(Replace(script_retrun_code(3), "&for_ox163_replace_vbcrlf&", vbCrLf), "&for_ox163_replace_vline&", "|")
     
     pass_word = URLEncode(pass_word)
@@ -9307,33 +9111,33 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
     top_Picture(0).Enabled = False
     top_Picture(1).Enabled = False
     
-    script_retrun_temp = script_app.Eval("return_password_rules(" & Chr(34) & script_retrun_code(2) & Chr(34) & "," & Chr(34) & pass_word & Chr(34) & ")")
+    Script_Retrun_Temp = Script_App.Eval("return_password_rules(" & Chr(34) & script_retrun_code(2) & Chr(34) & "," & Chr(34) & pass_word & Chr(34) & ")")
     
     If Form1.WindowState = 0 Then always_on_top sysSet.always_top
     top_Picture(0).Enabled = True
     top_Picture(1).Enabled = True
     
     If Err.Number <> 0 Then
-        MsgBox "错误：" & vbCrLf & Err.Description, vbOKOnly + vbExclamation, "执行脚本错误"
+        MsgBox "错误：" & vbCrLf & Err.description, vbOKOnly + vbExclamation, "执行脚本错误"
         Err.Number = 0
     End If
     
     
-    If InStr(script_retrun_temp, "return_ad_password_rules") = 1 Then '高级密码传输模式，运行模式类似return_download_list和return_albums_list
+    If InStr(Script_Retrun_Temp, "return_ad_password_rules") = 1 Then '高级密码传输模式，运行模式类似return_download_list和return_albums_list
         '返回文本"return_ad_password_rules|inet|10,13|http://www.spymac.com/?u=24(|referce_url|post_method)"注意大小写
         '--------------------------------------------------'高级密码传输模式----------------------------------------------------------------------------------
-        script_retrun_temp = Mid$(script_retrun_temp, InStr(script_retrun_temp, "|") + 1)
+        Script_Retrun_Temp = Mid$(Script_Retrun_Temp, InStr(Script_Retrun_Temp, "|") + 1)
         
         start_fast_method = ""
         
 next_page:
         
-        script_retrun_code = Split(script_retrun_temp, "|")
+        script_retrun_code = Split(Script_Retrun_Temp, "|")
         
         If UBound(script_retrun_code) > 2 Then url_Referer = Replace(Replace(script_retrun_code(3), "&for_ox163_replace_vbcrlf&", vbCrLf), "&for_ox163_replace_vline&", "|")
         
         
-        If script_retrun_temp = "" Then Exit Function
+        If Script_Retrun_Temp = "" Then Exit Function
         
         'inet|10,13|url|url_Referer|POST method
         
@@ -9420,7 +9224,7 @@ next_page:
         End If
         
         
-        If script_app.language = "vbscript" Then
+        If Script_App.Language = "vbscript" Then
             Html_Temp = Replace$(Html_Temp, Chr(34), Chr(34) & Chr(34))
             Html_Temp = Replace$(Html_Temp, Chr(10), Chr(34) & " & Chr(10) & " & Chr(34))
             Html_Temp = Replace$(Html_Temp, Chr(13), Chr(34) & " & Chr(13) & " & Chr(34))
@@ -9439,7 +9243,7 @@ next_page:
         
         cookies_text = GetCookie(Trim$(script_retrun_code(2)))
         
-        If script_app.language = "vbscript" Then
+        If Script_App.Language = "vbscript" Then
             
             cookies_text = Replace$(cookies_text, Chr(34), Chr(34) & Chr(34))
             cookies_text = Replace$(cookies_text, Chr(10), Chr(34) & " & Chr(10) & " & Chr(34))
@@ -9447,7 +9251,7 @@ next_page:
             
             cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
             
-            script_retrun_temp = script_app.Eval(cookies_text)
+            Script_Retrun_Temp = Script_App.Eval(cookies_text)
             
         Else
             'String.fromCharCode(x)
@@ -9458,9 +9262,9 @@ next_page:
             
             cookies_text = "set_urlpagecookies(" & Chr(34) & cookies_text & Chr(34) & ")"
             
-            script_retrun_temp = script_app.Eval(cookies_text)
+            Script_Retrun_Temp = Script_App.Eval(cookies_text)
         End If
-        script_retrun_temp = ""
+        Script_Retrun_Temp = ""
         '--------------------------------------------------------------------------------------
         
         Err.Number = 0
@@ -9474,27 +9278,27 @@ next_page:
         
         
         'Function return_ad_password_rules(ByVal html_str, ByVal url_str, ByVal pass_word)
-        script_retrun_temp = script_app.Eval("return_ad_password_rules(" & Chr(34) & Html_Temp & Chr(34) & "," & Chr(34) & run_script_str(4) & Chr(34) & "," & Chr(34) & pass_word & Chr(34) & ")")
-        urlpage_Referer = Trim(script_app.Eval("OX163_urlpage_Referer"))
+        Script_Retrun_Temp = Script_App.Eval("return_ad_password_rules(" & Chr(34) & Html_Temp & Chr(34) & "," & Chr(34) & run_script_str(4) & Chr(34) & "," & Chr(34) & pass_word & Chr(34) & ")")
+        urlpage_Referer = Trim(Script_App.Eval("OX163_urlpage_Referer"))
         
         If Form1.WindowState = 0 Then always_on_top sysSet.always_top
         top_Picture(0).Enabled = True
         top_Picture(1).Enabled = True
         
         If Err.Number <> 0 Then
-            MsgBox "错误：" & vbCrLf & Err.Description, vbOKOnly + vbExclamation, "执行脚本错误"
+            MsgBox "错误：" & vbCrLf & Err.description, vbOKOnly + vbExclamation, "执行脚本错误"
             Err.Number = 0
         End If
         
-        If script_retrun_temp = "" Then script_retrun_temp = "0"
-        script_code_replace = Split(script_retrun_temp, vbCrLf)
+        If Script_Retrun_Temp = "" Then Script_Retrun_Temp = "0"
+        script_code_replace = Split(Script_Retrun_Temp, vbCrLf)
         
         If script_code_replace(0) = "password_correct" Then
             check_album_password = True
             
         ElseIf InStr(script_code_replace(0), "1|") = 1 Then
             '1|inet|10,13|http://www.spymac.com/?u=24(|referce_url|post_method)
-            script_retrun_temp = Mid$(script_code_replace(0), InStr(script_code_replace(0), "|") + 1)
+            Script_Retrun_Temp = Mid$(script_code_replace(0), InStr(script_code_replace(0), "|") + 1)
             GoTo next_page
             
         Else
@@ -9504,10 +9308,10 @@ next_page:
         
         '--------------------------------------------------'高级密码传输模式结束----------------------------------------------------------------------------------
         '--------------------------------------------------'--------------------------------------------------'--------------------------------------------------
-    ElseIf script_retrun_temp <> "" And InStr(script_retrun_temp, "|") > 5 Then
+    ElseIf Script_Retrun_Temp <> "" And InStr(Script_Retrun_Temp, "|") > 5 Then
         'script_retrun_temp="url|post方式内容，包括password|传送格式referce_url|含有关键字为密码正确(1表示)，有该关键字为密码错误(0表示)|含有关键字（可含有“|”）"
         Dim post_pass_url
-        post_pass_url = Split(script_retrun_temp, "|")
+        post_pass_url = Split(Script_Retrun_Temp, "|")
         
         runtime_Label = "正在分析密码"
         Label_url.caption = runtime_Label
