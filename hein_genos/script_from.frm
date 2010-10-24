@@ -286,140 +286,140 @@ Dim script_include As String
 Dim local_include As String
 
 Public Sub on_top(on_top As Boolean)
-Dim flags As Integer
-flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
-If on_top = True Then
-SetWindowPos script_from.hWnd, HWND_TOPMOST, 0, 0, 0, 0, flags
-Else
-SetWindowPos script_from.hWnd, -2, 0, 0, 0, 0, flags
-End If
+    Dim flags As Integer
+    flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
+    If on_top = True Then
+        SetWindowPos script_from.hWnd, HWND_TOPMOST, 0, 0, 0, 0, flags
+    Else
+        SetWindowPos script_from.hWnd, -2, 0, 0, 0, 0, flags
+    End If
 End Sub
 
 
 Private Sub Form_Load()
-On Error Resume Next
-on_top sysSet.always_top
-Toolbar.Buttons(1).Enabled = False
-Toolbar.Buttons(2).Enabled = False
-Form_Resize
-script_quit = True
-script_down_ok = True
-htmlCharsetType = "GB2312"
-
-Timer1.Enabled = True
-
+    On Error Resume Next
+    on_top sysSet.always_top
+    Toolbar.Buttons(1).Enabled = False
+    Toolbar.Buttons(2).Enabled = False
+    Form_Resize
+    script_quit = True
+    script_down_ok = True
+    htmlCharsetType = "GB2312"
+    
+    Timer1.Enabled = True
+    
 End Sub
 
 Private Sub Form_Resize()
-On Error Resume Next
-'Static max_size As Boolean
-If script_from.WindowState <> 1 Then
-If script_from.Width < 5000 Then script_from.Width = 5000
-If script_from.Height < 4000 Then script_from.Height = 4000
-script_list.Width = script_from.ScaleWidth
-script_list.Top = Toolbar.Top + Toolbar.Height + 50
-script_list.Left = Toolbar.Left
-script_list.Height = script_from.ScaleHeight - script_list.Top - StatusBar.Height
-script_list.ColumnHeaders.Item(3).Width = (script_list.Width - 2800) / 2
-script_list.ColumnHeaders.Item(4).Width = (script_list.Width - 2800) / 2 - 500
-StatusBar.Panels(2).Width = script_list.Width
-'frame_resize
-End If
+    On Error Resume Next
+    'Static max_size As Boolean
+    If script_from.WindowState <> 1 Then
+        If script_from.Width < 5000 Then script_from.Width = 5000
+        If script_from.Height < 4000 Then script_from.Height = 4000
+        script_list.Width = script_from.ScaleWidth
+        script_list.Top = Toolbar.Top + Toolbar.Height + 50
+        script_list.Left = Toolbar.Left
+        script_list.Height = script_from.ScaleHeight - script_list.Top - StatusBar.Height
+        script_list.ColumnHeaders.Item(3).Width = (script_list.Width - 2800) / 2
+        script_list.ColumnHeaders.Item(4).Width = (script_list.Width - 2800) / 2 - 500
+        StatusBar.Panels(2).Width = script_list.Width
+        'frame_resize
+    End If
 End Sub
 
 Private Function load_script(file_name)
-On Error Resume Next
-
-Dim fileline As String
-Open file_name For Input As #6
-Do While Not EOF(6)
-Line Input #6, fileline
-load_script = load_script + fileline & vbCrLf
-DoEvents
-Loop
-Close #6
-load_script = Left$(load_script, Len(load_script) - 2)
-
+    On Error Resume Next
+    
+    Dim fileline As String
+    Open file_name For Input As #6
+    Do While Not EOF(6)
+        Line Input #6, fileline
+        load_script = load_script + fileline & vbCrLf
+        DoEvents
+    Loop
+    Close #6
+    load_script = Left$(load_script, Len(load_script) - 2)
+    
 End Function
 
 Private Sub Check_script()
-Dim update_split
-Dim include_split
-Dim def_thing
-Dim file_time
-
+    Dim update_split
+    Dim include_split
+    Dim def_thing
+    Dim file_time
+    
     script_load.Cancel
     script_down_ok = False
     strURL = Trim$("http://www.shanhaijing.net/163/script_update.vbs?ntime=" & CDbl(Now()))
-
+    
     script_download
-
+    
     Do While script_down_ok = False
-    If script_quit = True Then Exit Sub
-    DoEvents
+        If script_quit = True Then Exit Sub
+        DoEvents
     Loop
     script_update_txt = script_txt
-
+    
     script_load.Cancel
     script_down_ok = False
     strURL = Trim$("http://www.shanhaijing.net/163/include.vbs?ntime=" & CDbl(Now()))
-
+    
     script_download
-
+    
     Do While script_down_ok = False
-    If script_quit = True Then Exit Sub
-    DoEvents
+        If script_quit = True Then Exit Sub
+        DoEvents
     Loop
     script_include = script_txt
     
     update_split = Split(script_update_txt, vbCrLf)
     
-script_list.ListItems.Clear
-If script_quit = True Then Exit Sub
-
+    script_list.ListItems.Clear
+    If script_quit = True Then Exit Sub
+    
     For i = 0 To UBound(update_split)
-    DoEvents
-    
-    def_thing = ""
-    
-    include_split = Split(update_split(i), "|")
-    
-    '序号
-    script_list.ListItems.Add i + 1, , Format$(i + 1, "000")
-    '脚本名称
-    script_list.ListItems.Item(i + 1).ListSubItems.Add , , include_split(0)
-    '更新时间
-    script_list.ListItems.Item(i + 1).ListSubItems.Add , , include_split(1)
-    
+        DoEvents
+        
+        def_thing = ""
+        
+        include_split = Split(update_split(i), "|")
+        
+        '序号
+        script_list.ListItems.Add i + 1, , Format$(i + 1, "000")
+        '脚本名称
+        script_list.ListItems.Item(i + 1).ListSubItems.Add , , include_split(0)
+        '更新时间
+        script_list.ListItems.Item(i + 1).ListSubItems.Add , , include_split(1)
+        
         If Dir(App.Path & "\include\" & include_split(0)) <> "" Then
-        file_time = FileDateTime(App.Path & "\include\" & include_split(0))
-          If DateDiff("s", include_split(1), file_time) < 0 Then
-          def_thing = "10"
-          ElseIf FileLen(App.Path & "\include\" & include_split(0)) <> include_split(2) Then
-          def_thing = "10"
-          Else
-          def_thing = "11"
-          End If
+            file_time = FileDateTime(App.Path & "\include\" & include_split(0))
+            If DateDiff("s", include_split(1), file_time) < 0 Then
+                def_thing = "10"
+            ElseIf FileLen(App.Path & "\include\" & include_split(0)) <> include_split(2) Then
+                def_thing = "10"
+            Else
+                def_thing = "11"
+            End If
         Else
-        def_thing = "00"
+            def_thing = "00"
         End If
-    '本地情况
-    script_list.ListItems.Item(i + 1).ListSubItems.Add , , def_thing
-    '建议更新
-    script_list.ListItems.Item(i + 1).ListSubItems.Add , , ""
+        '本地情况
+        script_list.ListItems.Item(i + 1).ListSubItems.Add , , def_thing
+        '建议更新
+        script_list.ListItems.Item(i + 1).ListSubItems.Add , , ""
     Next i
     
     local_include = ""
     
     If Dir(App.Path & "\include\include.txt") <> "" Then
-    
-    local_include = load_script(App.Path & "\include\include.txt")
-    
+        
+        local_include = load_script(App.Path & "\include\include.txt")
+        
         If script_include <> local_include Then
-        StatusBar.Panels(2) = "include.txt has not matched"
-'-------------------------------------------------------------------------------
+            StatusBar.Panels(2) = "include.txt has not matched"
+            '-------------------------------------------------------------------------------
             For i = 0 To UBound(update_split)
-            DoEvents
+                DoEvents
                 include_split = Split(script_include, vbCrLf)
                 def_thing = Split(local_include, vbCrLf)
                 
@@ -433,507 +433,501 @@ If script_quit = True Then Exit Sub
                     End If
 next_web_i:
                 Next web_i
-            script_list.ListItems(i + 1).ListSubItems(3).Text = script_list.ListItems(i + 1).ListSubItems(3).Text & "1"
+                script_list.ListItems(i + 1).ListSubItems(3).Text = script_list.ListItems(i + 1).ListSubItems(3).Text & "1"
 next_i:
             Next i
         Else
-        StatusBar.Panels(2) = ""
+            StatusBar.Panels(2) = ""
             For i = 0 To UBound(update_split)
-            DoEvents
-            script_list.ListItems(i + 1).ListSubItems(3).Text = script_list.ListItems(i + 1).ListSubItems(3).Text & "1"
+                DoEvents
+                script_list.ListItems(i + 1).ListSubItems(3).Text = script_list.ListItems(i + 1).ListSubItems(3).Text & "1"
             Next i
-'-------------------------------------------------------------------------------
+            '-------------------------------------------------------------------------------
         End If
     Else
-    StatusBar.Panels(2) = "include.txt can't be found"
+        StatusBar.Panels(2) = "include.txt can't be found"
     End If
-
-file_time = 0
-
-For i = 0 To UBound(update_split)
-DoEvents
-script_list.ListItems(i + 1).ListSubItems(3).Text = static_str(script_list.ListItems(i + 1).ListSubItems(3).Text)
-If (script_list.ListItems(i + 1).ListSubItems(3).Text Like "?0*") Then
-script_list.ListItems(i + 1).ListSubItems(4).Text = "YES"
-script_list.ListItems(i + 1).Checked = True
-file_time = file_time + 1
-Else
-script_list.ListItems(i + 1).ListSubItems(4).Text = "NO"
-End If
-Next i
-StatusBar.Panels(1) = script_list.ListItems.count & "(Files) / " & file_time & "(Update)"
+    
+    file_time = 0
+    
+    For i = 0 To UBound(update_split)
+        DoEvents
+        script_list.ListItems(i + 1).ListSubItems(3).Text = static_str(script_list.ListItems(i + 1).ListSubItems(3).Text)
+        If (script_list.ListItems(i + 1).ListSubItems(3).Text Like "?0*") Then
+            script_list.ListItems(i + 1).ListSubItems(4).Text = "YES"
+            script_list.ListItems(i + 1).Checked = True
+            file_time = file_time + 1
+        Else
+            script_list.ListItems(i + 1).ListSubItems(4).Text = "NO"
+        End If
+    Next i
+    StatusBar.Panels(1) = script_list.ListItems.count & "(Files) / " & file_time & "(Update)"
 End Sub
 
 Private Function static_str(ByVal str_temp)
-'000,该文件不存在/include.txt需要更新
-'001,该文件不存在/include.txt不需要更新
-'100,该文件需要更新/include.txt需要更新
-'101,该文件需要更新/include.txt不需要更新
-'110,该文件存在/include.txt需要更新
-'111,该文件存在/include.txt不需要更新
-If Len(str_temp) = 2 Then str_temp = str_temp & "0"
-Select Case str_temp
-Case "000"
-static_str = "000,该文件不存在/include.txt需要更新"
-Case "001"
-static_str = "001,该文件不存在/include.txt不需要更新"
-Case "100"
-static_str = "100,该文件需要更新/include.txt需要更新"
-Case "101"
-static_str = "101,该文件需要更新/include.txt不需要更新"
-Case "110"
-static_str = "110,该文件存在/include.txt需要更新"
-Case "111"
-static_str = "111,该文件存在/include.txt不需要更新"
-Case Else
-static_str = "情况不明"
-End Select
+    '000,该文件不存在/include.txt需要更新
+    '001,该文件不存在/include.txt不需要更新
+    '100,该文件需要更新/include.txt需要更新
+    '101,该文件需要更新/include.txt不需要更新
+    '110,该文件存在/include.txt需要更新
+    '111,该文件存在/include.txt不需要更新
+    If Len(str_temp) = 2 Then str_temp = str_temp & "0"
+    Select Case str_temp
+    Case "000"
+        static_str = "000,该文件不存在/include.txt需要更新"
+    Case "001"
+        static_str = "001,该文件不存在/include.txt不需要更新"
+    Case "100"
+        static_str = "100,该文件需要更新/include.txt需要更新"
+    Case "101"
+        static_str = "101,该文件需要更新/include.txt不需要更新"
+    Case "110"
+        static_str = "110,该文件存在/include.txt需要更新"
+    Case "111"
+        static_str = "111,该文件存在/include.txt不需要更新"
+    Case Else
+        static_str = "情况不明"
+    End Select
 End Function
 
-
 Private Sub Form_Unload(Cancel As Integer)
-If script_quit = False And sysSet.askquit = True Then
-If MsgBox("正在执行操作，是否退出？", vbOKCancel + vbDefaultButton2, "退出询问") = vbCancel Then Cancel = True: Exit Sub
-End If
-
-If Dir(App.Path & "\include\OX163_Web_Browser_ctrl.vbs") <> "" Then
-    Form1.OX163_WebBrowser_scriptCode = load_script(App.Path & "\include\OX163_Web_Browser_ctrl.vbs")
-    Form1.OX163_WebBrowser_scriptCode = Trim(Form1.OX163_WebBrowser_scriptCode)
-End If
-
-script_quit = True
+    If script_quit = False And sysSet.askquit = True Then
+        If MsgBox("正在执行操作，是否退出？", vbOKCancel + vbDefaultButton2, "退出询问") = vbCancel Then Cancel = True: Exit Sub
+    End If
+    Call load_in_Script_Code
+    script_quit = True
 End Sub
 
 Private Sub Timer1_Timer()
-On Error Resume Next
-Timer1.Enabled = False
-
-Toolbar.Buttons(1).Enabled = False
-Toolbar.Buttons(2).Enabled = False
-Toolbar.Buttons(4).Enabled = True
-script_quit = False
+    On Error Resume Next
+    Timer1.Enabled = False
     
-Check_script
-
-script_quit = True
-Toolbar.Buttons(1).Enabled = True
-Toolbar.Buttons(2).Enabled = True
-Toolbar.Buttons(4).Enabled = False
-
-If Form1.form_quit = False Then
-    If MsgBox("正在执行下载，更新脚本可能会有潜在危险" & vbCrLf & "是否继续执行脚本更新？", vbYesNo + vbDefaultButton2 + vbExclamation, "警告：") = vbNo Then Unload script_from
-End If
-
+    Toolbar.Buttons(1).Enabled = False
+    Toolbar.Buttons(2).Enabled = False
+    Toolbar.Buttons(4).Enabled = True
+    script_quit = False
+    
+    Check_script
+    
+    script_quit = True
+    Toolbar.Buttons(1).Enabled = True
+    Toolbar.Buttons(2).Enabled = True
+    Toolbar.Buttons(4).Enabled = False
+    
+    If Form1.form_quit = False Then
+        If MsgBox("正在执行下载，更新脚本可能会有潜在危险" & vbCrLf & "是否继续执行脚本更新？", vbYesNo + vbDefaultButton2 + vbExclamation, "警告：") = vbNo Then Unload script_from
+    End If
+    
 End Sub
 
 Private Sub Toolbar_ButtonClick(ByVal Button As MSComctlLib.Button)
-On Error Resume Next
-
-
-If Dir(App.Path & "\include", vbDirectory) = "" Then
-MkDir App.Path & "\include"
-End If
-
-
-Select Case Button.Index
-Case 1
-Update_script "auto"
-Case 2
-Timer1.Enabled = False
-
-Toolbar.Buttons(1).Enabled = False
-Toolbar.Buttons(2).Enabled = False
-Toolbar.Buttons(4).Enabled = True
-script_quit = False
+    On Error Resume Next
     
-Check_script
-
-script_quit = True
-Toolbar.Buttons(1).Enabled = True
-Toolbar.Buttons(2).Enabled = True
-Toolbar.Buttons(4).Enabled = False
-Case 4
-script_quit = True
-Case 6
-    ShellExecute 0&, vbNullString, "http://script.shanhaijing.net/", vbNullString, vbNullString, vbNormalFocus
-Case 7
-    Shell "explorer.exe " & Replace$(App.Path & "\include", "\\", "\"), vbNormalFocus
-End Select
+    
+    If Dir(App.Path & "\include", vbDirectory) = "" Then
+        MkDir App.Path & "\include"
+    End If
+    
+    
+    Select Case Button.Index
+    Case 1
+        Update_script "auto"
+    Case 2
+        Timer1.Enabled = False
+        
+        Toolbar.Buttons(1).Enabled = False
+        Toolbar.Buttons(2).Enabled = False
+        Toolbar.Buttons(4).Enabled = True
+        script_quit = False
+        
+        Check_script
+        
+        script_quit = True
+        Toolbar.Buttons(1).Enabled = True
+        Toolbar.Buttons(2).Enabled = True
+        Toolbar.Buttons(4).Enabled = False
+    Case 4
+        script_quit = True
+    Case 6
+        ShellExecute 0&, vbNullString, "http://script.shanhaijing.net/", vbNullString, vbNullString, vbNormalFocus
+    Case 7
+        Shell "explorer.exe " & Replace$(App.Path & "\include", "\\", "\"), vbNormalFocus
+    End Select
 End Sub
 
 Private Sub Toolbar_ButtonMenuClick(ByVal ButtonMenu As MSComctlLib.ButtonMenu)
-On Error Resume Next
-Select Case ButtonMenu.Index
-Case 1
-Update_script "all"
-
-Case 2
-Update_script "checked"
-
-Case 3
-Update_script "lack"
-
-Case 4
-Dim fso, file
-Set fso = CreateObject("Scripting.FileSystemObject")
-Set file = fso.CreateTextFile(Replace$(App.Path & "\include\include.txt", "\\", "\"), True, False)
-file.write script_include
-file.Close
-Toolbar.Buttons(1).Enabled = False
-Toolbar.Buttons(2).Enabled = False
-Toolbar.Buttons(4).Enabled = True
-script_quit = False
-    
-Check_script
-
-script_quit = True
-Toolbar.Buttons(1).Enabled = True
-Toolbar.Buttons(2).Enabled = True
-Toolbar.Buttons(4).Enabled = False
-
-End Select
+    On Error Resume Next
+    Select Case ButtonMenu.Index
+    Case 1
+        Update_script "all"
+        
+    Case 2
+        Update_script "checked"
+        
+    Case 3
+        Update_script "lack"
+        
+    Case 4
+        Dim fso, file
+        Set fso = CreateObject("Scripting.FileSystemObject")
+        Set file = fso.CreateTextFile(Replace$(App.Path & "\include\include.txt", "\\", "\"), True, False)
+        file.Write script_include
+        file.Close
+        Toolbar.Buttons(1).Enabled = False
+        Toolbar.Buttons(2).Enabled = False
+        Toolbar.Buttons(4).Enabled = True
+        script_quit = False
+        
+        Check_script
+        
+        script_quit = True
+        Toolbar.Buttons(1).Enabled = True
+        Toolbar.Buttons(2).Enabled = True
+        Toolbar.Buttons(4).Enabled = False
+        
+    End Select
 End Sub
 
 Public Sub Update_script(update_type As String)
-On Error Resume Next
-
-Toolbar.Buttons(1).Enabled = False
-Toolbar.Buttons(2).Enabled = False
-Toolbar.Buttons(4).Enabled = True
-script_quit = False
-
-Dim include_txt As String
-Dim fso, file
-Dim no_include As Boolean
-
-include_txt = StatusBar.Panels(2)
-
-'--------------------------------------------------------
-StatusBar.Panels(2) = "Checking Script"
-'--------------------------------------------------------
-Select Case update_type
-Case "auto"
-For i = 1 To script_list.ListItems.count
-DoEvents
-If script_list.ListItems(i).ListSubItems(4).Text = "YES" Then
-script_list.ListItems(i).Checked = True
-Else
-script_list.ListItems(i).Checked = False
-End If
-Next i
-
-Case "all"
-For i = 1 To script_list.ListItems.count
-DoEvents
-script_list.ListItems(i).Checked = True
-Next i
-
-Case "checked"
-
-Case "lack"
-For i = 1 To script_list.ListItems.count
-DoEvents
-If (script_list.ListItems(i).ListSubItems(3).Text Like "0*") Then
-script_list.ListItems(i).Checked = True
-Else
-script_list.ListItems(i).Checked = False
-End If
-Next i
-
-End Select
-'--------------------------------------------------------
-StatusBar.Panels(2) = "Update Script"
-'--------------------------------------------------------
-For i = 1 To script_list.ListItems.count
-DoEvents
-If script_list.ListItems(i).Checked = True Then
-
-StatusBar.Panels(2) = "Update Script: " & script_list.ListItems(i).ListSubItems(1).Text
-
-    script_load.Cancel
-    script_down_ok = False
-    strURL = Trim$("http://www.shanhaijing.net/163/" & script_list.ListItems(i).ListSubItems(1).Text & "?ntime=" & CDbl(Now()))
-
-    script_download
-
-    Do While script_down_ok = False
-    If script_quit = True Then Exit Sub
-    DoEvents
-    Loop
-
-Set fso = CreateObject("Scripting.FileSystemObject")
-Set file = fso.CreateTextFile(Replace$(App.Path & "\include\" & script_list.ListItems(i).ListSubItems(1).Text, "\\", "\"), True, False)
-file.write script_txt
-file.Close
-
-End If
-Next i
-
-'----------------------------------------------------------------------------
-If include_txt = "include.txt can't be found" Then
-StatusBar.Panels(2) = "Update include.txt"
-
-Set fso = CreateObject("Scripting.FileSystemObject")
-Set file = fso.CreateTextFile(Replace$(App.Path & "\include\include.txt", "\\", "\"), True, False)
-file.write script_include
-file.Close
-
-ElseIf include_txt = "include.txt has not matched" Then
-StatusBar.Panels(2) = "Update include.txt"
-'----------------------------------------------------------------------------
-Dim inter_split
-Dim local_split
-
-    If update_type = "all" Then
-    local_include = script_include
+    On Error Resume Next
     
+    Toolbar.Buttons(1).Enabled = False
+    Toolbar.Buttons(2).Enabled = False
+    Toolbar.Buttons(4).Enabled = True
+    script_quit = False
     
-    ElseIf update_type = "lack" Then
+    Dim include_txt As String
+    Dim fso, file
+    Dim no_include As Boolean
     
-        inter_split = Split(script_include, vbCrLf)
-        local_split = Split(local_include, vbCrLf)
-                    
-                For inter_i = 0 To UBound(inter_split)
+    include_txt = StatusBar.Panels(2)
+    
+    '--------------------------------------------------------
+    StatusBar.Panels(2) = "Checking Script"
+    '--------------------------------------------------------
+    Select Case update_type
+    Case "auto"
+        For i = 1 To script_list.ListItems.count
+            DoEvents
+            If script_list.ListItems(i).ListSubItems(4).Text = "YES" Then
+                script_list.ListItems(i).Checked = True
+            Else
+                script_list.ListItems(i).Checked = False
+            End If
+        Next i
+        
+    Case "all"
+        For i = 1 To script_list.ListItems.count
+            DoEvents
+            script_list.ListItems(i).Checked = True
+        Next i
+        
+    Case "checked"
+        
+    Case "lack"
+        For i = 1 To script_list.ListItems.count
+            DoEvents
+            If (script_list.ListItems(i).ListSubItems(3).Text Like "0*") Then
+                script_list.ListItems(i).Checked = True
+            Else
+                script_list.ListItems(i).Checked = False
+            End If
+        Next i
+        
+    End Select
+    '--------------------------------------------------------
+    StatusBar.Panels(2) = "Update Script"
+    '--------------------------------------------------------
+    For i = 1 To script_list.ListItems.count
+        DoEvents
+        If script_list.ListItems(i).Checked = True Then
+            
+            StatusBar.Panels(2) = "Update Script: " & script_list.ListItems(i).ListSubItems(1).Text
+            
+            script_load.Cancel
+            script_down_ok = False
+            strURL = Trim$("http://www.shanhaijing.net/163/" & script_list.ListItems(i).ListSubItems(1).Text & "?ntime=" & CDbl(Now()))
+            
+            script_download
+            
+            Do While script_down_ok = False
+                If script_quit = True Then Exit Sub
                 DoEvents
-                    
-                    For local_i = 0 To UBound(local_split)
-                        If inter_split(inter_i) = local_split(local_i) Then GoTo next_inter_lack
-                    Next local_i
+            Loop
+            
+            Set fso = CreateObject("Scripting.FileSystemObject")
+            Set file = fso.CreateTextFile(Replace$(App.Path & "\include\" & script_list.ListItems(i).ListSubItems(1).Text, "\\", "\"), True, False)
+            file.Write script_txt
+            file.Close
+            
+        End If
+    Next i
+    
+    '----------------------------------------------------------------------------
+    If include_txt = "include.txt can't be found" Then
+        StatusBar.Panels(2) = "Update include.txt"
+        
+        Set fso = CreateObject("Scripting.FileSystemObject")
+        Set file = fso.CreateTextFile(Replace$(App.Path & "\include\include.txt", "\\", "\"), True, False)
+        file.Write script_include
+        file.Close
+        
+    ElseIf include_txt = "include.txt has not matched" Then
+        StatusBar.Panels(2) = "Update include.txt"
+        '----------------------------------------------------------------------------
+        Dim inter_split
+        Dim local_split
+        
+        If update_type = "all" Then
+            local_include = script_include
+            
+            
+        ElseIf update_type = "lack" Then
+            
+            inter_split = Split(script_include, vbCrLf)
+            local_split = Split(local_include, vbCrLf)
+            
+            For inter_i = 0 To UBound(inter_split)
+                DoEvents
+                
+                For local_i = 0 To UBound(local_split)
+                    If inter_split(inter_i) = local_split(local_i) Then GoTo next_inter_lack
+                Next local_i
                 local_include = local_include & vbCrLf & inter_split(inter_i)
 next_inter_lack:
-                Next inter_i
-                
-                
-    ElseIf update_type = "checked" Then
-    
-        
-        For i = script_list.ListItems.count To 1 Step -1
-        DoEvents
-            If script_list.ListItems(i).Checked = True Then
+            Next inter_i
+            
+            
+        ElseIf update_type = "checked" Then
+            
+            
+            For i = script_list.ListItems.count To 1 Step -1
+                DoEvents
+                If script_list.ListItems(i).Checked = True Then
+                    inter_split = Split(script_include, vbCrLf)
+                    local_split = Split(local_include, vbCrLf)
+                    local_include = ""
+                    
+                    no_include = False
+                    
+                    For local_i = 0 To UBound(local_split)
+                        If InStr(1, local_split(local_i), script_list.ListItems(i).ListSubItems(1).Text & "|", vbTextCompare) > 0 Then
+                            local_split(local_i) = ""
+                            no_include = True
+                        End If
+                    Next local_i
+                    
+                    For local_i = 0 To UBound(inter_split)
+                        If InStr(1, inter_split(local_i), script_list.ListItems(i).ListSubItems(1).Text & "|", vbTextCompare) < 1 Then inter_split(local_i) = ""
+                    Next local_i
+                    
+                    For local_i = 0 To UBound(local_split)
+                        If local_split(local_i) <> "" Then
+                            local_include = local_include & local_split(local_i) & vbCrLf
+                        ElseIf inter_split(0) <> "fin." Then
+                            DoEvents
+                            For inter_i = 0 To UBound(inter_split)
+                                If inter_split(inter_i) <> "" Then local_include = local_include & inter_split(inter_i) & vbCrLf
+                            Next inter_i
+                            inter_split(0) = "fin."
+                        End If
+                    Next local_i
+                    
+                    If no_include = False Then
+                        DoEvents
+                        For inter_i = 0 To UBound(inter_split)
+                            If inter_split(inter_i) <> "" Then local_include = local_include & inter_split(inter_i) & vbCrLf
+                        Next inter_i
+                    End If
+                    
+                    local_include = Mid$(local_include, 1, Len(local_include) - 2)
+                End If
+            Next i
+            
+        Else 'auto
+            
+            For i = script_list.ListItems.count To 1 Step -1
+                DoEvents
+                If (script_list.ListItems(i).ListSubItems(3).Text Like "??0*") Then
+                    inter_split = Split(script_include, vbCrLf)
+                    local_split = Split(local_include, vbCrLf)
+                    local_include = ""
+                    
+                    no_include = False
+                    
+                    For local_i = 0 To UBound(local_split)
+                        If InStr(1, local_split(local_i), script_list.ListItems(i).ListSubItems(1).Text & "|", vbTextCompare) > 0 Then
+                            local_split(local_i) = ""
+                            no_include = True
+                        End If
+                    Next local_i
+                    
+                    For local_i = 0 To UBound(inter_split)
+                        If InStr(1, inter_split(local_i), script_list.ListItems(i).ListSubItems(1).Text & "|", vbTextCompare) < 1 Then inter_split(local_i) = ""
+                    Next local_i
+                    
+                    
+                    For local_i = 0 To UBound(local_split)
+                        If local_split(local_i) <> "" Then
+                            local_include = local_include & local_split(local_i) & vbCrLf
+                        ElseIf inter_split(0) <> "fin." Then
+                            DoEvents
+                            For inter_i = 0 To UBound(inter_split)
+                                If inter_split(inter_i) <> "" Then local_include = local_include & inter_split(inter_i) & vbCrLf
+                            Next inter_i
+                            inter_split(0) = "fin."
+                        End If
+                    Next local_i
+                    
+                    If no_include = False Then
+                        DoEvents
+                        For inter_i = 0 To UBound(inter_split)
+                            If inter_split(inter_i) <> "" Then local_include = local_include & inter_split(inter_i) & vbCrLf
+                        Next inter_i
+                    End If
+                    
+                    local_include = Mid$(local_include, 1, Len(local_include) - 2)
+                End If
+            Next i
+            
+        End If
+        '------------------------------整理include.txt--------------------------------
         inter_split = Split(script_include, vbCrLf)
         local_split = Split(local_include, vbCrLf)
         local_include = ""
-        
-        no_include = False
-        
+        include_txt = ""
+        For inter_i = 0 To UBound(inter_split)
+            If include_txt <> Mid$(inter_split(inter_i), 1, InStr(inter_split(inter_i), "|")) Then
+                include_txt = Mid$(inter_split(inter_i), 1, InStr(inter_split(inter_i), "|"))
                 For local_i = 0 To UBound(local_split)
-                    If InStr(1, local_split(local_i), script_list.ListItems(i).ListSubItems(1).Text & "|", vbTextCompare) > 0 Then
-                    local_split(local_i) = ""
-                    no_include = True
-                    End If
-                Next local_i
-                
-                For local_i = 0 To UBound(inter_split)
-                    If InStr(1, inter_split(local_i), script_list.ListItems(i).ListSubItems(1).Text & "|", vbTextCompare) < 1 Then inter_split(local_i) = ""
-                Next local_i
-                
-                For local_i = 0 To UBound(local_split)
-                    If local_split(local_i) <> "" Then
+                    If InStr(1, local_split(local_i), include_txt, vbTextCompare) > 0 Then
                         local_include = local_include & local_split(local_i) & vbCrLf
-                    ElseIf inter_split(0) <> "fin." Then
-                        DoEvents
-                        For inter_i = 0 To UBound(inter_split)
-                            If inter_split(inter_i) <> "" Then local_include = local_include & inter_split(inter_i) & vbCrLf
-                        Next inter_i
-                        inter_split(0) = "fin."
+                        local_split(local_i) = ""
                     End If
                 Next local_i
-                
-                If no_include = False Then
-                    DoEvents
-                    For inter_i = 0 To UBound(inter_split)
-                        If inter_split(inter_i) <> "" Then local_include = local_include & inter_split(inter_i) & vbCrLf
-                    Next inter_i
-                End If
-                
-                local_include = Mid$(local_include, 1, Len(local_include) - 2)
             End If
-        Next i
-    
-    Else 'auto
-    
-        For i = script_list.ListItems.count To 1 Step -1
-        DoEvents
-            If (script_list.ListItems(i).ListSubItems(3).Text Like "??0*") Then
-            inter_split = Split(script_include, vbCrLf)
-            local_split = Split(local_include, vbCrLf)
-            local_include = ""
-            
-            no_include = False
-            
-                For local_i = 0 To UBound(local_split)
-                    If InStr(1, local_split(local_i), script_list.ListItems(i).ListSubItems(1).Text & "|", vbTextCompare) > 0 Then
-                    local_split(local_i) = ""
-                    no_include = True
-                    End If
-                Next local_i
-                
-                For local_i = 0 To UBound(inter_split)
-                    If InStr(1, inter_split(local_i), script_list.ListItems(i).ListSubItems(1).Text & "|", vbTextCompare) < 1 Then inter_split(local_i) = ""
-                Next local_i
-            
-            
-                For local_i = 0 To UBound(local_split)
-                    If local_split(local_i) <> "" Then
-                        local_include = local_include & local_split(local_i) & vbCrLf
-                    ElseIf inter_split(0) <> "fin." Then
-                        DoEvents
-                        For inter_i = 0 To UBound(inter_split)
-                            If inter_split(inter_i) <> "" Then local_include = local_include & inter_split(inter_i) & vbCrLf
-                        Next inter_i
-                        inter_split(0) = "fin."
-                    End If
-                Next local_i
-                
-                If no_include = False Then
-                    DoEvents
-                    For inter_i = 0 To UBound(inter_split)
-                        If inter_split(inter_i) <> "" Then local_include = local_include & inter_split(inter_i) & vbCrLf
-                    Next inter_i
-                End If
-            
-            local_include = Mid$(local_include, 1, Len(local_include) - 2)
-            End If
-        Next i
-    
-    End If
-'------------------------------整理include.txt--------------------------------
-inter_split = Split(script_include, vbCrLf)
-local_split = Split(local_include, vbCrLf)
-local_include = ""
-include_txt = ""
-For inter_i = 0 To UBound(inter_split)
-    If include_txt <> Mid$(inter_split(inter_i), 1, InStr(inter_split(inter_i), "|")) Then
-        include_txt = Mid$(inter_split(inter_i), 1, InStr(inter_split(inter_i), "|"))
+        Next inter_i
+        
         For local_i = 0 To UBound(local_split)
-            If InStr(1, local_split(local_i), include_txt, vbTextCompare) > 0 Then
+            If local_split(local_i) <> "" Then
                 local_include = local_include & local_split(local_i) & vbCrLf
                 local_split(local_i) = ""
             End If
         Next local_i
+        local_include = Mid$(local_include, 1, Len(local_include) - 2)
+        '----------------------------------------------------------------------------
+        Set fso = CreateObject("Scripting.FileSystemObject")
+        Set file = fso.CreateTextFile(Replace$(App.Path & "\include\include.txt", "\\", "\"), True, False)
+        file.Write local_include
+        file.Close
+        
     End If
-Next inter_i
-
-For local_i = 0 To UBound(local_split)
-    If local_split(local_i) <> "" Then
-        local_include = local_include & local_split(local_i) & vbCrLf
-        local_split(local_i) = ""
-    End If
-Next local_i
-local_include = Mid$(local_include, 1, Len(local_include) - 2)
-'----------------------------------------------------------------------------
-Set fso = CreateObject("Scripting.FileSystemObject")
-Set file = fso.CreateTextFile(Replace$(App.Path & "\include\include.txt", "\\", "\"), True, False)
-file.write local_include
-file.Close
-
-End If
-StatusBar.Panels(2) = ""
-'----------------------------------------------------
-Check_script
-
-script_quit = True
-Toolbar.Buttons(1).Enabled = True
-Toolbar.Buttons(2).Enabled = True
-Toolbar.Buttons(4).Enabled = False
+    StatusBar.Panels(2) = ""
+    '----------------------------------------------------
+    Check_script
+    
+    script_quit = True
+    Toolbar.Buttons(1).Enabled = True
+    Toolbar.Buttons(2).Enabled = True
+    Toolbar.Buttons(4).Enabled = False
 End Sub
 
 
 Private Sub script_load_StateChanged(ByVal State As Integer)
-If script_quit = True Then script_load.Cancel
-DoEvents
-
-On Error Resume Next
-Dim vtData As Variant '数据变量
-Dim binBuffer() As Byte
-Dim firt_byte As Boolean
-Dim buff() As Byte
-
-Select Case State
-
-Case icResponseCompleted
-
+    If script_quit = True Then script_load.Cancel
+    DoEvents
+    
+    On Error Resume Next
+    Dim vtData As Variant '数据变量
+    Dim binBuffer() As Byte
+    Dim firt_byte As Boolean
+    Dim buff() As Byte
+    
+    Select Case State
+        
+    Case icResponseCompleted
+        
         firt_byte = False
         
         Do   '从缓冲区读取数据
-                DoEvents
-                vtData = script_load.GetChunk(51200, icByteArray)
-                binBuffer = vtData
-                If firt_byte = False Then
+            DoEvents
+            vtData = script_load.GetChunk(51200, icByteArray)
+            binBuffer = vtData
+            If firt_byte = False Then
                 buff = vtData
                 firt_byte = True
-                Else
+            Else
                 buff = UniteByteArray(buff, binBuffer)
-                End If
+            End If
         Loop Until (LenB(vtData) = 0)
-
-script_txt = bin2str(buff)
-
-script_down_ok = True
-Case icError
-'与主机通信出错
-     Call script_download
-End Select
-
+        
+        script_txt = bin2str(buff)
+        
+        script_down_ok = True
+    Case icError
+        '与主机通信出错
+        Call script_download
+    End Select
+    
 End Sub
 
 Public Sub script_download()
-DoEvents
-'文件大小值复位
-       On Error GoTo err_ctrl
-
-        '定义ITC控件使用的协议为HTTP协议
-        script_load.Protocol = icHTTP
-
-        '调用Execute方法向Web服务器发送HTTP请求
-        script_load.Execute Trim$(strURL), "GET"
-        Exit Sub
-        
+    DoEvents
+    '文件大小值复位
+    On Error GoTo err_ctrl
+    
+    '定义ITC控件使用的协议为HTTP协议
+    script_load.Protocol = icHTTP
+    
+    '调用Execute方法向Web服务器发送HTTP请求
+    script_load.Execute Trim$(strURL), "GET"
+    Exit Sub
+    
 err_ctrl:
-script_load.Cancel
-
-script_down_ok = True
+    script_load.Cancel
+    
+    script_down_ok = True
 End Sub
 
 Private Function bin2str(ByVal binstr)
-On Error Resume Next
-Const adTypeBinary = 1
-Const adTypeText = 2
-Dim BytesStream, StringReturn
-Set BytesStream = CreateObject("ADODB.Stream") '建立一个流对象
-With BytesStream
- .Type = adTypeText
- .Open
- .WriteText binstr
- .Position = 0
- .Charset = htmlCharsetType
- .Position = 2
- StringReturn = .ReadText
- .Close
-End With
-Set BytesStream = Nothing
-bin2str = StringReturn
+    On Error Resume Next
+    Const adTypeBinary = 1
+    Const adTypeText = 2
+    Dim BytesStream, StringReturn
+    Set BytesStream = CreateObject("ADODB.Stream") '建立一个流对象
+    With BytesStream
+        .Type = adTypeText
+        .Open
+        .WriteText binstr
+        .Position = 0
+        .Charset = htmlCharsetType
+        .Position = 2
+        StringReturn = .ReadText
+        .Close
+    End With
+    Set BytesStream = Nothing
+    bin2str = StringReturn
 End Function
 
 
 Private Function UniteByteArray(bBa1() As Byte, bBa2() As Byte) As Byte()
-On Error Resume Next
-        Dim bUb() As Byte
-        Dim iUbd1 As Single
-        Dim iUbd2 As Single
-        Dim i As Single
-
-        iUbd1 = UBound(bBa1)
-        iUbd2 = UBound(bBa2)
-        ReDim bUb(0 To iUbd1 + iUbd2 + 1) As Byte
-        For i = 0 To iUbd1
+    On Error Resume Next
+    Dim bUb() As Byte
+    Dim iUbd1 As Single
+    Dim iUbd2 As Single
+    Dim i As Single
+    
+    iUbd1 = UBound(bBa1)
+    iUbd2 = UBound(bBa2)
+    ReDim bUb(0 To iUbd1 + iUbd2 + 1) As Byte
+    For i = 0 To iUbd1
         DoEvents
-              bUb(i) = bBa1(i)
-        Next i
-        For i = iUbd1 + 1 To UBound(bUb)
+        bUb(i) = bBa1(i)
+    Next i
+    For i = iUbd1 + 1 To UBound(bUb)
         DoEvents
-              bUb(i) = bBa2(i - iUbd1 - 1)
-        Next i
-        UniteByteArray = bUb
-  End Function
+        bUb(i) = bBa2(i - iUbd1 - 1)
+    Next i
+    UniteByteArray = bUb
+End Function
 

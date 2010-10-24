@@ -11,9 +11,7 @@ End Sub
 'OX163常用函数----------------------------------------------------------
 Public Function load_normal_file(file_name, unicode_charset) As String
     On Error Resume Next
-    
     Dim fileline As String
-    
     Set fso = CreateObject("Scripting.FileSystemObject")
     Set file = fso.OpenTextFile(file_name, 1, False, unicode_charset)
     load_normal_file = file.Readall
@@ -22,14 +20,35 @@ Public Function load_normal_file(file_name, unicode_charset) As String
     Set fso = Nothing
 End Function
 
-Public Function load_script(file_name) As String
+Public Sub load_in_Script_Code()
+    On Error Resume Next
+    in_Script_Code.OX163_vbs_var = ""
+    If Dir(App.Path & "\include\OX163_vbs_var.vbs") <> "" Then in_Script_Code.OX163_vbs_var = vbCrLf & load_Script(App.Path & "\include\OX163_vbs_var.vbs") & vbCrLf
+    
+    in_Script_Code.OX163_vbs_fn = ""
+    If Dir(App.Path & "\include\OX163_vbs_fn.vbs") <> "" Then in_Script_Code.OX163_vbs_fn = vbCrLf & load_Script(App.Path & "\include\OX163_vbs_fn.vbs") & vbCrLf
+    
+    in_Script_Code.OX163_js_var = ""
+    If Dir(App.Path & "\include\OX163_js_var.vbs") <> "" Then in_Script_Code.OX163_js_var = vbCrLf & load_Script(App.Path & "\include\OX163_js_var.vbs") & vbCrLf
+    
+    in_Script_Code.OX163_js_fn = ""
+    If Dir(App.Path & "\include\OX163_js_fn.vbs") <> "" Then in_Script_Code.OX163_js_fn = vbCrLf & load_Script(App.Path & "\include\OX163_js_fn.vbs") & vbCrLf
+    
+    OX163_WebBrowser_scriptCode = ""
+    If Dir(App.Path & "\include\OX163_Web_Browser_ctrl.vbs") <> "" Then
+        OX163_WebBrowser_scriptCode = load_Script(App.Path & "\include\OX163_Web_Browser_ctrl.vbs")
+        OX163_WebBrowser_scriptCode = Trim(OX163_WebBrowser_scriptCode)
+    End If
+End Sub
+
+Public Function load_Script(file_name) As String
     On Error Resume Next
     
     Dim fileline As String
     
     Set fso = CreateObject("Scripting.FileSystemObject")
     Set file = fso.OpenTextFile(file_name, 1, False, 0)
-    load_script = file.Readall
+    load_Script = file.Readall
     file.Close
     Set fso = Nothing
     
@@ -44,15 +63,15 @@ Public Function load_script(file_name) As String
 End Function
 
 
-Public Function check_include(ByVal url_str As String) As String
+Public Function check_Include(ByVal url_str As String) As String
     On Error Resume Next
     
-    check_include = ""
+    check_Include = ""
     If Dir(App.Path & "\include\include.txt") = "" Then Exit Function
     
     Dim include_str, include_str1
     
-    include_str = load_script(App.Path & "\include\include.txt")
+    include_str = load_Script(App.Path & "\include\include.txt")
     If include_str = "" Then Exit Function
     
     include_str = Split(Trim$(include_str), vbCrLf)
@@ -73,7 +92,7 @@ Public Function check_include(ByVal url_str As String) As String
             'include_str1(4)(带有?*等符号的规范网址)
             
             If LCase(url_str) Like LCase(include_str1(4)) Then
-                check_include = include_str1(0) & "|" & include_str1(1) & "|" & include_str1(2) & "|" & include_str1(3) & "|" & url_str
+                check_Include = include_str1(0) & "|" & include_str1(1) & "|" & include_str1(2) & "|" & include_str1(3) & "|" & url_str
                 Exit Function
             End If
             
@@ -84,14 +103,14 @@ next_i:
     Next i
 End Function
 
-Public Function fix_pix(ByVal pix_str)
-    fix_pix = ""
+Public Function fix_Pix(ByVal pix_str)
+    fix_Pix = ""
     pix_str = Split(pix_str, "x")
     For i = 0 To UBound(pix_str)
         DoEvents
-        fix_pix = fix_pix & Format$(Int(pix_str(i)), "0000") & "x"
+        fix_Pix = fix_Pix & Format$(Int(pix_str(i)), "0000") & "x"
     Next i
-    fix_pix = Mid$(fix_pix, 1, Len(fix_pix) - 1)
+    fix_Pix = Mid$(fix_Pix, 1, Len(fix_Pix) - 1)
 End Function
 
 Public Function is_fileName(ByVal file_name As String) As Boolean
@@ -110,5 +129,41 @@ Public Function is_fileName(ByVal file_name As String) As Boolean
     If Right(file_name, 1) = "." Then is_fileName = False: Exit Function
 End Function
 
+Public Function rename_URL(ByVal old_url)
+    '＼／＂？：＊＜＞｜
+    '\/"?:*<>|
+    If IsNull(old_url) Or IsEmpty(old_url) Then
+        rename_URL = ""
+        Exit Function
+    End If
+    If Left(old_url, 1) = "." Then old_url = Mid$(old_url, 2)
+    
+    code_E = Array("＼", "／", Chr(-23646), "？", "：", "＊", "＜", "＞", "｜")
+    code_F = Array(Chr(92), Chr(47), Chr(34), Chr(63), Chr(58), Chr(42), Chr(60), Chr(62), Chr(124))
+    
+    rename_URL = old_url
+    
+    For i = 0 To 8
+        rename_URL = Replace(rename_URL, code_F(i), code_E(i))
+    Next
+    
+End Function
 
+Public Function rename_URLfile(ByVal old_url)
+    If IsNull(old_url) Or IsEmpty(old_url) Then
+        rename_URLfile = ""
+        Exit Function
+    End If
+    If Left(old_url, 1) = "." Then old_url = Mid$(old_url, 2)
+    
+    code_E = Array("＼", "／", Chr(-23646), "？", "：", "＊", "＜", "＞", "｜")
+    code_F = Array(Chr(92), Chr(47), Chr(34), Chr(63), Chr(58), Chr(42), Chr(60), Chr(62), Chr(124))
+    
+    rename_URLfile = old_url
+    
+    For i = 0 To 8
+        rename_URLfile = Replace(rename_URLfile, code_E(i), code_F(i))
+    Next
+    
+End Function
 

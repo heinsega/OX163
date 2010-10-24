@@ -1000,14 +1000,14 @@ Begin VB.Form sys
       Begin VB.Label Label9 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "导出列表格式："
+         Caption         =   "导出下载列表格式："
          Height          =   180
          Index           =   7
          Left            =   3480
          TabIndex        =   41
          ToolTipText     =   "建议使用LST方式"
          Top             =   1800
-         Width           =   1260
+         Width           =   1620
       End
       Begin VB.Label Label9 
          AutoSize        =   -1  'True

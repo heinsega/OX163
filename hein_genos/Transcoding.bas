@@ -35,6 +35,12 @@ Public Function OX_FilterKeywords(ByVal sourceString As String, ByVal keywords A
     End If
     OX_FilterKeywords = sourceString
 End Function
+'还原OX163自定义字符----------------------------------------------------------------------------------------
+Public Function OX_PrivateChr(ByVal sourceString As String) As String
+sourceString = Replace(sourceString, "&for_ox163_replace_vbcrlf&", vbCrLf)
+sourceString = Replace(sourceString, "&for_ox163_replace_vline&", "|")
+OX_PrivateChr = sourceString
+End Function
 
 '网页JS代码中unicode转换ascii函数“\u”开头字符，163相册中用到
 Public Function unicode2asc(ByVal old_str)
@@ -69,7 +75,7 @@ end_last:
 End Function
 
 '网页字符转换为常规字符
-Public Function fix_code(ByVal old_str As String) As String
+Public Function fix_Code(ByVal old_str As String) As String
     '&lt;   - <
     old_str = Replace$(old_str, "&lt;", "<")
     '&gt;   - >
@@ -83,5 +89,23 @@ Public Function fix_code(ByVal old_str As String) As String
     '&#39; - '
     old_str = Replace$(old_str, "&#39;", "'")
     '&amp;  - &
-    fix_code = Replace$(old_str, "&amp;", "&")
+    fix_Code = Replace$(old_str, "&amp;", "&")
+End Function
+
+'修正文件名，去除不可用的字符
+Public Function reName_Str(ByVal old_Name As String) As String
+Dim i As Long
+    reName_Str = Replace$(old_Name, Chr(92), "_")
+    reName_Str = Replace$(reName_Str, Chr(47), "_")
+    reName_Str = Replace$(reName_Str, Chr(34), "_")
+    reName_Str = Replace$(reName_Str, Chr(58), "_")
+    reName_Str = Replace$(reName_Str, Chr(42), "_")
+    reName_Str = Replace$(reName_Str, Chr(60), "[")
+    reName_Str = Replace$(reName_Str, Chr(62), "]")
+    reName_Str = Replace$(reName_Str, Chr(124), "_")
+    For i = 1 To Len(reName_Str)
+        If Asc(Mid(reName_Str, i, 1)) = 63 Then reName_Str = Replace(reName_Str, Mid(reName_Str, i, 1), "_")
+    Next
+    If Left(reName_Str, 1) = "." Then reName_Str = "_" & Mid$(reName_Str, 2)
+    If Right(reName_Str, 1) = "." Then reName_Str = Mid$(reName_Str, 1, Len(reName_Str) - 1) & "_"
 End Function
