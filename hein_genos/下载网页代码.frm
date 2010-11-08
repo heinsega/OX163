@@ -2578,7 +2578,7 @@ End Sub
 Private Sub Refresh_Panel()
     On Error Resume Next
     Dim Panel_info
-    Panel_info = Trim(update.OpenURL("http://shanhaijing.net/163/Panel_info.asp?key=" & down_count & "&ntime=" & CDbl(Now())))
+    Panel_info = Trim(Update.OpenURL("http://shanhaijing.net/163/Panel_info.asp?key=" & down_count & "&ntime=" & CDbl(Now())))
     show_inform(0) = Mid$(Panel_info, 1, InStr(Panel_info, "|") - 1)
     show_inform(1) = Mid$(Panel_info, InStr(Panel_info, "|") + 1)
     StatusBar.Panels(2) = show_inform(0)
@@ -4439,12 +4439,12 @@ Private Sub Timer3_Timer()
         show_inform(0) = "正在自动检查最新版本..."
         StatusBar.Panels(2) = show_inform(0)
     End If
-    ver = update.OpenURL("http://shanhaijing.net/ox163_update.htm?ntime=" & CDbl(Now()))
-    If IsNumeric(ver) = False Then ver = update.OpenURL("http://www.ugschina.com/ox163_update.htm?ntime=" & CDbl(Now()))
+    ver = Update.OpenURL("http://shanhaijing.net/ox163_update.htm?ntime=" & CDbl(Now()))
+    If IsNumeric(ver) = False Then ver = Update.OpenURL("http://www.ugschina.com/ox163_update.htm?ntime=" & CDbl(Now()))
     If IsNumeric(ver) Then
         ver = Mid$(ver, 1, InStr(ver, ".") - 1)
         If CInt(ver) > sysSet.ver And Len(ver) < 5 Then
-            ver = update.OpenURL("http://shanhaijing.net/ox163_update_info.htm?ntime=" & CDbl(Now()))
+            ver = Update.OpenURL("http://shanhaijing.net/ox163_update_info.htm?ntime=" & CDbl(Now()))
             ver = Left$(Replace(Replace(ver, Chr(10), ""), Chr(13), ""), 100)
             
             If download_ok = True Then
@@ -4542,7 +4542,7 @@ End Sub
 
 Private Sub update_StateChanged(ByVal State As Integer)
     On Error Resume Next
-    If form_quit = True Then update.Cancel
+    If form_quit = True Then Update.Cancel
     DoEvents
 End Sub
 
@@ -5395,7 +5395,7 @@ Private Sub user_list_MouseUp(Button As Integer, Shift As Integer, x As Single, 
             menu_pswc.Visible = False
             menu_pswv.Visible = False
             menu_1.Visible = False
-            PopupMenu menu
+            PopupMenu Menu
         Else
             menu_psw.Visible = True
             menu_pswc.Visible = True
@@ -5408,7 +5408,7 @@ Private Sub user_list_MouseUp(Button As Integer, Shift As Integer, x As Single, 
                 menu_pswv.Enabled = True
             End If
             menu_1.Visible = True
-            PopupMenu menu
+            PopupMenu Menu
         End If
     End If
 End Sub
@@ -6318,7 +6318,7 @@ new_down:
         
         If form_quit = True Then GoTo err_end
         
-        ADSL_temp = update.OpenURL("http://photo.163.com")
+        ADSL_temp = Update.OpenURL("http://photo.163.com")
         
         down_len = down_len - sysSet.downloadblock * 5
         
@@ -8553,15 +8553,8 @@ Private Sub list_photo_script(ByVal photo_info)
     On Error Resume Next
     Dim Script_App As New ScriptControl, Script_Retrun_Temp As String, i As Long, Script_Info As ScriptInfo
     Script_Info = ParseInclude(photo_info)
-    '加载OX163脚本默认函数----------------------------------------------------
-    If Script_Info.Language = "vbscript" Then
-        Script_App.Language = "vbscript"
-        Script_Retrun_Temp = in_Script_Code.OX163_vbs_var & load_Script(App.Path & "\include\" & Script_Info.fileName) & in_Script_Code.OX163_vbs_fn
-    Else
-        Script_App.Language = "javascript"
-        Script_Retrun_Temp = in_Script_Code.OX163_js_var & load_Script(App.Path & "\include\" & Script_Info.fileName) & in_Script_Code.OX163_js_fn
-    End If
-    Call Script_App.AddCode(Script_Retrun_Temp)
+    '加载脚本----------------------------------------------------
+    Call OX_load_Script_Code(Script_Info, Script_App)
     Script_Retrun_Temp = ""
     '-------------------------------------------------------------------------
     DoEvents
@@ -8570,17 +8563,19 @@ Private Sub list_photo_script(ByVal photo_info)
     If Form1.WindowState = 0 Then always_on_top False
     top_Picture(0).Enabled = False
     top_Picture(1).Enabled = False
-    Err.Number = 0
     'get cookies----------------------------------------------------------------
     cookies_text = GetCookie(Script_Info.Criteria)
+    Err.Number = 0
     Call Script_App.Run("set_urlpagecookies", cookies_text)
+    Call CheckScriptError
     '---------------------------------------------------------------------------
     '取得格式化后的链接地址信息
     Script_Retrun_Temp = Script_App.Run("return_download_url", Script_Info.Criteria)
+    Call CheckScriptError
     '取得格式化后的该页面的引用页、头信息等
     urlpage_Referer = Trim$(Script_App.Eval("OX163_urlpage_Referer"))
-    '---------------------------------------------------------------------------
     Call CheckScriptError
+    '---------------------------------------------------------------------------
     If Form1.WindowState = 0 Then always_on_top sysSet.always_top
     top_Picture(0).Enabled = True
     top_Picture(1).Enabled = True
@@ -8606,15 +8601,16 @@ Private Sub list_photo_script(ByVal photo_info)
         If Form1.WindowState = 0 Then always_on_top False
         top_Picture(0).Enabled = False
         top_Picture(1).Enabled = False
-        Err.Number = 0
         'get cookies---------------------------------------------------------------------------------
         cookies_text = GetCookie(Dl_Info.downloadURL)
+        Err.Number = 0
         Call Script_App.Run("set_urlpagecookies", cookies_text)
+        Call CheckScriptError
         'list Photo Url 取得照片链接地址等信息------------------------------------------------------
         Script_Retrun_Temp = Script_App.Run("return_download_list", Html_Temp, Script_Info.Criteria)
+        Call CheckScriptError
         '取得格式化后的改业面的引用页、头信息等
         urlpage_Referer = Trim$(Script_App.Eval("OX163_urlpage_Referer"))
-        
         Call CheckScriptError
         If Form1.WindowState = 0 Then always_on_top sysSet.always_top
         top_Picture(0).Enabled = True
@@ -8662,15 +8658,8 @@ Private Sub list_album_script(ByVal album_info)
     '取得外部脚本信息以及原始链接-----------------------------------------------
     Dim Script_Info As ScriptInfo
     Script_Info = ParseInclude(album_info)
-    '加载OX163脚本默认函数----------------------------------------------------
-    If Script_Info.Language = "vbscript" Then
-        Script_App.Language = "vbscript"
-        Script_Retrun_Temp = in_Script_Code.OX163_vbs_var & load_Script(App.Path & "\include\" & Script_Info.fileName) & in_Script_Code.OX163_vbs_fn
-    Else
-        Script_App.Language = "javascript"
-        Script_Retrun_Temp = in_Script_Code.OX163_js_var & load_Script(App.Path & "\include\" & Script_Info.fileName) & in_Script_Code.OX163_js_fn
-    End If
-    Call Script_App.AddCode(Script_Retrun_Temp)
+    '加载脚本----------------------------------------------------
+    Call OX_load_Script_Code(Script_Info, Script_App)
     Script_Retrun_Temp = ""
     '-------------------------------------------------------------------------
     DoEvents
@@ -8679,17 +8668,19 @@ Private Sub list_album_script(ByVal album_info)
     If Form1.WindowState = 0 Then always_on_top False
     top_Picture(0).Enabled = False
     top_Picture(1).Enabled = False
-    Err.Number = 0
     'get cookies----------------------------------------------------------------
     cookies_text = GetCookie(Script_Info.Criteria)
+    Err.Number = 0
     Call Script_App.Run("set_urlpagecookies", cookies_text)
+    Call CheckScriptError
     '---------------------------------------------------------------------------
     '取得格式化后的链接地址信息
     Script_Retrun_Temp = Script_App.Run("return_download_url", Script_Info.Criteria)
+    Call CheckScriptError
     '取得格式化后的该页面的引用页、头信息等
     urlpage_Referer = Trim$(Script_App.Eval("OX163_urlpage_Referer"))
-    '---------------------------------------------------------------------------
     Call CheckScriptError
+    '---------------------------------------------------------------------------
     If Form1.WindowState = 0 Then always_on_top sysSet.always_top
     top_Picture(0).Enabled = True
     top_Picture(1).Enabled = True
@@ -8719,12 +8710,14 @@ Private Sub list_album_script(ByVal album_info)
         Err.Number = 0
         'get cookies---------------------------------------------------------------------------------
         cookies_text = GetCookie(Dl_Info.downloadURL)
+        Err.Number = 0
         Call Script_App.Run("set_urlpagecookies", cookies_text)
+        Call CheckScriptError
         'list albums Url 取得相册链接地址等信息------------------------------------------------------
         Script_Retrun_Temp = Script_App.Run("return_albums_list", Html_Temp, Script_Info.Criteria)
+        Call CheckScriptError
         '取得格式化后的改业面的引用页、头信息等
         urlpage_Referer = Trim$(Script_App.Eval("OX163_urlpage_Referer"))
-        
         Call CheckScriptError
         If Form1.WindowState = 0 Then always_on_top sysSet.always_top
         top_Picture(0).Enabled = True
@@ -8775,15 +8768,8 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
     run_script_str = Split(album_info, "|")
     Dim Script_Info As ScriptInfo
     Script_Info = ParseInclude(album_info)
-    '加载OX163脚本默认函数----------------------------------------------------
-    If Script_Info.Language = "vbscript" Then
-        Script_App.Language = "vbscript"
-        Script_Retrun_Temp = in_Script_Code.OX163_vbs_var & load_Script(App.Path & "\include\" & Script_Info.fileName) & in_Script_Code.OX163_vbs_fn
-    Else
-        Script_App.Language = "javascript"
-        Script_Retrun_Temp = in_Script_Code.OX163_js_var & load_Script(App.Path & "\include\" & Script_Info.fileName) & in_Script_Code.OX163_js_fn
-    End If
-    Call Script_App.AddCode(Script_Retrun_Temp)
+    '加载脚本----------------------------------------------------
+    Call OX_load_Script_Code(Script_Info, Script_App)
     Script_Retrun_Temp = ""
     'get album Url----------------------------------------------------------------------------
     DoEvents
@@ -8792,17 +8778,19 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
     If Form1.WindowState = 0 Then always_on_top False
     top_Picture(0).Enabled = False
     top_Picture(1).Enabled = False
-    Err.Number = 0
     'get cookies----------------------------------------------------------------
     cookies_text = GetCookie(Script_Info.Criteria)
+    Err.Number = 0
     Call Script_App.Run("set_urlpagecookies", cookies_text)
+    Call CheckScriptError
     '---------------------------------------------------------------------------
     '取得格式化后的链接地址信息
     Script_Retrun_Temp = Script_App.Run("return_download_url", Script_Info.Criteria)
     '取得格式化后的该页面的引用页、头信息等
-    urlpage_Referer = Trim$(Script_App.Eval("OX163_urlpage_Referer"))
-    '---------------------------------------------------------------------------
     Call CheckScriptError
+    urlpage_Referer = Trim$(Script_App.Eval("OX163_urlpage_Referer"))
+    Call CheckScriptError
+    '---------------------------------------------------------------------------
     If Form1.WindowState = 0 Then always_on_top sysSet.always_top
     top_Picture(0).Enabled = True
     top_Picture(1).Enabled = True
@@ -8816,10 +8804,10 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
     top_Picture(1).Enabled = False
     '函数正式开始,取得是否为高级密码传输模式或者为简单方式的发送密码的链接、POST信息、判断字符等
     Script_Retrun_Temp = Script_App.Run("return_password_rules", Script_Info.Criteria, pass_word)
+    Call CheckScriptError
     If Form1.WindowState = 0 Then always_on_top sysSet.always_top
     top_Picture(0).Enabled = True
     top_Picture(1).Enabled = True
-    Call CheckScriptError
     '判断密码传输的模式
     If InStr(LCase$(Script_Retrun_Temp), "return_ad_password_rules|") = 1 Then
         '高级密码传输模式返回的首字符为“return_ad_password_rules|”，该模式下运行模式类似return_download_list和return_albums_list
@@ -8845,16 +8833,17 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
             If Form1.WindowState = 0 Then always_on_top False
             top_Picture(0).Enabled = False
             top_Picture(1).Enabled = False
-            Err.Number = 0
             'get cookies---------------------------------------------------------------------------------
             cookies_text = GetCookie(Dl_Info.downloadURL)
+            Err.Number = 0
             Call Script_App.Run("set_urlpagecookies", cookies_text)
+            Call CheckScriptError
             '--------------------------------------------------------------------------------------
             'Function return_ad_password_rules(ByVal html_str, ByVal url_str, ByVal pass_word)
             Script_Retrun_Temp = Script_App.Run("return_ad_password_rules", Html_Temp, Script_Info.Criteria, pass_word)
+            Call CheckScriptError
             '取得格式化后的改业面的引用页、头信息等
             urlpage_Referer = Trim(Script_App.Eval("OX163_urlpage_Referer"))
-            
             Call CheckScriptError
             If Form1.WindowState = 0 Then always_on_top sysSet.always_top
             top_Picture(0).Enabled = True

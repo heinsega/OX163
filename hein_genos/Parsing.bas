@@ -99,7 +99,11 @@ Public Function ParseAlbum(ByVal sourceString As String) As AlbumInfo()
     Dim i As Long, j As Long, ParseAlbumInfo() As AlbumInfo
     ParseAlbumStrSplit = Split(sourceString, vbCrLf)
     '判断数组
-    If LBound(ParseAlbumStrSplit) <> 0 Then Exit Function
+    If LBound(ParseAlbumStrSplit) <> 0 Or UBound(ParseAlbumStrSplit) < 0 Then
+        ReDim ParseAlbumInfo(0) As AlbumInfo
+        ParseAlbum = ParseAlbumInfo
+        Exit Function
+    End If
     ReDim ParseAlbumInfo(UBound(ParseAlbumStrSplit)) As AlbumInfo
     
     For i = 0 To UBound(ParseAlbumStrSplit)
@@ -140,7 +144,11 @@ Public Function ParsePhoto(ByVal sourceString As String) As PhotoInfo()
     Dim i As Long, j As Long, ParsePhotoInfo() As PhotoInfo
     ParsePhotoStrSplit = Split(sourceString, vbCrLf)
     '判断数组
-    If LBound(ParsePhotoStrSplit) <> 0 Then Exit Function
+    If LBound(ParsePhotoStrSplit) <> 0 Or UBound(ParsePhotoStrSplit) < 0 Then
+        ReDim ParsePhotoInfo(0) As PhotoInfo
+        ParsePhoto = ParsePhotoInfo
+        Exit Function
+    End If
     ReDim ParsePhotoInfo(UBound(ParsePhotoStrSplit)) As PhotoInfo
     
     For i = 0 To UBound(ParsePhotoStrSplit)

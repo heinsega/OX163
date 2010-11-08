@@ -44,7 +44,7 @@ End Function
 
 '网页JS代码中unicode转换ascii函数“\u”开头字符，163相册中用到
 Public Function unicode2asc(ByVal old_str)
-    Dim unicode_tf As Boolean
+    Dim unicode_tf As Boolean, i As Long, j As Long
     Dim unicode_number As Long
     Dim check_str
     old_str = Replace$(old_str, "\/", "/")

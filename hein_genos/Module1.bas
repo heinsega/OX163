@@ -1,17 +1,14 @@
 Attribute VB_Name = "Declare_Function"
 '使用XP风格
 'Public Declare Sub InitCommonControls Lib "comctl32.dll" ()
-
-
 Public Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
 
 Private Declare Function InitCommonControlsEx Lib "comctl32.dll" (iccex As tagInitCommonControlsEx) As Boolean
 
 Private Type tagInitCommonControlsEx
-lngSize As Long
-lngICC As Long
+    lngSize As Long
+    lngICC As Long
 End Type
-
 
 '程序窗口重在最前面
 Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
@@ -50,7 +47,7 @@ Private Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hW
 Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (pDest As Any, pSource As Any, ByVal dwLength As Long)
 Private Declare Function LocalAlloc Lib "kernel32" (ByVal uFlags As Long, ByVal uBytes As Long) As Long
 Private Declare Function LocalFree Lib "kernel32" (ByVal hMem As Long) As Long
-    
+
 Private Const MAX_PATH = 500
 
 Private Const BIF_RETURNONLYFSDIRS = 1
@@ -65,28 +62,28 @@ Private Const WM_USER = &H400
 Private Const BFFM_SETSTATUSTEXT As Long = (WM_USER + 100)
 Private Const BFFM_ENABLEOK As Long = (WM_USER + 101)
 Private Const BFFM_SETSELECTION As Long = (WM_USER + 102)
-   
+
 Private Const LMEM_FIXED = &H0
 Private Const LMEM_ZEROINIT = &H40
 
 Private Const LPTR = (LMEM_FIXED Or LMEM_ZEROINIT)
 
 Private Type BROWSEINFO
-  hOwner As Long
-  pidlRoot As Long
-  pszDisplayName As String
-  lpszTitle As String
-  ulFlags As Long
-  lpfn As Long
-  lParam As Long
-  iImage As Long
+    hOwner As Long
+    pidlRoot As Long
+    pszDisplayName As String
+    lpszTitle As String
+    ulFlags As Long
+    lpfn As Long
+    lParam As Long
+    iImage As Long
 End Type
 
 
 '将长路经转换为短路径
 Declare Function GetShortPathName Lib "kernel32" Alias "GetShortPathNameA" (ByVal lpszLongPath As String, ByVal lpszShortPath As String, ByVal cchBuffer As Long) As Long
-      
-      
+
+
 'Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 '----------------------------------最小化系统托盘---------------------------------------------------
 
@@ -144,15 +141,15 @@ Private Declare Function Decompress Lib "gzip.dll" (ByVal context As Long, inByt
 '-------------XP风格-----start-----------------------------------------------------------
 
 Public Function InitCommonControlsVB() As Boolean
-On Error Resume Next
-Dim iccex As tagInitCommonControlsEx
-With iccex
-.lngSize = LenB(iccex)
-.lngICC = &H200
-End With
-InitCommonControlsEx iccex
-InitCommonControlsVB = (Err.Number = 0)
-On Error GoTo 0
+    On Error Resume Next
+    Dim iccex As tagInitCommonControlsEx
+    With iccex
+        .lngSize = LenB(iccex)
+        .lngICC = &H200
+    End With
+    InitCommonControlsEx iccex
+    InitCommonControlsVB = (Err.Number = 0)
+    On Error GoTo 0
 End Function
 
 
@@ -185,7 +182,7 @@ Public Function GetShortName(ByVal sLongFileName As String) As String
     If Right(sLongFileName, 1) <> "\" Then sLongFileName = sLongFileName & "\"
     sLongFileName = Left(sLongFileName, Len(sLongFileName) - 1)
     iLen = LenB(sShortPathName)
-
+    
     'Call the function
     lRetVal = GetShortPathName(sLongFileName, sShortPathName, iLen)
     'Strip away unwanted characters.
@@ -197,12 +194,12 @@ End Function
 Public Function GetSysDir() As String
     Dim strBuf As String
     Dim lngBuf As Long
-
+    
     strBuf = Space(255)
     lngBuf = 255
-
+    
     lngBuf = GetSystemDirectory(ByVal strBuf, lngBuf)
-
+    
     GetSysDir = Left$(strBuf, lngBuf)
 End Function
 
@@ -213,35 +210,35 @@ End Function
 'Y：yes,N：no,E：error
 
 Public Function GetIniTF(ByVal AppName As String, ByVal In_Key As String) As Boolean
-On Error GoTo GetIniTFErr
-GetIniTF = True
-Dim GetStr As String
-GetStr = VBA.String(128, 0)
-GetPrivateProfileString AppName, In_Key, "", GetStr, 256, App.Path & "\OX163setup.ini"
-GetStr = VBA.Replace(GetStr, VBA.Chr(0), "")
-If CBool(GetStr) = True Then
-   GetIniTF = True
-   GetStr = ""
-Else
-   GoTo GetIniTFErr
-End If
-Exit Function
+    On Error GoTo GetIniTFErr
+    GetIniTF = True
+    Dim GetStr As String
+    GetStr = VBA.String(128, 0)
+    GetPrivateProfileString AppName, In_Key, "", GetStr, 256, App.Path & "\OX163setup.ini"
+    GetStr = VBA.Replace(GetStr, VBA.Chr(0), "")
+    If CBool(GetStr) = True Then
+        GetIniTF = True
+        GetStr = ""
+    Else
+        GoTo GetIniTFErr
+    End If
+    Exit Function
 GetIniTFErr:
-   Err.Clear
-   GetIniTF = False
-   GetStr = ""
+    Err.Clear
+    GetIniTF = False
+    GetStr = ""
 End Function
 
 Public Sub WriteIniTF(ByVal AppName As String, ByVal In_Key As String, ByVal In_Data As Boolean)
-On Error GoTo WriteIniTFErr
-If In_Data = True Then
- WritePrivateProfileString AppName, In_Key, "True", App.Path & "\OX163setup.ini"
-Else
- WritePrivateProfileString AppName, In_Key, "False", App.Path & "\OX163setup.ini"
-End If
-Exit Sub
+    On Error GoTo WriteIniTFErr
+    If In_Data = True Then
+        WritePrivateProfileString AppName, In_Key, "True", App.Path & "\OX163setup.ini"
+    Else
+        WritePrivateProfileString AppName, In_Key, "False", App.Path & "\OX163setup.ini"
+    End If
+    Exit Sub
 WriteIniTFErr:
-   Err.Clear
+    Err.Clear
 End Sub
 
 
@@ -249,124 +246,124 @@ End Sub
 '针对字符串值
 '空值表示出错
 Public Function GetIniStr(ByVal AppName As String, ByVal In_Key As String) As String
-On Error GoTo GetIniStrErr
-If VBA.Trim(In_Key) = "" Then
-   GoTo GetIniStrErr
-End If
-Dim GetStr As String
-GetStr = VBA.String(128, 0)
- GetPrivateProfileString AppName, In_Key, "", GetStr, 256, App.Path & "\OX163setup.ini"
-  GetStr = VBA.Replace(GetStr, VBA.Chr(0), "")
-If GetStr = "" Then
-   GoTo GetIniStrErr
-Else
-   GetIniStr = GetStr
-   GetStr = ""
-End If
-Exit Function
+    On Error GoTo GetIniStrErr
+    If VBA.Trim(In_Key) = "" Then
+        GoTo GetIniStrErr
+    End If
+    Dim GetStr As String
+    GetStr = VBA.String(128, 0)
+    GetPrivateProfileString AppName, In_Key, "", GetStr, 256, App.Path & "\OX163setup.ini"
+    GetStr = VBA.Replace(GetStr, VBA.Chr(0), "")
+    If GetStr = "" Then
+        GoTo GetIniStrErr
+    Else
+        GetIniStr = GetStr
+        GetStr = ""
+    End If
+    Exit Function
 GetIniStrErr:
-   Err.Clear
-   GetIniStr = ""
-   GetStr = ""
+    Err.Clear
+    GetIniStr = ""
+    GetStr = ""
 End Function
 
 Public Sub WriteIniStr(ByVal AppName As String, ByVal In_Key As String, ByVal In_Data As String)
-On Error GoTo WriteIniStrErr
-If VBA.Trim(In_Key) = "" Or VBA.Trim(AppName) = "" Then
-   GoTo WriteIniStrErr
-Else
- WritePrivateProfileString AppName, In_Key, In_Data, App.Path & "\OX163setup.ini"
-End If
-Exit Sub
+    On Error GoTo WriteIniStrErr
+    If VBA.Trim(In_Key) = "" Or VBA.Trim(AppName) = "" Then
+        GoTo WriteIniStrErr
+    Else
+        WritePrivateProfileString AppName, In_Key, In_Data, App.Path & "\OX163setup.ini"
+    End If
+    Exit Sub
 WriteIniStrErr:
-   Err.Clear
+    Err.Clear
 End Sub
 
 '可选路径
 Public Function GetUrlStr(ByVal AppName As String, ByVal In_Key As String, ByVal url_str_path As String) As String
-On Error GoTo GetIniStrErr
-If VBA.Trim(In_Key) = "" Then
-   GoTo GetIniStrErr
-End If
-Dim GetStr As String
-GetStr = VBA.String(128, 0)
- GetPrivateProfileString AppName, In_Key, "", GetStr, 256, url_str_path
-  GetStr = VBA.Replace(GetStr, VBA.Chr(0), "")
-If GetStr = "" Then
-   GoTo GetIniStrErr
-Else
-   GetUrlStr = GetStr
-   GetStr = ""
-End If
-Exit Function
+    On Error GoTo GetIniStrErr
+    If VBA.Trim(In_Key) = "" Then
+        GoTo GetIniStrErr
+    End If
+    Dim GetStr As String
+    GetStr = VBA.String(128, 0)
+    GetPrivateProfileString AppName, In_Key, "", GetStr, 256, url_str_path
+    GetStr = VBA.Replace(GetStr, VBA.Chr(0), "")
+    If GetStr = "" Then
+        GoTo GetIniStrErr
+    Else
+        GetUrlStr = GetStr
+        GetStr = ""
+    End If
+    Exit Function
 GetIniStrErr:
-   Err.Clear
-   GetUrlStr = ""
-   GetStr = ""
+    Err.Clear
+    GetUrlStr = ""
+    GetStr = ""
 End Function
 
 Public Sub WriteUrlStr(ByVal AppName As String, ByVal In_Key As String, ByVal In_Data As String, ByVal url_str_path As String)
-On Error GoTo WriteIniStrErr
-If VBA.Trim(In_Key) = "" Or VBA.Trim(AppName) = "" Then
-   GoTo WriteIniStrErr
-Else
- WritePrivateProfileString AppName, In_Key, In_Data, url_str_path
-End If
-Exit Sub
+    On Error GoTo WriteIniStrErr
+    If VBA.Trim(In_Key) = "" Or VBA.Trim(AppName) = "" Then
+        GoTo WriteIniStrErr
+    Else
+        WritePrivateProfileString AppName, In_Key, In_Data, url_str_path
+    End If
+    Exit Sub
 WriteIniStrErr:
-   Err.Clear
+    Err.Clear
 End Sub
 
 Public Function URLEncode(ByVal vstrIn)
-On Error Resume Next
-strReturn = ""
-vstrIn = Replace(vstrIn, "%", "%25")
+    On Error Resume Next
+    strReturn = ""
+    vstrIn = Replace(vstrIn, "%", "%25")
     Dim i
-For i = 1 To Len(vstrIn)
-ThisChr = Mid(vstrIn, i, 1)
-If Abs(Asc(ThisChr)) < &HFF Then
-strReturn = strReturn & ThisChr
-Else
-innerCode = Asc(ThisChr)
-If innerCode < 0 Then
-innerCode = innerCode + &H10000
-End If
-Hight8 = (innerCode And &HFF00) \ &HFF
-Low8 = innerCode And &HFF
-strReturn = strReturn & "%" & Hex(Hight8) & "%" & Hex(Low8)
-End If
-Next
-strReturn = Replace(strReturn, "!", "%21")
-strReturn = Replace(strReturn, Chr(34), "%22")
-strReturn = Replace(strReturn, "#", "%20")
-strReturn = Replace(strReturn, "$", "%24")
-strReturn = Replace(strReturn, "&", "%26")
-strReturn = Replace(strReturn, "'", "%27")
-strReturn = Replace(strReturn, "(", "%28")
-strReturn = Replace(strReturn, ")", "%29")
-strReturn = Replace(strReturn, "*", "%2A")
-strReturn = Replace(strReturn, "+", "%2B")
-strReturn = Replace(strReturn, ",", "%2C")
-strReturn = Replace(strReturn, ".", "%2E")
-strReturn = Replace(strReturn, "/", "%2F")
-strReturn = Replace(strReturn, ":", "%3A")
-strReturn = Replace(strReturn, ";", "%3B")
-strReturn = Replace(strReturn, "<", "%3C")
-strReturn = Replace(strReturn, "=", "%3D")
-strReturn = Replace(strReturn, ">", "%3E")
-strReturn = Replace(strReturn, "?", "%3F")
-strReturn = Replace(strReturn, "@", "%40")
-strReturn = Replace(strReturn, "[", "%5B")
-strReturn = Replace(strReturn, "\", "%5C")
-strReturn = Replace(strReturn, "]", "%5D")
-strReturn = Replace(strReturn, "^", "%5E")
-strReturn = Replace(strReturn, "`", "%60")
-strReturn = Replace(strReturn, "{", "%7B")
-strReturn = Replace(strReturn, "|", "%7C")
-strReturn = Replace(strReturn, "}", "%7D")
-strReturn = Replace(strReturn, "~", "%7E")
-strReturn = Replace(strReturn, Chr(32), "%20")
-URLEncode = strReturn
+    For i = 1 To Len(vstrIn)
+        ThisChr = Mid(vstrIn, i, 1)
+        If Abs(Asc(ThisChr)) < &HFF Then
+            strReturn = strReturn & ThisChr
+        Else
+            innerCode = Asc(ThisChr)
+            If innerCode < 0 Then
+                innerCode = innerCode + &H10000
+            End If
+            Hight8 = (innerCode And &HFF00) \ &HFF
+            Low8 = innerCode And &HFF
+            strReturn = strReturn & "%" & Hex(Hight8) & "%" & Hex(Low8)
+        End If
+    Next
+    strReturn = Replace(strReturn, "!", "%21")
+    strReturn = Replace(strReturn, Chr(34), "%22")
+    strReturn = Replace(strReturn, "#", "%20")
+    strReturn = Replace(strReturn, "$", "%24")
+    strReturn = Replace(strReturn, "&", "%26")
+    strReturn = Replace(strReturn, "'", "%27")
+    strReturn = Replace(strReturn, "(", "%28")
+    strReturn = Replace(strReturn, ")", "%29")
+    strReturn = Replace(strReturn, "*", "%2A")
+    strReturn = Replace(strReturn, "+", "%2B")
+    strReturn = Replace(strReturn, ",", "%2C")
+    strReturn = Replace(strReturn, ".", "%2E")
+    strReturn = Replace(strReturn, "/", "%2F")
+    strReturn = Replace(strReturn, ":", "%3A")
+    strReturn = Replace(strReturn, ";", "%3B")
+    strReturn = Replace(strReturn, "<", "%3C")
+    strReturn = Replace(strReturn, "=", "%3D")
+    strReturn = Replace(strReturn, ">", "%3E")
+    strReturn = Replace(strReturn, "?", "%3F")
+    strReturn = Replace(strReturn, "@", "%40")
+    strReturn = Replace(strReturn, "[", "%5B")
+    strReturn = Replace(strReturn, "\", "%5C")
+    strReturn = Replace(strReturn, "]", "%5D")
+    strReturn = Replace(strReturn, "^", "%5E")
+    strReturn = Replace(strReturn, "`", "%60")
+    strReturn = Replace(strReturn, "{", "%7B")
+    strReturn = Replace(strReturn, "|", "%7C")
+    strReturn = Replace(strReturn, "}", "%7D")
+    strReturn = Replace(strReturn, "~", "%7E")
+    strReturn = Replace(strReturn, Chr(32), "%20")
+    URLEncode = strReturn
 End Function
 
 'Public Function URLDecode(strURL As String) As String
@@ -426,22 +423,22 @@ End Function
 'End Function
 
 Public Function UTF8EncodeURI(ByVal szInput)
-On Error Resume Next
+    On Error Resume Next
     Dim wch, uch, szRet
     Dim x
     Dim nAsc, nAsc2, nAsc3
-
+    
     If szInput = "" Then
         UTF8EncodeURI = szInput
         Exit Function
     End If
-
+    
     For x = 1 To Len(szInput)
         wch = Mid(szInput, x, 1)
         nAsc = AscW(wch)
-
+        
         If nAsc < 0 Then nAsc = nAsc + 65536
-
+        
         If (nAsc And &HFF80) = 0 Then
             szRet = szRet & wch
         Else
@@ -456,38 +453,38 @@ On Error Resume Next
             End If
         End If
     Next
-
+    
     UTF8EncodeURI = szRet
 End Function
 
 '---------------------------------------------------------------
 
-Public Function GetEncoding(ByVal FileName) As String
+Public Function GetEncoding(ByVal fileName) As String
     On Error GoTo Err
     
     Dim fBytes(1) As Byte, freeNum As Integer
     freeNum = FreeFile
     
-    Open FileName For Binary Access Read As #freeNum
-        Get #freeNum, , fBytes(0)
-        Get #freeNum, , fBytes(1)
+    Open fileName For Binary Access Read As #freeNum
+    Get #freeNum, , fBytes(0)
+    Get #freeNum, , fBytes(1)
     Close #freeNum
-
+    
     If fBytes(0) = &HFF And fBytes(1) = &HFE Then GetEncoding = "Unicode"
     If fBytes(0) = &HFE And fBytes(1) = &HFF Then GetEncoding = "UnicodeBigEndian"
     If fBytes(0) = &HEF And fBytes(1) = &HBB Then GetEncoding = "UTF8"
 Err:
 End Function
 
-Public Sub FileToUTF8(FileName As String)
+Public Sub FileToUTF8(fileName As String)
     Dim fBytes() As Byte, uniString As String, freeNum As Integer
     Dim ADO_Stream As Object
     
     freeNum = FreeFile
     
-    ReDim fBytes(FileLen(FileName))
-    Open FileName For Binary Access Read As #freeNum
-        Get #freeNum, , fBytes
+    ReDim fBytes(FileLen(fileName))
+    Open fileName For Binary Access Read As #freeNum
+    Get #freeNum, , fBytes
     Close #freeNum
     
     uniString = StrConv(fBytes, vbUnicode)
@@ -495,11 +492,11 @@ Public Sub FileToUTF8(FileName As String)
     Set ADO_Stream = CreateObject("ADODB.Stream")
     With ADO_Stream
         .Type = 2
-        .Mode = 3
+        .mode = 3
         .Charset = "utf-8"
         .Open
         .WriteText uniString
-        .SaveToFile FileName, 2
+        .SaveToFile fileName, 2
         .Close
     End With
     Set ADO_Stream = Nothing
@@ -507,75 +504,75 @@ End Sub
 '---------------------------------------------------------------
 
 Public Sub Proxy_set()
-'-------------------------------------------------------------------------
-Form1.fast_down.Proxy = ""
-Form1.fast_down.username = ""
-Form1.fast_down.password = ""
-Form1.Proxy_img(0).Visible = False
-Form1.Proxy_img(1).Visible = False
-Form1.Proxy_img(2).Visible = False
-
-Select Case sysSet.proxy_A_type
-Case 1
-    Form1.fast_down.AccessType = icDirect
-Case 2
-    sysSet.proxy_A = Trim(Replace(Replace(sysSet.proxy_A, Chr(10), ""), Chr(13), ""))
-    If Len(sysSet.proxy_A) > 4 Then
-        Form1.fast_down.AccessType = icNamedProxy
-        Form1.fast_down.Proxy = sysSet.proxy_A
-        Form1.Proxy_img(1).Visible = True
-        sysSet.proxy_A_user = Trim(Replace(Replace(sysSet.proxy_A_user, Chr(10), ""), Chr(13), ""))
-        sysSet.proxy_A_pw = Trim(Replace(Replace(sysSet.proxy_A_pw, Chr(10), ""), Chr(13), ""))
-        If Len(sysSet.proxy_A_user) > 0 Then Form1.fast_down.username = sysSet.proxy_A_user
-        If Len(sysSet.proxy_A_pw) > 0 Then Form1.fast_down.password = sysSet.proxy_A_pw
-    Else
+    '-------------------------------------------------------------------------
+    Form1.fast_down.Proxy = ""
+    Form1.fast_down.username = ""
+    Form1.fast_down.password = ""
+    Form1.Proxy_img(0).Visible = False
+    Form1.Proxy_img(1).Visible = False
+    Form1.Proxy_img(2).Visible = False
+    
+    Select Case sysSet.proxy_A_type
+    Case 1
+        Form1.fast_down.AccessType = icDirect
+    Case 2
+        sysSet.proxy_A = Trim(Replace(Replace(sysSet.proxy_A, Chr(10), ""), Chr(13), ""))
+        If Len(sysSet.proxy_A) > 4 Then
+            Form1.fast_down.AccessType = icNamedProxy
+            Form1.fast_down.Proxy = sysSet.proxy_A
+            Form1.Proxy_img(1).Visible = True
+            sysSet.proxy_A_user = Trim(Replace(Replace(sysSet.proxy_A_user, Chr(10), ""), Chr(13), ""))
+            sysSet.proxy_A_pw = Trim(Replace(Replace(sysSet.proxy_A_pw, Chr(10), ""), Chr(13), ""))
+            If Len(sysSet.proxy_A_user) > 0 Then Form1.fast_down.username = sysSet.proxy_A_user
+            If Len(sysSet.proxy_A_pw) > 0 Then Form1.fast_down.password = sysSet.proxy_A_pw
+        Else
+            Form1.fast_down.AccessType = icUseDefault
+        End If
+        
+    Case Else
         Form1.fast_down.AccessType = icUseDefault
-    End If
-
-Case Else
-    Form1.fast_down.AccessType = icUseDefault
-End Select
-
-'-------------------------------------------------------------------------
-Form1.Inet1.Proxy = ""
-Form1.Inet1.username = ""
-Form1.Inet1.password = ""
-Form1.check_header.Proxy = ""
-Form1.check_header.username = ""
-Form1.check_header.password = ""
-
-Select Case sysSet.proxy_B_type
-Case 1
-    Form1.Inet1.AccessType = icDirect
-    Form1.check_header.AccessType = icDirect
-Case 2
-    sysSet.proxy_B = Trim(Replace(Replace(sysSet.proxy_B, Chr(10), ""), Chr(13), ""))
-    If Len(sysSet.proxy_B) > 4 Then
-        Form1.Inet1.AccessType = icNamedProxy
-        Form1.Inet1.Proxy = sysSet.proxy_B
-        Form1.check_header.AccessType = icNamedProxy
-        Form1.check_header.Proxy = sysSet.proxy_B
-        Form1.Proxy_img(2).Visible = True
-        sysSet.proxy_B_user = Trim(Replace(Replace(sysSet.proxy_B_user, Chr(10), ""), Chr(13), ""))
-        sysSet.proxy_B_pw = Trim(Replace(Replace(sysSet.proxy_B_pw, Chr(10), ""), Chr(13), ""))
-        If Len(sysSet.proxy_B_user) > 0 Then Form1.Inet1.username = sysSet.proxy_B_user: Form1.check_header.username = sysSet.proxy_B_user
-        If Len(sysSet.proxy_B_pw) > 0 Then Form1.Inet1.password = sysSet.proxy_B_pw: Form1.check_header.password = sysSet.proxy_B_pw
-    Else
+    End Select
+    
+    '-------------------------------------------------------------------------
+    Form1.Inet1.Proxy = ""
+    Form1.Inet1.username = ""
+    Form1.Inet1.password = ""
+    Form1.check_header.Proxy = ""
+    Form1.check_header.username = ""
+    Form1.check_header.password = ""
+    
+    Select Case sysSet.proxy_B_type
+    Case 1
+        Form1.Inet1.AccessType = icDirect
+        Form1.check_header.AccessType = icDirect
+    Case 2
+        sysSet.proxy_B = Trim(Replace(Replace(sysSet.proxy_B, Chr(10), ""), Chr(13), ""))
+        If Len(sysSet.proxy_B) > 4 Then
+            Form1.Inet1.AccessType = icNamedProxy
+            Form1.Inet1.Proxy = sysSet.proxy_B
+            Form1.check_header.AccessType = icNamedProxy
+            Form1.check_header.Proxy = sysSet.proxy_B
+            Form1.Proxy_img(2).Visible = True
+            sysSet.proxy_B_user = Trim(Replace(Replace(sysSet.proxy_B_user, Chr(10), ""), Chr(13), ""))
+            sysSet.proxy_B_pw = Trim(Replace(Replace(sysSet.proxy_B_pw, Chr(10), ""), Chr(13), ""))
+            If Len(sysSet.proxy_B_user) > 0 Then Form1.Inet1.username = sysSet.proxy_B_user: Form1.check_header.username = sysSet.proxy_B_user
+            If Len(sysSet.proxy_B_pw) > 0 Then Form1.Inet1.password = sysSet.proxy_B_pw: Form1.check_header.password = sysSet.proxy_B_pw
+        Else
+            Form1.Inet1.AccessType = icUseDefault
+            Form1.check_header.AccessType = icUseDefault
+        End If
+        
+    Case Else
         Form1.Inet1.AccessType = icUseDefault
         Form1.check_header.AccessType = icUseDefault
+    End Select
+    
+    If Form1.Proxy_img(1).Visible = True And Form1.Proxy_img(2).Visible = True Then
+        Form1.Proxy_img(0).Visible = True
+        Form1.Proxy_img(1).Visible = False
+        Form1.Proxy_img(2).Visible = False
     End If
-
-Case Else
-    Form1.Inet1.AccessType = icUseDefault
-    Form1.check_header.AccessType = icUseDefault
-End Select
-
-If Form1.Proxy_img(1).Visible = True And Form1.Proxy_img(2).Visible = True Then
-Form1.Proxy_img(0).Visible = True
-Form1.Proxy_img(1).Visible = False
-Form1.Proxy_img(2).Visible = False
-End If
-
+    
 End Sub
 
 
@@ -618,21 +615,21 @@ End Function
 'this seems to happen before the box comes up and when a folder is clicked on within it
 Public Function BrowseCallbackProcStr(ByVal hWnd As Long, ByVal uMsg As Long, ByVal lParam As Long, ByVal lpData As Long) As Long
     Dim spath As String, bFlag As Long
-                                       
+    
     spath = Space$(MAX_PATH)
-        
+    
     Select Case uMsg
-        Case BFFM_INITIALIZED
-            'browse has been initialized, set the start folder
-            Call SendMessage(hWnd, BFFM_SETSELECTION, 1, ByVal lpData)
-        Case BFFM_SELCHANGED
-            If SHGetPathFromIDList(lParam, spath) Then
-                spath = Left(spath, InStr(1, spath, Chr(0)) - 1)
-            End If
+    Case BFFM_INITIALIZED
+        'browse has been initialized, set the start folder
+        Call SendMessage(hWnd, BFFM_SETSELECTION, 1, ByVal lpData)
+    Case BFFM_SELCHANGED
+        If SHGetPathFromIDList(lParam, spath) Then
+            spath = Left(spath, InStr(1, spath, Chr(0)) - 1)
+        End If
     End Select
-          
+    
 End Function
-          
+
 Public Function FARPROC(pfn As Long) As Long
     FARPROC = pfn
 End Function

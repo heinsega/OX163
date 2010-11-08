@@ -3,607 +3,58 @@ Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form sys 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "OX163程序设置"
-   ClientHeight    =   14190
+   ClientHeight    =   14565
    ClientLeft      =   45
    ClientTop       =   435
-   ClientWidth     =   13875
+   ClientWidth     =   22080
    Icon            =   "sys.frx":0000
    LinkTopic       =   "sys"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   14190
-   ScaleWidth      =   13875
-   Begin VB.Frame Frame6 
-      Caption         =   "修复OX163所需系统文件"
-      Height          =   4215
+   ScaleHeight     =   14565
+   ScaleWidth      =   22080
+   Begin VB.CommandButton frame_rec 
+      Caption         =   "从设置文件恢复本栏设置"
+      Height          =   495
+      Left            =   4560
+      TabIndex        =   98
+      Top             =   4800
+      Width           =   2295
+   End
+   Begin VB.CommandButton frame_def 
+      Caption         =   "恢复本栏默认设置"
+      Height          =   495
       Left            =   6960
-      TabIndex        =   122
-      Top             =   9840
-      Visible         =   0   'False
-      Width           =   6735
-      Begin VB.PictureBox Picture21 
-         BorderStyle     =   0  'None
-         Height          =   1455
-         Left            =   240
-         ScaleHeight     =   1455
-         ScaleWidth      =   6255
-         TabIndex        =   123
-         Top             =   360
-         Width           =   6255
-         Begin VB.CommandButton Com3 
-            Caption         =   $"sys.frx":406A
-            Height          =   1335
-            Left            =   120
-            TabIndex        =   124
-            Top             =   0
-            Width           =   6015
-         End
-      End
+      TabIndex        =   99
+      Top             =   4800
+      Width           =   1815
    End
-   Begin VB.Frame Frame4 
-      Caption         =   "操作设置"
-      Height          =   4215
-      Left            =   120
-      TabIndex        =   83
-      Top             =   9840
+   Begin VB.Frame FrameL 
+      Caption         =   "网易相册设置"
+      ForeColor       =   &H00C00000&
+      Height          =   5295
+      Index           =   7
+      Left            =   2400
+      TabIndex        =   30
+      Top             =   9960
       Visible         =   0   'False
-      Width           =   6735
-      Begin VB.ComboBox Combo_rar 
-         Height          =   300
-         ItemData        =   "sys.frx":40B2
-         Left            =   1080
-         List            =   "sys.frx":40BF
-         Style           =   2  'Dropdown List
-         TabIndex        =   143
-         Top             =   3120
-         Width           =   1815
-      End
-      Begin VB.ComboBox Combo_rar_name 
-         Height          =   300
-         ItemData        =   "sys.frx":40E1
-         Left            =   240
-         List            =   "sys.frx":40E3
-         Style           =   2  'Dropdown List
-         TabIndex        =   142
-         Top             =   3780
-         Width           =   1335
-      End
-      Begin VB.TextBox fix_name_Text 
-         Height          =   270
-         Left            =   240
-         MaxLength       =   15
-         TabIndex        =   141
-         Top             =   3450
-         Width           =   2655
-      End
-      Begin VB.PictureBox Picture7 
-         BorderStyle     =   0  'None
-         Height          =   255
-         Left            =   3360
-         ScaleHeight     =   255
-         ScaleWidth      =   2475
-         TabIndex        =   114
-         Top             =   1200
-         Width           =   2475
-         Begin VB.OptionButton saveOp 
-            Caption         =   "询问"
-            Height          =   255
-            Index           =   1
-            Left            =   0
-            TabIndex        =   116
-            Top             =   0
-            Width           =   735
-         End
-         Begin VB.OptionButton saveOp 
-            Caption         =   "直接保存"
-            Height          =   255
-            Index           =   0
-            Left            =   840
-            TabIndex        =   115
-            Top             =   0
-            Width           =   1335
-         End
-      End
-      Begin VB.PictureBox Picture8 
-         BorderStyle     =   0  'None
-         Height          =   255
-         Left            =   3360
-         ScaleHeight     =   255
-         ScaleWidth      =   1395
-         TabIndex        =   111
-         Top             =   1920
-         Width           =   1395
-         Begin VB.OptionButton changepsw 
-            Caption         =   "否"
-            Height          =   255
-            Index           =   0
-            Left            =   840
-            TabIndex        =   113
-            Top             =   0
-            Width           =   495
-         End
-         Begin VB.OptionButton changepsw 
-            Caption         =   "是"
-            Height          =   255
-            Index           =   1
-            Left            =   0
-            TabIndex        =   112
-            Top             =   0
-            Width           =   495
-         End
-      End
-      Begin VB.PictureBox Picture9 
-         BorderStyle     =   0  'None
-         Height          =   255
-         Left            =   3360
-         ScaleHeight     =   255
-         ScaleWidth      =   1395
-         TabIndex        =   108
-         Top             =   2640
-         Width           =   1395
-         Begin VB.OptionButton askfloder 
-            Caption         =   "是"
-            Height          =   255
-            Index           =   1
-            Left            =   0
-            TabIndex        =   110
-            Top             =   0
-            Width           =   495
-         End
-         Begin VB.OptionButton askfloder 
-            Caption         =   "否"
-            Height          =   255
-            Index           =   0
-            Left            =   840
-            TabIndex        =   109
-            Top             =   0
-            Width           =   495
-         End
-      End
-      Begin VB.PictureBox Picture3 
-         BorderStyle     =   0  'None
-         Height          =   255
-         Left            =   3360
-         ScaleHeight     =   255
-         ScaleWidth      =   1395
-         TabIndex        =   105
-         Top             =   480
-         Width           =   1395
-         Begin VB.OptionButton set_tray 
-            Caption         =   "是"
-            Height          =   255
-            Index           =   1
-            Left            =   0
-            TabIndex        =   107
-            Top             =   0
-            Width           =   495
-         End
-         Begin VB.OptionButton set_tray 
-            Caption         =   "否"
-            Height          =   255
-            Index           =   0
-            Left            =   840
-            TabIndex        =   106
-            Top             =   0
-            Width           =   495
-         End
-      End
-      Begin VB.PictureBox Picture16 
-         BorderStyle     =   0  'None
-         Height          =   1095
-         Left            =   480
-         ScaleHeight     =   1095
-         ScaleWidth      =   2115
-         TabIndex        =   90
-         Top             =   1920
-         Width           =   2115
-         Begin VB.OptionButton file_compare 
-            Caption         =   "不比较 跳过同名文件"
-            Height          =   255
-            Index           =   2
-            Left            =   0
-            TabIndex        =   126
-            ToolTipText     =   "skip same name files"
-            Top             =   360
-            Width           =   2055
-         End
-         Begin VB.OptionButton file_compare 
-            Caption         =   "比较 并跳过同名文件"
-            Height          =   255
-            Index           =   1
-            Left            =   0
-            TabIndex        =   92
-            ToolTipText     =   "skip same files"
-            Top             =   0
-            Width           =   2055
-         End
-         Begin VB.OptionButton file_compare 
-            Caption         =   "不比较 重命名新文件"
-            Height          =   255
-            Index           =   0
-            Left            =   0
-            TabIndex        =   91
-            ToolTipText     =   "rename as new files"
-            Top             =   720
-            Width           =   2055
-         End
-      End
-      Begin VB.PictureBox Picture14 
-         BorderStyle     =   0  'None
-         Height          =   255
-         Left            =   240
-         ScaleHeight     =   255
-         ScaleWidth      =   2475
-         TabIndex        =   87
-         Top             =   1200
-         Width           =   2475
-         Begin VB.OptionButton ubb_copy 
-            Caption         =   "Shift+C"
-            Height          =   255
-            Index           =   0
-            Left            =   1200
-            TabIndex        =   89
-            Top             =   0
-            Width           =   975
-         End
-         Begin VB.OptionButton ubb_copy 
-            Caption         =   "Ctrl+C"
-            Height          =   255
-            Index           =   1
-            Left            =   0
-            TabIndex        =   88
-            Top             =   0
-            Width           =   975
-         End
-      End
-      Begin VB.PictureBox Picture13 
-         BorderStyle     =   0  'None
-         Height          =   255
-         Left            =   240
-         ScaleHeight     =   255
-         ScaleWidth      =   2475
-         TabIndex        =   84
-         Top             =   480
-         Width           =   2475
-         Begin VB.OptionButton list_copy 
-            Caption         =   "Ctrl+C"
-            Height          =   255
-            Index           =   1
-            Left            =   0
-            TabIndex        =   86
-            Top             =   0
-            Width           =   975
-         End
-         Begin VB.OptionButton list_copy 
-            Caption         =   "Shift+C"
-            Height          =   255
-            Index           =   0
-            Left            =   1200
-            TabIndex        =   85
-            Top             =   0
-            Width           =   975
-         End
-      End
-      Begin VB.PictureBox Picture15 
-         BorderStyle     =   0  'None
-         Height          =   375
-         Left            =   1560
-         ScaleHeight     =   375
-         ScaleWidth      =   1500
-         TabIndex        =   144
-         Top             =   3720
-         Width           =   1500
-         Begin VB.CommandButton Command1 
-            Caption         =   "添加后缀"
-            Height          =   300
-            Left            =   120
-            TabIndex        =   145
-            Top             =   60
-            Width           =   1215
-         End
-      End
-      Begin VB.Label Label9 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "伪图检查："
-         Height          =   180
-         Index           =   3
-         Left            =   240
-         TabIndex        =   146
-         ToolTipText     =   "建议使用自动改名"
-         Top             =   3180
-         Width           =   900
-      End
-      Begin VB.Label Label6 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "目录错误时，保存到download目录？"
-         Height          =   180
-         Left            =   3360
-         TabIndex        =   120
-         ToolTipText     =   "建议选择(是)防止无意保存"
-         Top             =   960
-         Width           =   2880
-      End
-      Begin VB.Label Label7 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "密码错误时，询问是否重填密码？"
-         Height          =   180
-         Left            =   3360
-         TabIndex        =   119
-         ToolTipText     =   "非特定需求建议选择(是)"
-         Top             =   1680
-         Width           =   2700
-      End
-      Begin VB.Label Label8 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "下载完成后，是否出现提示框？"
-         Height          =   180
-         Left            =   3360
-         TabIndex        =   118
-         ToolTipText     =   "非特定需求建议选择(是)"
-         Top             =   2400
-         Width           =   2520
-      End
-      Begin VB.Label Label9 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "是否最小化到系统托盘？"
-         Height          =   180
-         Index           =   4
-         Left            =   3360
-         TabIndex        =   117
-         ToolTipText     =   "如果出现错误或者程序假死请选择(否)"
-         Top             =   240
-         Width           =   1980
-      End
-      Begin VB.Label Label9 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "下载文件名已存在："
-         Height          =   180
-         Index           =   10
-         Left            =   240
-         TabIndex        =   95
-         ToolTipText     =   "请按用户需要设定"
-         Top             =   1680
-         Width           =   1620
-      End
-      Begin VB.Label Label9 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "复制UBB标签:[url], 到剪贴板"
-         Height          =   180
-         Index           =   9
-         Left            =   240
-         TabIndex        =   94
-         ToolTipText     =   "如果出现错误或者程序假死请选择(否)"
-         Top             =   960
-         Width           =   2430
-      End
-      Begin VB.Label Label9 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "复制链接(url && Lst)到剪贴板"
-         Height          =   180
-         Index           =   8
-         Left            =   240
-         TabIndex        =   93
-         ToolTipText     =   "如果出现错误或者程序假死请选择(否)"
-         Top             =   240
-         Width           =   2430
-      End
-   End
-   Begin VB.Frame Frame3 
-      Caption         =   "代理服务器设置"
-      Height          =   4215
-      Left            =   240
-      TabIndex        =   63
-      Top             =   480
-      Visible         =   0   'False
-      Width           =   6615
-      Begin VB.ComboBox ProxyComb 
-         Height          =   300
-         Index           =   1
-         ItemData        =   "sys.frx":40E5
-         Left            =   120
-         List            =   "sys.frx":40F2
-         Style           =   2  'Dropdown List
-         TabIndex        =   82
-         Top             =   1920
-         Width           =   3135
-      End
-      Begin VB.ComboBox ProxyComb 
-         Height          =   300
-         Index           =   0
-         ItemData        =   "sys.frx":4131
-         Left            =   120
-         List            =   "sys.frx":413E
-         Style           =   2  'Dropdown List
-         TabIndex        =   81
-         Top             =   480
-         Width           =   3135
-      End
-      Begin VB.TextBox proxy_txt2 
-         Height          =   270
-         Index           =   2
-         Left            =   4080
-         TabIndex        =   75
-         Top             =   2280
-         Width           =   2295
-      End
-      Begin VB.TextBox proxy_txt2 
-         Height          =   270
-         Index           =   1
-         Left            =   4080
-         TabIndex        =   74
-         Top             =   1920
-         Width           =   2295
-      End
-      Begin VB.TextBox proxy_txt1 
-         Height          =   270
-         Index           =   2
-         Left            =   4080
-         TabIndex        =   71
-         Top             =   840
-         Width           =   2295
-      End
-      Begin VB.TextBox proxy_txt1 
-         Height          =   270
-         Index           =   1
-         Left            =   4080
-         TabIndex        =   70
-         Top             =   480
-         Width           =   2295
-      End
-      Begin VB.TextBox proxy_txt1 
-         Height          =   270
-         Index           =   0
-         Left            =   120
-         TabIndex        =   67
-         Top             =   840
-         Width           =   3135
-      End
-      Begin VB.PictureBox proxy_pic 
-         BorderStyle     =   0  'None
-         Height          =   375
-         Left            =   3240
-         ScaleHeight     =   375
-         ScaleWidth      =   3135
-         TabIndex        =   65
-         Top             =   3600
-         Width           =   3135
-         Begin VB.CommandButton proxy_com3 
-            Caption         =   "复制B到A"
-            Height          =   375
-            Left            =   2040
-            TabIndex        =   80
-            Top             =   0
-            Width           =   1095
-         End
-         Begin VB.CommandButton proxy_com2 
-            Caption         =   "复制A到B"
-            Height          =   375
-            Left            =   840
-            TabIndex        =   79
-            Top             =   0
-            Width           =   1095
-         End
-         Begin VB.CommandButton proxy_com1 
-            Caption         =   "清空"
-            Height          =   375
-            Left            =   0
-            TabIndex        =   78
-            Top             =   0
-            Width           =   735
-         End
-      End
-      Begin VB.TextBox proxy_txt2 
-         Height          =   270
-         Index           =   0
-         Left            =   120
-         TabIndex        =   64
-         Top             =   2280
-         Width           =   3135
-      End
-      Begin VB.Label Label2 
-         AutoSize        =   -1  'True
-         Caption         =   "密  码:"
-         Height          =   180
-         Index           =   7
-         Left            =   3360
-         TabIndex        =   77
-         Top             =   2340
-         Width           =   630
-      End
-      Begin VB.Label Label2 
-         AutoSize        =   -1  'True
-         Caption         =   "用户名:"
-         Height          =   180
-         Index           =   6
-         Left            =   3360
-         TabIndex        =   76
-         Top             =   1965
-         Width           =   630
-      End
-      Begin VB.Label Label2 
-         AutoSize        =   -1  'True
-         Caption         =   "密  码:"
-         Height          =   180
-         Index           =   4
-         Left            =   3360
-         TabIndex        =   73
-         Top             =   900
-         Width           =   630
-      End
-      Begin VB.Label Label2 
-         AutoSize        =   -1  'True
-         Caption         =   "用户名:"
-         Height          =   180
-         Index           =   3
-         Left            =   3360
-         TabIndex        =   72
-         Top             =   525
-         Width           =   630
-      End
-      Begin VB.Label Label2 
-         AutoSize        =   -1  'True
-         Caption         =   "格式 127.0.0.1:80（代理IP或网址:端口），用户名密码可为空"
-         ForeColor       =   &H000000FF&
-         Height          =   180
-         Index           =   2
-         Left            =   120
-         TabIndex        =   69
-         Top             =   2880
-         Width           =   5040
-      End
-      Begin VB.Label Label2 
-         AutoSize        =   -1  'True
-         Caption         =   "代理设置B：下载图片内容"
-         Height          =   180
-         Index           =   1
-         Left            =   120
-         TabIndex        =   68
-         Top             =   1680
-         Width           =   2070
-      End
-      Begin VB.Label Label2 
-         AutoSize        =   -1  'True
-         Caption         =   "代理设置A：下载页面内容"
-         Height          =   180
-         Index           =   0
-         Left            =   120
-         TabIndex        =   66
-         Top             =   240
-         Width           =   2070
-      End
-   End
-   Begin VB.Frame Frame5 
-      Caption         =   "163相册验证码设置"
-      Height          =   4215
-      Left            =   6960
-      TabIndex        =   43
-      Top             =   480
-      Visible         =   0   'False
-      Width           =   6735
+      Width           =   6375
       Begin VB.PictureBox Picture23 
          BorderStyle     =   0  'None
-         Height          =   255
-         Left            =   240
-         ScaleHeight     =   255
-         ScaleWidth      =   6315
-         TabIndex        =   137
+         Height          =   735
+         Left            =   480
+         ScaleHeight     =   735
+         ScaleWidth      =   3795
+         TabIndex        =   92
          Top             =   3840
-         Width           =   6315
+         Width           =   3795
          Begin VB.OptionButton new163passrule 
             Caption         =   "否(我有老相册用到中文密码)"
             Height          =   255
             Index           =   0
-            Left            =   3600
-            TabIndex        =   139
-            Top             =   0
+            Left            =   0
+            TabIndex        =   94
+            Top             =   240
             Width           =   3135
          End
          Begin VB.OptionButton new163passrule 
@@ -611,7 +62,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   1
             Left            =   0
-            TabIndex        =   138
+            TabIndex        =   93
             Top             =   0
             Width           =   3615
          End
@@ -621,16 +72,16 @@ Begin VB.Form sys
          Left            =   240
          MultiLine       =   -1  'True
          ScrollBars      =   3  'Both
-         TabIndex        =   62
-         Text            =   "sys.frx":417D
+         TabIndex        =   48
+         Text            =   "sys.frx":406A
          Top             =   1680
-         Width           =   6255
+         Width           =   5895
       End
       Begin VB.TextBox passcode_text 
          Height          =   270
          Index           =   2
          Left            =   960
-         TabIndex        =   47
+         TabIndex        =   34
          Text            =   "asd"
          Top             =   1080
          Width           =   2655
@@ -639,7 +90,7 @@ Begin VB.Form sys
          Height          =   270
          Index           =   1
          Left            =   960
-         TabIndex        =   46
+         TabIndex        =   33
          Text            =   "1530930"
          Top             =   720
          Width           =   2655
@@ -648,7 +99,7 @@ Begin VB.Form sys
          Height          =   270
          Index           =   0
          Left            =   960
-         TabIndex        =   45
+         TabIndex        =   32
          Text            =   "wehi"
          Top             =   360
          Width           =   2655
@@ -657,20 +108,20 @@ Begin VB.Form sys
          Appearance      =   0  'Flat
          BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
-         Height          =   1215
+         Height          =   1095
          Left            =   3720
-         ScaleHeight     =   1215
-         ScaleWidth      =   2775
-         TabIndex        =   51
+         ScaleHeight     =   1095
+         ScaleWidth      =   2535
+         TabIndex        =   38
          Top             =   360
-         Width           =   2775
+         Width           =   2535
          Begin VB.CommandButton Command2 
             Caption         =   "自动填写"
             Height          =   975
             Left            =   0
-            TabIndex        =   52
+            TabIndex        =   39
             Top             =   0
-            Width           =   2775
+            Width           =   2415
          End
       End
       Begin VB.Label Label3 
@@ -680,8 +131,8 @@ Begin VB.Form sys
          ForeColor       =   &H00C00000&
          Height          =   180
          Index           =   4
-         Left            =   2040
-         TabIndex        =   140
+         Left            =   240
+         TabIndex        =   95
          Top             =   3600
          Width           =   2520
       End
@@ -693,7 +144,7 @@ Begin VB.Form sys
          Height          =   180
          Index           =   3
          Left            =   960
-         TabIndex        =   50
+         TabIndex        =   37
          Top             =   1440
          Width           =   1980
       End
@@ -704,7 +155,7 @@ Begin VB.Form sys
          Height          =   180
          Index           =   2
          Left            =   240
-         TabIndex        =   49
+         TabIndex        =   36
          Top             =   1125
          Width           =   630
       End
@@ -715,7 +166,7 @@ Begin VB.Form sys
          Height          =   180
          Index           =   1
          Left            =   240
-         TabIndex        =   48
+         TabIndex        =   35
          Top             =   765
          Width           =   630
       End
@@ -726,162 +177,706 @@ Begin VB.Form sys
          Height          =   180
          Index           =   0
          Left            =   240
-         TabIndex        =   44
+         TabIndex        =   31
          Top             =   405
          Width           =   630
       End
    End
-   Begin VB.Frame Frame1 
-      Caption         =   "下载设置"
-      Height          =   4215
-      Left            =   6960
-      TabIndex        =   0
-      Top             =   5520
-      Visible         =   0   'False
-      Width           =   6735
-      Begin VB.PictureBox Picture12 
-         BorderStyle     =   0  'None
-         Height          =   315
-         Left            =   3480
-         ScaleHeight     =   315
-         ScaleWidth      =   2655
-         TabIndex        =   97
-         Top             =   1320
-         Width           =   2655
-         Begin VB.OptionButton scriptOP 
-            Caption         =   "关闭"
-            Height          =   255
-            Index           =   2
-            Left            =   1785
-            TabIndex        =   100
-            ToolTipText     =   "关闭外部脚本执行"
-            Top             =   20
-            Width           =   735
-         End
-         Begin VB.OptionButton scriptOP 
-            Caption         =   "优先"
-            Height          =   255
-            Index           =   1
-            Left            =   915
-            TabIndex        =   99
-            ToolTipText     =   "优先执行外部脚本"
-            Top             =   0
-            Width           =   735
-         End
-         Begin VB.OptionButton scriptOP 
-            Caption         =   "延后"
-            Height          =   255
-            Index           =   0
-            Left            =   0
-            TabIndex        =   98
-            ToolTipText     =   "在程序分析完是否为163相册后执行"
-            Top             =   20
-            Width           =   735
-         End
-      End
-      Begin VB.ComboBox Combo_lst 
-         Height          =   300
-         ItemData        =   "sys.frx":4272
-         Left            =   3480
-         List            =   "sys.frx":427F
-         Style           =   2  'Dropdown List
-         TabIndex        =   42
-         Top             =   2040
-         Width           =   2655
-      End
-      Begin VB.PictureBox Picture11 
+   Begin VB.Frame FrameL 
+      Caption         =   "内置浏览器设置"
+      ForeColor       =   &H00C00000&
+      Height          =   5295
+      Index           =   8
+      Left            =   9000
+      TabIndex        =   143
+      Top             =   9000
+      Width           =   6375
+      Begin VB.PictureBox Picture22 
          BorderStyle     =   0  'None
          Height          =   255
-         Left            =   5760
+         Left            =   360
          ScaleHeight     =   255
-         ScaleWidth      =   555
-         TabIndex        =   39
+         ScaleWidth      =   1395
+         TabIndex        =   147
          Top             =   600
-         Width           =   555
-         Begin VB.CommandButton def_path_com 
-            Caption         =   "..."
-            Enabled         =   0   'False
+         Width           =   1395
+         Begin VB.OptionButton ox163_window 
+            Caption         =   "否"
             Height          =   255
+            Index           =   0
+            Left            =   840
+            TabIndex        =   149
+            Top             =   0
+            Width           =   495
+         End
+         Begin VB.OptionButton ox163_window 
+            Caption         =   "是"
+            Height          =   255
+            Index           =   1
             Left            =   0
-            TabIndex        =   40
+            TabIndex        =   148
             Top             =   0
             Width           =   495
          End
       End
-      Begin VB.PictureBox Picture4 
+      Begin VB.PictureBox Picture10 
          BorderStyle     =   0  'None
          Height          =   255
-         Left            =   4800
+         Left            =   3120
          ScaleHeight     =   255
-         ScaleWidth      =   1515
-         TabIndex        =   36
-         Top             =   330
-         Width           =   1515
-         Begin VB.OptionButton def_path 
-            Caption         =   "启用"
+         ScaleWidth      =   1395
+         TabIndex        =   144
+         Top             =   600
+         Width           =   1395
+         Begin VB.OptionButton ie_window 
+            Caption         =   "是"
             Height          =   255
             Index           =   1
+            Left            =   0
+            TabIndex        =   146
+            Top             =   0
+            Width           =   495
+         End
+         Begin VB.OptionButton ie_window 
+            Caption         =   "否"
+            Height          =   255
+            Index           =   0
             Left            =   840
-            TabIndex        =   38
+            TabIndex        =   145
+            Top             =   0
+            Width           =   495
+         End
+      End
+      Begin VB.Label Label9 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "是否用OX163打开新窗口？"
+         Height          =   180
+         Index           =   14
+         Left            =   360
+         TabIndex        =   151
+         ToolTipText     =   "浏览特定网站请建议选择(是)"
+         Top             =   360
+         Width           =   2070
+      End
+      Begin VB.Label Label9 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "是否阻止浏览器弹出新开窗口？"
+         Height          =   180
+         Index           =   0
+         Left            =   3120
+         TabIndex        =   150
+         ToolTipText     =   "非特定需求建议选择(是)"
+         Top             =   360
+         Width           =   2520
+      End
+   End
+   Begin VB.CommandButton sys_apply 
+      Caption         =   "应用"
+      Height          =   465
+      Left            =   7680
+      TabIndex        =   113
+      Top             =   5520
+      Width           =   1215
+   End
+   Begin MSComctlLib.ImageList ImageList1 
+      Left            =   240
+      Top             =   4680
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      BackColor       =   -2147483643
+      ImageWidth      =   21
+      ImageHeight     =   21
+      MaskColor       =   16711935
+      _Version        =   393216
+      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
+         NumListImages   =   9
+         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "sys.frx":415F
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "sys.frx":4643
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "sys.frx":4B33
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "sys.frx":502E
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "sys.frx":552B
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "sys.frx":5A32
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "sys.frx":5F16
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "sys.frx":6400
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "sys.frx":68FA
+            Key             =   ""
+         EndProperty
+      EndProperty
+   End
+   Begin MSComctlLib.TreeView SysTreeView 
+      Height          =   5295
+      Left            =   120
+      TabIndex        =   112
+      Top             =   120
+      Width           =   2295
+      _ExtentX        =   4048
+      _ExtentY        =   9340
+      _Version        =   393217
+      HideSelection   =   0   'False
+      Indentation     =   706
+      LabelEdit       =   1
+      Style           =   7
+      Scroll          =   0   'False
+      ImageList       =   "ImageList1"
+      BorderStyle     =   1
+      Appearance      =   1
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "宋体"
+         Size            =   9
+         Charset         =   134
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+   End
+   Begin VB.Frame FrameL 
+      Caption         =   "修复OX163所需系统文件"
+      ForeColor       =   &H00C00000&
+      Height          =   5295
+      Index           =   9
+      Left            =   15480
+      TabIndex        =   91
+      Top             =   9000
+      Visible         =   0   'False
+      Width           =   6375
+      Begin VB.PictureBox Picture21 
+         BorderStyle     =   0  'None
+         Height          =   1935
+         Left            =   240
+         ScaleHeight     =   1935
+         ScaleWidth      =   5895
+         TabIndex        =   100
+         Top             =   360
+         Width           =   5895
+         Begin VB.CommandButton Com3 
+            Caption         =   $"sys.frx":6DD9
+            Height          =   1335
+            Left            =   120
+            TabIndex        =   101
+            Top             =   240
+            Width           =   5655
+         End
+      End
+   End
+   Begin VB.Frame FrameL 
+      Caption         =   "热键与警告框"
+      ForeColor       =   &H00C00000&
+      Height          =   5295
+      Index           =   6
+      Left            =   15480
+      TabIndex        =   69
+      Top             =   4680
+      Visible         =   0   'False
+      Width           =   6375
+      Begin VB.PictureBox Picture5 
+         BorderStyle     =   0  'None
+         Height          =   255
+         Left            =   3600
+         ScaleHeight     =   255
+         ScaleWidth      =   1395
+         TabIndex        =   152
+         Top             =   2040
+         Width           =   1395
+         Begin VB.OptionButton quitOp 
+            Caption         =   "是"
+            Height          =   255
+            Index           =   1
+            Left            =   0
+            TabIndex        =   154
+            Top             =   0
+            Width           =   495
+         End
+         Begin VB.OptionButton quitOp 
+            Caption         =   "否"
+            Height          =   255
+            Index           =   0
+            Left            =   840
+            TabIndex        =   153
+            Top             =   0
+            Width           =   495
+         End
+      End
+      Begin VB.PictureBox Picture7 
+         BorderStyle     =   0  'None
+         Height          =   255
+         Left            =   240
+         ScaleHeight     =   255
+         ScaleWidth      =   2475
+         TabIndex        =   84
+         Top             =   2040
+         Width           =   2475
+         Begin VB.OptionButton saveOp 
+            Caption         =   "询问"
+            Height          =   255
+            Index           =   1
+            Left            =   0
+            TabIndex        =   86
             Top             =   0
             Width           =   735
          End
-         Begin VB.OptionButton def_path 
-            Caption         =   "关闭"
+         Begin VB.OptionButton saveOp 
+            Caption         =   "直接保存"
             Height          =   255
             Index           =   0
+            Left            =   840
+            TabIndex        =   85
+            Top             =   0
+            Width           =   1335
+         End
+      End
+      Begin VB.PictureBox Picture8 
+         BorderStyle     =   0  'None
+         Height          =   255
+         Left            =   240
+         ScaleHeight     =   255
+         ScaleWidth      =   1395
+         TabIndex        =   81
+         Top             =   2760
+         Width           =   1395
+         Begin VB.OptionButton changepsw 
+            Caption         =   "否"
+            Height          =   255
+            Index           =   0
+            Left            =   840
+            TabIndex        =   83
+            Top             =   0
+            Width           =   495
+         End
+         Begin VB.OptionButton changepsw 
+            Caption         =   "是"
+            Height          =   255
+            Index           =   1
             Left            =   0
-            TabIndex        =   37
+            TabIndex        =   82
+            Top             =   0
+            Width           =   495
+         End
+      End
+      Begin VB.PictureBox Picture9 
+         BorderStyle     =   0  'None
+         Height          =   255
+         Left            =   3600
+         ScaleHeight     =   255
+         ScaleWidth      =   1395
+         TabIndex        =   78
+         Top             =   2760
+         Width           =   1395
+         Begin VB.OptionButton askfloder 
+            Caption         =   "是"
+            Height          =   255
+            Index           =   1
+            Left            =   0
+            TabIndex        =   80
+            Top             =   0
+            Width           =   495
+         End
+         Begin VB.OptionButton askfloder 
+            Caption         =   "否"
+            Height          =   255
+            Index           =   0
+            Left            =   840
+            TabIndex        =   79
+            Top             =   0
+            Width           =   495
+         End
+      End
+      Begin VB.PictureBox Picture14 
+         BorderStyle     =   0  'None
+         Height          =   255
+         Left            =   240
+         ScaleHeight     =   255
+         ScaleWidth      =   2475
+         TabIndex        =   73
+         Top             =   1200
+         Width           =   2475
+         Begin VB.OptionButton ubb_copy 
+            Caption         =   "Shift+C"
+            Height          =   255
+            Index           =   0
+            Left            =   1200
+            TabIndex        =   75
+            Top             =   0
+            Width           =   975
+         End
+         Begin VB.OptionButton ubb_copy 
+            Caption         =   "Ctrl+C"
+            Height          =   255
+            Index           =   1
+            Left            =   0
+            TabIndex        =   74
+            Top             =   0
+            Width           =   975
+         End
+      End
+      Begin VB.PictureBox Picture13 
+         BorderStyle     =   0  'None
+         Height          =   255
+         Left            =   240
+         ScaleHeight     =   255
+         ScaleWidth      =   2475
+         TabIndex        =   70
+         Top             =   480
+         Width           =   2475
+         Begin VB.OptionButton list_copy 
+            Caption         =   "Ctrl+C"
+            Height          =   255
+            Index           =   1
+            Left            =   0
+            TabIndex        =   72
+            Top             =   0
+            Width           =   975
+         End
+         Begin VB.OptionButton list_copy 
+            Caption         =   "Shift+C"
+            Height          =   255
+            Index           =   0
+            Left            =   1200
+            TabIndex        =   71
+            Top             =   0
+            Width           =   975
+         End
+      End
+      Begin VB.Label Label4 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "程序执行时，打开退出询问？"
+         Height          =   180
+         Left            =   3600
+         TabIndex        =   155
+         ToolTipText     =   "建议选择(是)防止误操作"
+         Top             =   1800
+         Width           =   2340
+      End
+      Begin VB.Label Label6 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "目录错误时，保存到download目录？"
+         Height          =   180
+         Left            =   240
+         TabIndex        =   89
+         ToolTipText     =   "建议选择(是)防止无意保存"
+         Top             =   1800
+         Width           =   2880
+      End
+      Begin VB.Label Label7 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "密码错误时，询问是否重填密码？"
+         Height          =   180
+         Left            =   240
+         TabIndex        =   88
+         ToolTipText     =   "非特定需求建议选择(是)"
+         Top             =   2520
+         Width           =   2700
+      End
+      Begin VB.Label Label8 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "下载完成后，是否出现提示框？"
+         Height          =   180
+         Left            =   3600
+         TabIndex        =   87
+         ToolTipText     =   "非特定需求建议选择(是)"
+         Top             =   2520
+         Width           =   2520
+      End
+      Begin VB.Label Label9 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "复制UBB标签:[url], 到剪贴板"
+         Height          =   180
+         Index           =   9
+         Left            =   240
+         TabIndex        =   77
+         ToolTipText     =   "如果出现错误或者程序假死请选择(否)"
+         Top             =   960
+         Width           =   2430
+      End
+      Begin VB.Label Label9 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "复制链接(url && Lst)到剪贴板"
+         Height          =   180
+         Index           =   8
+         Left            =   240
+         TabIndex        =   76
+         ToolTipText     =   "如果出现错误或者程序假死请选择(否)"
+         Top             =   240
+         Width           =   2430
+      End
+   End
+   Begin VB.Frame FrameL 
+      Caption         =   "代理服务器设置"
+      ForeColor       =   &H00C00000&
+      Height          =   5295
+      Index           =   4
+      Left            =   2400
+      TabIndex        =   49
+      Top             =   6000
+      Visible         =   0   'False
+      Width           =   6375
+      Begin VB.ComboBox ProxyComb 
+         Height          =   300
+         Index           =   1
+         ItemData        =   "sys.frx":6E21
+         Left            =   120
+         List            =   "sys.frx":6E2E
+         Style           =   2  'Dropdown List
+         TabIndex        =   68
+         Top             =   1920
+         Width           =   3135
+      End
+      Begin VB.ComboBox ProxyComb 
+         Height          =   300
+         Index           =   0
+         ItemData        =   "sys.frx":6E6D
+         Left            =   120
+         List            =   "sys.frx":6E7A
+         Style           =   2  'Dropdown List
+         TabIndex        =   67
+         Top             =   480
+         Width           =   3135
+      End
+      Begin VB.TextBox proxy_txt2 
+         Height          =   270
+         Index           =   2
+         Left            =   4080
+         TabIndex        =   61
+         Top             =   2280
+         Width           =   2055
+      End
+      Begin VB.TextBox proxy_txt2 
+         Height          =   270
+         Index           =   1
+         Left            =   4080
+         TabIndex        =   60
+         Top             =   1920
+         Width           =   2055
+      End
+      Begin VB.TextBox proxy_txt1 
+         Height          =   270
+         Index           =   2
+         Left            =   4080
+         TabIndex        =   57
+         Top             =   840
+         Width           =   2055
+      End
+      Begin VB.TextBox proxy_txt1 
+         Height          =   270
+         Index           =   1
+         Left            =   4080
+         TabIndex        =   56
+         Top             =   480
+         Width           =   2055
+      End
+      Begin VB.TextBox proxy_txt1 
+         Height          =   270
+         Index           =   0
+         Left            =   120
+         TabIndex        =   53
+         Top             =   840
+         Width           =   3135
+      End
+      Begin VB.PictureBox proxy_pic 
+         BorderStyle     =   0  'None
+         Height          =   375
+         Left            =   3000
+         ScaleHeight     =   375
+         ScaleWidth      =   3135
+         TabIndex        =   51
+         Top             =   3600
+         Width           =   3135
+         Begin VB.CommandButton proxy_com3 
+            Caption         =   "复制B到A"
+            Height          =   375
+            Left            =   2040
+            TabIndex        =   66
+            Top             =   0
+            Width           =   1095
+         End
+         Begin VB.CommandButton proxy_com2 
+            Caption         =   "复制A到B"
+            Height          =   375
+            Left            =   840
+            TabIndex        =   65
+            Top             =   0
+            Width           =   1095
+         End
+         Begin VB.CommandButton proxy_com1 
+            Caption         =   "清空"
+            Height          =   375
+            Left            =   0
+            TabIndex        =   64
             Top             =   0
             Width           =   735
          End
       End
-      Begin VB.TextBox def_path_txt 
-         Enabled         =   0   'False
+      Begin VB.TextBox proxy_txt2 
          Height          =   270
-         Left            =   3510
-         TabIndex        =   35
-         Top             =   600
-         Width           =   2175
+         Index           =   0
+         Left            =   120
+         TabIndex        =   50
+         Top             =   2280
+         Width           =   3135
+      End
+      Begin VB.Label Label2 
+         AutoSize        =   -1  'True
+         Caption         =   "密  码:"
+         Height          =   180
+         Index           =   7
+         Left            =   3360
+         TabIndex        =   63
+         Top             =   2340
+         Width           =   630
+      End
+      Begin VB.Label Label2 
+         AutoSize        =   -1  'True
+         Caption         =   "用户名:"
+         Height          =   180
+         Index           =   6
+         Left            =   3360
+         TabIndex        =   62
+         Top             =   1965
+         Width           =   630
+      End
+      Begin VB.Label Label2 
+         AutoSize        =   -1  'True
+         Caption         =   "密  码:"
+         Height          =   180
+         Index           =   4
+         Left            =   3360
+         TabIndex        =   59
+         Top             =   900
+         Width           =   630
+      End
+      Begin VB.Label Label2 
+         AutoSize        =   -1  'True
+         Caption         =   "用户名:"
+         Height          =   180
+         Index           =   3
+         Left            =   3360
+         TabIndex        =   58
+         Top             =   525
+         Width           =   630
+      End
+      Begin VB.Label Label2 
+         AutoSize        =   -1  'True
+         Caption         =   "格式 127.0.0.1:80（代理IP或网址:端口），用户名密码可为空"
+         ForeColor       =   &H000000FF&
+         Height          =   180
+         Index           =   2
+         Left            =   120
+         TabIndex        =   55
+         Top             =   2880
+         Width           =   5040
+      End
+      Begin VB.Label Label2 
+         AutoSize        =   -1  'True
+         Caption         =   "代理设置B：下载图片内容"
+         Height          =   180
+         Index           =   1
+         Left            =   120
+         TabIndex        =   54
+         Top             =   1680
+         Width           =   2070
+      End
+      Begin VB.Label Label2 
+         AutoSize        =   -1  'True
+         Caption         =   "代理设置A：下载页面内容"
+         Height          =   180
+         Index           =   0
+         Left            =   120
+         TabIndex        =   52
+         Top             =   240
+         Width           =   2070
+      End
+   End
+   Begin VB.Frame FrameL 
+      Caption         =   "网络下载设置"
+      ForeColor       =   &H00C00000&
+      Height          =   5295
+      Index           =   1
+      Left            =   2520
+      TabIndex        =   0
+      Top             =   120
+      Visible         =   0   'False
+      Width           =   6375
+      Begin VB.ComboBox Combo_lst 
+         Height          =   300
+         ItemData        =   "sys.frx":6EB9
+         Left            =   240
+         List            =   "sys.frx":6EC6
+         Style           =   2  'Dropdown List
+         TabIndex        =   114
+         Top             =   2760
+         Width           =   2415
       End
       Begin VB.VScrollBar VS_timeout 
          Height          =   280
-         Left            =   1560
+         Left            =   1800
          Max             =   10
          Min             =   255
-         TabIndex        =   29
-         Top             =   1845
+         TabIndex        =   25
+         Top             =   1485
          Value           =   10
          Width           =   375
       End
       Begin VB.VScrollBar VS_retry 
          Height          =   280
-         Left            =   1560
+         Left            =   1800
          Max             =   0
          Min             =   255
-         TabIndex        =   28
-         Top             =   2205
+         TabIndex        =   24
+         Top             =   1860
          Width           =   375
       End
       Begin VB.PictureBox Picture1 
          BorderStyle     =   0  'None
-         Height          =   975
-         Left            =   120
-         ScaleHeight     =   975
-         ScaleWidth      =   2715
+         Height          =   735
+         Left            =   240
+         ScaleHeight     =   735
+         ScaleWidth      =   5715
          TabIndex        =   1
          ToolTipText     =   "区块大小和下载速度有一定关系(不建议设定太大)"
          Top             =   600
-         Width           =   2715
+         Width           =   5715
          Begin VB.HScrollBar downHS 
             Height          =   220
-            Left            =   720
+            Left            =   2880
             Max             =   400
             Min             =   1
             TabIndex        =   9
-            Top             =   720
+            Top             =   360
             Value           =   4
-            Width           =   1935
+            Width           =   2175
          End
          Begin VB.TextBox downText 
             Alignment       =   2  'Center
@@ -897,58 +892,58 @@ Begin VB.Form sys
                Strikethrough   =   0   'False
             EndProperty
             Height          =   225
-            Left            =   0
+            Left            =   2160
             TabIndex        =   8
             Text            =   "2KB"
             ToolTipText     =   "区块大小和下载速度有一定关系(不建议设定太大)"
-            Top             =   720
+            Top             =   360
             Width           =   735
          End
          Begin VB.OptionButton downOp 
             Caption         =   "自定义"
             Height          =   255
             Index           =   5
-            Left            =   0
+            Left            =   1320
             TabIndex        =   7
             ToolTipText     =   "区块大小和下载速度有一定关系(不建议设定太大)"
-            Top             =   480
+            Top             =   360
             Width           =   975
          End
          Begin VB.OptionButton downOp 
             Caption         =   "10240Byte"
             Height          =   255
             Index           =   4
-            Left            =   1440
+            Left            =   0
             TabIndex        =   6
             ToolTipText     =   "区块大小和下载速度有一定关系(不建议设定太大)"
-            Top             =   480
+            Top             =   360
             Width           =   1215
          End
          Begin VB.OptionButton downOp 
             Caption         =   "5120 Byte"
             Height          =   255
             Index           =   3
-            Left            =   1440
+            Left            =   3960
             TabIndex        =   5
             ToolTipText     =   "区块大小和下载速度有一定关系(不建议设定太大)"
-            Top             =   240
+            Top             =   0
             Width           =   1215
          End
          Begin VB.OptionButton downOp 
             Caption         =   "2048 Byte"
             Height          =   255
             Index           =   2
-            Left            =   0
+            Left            =   2640
             TabIndex        =   4
             ToolTipText     =   "区块大小和下载速度有一定关系(不建议设定太大)"
-            Top             =   240
+            Top             =   0
             Width           =   1215
          End
          Begin VB.OptionButton downOp 
             Caption         =   "1024 Byte"
             Height          =   255
             Index           =   1
-            Left            =   1440
+            Left            =   1320
             TabIndex        =   3
             ToolTipText     =   "区块大小和下载速度有一定关系(不建议设定太大)"
             Top             =   0
@@ -965,37 +960,33 @@ Begin VB.Form sys
             Width           =   1215
          End
       End
+      Begin VB.PictureBox Picture24 
+         BorderStyle     =   0  'None
+         Height          =   495
+         Left            =   240
+         ScaleHeight     =   495
+         ScaleWidth      =   2535
+         TabIndex        =   140
+         Top             =   3120
+         Width           =   2535
+         Begin VB.CommandButton LST_Help 
+            Caption         =   "下载列表文件使用说明"
+            Height          =   465
+            Left            =   0
+            TabIndex        =   141
+            Top             =   0
+            Width           =   2295
+         End
+      End
       Begin VB.Label Combo_lst1 
          AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   $"sys.frx":42BF
+         Caption         =   $"sys.frx":6F06
          ForeColor       =   &H000000FF&
          Height          =   360
-         Left            =   3480
-         TabIndex        =   125
-         Top             =   2400
+         Left            =   2760
+         TabIndex        =   142
+         Top             =   2760
          Width           =   2610
-      End
-      Begin VB.Label Label10 
-         AutoSize        =   -1  'True
-         Caption         =   "下载区块大小："
-         Height          =   180
-         Left            =   120
-         TabIndex        =   121
-         Top             =   360
-         Width           =   1260
-      End
-      Begin VB.Label Label9 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "外部脚本调用设置："
-         Height          =   180
-         Index           =   6
-         Left            =   3480
-         TabIndex        =   101
-         ToolTipText     =   "请按用户需要设定"
-         Top             =   1080
-         Width           =   1620
       End
       Begin VB.Label Label9 
          AutoSize        =   -1  'True
@@ -1003,21 +994,18 @@ Begin VB.Form sys
          Caption         =   "导出下载列表格式："
          Height          =   180
          Index           =   7
-         Left            =   3480
-         TabIndex        =   41
+         Left            =   240
+         TabIndex        =   115
          ToolTipText     =   "建议使用LST方式"
-         Top             =   1800
+         Top             =   2520
          Width           =   1620
       End
-      Begin VB.Label Label9 
+      Begin VB.Label Label10 
          AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "下载默认路径："
+         Caption         =   "下载区块大小："
          Height          =   180
-         Index           =   5
-         Left            =   3480
-         TabIndex        =   34
-         ToolTipText     =   "建议自定义设置"
+         Left            =   240
+         TabIndex        =   90
          Top             =   360
          Width           =   1260
       End
@@ -1027,10 +1015,10 @@ Begin VB.Form sys
          Caption         =   "超时(10-255秒)："
          Height          =   180
          Index           =   1
-         Left            =   120
-         TabIndex        =   33
+         Left            =   240
+         TabIndex        =   29
          ToolTipText     =   "默认为15秒"
-         Top             =   1920
+         Top             =   1560
          Width           =   1440
       End
       Begin VB.Label Label9 
@@ -1039,10 +1027,10 @@ Begin VB.Form sys
          Caption         =   "重试( 0-255次)："
          Height          =   180
          Index           =   2
-         Left            =   120
-         TabIndex        =   32
+         Left            =   240
+         TabIndex        =   28
          ToolTipText     =   "默认为20次"
-         Top             =   2280
+         Top             =   1920
          Width           =   1440
       End
       Begin VB.Label LB_timeout 
@@ -1050,10 +1038,10 @@ Begin VB.Form sys
          BackStyle       =   0  'Transparent
          Caption         =   "30秒"
          Height          =   180
-         Left            =   2040
-         TabIndex        =   31
+         Left            =   2400
+         TabIndex        =   27
          ToolTipText     =   "非特定需求建议选择(是)"
-         Top             =   1920
+         Top             =   1560
          Width           =   360
       End
       Begin VB.Label LB_retry 
@@ -1061,144 +1049,47 @@ Begin VB.Form sys
          BackStyle       =   0  'Transparent
          Caption         =   "无限重试"
          Height          =   180
-         Left            =   2040
-         TabIndex        =   30
+         Left            =   2400
+         TabIndex        =   26
          ToolTipText     =   "非特定需求建议选择(是)"
-         Top             =   2280
+         Top             =   1920
          Width           =   720
       End
    End
-   Begin VB.Frame Frame2 
+   Begin VB.Frame FrameL 
       Caption         =   "常规参数设置"
-      Height          =   4215
-      Left            =   120
+      ForeColor       =   &H00C00000&
+      Height          =   5295
+      Index           =   5
+      Left            =   9000
       TabIndex        =   10
-      Top             =   5520
+      Top             =   4680
       Visible         =   0   'False
-      Width           =   6735
-      Begin VB.Frame Frame7 
-         Height          =   1095
-         Left            =   240
-         TabIndex        =   127
-         Top             =   2640
-         Width           =   6255
-         Begin VB.PictureBox Picture10 
-            BorderStyle     =   0  'None
-            Height          =   255
-            Left            =   3360
-            ScaleHeight     =   255
-            ScaleWidth      =   1395
-            TabIndex        =   132
-            Top             =   600
-            Width           =   1395
-            Begin VB.OptionButton ie_window 
-               Caption         =   "否"
-               Height          =   255
-               Index           =   0
-               Left            =   840
-               TabIndex        =   134
-               Top             =   0
-               Width           =   495
-            End
-            Begin VB.OptionButton ie_window 
-               Caption         =   "是"
-               Height          =   255
-               Index           =   1
-               Left            =   0
-               TabIndex        =   133
-               Top             =   0
-               Width           =   495
-            End
-         End
-         Begin VB.PictureBox Picture22 
-            BorderStyle     =   0  'None
-            Height          =   255
-            Left            =   360
-            ScaleHeight     =   255
-            ScaleWidth      =   1395
-            TabIndex        =   129
-            Top             =   600
-            Width           =   1395
-            Begin VB.OptionButton ox163_window 
-               Caption         =   "是"
-               Height          =   255
-               Index           =   1
-               Left            =   0
-               TabIndex        =   131
-               Top             =   0
-               Width           =   495
-            End
-            Begin VB.OptionButton ox163_window 
-               Caption         =   "否"
-               Height          =   255
-               Index           =   0
-               Left            =   840
-               TabIndex        =   130
-               Top             =   0
-               Width           =   495
-            End
-         End
-         Begin VB.Label Label9 
-            AutoSize        =   -1  'True
-            Caption         =   "内置浏览器设置"
-            ForeColor       =   &H00C00000&
-            Height          =   180
-            Index           =   15
-            Left            =   120
-            TabIndex        =   136
-            ToolTipText     =   "浏览特定网站请建议选择(是)"
-            Top             =   0
-            Width           =   1260
-         End
-         Begin VB.Label Label9 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "是否阻止浏览器弹出新开窗口？"
-            Height          =   180
-            Index           =   0
-            Left            =   3360
-            TabIndex        =   135
-            ToolTipText     =   "非特定需求建议选择(是)"
-            Top             =   360
-            Width           =   2520
-         End
-         Begin VB.Label Label9 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "是否用OX163打开新窗口？"
-            Height          =   180
-            Index           =   14
-            Left            =   360
-            TabIndex        =   128
-            ToolTipText     =   "浏览特定网站请建议选择(是)"
-            Top             =   360
-            Width           =   2070
-         End
-      End
-      Begin VB.PictureBox Picture20 
+      Width           =   6375
+      Begin VB.PictureBox Picture3 
          BorderStyle     =   0  'None
          Height          =   255
-         Left            =   3600
+         Left            =   120
          ScaleHeight     =   255
          ScaleWidth      =   1395
-         TabIndex        =   102
+         TabIndex        =   108
          Top             =   1320
          Width           =   1395
-         Begin VB.OptionButton set_url_folder 
+         Begin VB.OptionButton set_tray 
             Caption         =   "否"
             Height          =   255
             Index           =   0
             Left            =   840
-            TabIndex        =   104
+            TabIndex        =   110
             Top             =   0
             Width           =   495
          End
-         Begin VB.OptionButton set_url_folder 
+         Begin VB.OptionButton set_tray 
             Caption         =   "是"
             Height          =   255
             Index           =   1
             Left            =   0
-            TabIndex        =   103
+            TabIndex        =   109
             Top             =   0
             Width           =   495
          End
@@ -1209,15 +1100,15 @@ Begin VB.Form sys
          Left            =   3600
          ScaleHeight     =   255
          ScaleWidth      =   1395
-         TabIndex        =   58
-         Top             =   2040
+         TabIndex        =   45
+         Top             =   1320
          Width           =   1395
          Begin VB.OptionButton set_checkall 
             Caption         =   "否"
             Height          =   255
             Index           =   0
             Left            =   840
-            TabIndex        =   60
+            TabIndex        =   47
             Top             =   0
             Width           =   495
          End
@@ -1226,7 +1117,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   1
             Left            =   0
-            TabIndex        =   59
+            TabIndex        =   46
             Top             =   0
             Width           =   495
          End
@@ -1237,15 +1128,15 @@ Begin VB.Form sys
          Left            =   3600
          ScaleHeight     =   255
          ScaleWidth      =   1395
-         TabIndex        =   54
-         Top             =   600
+         TabIndex        =   41
+         Top             =   2040
          Width           =   1395
          Begin VB.OptionButton set_sbar 
             Caption         =   "是"
             Height          =   255
             Index           =   1
             Left            =   0
-            TabIndex        =   56
+            TabIndex        =   43
             Top             =   0
             Width           =   495
          End
@@ -1254,7 +1145,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   0
             Left            =   840
-            TabIndex        =   55
+            TabIndex        =   42
             Top             =   0
             Width           =   495
          End
@@ -1265,7 +1156,7 @@ Begin VB.Form sys
          Left            =   120
          ScaleHeight     =   255
          ScaleWidth      =   1395
-         TabIndex        =   24
+         TabIndex        =   20
          Top             =   2040
          Width           =   1395
          Begin VB.OptionButton listOp 
@@ -1273,7 +1164,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   1
             Left            =   0
-            TabIndex        =   26
+            TabIndex        =   22
             Top             =   0
             Width           =   495
          End
@@ -1282,35 +1173,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   0
             Left            =   840
-            TabIndex        =   25
-            Top             =   0
-            Width           =   495
-         End
-      End
-      Begin VB.PictureBox Picture5 
-         BorderStyle     =   0  'None
-         Height          =   255
-         Left            =   120
-         ScaleHeight     =   255
-         ScaleWidth      =   1395
-         TabIndex        =   21
-         Top             =   1320
-         Width           =   1395
-         Begin VB.OptionButton quitOp 
-            Caption         =   "是"
-            Height          =   255
-            Index           =   1
-            Left            =   0
-            TabIndex        =   23
-            Top             =   0
-            Width           =   495
-         End
-         Begin VB.OptionButton quitOp 
-            Caption         =   "否"
-            Height          =   255
-            Index           =   0
-            Left            =   840
-            TabIndex        =   22
+            TabIndex        =   21
             Top             =   0
             Width           =   495
          End
@@ -1328,7 +1191,7 @@ Begin VB.Form sys
             Caption         =   "立刻检查更新"
             Height          =   300
             Left            =   1440
-            TabIndex        =   27
+            TabIndex        =   23
             ToolTipText     =   "手动检查更新"
             Top             =   0
             Width           =   1455
@@ -1355,14 +1218,14 @@ Begin VB.Form sys
       Begin VB.Label Label9 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "下载时，是否以网页地址作为目录？"
+         Caption         =   "是否最小化到系统托盘？"
          Height          =   180
-         Index           =   13
-         Left            =   3600
-         TabIndex        =   96
-         ToolTipText     =   "（如：C:\163blog.vbs_vbscript_GB2312\http：／／blog.163.com／aaa／\）"
+         Index           =   4
+         Left            =   120
+         TabIndex        =   111
+         ToolTipText     =   "如果出现错误或者程序假死请选择(否)"
          Top             =   1080
-         Width           =   2880
+         Width           =   1980
       End
       Begin VB.Label Label9 
          AutoSize        =   -1  'True
@@ -1371,9 +1234,9 @@ Begin VB.Form sys
          Height          =   180
          Index           =   12
          Left            =   3600
-         TabIndex        =   57
+         TabIndex        =   44
          ToolTipText     =   "列表后自动全选功能"
-         Top             =   1800
+         Top             =   1080
          Width           =   2160
       End
       Begin VB.Label Label9 
@@ -1383,9 +1246,9 @@ Begin VB.Form sys
          Height          =   180
          Index           =   11
          Left            =   3600
-         TabIndex        =   53
+         TabIndex        =   40
          ToolTipText     =   "信息栏用于提示OX163的最新信息"
-         Top             =   360
+         Top             =   1800
          Width           =   1440
       End
       Begin VB.Label Label5 
@@ -1394,20 +1257,9 @@ Begin VB.Form sys
          Caption         =   "分析页面时，显示列表清单？"
          Height          =   180
          Left            =   120
-         TabIndex        =   19
+         TabIndex        =   18
          ToolTipText     =   "建议选择(否)加快刷新速度"
          Top             =   1800
-         Width           =   2340
-      End
-      Begin VB.Label Label4 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "程序执行时，打开退出询问？"
-         Height          =   180
-         Left            =   120
-         TabIndex        =   18
-         ToolTipText     =   "建议选择(是)防止误操作"
-         Top             =   1080
          Width           =   2340
       End
       Begin VB.Label Label1 
@@ -1423,93 +1275,384 @@ Begin VB.Form sys
       End
    End
    Begin VB.CommandButton sys_def_com 
-      Caption         =   "全部还原默认设置"
+      Caption         =   "恢复全部默认设置"
       Height          =   465
       Index           =   0
       Left            =   2160
-      TabIndex        =   20
-      Top             =   4920
+      TabIndex        =   19
+      Top             =   5520
       Width           =   1935
    End
    Begin VB.CommandButton sys_no 
       Caption         =   "取消(&C)"
       Height          =   465
-      Left            =   6120
+      Left            =   6360
       TabIndex        =   13
-      Top             =   4920
-      Width           =   975
+      Top             =   5520
+      Width           =   1215
    End
    Begin VB.CommandButton sys_rec 
-      Caption         =   "全部还原上次设置"
+      Caption         =   "从设置文件恢复设置"
       Height          =   465
       Index           =   0
       Left            =   120
       TabIndex        =   12
-      Top             =   4920
+      Top             =   5520
       Width           =   1935
    End
    Begin VB.CommandButton sys_yes 
       Caption         =   "确定(&A)"
       Height          =   465
-      Left            =   4440
+      Left            =   4920
       TabIndex        =   11
-      Top             =   4920
-      Width           =   1575
+      Top             =   5520
+      Width           =   1335
    End
-   Begin MSComctlLib.TabStrip TabStrip 
-      Height          =   4695
-      Left            =   120
-      TabIndex        =   61
+   Begin VB.Frame FrameL 
+      Caption         =   "文件目录操作"
+      ForeColor       =   &H00C00000&
+      Height          =   5295
+      Index           =   2
+      Left            =   9000
+      TabIndex        =   96
       Top             =   120
-      Width           =   6975
-      _ExtentX        =   12303
-      _ExtentY        =   8281
-      MultiRow        =   -1  'True
-      HotTracking     =   -1  'True
-      TabMinWidth     =   353
-      _Version        =   393216
-      BeginProperty Tabs {1EFB6598-857C-11D1-B16A-00C0F0283628} 
-         NumTabs         =   6
-         BeginProperty Tab1 {1EFB659A-857C-11D1-B16A-00C0F0283628} 
-            Caption         =   "下载"
-            Object.Tag             =   "TabStrip_1"
-            ImageVarType    =   2
-         EndProperty
-         BeginProperty Tab2 {1EFB659A-857C-11D1-B16A-00C0F0283628} 
-            Caption         =   "常规"
-            Object.Tag             =   "TabStrip_2"
-            ImageVarType    =   2
-         EndProperty
-         BeginProperty Tab3 {1EFB659A-857C-11D1-B16A-00C0F0283628} 
-            Caption         =   "代理"
-            Object.Tag             =   "TabStrip_3"
-            ImageVarType    =   2
-         EndProperty
-         BeginProperty Tab4 {1EFB659A-857C-11D1-B16A-00C0F0283628} 
-            Caption         =   "操作"
-            Object.Tag             =   "TabStrip_4"
-            ImageVarType    =   2
-         EndProperty
-         BeginProperty Tab5 {1EFB659A-857C-11D1-B16A-00C0F0283628} 
-            Caption         =   "163密码"
-            Object.Tag             =   "TabStrip_5"
-            ImageVarType    =   2
-         EndProperty
-         BeginProperty Tab6 {1EFB659A-857C-11D1-B16A-00C0F0283628} 
-            Caption         =   "修复系统"
-            Object.Tag             =   "TabStrip_6"
-            ImageVarType    =   2
-         EndProperty
-      EndProperty
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "宋体"
-         Size            =   9
-         Charset         =   134
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
+      Width           =   6375
+      Begin VB.Frame Frame2 
+         ForeColor       =   &H00C00000&
+         Height          =   1815
+         Left            =   240
+         TabIndex        =   117
+         Top             =   2400
+         Width           =   5895
+         Begin VB.ComboBox Combo_rar 
+            Height          =   300
+            ItemData        =   "sys.frx":6F43
+            Left            =   3720
+            List            =   "sys.frx":6F50
+            Style           =   2  'Dropdown List
+            TabIndex        =   138
+            Top             =   240
+            Width           =   1815
+         End
+         Begin VB.ComboBox Combo_rar_name 
+            Height          =   300
+            ItemData        =   "sys.frx":6F72
+            Left            =   2880
+            List            =   "sys.frx":6F74
+            Style           =   2  'Dropdown List
+            TabIndex        =   137
+            Top             =   900
+            Width           =   1335
+         End
+         Begin VB.TextBox fix_name_Text 
+            Height          =   270
+            Left            =   2880
+            MaxLength       =   15
+            TabIndex        =   136
+            Top             =   570
+            Width           =   2655
+         End
+         Begin VB.PictureBox Picture15 
+            BorderStyle     =   0  'None
+            Height          =   375
+            Left            =   4200
+            ScaleHeight     =   375
+            ScaleWidth      =   1500
+            TabIndex        =   134
+            Top             =   840
+            Width           =   1500
+            Begin VB.CommandButton Command1 
+               Caption         =   "添加后缀"
+               Height          =   300
+               Left            =   120
+               TabIndex        =   135
+               Top             =   60
+               Width           =   1215
+            End
+         End
+         Begin VB.PictureBox Picture16 
+            BorderStyle     =   0  'None
+            Height          =   1095
+            Left            =   480
+            ScaleHeight     =   1095
+            ScaleWidth      =   2115
+            TabIndex        =   129
+            Top             =   480
+            Width           =   2115
+            Begin VB.OptionButton file_compare 
+               Caption         =   "不比较 跳过同名文件"
+               Height          =   255
+               Index           =   2
+               Left            =   0
+               TabIndex        =   132
+               ToolTipText     =   "skip same name files"
+               Top             =   360
+               Width           =   2055
+            End
+            Begin VB.OptionButton file_compare 
+               Caption         =   "比较 并跳过同名文件"
+               Height          =   255
+               Index           =   1
+               Left            =   0
+               TabIndex        =   131
+               ToolTipText     =   "skip same files"
+               Top             =   0
+               Width           =   2055
+            End
+            Begin VB.OptionButton file_compare 
+               Caption         =   "不比较 重命名新文件"
+               Height          =   255
+               Index           =   0
+               Left            =   0
+               TabIndex        =   130
+               ToolTipText     =   "rename as new files"
+               Top             =   720
+               Width           =   2055
+            End
+         End
+         Begin VB.Label Label3 
+            AutoSize        =   -1  'True
+            Caption         =   "文件"
+            ForeColor       =   &H00C00000&
+            Height          =   180
+            Index           =   5
+            Left            =   120
+            TabIndex        =   156
+            Top             =   0
+            Width           =   360
+         End
+         Begin VB.Label Label9 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "伪图检查："
+            Height          =   180
+            Index           =   3
+            Left            =   2880
+            TabIndex        =   139
+            ToolTipText     =   "建议使用自动改名"
+            Top             =   300
+            Width           =   900
+         End
+         Begin VB.Label Label9 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "下载文件名已存在："
+            Height          =   180
+            Index           =   10
+            Left            =   240
+            TabIndex        =   133
+            ToolTipText     =   "请按用户需要设定"
+            Top             =   240
+            Width           =   1620
+         End
+      End
+      Begin VB.Frame Frame1 
+         ForeColor       =   &H00C00000&
+         Height          =   1815
+         Left            =   240
+         TabIndex        =   116
+         Top             =   360
+         Width           =   5895
+         Begin VB.PictureBox Picture20 
+            BorderStyle     =   0  'None
+            Height          =   255
+            Left            =   120
+            ScaleHeight     =   255
+            ScaleWidth      =   1395
+            TabIndex        =   125
+            Top             =   1320
+            Width           =   1395
+            Begin VB.OptionButton set_url_folder 
+               Caption         =   "是"
+               Height          =   255
+               Index           =   1
+               Left            =   0
+               TabIndex        =   127
+               Top             =   0
+               Width           =   495
+            End
+            Begin VB.OptionButton set_url_folder 
+               Caption         =   "否"
+               Height          =   255
+               Index           =   0
+               Left            =   840
+               TabIndex        =   126
+               Top             =   0
+               Width           =   495
+            End
+         End
+         Begin VB.TextBox def_path_txt 
+            Enabled         =   0   'False
+            Height          =   270
+            Left            =   150
+            TabIndex        =   123
+            Top             =   510
+            Width           =   4935
+         End
+         Begin VB.PictureBox Picture4 
+            BorderStyle     =   0  'None
+            Height          =   255
+            Left            =   1440
+            ScaleHeight     =   255
+            ScaleWidth      =   1515
+            TabIndex        =   120
+            Top             =   240
+            Width           =   1515
+            Begin VB.OptionButton def_path 
+               Caption         =   "启用"
+               Height          =   255
+               Index           =   1
+               Left            =   840
+               TabIndex        =   122
+               Top             =   0
+               Width           =   735
+            End
+            Begin VB.OptionButton def_path 
+               Caption         =   "关闭"
+               Height          =   255
+               Index           =   0
+               Left            =   0
+               TabIndex        =   121
+               Top             =   0
+               Width           =   735
+            End
+         End
+         Begin VB.PictureBox Picture11 
+            BorderStyle     =   0  'None
+            Height          =   255
+            Left            =   5160
+            ScaleHeight     =   255
+            ScaleWidth      =   555
+            TabIndex        =   118
+            Top             =   510
+            Width           =   555
+            Begin VB.CommandButton def_path_com 
+               Caption         =   "..."
+               Enabled         =   0   'False
+               Height          =   255
+               Left            =   0
+               TabIndex        =   119
+               Top             =   0
+               Width           =   495
+            End
+         End
+         Begin VB.Label Label3 
+            AutoSize        =   -1  'True
+            Caption         =   "目录"
+            ForeColor       =   &H00C00000&
+            Height          =   180
+            Index           =   6
+            Left            =   120
+            TabIndex        =   157
+            Top             =   0
+            Width           =   360
+         End
+         Begin VB.Label Label9 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "下载时，是否以网页地址作为目录？"
+            Height          =   180
+            Index           =   13
+            Left            =   120
+            TabIndex        =   128
+            ToolTipText     =   "（如：C:\163blog.vbs_vbscript_GB2312\http：／／blog.163.com／aaa／\）"
+            Top             =   1080
+            Width           =   2880
+         End
+         Begin VB.Label Label9 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "下载默认路径："
+            Height          =   180
+            Index           =   5
+            Left            =   120
+            TabIndex        =   124
+            ToolTipText     =   "建议自定义设置"
+            Top             =   270
+            Width           =   1260
+         End
+      End
+   End
+   Begin VB.Frame FrameL 
+      Caption         =   "脚本控制"
+      ForeColor       =   &H00C00000&
+      Height          =   5295
+      Index           =   3
+      Left            =   15480
+      TabIndex        =   97
+      Top             =   120
+      Width           =   6375
+      Begin VB.PictureBox Picture12 
+         BorderStyle     =   0  'None
+         Height          =   315
+         Left            =   240
+         ScaleHeight     =   315
+         ScaleWidth      =   2655
+         TabIndex        =   103
+         Top             =   600
+         Width           =   2655
+         Begin VB.OptionButton scriptOP 
+            Caption         =   "延后"
+            Height          =   255
+            Index           =   0
+            Left            =   0
+            TabIndex        =   106
+            ToolTipText     =   "在程序分析完是否为163相册后执行"
+            Top             =   20
+            Width           =   735
+         End
+         Begin VB.OptionButton scriptOP 
+            Caption         =   "优先"
+            Height          =   255
+            Index           =   1
+            Left            =   915
+            TabIndex        =   105
+            ToolTipText     =   "优先执行外部脚本"
+            Top             =   0
+            Width           =   735
+         End
+         Begin VB.OptionButton scriptOP 
+            Caption         =   "关闭"
+            Height          =   255
+            Index           =   2
+            Left            =   1785
+            TabIndex        =   104
+            ToolTipText     =   "关闭外部脚本执行"
+            Top             =   20
+            Width           =   735
+         End
+      End
+      Begin VB.ListBox scriptList 
+         Height          =   2580
+         ItemData        =   "sys.frx":6F76
+         Left            =   240
+         List            =   "sys.frx":6F95
+         Style           =   1  'Checkbox
+         TabIndex        =   102
+         Top             =   960
+         Width           =   3015
+      End
+      Begin VB.Label Label11 
+         AutoSize        =   -1  'True
+         Caption         =   "脚本信息报告"
+         Height          =   180
+         Left            =   4080
+         TabIndex        =   158
+         Top             =   360
+         Width           =   1080
+      End
+      Begin VB.Label Label9 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "脚本调用设置："
+         Height          =   180
+         Index           =   6
+         Left            =   240
+         TabIndex        =   107
+         ToolTipText     =   "请按用户需要设定"
+         Top             =   360
+         Width           =   1260
+      End
    End
 End
 Attribute VB_Name = "sys"
@@ -1544,8 +1687,6 @@ Private Sub Combo_lst_KeyPress(KeyAscii As Integer)
     End If
 End Sub
 
-
-
 Private Sub Combo_rar_name_Click()
     If Combo_rar_name.ListIndex > 0 Then
         fix_name_Text.Text = Combo_rar_name.List(Combo_rar_name.ListIndex)
@@ -1566,9 +1707,7 @@ Private Sub Command2_Click()
     split_html = Split(html, vbCrLf)
     Randomize
     a_count = Int(Rnd * (UBound(split_html) + 1))
-    
     html = Split(split_html(a_count), "|")
-    
     If UBound(html) > 1 Then
         If html(0) <> "" And html(1) <> "" And html(2) <> "" Then
             passcode_text(0) = html(0)
@@ -1580,13 +1719,10 @@ Private Sub Command2_Click()
     sys.Enabled = True
 End Sub
 
-
-
 Private Sub Command4_Click()
     Form1.Timer3.Enabled = True
     Command4.caption = "再次检查更新"
 End Sub
-
 
 Private Sub def_path_Click(Index As Integer)
     If def_path(1).Value = True Then
@@ -1620,32 +1756,70 @@ Private Sub fix_name_Text_KeyPress(KeyAscii As Integer)
     End If
 End Sub
 
-
-
 Private Sub Form_Load()
     On Error Resume Next
-    sys.Width = 7320
-    sys.Height = 5955
-    Frame1.Top = 480
-    Frame1.Left = 240
-    Frame2.Top = 480
-    Frame2.Left = 240
-    Frame3.Top = 480
-    Frame3.Left = 240
-    Frame4.Top = 480
-    Frame4.Left = 240
-    Frame5.Top = 480
-    Frame5.Left = 240
-    Frame6.Top = 480
-    Frame6.Left = 240
-    TabStrip_Click
+    sys.Width = 9105
+    sys.Height = 6555
+    Dim i As Byte
+    For i = 1 To 9
+        FrameL(i).Top = 120
+        FrameL(i).Left = 2520
+    Next i
+    Call Build_TVW_Menu
+    Call SysTreeView_NodeClick(SysTreeView.Nodes(1))
     Form1.always_on_top False
     'Dim flags As Integer
     'flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
     'SetWindowPos Me.hwnd, HWND_TOPMOST, 0, 0, 0, 0, flags
     Form1.Enabled = False
-    sys_def
-    laod_ini
+    Call sys_def(0)
+    Call laod_ini(0)
+End Sub
+
+Private Sub Build_TVW_Menu()
+    Call SysTreeView.Nodes.Add(, 4, "TVW1", "网络下载设置", 1)
+    Call SysTreeView.Nodes.Add("TVW1", 4, "TVW2", "文件目录操作", 2)
+    Call SysTreeView.Nodes.Add("TVW1", 4, "TVW3", "脚本控制", 3)
+    Call SysTreeView.Nodes.Add("TVW1", 4, "TVW4", "代理服务器", 4)
+    Call SysTreeView.Nodes.Add(, 4, "TVW5", "常规参数设置", 5)
+    Call SysTreeView.Nodes.Add("TVW5", 4, "TVW6", "热键与警告框", 6)
+    Call SysTreeView.Nodes.Add("TVW5", 4, "TVW7", "网易相册设置", 7)
+    Call SysTreeView.Nodes.Add(, 4, "TVW8", "内置浏览器", 8)
+    Call SysTreeView.Nodes.Add(, 4, "TVW9", "程序异常修复", 9)
+    Dim nodx As Node
+    For Each nodx In SysTreeView.Nodes
+        nodx.Expanded = True
+    Next
+    SysTreeView.Nodes(1).Selected = True
+    'Set myNod = 控件名.Nodes.Add(a, b, key, text, image)
+    '参数说明:
+    'a: 参照物,在谁的基础上建节点,a就是谁的key值,如果是跟节点,可省略.
+    'b: 参照物和本身的关系 , 如果是父子关系, 值为tvwchile, 如果是兄弟关系, 值为tvwnext
+    'key: 关键字,唯一的.
+    'text: 节点上显示的文字
+    'image: 节点前的小图标 , 需要配合图标控件用, 可省略
+    '    With Me.TreeView1.Nodes
+    '        .Add , 4, "K1", "分类（一）", Form1.user_list_save.Picture
+    '        .Add "K1", 4, , "小分类1"
+    '        .Add "K1", 4, , "小分类2"
+    '        .Add , 4, "K2", "分类（二）"
+    '        .Add "K2", 4, , "小分类1"
+    '        .Add "K2", 4, , "小分类2"
+    '    End With
+    
+End Sub
+
+Private Sub SysTreeView_NodeClick(ByVal Node As MSComctlLib.Node)
+    Dim i As Byte
+    For i = 1 To 9
+        FrameL(i).Visible = False
+    Next i
+    FrameL(SysTreeView.SelectedItem.Index).Visible = True
+End Sub
+
+Private Sub Timer1_Timer()
+    Timer1.Enabled = False
+    End
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -1653,7 +1827,14 @@ Private Sub Form_Unload(Cancel As Integer)
     Form1.Enabled = True
 End Sub
 
+Private Sub frame_def_Click()
+    Call sys_def(SysTreeView.SelectedItem.Index)
+End Sub
 
+Private Sub frame_rec_Click()
+    Call sys_def(SysTreeView.SelectedItem.Index)
+    Call laod_ini(SysTreeView.SelectedItem.Index)
+End Sub
 
 Private Sub list_copy_Click(Index As Integer)
     If list_copy(1).Value = True Then
@@ -1661,6 +1842,19 @@ Private Sub list_copy_Click(Index As Integer)
     Else
         ubb_copy(1).Value = True
     End If
+End Sub
+
+Private Sub LST_Help_Click()
+    Dim help_str As String
+    help_str = "HTM下载列表(默认):适用于各种下载工具" & vbCrLf & _
+    "操作方法: 直接用浏览器打开操作" & vbCrLf & vbCrLf & _
+    "LST下载列表:适用于flashget1.96等经典版本" & vbCrLf & _
+    "操作方法:文件菜单->导入LST下载列表" & vbCrLf & vbCrLf & _
+    "TXT& BAT下载列表: 适用于适用于各种下载工具" & vbCrLf & _
+    "操作方法:文件菜单->导入TXT下载列表" & vbCrLf & _
+    "          下载完成后将BAT文件放入下载目录运行" & vbCrLf & _
+    "          完成重命名工作"
+    Call MsgBox(help_str, vbOKOnly, "下载列表文件帮助说明")
 End Sub
 
 Private Sub proxy_com1_Click()
@@ -1688,302 +1882,7 @@ Private Sub proxy_com3_Click()
     ProxyComb(0).ListIndex = ProxyComb(1).ListIndex
 End Sub
 
-Private Sub TabStrip_Click()
-    Frame1.Visible = False
-    Frame2.Visible = False
-    Frame3.Visible = False
-    Frame4.Visible = False
-    Frame5.Visible = False
-    Frame6.Visible = False
-    Select Case TabStrip.SelectedItem.Tag
-    Case "TabStrip_1"
-        Frame1.Visible = True
-    Case "TabStrip_2"
-        Frame2.Visible = True
-    Case "TabStrip_3"
-        Frame3.Visible = True
-    Case "TabStrip_4"
-        Frame4.Visible = True
-    Case "TabStrip_5"
-        Frame5.Visible = True
-    Case "TabStrip_6"
-        Frame6.Visible = True
-    End Select
-End Sub
-
-Private Sub Timer1_Timer()
-    Timer1.Enabled = False
-    End
-End Sub
-
-Private Sub ubb_copy_Click(Index As Integer)
-    If ubb_copy(1).Value = True Then
-        list_copy(0).Value = True
-    Else
-        list_copy(1).Value = True
-    End If
-End Sub
-
-Private Sub sys_def_com_Click(Index As Integer)
-    sys_def
-End Sub
-
-Private Sub sys_def()
-    downOp(3).Value = True
-    autoOp(1).Value = True
-    quitOp(1).Value = True
-    listOp(0).Value = True
-    saveOp(1).Value = True
-    changepsw(1).Value = True
-    askfloder(1).Value = True
-    ie_window(1).Value = True
-    ox163_window(1).Value = True
-    def_path(0).Value = True
-    VS_timeout.Value = 30
-    VS_retry.Value = 5
-    Combo_rar.ListIndex = 1
-    Combo_lst.ListIndex = 1
-    fix_name_list "RAR|ZIP|7Z|PNG|BMP"
-    Combo_rar_name.ListIndex = 0
-    set_tray(1).Value = True
-    new163passrule(1).Value = True
-    def_path_txt = ""
-    scriptOP(0).Value = True
-    list_copy(1).Value = True
-    file_compare(1).Value = True
-    set_sbar(1).Value = True
-    passcode_text(0) = "wehi"
-    passcode_text(1) = "1530930"
-    passcode_text(2) = "asd"
-    set_checkall(1).Value = True
-    proxy_txt1(0).Text = ""
-    proxy_txt1(1).Text = ""
-    proxy_txt1(2).Text = ""
-    proxy_txt2(0).Text = ""
-    proxy_txt2(1).Text = ""
-    proxy_txt2(2).Text = ""
-    ProxyComb(0).ListIndex = 0
-    ProxyComb(1).ListIndex = 0
-    set_url_folder(0).Value = True
-End Sub
-
-Private Sub sys_no_Click()
-    Unload sys
-End Sub
-
-Private Sub laod_ini()
-    Select Case CLng(GetIniStr("maincenter", "downloadblock"))
-    Case 512
-        downOp(0).Value = True
-    Case 1024
-        downOp(1).Value = True
-    Case 2048
-        downOp(2).Value = True
-    Case 5120
-        downOp(3).Value = True
-    Case 10240
-        downOp(4).Value = True
-    Case Else
-        downOp(5).Value = True
-        If CLng(GetIniStr("maincenter", "downloadblock")) <= 204800 Then
-            downHS.Value = Int(CLng(GetIniStr("maincenter", "downloadblock")) / 512)
-        Else
-            downHS.Value = 400
-        End If
-    End Select
-    
-    If CInt(GetIniStr("maincenter", "time_out")) <= 200 And CInt(GetIniStr("maincenter", "time_out")) >= 10 Then
-        VS_timeout.Value = CInt(GetIniStr("maincenter", "time_out"))
-    Else
-        VS_timeout.Value = 30
-    End If
-    
-    If CInt(GetIniStr("maincenter", "retry_times")) <= 255 And CInt(GetIniStr("maincenter", "time_out")) >= 0 Then
-        VS_retry.Value = CInt(GetIniStr("maincenter", "retry_times"))
-    Else
-        VS_retry.Value = 20
-    End If
-    
-    passcode_text(0) = GetIniStr("maincenter", "new163passcode_user")
-    passcode_text(1) = GetIniStr("maincenter", "new163passcode_album")
-    passcode_text(2) = GetIniStr("maincenter", "new163passcode_pw")
-    
-    If passcode_text(0) = "" Or passcode_text(1) = "" Or passcode_text(2) = "" Then
-        passcode_text(0) = "wehi"
-        passcode_text(1) = "1530930"
-        passcode_text(2) = "asd"
-    End If
-    
-    If GetIniTF("maincenter", "autocheck") = False Then autoOp(0).Value = True
-    If GetIniTF("maincenter", "askquit") = False Then quitOp(0).Value = True
-    If GetIniTF("maincenter", "listshow") = True Then listOp(1).Value = True
-    If GetIniTF("maincenter", "savedef") = False Then saveOp(0).Value = True
-    If GetIniTF("maincenter", "openfloder") = False Then askfloder(0).Value = True
-    If GetIniTF("maincenter", "change_psw") = False Then changepsw(0).Value = True
-    If GetIniTF("maincenter", "new_ie_win") = False Then ie_window(0).Value = True
-    If GetIniTF("maincenter", "ox163_ie_win") = False Then ox163_window(0).Value = True
-    If GetIniTF("maincenter", "sysTray") = False Then set_tray(0).Value = True
-    
-    If GetIniTF("maincenter", "new163pass_rules") = False Then new163passrule(0).Value = True
-    
-    
-    If GetIniTF("maincenter", "list_copy") = False Then list_copy(0).Value = True
-    
-    If CInt(GetIniStr("maincenter", "file_compare")) = 0 Then
-        file_compare(0).Value = True
-    ElseIf CInt(GetIniStr("maincenter", "file_compare")) = 2 Then
-        file_compare(2).Value = True
-    Else
-        file_compare(1).Value = True
-    End If
-    
-    If GetIniTF("maincenter", "bottom_StatusBar") = False Then set_sbar(0).Value = True
-    
-    If GetIniTF("maincenter", "url_folder") = True Then set_url_folder(1).Value = True
-    
-    If GetIniTF("maincenter", "def_path_tf") = True Then def_path(1).Value = True
-    def_path_txt = GetIniStr("maincenter", "def_path")
-    
-    If CByte(GetIniStr("maincenter", "list_type")) >= 0 And CByte(GetIniStr("maincenter", "list_type")) < 3 Then
-        Combo_lst.ListIndex = CByte(GetIniStr("maincenter", "list_type"))
-    End If
-    
-    If CByte(GetIniStr("maincenter", "fix_rar")) >= 0 And CByte(GetIniStr("maincenter", "fix_rar")) < 3 Then
-        Combo_rar.ListIndex = CByte(GetIniStr("maincenter", "fix_rar"))
-    End If
-    
-    fix_name_list Trim(GetIniStr("maincenter", "fix_rar_name"))
-    
-    Select Case GetIniStr("maincenter", "include_script")
-    Case "first"
-        scriptOP(1).Value = True
-    Case "close"
-        scriptOP(2).Value = True
-    Case Else
-        scriptOP(0).Value = True
-    End Select
-    
-    If GetIniTF("maincenter", "check_all") = False Then set_checkall(0).Value = True
-    
-    
-    'proxy
-    Select Case GetIniStr("proxyset", "proxy_A_type")
-    Case "icDirect"
-        ProxyComb(0).ListIndex = 1
-    Case "icNamedProxy"
-        ProxyComb(0).ListIndex = 2
-    Case Else
-        ProxyComb(0).ListIndex = 0
-    End Select
-    
-    Select Case GetIniStr("proxyset", "proxy_B_type")
-    Case "icDirect"
-        ProxyComb(1).ListIndex = 1
-    Case "icNamedProxy"
-        ProxyComb(1).ListIndex = 2
-    Case Else
-        ProxyComb(1).ListIndex = 0
-    End Select
-    
-    
-    Dim proxy_str(2) As String
-    Dim split_str
-    proxy_str(0) = Trim(GetIniStr("proxyset", "proxy_A"))
-    proxy_str(1) = Trim(GetIniStr("proxyset", "proxy_A_user"))
-    proxy_str(2) = GetIniStr("proxyset", "proxy_A_pw")
-    
-    proxy_str(0) = Replace(Replace(proxy_str(0), Chr(10), ""), Chr(13), "")
-    proxy_str(1) = Replace(Replace(proxy_str(1), Chr(10), ""), Chr(13), "")
-    proxy_str(2) = Replace(Replace(proxy_str(2), Chr(10), ""), Chr(13), "")
-    
-    If Len(proxy_str(0)) > 0 Then
-        proxy_txt1(0) = proxy_str(0)
-        proxy_txt1(1) = proxy_str(1)
-        proxy_txt1(2) = proxy_str(2)
-    End If
-    
-    proxy_str(0) = Trim(GetIniStr("proxyset", "proxy_B"))
-    proxy_str(1) = Trim(GetIniStr("proxyset", "proxy_B_user"))
-    proxy_str(2) = GetIniStr("proxyset", "proxy_B_pw")
-    
-    proxy_str(0) = Replace(Replace(proxy_str(0), Chr(10), ""), Chr(13), "")
-    proxy_str(1) = Replace(Replace(proxy_str(1), Chr(10), ""), Chr(13), "")
-    proxy_str(2) = Replace(Replace(proxy_str(2), Chr(10), ""), Chr(13), "")
-    
-    If Len(proxy_str(0)) > 0 Then
-        proxy_txt2(0) = proxy_str(0)
-        proxy_txt2(1) = proxy_str(1)
-        proxy_txt2(2) = proxy_str(2)
-    End If
-    
-End Sub
-Sub fix_name_list(ByVal fix_rar_name As String)
-    Combo_rar_name.Clear
-    Combo_rar_name.AddItem "添加新后缀", 0
-    Combo_rar_name.ListIndex = 0
-    If fix_rar_name = "" Or fix_rar_name = "-1" Then Exit Sub
-    name_list = Split(fix_rar_name, "|")
-    For i = 0 To UBound(name_list)
-        name_list(i) = Trim(name_list(i))
-        If Len(name_list(i)) > 0 And is_fileName(name_list(i)) Then Combo_rar_name.AddItem name_list(i), i + 1
-    Next i
-    Combo_rar_name.ListIndex = 0
-End Sub
-
-Private Function is_fileName(ByVal file_name As String) As Boolean
-    is_fileName = True
-    If InStr(file_name, Chr(92)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(47)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(34)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(63)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(58)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(42)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(60)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(62)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(124)) > 0 Then is_fileName = False: Exit Function
-    
-    If Left(rename_str, 1) = "." Then is_fileName = False: Exit Function
-    If Right(rename_str, 1) = "." Then is_fileName = False: Exit Function
-End Function
-
-
-Private Sub Command1_Click()
-    Dim pos_i As Integer
-    pos_i = Combo_rar_name.ListIndex
-    For i = 1 To Combo_rar_name.ListCount - 1
-        If UCase(fix_name_Text.Text) = UCase(Combo_rar_name.List(i)) Then
-            MsgBox "文件后缀名重复！", vbOKOnly + vbExclamation, "警告"
-            Combo_rar_name.ListIndex = pos_i
-            Exit Sub
-        End If
-    Next i
-    Combo_rar_name.ListIndex = pos_i
-    If Combo_rar_name.ListIndex = 0 Then
-        If is_fileName(fix_name_Text.Text) And fix_name_Text.Text <> "" Then
-            Combo_rar_name.AddItem fix_name_Text.Text
-            Combo_rar_name.ListIndex = Combo_rar_name.ListCount - 1
-        Else
-            MsgBox "文件后缀名不正确！", vbOKOnly + vbExclamation, "警告"
-        End If
-    Else
-        If is_fileName(fix_name_Text.Text) And fix_name_Text.Text <> "" Then
-            Combo_rar_name.AddItem fix_name_Text.Text, Combo_rar_name.ListCount
-        ElseIf fix_name_Text.Text = "" Then
-            Combo_rar_name.RemoveItem Combo_rar_name.ListIndex
-            Combo_rar_name.ListIndex = 0
-        Else
-            MsgBox "文件后缀名不正确！", vbOKOnly + vbExclamation, "警告"
-        End If
-    End If
-End Sub
-
-
-Private Sub sys_rec_Click(Index As Integer)
-    sys_def
-    laod_ini
-End Sub
-
-Private Sub sys_yes_Click()
+Private Sub sys_apply_Click()
     passcode_text(0) = Replace(Replace(passcode_text(0), Chr(10), ""), Chr(13), "")
     passcode_text(1) = Replace(Replace(passcode_text(1), Chr(10), ""), Chr(13), "")
     passcode_text(2) = Replace(Replace(passcode_text(2), Chr(10), ""), Chr(13), "")
@@ -2297,6 +2196,349 @@ reset_path:
     End If
     
     sys.Enabled = True
+End Sub
+
+Private Sub ubb_copy_Click(Index As Integer)
+    If ubb_copy(1).Value = True Then
+        list_copy(0).Value = True
+    Else
+        list_copy(1).Value = True
+    End If
+End Sub
+
+Private Sub sys_def_com_Click(Index As Integer)
+    Call sys_def(0)
+End Sub
+
+Private Sub sys_def(ByVal frameID As Byte)
+    '网络下载设置------------------------------------
+    If frameID = 0 Or frameID = 1 Then
+        '下载区块
+        downOp(3).Value = True
+        '超时
+        VS_timeout.Value = 30
+        '重试
+        VS_retry.Value = 5
+        '导出下载列表格式
+        Combo_lst.ListIndex = 1
+    End If
+    '文件目录操作------------------------------------
+    If frameID = 0 Or frameID = 2 Then
+        '下载默认路径
+        def_path(0).Value = True
+        def_path_txt = ""
+        '下载时，是否以网页地址作为目录
+        set_url_folder(0).Value = True
+        '下载文件名已存在
+        file_compare(1).Value = True
+        '伪图检查
+        Combo_rar.ListIndex = 1
+        fix_name_list "RAR|ZIP|7Z|PNG|BMP"
+        Combo_rar_name.ListIndex = 0
+    End If
+    '脚本控制---------------------------------------
+    If frameID = 0 Or frameID = 3 Then
+        scriptOP(0).Value = True
+    End If
+    '代理服务器设置------------------------------------
+    If frameID = 0 Or frameID = 4 Then
+        proxy_txt1(0).Text = ""
+        proxy_txt1(1).Text = ""
+        proxy_txt1(2).Text = ""
+        proxy_txt2(0).Text = ""
+        proxy_txt2(1).Text = ""
+        proxy_txt2(2).Text = ""
+        ProxyComb(0).ListIndex = 0
+        ProxyComb(1).ListIndex = 0
+    End If
+    '常规参数设置------------------------------------
+    If frameID = 0 Or frameID = 5 Then
+        '自动更新
+        autoOp(1).Value = True
+        '列表时显示列表
+        listOp(0).Value = True
+        '是否最小化到系统托盘
+        set_tray(1).Value = True
+        '是否显示信息栏
+        set_sbar(1).Value = True
+        '是否自动全部标记多选框
+        set_checkall(1).Value = True
+        
+    End If
+    '热键与警告框------------------------------------
+    If frameID = 0 Or frameID = 6 Then
+        '复制链接(url && Lst)到剪贴板
+        list_copy(1).Value = True
+        '目录错误时，保存到download目录
+        saveOp(1).Value = True
+        '程序执行时，打开退出询问
+        quitOp(1).Value = True
+        '密码错误时，询问是否重填密码？
+        changepsw(1).Value = True
+        '下载完成后，是否出现提示框？
+        askfloder(1).Value = True
+    End If
+    '网易相册设置------------------------------------
+    If frameID = 0 Or frameID = 7 Then
+        '163相册验证码
+        passcode_text(0) = "wehi"
+        passcode_text(1) = "1530930"
+        passcode_text(2) = "asd"
+        '是否修正163相册中文密码问题
+        new163passrule(1).Value = True
+    End If
+    '内置浏览器设置------------------------------------
+    If frameID = 0 Or frameID = 8 Then
+        '是否阻止浏览器弹出新开窗口
+        ie_window(1).Value = True
+        '是否用OX163打开新窗口
+        ox163_window(1).Value = True
+    End If
+End Sub
+
+Private Sub sys_no_Click()
+    Unload sys
+End Sub
+
+Private Sub laod_ini(ByVal frameID As Byte)
+    '网络下载设置------------------------------------
+    If frameID = 0 Or frameID = 1 Then
+        '下载区块
+        Select Case CLng(GetIniStr("maincenter", "downloadblock"))
+        Case 512
+            downOp(0).Value = True
+        Case 1024
+            downOp(1).Value = True
+        Case 2048
+            downOp(2).Value = True
+        Case 5120
+            downOp(3).Value = True
+        Case 10240
+            downOp(4).Value = True
+        Case Else
+            downOp(5).Value = True
+            If CLng(GetIniStr("maincenter", "downloadblock")) <= 204800 Then
+                downHS.Value = Int(CLng(GetIniStr("maincenter", "downloadblock")) / 512)
+            Else
+                downHS.Value = 400
+            End If
+        End Select
+        '超时
+        If CInt(GetIniStr("maincenter", "time_out")) <= 200 And CInt(GetIniStr("maincenter", "time_out")) >= 10 Then
+            VS_timeout.Value = CInt(GetIniStr("maincenter", "time_out"))
+        Else
+            VS_timeout.Value = 30
+        End If
+        '重试
+        If CInt(GetIniStr("maincenter", "retry_times")) <= 255 And CInt(GetIniStr("maincenter", "time_out")) >= 0 Then
+            VS_retry.Value = CInt(GetIniStr("maincenter", "retry_times"))
+        Else
+            VS_retry.Value = 20
+        End If
+        '导出下载列表格式
+        If CByte(GetIniStr("maincenter", "list_type")) >= 0 And CByte(GetIniStr("maincenter", "list_type")) < 3 Then
+            Combo_lst.ListIndex = CByte(GetIniStr("maincenter", "list_type"))
+        End If
+    End If
+    '文件目录操作------------------------------------
+    If frameID = 0 Or frameID = 2 Then
+        '下载默认路径
+        If GetIniTF("maincenter", "def_path_tf") = True Then
+            def_path(1).Value = True
+            def_path_txt = GetIniStr("maincenter", "def_path")
+        End If
+        '下载时，是否以网页地址作为目录
+        If GetIniTF("maincenter", "url_folder") = True Then set_url_folder(1).Value = True
+        '下载文件名已存在
+        If CInt(GetIniStr("maincenter", "file_compare")) = 0 Then
+            file_compare(0).Value = True
+        ElseIf CInt(GetIniStr("maincenter", "file_compare")) = 2 Then
+            file_compare(2).Value = True
+        Else
+            file_compare(1).Value = True
+        End If
+        '伪图检查
+        If CByte(GetIniStr("maincenter", "fix_rar")) >= 0 And CByte(GetIniStr("maincenter", "fix_rar")) < 3 Then
+            Combo_rar.ListIndex = CByte(GetIniStr("maincenter", "fix_rar"))
+        End If
+        fix_name_list Trim(GetIniStr("maincenter", "fix_rar_name"))
+    End If
+    '脚本控制---------------------------------------
+    If frameID = 0 Or frameID = 3 Then
+        Select Case GetIniStr("maincenter", "include_script")
+        Case "first"
+            scriptOP(1).Value = True
+        Case "close"
+            scriptOP(2).Value = True
+        Case Else
+            scriptOP(0).Value = True
+        End Select
+    End If
+    '代理服务器设置------------------------------------
+    If frameID = 0 Or frameID = 4 Then
+        Select Case GetIniStr("proxyset", "proxy_A_type")
+        Case "icDirect"
+            ProxyComb(0).ListIndex = 1
+        Case "icNamedProxy"
+            ProxyComb(0).ListIndex = 2
+        Case Else
+            ProxyComb(0).ListIndex = 0
+        End Select
+        Select Case GetIniStr("proxyset", "proxy_B_type")
+        Case "icDirect"
+            ProxyComb(1).ListIndex = 1
+        Case "icNamedProxy"
+            ProxyComb(1).ListIndex = 2
+        Case Else
+            ProxyComb(1).ListIndex = 0
+        End Select
+        
+        Dim proxy_str(2) As String
+        Dim split_str
+        proxy_str(0) = Trim(GetIniStr("proxyset", "proxy_A"))
+        proxy_str(1) = Trim(GetIniStr("proxyset", "proxy_A_user"))
+        proxy_str(2) = GetIniStr("proxyset", "proxy_A_pw")
+        
+        proxy_str(0) = Replace(Replace(proxy_str(0), Chr(10), ""), Chr(13), "")
+        proxy_str(1) = Replace(Replace(proxy_str(1), Chr(10), ""), Chr(13), "")
+        proxy_str(2) = Replace(Replace(proxy_str(2), Chr(10), ""), Chr(13), "")
+        
+        If Len(proxy_str(0)) > 0 Then
+            proxy_txt1(0) = proxy_str(0)
+            proxy_txt1(1) = proxy_str(1)
+            proxy_txt1(2) = proxy_str(2)
+        End If
+        
+        proxy_str(0) = Trim(GetIniStr("proxyset", "proxy_B"))
+        proxy_str(1) = Trim(GetIniStr("proxyset", "proxy_B_user"))
+        proxy_str(2) = GetIniStr("proxyset", "proxy_B_pw")
+        
+        proxy_str(0) = Replace(Replace(proxy_str(0), Chr(10), ""), Chr(13), "")
+        proxy_str(1) = Replace(Replace(proxy_str(1), Chr(10), ""), Chr(13), "")
+        proxy_str(2) = Replace(Replace(proxy_str(2), Chr(10), ""), Chr(13), "")
+        
+        If Len(proxy_str(0)) > 0 Then
+            proxy_txt2(0) = proxy_str(0)
+            proxy_txt2(1) = proxy_str(1)
+            proxy_txt2(2) = proxy_str(2)
+        End If
+    End If
+    '常规参数设置------------------------------------
+    If frameID = 0 Or frameID = 5 Then
+        '自动更新
+        If GetIniTF("maincenter", "autocheck") = False Then autoOp(0).Value = True
+        '列表时显示列表
+        If GetIniTF("maincenter", "listshow") = True Then listOp(1).Value = True
+        '是否最小化到系统托盘
+        If GetIniTF("maincenter", "sysTray") = False Then set_tray(0).Value = True
+        '是否显示信息栏
+        If GetIniTF("maincenter", "bottom_StatusBar") = False Then set_sbar(0).Value = True
+        '是否自动全部标记多选框
+        If GetIniTF("maincenter", "check_all") = False Then set_checkall(0).Value = True
+    End If
+    '热键与警告框------------------------------------
+    If frameID = 0 Or frameID = 6 Then
+        '复制链接(url && Lst)到剪贴板
+        If GetIniTF("maincenter", "list_copy") = False Then list_copy(0).Value = True
+        '目录错误时，保存到download目录
+        If GetIniTF("maincenter", "savedef") = False Then saveOp(0).Value = True
+        '程序执行时，打开退出询问
+        If GetIniTF("maincenter", "askquit") = False Then quitOp(0).Value = True
+        '密码错误时，询问是否重填密码？
+        If GetIniTF("maincenter", "change_psw") = False Then changepsw(0).Value = True
+        '下载完成后，是否出现提示框？
+        If GetIniTF("maincenter", "openfloder") = False Then askfloder(0).Value = True
+    End If
+    '网易相册设置------------------------------------
+    If frameID = 0 Or frameID = 7 Then
+        '163相册验证码
+        passcode_text(0) = GetIniStr("maincenter", "new163passcode_user")
+        passcode_text(1) = GetIniStr("maincenter", "new163passcode_album")
+        passcode_text(2) = GetIniStr("maincenter", "new163passcode_pw")
+        If passcode_text(0) = "" Or passcode_text(1) = "" Or passcode_text(2) = "" Then
+            passcode_text(0) = "wehi"
+            passcode_text(1) = "1530930"
+            passcode_text(2) = "asd"
+        End If
+        '是否修正163相册中文密码问题
+        If GetIniTF("maincenter", "new163pass_rules") = False Then new163passrule(0).Value = True
+    End If
+    '内置浏览器设置------------------------------------
+    If frameID = 0 Or frameID = 8 Then
+        '是否阻止浏览器弹出新开窗口
+        If GetIniTF("maincenter", "new_ie_win") = False Then ie_window(0).Value = True
+        '是否用OX163打开新窗口
+        If GetIniTF("maincenter", "ox163_ie_win") = False Then ox163_window(0).Value = True
+    End If
+End Sub
+Sub fix_name_list(ByVal fix_rar_name As String)
+    Combo_rar_name.Clear
+    Combo_rar_name.AddItem "添加新后缀", 0
+    Combo_rar_name.ListIndex = 0
+    If fix_rar_name = "" Or fix_rar_name = "-1" Then Exit Sub
+    name_list = Split(fix_rar_name, "|")
+    For i = 0 To UBound(name_list)
+        name_list(i) = Trim(name_list(i))
+        If Len(name_list(i)) > 0 And is_fileName(name_list(i)) Then Combo_rar_name.AddItem name_list(i), i + 1
+    Next i
+    Combo_rar_name.ListIndex = 0
+End Sub
+
+Private Function is_fileName(ByVal file_name As String) As Boolean
+    is_fileName = True
+    If InStr(file_name, Chr(92)) > 0 Then is_fileName = False: Exit Function
+    If InStr(file_name, Chr(47)) > 0 Then is_fileName = False: Exit Function
+    If InStr(file_name, Chr(34)) > 0 Then is_fileName = False: Exit Function
+    If InStr(file_name, Chr(63)) > 0 Then is_fileName = False: Exit Function
+    If InStr(file_name, Chr(58)) > 0 Then is_fileName = False: Exit Function
+    If InStr(file_name, Chr(42)) > 0 Then is_fileName = False: Exit Function
+    If InStr(file_name, Chr(60)) > 0 Then is_fileName = False: Exit Function
+    If InStr(file_name, Chr(62)) > 0 Then is_fileName = False: Exit Function
+    If InStr(file_name, Chr(124)) > 0 Then is_fileName = False: Exit Function
+    
+    If Left(file_name, 1) = "." Then is_fileName = False: Exit Function
+    If Right(file_name, 1) = "." Then is_fileName = False: Exit Function
+End Function
+
+
+Private Sub Command1_Click()
+    Dim pos_i As Integer
+    pos_i = Combo_rar_name.ListIndex
+    For i = 1 To Combo_rar_name.ListCount - 1
+        If UCase(fix_name_Text.Text) = UCase(Combo_rar_name.List(i)) Then
+            MsgBox "文件后缀名重复！", vbOKOnly + vbExclamation, "警告"
+            Combo_rar_name.ListIndex = pos_i
+            Exit Sub
+        End If
+    Next i
+    Combo_rar_name.ListIndex = pos_i
+    If Combo_rar_name.ListIndex = 0 Then
+        If is_fileName(fix_name_Text.Text) And fix_name_Text.Text <> "" Then
+            Combo_rar_name.AddItem fix_name_Text.Text
+            Combo_rar_name.ListIndex = Combo_rar_name.ListCount - 1
+        Else
+            MsgBox "文件后缀名不正确！", vbOKOnly + vbExclamation, "警告"
+        End If
+    Else
+        If is_fileName(fix_name_Text.Text) And fix_name_Text.Text <> "" Then
+            Combo_rar_name.AddItem fix_name_Text.Text, Combo_rar_name.ListCount
+        ElseIf fix_name_Text.Text = "" Then
+            Combo_rar_name.RemoveItem Combo_rar_name.ListIndex
+            Combo_rar_name.ListIndex = 0
+        Else
+            MsgBox "文件后缀名不正确！", vbOKOnly + vbExclamation, "警告"
+        End If
+    End If
+End Sub
+
+
+Private Sub sys_rec_Click(Index As Integer)
+    Call sys_def(0)
+    Call laod_ini(0)
+End Sub
+
+Private Sub sys_yes_Click()
+    Call sys_apply_Click
     Unload sys
 End Sub
 
