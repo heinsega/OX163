@@ -1,4 +1,4 @@
-'2010-2-13 163.shanhaijing.net
+'2010-12-20 163.shanhaijing.net
 Dim page,pid,tags,url_instr,page_retry
 
 Function return_download_url(ByVal url_str)
@@ -10,6 +10,9 @@ Function return_download_url(ByVal url_str)
 'http://www.gelbooru.com/index.php?page=post&s=list&tags=canaan
 On Error Resume Next
 tags=""
+Dim page_tmp
+page_tmp=url_str
+
 If InStr(url_str, "tags=") > 0 Then
     tags = Mid(url_str, InStr(url_str, "tags=") + 5)
     If InStr(tags, "&") > 0 Then tags = Mid(tags, 1, InStr(tags, "&") - 1)
@@ -21,6 +24,23 @@ url_instr=url_str
 page_retry=0
 pid=0
 page=0
+If InStr(LCase(page_tmp),"&pid=")>len("gelbooru.com/") Or InStr(LCase(page_tmp),"?pid=")>len("gelbooru.com/") Then
+	If InStr(LCase(page_tmp),"&pid=")>len("gelbooru.com/") Then page_tmp=Mid(page_tmp,InStr(LCase(page_tmp),"&pid=")+5)
+	If InStr(LCase(page_tmp),"?pid=")>len("gelbooru.com/") Then page_tmp=Mid(page_tmp,InStr(LCase(page_tmp),"?pid=")+5)
+	If InStr(LCase(page_tmp),"&")>0 Then page_tmp=Mid(page_tmp,1,InStr(page_tmp,"&")-1)
+	If IsNumeric(page_tmp) Then
+		If Int(page_tmp)>1 Then
+			If MsgBox("本页为第" & Int(page_tmp/25)+1 & "页" & vbcrlf & "是否从第1页开始？", vbYesNo, "问题")=vbyes Then
+				page=0
+			Else
+				page=Int(page_tmp)
+			End If
+		End If
+	End If
+Else
+	page=0
+End If
+If page>0 Then url_str=url_str & "&pid=" & page
 return_download_url = "inet|10,13|" & url_str & "|http://gelbooru.com/"
 End Function
 '--------------------------------------------------------
@@ -42,8 +62,7 @@ split_str = Split(html_str, " class=""thumb""><a id=""")
     
     'url
     url_temp = Mid(split_str(split_i), 1,InStr(split_str(split_i), "?") -1)
-    url_temp =replace(replace(url_temp,".gelbooru.com/thumbs/",".gelbooru.com//images/"),"thumbnail_","")
-    url_temp =replace(url_temp,"http://www.","http://img1.")
+    url_temp = replace(replace(url_temp,".gelbooru.com/thumbs/",".gelbooru.com//images/"),"thumbnail_","")
     
     'Tags
     html_str =html_str & Trim(Mid(split_str(split_i), InStr(split_str(split_i), "alt=""") +5))
@@ -59,8 +78,8 @@ split_str = Split(html_str, " class=""thumb""><a id=""")
     Next
 End If
 
-If InStr(url_str, "name=""last_page"">") > 0 and tags<>"" and pid=0 Then
-	url_str = Mid(url_str, InStr(url_str, "name=""next"">") + 12)
+If InStr(url_str, "alt=""last page"">") > 0 and pid=0 Then
+	url_str = Mid(url_str, InStr(url_str, "alt=""next"">") + 11)
 	url_str = Mid(url_str, InStr(url_str, "&amp;pid=") + 9)
 	url_str = Mid(url_str,1, InStr(url_str, Chr(34)) -1)
 	If IsNumeric(url_str) Then pid=CLng(url_str)

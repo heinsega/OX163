@@ -1,4 +1,4 @@
-'2009-8-2 http://www.shanhaijing.net/163
+'2010-12-27 http://www.shanhaijing.net/163
 
 Function return_download_url(ByVal url_str)
 On Error Resume Next
@@ -21,7 +21,7 @@ ElseIf InStr(1, url_str, "http://images.anime.xunlei.com/book/segment/", 1) > 0 
     url_str_split=split(url_str,"/")
     If IsNumeric(url_str_split(0)) and UBound(url_str_split)=1 Then
 	If IsNumeric(url_str_split(1)) Then
-	return_download_url = "inet|10,13|http://images.anime.xunlei.com/book/segment/" & url_str_split(0) & "/" & url_str_split(1) & ".html"
+	return_download_url = "inet|10,13|http://images.anime.xunlei.com/book/segment/" & url_str_split(0) & "/" & url_str_split(1) & ".html|http://images.anime.xunlei.com/"
 	End If
     End If
 ElseIf InStr(1, url_str, "http://images.anime.xunlei.com/collections/", 1) > 0 Then
@@ -31,7 +31,7 @@ ElseIf InStr(1, url_str, "http://images.anime.xunlei.com/collections/", 1) > 0 T
     url_str_split=split(url_str,"/")
     If IsNumeric(url_str_split(0)) and UBound(url_str_split)=1 Then
 	If IsNumeric(url_str_split(1)) Then
-	return_download_url = "inet|10,13|http://images.anime.xunlei.com/collections/" & url_str_split(0) & "/" & url_str_split(1) & ".html"
+	return_download_url = "inet|10,13|http://images.anime.xunlei.com/collections/" & url_str_split(0) & "/" & url_str_split(1) & ".html|http://images.anime.xunlei.com/"
 	End If
     End If
 End If

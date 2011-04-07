@@ -1,5 +1,5 @@
-'2009-11-21 http://www.shanhaijing.net/163
-Dim sohu_ID,page_num
+'2010-11-13 http://www.shanhaijing.net/163
+Dim sohu_ID,page_num,photo_type
 Function return_download_url(ByVal url_str)
 On Error Resume Next
 return_download_url = ""
@@ -88,8 +88,17 @@ If InStr(LCase(sohu_ID), "http://pp.sohu.com/photosetview-")=1 Then
 	sohu_ID=""
 	html_str=Mid(html_str, InStr(html_str, "var _uid=")+9)
 	sohu_ID=Mid(html_str, 1,InStr(html_str, ";")-1)
-	html_str=Mid(html_str, InStr(html_str, "var initPhotoList = {"))
-	html_str=Mid(html_str, InStr(html_str, ",""id"":")+6)
+	html_str=Mid(html_str, InStr(html_str, "var initPhotoList = {"""))
+	html_str=Mid(html_str, 1, InStr(html_str,"var initPhotosetList = {"""))
+	If InStr(html_str, "[{""id"":")>0 Then
+		html_str=Mid(html_str, InStr(html_str, "[{""id"":")+Len("[{""id"":"))
+		photo_type=1
+	ElseIf InStr(html_str, ",""id"":")>0 Then
+		html_str=Mid(html_str, InStr(html_str, ",""id"":")+Len(",""id"":"))
+		photo_type=2
+	Else
+		Exit Function
+	End If
 	html_str=Mid(html_str, 1,InStr(html_str, ",")-1)
 	If IsNumeric(sohu_ID)=true and IsNumeric(html_str)=true Then	
 		'http://pp.sohu.com/photoview-293236670-26930220.html#293236670
@@ -99,10 +108,10 @@ If InStr(LCase(sohu_ID), "http://pp.sohu.com/photosetview-")=1 Then
 ElseIf InStr(LCase(sohu_ID), "http://pp.sohu.com/photoview-")=1 Then
 	If InStr(html_str,"var initPhotoList = {""")>0 Then
 		html_str=Mid(html_str,InStr(html_str,"var initPhotoList = {"""))
-		html_str=Mid(html_str,1,InStr(html_str,"""}]")-1)
-		html_str=Mid(html_str,InStr(html_str,"{""uploadTime"":")+14)
+		html_str=Mid(html_str,1,InStr(html_str,"};")-1)
+		html_str=Mid(html_str,InStr(html_str,"""imageSize"":")+Len("""imageSize"":"))
 		Dim photo_split
-		photo_split=split(html_str,"""},{""uploadTime"":")
+		photo_split=split(html_str,"""imageSize"":")
 		For i=0 to UBound(photo_split)
 			'url
 			url_str=Mid(photo_split(i),InStr(photo_split(i),"""source"":""")+10)

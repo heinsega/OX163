@@ -1,4 +1,4 @@
-'2009-6-2 163.shanhaijing.net
+'2010-12-28 163.shanhaijing.net
 
 Dim checked_url
 
@@ -7,7 +7,7 @@ Dim split_temp
 If InStr(LCase(url_str),".html")>1 Then
 	url_str=Mid(url_str,1,InStr(url_str,".html")+5) & ".js"
 End If
-return_download_url="inet|10,13,34|" & url_str & "|http://www.ggyy8.cc/"
+return_download_url="inet|10,13,34|" & url_str & "|Referer: http://www.ggyy8.cc/" & vbcrlf & "Host: images.ggyy8.cc"
 
 checked_url=url_str
 End Function

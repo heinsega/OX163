@@ -327,20 +327,6 @@ Private Sub Form_Resize()
     End If
 End Sub
 
-Private Function load_script(file_name)
-    On Error Resume Next
-    
-    Dim fileline As String
-    Open file_name For Input As #6
-    Do While Not EOF(6)
-        Line Input #6, fileline
-        load_script = load_script + fileline & vbCrLf
-        DoEvents
-    Loop
-    Close #6
-    load_script = Left$(load_script, Len(load_script) - 2)
-    
-End Function
 
 Private Sub Check_script()
     Dim update_split
@@ -413,7 +399,7 @@ Private Sub Check_script()
     
     If Dir(App.Path & "\include\include.txt") <> "" Then
         
-        local_include = load_script(App.Path & "\include\include.txt")
+        local_include = load_Script(App.Path & "\include\include.txt")
         
         If script_include <> local_include Then
             StatusBar.Panels(2) = "include.txt has not matched"

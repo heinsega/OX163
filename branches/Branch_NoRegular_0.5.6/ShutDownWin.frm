@@ -64,7 +64,7 @@ Private Enum EShutDownTypes
     EWX_FORCE = 4&
     EWX_POWEROFF = 8&
     EWX_FORCEIFHUNG = 10& ' NT5 only
-     
+    
     REBOOT = EWX_FORCE Or EWX_REBOOT
     SHUTDOWN = EWX_FORCE Or EWX_SHUTDOWN
     POWEROFF = EWX_FORCE Or EWX_POWEROFF
@@ -149,14 +149,14 @@ Private Const TOKEN_ADJUST_PRIVILEGES = (&H20)
 Private Const TOKEN_ADJUST_GROUPS = (&H40)
 Private Const TOKEN_ADJUST_DEFAULT = (&H80)
 Private Const TOKEN_ALL_ACCESS = (STANDARD_RIGHTS_REQUIRED Or _
-                        TOKEN_ASSIGN_PRIMARY Or _
-                        TOKEN_DUPLICATE Or _
-                        TOKEN_IMPERSONATE Or _
-                        TOKEN_QUERY Or _
-                        TOKEN_QUERY_SOURCE Or _
-                        TOKEN_ADJUST_PRIVILEGES Or _
-                        TOKEN_ADJUST_GROUPS Or _
-                        TOKEN_ADJUST_DEFAULT)
+TOKEN_ASSIGN_PRIMARY Or _
+TOKEN_DUPLICATE Or _
+TOKEN_IMPERSONATE Or _
+TOKEN_QUERY Or _
+TOKEN_QUERY_SOURCE Or _
+TOKEN_ADJUST_PRIVILEGES Or _
+TOKEN_ADJUST_GROUPS Or _
+TOKEN_ADJUST_DEFAULT)
 Private Const TOKEN_READ = (STANDARD_RIGHTS_READ Or TOKEN_QUERY)
 Private Const TOKEN_WRITE = (STANDARD_RIGHTS_WRITE Or TOKEN_ADJUST_PRIVILEGES Or TOKEN_ADJUST_GROUPS Or TOKEN_ADJUST_DEFAULT)
 Private Const TOKEN_EXECUTE = (STANDARD_RIGHTS_EXECUTE)
@@ -222,9 +222,9 @@ Private Function NTEnableShutDown(ByRef sMsg As String) As Boolean
                 With tTP
                     .PrivilegeCount = 1
                     With .Privileges(0)
-                    .Attributes = SE_PRIVILEGE_ENABLED
-                    .pLuid.HighPart = tLUID.HighPart
-                    .pLuid.LowPart = tLUID.LowPart
+                        .Attributes = SE_PRIVILEGE_ENABLED
+                        .pLuid.HighPart = tLUID.HighPart
+                        .pLuid.LowPart = tLUID.LowPart
                     End With
                 End With
                 '使该进程可以关闭系统:
@@ -282,40 +282,40 @@ End Function
 '
 '----------------------
 Private Sub always_on_top(on_top As Boolean)
-Dim flags As Integer
-flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
-If on_top = True Then
-SetWindowPos Me.hWnd, HWND_TOPMOST, 0, 0, 0, 0, flags
-Else
-SetWindowPos Me.hWnd, -2, 0, 0, 0, 0, flags
-End If
+    Dim flags As Integer
+    flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
+    If on_top = True Then
+        SetWindowPos Me.hWnd, HWND_TOPMOST, 0, 0, 0, 0, flags
+    Else
+        SetWindowPos Me.hWnd, -2, 0, 0, 0, 0, flags
+    End If
 End Sub
 
 Private Sub canncel_shut_Click()
-shutdown_timer.Enabled = False
-Unload Me
+    shutdown_timer.Enabled = False
+    Unload Me
 End Sub
 
 Private Sub Form_Load()
-always_on_top True
-count_times = 0
-shutdown_timer.Enabled = True
+    always_on_top True
+    count_times = 0
+    shutdown_timer.Enabled = True
 End Sub
 
 
 
 Private Sub shutdown_timer_Timer()
-If count_times < 60 Then
-count_times = count_times + 1
-infro.Caption = "程序将在 " & (60 - count_times) & " 秒后自动关机" & Chr(13) & "请保存您的重要数据" & Chr(13) & Chr(13) & "点击下面按钮取消自动关机"
-Else
-shutdown_timer.Enabled = False
-    If (IsNT) Then
-    Call ShutdownSystem(POWEROFF)
+    If count_times < 60 Then
+        count_times = count_times + 1
+        infro.caption = "程序将在 " & (60 - count_times) & " 秒后自动关机" & Chr(13) & "请保存您的重要数据" & Chr(13) & Chr(13) & "点击下面按钮取消自动关机"
     Else
-    Call ShutdownSystem(SHUTDOWN)
+        shutdown_timer.Enabled = False
+        If (IsNT) Then
+            Call ShutdownSystem(POWEROFF)
+        Else
+            Call ShutdownSystem(SHUTDOWN)
+        End If
+        Unload Form1
+        End
     End If
-Unload Form1
-End
-End If
 End Sub

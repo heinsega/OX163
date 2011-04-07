@@ -41,13 +41,13 @@ Begin VB.Form sys
       Width           =   6375
       Begin VB.PictureBox Picture23 
          BorderStyle     =   0  'None
-         Height          =   735
+         Height          =   615
          Left            =   480
-         ScaleHeight     =   735
-         ScaleWidth      =   3795
+         ScaleHeight     =   615
+         ScaleWidth      =   4995
          TabIndex        =   92
-         Top             =   3840
-         Width           =   3795
+         Top             =   600
+         Width           =   4995
          Begin VB.OptionButton new163passrule 
             Caption         =   "否(我有老相册用到中文密码)"
             Height          =   255
@@ -69,13 +69,13 @@ Begin VB.Form sys
       End
       Begin VB.TextBox Text1 
          Height          =   1695
-         Left            =   240
+         Left            =   960
          MultiLine       =   -1  'True
          ScrollBars      =   3  'Both
          TabIndex        =   48
          Text            =   "sys.frx":406A
-         Top             =   1680
-         Width           =   5895
+         Top             =   2760
+         Width           =   5175
       End
       Begin VB.TextBox passcode_text 
          Height          =   270
@@ -83,7 +83,7 @@ Begin VB.Form sys
          Left            =   960
          TabIndex        =   34
          Text            =   "asd"
-         Top             =   1080
+         Top             =   2160
          Width           =   2655
       End
       Begin VB.TextBox passcode_text 
@@ -92,7 +92,7 @@ Begin VB.Form sys
          Left            =   960
          TabIndex        =   33
          Text            =   "1530930"
-         Top             =   720
+         Top             =   1800
          Width           =   2655
       End
       Begin VB.TextBox passcode_text 
@@ -101,7 +101,7 @@ Begin VB.Form sys
          Left            =   960
          TabIndex        =   32
          Text            =   "wehi"
-         Top             =   360
+         Top             =   1440
          Width           =   2655
       End
       Begin VB.PictureBox Picture17 
@@ -113,7 +113,7 @@ Begin VB.Form sys
          ScaleHeight     =   1095
          ScaleWidth      =   2535
          TabIndex        =   38
-         Top             =   360
+         Top             =   1440
          Width           =   2535
          Begin VB.CommandButton Command2 
             Caption         =   "自动填写"
@@ -133,20 +133,20 @@ Begin VB.Form sys
          Index           =   4
          Left            =   240
          TabIndex        =   95
-         Top             =   3600
+         Top             =   360
          Width           =   2520
       End
       Begin VB.Label Label3 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "以上内容用于测试验证码"
+         Caption         =   "以上内容用于测试验证码(新版相册可省略)"
          ForeColor       =   &H000000FF&
          Height          =   180
          Index           =   3
          Left            =   960
          TabIndex        =   37
-         Top             =   1440
-         Width           =   1980
+         Top             =   2520
+         Width           =   3420
       End
       Begin VB.Label Label3 
          AutoSize        =   -1  'True
@@ -156,7 +156,7 @@ Begin VB.Form sys
          Index           =   2
          Left            =   240
          TabIndex        =   36
-         Top             =   1125
+         Top             =   2205
          Width           =   630
       End
       Begin VB.Label Label3 
@@ -167,7 +167,7 @@ Begin VB.Form sys
          Index           =   1
          Left            =   240
          TabIndex        =   35
-         Top             =   765
+         Top             =   1845
          Width           =   630
       End
       Begin VB.Label Label3 
@@ -178,7 +178,7 @@ Begin VB.Form sys
          Index           =   0
          Left            =   240
          TabIndex        =   31
-         Top             =   405
+         Top             =   1485
          Width           =   630
       End
    End

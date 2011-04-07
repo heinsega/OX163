@@ -42,9 +42,17 @@ Public BrowserW_url As String
 Public BrowserW_load_ok As Boolean
 
 
+Type include_ScriptCode
+    OX163_vbs_var As String
+    OX163_vbs_fn As String
+    OX163_js_var As String
+    OX163_js_fn As String
+End Type
+
+Public in_Script_Code As include_ScriptCode
+Public OX163_WebBrowser_scriptCode As String
+
 '-----------------------------------------------------------------------------
-
-
 Type sysSetting
     '°æ±¾
     ver As Integer

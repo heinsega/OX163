@@ -73,10 +73,8 @@ Public Function load_normal_file(file_name, unicode_charset) As String
     Set fso = Nothing
 End Function
 
-
 Public Function load_Script(file_name) As String
     On Error Resume Next
-    
     Dim fileline As String
     
     Set fso = CreateObject("Scripting.FileSystemObject")

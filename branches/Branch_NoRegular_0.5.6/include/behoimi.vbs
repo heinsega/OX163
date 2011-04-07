@@ -1,4 +1,4 @@
-'2009-8-27 163.shanhaijing.net
+'2010-6-18 163.shanhaijing.net
 Dim page_counter
 Dim tags, page, url_instr
 Function return_download_url(ByVal url_str)
@@ -20,7 +20,7 @@ End If
 If tags <> "" Then url_str = url_instr & "?tags=" & tags
 page_counter=0
 page=1
-return_download_url = "inet|10,13,34|" & url_str & "|http://behoimi.org/" & vbcrlf & "Connection: Keep-Alive"
+return_download_url = "inet|10,13,34|" & url_str & "|http://behoimi.org/" & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)"
 
 End Function
 '--------------------------------------------------------
@@ -28,11 +28,11 @@ Function return_download_list(ByVal html_str, ByVal url_str)
 On Error Resume Next
 return_download_list = ""
 url_str=html_str
-If InStr(LCase(html_str), "<span class=thumb id=") > 0 Then
-html_str = Mid(html_str, InStr(LCase(html_str), "<span class=thumb id=") + 21)
+If InStr(LCase(html_str), "<span class=thumb blacklisted id=") > 0 Then
+html_str = Mid(html_str, InStr(LCase(html_str), "<span class=thumb blacklisted id=") + Len("<span class=thumb blacklisted id="))
 
 Dim split_str,url_temp
-split_str = Split(html_str, "<span class=thumb id=", -1, 1)
+split_str = Split(html_str, "<span class=thumb blacklisted id=")
 
     For split_i = 0 To UBound(split_str)
     html_str="behoimi.org-" & Mid(split_str(split_i),1, InStr(split_str(split_i), ">") -1) & "_"

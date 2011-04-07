@@ -1,4 +1,4 @@
-'2009-10-3 http://www.shanhaijing.net/163
+'2011-02-10 http://www.shanhaijing.net/163
 Dim user_id,album_id,page_id,retry_times,get_info
 
 Function return_download_url(ByVal url_str)
@@ -13,13 +13,15 @@ On Error Resume Next
 'http://hyde3331201.blog.163.com/album/
 'http://blog.163.com/hyde3331201/album/
 
-'http://blog.163.com/wehi/album/?albumId=1530930
+'http://blog.163.com/wehi/album/?albumId=63181763
+'http://wehi.blog.163.com/album/#m=1&aid=63181763&p=1
 
 get_info=""
 If InStr(LCase(url_str), "http://s")=1 and LCase(Right(url_str, 3))=".js" and Len(url_str)>25 Then
 	get_info="js"
 	return_download_url="inet|10,13|" & url_str
-ElseIf InStr(1, url_str, "?albumId=", 1) > 0 Then
+	
+ElseIf InStr(1, url_str, "?albumId=", 1) > 0 or InStr(1, url_str, "&aid=", 1) > 0 Then
 
 	If InStr(1, url_str, ".blog.163.com/", 1)>0 Then
 		url_str=Mid(url_str,InStr(1, url_str, "http://", 1)+7)
@@ -29,12 +31,16 @@ ElseIf InStr(1, url_str, "?albumId=", 1) > 0 Then
 		user_id=Mid(url_str,1,InStr(url_str, "/")-1)	
 	End If
 
-	url_str=Mid(url_str,InStr(1, url_str, "albumId=", 1)+8)
+	
+	If InStr(1, url_str, "&aid=", 1) > 0 Then
+		url_str=Mid(url_str,InStr(1, url_str, "&aid=", 1)+5)
+		url_str=Mid(url_str,1,InStr( url_str, "&")-1)
+	Else
+		url_str=Mid(url_str,InStr(1, url_str, "albumId=", 1)+8)
+	End If
 
-	If InStr(url_str, "#")>0 Then
-		
-		album_id=Mid(url_str,1,InStr(url_str, "#")-1)
-		
+	If InStr(url_str, "#")>0 Then		
+		album_id=Mid(url_str,1,InStr(url_str, "#")-1)		
 		url_str=Mid(url_str,InStrRev(url_str, "#")+1)
 		If InStr(url_str, "start_page=")=1 Then
 			url_str=Mid(url_str,12)
@@ -51,15 +57,12 @@ ElseIf InStr(1, url_str, "?albumId=", 1) > 0 Then
 		page_id=1
 		album_id=url_str
 	End If
-	return_download_url=""
-
+	
 	If is_username(user_id) = True and IsNumeric(album_id) Then
 		get_info="newblog"
-		'return_download_url="inet|10,13|http://photo.163.com/photo/dwrcross/" & user_id & "/dwr/call/plaincall/AlbumBean.getAlbumData.dwr?callCount=1&scriptSessionId=%24%7BscriptSessionId%7D822&c0-scriptName=AlbumBean&c0-methodName=getAlbumData&c0-id=0&c0-param0=number%3A" & album_id & "&c0-param1=string%3A&c0-param2=string%3Afromblog&c0-param3=number%3A&c0-param4=boolean%3Afalse&batchId=7&ntime=" & CDbl(Now())
-		return_download_url="inet|10,13|http://photo.163.com/photo/dwrcross/" & user_id & "/u/" & user_id & "/dwr/call/plaincall/AlbumBean.getAlbumData.dwr?callCount=1&scriptSessionId=%24%7BscriptSessionId%7D822&c0-scriptName=AlbumBean&c0-methodName=getAlbumData&c0-id=0&c0-param0=number%3A" & album_id & "&c0-param1=string%3A&c0-param2=string%3Afromblog&c0-param3=number%3A&c0-param4=boolean%3Afalse&batchId=4&ntime=" & CDbl(Now())
-	ElseIf is_username(user_id) = True Then
-		return_download_url="inet|10,13|http://blog.163.com/" & user_id & "/album/dwr/call/plaincall/Photo.getPhotosInAlbum.dwr||" & post_str(page_id)
 	End If
+	
+	return_download_url="inet|10,13|http://" & user_id & ".blog.163.com/#m=1&aid=" & album_id
 	
 Else
 	If InStr(1, url_str, "http://blog.163.com/", 1) > 0 Then
@@ -77,11 +80,21 @@ Else
 	
 End If
 retry_times=0
+
 End Function
 '--------------------------------------------------------
 Function return_albums_list(ByVal html_str, ByVal url_str)
 On Error Resume Next
 return_albums_list=""
+If retry_times=0 Then
+	retry_times=retry_times+1
+	If InStr(LCase(html_str), ",photo163hostname:'") > 0 Then
+		Dim photo163hostname
+		photo163hostname=Mid(html_str,InStr(LCase(html_str), ",photo163hostname:'")+Len(",photo163hostname:'"))
+		photo163hostname=Mid(photo163hostname,1,InStr(photo163hostname, "'")-1)
+		If is_username(photo163hostname) =True Then user_id=photo163hostname
+	End If	
+End If
 
 If InStr(LCase(html_str), ",cachefileurl:""") > 0 Then
 
@@ -136,18 +149,18 @@ DoEvents
 			album_list(i)=psw_tf & album_list(i) & "|http://blog.163.com/" & user_id & "/album/?albumId=" & album_id & "|" & html_str & "|" & url_str & vbcrlf
 		Else
 			page_id=CLng(album_list(i))
-			If page_id>5000 Then
+			If page_id>9999 Then
 				page_add=1
 				album_list(i)=""
 				Do While page_id>0
-				If page_id>5000 Then
+				If page_id>9999 Then
 				'http://user_id.blog.163.com/album/?albumId=album_id#start_page=n
-				album_list(i)=album_list(i) & psw_tf & "5000|http://blog.163.com/" & user_id & "/album/?albumId=" & album_id & "#start_page=" & page_add & "|" & html_str & "|" & url_str & vbcrlf
+				album_list(i)=album_list(i) & psw_tf & "9999|http://blog.163.com/" & user_id & "/album/?albumId=" & album_id & "#start_page=" & page_add & "|" & html_str & "|" & url_str & vbcrlf
 				Else
 				'http://user_id.blog.163.com/album/?albumId=album_id#start_page=n
 				album_list(i)=album_list(i) & psw_tf & page_id & "|http://blog.163.com/" & user_id & "/album/?albumId=" & album_id & "#start_page=" & page_add & "|" & html_str & "|" & url_str & vbcrlf
 				End If
-				page_id=page_id-5000
+				page_id=page_id-9999
 				page_add=page_add+1				
 				loop
 			Else
@@ -228,11 +241,24 @@ ElseIf InStr(html_str, "=[{id:") > 0 Then
         
 	return_albums_list=join(albumsINFO,"") & "0"
 	
-ElseIf retry_times<2 Then
+ElseIf retry_times<3 Then
 	
 	retry_times=retry_times+1
-	return_albums_list="1|inet|10,13|http://photo.163.com/photo/dwrcross/" & user_id & "/u/" & user_id & "/dwr/call/plaincall/UserSpaceBean.getUserSpace.dwr?callCount=1&scriptSessionId=%24%7BscriptSessionId%7D957&c0-scriptName=UserSpaceBean&c0-methodName=getUserSpace&c0-id=0&c0-param0=string%3A" & user_id & "&batchId=0|http://photo.163.com/photo/"
+	return_albums_list="1|inet|10,13|http://photo.163.com/photo/dwrcross/" & user_id & "/u/" & user_id & "/dwr/call/plaincall/UserSpaceBean.getUserSpace.dwr?callCount=1&scriptSessionId=%24%7BscriptSessionId%7D957&c0-scriptName=UserSpaceBean&c0-methodName=getUserSpace&c0-id=0&c0-param0=string%3A" & user_id & "&batchId=" & Int(Time() * 1000000) & "|http://photo.163.com/photo/"
 	
+ElseIf retry_times<5 Then
+	retry_times=retry_times+1
+	'http://photo.163.com/photo/hera_er/dwr/call/plaincall/UserSpaceBean.getUserSpace.dwr
+	'photo.163.com/photo/hera_er/dwr/call/plaincall/UserSpaceBean.getUserSpace.dwr
+	return_albums_list="callCount=1" & "&for_ox163_replace_vbcrlf&"
+	return_albums_list=return_albums_list & "scriptSessionId=${scriptSessionId}187" & "&for_ox163_replace_vbcrlf&"
+	return_albums_list=return_albums_list & "c0-scriptName=UserSpaceBean" & "&for_ox163_replace_vbcrlf&"
+	return_albums_list=return_albums_list & "c0-methodName=getUserSpace" & "&for_ox163_replace_vbcrlf&"
+	return_albums_list=return_albums_list & "c0-id=0" & "&for_ox163_replace_vbcrlf&"
+	return_albums_list=return_albums_list & "c0-param0=string:" & user_id & "&for_ox163_replace_vbcrlf&"
+	return_albums_list=return_albums_list & "batchId=" & Int(Time() * 1000000)
+	return_albums_list="1|inet|10,13|http://photo.163.com/photo/" & user_id & "/dwr/call/plaincall/UserSpaceBean.getUserSpace.dwr|http://photo.163.com|" & return_albums_list
+	MsgBox user_id
 Else
     return_albums_list = "0"
 End If
@@ -241,6 +267,27 @@ End Function
 Function return_download_list(ByVal html_str, ByVal url_str)
 On Error Resume Next
 return_download_list = ""
+If retry_times=0 and get_info<>"js" Then
+	retry_times=retry_times+1
+	If InStr(LCase(html_str), ",photo163hostname:'") > 0 Then
+		Dim photo163hostname
+		photo163hostname=Mid(html_str,InStr(LCase(html_str), ",photo163hostname:'")+Len(",photo163hostname:'"))
+		photo163hostname=Mid(photo163hostname,1,InStr(photo163hostname, "'")-1)
+		If is_username(photo163hostname) =True Then user_id=photo163hostname
+	End If
+	
+	If is_username(user_id) = True and IsNumeric(album_id) Then
+		'return_download_list="inet|10,13|http://photo.163.com/photo/dwrcross/" & user_id & "/dwr/call/plaincall/AlbumBean.getAlbumData.dwr?callCount=1&scriptSessionId=%24%7BscriptSessionId%7D822&c0-scriptName=AlbumBean&c0-methodName=getAlbumData&c0-id=0&c0-param0=number%3A" & album_id & "&c0-param1=string%3A&c0-param2=string%3Afromblog&c0-param3=number%3A&c0-param4=boolean%3Afalse&batchId=7&ntime=" & CDbl(Now())
+		'return_download_list="inet|10,13|http://photo.163.com/photo/dwrcross/" & user_id & "/u/" & user_id & "/dwr/call/plaincall/AlbumBean.getAlbumData.dwr?callCount=1&scriptSessionId=%24%7BscriptSessionId%7D822&c0-scriptName=AlbumBean&c0-methodName=getAlbumData&c0-id=0&c0-param0=number%3A" & album_id & "&c0-param1=string%3A&c0-param2=string%3Afromblog&c0-param3=number%3A&c0-param4=boolean%3Afalse&batchId=4&ntime=" & CDbl(Now())
+		return_download_list="1|inet|10,13|http://photo.163.com/photo/" & user_id & "/dwr/call/plaincall/AlbumBean.getAlbumData.dwr?callCount=1&scriptSessionId=%24%7BscriptSessionId%7D187&c0-scriptName=AlbumBean&c0-methodName=getAlbumData&c0-id=0&c0-param0=number%3A" & album_id & "&c0-param1=string%3A&c0-param2=string%3Afromblog&c0-param3=string%3A32350899&c0-param4=boolean%3Afalse&batchId=" & Int(Time() * 1000000)
+	ElseIf is_username(user_id) = True Then
+		return_download_list="1|inet|10,13|http://blog.163.com/" & user_id & "/album/dwr/call/plaincall/Photo.getPhotosInAlbum.dwr||" & replace(post_str(page_id),vbcrlf,"&for_ox163_replace_vbcrlf&")
+	End If
+	Exit Function
+End If
+
+
+
 
 If get_info="newblog" and InStr(html_str, ".js"")") > 10 Then
 	html_str=Mid(html_str,1,InStr(html_str, ".js"")")+2)
@@ -336,6 +383,7 @@ DoEvents
 	'name
 	html_str=Trim(Mid(photo_list(i),1,InStr(photo_list(i),Chr(34))-1))
 	html_str=replace(vbsUnEscape(html_str),"|","_")
+	If Len(html_str)>30 Then html_str=Left(html_str,29) & "~"
 	If html_str="" Then html_str="no_name"
 	'url
 	photo_list(i)=Mid(photo_list(i),InStr(photo_list(i),Chr(34))+1)
@@ -371,6 +419,7 @@ Else
 	post_pw=post_pw & "batchId=7"
 	return_password_rules = "http://blog.163.com/" & user_id & "/album/dwr/call/plaincall/Album.checkAlbumPassword.dwr|" & post_pw & "||1|var s0=[];"
 End If
+MsgBox return_password_rules
 End Function
 
 Function return_ad_password_rules(ByVal html_str, ByVal url_str, ByVal pass_word)
@@ -379,6 +428,7 @@ On Error Resume Next
 	If InStr(html_str, ".js"")") > 10 Then
 		return_ad_password_rules="password_correct"
 	End If
+MsgBox return_ad_password_rules
 End Function
 '------------------------------------------------------------------
 Function is_username(ByVal username)
@@ -420,7 +470,7 @@ End Function
 
 Function post_str(byval start_page) 
 post_str = ""
-start_page=(start_page-1)*5000
+start_page=(start_page-1)*9999
 post_str = post_str & "callCount=1" & vbCrLf
 post_str = post_str & "scriptSessionId=${scriptSessionId}375" & vbCrLf
 post_str = post_str & "c0-scriptName=Photo" & vbCrLf
@@ -429,7 +479,7 @@ post_str = post_str & "c0-id=0" & vbCrLf
 post_str = post_str & "c0-param0=string:" & album_id & vbCrLf
 post_str = post_str & "c0-param1=number:1" & vbCrLf '排序方式
 post_str = post_str & "c0-param2=number:" & start_page & vbCrLf '起始图片为0开始
-post_str = post_str & "c0-param3=number:5000" & vbCrLf '单次下载图片数量 100
+post_str = post_str & "c0-param3=number:9999" & vbCrLf '单次下载图片数量 100
 post_str = post_str & "c0-param4=boolean:false" & vbCrLf
 post_str = post_str & "batchId=0"
 End Function

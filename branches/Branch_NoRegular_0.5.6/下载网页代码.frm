@@ -272,7 +272,7 @@ Begin VB.Form Form1
          SubItemIndex    =   3
          Key             =   "list_picUrl"
          Object.Tag             =   "picUrl_mark"
-         Text            =   "Url"
+         Text            =   "下载地址"
          Object.Width           =   2117
       EndProperty
    End
@@ -1493,6 +1493,11 @@ End Sub
 
 
 
+
+
+
+
+
 Private Sub count1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 12 Then
         Label_name1 = " 列表统计: "
@@ -2578,7 +2583,7 @@ End Sub
 Private Sub Refresh_Panel()
     On Error Resume Next
     Dim Panel_info
-    Panel_info = Trim(Update.OpenURL("http://shanhaijing.net/163/Panel_info.asp?key=" & down_count & "&ntime=" & CDbl(Now())))
+    Panel_info = Trim(update.OpenURL("http://shanhaijing.net/163/Panel_info.asp?key=" & down_count & "&ntime=" & CDbl(Now())))
     show_inform(0) = Mid$(Panel_info, 1, InStr(Panel_info, "|") - 1)
     show_inform(1) = Mid$(Panel_info, InStr(Panel_info, "|") + 1)
     StatusBar.Panels(2) = show_inform(0)
@@ -4439,12 +4444,12 @@ Private Sub Timer3_Timer()
         show_inform(0) = "正在自动检查最新版本..."
         StatusBar.Panels(2) = show_inform(0)
     End If
-    ver = Update.OpenURL("http://shanhaijing.net/ox163_update.htm?ntime=" & CDbl(Now()))
-    If IsNumeric(ver) = False Then ver = Update.OpenURL("http://www.ugschina.com/ox163_update.htm?ntime=" & CDbl(Now()))
+    ver = update.OpenURL("http://shanhaijing.net/ox163_update.htm?ntime=" & CDbl(Now()))
+    If IsNumeric(ver) = False Then ver = update.OpenURL("http://www.ugschina.com/ox163_update.htm?ntime=" & CDbl(Now()))
     If IsNumeric(ver) Then
         ver = Mid$(ver, 1, InStr(ver, ".") - 1)
         If CInt(ver) > sysSet.ver And Len(ver) < 5 Then
-            ver = Update.OpenURL("http://shanhaijing.net/ox163_update_info.htm?ntime=" & CDbl(Now()))
+            ver = update.OpenURL("http://shanhaijing.net/ox163_update_info.htm?ntime=" & CDbl(Now()))
             ver = Left$(Replace(Replace(ver, Chr(10), ""), Chr(13), ""), 100)
             
             If download_ok = True Then
@@ -4542,7 +4547,7 @@ End Sub
 
 Private Sub update_StateChanged(ByVal State As Integer)
     On Error Resume Next
-    If form_quit = True Then Update.Cancel
+    If form_quit = True Then update.Cancel
     DoEvents
 End Sub
 
@@ -5395,7 +5400,7 @@ Private Sub user_list_MouseUp(Button As Integer, Shift As Integer, x As Single, 
             menu_pswc.Visible = False
             menu_pswv.Visible = False
             menu_1.Visible = False
-            PopupMenu Menu
+            PopupMenu menu
         Else
             menu_psw.Visible = True
             menu_pswc.Visible = True
@@ -5408,7 +5413,7 @@ Private Sub user_list_MouseUp(Button As Integer, Shift As Integer, x As Single, 
                 menu_pswv.Enabled = True
             End If
             menu_1.Visible = True
-            PopupMenu Menu
+            PopupMenu menu
         End If
     End If
 End Sub
@@ -5546,23 +5551,31 @@ Public Sub frame_resize()
         If Web_Browser.Visible = True Then Web_Browser.Height = Form1.Height - 1510 - show_StatusBar
         If Web_Search.Visible = True Then Web_Search.Height = Form1.Height - 1510 - show_StatusBar
     ElseIf down_count = 1 Then
+        
+        'List1默认宽度 1序号 1000.06 - 2文件名 2000 - 3其他描述 1440.00 - 4下载链接 1200
         List1.Width = Frame1.Width
         List1.Height = Form1.Height - 1510 - show_StatusBar
         List1.ColumnHeaders.Item(3).Width = 2400
-        If List1.Width - 5000 > 10000 Then
-            List1.ColumnHeaders.Item(2).Width = 10000
+        If List1.Width - 5000 > 4000 Then
+            List1.ColumnHeaders.Item(2).Width = 4000
+            List1.ColumnHeaders.Item(4).Width = List1.Width - 8000
         Else
             List1.ColumnHeaders.Item(2).Width = List1.Width - 5200
         End If
         
+        'user_list默认宽度 1相册名称 1440.00 - 2相册密码 1400 - 3序号/链接 1200 - 4图片数量 1400 - 5相册描述 1099.84
         user_list.Height = Frame2.Height - 900
         user_list.Width = Frame2.Width - 100
-        user_list.ColumnHeaders.Item(2).Width = 1400
-        user_list.ColumnHeaders.Item(3).Width = 1200
-        user_list.ColumnHeaders.Item(4).Width = 1400
-        If user_list.Width - 5000 > 10000 Then
-            user_list.ColumnHeaders.Item(1).Width = 10000
+
+        If user_list.Width - 5000 > 4000 Then
+            user_list.ColumnHeaders.Item(1).Width = 3500
+            user_list.ColumnHeaders.Item(3).Width = (user_list.Width - 6800) * 0.5
+            user_list.ColumnHeaders.Item(5).Width = (user_list.Width - 6800) * 0.5
         Else
+            user_list.ColumnHeaders.Item(2).Width = 1400
+            user_list.ColumnHeaders.Item(3).Width = 1100
+            user_list.ColumnHeaders.Item(4).Width = 1400
+            user_list.ColumnHeaders.Item(5).Width = 1100
             user_list.ColumnHeaders.Item(1).Width = user_list.Width - 5500
         End If
     End If
@@ -6318,7 +6331,7 @@ new_down:
         
         If form_quit = True Then GoTo err_end
         
-        ADSL_temp = Update.OpenURL("http://photo.163.com")
+        ADSL_temp = update.OpenURL("http://photo.163.com")
         
         down_len = down_len - sysSet.downloadblock * 5
         
