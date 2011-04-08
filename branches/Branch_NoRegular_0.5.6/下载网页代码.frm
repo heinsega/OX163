@@ -1498,6 +1498,7 @@ End Sub
 
 
 
+
 Private Sub count1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 12 Then
         Label_name1 = " 列表统计: "
@@ -7948,9 +7949,9 @@ End Sub
 
 Private Sub save_text(ByVal file_name)
     On Error Resume Next
-    Dim fso, file
-    Set fso = CreateObject("Scripting.FileSystemObject")
-    Set file = fso.CreateTextFile(file_name, True)
+    Dim Fso, file
+    Set Fso = CreateObject("Scripting.FileSystemObject")
+    Set file = Fso.CreateTextFile(file_name, True)
     file.Write text_easy.Text
     file.Close
 End Sub

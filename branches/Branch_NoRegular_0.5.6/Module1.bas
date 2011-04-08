@@ -79,11 +79,6 @@ Private Type BROWSEINFO
     iImage As Long
 End Type
 
-
-'将长路经转换为短路径
-Declare Function GetShortPathName Lib "kernel32" Alias "GetShortPathNameA" (ByVal lpszLongPath As String, ByVal lpszShortPath As String, ByVal cchBuffer As Long) As Long
-
-
 'Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 '----------------------------------最小化系统托盘---------------------------------------------------
 
@@ -173,22 +168,44 @@ Public Function GetCookie(ByVal InternetGetCookie_url) As String
     GetCookie = Left(buf_Cookies, cLen)
 End Function
 
+'将长路经转换为短路径
+'Declare Function GetShortPathName Lib "kernel32" Alias "GetShortPathNameA" (ByVal lpszLongPath As String, ByVal lpszShortPath As String, ByVal cchBuffer As Long) As Long
+'Public Function GetShortName(ByVal sLongFileName As String) As String
+'    On Error Resume Next
+'    Dim lRetVal As Long, sShortPathName As String, iLen As Integer
+'    'Set up buffer area for API function call return
+'    sShortPathName = Space(255)
+'    If Right(sLongFileName, 1) <> "\" Then sLongFileName = sLongFileName & "\"
+'    sLongFileName = Left(sLongFileName, Len(sLongFileName) - 1)
+'    iLen = LenB(sShortPathName)
+'
+'    'Call the function
+'    lRetVal = GetShortPathName(sLongFileName, sShortPathName, iLen)
+'    'Strip away unwanted characters.
+'
+'    GetShortName = Left(sShortPathName, lRetVal)
+'End Function
 
 Public Function GetShortName(ByVal sLongFileName As String) As String
-    On Error Resume Next
-    Dim lRetVal As Long, sShortPathName As String, iLen As Integer
-    'Set up buffer area for API function call return
-    sShortPathName = Space(255)
-    If Right(sLongFileName, 1) <> "\" Then sLongFileName = sLongFileName & "\"
-    sLongFileName = Left(sLongFileName, Len(sLongFileName) - 1)
-    iLen = LenB(sShortPathName)
+On Error Resume Next
+    GetShortName = ""
+    Dim GetShortName_Fso
     
-    'Call the function
-    lRetVal = GetShortPathName(sLongFileName, sShortPathName, iLen)
-    'Strip away unwanted characters.
+    Set GetShortName_Fso = CreateObject("Scripting.FileSystemObject")
     
-    GetShortName = Left(sShortPathName, lRetVal)
+    Err.Number = 0
+    GetShortName = GetShortName_Fso.GetFile(sLongFileName).ShortPath
+    
+    If Err.Number <> 0 Then
+    Err.Number = 0
+    GetShortName = GetShortName_Fso.GetFolder(sLongFileName).ShortPath
+    End If
+    
+    Set GetShortName_Fso = Nothing
+    
+    If GetShortName = "" Then GetShortName = sLongFileName
 End Function
+
 
 
 Public Function GetSysDir() As String
