@@ -2241,6 +2241,8 @@ End Sub
 
 
 
+
+
 Private Sub lblProgressInfo1_Change()
     lblProgressInfo1.ToolTipText = lblProgressInfo1.caption
 End Sub
@@ -3500,75 +3502,65 @@ Private Sub input_lst_sub(ByVal LstFileName)
 End Sub
 
 Private Sub input_lst_Click()
-    On Error Resume Next
-    If sysSet.def_path_tf = True And sysSet.def_path <> "" Then CommonDialog1.InitDir = sysSet.def_path
-    CommonDialog1.CancelError = True
     On Error GoTo ErrHandler
     
-    CommonDialog1.Filter = "All List Files(*.htm;*.lst;*.txt)|*.htm;*.lst;*.txt|All Files (*.*)|*.*|"
-    CommonDialog1.fileName = ""
-    CommonDialog1.ShowOpen
+    Dim txtpath As String, def_txtpath As String
     
-    If CommonDialog1.CancelError = False Then
+    If sysSet.def_path_tf = True And sysSet.def_path <> "" Then def_txtpath = sysSet.def_path
+    
+    txtpath = ""
+    txtpath = ShowSaveFileDialog(def_txtpath, "", "All List Files(*.htm;*.lst;*.txt)|*.htm;*.lst;*.txt|All Files (*.*)|*.*|", Me.hWnd)
+    txtpath = GetShortName(txtpath)
+    
+    If txtpath = "" Then
 ErrHandler:
         Exit Sub
     Else
-        Dim txtpath As String
-        txtpath = CommonDialog1.fileName
-        
         input_lst_sub txtpath
     End If
-    
-    
-    '-----------API----start--------------------
-    'Load ComDialog
-    'Form1.Enabled = False
-    'text_sortname = GetOpenFile(sysSet.def_path)
-    'Unload ComDialog
-    'Form1.Enabled = True
-    '
-    'If text_sortname <> "" Then
-    'input_lst_sub text_sortname
-    'text_sortname = ""
-    'End If
-    '-----------API------end------------------
     
 End Sub
 
 
 Private Sub list_output_Click()
-    On Error Resume Next
-    
+    On Error GoTo ErrHandler
+    Dim txtpath As String, def_txtpath As String, file_filter(1) As String, answer_save
+
     rename_rules_val = 0
     PopupMenu rename_rules
-    
-    If sysSet.def_path_tf = True And sysSet.def_path <> "" Then CommonDialog1.InitDir = sysSet.def_path
-    CommonDialog1.CancelError = True
-    On Error GoTo ErrHandler
+
+    If sysSet.def_path_tf = True And sysSet.def_path <> "" Then def_txtpath = sysSet.def_path
     
     Select Case sysSet.list_type
     Case 1
-        CommonDialog1.Filter = "Save Htm(*.htm)|*.htm|"
+        file_filter(0) = "Save Htm(*.htm)|*.htm|Save Txt(*.txt)|*.txt|Save Lst(*.lst)|*.lst|"
+        file_filter(1) = ".htm|.txt|.lst|"
     Case 2
-        CommonDialog1.Filter = "Save Txt(*.txt)|*.txt|"
+        file_filter(0) = "Save Txt(*.txt)|*.txt|Save Htm(*.htm)|*.htm|Save Lst(*.lst)|*.lst|"
+        file_filter(1) = ".txt|.htm|.lst|"
     Case Else
-        CommonDialog1.Filter = "Save Lst(*.lst)|*.lst|"
+        file_filter(0) = "Save Lst(*.lst)|*.lst|Save Htm(*.htm)|*.htm|Save Txt(*.txt)|*.txt|"
+        file_filter(1) = ".lst|.htm|.txt|"
     End Select
     
-    CommonDialog1.fileName = ""
-    CommonDialog1.ShowSave
-    
-    If CommonDialog1.CancelError = False Then
+    txtpath = ""
+    txtpath = ShowSaveFileDialog(def_txtpath, "", file_filter(0), file_filter(1), Me.hWnd)
+    If txtpath = "" Then
 ErrHandler:
         Exit Sub
-    Else
-        If Dir(CommonDialog1.fileName) <> "" Then
+    Else: def_txtpath = ""
+    def_txtpath = Mid(txtpath, 1, InStrRev(txtpath, "\"))
+    txtpath = Mid(txtpath, InStrRev(txtpath, "\") + 1)
+    txtpath = Replace(GetShortName(def_txtpath) & "\" & Hex_unicode_str(txtpath), "\\", "\")
+    
+
+        If Dir(txtpath) <> "" Then
             answer_save = MsgBox("该文件已存在，是否覆盖？", vbYesNo + vbExclamation + vbDefaultButton2, "警告")
             If answer_save = vbNo Then Exit Sub
         End If
     End If
     
-    list_save CommonDialog1.fileName
+    list_save txtpath
     
 End Sub
 
