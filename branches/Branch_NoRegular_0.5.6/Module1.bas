@@ -1,26 +1,23 @@
 Attribute VB_Name = "Declare_Function"
 '使用XP风格
-'Public Declare Sub InitCommonControls Lib "comctl32.dll" ()
 Public Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
-
 Private Declare Function InitCommonControlsEx Lib "comctl32.dll" (iccex As tagInitCommonControlsEx) As Boolean
-
 Private Type tagInitCommonControlsEx
     lngSize As Long
     lngICC As Long
 End Type
 
-'程序窗口重在最前面
+'程序窗口重在最前面-------------------------------------
 Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Public Const HWND_TOPMOST = -1
 Public Const SWP_NOMOVE = &H2
 Public Const SWP_NOSIZE = &H1
 Public Const SWP_SHOWWINDOW = &H40
 
-'系统文件夹
+'系统文件夹-----------------------------------------
 Private Declare Function GetSystemDirectory Lib "kernel32" Alias "GetSystemDirectoryA" (ByVal lpBuffer As String, ByVal nSize As Long) As Long
 
-'读取ini配置
+'读取ini配置-----------------------------------------
 Private Declare Function GetPrivateProfileString Lib "kernel32" Alias "GetPrivateProfileStringA" (ByVal lpApplicationName As String, ByVal lpKeyName As Any, ByVal lpDefault As String, ByVal lpReturnedString As String, ByVal nSize As Long, ByVal lpFileName As String) As Long
 '写入ini配置
 Private Declare Function WritePrivateProfileString Lib "kernel32" Alias "WritePrivateProfileStringA" (ByVal lpApplicationName As String, ByVal lpKeyName As Any, ByVal lpString As Any, ByVal lpFileName As String) As Long
@@ -79,15 +76,14 @@ Private Type BROWSEINFO
     iImage As Long
 End Type
 
-'Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 '----------------------------------最小化系统托盘---------------------------------------------------
 
-Public Declare Function Shell_NotifyIcon Lib "shell32" Alias "Shell_NotifyIconA" (ByVal dwMessage As Long, pnid As NOTIFYICONDATA) As Boolean
+Public Declare Function Shell_NotifyIcon Lib "shell32" Alias "Shell_NotifyIconW" (ByVal dwMessage As Long, pnid As NOTIFYICONDATA) As Boolean
 
 Public Declare Function ShowWindow Lib "user32" (ByVal hWnd As Long, ByVal nCmdShow As Long) As Long
 
-'----------------------------------打开IE----------------------------------
-Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+'----------------------------------打开IE-----------------------------------------------------------
+Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteW" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
 '----------------------------------InternetCookie---------------------------------------------------
 
@@ -104,34 +100,116 @@ Private Declare Function Decompress Lib "gzip.dll" (ByVal context As Long, inByt
 
 ''----------------------------------代替CommonDialog--------------------------------------------
 '
-'Private Declare Function GetOpenFileName Lib "comdlg32.dll" Alias "GetOpenFileNameA" (pOpenfilename As OPENFILENAME) As Long
-'Private Declare Function GetSaveFileName Lib "comdlg32.dll" Alias "GetSaveFileNameA" (pOpenfilename As OPENFILENAME) As Long
-'
-'
-'Private Type OPENFILENAME
-'lStructSize As Long
-'hwndOwner As Long
-'hInstance As Long
-'lpstrFilter As String
-'lpstrCustomFilter As String
-'nMaxCustFilter As Long
-'nFilterIndex As Long
-'lpstrFile As String
-'nMaxFile As Long
-'lpstrFileTitle As String
-'nMaxFileTitle As Long
-'lpstrInitialDir As String
-'lpstrTitle As String
-'flags As Long
-'nFileOffset As Integer
-'nFileExtension As Integer
-'lpstrDefExt As String
-'lCustData As Long
-'lpfnHook As Long
-'lpTemplateName As String
-'End Type
-'
+Private Declare Function GetOpenFileName Lib "comdlg32.dll" Alias "GetOpenFileNameW" (pOpenfilename As OPENFILENAME) As Long
+Private Declare Function GetSaveFileName Lib "comdlg32.dll" Alias "GetSaveFileNameW" (ByRef pOpenfilename As OPENFILENAME) As Long
 
+Private Const OFN_FILEMUSTEXIST = &H1000
+
+Private Type OPENFILENAME
+    lStructSize As Long
+    hwndOwner As Long
+    hInstance As Long
+    lpstrFilter As String
+    lpstrCustomFilter As String
+    nMaxCustFilter As Long
+    nFilterIndex As Long
+    lpstrFile As Long
+    nMaxFile As Long
+    lpstrFileTitle As String
+    nMaxFileTitle As Long
+    lpstrInitialDir As String
+    lpstrTitle As String
+    flags As Long
+    nFileOffset As Integer
+    nFileExtension As Integer
+    lpstrDefExt As String
+    lCustData As Long
+    lpfnHook As Long
+    lpTemplateName As String
+End Type
+
+'API调用unicode文件对话框CommonDialog
+
+Public Function ShowOpenFileDialog(InitialDir As String, DialogTitle As String, Filter As String, ByVal FrmhWnd As Long) As String
+    
+    Dim OpenFile As OPENFILENAME
+    Dim lReturn As Long, lReturn_str As String
+    
+    OpenFile.lStructSize = Len(OpenFile)
+    OpenFile.hwndOwner = FrmhWnd
+    OpenFile.hInstance = App.hInstance
+    Dim sFile As String
+    sFile = Space$(1024)
+    
+    OpenFile.lpstrFilter = StrConv(Replace(Filter, "|", Chr$(0)), vbUnicode)
+    OpenFile.nFilterIndex = 1
+    OpenFile.lpstrFile = StrPtr(sFile)
+    OpenFile.nMaxFile = Len(sFile)
+    OpenFile.lpstrFileTitle = Space$(512)
+    OpenFile.nMaxFileTitle = Len(OpenFile.lpstrFileTitle)
+    OpenFile.lpstrInitialDir = StrConv(InitialDir, vbUnicode)
+    OpenFile.lpstrTitle = StrConv(DialogTitle, vbUnicode)
+    OpenFile.flags = OFN_FILEMUSTEXIST
+    lReturn = GetOpenFileName(OpenFile)
+    
+    If lReturn = 0 Then  'lReturn is always 0 even when a file is selected!!
+        ShowOpenFileDialog = "" 'Cancel Button Pressed
+    Else
+        Dim byte_temp(1 To 1024) As Byte
+        CopyMemory byte_temp(1), ByVal OpenFile.lpstrFile, 1024
+        
+        lReturn_str = byte_temp
+        lReturn_str = Trim(lReturn_str)
+        If Right(lReturn_str, 1) = Chr(0) Then lReturn_str = Left(lReturn_str, Len(lReturn_str) - 1)
+        ShowOpenFileDialog = lReturn_str
+    End If
+    
+End Function
+
+Public Function ShowSaveFileDialog(InitialDir As String, DialogTitle As String, Filter As String, file_type As String, ByVal FrmhWnd As Long) As String
+    On Error Resume Next
+    Dim OpenFile As OPENFILENAME
+    Dim lReturn As Long, lReturn_str As String, file_type_split
+    
+    OpenFile.lStructSize = Len(OpenFile)
+    OpenFile.hwndOwner = FrmhWnd
+    OpenFile.hInstance = App.hInstance
+    Dim sFile As String
+    sFile = Space$(1024)
+    
+    OpenFile.lpstrFilter = StrConv(Replace(Filter, "|", Chr$(0)), vbUnicode)
+    OpenFile.nFilterIndex = 1
+    OpenFile.lpstrFile = StrPtr(sFile)
+    OpenFile.nMaxFile = Len(sFile)
+    OpenFile.lpstrFileTitle = Space$(512)
+    OpenFile.nMaxFileTitle = Len(OpenFile.lpstrFileTitle)
+    OpenFile.lpstrInitialDir = StrConv(InitialDir, vbUnicode)
+    OpenFile.lpstrTitle = StrConv(DialogTitle, vbUnicode)
+    OpenFile.flags = OFN_FILEMUSTEXIST
+    lReturn = GetSaveFileName(OpenFile)
+    
+    If lReturn = 0 Then  'lReturn is always 0 even when a file is selected!!
+        ShowSaveFileDialog = "" 'Cancel Button Pressed
+    Else
+    
+        Dim byte_temp(1 To 1024) As Byte
+        CopyMemory byte_temp(1), ByVal OpenFile.lpstrFile, 1024
+        
+        lReturn_str = byte_temp
+        lReturn_str = Trim(lReturn_str)
+        If Right(lReturn_str, 1) = Chr(0) Then lReturn_str = Left(lReturn_str, Len(lReturn_str) - 1)
+        
+        '检查文件后缀名
+        file_type_split = Split(file_type, "|")
+        Filter = ""
+        lReturn = OpenFile.nFilterIndex - 1
+        Filter = file_type_split(lReturn)
+        If LCase(Right(lReturn_str, Len(Filter))) <> LCase(Filter) Then lReturn_str = lReturn_str & Filter
+        
+        ShowSaveFileDialog = lReturn_str
+    End If
+    
+End Function
 
 '-------------XP风格-----start-----------------------------------------------------------
 
@@ -154,13 +232,14 @@ Sub Main()
     Dim CurrentProcesshWnd As Long
     CurrentProcesshWnd = GetCurrentProcess
     Call SetPriorityClass(CurrentProcesshWnd, &H8000)
-    
+        
     start_ox163.Show
 End Sub
 
 
 '-------------XP风格--------end--------------------------------------------------------
 
+'get cookies--------------------------------------------------------------------
 Public Function GetCookie(ByVal InternetGetCookie_url) As String
     Dim buf_Cookies As String * 256, ret As Long, cLen As Long
     cLen = 256
@@ -168,26 +247,8 @@ Public Function GetCookie(ByVal InternetGetCookie_url) As String
     GetCookie = Left(buf_Cookies, cLen)
 End Function
 
-'将长路经转换为短路径
-'Declare Function GetShortPathName Lib "kernel32" Alias "GetShortPathNameA" (ByVal lpszLongPath As String, ByVal lpszShortPath As String, ByVal cchBuffer As Long) As Long
-'Public Function GetShortName(ByVal sLongFileName As String) As String
-'    On Error Resume Next
-'    Dim lRetVal As Long, sShortPathName As String, iLen As Integer
-'    'Set up buffer area for API function call return
-'    sShortPathName = Space(255)
-'    If Right(sLongFileName, 1) <> "\" Then sLongFileName = sLongFileName & "\"
-'    sLongFileName = Left(sLongFileName, Len(sLongFileName) - 1)
-'    iLen = LenB(sShortPathName)
-'
-'    'Call the function
-'    lRetVal = GetShortPathName(sLongFileName, sShortPathName, iLen)
-'    'Strip away unwanted characters.
-'
-'    GetShortName = Left(sShortPathName, lRetVal)
-'End Function
-
 Public Function GetShortName(ByVal sLongFileName As String) As String
-On Error Resume Next
+    On Error Resume Next
     GetShortName = ""
     Dim GetShortName_Fso
     
@@ -197,8 +258,8 @@ On Error Resume Next
     GetShortName = GetShortName_Fso.GetFile(sLongFileName).ShortPath
     
     If Err.Number <> 0 Then
-    Err.Number = 0
-    GetShortName = GetShortName_Fso.GetFolder(sLongFileName).ShortPath
+        Err.Number = 0
+        GetShortName = GetShortName_Fso.GetFolder(sLongFileName).ShortPath
     End If
     
     Set GetShortName_Fso = Nothing
@@ -231,7 +292,7 @@ Public Function GetIniTF(ByVal AppName As String, ByVal In_Key As String) As Boo
     GetIniTF = True
     Dim GetStr As String
     GetStr = VBA.String(128, 0)
-    GetPrivateProfileString AppName, In_Key, "", GetStr, 256, App.Path & "\OX163setup.ini"
+    GetPrivateProfileString AppName, In_Key, "", GetStr, 256, App_path & "\OX163setup.ini"
     GetStr = VBA.Replace(GetStr, VBA.Chr(0), "")
     If CBool(GetStr) = True Then
         GetIniTF = True
@@ -249,9 +310,9 @@ End Function
 Public Sub WriteIniTF(ByVal AppName As String, ByVal In_Key As String, ByVal In_Data As Boolean)
     On Error GoTo WriteIniTFErr
     If In_Data = True Then
-        WritePrivateProfileString AppName, In_Key, "True", App.Path & "\OX163setup.ini"
+        WritePrivateProfileString AppName, In_Key, "True", App_path & "\OX163setup.ini"
     Else
-        WritePrivateProfileString AppName, In_Key, "False", App.Path & "\OX163setup.ini"
+        WritePrivateProfileString AppName, In_Key, "False", App_path & "\OX163setup.ini"
     End If
     Exit Sub
 WriteIniTFErr:
@@ -269,7 +330,7 @@ Public Function GetIniStr(ByVal AppName As String, ByVal In_Key As String) As St
     End If
     Dim GetStr As String
     GetStr = VBA.String(128, 0)
-    GetPrivateProfileString AppName, In_Key, "", GetStr, 256, App.Path & "\OX163setup.ini"
+    GetPrivateProfileString AppName, In_Key, "", GetStr, 256, App_path & "\OX163setup.ini"
     GetStr = VBA.Replace(GetStr, VBA.Chr(0), "")
     If GetStr = "" Then
         GoTo GetIniStrErr
@@ -289,7 +350,7 @@ Public Sub WriteIniStr(ByVal AppName As String, ByVal In_Key As String, ByVal In
     If VBA.Trim(In_Key) = "" Or VBA.Trim(AppName) = "" Then
         GoTo WriteIniStrErr
     Else
-        WritePrivateProfileString AppName, In_Key, In_Data, App.Path & "\OX163setup.ini"
+        WritePrivateProfileString AppName, In_Key, In_Data, App_path & "\OX163setup.ini"
     End If
     Exit Sub
 WriteIniStrErr:

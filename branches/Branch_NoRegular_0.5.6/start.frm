@@ -77,8 +77,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Const ver_info = "55"
-
 Private Sub Com1_Click()
     End
 End Sub
@@ -94,17 +92,9 @@ Private Sub Com3_Click()
     End
 End Sub
 
-
-
 Private Sub Com5_Click()
     Unload start_ox163
 End Sub
-
-
-
-'Private Sub Form_Initialize()
-'InitCommonControls
-'End Sub
 
 Private Sub Form_Load()
     Timer1.Interval = 100
@@ -130,20 +120,45 @@ Private Sub Timer1_Timer()
         Exit Sub
     End If
     
-    Dim err_report As Boolean
-    Dim test_Object As Object
+    Dim err_report As Boolean, test_Object As Object, check_path
     
     start_text.Text = ""
-    
     '------------------------------------------------------------------------------------------
+    start_text.Text = start_text.Text & vbCrLf & "检查scrrun.dll" & vbCrLf & "创建FileSystemObject"
+    Set test_Object = CreateObject("Scripting.FileSystemObject")
+    If Err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
+        
+        start_text.Text = start_text.Text & vbCrLf & "无法创建创建FileSystemObject：程序操作含有unicode字符文件将失效" & vbCrLf & "建议修复windows系统文件：scrrun.dll"
+        App_path = App.Path
+    Else
+        start_text.Text = start_text.Text & "...OK"
+        
+        check_path = IIf(Right(App.Path, 1) = "\", App.Path, App.Path & "\")
+        App_path = test_Object.GetAbsolutePathName("")
+        App_path = IIf(Right(App_path, 1) = "\", App_path, App_path & "\")
+        App_path = IIf((InStr(check_path, Chr(63)) < 1 And App_path <> check_path), App_path, App_path)
+        App_path = GetShortName(App_path)
+        start_text.Text = start_text.Text & vbCrLf & "确认程序主目录短路径:" & App_path
+        
+    End If
+    
+    Set test_Object = Nothing
+    Set check_path = Nothing
+    Err.Number = 0
+    
+    start_text.SelStart = Len(start_text.Text)
+    '------------------------------------------------------------------------------------------
+    
+    
     start_text.Text = start_text.Text & vbCrLf & "检查msvbvm60.dll"
     
     If Dir(GetSysDir & "\msvbvm60.dll") = "" Then
         start_text.Text = start_text.Text & "msvbvm60.dll不存在"
-        FileCopy App.Path & "\msvbvm60.dll", GetSysDir & "\msvbvm60.dll"
-    ElseIf FileDateTime(GetSysDir & "\msvbvm60.dll") < FileDateTime(App.Path & "\msvbvm60.dll") Then
+        FileCopy App_path & "\msvbvm60.dll", GetSysDir & "\msvbvm60.dll"
+    ElseIf FileDateTime(GetSysDir & "\msvbvm60.dll") < FileDateTime(App_path & "\msvbvm60.dll") Then
         start_text.Text = start_text.Text & "msvbvm60.dll版本低"
-        FileCopy App.Path & "\msvbvm60.dll", GetSysDir & "\msvbvm60.dll"
+        FileCopy App_path & "\msvbvm60.dll", GetSysDir & "\msvbvm60.dll"
     End If
     If Err.Number <> 0 Then
         start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
@@ -159,8 +174,8 @@ Private Sub Timer1_Timer()
     
     If Dir(GetSysDir & "\ole32.dll") = "" Then
         start_text.Text = start_text.Text & "ole32.dll不存在"
-        FileCopy App.Path & "\ole32.dll", GetSysDir & "\ole32.dll"
-    ElseIf FileDateTime(GetSysDir & "\ole32.dll") < FileDateTime(App.Path & "\ole32.dll") Then
+        FileCopy App_path & "\ole32.dll", GetSysDir & "\ole32.dll"
+    ElseIf FileDateTime(GetSysDir & "\ole32.dll") < FileDateTime(App_path & "\ole32.dll") Then
         start_text.Text = start_text.Text & "ole32.dll版本低"
     End If
     If Err.Number <> 0 Then
@@ -272,12 +287,12 @@ Private Sub Timer1_Timer()
     
     '------------------------------------------------------------------------------------------
     start_text.Text = start_text.Text & vbCrLf & "检查文件夹"
-    If Dir(App.Path & "\download", vbDirectory) = "" Then
-        MkDir App.Path & "\download"
+    If Dir(App_path & "\download", vbDirectory) = "" Then
+        MkDir App_path & "\download"
     End If
     
-    If Dir(App.Path & "\url", vbDirectory) = "" Then
-        MkDir App.Path & "\url"
+    If Dir(App_path & "\url", vbDirectory) = "" Then
+        MkDir App_path & "\url"
     End If
     
     If Err.Number <> 0 Then
@@ -291,7 +306,7 @@ Private Sub Timer1_Timer()
     
     '------------------------------------------------------------------------------------------
     start_text.Text = start_text.Text & vbCrLf & "检查设定文档"
-    If Dir(App.Path & "\OX163setup.ini") = "" Then
+    If Dir(App_path & "\OX163setup.ini") = "" Then
         
         '默认参数
         WriteIniStr "maincenter", "ver", ver_info '默认参数
@@ -457,7 +472,7 @@ Private Sub Timer1_Timer()
         sysSet.def_path = GetIniStr("maincenter", "def_path")
         If Mid$(sysSet.def_path, 2, 2) <> ":\" Then GoTo reset_path
         If Right(sysSet.def_path, 1) = "\" Then sysSet.def_path = Mid$(sysSet.def_path, 1, Len(sysSet.def_path) - 1): WriteIniStr "maincenter", "def_path", sysSet.def_path
-        Dim check_path
+        
         check_path = Split(sysSet.def_path, "\")
         
         For i = 0 To UBound(check_path)

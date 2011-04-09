@@ -945,7 +945,7 @@ Begin VB.Form Form1
       NoFolders       =   0   'False
       Transparent     =   0   'False
       ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-      Location        =   "http:///"
+      Location        =   ""
    End
    Begin VB.PictureBox web_Picture 
       BorderStyle     =   0  'None
@@ -980,7 +980,7 @@ Begin VB.Form Form1
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   "http:///"
+         Location        =   ""
       End
    End
    Begin MSComDlg.CommonDialog CommonDialog1 
@@ -1312,8 +1312,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Const title_info = "OX163 plus(0.5.5build100321)"
-
 Dim mouse_dic As Byte '25
 Public form_height As Integer
 Dim url_temp As String
@@ -1894,7 +1892,7 @@ Private Sub Form_Load()
     auto_shutdown_tf = False
     rename_rules_val = 0
     Form1.caption = title_info
-    url_Filelist.Path = App.Path & "\url"
+    url_Filelist.Path = App_path & "\url"
     pw_163 = ""
     start_fast_method = ""
     proxy_warning = vbOK
@@ -1906,7 +1904,7 @@ Private Sub Form_Load()
     TrayI.uFlags = NIF_ICON Or NIF_MESSAGE Or NIF_TIP
     TrayI.ucallbackMessage = WM_MBUTTONDOWN
     '定义鼠标移动到托盘上时显示的Tip
-    TrayI.szTip = Form1.caption & vbNullChar
+    TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
     TrayI.cbSize = Len(TrayI)
     
     now_tray = False
@@ -2112,7 +2110,7 @@ Private Sub Form_Unload(Cancel As Integer)
     End If
     form_quit = True
     DoEvents
-    If is_open = True Then save_text App.Path & "\Documents.xml"
+    If is_open = True Then save_text App_path & "\Documents.xml"
     sysTray False
     End
 End Sub
@@ -2169,7 +2167,7 @@ End Sub
 
 Private Sub homepage_Click()
     On Error Resume Next
-    ShellExecute 0&, vbNullString, "http://www.shanhaijing.net/163/", vbNullString, vbNullString, vbNormalFocus
+    ShellExecute 0&, vbNullString, StrConv("http://www.shanhaijing.net/163/", vbUnicode), vbNullString, vbNullString, vbNormalFocus
 End Sub
 
 Private Sub homepage_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
@@ -2212,11 +2210,11 @@ start:
         save_list_image text_sortname
         
     ElseIf sysSet.savedef = False Then
-        Folder_path = App.Path & "\download": GoTo start
+        Folder_path = App_path & "\download": GoTo start
         
     Else
-        msg = MsgBox("你没有选择文件夹，或者文件夹不正确，是否下载相册？" & vbCrLf & "<是>将文件下载到默认目录：" & App.Path & "\download" & vbCrLf & "<否>放弃下载", vbYesNo + vbExclamation + vbDefaultButton2, "下载询问")
-        If msg = vbYes Then Folder_path = App.Path & "\download": GoTo start
+        msg = MsgBox("你没有选择文件夹，或者文件夹不正确，是否下载相册？" & vbCrLf & "<是>将文件下载到默认目录：" & App_path & "\download" & vbCrLf & "<否>放弃下载", vbYesNo + vbExclamation + vbDefaultButton2, "下载询问")
+        If msg = vbYes Then Folder_path = App_path & "\download": GoTo start
         
     End If
     
@@ -2540,12 +2538,12 @@ End Sub
 
 Private Sub search_local_Click()
     On Error Resume Next
-    Shell Replace$(App.Path & "\search163.exe", "\\", "\"), vbNormalFocus
+    Shell Replace$(App_path & "\search163.exe", "\\", "\"), vbNormalFocus
 End Sub
 
 Private Sub search163_Click()
     On Error Resume Next
-    If Dir(Replace$(App.Path & "\search163.exe", "\\", "\")) = "" Then
+    If Dir(Replace$(App_path & "\search163.exe", "\\", "\")) = "" Then
         search_internt_Click
     Else
         PopupMenu searchMenu
@@ -2580,7 +2578,7 @@ Private Sub StatusBar_PanelClick(ByVal Panel As MSComctlLib.Panel)
     ElseIf Panel.Tag = "mode" Then
         
     ElseIf LCase(show_inform(1)) Like "http*" Then
-        ShellExecute 0&, vbNullString, show_inform(1), vbNullString, vbNullString, vbNormalFocus
+        ShellExecute 0&, vbNullString, StrConv(show_inform(1), vbUnicode), vbNullString, vbNullString, vbNormalFocus
     End If
 End Sub
 Private Sub Refresh_Panel()
@@ -2751,7 +2749,7 @@ Private Sub text_im2_MouseMove(Button As Integer, Shift As Integer, x As Single,
 End Sub
 
 Private Sub text_im3_Click()
-    save_text App.Path & "\Documents.xml"
+    save_text App_path & "\Documents.xml"
 End Sub
 
 Private Sub text_im3_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
@@ -2784,7 +2782,7 @@ End Sub
 Private Sub text_show_Click()
     On Error Resume Next
     If is_open = False Then
-        If Dir(App.Path & "\Documents.xml") <> "" Then load_text App.Path & "\Documents.xml"
+        If Dir(App_path & "\Documents.xml") <> "" Then load_text App_path & "\Documents.xml"
         is_open = True
     End If
     If text_pic.Visible = False Then newform_resize
@@ -3509,7 +3507,7 @@ Private Sub input_lst_Click()
     If sysSet.def_path_tf = True And sysSet.def_path <> "" Then def_txtpath = sysSet.def_path
     
     txtpath = ""
-    txtpath = ShowSaveFileDialog(def_txtpath, "", "All List Files(*.htm;*.lst;*.txt)|*.htm;*.lst;*.txt|All Files (*.*)|*.*|", Me.hWnd)
+    txtpath = ShowOpenFileDialog(def_txtpath, "", "All List Files(*.htm;*.lst;*.txt)|*.htm;*.lst;*.txt|All Files (*.*)|*.*|", Me.hWnd)
     txtpath = GetShortName(txtpath)
     
     If txtpath = "" Then
@@ -3525,10 +3523,10 @@ End Sub
 Private Sub list_output_Click()
     On Error GoTo ErrHandler
     Dim txtpath As String, def_txtpath As String, file_filter(1) As String, answer_save
-
+    
     rename_rules_val = 0
     PopupMenu rename_rules
-
+    
     If sysSet.def_path_tf = True And sysSet.def_path <> "" Then def_txtpath = sysSet.def_path
     
     Select Case sysSet.list_type
@@ -3549,11 +3547,11 @@ Private Sub list_output_Click()
 ErrHandler:
         Exit Sub
     Else: def_txtpath = ""
-    def_txtpath = Mid(txtpath, 1, InStrRev(txtpath, "\"))
-    txtpath = Mid(txtpath, InStrRev(txtpath, "\") + 1)
-    txtpath = Replace(GetShortName(def_txtpath) & "\" & Hex_unicode_str(txtpath), "\\", "\")
-    
-
+        def_txtpath = Mid(txtpath, 1, InStrRev(txtpath, "\"))
+        txtpath = Mid(txtpath, InStrRev(txtpath, "\") + 1)
+        txtpath = Replace(GetShortName(def_txtpath) & "\" & Hex_unicode_str(txtpath), "\\", "\")
+        
+        
         If Dir(txtpath) <> "" Then
             answer_save = MsgBox("该文件已存在，是否覆盖？", vbYesNo + vbExclamation + vbDefaultButton2, "警告")
             If answer_save = vbNo Then Exit Sub
@@ -3812,9 +3810,9 @@ Private Sub makelist_command_Click()
     '--------------------------创建url文件----------------------------
     Dim url_file_name As String
     url_file_name = rename_URL(url_input.Text)
-    If List1.ListItems.count > 0 And Dir(App.Path & "\url\" & url_file_name) = "" Then
-        If Dir(App.Path & "\url", vbDirectory) = "" Then MkDir App.Path & "\url"
-        WriteUrlStr "maincenter", "url", url_file_name, App.Path & "\url\" & url_file_name
+    If List1.ListItems.count > 0 And Dir(App_path & "\url\" & url_file_name) = "" Then
+        If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
+        WriteUrlStr "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
         url_Filelist.Refresh
     End If
     '----------------------------------------------------------------
@@ -3899,9 +3897,9 @@ Private Sub new163pic_list(ByVal input_User_Name As String, ByVal input_Album_ID
     End If
     
     '------------------------------创建url文件----------------------------------
-    If List1.ListItems.count > 0 And Dir(App.Path & "\url\" & url_file_name) = "" Then
-        If Dir(App.Path & "\url", vbDirectory) = "" Then MkDir App.Path & "\url"
-        WriteUrlStr "maincenter", "url", url_file_name, App.Path & "\url\" & url_file_name
+    If List1.ListItems.count > 0 And Dir(App_path & "\url\" & url_file_name) = "" Then
+        If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
+        WriteUrlStr "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
         url_Filelist.Refresh
     End If
     '----------------------------------------------------------------
@@ -4240,11 +4238,11 @@ start:
         save_all_list text_sortname
         
     ElseIf sysSet.savedef = False Then
-        Folder_path = App.Path & "\download": GoTo start
+        Folder_path = App_path & "\download": GoTo start
         
     Else
-        msg = MsgBox("你没有选择文件夹，或者文件夹不正确，是否下载相册？" & vbCrLf & "<是>将文件下载到默认目录：" & App.Path & "\download" & vbCrLf & "<否>放弃下载", vbYesNo + vbExclamation + vbDefaultButton2, "下载询问")
-        If msg = vbYes Then Folder_path = App.Path & "\download": GoTo start
+        msg = MsgBox("你没有选择文件夹，或者文件夹不正确，是否下载相册？" & vbCrLf & "<是>将文件下载到默认目录：" & App_path & "\download" & vbCrLf & "<否>放弃下载", vbYesNo + vbExclamation + vbDefaultButton2, "下载询问")
+        If msg = vbYes Then Folder_path = App_path & "\download": GoTo start
         
     End If
     
@@ -4291,11 +4289,11 @@ start:
         save_all_pic text_sortname
         
     ElseIf sysSet.savedef = False Then
-        Folder_path = App.Path & "\download": GoTo start
+        Folder_path = App_path & "\download": GoTo start
         
     Else
-        msg = MsgBox("你没有选择文件夹，或者文件夹不正确，是否下载相册？" & vbCrLf & "<是>将文件下载到默认目录：" & App.Path & "\download" & vbCrLf & "<否>放弃下载", vbYesNo + vbExclamation + vbDefaultButton2, "下载询问")
-        If msg = vbYes Then Folder_path = App.Path & "\download": GoTo start
+        msg = MsgBox("你没有选择文件夹，或者文件夹不正确，是否下载相册？" & vbCrLf & "<是>将文件下载到默认目录：" & App_path & "\download" & vbCrLf & "<否>放弃下载", vbYesNo + vbExclamation + vbDefaultButton2, "下载询问")
+        If msg = vbYes Then Folder_path = App_path & "\download": GoTo start
         
     End If
 End Sub
@@ -4381,7 +4379,7 @@ Private Sub Timer3_Timer()
     Web_Browser.Document.Open
     Web_Browser.Document.Write ""
     Web_Browser.Document.Close
-    'Web_Browser.Navigate "about:blank" 'Replace$(App.Path & "\start.htm", "\\start.htm", "\start.htm") '"about:blank"'
+    'Web_Browser.Navigate "about:blank" 'Replace$(App_path & "\start.htm", "\\start.htm", "\start.htm") '"about:blank"'
     Web_Search.Silent = True
     Web_Search.Document.Open
     Web_Search.Document.Write ""
@@ -4486,12 +4484,12 @@ Private Sub Timer3_Timer()
                     Exit Sub
                 Else
                     Form1.caption = "[新版本:" & ver & "]" & Form1.caption
-                    TrayI.szTip = Form1.caption & vbNullChar
+                    TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
                     If now_tray = True Then TrayI.uFlags = NIF_TIP: Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
                 End If
             Else
                 Form1.caption = "[新版本:" & ver & "]" & Form1.caption
-                TrayI.szTip = Form1.caption & vbNullChar
+                TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
                 If now_tray = True Then TrayI.uFlags = NIF_TIP: Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
             End If
         End If
@@ -4504,22 +4502,22 @@ Private Sub Timer3_Timer()
 End Sub
 
 Private Sub tray_dir_Click()
-    Shell "explorer.exe " & App.Path, vbNormalFocus
+    Shell "explorer.exe " & App_path, vbNormalFocus
 End Sub
 
 Private Sub tray_dir1_Click()
-    Shell "explorer.exe " & App.Path, vbNormalFocus
+    Shell "explorer.exe " & App_path, vbNormalFocus
 End Sub
 
 
 
 Private Sub tray_path_Click()
-    If Open_path = "" Then Open_path = App.Path & "\download"
+    If Open_path = "" Then Open_path = App_path & "\download"
     Shell "explorer.exe " & Open_path, vbNormalFocus
 End Sub
 
 Private Sub tray_path1_Click()
-    If Open_path = "" Then Open_path = App.Path & "\download"
+    If Open_path = "" Then Open_path = App_path & "\download"
     Shell "explorer.exe " & Open_path, vbNormalFocus
 End Sub
 
@@ -5559,7 +5557,7 @@ Public Sub frame_resize()
         'user_list默认宽度 1相册名称 1440.00 - 2相册密码 1400 - 3序号/链接 1200 - 4图片数量 1400 - 5相册描述 1099.84
         user_list.Height = Frame2.Height - 900
         user_list.Width = Frame2.Width - 100
-
+        
         If user_list.Width - 5000 > 4000 Then
             user_list.ColumnHeaders.Item(1).Width = 3500
             user_list.ColumnHeaders.Item(3).Width = (user_list.Width - 6800) * 0.5
@@ -5710,7 +5708,7 @@ Private Sub Web_Browser_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, f
     
     DoEvents
     
-    If OX163_WebBrowser_scriptCode = "" Or web_load_times = False Then web_load_times = True: Exit Sub 'URL = Replace$(App.Path & "\start.htm", "\\start.htm", "\start.htm") Or
+    If OX163_WebBrowser_scriptCode = "" Or web_load_times = False Then web_load_times = True: Exit Sub 'URL = Replace$(App_path & "\start.htm", "\\start.htm", "\start.htm") Or
     
     'Web_Browser_header_tf = False
     
@@ -5757,7 +5755,7 @@ End Sub
 'Private Sub Web_Browser_DocumentComplete(ByVal pDisp As Object, URL As Variant)
 'On Error Resume Next
 'If down_count = 0 Then
-'    If Web_Browser.Visible = True And Web_Browser.LocationURL <> Replace$(App.Path & "\start.htm", "\\start.htm", "\start.htm") Then
+'    If Web_Browser.Visible = True And Web_Browser.LocationURL <> Replace$(App_path & "\start.htm", "\\start.htm", "\start.htm") Then
 '    url_temp = Web_Browser.LocationURL
 '    url_input.Text = Web_Browser.LocationURL
 '    buttom_enable True
@@ -5770,7 +5768,7 @@ End Sub
 'On Error Resume Next
 'If down_count = 0 Then
 '    If Web_Browser_url = "" Then Web_Browser_url = Web_Browser.LocationURL
-'    If Web_Browser.Visible = True And Web_Browser_url <> Replace$(App.Path & "\start.htm", "\\start.htm", "\start.htm") Then
+'    If Web_Browser.Visible = True And Web_Browser_url <> Replace$(App_path & "\start.htm", "\\start.htm", "\start.htm") Then
 '    url_temp = Web_Browser_url
 '    url_input.Text = Web_Browser_url
 '    buttom_enable True
@@ -5791,7 +5789,7 @@ Private Sub Web_Browser_NavigateComplete2(ByVal pDisp As Object, URL As Variant)
         Script_App.AddCode (OX163_WebBrowser_scriptCode)
         script_retrun_code = Web_Browser.LocationURL
         script_retrun_code = Script_App.Eval("OX163_Web_Browser_url(" & Chr(34) & script_retrun_code & Chr(34) & ")")
-        If Web_Browser.Visible = True And script_retrun_code <> Replace$(App.Path & "\start.htm", "\\start.htm", "\start.htm") Then
+        If Web_Browser.Visible = True And script_retrun_code <> Replace$(App_path & "\start.htm", "\\start.htm", "\start.htm") Then
             url_temp = script_retrun_code
             url_input.Text = script_retrun_code
             buttom_enable True
@@ -5864,8 +5862,8 @@ Private Sub list_save(ByVal list_name)
     
     script_code_str = ""
     
-    If Dir(App.Path & "\include\OX163_htmlst_include.vbs") <> "" Then
-        script_code_str = load_Script(App.Path & "\include\OX163_htmlst_include.vbs")
+    If Dir(App_path & "\include\OX163_htmlst_include.vbs") <> "" Then
+        script_code_str = load_Script(App_path & "\include\OX163_htmlst_include.vbs")
     End If
     
     If script_code_str = "" Then script_code_str = "<script language='javascript'>function loadxunlei(){var Thunder=null;try{Thunder=new ActiveXObject('ThunderAgent.Agent')}catch(e){var Thunder=null};for(i=1;i<gPhotoID.length;i++){Thunder.AddTask4(gPhotoInfo[i][0],gPhotoInfo[i][1],'','',gPhotoInfo[i][2],-1,0,-1,gPhotoInfo[i][3],'','');};Thunder.CommitTasks2(1);};</script><input type='submit' name='xunlei' id='xunlei' value='调用迅雷下载' onclick='javascript:loadxunlei()'><br /><br />"
@@ -6003,7 +6001,7 @@ Private Sub save_list_image(ByVal floder_path)
     For i = 1 To List1.ListItems.count
         DoEvents
         Form1.caption = title_info & " - " & i & "/" & List1.ListItems.count
-        TrayI.szTip = Form1.caption & vbNullChar
+        TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
         If now_tray = True Then TrayI.uFlags = NIF_TIP: Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
         
         If List1.ListItems(i).Selected = True Then List1.ListItems(i).Selected = False
@@ -6084,7 +6082,7 @@ end_sub:
     
     form_quit = True
     Form1.caption = title_info
-    TrayI.szTip = Form1.caption & vbNullChar
+    TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
     If now_tray = True Then TrayI.uFlags = NIF_TIP: Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
     
     Form1.Icon = ico(0).Picture
@@ -6734,7 +6732,7 @@ Private Sub user_open()
     
     '----------------定义url文件名----------------------------------------------------
     url_file_name = rename_URL("http://photo.163.com/photo/" & url_input.Text & "/")
-    pw_163 = App.Path & "\url\" & url_file_name
+    pw_163 = App_path & "\url\" & url_file_name
     
     If Dir(pw_163) <> "" Then
         pw_file_tf = True
@@ -6865,7 +6863,7 @@ old_user_open:
     
     '----------------定义url文件名----------------------------------------------------
     url_file_name = rename_URL("http://photo.163.com/photos/" & url_input.Text & "/")
-    pw_163 = App.Path & "\url\" & url_file_name
+    pw_163 = App_path & "\url\" & url_file_name
     
     
     If Dir(pw_163) <> "" Then
@@ -7000,9 +6998,9 @@ End If
 
 '----------------创建url文件名----------------------------------------------------
 'http://photo.163.com/photos/wehi/
-If user_list.ListItems.count > 0 And Dir(App.Path & "\url\" & url_file_name) = "" Then
-    If Dir(App.Path & "\url", vbDirectory) = "" Then MkDir App.Path & "\url"
-    WriteUrlStr "maincenter", "url", url_file_name, App.Path & "\url\" & url_file_name
+If user_list.ListItems.count > 0 And Dir(App_path & "\url\" & url_file_name) = "" Then
+    If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
+    WriteUrlStr "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
     url_Filelist.Refresh
 End If
 '--------------------------------------------------------------------
@@ -7190,8 +7188,8 @@ retry_new_password:
     
     script_code_str = ""
     
-    If Dir(App.Path & "\include\OX163_htmlst_include.vbs") <> "" Then
-        script_code_str = load_Script(App.Path & "\include\OX163_htmlst_include.vbs")
+    If Dir(App_path & "\include\OX163_htmlst_include.vbs") <> "" Then
+        script_code_str = load_Script(App_path & "\include\OX163_htmlst_include.vbs")
     End If
     
     If script_code_str = "" Then script_code_str = "<script language='javascript'>function loadxunlei(){var Thunder=null;try{Thunder=new ActiveXObject('ThunderAgent.Agent')}catch(e){var Thunder=null};for(i=1;i<gPhotoID.length;i++){Thunder.AddTask4(gPhotoInfo[i][0],gPhotoInfo[i][1],'','',gPhotoInfo[i][2],-1,0,-1,gPhotoInfo[i][3]);};Thunder.CommitTasks2(1);};</script><input type='submit' name='xunlei' id='xunlei' value='调用迅雷下载' onclick='javascript:loadxunlei()'><br /><br />"
@@ -7207,7 +7205,7 @@ retry_new_password:
         If Trim(user_list.ListItems(i).ListSubItems(2).Text) = "" Then user_list.ListItems(i).Checked = False
         
         Form1.caption = title_info & " - " & i & "/" & user_list.ListItems.count
-        TrayI.szTip = Form1.caption & vbNullChar
+        TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
         If now_tray = True Then TrayI.uFlags = NIF_TIP: Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
         
         If user_list.ListItems(i).Selected = True Then user_list.ListItems(i).Selected = False
@@ -7488,7 +7486,7 @@ end_sub:
     Label_url1.Visible = False
     'Timer2.Enabled = False
     Form1.caption = title_info
-    TrayI.szTip = Form1.caption & vbNullChar
+    TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
     If now_tray = True Then TrayI.uFlags = NIF_TIP: Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
     
     Form1.Icon = ico(0).Picture
@@ -7612,7 +7610,7 @@ retry_new_password:
         If Trim(user_list.ListItems(i).ListSubItems(2).Text) = "" Then user_list.ListItems(i).Checked = False
         
         Form1.caption = title_info & " - " & i & "/" & user_list.ListItems.count
-        TrayI.szTip = Form1.caption & vbNullChar
+        TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
         If now_tray = True Then TrayI.uFlags = NIF_TIP: Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
         
         If user_list.ListItems(i).Selected = True Then user_list.ListItems(i).Selected = False
@@ -7789,7 +7787,7 @@ new163_password_OK:
             For save_img_i = 1 To List1.ListItems.count
                 DoEvents
                 Form1.caption = title_info & " - " & i & "/" & user_list.ListItems.count & " - " & save_img_i & "/" & List1.ListItems.count
-                TrayI.szTip = Form1.caption & vbNullChar
+                TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
                 If now_tray = True Then TrayI.uFlags = NIF_TIP: Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
                 
                 user_list.ListItems(i).ListSubItems(3).Text = save_img_i & Mid$(user_list.ListItems(i).ListSubItems(3).Text, InStr(user_list.ListItems(i).ListSubItems(3).Text, "/"))
@@ -7878,7 +7876,7 @@ end_sub:
     Label_url1.Visible = False
     'Timer2.Enabled = False
     Form1.caption = title_info
-    TrayI.szTip = Form1.caption & vbNullChar
+    TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
     If now_tray = True Then TrayI.uFlags = NIF_TIP: Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
     
     Form1.Icon = ico(0).Picture
@@ -7941,9 +7939,9 @@ End Sub
 
 Private Sub save_text(ByVal file_name)
     On Error Resume Next
-    Dim Fso, file
-    Set Fso = CreateObject("Scripting.FileSystemObject")
-    Set file = Fso.CreateTextFile(file_name, True)
+    Dim fso, file
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Set file = fso.CreateTextFile(file_name, True)
     file.Write text_easy.Text
     file.Close
 End Sub
@@ -8462,9 +8460,9 @@ Private Sub run_script()
         End If
         
         '------------------------------创建url文件----------------------------------
-        If List1.ListItems.count > 0 And Dir(App.Path & "\url\" & url_file_name) = "" Then
-            If Dir(App.Path & "\url", vbDirectory) = "" Then MkDir App.Path & "\url"
-            WriteUrlStr "maincenter", "url", url_file_name, App.Path & "\url\" & url_file_name
+        If List1.ListItems.count > 0 And Dir(App_path & "\url\" & url_file_name) = "" Then
+            If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
+            WriteUrlStr "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
             url_Filelist.Refresh
         End If
         '----------------------------------------------------------------
@@ -8540,9 +8538,9 @@ Private Sub run_script()
         End If
         
         '------------------------------创建url文件----------------------------------
-        If user_list.ListItems.count > 0 And Dir(App.Path & "\url\" & url_file_name) = "" Then
-            If Dir(App.Path & "\url", vbDirectory) = "" Then MkDir App.Path & "\url"
-            WriteUrlStr "maincenter", "url", url_file_name, App.Path & "\url\" & url_file_name
+        If user_list.ListItems.count > 0 And Dir(App_path & "\url\" & url_file_name) = "" Then
+            If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
+            WriteUrlStr "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
             url_Filelist.Refresh
         End If
         '----------------------------------------------------------------
@@ -8658,7 +8656,7 @@ Private Sub list_album_script(ByVal album_info)
     '定义url文件名----------------------------------------------------
     Dim url_file_name As String
     url_file_name = rename_URL(url_input.Text)
-    pw_163 = App.Path & "\url\" & url_file_name
+    pw_163 = App_path & "\url\" & url_file_name
     Dim pw_file_tf As Boolean
     pw_file_tf = (Dir(pw_163) <> "")
     '取得外部脚本信息以及原始链接-----------------------------------------------

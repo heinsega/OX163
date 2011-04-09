@@ -1,4 +1,6 @@
 Attribute VB_Name = "OX_variable"
+Public Const title_info = "OX163 plus(0.5.5build100321)"
+Public Const ver_info = "55"
 '------------------------------------------------------------------------------------
 Public Const NIM_ADD = &H0
 Public Const NIM_MODIFY = &H1
@@ -25,7 +27,7 @@ Public Const SW_HIDE = 0
 Public Const WM_SYSCOMMAND = &H112
 Public Const SC_RESTORE = &HF120&
 
-
+'窗口最前端参数----------------------------------------
 Public Type NOTIFYICONDATA
     cbSize As Long
     hWnd As Long
@@ -38,10 +40,12 @@ End Type
 
 Public TrayI As NOTIFYICONDATA
 
+
+'BrowserW传递、判断参数----------------------------------------
 Public BrowserW_url As String
 Public BrowserW_load_ok As Boolean
 
-
+'外部脚本脚本头（包括必要参数以及函数）-------------------
 Type include_ScriptCode
     OX163_vbs_var As String
     OX163_vbs_fn As String
@@ -49,10 +53,15 @@ Type include_ScriptCode
     OX163_js_fn As String
 End Type
 
+'脚本调用传递参数
 Public in_Script_Code As include_ScriptCode
+'浏览器脚本控制参数
 Public OX163_WebBrowser_scriptCode As String
 
-'-----------------------------------------------------------------------------
+'全局程序组目录
+Public App_path As String
+
+'系统参数------------------------------------------------
 Type sysSetting
     '版本
     ver As Integer

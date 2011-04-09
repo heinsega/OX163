@@ -15,11 +15,11 @@ Public Sub OX_load_Script_Code(sourceScriptInfo As ScriptInfo, sourceScriptApp A
     If LCase(Trim(sourceScriptInfo.Language)) = "vbscript" Then
         sourceScriptInfo.Language = "vbscript"
         sourceScriptApp.Language = "vbscript"
-        OX_load_Script_Code_STR = in_Script_Code.OX163_vbs_var & load_Script(App.Path & "\include\" & sourceScriptInfo.fileName) & in_Script_Code.OX163_vbs_fn
+        OX_load_Script_Code_STR = in_Script_Code.OX163_vbs_var & load_Script(App_path & "\include\" & sourceScriptInfo.fileName) & in_Script_Code.OX163_vbs_fn
     Else
         sourceScriptInfo.Language = "javascript"
         sourceScriptApp.Language = "javascript"
-        OX_load_Script_Code_STR = in_Script_Code.OX163_js_var & load_Script(App.Path & "\include\" & sourceScriptInfo.fileName) & in_Script_Code.OX163_js_fn
+        OX_load_Script_Code_STR = in_Script_Code.OX163_js_var & load_Script(App_path & "\include\" & sourceScriptInfo.fileName) & in_Script_Code.OX163_js_fn
     End If
     Call sourceScriptApp.AddCode(OX_load_Script_Code_STR)
 End Sub
@@ -27,36 +27,36 @@ End Sub
 Public Sub load_in_Script_Code()
     On Error Resume Next
     in_Script_Code.OX163_vbs_var = ""
-    If Dir(App.Path & "\include\OX163_vbs_var.vbs") <> "" Then
-    in_Script_Code.OX163_vbs_var = vbCrLf & load_Script(App.Path & "\include\OX163_vbs_var.vbs") & vbCrLf
+    If Dir(App_path & "\include\OX163_vbs_var.vbs") <> "" Then
+    in_Script_Code.OX163_vbs_var = vbCrLf & load_Script(App_path & "\include\OX163_vbs_var.vbs") & vbCrLf
     Else
     in_Script_Code.OX163_vbs_var = vbCrLf & "Dim OX163_urlpage_Referer,OX163_urlpage_Cookies" & vbCrLf
     End If
     
     in_Script_Code.OX163_vbs_fn = ""
-    If Dir(App.Path & "\include\OX163_vbs_fn.vbs") <> "" Then
-    in_Script_Code.OX163_vbs_fn = vbCrLf & load_Script(App.Path & "\include\OX163_vbs_fn.vbs") & vbCrLf
+    If Dir(App_path & "\include\OX163_vbs_fn.vbs") <> "" Then
+    in_Script_Code.OX163_vbs_fn = vbCrLf & load_Script(App_path & "\include\OX163_vbs_fn.vbs") & vbCrLf
     Else
     in_Script_Code.OX163_vbs_fn = vbCrLf & "Function set_urlpagecookies(byVal set_str)" & vbCrLf & "On Error Resume Next" & vbCrLf & "OX163_urlpage_Cookies = set_str" & vbCrLf & "End Function" & vbCrLf
     End If
     
     in_Script_Code.OX163_js_var = ""
-    If Dir(App.Path & "\include\OX163_js_var.vbs") <> "" Then
-    in_Script_Code.OX163_js_var = vbCrLf & load_Script(App.Path & "\include\OX163_js_var.vbs") & vbCrLf
+    If Dir(App_path & "\include\OX163_js_var.vbs") <> "" Then
+    in_Script_Code.OX163_js_var = vbCrLf & load_Script(App_path & "\include\OX163_js_var.vbs") & vbCrLf
     Else
     in_Script_Code.OX163_js_var = vbCrLf & "var OX163_urlpage_Referer='';var OX163_urlpage_Cookies='';" & vbCrLf
     End If
     
     in_Script_Code.OX163_js_fn = ""
-    If Dir(App.Path & "\include\OX163_js_fn.vbs") <> "" Then
-    in_Script_Code.OX163_js_fn = vbCrLf & load_Script(App.Path & "\include\OX163_js_fn.vbs") & vbCrLf
+    If Dir(App_path & "\include\OX163_js_fn.vbs") <> "" Then
+    in_Script_Code.OX163_js_fn = vbCrLf & load_Script(App_path & "\include\OX163_js_fn.vbs") & vbCrLf
     Else
     in_Script_Code.OX163_js_fn = vbCrLf & "function set_urlpagecookies(set_str){OX163_urlpage_Cookies=set_str;}" & vbCrLf
     End If
     
     OX163_WebBrowser_scriptCode = ""
-    If Dir(App.Path & "\include\OX163_Web_Browser_ctrl.vbs") <> "" Then
-        OX163_WebBrowser_scriptCode = load_Script(App.Path & "\include\OX163_Web_Browser_ctrl.vbs")
+    If Dir(App_path & "\include\OX163_Web_Browser_ctrl.vbs") <> "" Then
+        OX163_WebBrowser_scriptCode = load_Script(App_path & "\include\OX163_Web_Browser_ctrl.vbs")
         OX163_WebBrowser_scriptCode = Trim(OX163_WebBrowser_scriptCode)
     End If
 End Sub
@@ -98,11 +98,11 @@ Public Function check_Include(ByVal url_str As String) As String
     On Error Resume Next
     
     check_Include = ""
-    If Dir(App.Path & "\include\include.txt") = "" Then Exit Function
+    If Dir(App_path & "\include\include.txt") = "" Then Exit Function
     
     Dim include_str, include_str1
     
-    include_str = load_Script(App.Path & "\include\include.txt")
+    include_str = load_Script(App_path & "\include\include.txt")
     If include_str = "" Then Exit Function
     
     include_str = Split(Trim$(include_str), vbCrLf)
@@ -113,7 +113,7 @@ Public Function check_Include(ByVal url_str As String) As String
             include_str1 = Split(include_str(i), "|")
             
             If UBound(include_str1) < 4 Then GoTo next_i
-            If Dir(App.Path & "\include\" & include_str1(0)) = "" Then GoTo next_i
+            If Dir(App_path & "\include\" & include_str1(0)) = "" Then GoTo next_i
             If LCase$(include_str1(1)) <> "vbscript" And LCase$(include_str1(1)) <> "javascript" Then GoTo next_i
             If include_str1(2) = "" Then GoTo next_i
             If LCase$(include_str1(3)) <> "photo" And LCase$(include_str1(3)) <> "album" Then GoTo next_i
