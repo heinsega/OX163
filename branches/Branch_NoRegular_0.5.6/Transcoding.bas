@@ -182,3 +182,158 @@ Dim i
         is_Hex_code = False
     End If
 End Function
+
+'-------------------------------------------------------------------------
+'格式化url（空格中文字符等格式化为%+数字格式）----------------------------
+'-------------------------------------------------------------------------
+Public Function URLEncode(ByVal vstrIn As String) As String
+    On Error Resume Next
+    Dim strReturn As String, ThisChr As String, innerCode, Hight8, Low8
+    strReturn = ""
+    vstrIn = Replace(vstrIn, "%", "%25")
+    Dim i
+    For i = 1 To Len(vstrIn)
+        ThisChr = Mid(vstrIn, i, 1)
+        If Abs(Asc(ThisChr)) < &HFF Then
+            strReturn = strReturn & ThisChr
+        Else
+            innerCode = Asc(ThisChr)
+            If innerCode < 0 Then
+                innerCode = innerCode + &H10000
+            End If
+            Hight8 = (innerCode And &HFF00) \ &HFF
+            Low8 = innerCode And &HFF
+            strReturn = strReturn & "%" & Hex(Hight8) & "%" & Hex(Low8)
+        End If
+    Next
+    strReturn = Replace(strReturn, "!", "%21")
+    strReturn = Replace(strReturn, Chr(34), "%22")
+    strReturn = Replace(strReturn, "#", "%20")
+    strReturn = Replace(strReturn, "$", "%24")
+    strReturn = Replace(strReturn, "&", "%26")
+    strReturn = Replace(strReturn, "'", "%27")
+    strReturn = Replace(strReturn, "(", "%28")
+    strReturn = Replace(strReturn, ")", "%29")
+    strReturn = Replace(strReturn, "*", "%2A")
+    strReturn = Replace(strReturn, "+", "%2B")
+    strReturn = Replace(strReturn, ",", "%2C")
+    strReturn = Replace(strReturn, ".", "%2E")
+    strReturn = Replace(strReturn, "/", "%2F")
+    strReturn = Replace(strReturn, ":", "%3A")
+    strReturn = Replace(strReturn, ";", "%3B")
+    strReturn = Replace(strReturn, "<", "%3C")
+    strReturn = Replace(strReturn, "=", "%3D")
+    strReturn = Replace(strReturn, ">", "%3E")
+    strReturn = Replace(strReturn, "?", "%3F")
+    strReturn = Replace(strReturn, "@", "%40")
+    strReturn = Replace(strReturn, "[", "%5B")
+    strReturn = Replace(strReturn, "\", "%5C")
+    strReturn = Replace(strReturn, "]", "%5D")
+    strReturn = Replace(strReturn, "^", "%5E")
+    strReturn = Replace(strReturn, "`", "%60")
+    strReturn = Replace(strReturn, "{", "%7B")
+    strReturn = Replace(strReturn, "|", "%7C")
+    strReturn = Replace(strReturn, "}", "%7D")
+    strReturn = Replace(strReturn, "~", "%7E")
+    strReturn = Replace(strReturn, Chr(32), "%20")
+    URLEncode = strReturn
+End Function
+
+'-------------------------------------------------------------------------
+'暂未使用-----------------------------------------------------------------
+'-------------------------------------------------------------------------
+'Public Function URLDecode(strURL As String) As String
+'    Dim strChar As String
+'    Dim strText As String
+'    Dim strTemp As String
+'    Dim strRet As String
+'    Dim LngNum As Long
+'    Dim I As Integer
+'    For I = 1 To Len(strURL)
+'        strChar = Mid(strURL, I, 1)
+'        Select Case strChar
+'          Case "+"
+'            strText = strText & " "
+'          Case "%"
+'            strTemp = Mid(strURL, I + 1, 2) '暂时取2位
+'            LngNum = Val("&H" & strTemp)
+'            '>127即为汉字
+'            If LngNum < 128 Then
+'                strRet = Chr(LngNum)
+'                I = I + 2
+'            Else
+'                strTemp = strTemp & Mid(strURL, I + 4, 2)
+'                strRet = Chr(Val("&H" & strTemp))
+'                I = I + 5
+'            End If
+'            strText = strText & strRet
+'          Case Else
+'            strText = strText & strChar
+'        End Select
+'    Next
+'    URLDecode = strText
+'End Function
+
+'Public Function URLDecode(strURL)
+'On Error Resume Next
+'    Dim i
+'
+'    If InStr(strURL, "%") = 0 Then
+'        URLDecode = strURL
+'        Exit Function
+'    End If
+'
+'    For i = 1 To Len(strURL)
+'        If Mid(strURL, i, 1) = "%" Then
+'            If Eval("&H" & Mid(strURL, i + 1, 2)) > 127 Then
+'                URLDecode = URLDecode & Chr(Eval("&H" & Mid(strURL, i + 1, 2) & Mid(strURL, i + 4, 2)))
+'                i = i + 5
+'            Else
+'                URLDecode = URLDecode & Chr(Eval("&H" & Mid(strURL, i + 1, 2)))
+'                i = i + 2
+'            End If
+'        Else
+'            URLDecode = URLDecode & Mid(strURL, i, 1)
+'        End If
+'    Next
+'End Function
+
+
+'-------------------------------------------------------------------------
+'163相册：转换密码字符为的UTF-8并格式化为%+数字格式-----------------------
+'-------------------------------------------------------------------------
+Public Function UTF8EncodeURI(ByVal szInput As String) As String
+    On Error Resume Next
+    Dim wch, uch, szRet
+    Dim x
+    Dim nAsc, nAsc2, nAsc3
+    
+    If szInput = "" Then
+        UTF8EncodeURI = szInput
+        Exit Function
+    End If
+    
+    For x = 1 To Len(szInput)
+        wch = Mid(szInput, x, 1)
+        nAsc = AscW(wch)
+        
+        If nAsc < 0 Then nAsc = nAsc + 65536
+        
+        If (nAsc And &HFF80) = 0 Then
+            szRet = szRet & wch
+        Else
+            If (nAsc And &HF000) = 0 Then
+                uch = "%" & Hex(((nAsc \ 2 ^ 6)) Or &HC0) & Hex(nAsc And &H3F Or &H80)
+                szRet = szRet & uch
+            Else
+                uch = "%" & Hex((nAsc \ 2 ^ 12) Or &HE0) & "%" & _
+                Hex((nAsc \ 2 ^ 6) And &H3F Or &H80) & "%" & _
+                Hex(nAsc And &H3F Or &H80)
+                szRet = szRet & uch
+            End If
+        End If
+    Next
+    
+    UTF8EncodeURI = szRet
+End Function
+

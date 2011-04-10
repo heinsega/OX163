@@ -1741,7 +1741,7 @@ retry:
     
     If Mid$(Folder_path, 2, 2) = ":\" Then
         If (GetFileAttributes(Folder_path) = -1) Then MsgBox "该路径不能保存文件", vbOKOnly + vbExclamation, "警告": GoTo retry
-        def_path_txt = GetShortName(Folder_path)
+        def_path_txt = Folder_path
     End If
 End Sub
 

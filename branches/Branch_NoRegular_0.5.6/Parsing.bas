@@ -41,7 +41,49 @@ Public Enum DownloadMode
     OX_WEB
 End Enum
 
+'-------------------------------------------------------------------------
+'检查页面url是否有可用脚本------------------------------------------------
+'-------------------------------------------------------------------------
 
+Public Function check_Include(ByVal url_str As String) As String
+    On Error Resume Next
+    
+    check_Include = ""
+    If Dir(App_path & "\include\include.txt") = "" Then Exit Function
+    
+    Dim include_str, include_str1
+    
+    include_str = load_Script(App_path & "\include\include.txt")
+    If include_str = "" Then Exit Function
+    
+    include_str = Split(Trim$(include_str), vbCrLf)
+    
+    For i = 0 To UBound(include_str)
+        DoEvents
+        If include_str(i) <> "" Then
+            include_str1 = Split(include_str(i), "|")
+            
+            If UBound(include_str1) < 4 Then GoTo next_i
+            If Dir(App_path & "\include\" & include_str1(0)) = "" Then GoTo next_i
+            If LCase$(include_str1(1)) <> "vbscript" And LCase$(include_str1(1)) <> "javascript" Then GoTo next_i
+            If include_str1(2) = "" Then GoTo next_i
+            If LCase$(include_str1(3)) <> "photo" And LCase$(include_str1(3)) <> "album" Then GoTo next_i
+            If include_str1(4) = "" Then GoTo next_i
+            
+            'url_str(输入的网址)
+            'include_str1(4)(带有?*等符号的规范网址)
+            
+            If LCase(url_str) Like LCase(include_str1(4)) Then
+                check_Include = include_str1(0) & "|" & include_str1(1) & "|" & include_str1(2) & "|" & include_str1(3) & "|" & url_str
+                Exit Function
+            End If
+            
+        End If
+        
+next_i:
+        
+    Next i
+End Function
 
 Public Function ParseInclude(ByVal sourceString As String) As ScriptInfo
     On Error Resume Next
