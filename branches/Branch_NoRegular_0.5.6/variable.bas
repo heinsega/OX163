@@ -1,5 +1,5 @@
 Attribute VB_Name = "OX_variable"
-Public Const title_info = "OX163 plus(0.5.5build100321)"
+Public Const title_info = "OX163 plus(0.5.5build110416)"
 Public Const ver_info = "55"
 '------------------------------------------------------------------------------------
 Public Const NIM_ADD = &H0

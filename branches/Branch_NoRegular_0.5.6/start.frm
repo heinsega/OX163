@@ -130,6 +130,7 @@ Private Sub Timer1_Timer()
         start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
         
         start_text.Text = start_text.Text & vbCrLf & "无法创建创建FileSystemObject：程序操作含有unicode字符文件将失效" & vbCrLf & "建议修复windows系统文件：scrrun.dll"
+        MsgBox "无法创建创建FileSystemObject" & vbCrLf & "程序操作含有unicode字符文件将失效" & vbCrLf & vbCrLf & "建议修复windows系统文件：scrrun.dll", vbOKOnly + vbCritical, "Warning!"
         App_path = App.Path
     Else
         start_text.Text = start_text.Text & "...OK"
@@ -137,7 +138,7 @@ Private Sub Timer1_Timer()
         check_path = IIf(Right(App.Path, 1) = "\", App.Path, App.Path & "\")
         App_path = test_Object.GetAbsolutePathName("")
         App_path = IIf(Right(App_path, 1) = "\", App_path, App_path & "\")
-        App_path = IIf((InStr(check_path, Chr(63)) < 1 And App_path <> check_path), App_path, App_path)
+        App_path = IIf((InStr(check_path, Chr(63)) < 1 And App_path <> check_path), check_path, App_path)
         App_path = GetShortName(App_path)
         start_text.Text = start_text.Text & vbCrLf & "确认程序主目录短路径:" & App_path
         

@@ -2,9 +2,12 @@ Attribute VB_Name = "OX_function"
 '-------------------------------------------------------------------------
 'debug调试用函数----------------------------------------------------------
 Public Sub OX_Debug_File(ByVal Debug_file_String As String)
+    If Dir(App_path & "\debug", vbDirectory) = "" Then
+        MkDir App_path & "\debug"
+    End If
     Dim FileNumber
     FileNumber = FreeFile ' 取得未使用的文件号。
-    Open "C:\OX163_Debug_File(" & Now() & ").txt" For Output As #FileNumber   ' 创建文件名。
+    Open App_path & "\debug\OX163_Debug_File(" & Now() & ").txt" For Output As #FileNumber   ' 创建文件名。
     Write #FileNumber, Debug_file_String ' 输出文本至文件中。
     Close #FileNumber   ' 关闭文件。
 End Sub
@@ -61,6 +64,9 @@ Public Function fix_Pix(ByVal pix_str)
     fix_Pix = Mid$(fix_Pix, 1, Len(fix_Pix) - 1)
 End Function
 
+'-------------------------------------------------------------------------
+'将检查是否为文件名-------------------------------------------------------
+'-------------------------------------------------------------------------
 Public Function is_fileName(ByVal file_name As String) As Boolean
     is_fileName = True
     If InStr(file_name, Chr(92)) > 0 Then is_fileName = False: Exit Function
@@ -137,7 +143,7 @@ Public Function GetEncoding(ByVal fileName) As String
     
     If fBytes(0) = &HFF And fBytes(1) = &HFE Then GetEncoding = "Unicode"
     If fBytes(0) = &HFE And fBytes(1) = &HFF Then GetEncoding = "UnicodeBigEndian"
-    If fBytes(0) = &HEF And fBytes(1) = &HBB Then GetEncoding = "UTF8"
+    If fBytes(0) = &HEF And fBytes(1) = &HBB Then GetEncoding = "UTF-8"
 Err:
 End Function
 

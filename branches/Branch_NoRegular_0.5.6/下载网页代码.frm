@@ -288,7 +288,7 @@ Begin VB.Form Form1
       Height          =   270
       Left            =   120
       TabIndex        =   18
-      Text            =   "C:\"
+      Text            =   $"下载网页代码.frx":66DB
       Top             =   8520
       Visible         =   0   'False
       Width           =   2415
@@ -299,9 +299,9 @@ Begin VB.Form Form1
       Height          =   165
       Index           =   1
       Left            =   6840
-      MouseIcon       =   "下载网页代码.frx":66DB
+      MouseIcon       =   "下载网页代码.frx":66E4
       MousePointer    =   99  'Custom
-      Picture         =   "下载网页代码.frx":69E5
+      Picture         =   "下载网页代码.frx":69EE
       ScaleHeight     =   165
       ScaleWidth      =   675
       TabIndex        =   17
@@ -316,9 +316,9 @@ Begin VB.Form Form1
       Height          =   165
       Index           =   0
       Left            =   7680
-      MouseIcon       =   "下载网页代码.frx":6AE3
+      MouseIcon       =   "下载网页代码.frx":6AEC
       MousePointer    =   99  'Custom
-      Picture         =   "下载网页代码.frx":6DED
+      Picture         =   "下载网页代码.frx":6DF6
       ScaleHeight     =   165
       ScaleWidth      =   675
       TabIndex        =   16
@@ -434,9 +434,9 @@ Begin VB.Form Form1
       Begin VB.Image user_list_find 
          Height          =   375
          Left            =   2640
-         MouseIcon       =   "下载网页代码.frx":6EEC
+         MouseIcon       =   "下载网页代码.frx":6EF5
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":71F6
+         Picture         =   "下载网页代码.frx":71FF
          ToolTipText     =   "Find Keyword"
          Top             =   240
          Width           =   375
@@ -444,9 +444,9 @@ Begin VB.Form Form1
       Begin VB.Image user_list_save 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "下载网页代码.frx":7752
+         MouseIcon       =   "下载网页代码.frx":775B
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":7A5C
+         Picture         =   "下载网页代码.frx":7A65
          ToolTipText     =   "Save Checked Files"
          Top             =   240
          Visible         =   0   'False
@@ -455,9 +455,9 @@ Begin VB.Form Form1
       Begin VB.Image user_list_output 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "下载网页代码.frx":7F71
+         MouseIcon       =   "下载网页代码.frx":7F7A
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":827B
+         Picture         =   "下载网页代码.frx":8284
          ToolTipText     =   "Outup Download List"
          Top             =   240
          Visible         =   0   'False
@@ -466,9 +466,9 @@ Begin VB.Form Form1
       Begin VB.Image albumslist_back 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "下载网页代码.frx":8791
+         MouseIcon       =   "下载网页代码.frx":879A
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":8A9B
+         Picture         =   "下载网页代码.frx":8AA4
          ToolTipText     =   "Back"
          Top             =   240
          Visible         =   0   'False
@@ -484,9 +484,9 @@ Begin VB.Form Form1
       Begin VB.Image list_check 
          Height          =   375
          Left            =   3120
-         MouseIcon       =   "下载网页代码.frx":8FEE
+         MouseIcon       =   "下载网页代码.frx":8FF7
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":92F8
+         Picture         =   "下载网页代码.frx":9301
          ToolTipText     =   "Range Checked Albums on Top"
          Top             =   240
          Width           =   375
@@ -534,9 +534,9 @@ Begin VB.Form Form1
       Begin VB.Image list_back1 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "下载网页代码.frx":97E0
+         MouseIcon       =   "下载网页代码.frx":97E9
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":9AEA
+         Picture         =   "下载网页代码.frx":9AF3
          ToolTipText     =   "Back"
          Top             =   240
          Width           =   375
@@ -544,9 +544,9 @@ Begin VB.Form Form1
       Begin VB.Image save_all 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "下载网页代码.frx":A03D
+         MouseIcon       =   "下载网页代码.frx":A046
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":A347
+         Picture         =   "下载网页代码.frx":A350
          ToolTipText     =   "Save Checked Albums"
          Top             =   240
          Width           =   375
@@ -554,9 +554,9 @@ Begin VB.Form Form1
       Begin VB.Image out_all 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "下载网页代码.frx":A85C
+         MouseIcon       =   "下载网页代码.frx":A865
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":AB66
+         Picture         =   "下载网页代码.frx":AB6F
          ToolTipText     =   "Outup Download List"
          Top             =   240
          Width           =   375
@@ -564,9 +564,9 @@ Begin VB.Form Form1
       Begin VB.Image stop2 
          Height          =   375
          Left            =   600
-         MouseIcon       =   "下载网页代码.frx":B07C
+         MouseIcon       =   "下载网页代码.frx":B085
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":B386
+         Picture         =   "下载网页代码.frx":B38F
          ToolTipText     =   "Stop"
          Top             =   240
          Width           =   375
@@ -596,9 +596,9 @@ Begin VB.Form Form1
       Begin VB.Image open_set1 
          Height          =   375
          Left            =   80
-         MouseIcon       =   "下载网页代码.frx":B8DB
+         MouseIcon       =   "下载网页代码.frx":B8E4
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":BBE5
+         Picture         =   "下载网页代码.frx":BBEE
          Stretch         =   -1  'True
          ToolTipText     =   "Setup"
          Top             =   240
@@ -639,9 +639,9 @@ Begin VB.Form Form1
       Begin VB.Image text_im4 
          Height          =   225
          Left            =   5130
-         MouseIcon       =   "下载网页代码.frx":C473
+         MouseIcon       =   "下载网页代码.frx":C47C
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":C77D
+         Picture         =   "下载网页代码.frx":C786
          ToolTipText     =   "Save As..."
          Top             =   1000
          Width           =   240
@@ -649,9 +649,9 @@ Begin VB.Form Form1
       Begin VB.Image text_im3 
          Height          =   225
          Left            =   5130
-         MouseIcon       =   "下载网页代码.frx":C870
+         MouseIcon       =   "下载网页代码.frx":C879
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":CB7A
+         Picture         =   "下载网页代码.frx":CB83
          ToolTipText     =   "Save Note"
          Top             =   690
          Width           =   240
@@ -659,9 +659,9 @@ Begin VB.Form Form1
       Begin VB.Image text_im2 
          Height          =   210
          Left            =   5130
-         MouseIcon       =   "下载网页代码.frx":CCDD
+         MouseIcon       =   "下载网页代码.frx":CCE6
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":CFE7
+         Picture         =   "下载网页代码.frx":CFF0
          ToolTipText     =   "Open TXT"
          Top             =   395
          Width           =   240
@@ -671,9 +671,9 @@ Begin VB.Form Form1
          BorderStyle     =   1  'Fixed Single
          Height          =   225
          Left            =   5130
-         MouseIcon       =   "下载网页代码.frx":D153
+         MouseIcon       =   "下载网页代码.frx":D15C
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":D45D
+         Picture         =   "下载网页代码.frx":D466
          ToolTipText     =   "Close Note"
          Top             =   105
          Width           =   225
@@ -683,7 +683,7 @@ Begin VB.Form Form1
          Height          =   165
          Left            =   5200
          MousePointer    =   8  'Size NW SE
-         Picture         =   "下载网页代码.frx":D523
+         Picture         =   "下载网页代码.frx":D52C
          Top             =   1720
          Width           =   165
       End
@@ -708,9 +708,9 @@ Begin VB.Form Form1
       Begin VB.Image list1_find 
          Height          =   375
          Left            =   2640
-         MouseIcon       =   "下载网页代码.frx":D578
+         MouseIcon       =   "下载网页代码.frx":D581
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":D882
+         Picture         =   "下载网页代码.frx":D88B
          ToolTipText     =   "Find Keyword"
          Top             =   240
          Visible         =   0   'False
@@ -720,9 +720,9 @@ Begin VB.Form Form1
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   750
-         MouseIcon       =   "下载网页代码.frx":DDDE
+         MouseIcon       =   "下载网页代码.frx":DDE7
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":E0E8
+         Picture         =   "下载网页代码.frx":E0F1
          ToolTipText     =   "Input Passwrd"
          Top             =   285
          Width           =   285
@@ -730,9 +730,9 @@ Begin VB.Form Form1
       Begin VB.Image view_command 
          Height          =   375
          Left            =   8400
-         MouseIcon       =   "下载网页代码.frx":E59C
+         MouseIcon       =   "下载网页代码.frx":E5A5
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":E8A6
+         Picture         =   "下载网页代码.frx":E8AF
          ToolTipText     =   "View Web"
          Top             =   240
          Width           =   375
@@ -742,9 +742,9 @@ Begin VB.Form Form1
          BorderStyle     =   1  'Fixed Single
          Height          =   225
          Left            =   480
-         MouseIcon       =   "下载网页代码.frx":EE0E
+         MouseIcon       =   "下载网页代码.frx":EE17
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":F118
+         Picture         =   "下载网页代码.frx":F121
          ToolTipText     =   "Open Note"
          Top             =   320
          Width           =   225
@@ -773,9 +773,9 @@ Begin VB.Form Form1
       Begin VB.Image stop1 
          Height          =   375
          Left            =   8400
-         MouseIcon       =   "下载网页代码.frx":F1DD
+         MouseIcon       =   "下载网页代码.frx":F1E6
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":F4E7
+         Picture         =   "下载网页代码.frx":F4F0
          ToolTipText     =   "Stop"
          Top             =   240
          Visible         =   0   'False
@@ -784,9 +784,9 @@ Begin VB.Form Form1
       Begin VB.Image list_stop 
          Height          =   375
          Left            =   600
-         MouseIcon       =   "下载网页代码.frx":FA3C
+         MouseIcon       =   "下载网页代码.frx":FA45
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":FD46
+         Picture         =   "下载网页代码.frx":FD4F
          ToolTipText     =   "Stop"
          Top             =   240
          Width           =   375
@@ -794,9 +794,9 @@ Begin VB.Form Form1
       Begin VB.Image list_output 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "下载网页代码.frx":1029B
+         MouseIcon       =   "下载网页代码.frx":102A4
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":105A5
+         Picture         =   "下载网页代码.frx":105AE
          ToolTipText     =   "Outup Download List"
          Top             =   240
          Width           =   375
@@ -804,9 +804,9 @@ Begin VB.Form Form1
       Begin VB.Image image_save 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "下载网页代码.frx":10ABB
+         MouseIcon       =   "下载网页代码.frx":10AC4
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":10DC5
+         Picture         =   "下载网页代码.frx":10DCE
          ToolTipText     =   "Save Checked Files"
          Top             =   240
          Width           =   375
@@ -814,9 +814,9 @@ Begin VB.Form Form1
       Begin VB.Image list_back 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "下载网页代码.frx":112DA
+         MouseIcon       =   "下载网页代码.frx":112E3
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":115E4
+         Picture         =   "下载网页代码.frx":115ED
          ToolTipText     =   "Back"
          Top             =   240
          Width           =   375
@@ -866,9 +866,9 @@ Begin VB.Form Form1
       Begin VB.Image makelist_command 
          Height          =   375
          Left            =   8880
-         MouseIcon       =   "下载网页代码.frx":11B37
+         MouseIcon       =   "下载网页代码.frx":11B40
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":11E41
+         Picture         =   "下载网页代码.frx":11E4A
          ToolTipText     =   "Go & List"
          Top             =   260
          Width           =   375
@@ -876,9 +876,9 @@ Begin VB.Form Form1
       Begin VB.Image search163 
          Height          =   375
          Left            =   7920
-         MouseIcon       =   "下载网页代码.frx":12310
+         MouseIcon       =   "下载网页代码.frx":12319
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":1261A
+         Picture         =   "下载网页代码.frx":12623
          ToolTipText     =   "Search Albums"
          Top             =   240
          Width           =   375
@@ -886,9 +886,9 @@ Begin VB.Form Form1
       Begin VB.Image open_set 
          Height          =   375
          Left            =   80
-         MouseIcon       =   "下载网页代码.frx":12B76
+         MouseIcon       =   "下载网页代码.frx":12B7F
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":12E80
+         Picture         =   "下载网页代码.frx":12E89
          Stretch         =   -1  'True
          ToolTipText     =   "Setup"
          Top             =   240
@@ -996,7 +996,7 @@ Begin VB.Form Form1
       Height          =   150
       Index           =   2
       Left            =   7200
-      Picture         =   "下载网页代码.frx":1370E
+      Picture         =   "下载网页代码.frx":13717
       Top             =   7680
       Visible         =   0   'False
       Width           =   225
@@ -1005,7 +1005,7 @@ Begin VB.Form Form1
       Height          =   150
       Index           =   1
       Left            =   7200
-      Picture         =   "下载网页代码.frx":1375D
+      Picture         =   "下载网页代码.frx":13766
       Top             =   7560
       Visible         =   0   'False
       Width           =   225
@@ -1014,7 +1014,7 @@ Begin VB.Form Form1
       Height          =   150
       Index           =   0
       Left            =   7200
-      Picture         =   "下载网页代码.frx":137AF
+      Picture         =   "下载网页代码.frx":137B8
       Top             =   7440
       Visible         =   0   'False
       Width           =   225
@@ -1023,9 +1023,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   2
       Left            =   6720
-      MouseIcon       =   "下载网页代码.frx":137FD
+      MouseIcon       =   "下载网页代码.frx":13806
       MousePointer    =   99  'Custom
-      Picture         =   "下载网页代码.frx":13B07
+      Picture         =   "下载网页代码.frx":13B10
       ToolTipText     =   "Outup Download List"
       Top             =   7440
       Visible         =   0   'False
@@ -1035,9 +1035,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   1
       Left            =   6360
-      MouseIcon       =   "下载网页代码.frx":13FCA
+      MouseIcon       =   "下载网页代码.frx":13FD3
       MousePointer    =   99  'Custom
-      Picture         =   "下载网页代码.frx":142D4
+      Picture         =   "下载网页代码.frx":142DD
       ToolTipText     =   "Outup Download List"
       Top             =   7440
       Visible         =   0   'False
@@ -1047,9 +1047,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   0
       Left            =   6000
-      MouseIcon       =   "下载网页代码.frx":147EA
+      MouseIcon       =   "下载网页代码.frx":147F3
       MousePointer    =   99  'Custom
-      Picture         =   "下载网页代码.frx":14AF4
+      Picture         =   "下载网页代码.frx":14AFD
       ToolTipText     =   "Outup Download List"
       Top             =   7440
       Visible         =   0   'False
@@ -1059,9 +1059,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   1
       Left            =   2400
-      MouseIcon       =   "下载网页代码.frx":14FE1
+      MouseIcon       =   "下载网页代码.frx":14FEA
       MousePointer    =   99  'Custom
-      Picture         =   "下载网页代码.frx":152EB
+      Picture         =   "下载网页代码.frx":152F4
       Stretch         =   -1  'True
       ToolTipText     =   "Setup"
       Top             =   7920
@@ -1072,9 +1072,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   0
       Left            =   2400
-      MouseIcon       =   "下载网页代码.frx":15D07
+      MouseIcon       =   "下载网页代码.frx":15D10
       MousePointer    =   99  'Custom
-      Picture         =   "下载网页代码.frx":16011
+      Picture         =   "下载网页代码.frx":1601A
       Stretch         =   -1  'True
       ToolTipText     =   "Setup"
       Top             =   7440
@@ -1085,7 +1085,7 @@ Begin VB.Form Form1
       Height          =   1080
       Index           =   1
       Left            =   4080
-      Picture         =   "下载网页代码.frx":1689F
+      Picture         =   "下载网页代码.frx":168A8
       Top             =   7320
       Visible         =   0   'False
       Width           =   1080
@@ -1094,7 +1094,7 @@ Begin VB.Form Form1
       Height          =   1080
       Index           =   0
       Left            =   2880
-      Picture         =   "下载网页代码.frx":1A909
+      Picture         =   "下载网页代码.frx":1A912
       Top             =   7320
       Visible         =   0   'False
       Width           =   1080
@@ -2318,6 +2318,8 @@ List1_url_copy:
     Next
     If copy_txt <> "" Then
         Clipboard.Clear
+        'copy_txt = fix_Unicode_FileName(copy_txt)
+        'SetClipboardText copy_txt
         Clipboard.SetText copy_txt
     End If
     List1.Enabled = True
@@ -2338,6 +2340,17 @@ List1_ubb_copy:
     List1.Enabled = True
     List1.SetFocus
 End Sub
+Sub SetClipboardText(ByVal ClipboardText As String)    '写入信息到剪切板
+    Dim Form, TextBox
+    Set Form = CreateObject("Forms.Form.1")
+    Set TextBox = Form.Controls.Add("Forms.TextBox.1").Object
+    TextBox.MultiLine = True
+    TextBox.Text = ClipboardText
+    TextBox.SelStart = 0
+    TextBox.SelLength = TextBox.TextLength
+    TextBox.Copy
+End Sub
+
 
 Private Sub List1_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
     On Error Resume Next
@@ -2522,8 +2535,8 @@ End Sub
 Private Sub search_internt_Click()
     form_height = 3000
     If Form1.WindowState = 0 Then
-        If Form1.Width < 11000 Then Form1.Width = 11000
-        If Form1.Height < 7000 Then Form1.Height = 7000
+        If Form1.Width < 11000 Then Form1.Width = 12000
+        If Form1.Height < 12000 Then Form1.Height = 8500
     End If
     newform_resize
     stop1_Click
@@ -3258,7 +3271,7 @@ Private Sub input_lst_sub(ByVal LstFileName)
         bat_txt = Mid$(LstFileName, 1, InStrRev(LstFileName, ".")) & "bat"
         If Dir(bat_txt) <> "" Then
             ReturnEncoding = GetEncoding(bat_txt)
-            If ReturnEncoding = "UTF8" Then
+            If ReturnEncoding = "UTF-8" Then
                 'UTF处理
                 Set BytesStream = CreateObject("ADODB.Stream") '建立一个流对象
                 With BytesStream
@@ -3290,7 +3303,7 @@ Private Sub input_lst_sub(ByVal LstFileName)
     '----------------------------lst列表----------------------------------
     
     ReturnEncoding = GetEncoding(LstFileName)
-    If ReturnEncoding = "UTF8" Then
+    If ReturnEncoding = "UTF-8" Then
         'UTF处理
         Set BytesStream = CreateObject("ADODB.Stream") '建立一个流对象
         With BytesStream
@@ -5448,6 +5461,10 @@ Private Sub view_command_Click()
     If is_username(url_input.Text) = True Then url_input.Text = "http://photo.163.com/photos/" & url_input.Text & "/"
     buttom_enable False
     form_height = 3000
+    If Form1.WindowState = 0 Then
+        If Form1.Width < 11000 Then Form1.Width = 12000
+        If Form1.Height < 12000 Then Form1.Height = 8500
+    End If
     newform_resize
     'path_url
     Web_Browser.Navigate Trim(url_input.Text)

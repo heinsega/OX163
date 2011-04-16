@@ -37,9 +37,9 @@ Public Function OX_FilterKeywords(ByVal sourceString As String, ByVal keywords A
 End Function
 '还原OX163自定义字符----------------------------------------------------------------------------------------
 Public Function OX_PrivateChr(ByVal sourceString As String) As String
-sourceString = Replace(sourceString, "&for_ox163_replace_vbcrlf&", vbCrLf)
-sourceString = Replace(sourceString, "&for_ox163_replace_vline&", "|")
-OX_PrivateChr = sourceString
+    sourceString = Replace(sourceString, "&for_ox163_replace_vbcrlf&", vbCrLf)
+    sourceString = Replace(sourceString, "&for_ox163_replace_vline&", "|")
+    OX_PrivateChr = sourceString
 End Function
 
 '网页JS代码中unicode转换ascii函数“\u”开头字符，163相册中用到
@@ -94,7 +94,10 @@ End Function
 
 '修正文件名，去除不可用的字符
 Public Function reName_Str(ByVal old_Name As String) As String
-    reName_Str = Replace$(old_Name, Chr(92), "_")
+    Dim i As Long
+    reName_Str = Hex_unicode_str(old_Name)
+    
+    reName_Str = Replace$(reName_Str, Chr(92), "_")
     reName_Str = Replace$(reName_Str, Chr(47), "_")
     reName_Str = Replace$(reName_Str, Chr(34), "_")
     reName_Str = Replace$(reName_Str, Chr(58), "_")
@@ -102,12 +105,14 @@ Public Function reName_Str(ByVal old_Name As String) As String
     reName_Str = Replace$(reName_Str, Chr(60), "[")
     reName_Str = Replace$(reName_Str, Chr(62), "]")
     reName_Str = Replace$(reName_Str, Chr(124), "_")
-
-     'If Asc(Mid(reName_Str, i, 1)) = 63 Then reName_Str = Replace(reName_Str, Mid(reName_Str, i, 1), "_")
-    reName_Str = Hex_unicode_str(reName_Str)
+    
+    For i = 1 To Len(reName_Str)
+        If Asc(Mid(reName_Str, i, 1)) = 63 Then reName_Str = Replace(reName_Str, Mid(reName_Str, i, 1), "_")
+    Next
     
     If Left(reName_Str, 1) = "." Then reName_Str = "_" & Mid$(reName_Str, 2)
     If Right(reName_Str, 1) = "." Then reName_Str = Mid$(reName_Str, 1, Len(reName_Str) - 1) & "_"
+    
 End Function
 
 '将非ANSI字符转换为16进制代码"&HFF75",再转换为10进制网页代码"&#65397;"(该字符网页16进制代码为"&#xFF75;")
@@ -127,51 +132,51 @@ End Function
 
 '将10进制网页代码"&#65397;"或16进制网页代码"&#xFF75;", 转换为unicode字符
 Public Function fix_Unicode_FileName(ByVal sLongFileName As String) As String
-On Error Resume Next
-Dim i As Long, fixed_Unicode_tf As Boolean, split_str
-Dim fix_Unicode As String
-
-fix_Unicode_FileName = sLongFileName
-
-split_str = Split(sLongFileName, "&#")
-If UBound(split_str) >= 1 Then
-
-    For i = 1 To UBound(split_str)
+    On Error Resume Next
+    Dim i As Long, fixed_Unicode_tf As Boolean, split_str
+    Dim fix_Unicode As String
     
-    fixed_Unicode_tf = False
-        If InStr(split_str(i), ";") > 1 Then
+    fix_Unicode_FileName = sLongFileName
+    
+    split_str = Split(sLongFileName, "&#")
+    If UBound(split_str) >= 1 Then
         
-            fix_Unicode = Mid(split_str(i), 1, InStr(split_str(i), ";") - 1)
-            split_str(i) = Mid(split_str(i), InStr(split_str(i), ";") + 1)
+        For i = 1 To UBound(split_str)
             
-            '检测16进制网页代码"&#xFF75;"
-            If Left(LCase(fix_Unicode), 1) = "x" And Len(fix_Unicode) >= 2 Then
-                If is_Hex_code(Mid(fix_Unicode, 2)) Then
-                    fix_Unicode = Mid(fix_Unicode, 2)
-                    fix_Unicode = ChrW(Int("&H" & fix_Unicode))
+            fixed_Unicode_tf = False
+            If InStr(split_str(i), ";") > 1 Then
+                
+                fix_Unicode = Mid(split_str(i), 1, InStr(split_str(i), ";") - 1)
+                split_str(i) = Mid(split_str(i), InStr(split_str(i), ";") + 1)
+                
+                '检测16进制网页代码"&#xFF75;"
+                If Left(LCase(fix_Unicode), 1) = "x" And Len(fix_Unicode) >= 2 Then
+                    If is_Hex_code(Mid(fix_Unicode, 2)) Then
+                        fix_Unicode = Mid(fix_Unicode, 2)
+                        fix_Unicode = ChrW(Int("&H" & fix_Unicode))
+                        fixed_Unicode_tf = True
+                    End If
+                    '检测10进制网页代码"&#65397;"
+                ElseIf IsNumeric(fix_Unicode) = True Then
+                    fix_Unicode = ChrW(Int(fix_Unicode))
                     fixed_Unicode_tf = True
                 End If
-            '检测10进制网页代码"&#65397;"
-            ElseIf IsNumeric(fix_Unicode) = True Then
-                fix_Unicode = ChrW(Int(fix_Unicode))
-                fixed_Unicode_tf = True
+                
+                If fixed_Unicode_tf = False Then
+                    split_str(i) = fix_Unicode & ";" & split_str(i)
+                Else
+                    split_str(i) = fix_Unicode & split_str(i)
+                End If
+                
             End If
-            
-            If fixed_Unicode_tf = False Then
-                split_str(i) = fix_Unicode & ";" & split_str(i)
-            Else
-                split_str(i) = fix_Unicode & split_str(i)
-            End If
-            
-        End If
-    If fixed_Unicode_tf = False Then split_str(i) = "&#" & split_str(i)
-    Next
-    fix_Unicode_FileName = Join(split_str, "")
-End If
+            If fixed_Unicode_tf = False Then split_str(i) = "&#" & split_str(i)
+        Next
+        fix_Unicode_FileName = Join(split_str, "")
+    End If
 End Function
 
 Private Function is_Hex_code(ByVal Hex_code As String) As Boolean
-Dim i
+    Dim i
     is_Hex_code = True
     If Len(Hex_code) > 2 And Len(Hex_code) < 35 Then
         For i = 1 To Len(Hex_code)

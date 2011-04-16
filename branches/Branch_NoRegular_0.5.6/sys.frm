@@ -14,12 +14,12 @@ Begin VB.Form sys
    ScaleHeight     =   14565
    ScaleWidth      =   22080
    Begin VB.CommandButton frame_rec 
-      Caption         =   "从设置文件恢复本栏设置"
+      Caption         =   "调用INI恢复本栏设置"
       Height          =   495
-      Left            =   4560
+      Left            =   4800
       TabIndex        =   98
       Top             =   4800
-      Width           =   2295
+      Width           =   2055
    End
    Begin VB.CommandButton frame_def 
       Caption         =   "恢复本栏默认设置"
@@ -191,6 +191,126 @@ Begin VB.Form sys
       TabIndex        =   143
       Top             =   9000
       Width           =   6375
+      Begin VB.PictureBox Picture29 
+         BorderStyle     =   0  'None
+         Height          =   375
+         Left            =   360
+         ScaleHeight     =   375
+         ScaleWidth      =   1500
+         TabIndex        =   177
+         Top             =   2400
+         Width           =   1500
+         Begin VB.CommandButton Comm_edit_black 
+            Caption         =   "编辑黑名单"
+            Height          =   300
+            Left            =   0
+            TabIndex        =   178
+            Top             =   0
+            Width           =   1335
+         End
+      End
+      Begin VB.PictureBox Picture28 
+         BorderStyle     =   0  'None
+         Height          =   375
+         Left            =   3120
+         ScaleHeight     =   375
+         ScaleWidth      =   1500
+         TabIndex        =   175
+         Top             =   2400
+         Width           =   1500
+         Begin VB.CommandButton Comm_edit_white 
+            Caption         =   "编辑白名单"
+            Height          =   300
+            Left            =   0
+            TabIndex        =   176
+            Top             =   0
+            Width           =   1335
+         End
+      End
+      Begin VB.PictureBox Picture27 
+         BorderStyle     =   0  'None
+         Height          =   255
+         Left            =   360
+         ScaleHeight     =   255
+         ScaleWidth      =   1395
+         TabIndex        =   172
+         Top             =   2040
+         Width           =   1395
+         Begin VB.OptionButton ie_black_list 
+            Caption         =   "是"
+            Height          =   255
+            Index           =   1
+            Left            =   0
+            TabIndex        =   174
+            Top             =   0
+            Width           =   495
+         End
+         Begin VB.OptionButton ie_black_list 
+            Caption         =   "否"
+            Height          =   255
+            Index           =   0
+            Left            =   840
+            TabIndex        =   173
+            Top             =   0
+            Width           =   495
+         End
+      End
+      Begin VB.PictureBox Picture26 
+         BorderStyle     =   0  'None
+         Height          =   255
+         Left            =   3120
+         ScaleHeight     =   255
+         ScaleWidth      =   1395
+         TabIndex        =   169
+         Top             =   2040
+         Width           =   1395
+         Begin VB.OptionButton ie_white_list 
+            Caption         =   "否"
+            Height          =   255
+            Index           =   0
+            Left            =   840
+            TabIndex        =   171
+            Top             =   0
+            Width           =   495
+         End
+         Begin VB.OptionButton ie_white_list 
+            Caption         =   "是"
+            Height          =   255
+            Index           =   1
+            Left            =   0
+            TabIndex        =   170
+            Top             =   0
+            Width           =   495
+         End
+      End
+      Begin VB.PictureBox Picture25 
+         BorderStyle     =   0  'None
+         Height          =   255
+         Left            =   3120
+         ScaleHeight     =   255
+         ScaleWidth      =   1395
+         TabIndex        =   164
+         Top             =   1320
+         Width           =   1395
+         Begin VB.OptionButton ie_local_window 
+            Caption         =   "否"
+            Height          =   255
+            Index           =   0
+            Left            =   840
+            TabIndex        =   166
+            Top             =   0
+            Width           =   495
+         End
+         Begin VB.OptionButton ie_local_window 
+            Caption         =   "是"
+            Height          =   255
+            Index           =   1
+            Left            =   0
+            TabIndex        =   165
+            Top             =   0
+            Width           =   495
+         End
+      End
       Begin VB.PictureBox Picture22 
          BorderStyle     =   0  'None
          Height          =   255
@@ -222,11 +342,11 @@ Begin VB.Form sys
       Begin VB.PictureBox Picture10 
          BorderStyle     =   0  'None
          Height          =   255
-         Left            =   3120
+         Left            =   360
          ScaleHeight     =   255
          ScaleWidth      =   1395
          TabIndex        =   144
-         Top             =   600
+         Top             =   1320
          Width           =   1395
          Begin VB.OptionButton ie_window 
             Caption         =   "是"
@@ -250,6 +370,42 @@ Begin VB.Form sys
       Begin VB.Label Label9 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
+         Caption         =   "启用黑名单？"
+         Height          =   180
+         Index           =   19
+         Left            =   360
+         TabIndex        =   168
+         ToolTipText     =   "非特定需求建议选择(是)"
+         Top             =   1800
+         Width           =   1080
+      End
+      Begin VB.Label Label9 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "启用白名单？"
+         Height          =   180
+         Index           =   18
+         Left            =   3120
+         TabIndex        =   167
+         ToolTipText     =   "非特定需求建议选择(是)"
+         Top             =   1800
+         Width           =   1080
+      End
+      Begin VB.Label Label9 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "不阻止当前网站新开窗口？"
+         Height          =   180
+         Index           =   17
+         Left            =   3120
+         TabIndex        =   163
+         ToolTipText     =   "非特定需求建议选择(是)"
+         Top             =   1080
+         Width           =   2160
+      End
+      Begin VB.Label Label9 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
          Caption         =   "是否用OX163打开新窗口？"
          Height          =   180
          Index           =   14
@@ -265,10 +421,10 @@ Begin VB.Form sys
          Caption         =   "是否阻止浏览器弹出新开窗口？"
          Height          =   180
          Index           =   0
-         Left            =   3120
+         Left            =   360
          TabIndex        =   150
          ToolTipText     =   "非特定需求建议选择(是)"
-         Top             =   360
+         Top             =   1080
          Width           =   2520
       End
    End
@@ -1281,7 +1437,7 @@ Begin VB.Form sys
       Left            =   2160
       TabIndex        =   19
       Top             =   5520
-      Width           =   1935
+      Width           =   1815
    End
    Begin VB.CommandButton sys_no 
       Caption         =   "取消(&C)"
@@ -1292,7 +1448,7 @@ Begin VB.Form sys
       Width           =   1215
    End
    Begin VB.CommandButton sys_rec 
-      Caption         =   "从设置文件恢复设置"
+      Caption         =   "调用INI恢复全部设置"
       Height          =   465
       Index           =   0
       Left            =   120
@@ -1317,18 +1473,40 @@ Begin VB.Form sys
       TabIndex        =   96
       Top             =   120
       Width           =   6375
+      Begin VB.ComboBox Combo_unicode_ctrl 
+         Height          =   300
+         Index           =   1
+         ItemData        =   "sys.frx":6F43
+         Left            =   2280
+         List            =   "sys.frx":6F53
+         Style           =   2  'Dropdown List
+         TabIndex        =   162
+         Top             =   640
+         Width           =   3855
+      End
+      Begin VB.ComboBox Combo_unicode_ctrl 
+         Height          =   300
+         Index           =   0
+         ItemData        =   "sys.frx":6FD4
+         Left            =   2280
+         List            =   "sys.frx":6FE4
+         Style           =   2  'Dropdown List
+         TabIndex        =   160
+         Top             =   285
+         Width           =   3855
+      End
       Begin VB.Frame Frame2 
          ForeColor       =   &H00C00000&
-         Height          =   1815
+         Height          =   1575
          Left            =   240
          TabIndex        =   117
-         Top             =   2400
+         Top             =   2880
          Width           =   5895
          Begin VB.ComboBox Combo_rar 
             Height          =   300
-            ItemData        =   "sys.frx":6F43
+            ItemData        =   "sys.frx":706D
             Left            =   3720
-            List            =   "sys.frx":6F50
+            List            =   "sys.frx":707A
             Style           =   2  'Dropdown List
             TabIndex        =   138
             Top             =   240
@@ -1336,9 +1514,9 @@ Begin VB.Form sys
          End
          Begin VB.ComboBox Combo_rar_name 
             Height          =   300
-            ItemData        =   "sys.frx":6F72
+            ItemData        =   "sys.frx":709C
             Left            =   2880
-            List            =   "sys.frx":6F74
+            List            =   "sys.frx":709E
             Style           =   2  'Dropdown List
             TabIndex        =   137
             Top             =   900
@@ -1372,9 +1550,9 @@ Begin VB.Form sys
          End
          Begin VB.PictureBox Picture16 
             BorderStyle     =   0  'None
-            Height          =   1095
+            Height          =   975
             Left            =   480
-            ScaleHeight     =   1095
+            ScaleHeight     =   975
             ScaleWidth      =   2115
             TabIndex        =   129
             Top             =   480
@@ -1448,10 +1626,10 @@ Begin VB.Form sys
       End
       Begin VB.Frame Frame1 
          ForeColor       =   &H00C00000&
-         Height          =   1815
+         Height          =   1695
          Left            =   240
          TabIndex        =   116
-         Top             =   360
+         Top             =   1080
          Width           =   5895
          Begin VB.PictureBox Picture20 
             BorderStyle     =   0  'None
@@ -1572,6 +1750,30 @@ Begin VB.Form sys
             Width           =   1260
          End
       End
+      Begin VB.Label Label9 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "其他Unicode文本字符："
+         ForeColor       =   &H000000FF&
+         Height          =   180
+         Index           =   16
+         Left            =   240
+         TabIndex        =   161
+         Top             =   720
+         Width           =   1890
+      End
+      Begin VB.Label Label9 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Unicode文件夹\文件名："
+         ForeColor       =   &H000000FF&
+         Height          =   180
+         Index           =   15
+         Left            =   240
+         TabIndex        =   159
+         Top             =   360
+         Width           =   1980
+      End
    End
    Begin VB.Frame FrameL 
       Caption         =   "脚本控制"
@@ -1624,9 +1826,9 @@ Begin VB.Form sys
       End
       Begin VB.ListBox scriptList 
          Height          =   2580
-         ItemData        =   "sys.frx":6F76
+         ItemData        =   "sys.frx":70A0
          Left            =   240
-         List            =   "sys.frx":6F95
+         List            =   "sys.frx":70BF
          Style           =   1  'Checkbox
          TabIndex        =   102
          Top             =   960
@@ -1883,6 +2085,7 @@ Private Sub proxy_com3_Click()
 End Sub
 
 Private Sub sys_apply_Click()
+    On Error Resume Next
     passcode_text(0) = Replace(Replace(passcode_text(0), Chr(10), ""), Chr(13), "")
     passcode_text(1) = Replace(Replace(passcode_text(1), Chr(10), ""), Chr(13), "")
     passcode_text(2) = Replace(Replace(passcode_text(2), Chr(10), ""), Chr(13), "")
@@ -2484,22 +2687,21 @@ Sub fix_name_list(ByVal fix_rar_name As String)
     Combo_rar_name.ListIndex = 0
 End Sub
 
-Private Function is_fileName(ByVal file_name As String) As Boolean
-    is_fileName = True
-    If InStr(file_name, Chr(92)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(47)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(34)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(63)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(58)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(42)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(60)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(62)) > 0 Then is_fileName = False: Exit Function
-    If InStr(file_name, Chr(124)) > 0 Then is_fileName = False: Exit Function
-    
-    If Left(file_name, 1) = "." Then is_fileName = False: Exit Function
-    If Right(file_name, 1) = "." Then is_fileName = False: Exit Function
-End Function
-
+'Private Function is_fileName(ByVal file_name As String) As Boolean
+'    is_fileName = True
+'    If InStr(file_name, Chr(92)) > 0 Then is_fileName = False: Exit Function
+'    If InStr(file_name, Chr(47)) > 0 Then is_fileName = False: Exit Function
+'    If InStr(file_name, Chr(34)) > 0 Then is_fileName = False: Exit Function
+'    If InStr(file_name, Chr(63)) > 0 Then is_fileName = False: Exit Function
+'    If InStr(file_name, Chr(58)) > 0 Then is_fileName = False: Exit Function
+'    If InStr(file_name, Chr(42)) > 0 Then is_fileName = False: Exit Function
+'    If InStr(file_name, Chr(60)) > 0 Then is_fileName = False: Exit Function
+'    If InStr(file_name, Chr(62)) > 0 Then is_fileName = False: Exit Function
+'    If InStr(file_name, Chr(124)) > 0 Then is_fileName = False: Exit Function
+'
+'    If Left(file_name, 1) = "." Then is_fileName = False: Exit Function
+'    If Right(file_name, 1) = "." Then is_fileName = False: Exit Function
+'End Function
 
 Private Sub Command1_Click()
     Dim pos_i As Integer

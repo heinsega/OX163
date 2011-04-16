@@ -58,6 +58,7 @@ Public Function check_Include(ByVal url_str As String) As String
     
     include_str = Split(Trim$(include_str), vbCrLf)
     
+    Dim i As Long
     For i = 0 To UBound(include_str)
         DoEvents
         If include_str(i) <> "" Then

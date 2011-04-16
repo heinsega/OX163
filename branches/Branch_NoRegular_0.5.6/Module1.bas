@@ -21,13 +21,15 @@ Public Const SWP_SHOWWINDOW = &H40
 
 '-------------------------------------------------------------------------
 '系统文件夹---------------------------------------------------------------
-Private Declare Function GetSystemDirectory Lib "kernel32" Alias "GetSystemDirectoryA" (ByVal lpBuffer As String, ByVal nSize As Long) As Long
+Private Declare Function GetSystemDirectory Lib "kernel32" Alias "GetSystemDirectoryW" (ByVal lpBuffer As Long, ByVal nSize As Long) As Long
 
 '-------------------------------------------------------------------------
 '读取ini配置--------------------------------------------------------------
-Private Declare Function GetPrivateProfileString Lib "kernel32" Alias "GetPrivateProfileStringA" (ByVal lpApplicationName As String, ByVal lpKeyName As Any, ByVal lpDefault As String, ByVal lpReturnedString As String, ByVal nSize As Long, ByVal lpFileName As String) As Long
+'Private Declare Function GetPrivateProfileString Lib "kernel32" Alias "GetPrivateProfileStringA" (ByVal lpApplicationName As String, ByVal lpKeyName As String, ByVal lpDefault As String, ByVal lpReturnedString As String, ByVal nSize As Long, ByVal lpFileName As String) As Long
+Private Declare Function GetPrivateProfileString Lib "kernel32" Alias "GetPrivateProfileStringW" (ByVal lpApplicationName As Long, ByVal lpKeyName As Long, ByVal lpDefault As Long, ByVal lpReturnedString As Long, ByVal nSize As Long, ByVal lpFileName As Long) As Long
 '写入ini配置
-Private Declare Function WritePrivateProfileString Lib "kernel32" Alias "WritePrivateProfileStringA" (ByVal lpApplicationName As String, ByVal lpKeyName As Any, ByVal lpString As Any, ByVal lpFileName As String) As Long
+'Private Declare Function WritePrivateProfileString Lib "kernel32" Alias "WritePrivateProfileStringA" (ByVal lpApplicationName As String, ByVal lpKeyName As Any, ByVal lpString As Any, ByVal lpFileName As String) As Long
+Private Declare Function WritePrivateProfileString Lib "kernel32" Alias "WritePrivateProfileStringW" (ByVal lpApplicationName As Long, ByVal lpKeyName As Long, ByVal lpString As Long, ByVal lpFileName As Long) As Long
 
 '-------------------------------------------------------------------------
 '得到路径是否可写---------------------------------------------------------
@@ -140,7 +142,6 @@ End Type
 '-------------------------------------------------------------------------
 'API调用unicode文件对话框CommonDialog---------------start-----------------
 '-------------------------------------------------------------------------
-
 Public Function ShowOpenFileDialog(InitialDir As String, DialogTitle As String, Filter As String, ByVal FrmhWnd As Long) As String
     
     Dim OpenFile As OPENFILENAME
@@ -202,7 +203,7 @@ Public Function ShowSaveFileDialog(InitialDir As String, DialogTitle As String, 
     If lReturn = 0 Then  'lReturn is always 0 even when a file is selected!!
         ShowSaveFileDialog = "" 'Cancel Button Pressed
     Else
-    
+        
         Dim byte_temp(1 To 1024) As Byte
         CopyMemory byte_temp(1), ByVal OpenFile.lpstrFile, 1024
         
@@ -308,7 +309,7 @@ Sub Main()
     Dim CurrentProcesshWnd As Long
     CurrentProcesshWnd = GetCurrentProcess
     Call SetPriorityClass(CurrentProcesshWnd, &H8000)
-        
+    
     start_ox163.Show
 End Sub
 
@@ -354,27 +355,83 @@ Public Function GetSysDir() As String
     Dim strBuf As String
     Dim lngBuf As Long
     
-    strBuf = Space(255)
-    lngBuf = 255
+    strBuf = Space$(MAX_PATH)
+    lngBuf = MAX_PATH
     
-    lngBuf = GetSystemDirectory(ByVal strBuf, lngBuf)
-    
-    GetSysDir = Left$(strBuf, lngBuf)
+    lngBuf = GetSystemDirectory(StrPtr(strBuf), lngBuf)
+    strBuf = Trim(strBuf)
+    'If InStr(strBuf, vbNullChar) > 0 Then strBuf = Left$(strBuf, InStr(strBuf, vbNullChar) - 1)
+    strBuf = Left$(strBuf, lngBuf)
+    GetSysDir = GetShortName(strBuf)
 End Function
 
 '-------------------------------------------------------------------------
 'INI文件读取保存----------------------------------------------------------
 '-------------------------------------------------------------------------
+'建立unicode编码的ini配置文件
+Public Function GreatUnicodeIniFile(ByVal url_str_path As String) As Boolean
+    On Error GoTo GreatUnicodeIniFileErr
+    Dim ReturnEncoding As String, GUIF_Object As Object, GUIF_file As Object
+    If Dir(GetShortName(url_str_path)) <> "" Then
+        ReturnEncoding = GetEncoding(url_str_path)
+        
+        If ReturnEncoding = "Unicode" Then
+            'Unicode处理
+            GreatUnicodeIniFile = True
+            Exit Function
+        ElseIf ReturnEncoding = "UTF-8" Then
+            'UTF-8处理
+            Set GUIF_Object = CreateObject("ADODB.Stream") '建立一个流对象
+            With GUIF_Object
+                .Type = 2
+                .mode = 3
+                .Charset = "UTF-8"
+                .Open
+                .LoadFromFile GetShortName(url_str_path)
+                ReturnEncoding = .ReadText
+                .Close
+            End With
+            Set GUIF_Object = Nothing
+        ElseIf ReturnEncoding = "UnicodeBigEndian" Then
+            'Unicode-BE处理
+            ReturnEncoding = load_normal_file(GetShortName(url_str_path), -1)
+        Else
+            'ANSI处理
+            ReturnEncoding = load_normal_file(GetShortName(url_str_path), 0)
+        End If
+        Set GUIF_Object = CreateObject("Scripting.FileSystemObject")
+        Set GUIF_file = GUIF_Object.CreateTextFile(url_str_path, True, True)
+        GUIF_file.Write ReturnEncoding
+        GUIF_file.Close
+        
+    Else
+        Set fso = CreateObject("Scripting.FileSystemObject")
+        Set file = GUIF_Object.CreateTextFile(url_str_path, True, True)
+        GUIF_file.Write ""
+        GUIF_file.Close
+    End If
+    
+    GreatUnicodeIniFile = True
+    
+GreatUnicodeIniFileErr:
+    GreatUnicodeIniFile = False
+End Function
 '以下两个函数,读/写ini文件,固定节点setting,in_key为写入/读取的主键
 '仅仅针对是非值
 'Y：yes,N：no,E：error
 Public Function GetIniTF(ByVal AppName As String, ByVal In_Key As String) As Boolean
+    'GetIniTF("maincenter", "openfloder")
     On Error GoTo GetIniTFErr
     GetIniTF = True
-    Dim GetStr As String
-    GetStr = VBA.String(128, 0)
-    GetPrivateProfileString AppName, In_Key, "", GetStr, 256, App_path & "\OX163setup.ini"
-    GetStr = VBA.Replace(GetStr, VBA.Chr(0), "")
+    Dim GetStr As String, INI_path As String, dwSize As Long, str_null As String
+    
+    GetStr = VBA.String(256, 0)
+    INI_path = App_path & "\OX163setup.ini" & vbNullChar
+    AppName = AppName & vbNullChar
+    In_Key = In_Key & vbNullChar
+    str_null = "" & vbNullChar
+    dwSize = GetPrivateProfileString(StrPtr(AppName), StrPtr(In_Key), StrPtr(str_null), StrPtr(GetStr), 256, StrPtr(INI_path))
+    GetStr = Left(GetStr, dwSize)
     If CBool(GetStr) = True Then
         GetIniTF = True
         GetStr = ""
@@ -390,11 +447,20 @@ End Function
 
 Public Sub WriteIniTF(ByVal AppName As String, ByVal In_Key As String, ByVal In_Data As Boolean)
     On Error GoTo WriteIniTFErr
+    Dim WriteIniTF_Cstr_tf As String
     If In_Data = True Then
-        WritePrivateProfileString AppName, In_Key, "True", App_path & "\OX163setup.ini"
+        WriteIniTF_Cstr_tf = StrConv("True", vbUnicode)
     Else
-        WritePrivateProfileString AppName, In_Key, "False", App_path & "\OX163setup.ini"
+        WriteIniTF_Cstr_tf = StrConv("False", vbUnicode)
     End If
+    
+    Dim INI_path As String, WIS_lp As Long
+    AppName = AppName & vbNullChar
+    In_Key = In_Key & vbNullChar
+    WriteIniTF_Cstr_tf = WriteIniTF_Cstr_tf & vbNullChar
+    INI_path = App_path & "\OX163setup.ini" & vbNullChar
+    GreatUnicodeIniFile App_path & "\OX163setup.ini"
+    WIS_lp = WritePrivateProfileString(StrPtr(AppName), StrPtr(In_Key), StrPtr(WriteIniTF_Cstr_tf), StrPtr(INI_path))
     Exit Sub
 WriteIniTFErr:
     Err.Clear
@@ -408,10 +474,14 @@ Public Function GetIniStr(ByVal AppName As String, ByVal In_Key As String) As St
     If VBA.Trim(In_Key) = "" Then
         GoTo GetIniStrErr
     End If
-    Dim GetStr As String
-    GetStr = VBA.String(128, 0)
-    GetPrivateProfileString AppName, In_Key, "", GetStr, 256, App_path & "\OX163setup.ini"
-    GetStr = VBA.Replace(GetStr, VBA.Chr(0), "")
+    Dim GetStr As String, INI_path As String, dwSize As Long, str_null As String
+    GetStr = Space$(2048)
+    INI_path = App_path & "\OX163setup.ini" & vbNullChar
+    AppName = AppName & vbNullChar
+    In_Key = In_Key & vbNullChar
+    str_null = "" & vbNullChar
+    dwSize = GetPrivateProfileString(StrPtr(AppName), StrPtr(In_Key), StrPtr(str_null), StrPtr(GetStr), 2048, StrPtr(INI_path))
+    GetStr = Left(GetStr, dwSize)
     If GetStr = "" Then
         GoTo GetIniStrErr
     Else
@@ -430,7 +500,13 @@ Public Sub WriteIniStr(ByVal AppName As String, ByVal In_Key As String, ByVal In
     If VBA.Trim(In_Key) = "" Or VBA.Trim(AppName) = "" Then
         GoTo WriteIniStrErr
     Else
-        WritePrivateProfileString AppName, In_Key, In_Data, App_path & "\OX163setup.ini"
+        Dim INI_path As String, WIS_lp As Long
+        AppName = AppName & vbNullChar
+        In_Key = In_Key & vbNullChar
+        In_Data = In_Data & vbNullChar
+        INI_path = App_path & "\OX163setup.ini" & vbNullChar
+        GreatUnicodeIniFile App_path & "\OX163setup.ini"
+        WIS_lp = WritePrivateProfileString(StrPtr(AppName), StrPtr(In_Key), StrPtr(In_Data), StrPtr(INI_path))
     End If
     Exit Sub
 WriteIniStrErr:
@@ -445,10 +521,14 @@ Public Function GetUrlStr(ByVal AppName As String, ByVal In_Key As String, ByVal
     If VBA.Trim(In_Key) = "" Then
         GoTo GetIniStrErr
     End If
-    Dim GetStr As String
-    GetStr = VBA.String(128, 0)
-    GetPrivateProfileString AppName, In_Key, "", GetStr, 256, url_str_path
-    GetStr = VBA.Replace(GetStr, VBA.Chr(0), "")
+    Dim GetStr As String, INI_path As String, dwSize As Long, str_null As String
+    GetStr = Space$(2048)
+    url_str_path = url_str_path & vbNullChar
+    AppName = AppName & vbNullChar
+    In_Key = In_Key & vbNullChar
+    str_null = "" & vbNullChar
+    dwSize = GetPrivateProfileString(StrPtr(AppName), StrPtr(In_Key), StrPtr(""), StrPtr(GetStr), 2048, StrPtr(url_str_path))
+    GetStr = Left(GetStr, dwSize)
     If GetStr = "" Then
         GoTo GetIniStrErr
     Else
@@ -467,7 +547,14 @@ Public Sub WriteUrlStr(ByVal AppName As String, ByVal In_Key As String, ByVal In
     If VBA.Trim(In_Key) = "" Or VBA.Trim(AppName) = "" Then
         GoTo WriteIniStrErr
     Else
-        WritePrivateProfileString AppName, In_Key, In_Data, url_str_path
+        Dim WIS_lp As Long
+        AppName = AppName & vbNullChar
+        In_Key = In_Key & vbNullChar
+        In_Data = In_Data & vbNullChar
+        GreatUnicodeIniFile url_str_path
+        url_str_path = url_str_path & vbNullChar
+        WIS_lp = WritePrivateProfileString(StrPtr(AppName), StrPtr(In_Key), StrPtr(In_Data), StrPtr(url_str_path))
+        
     End If
     Exit Sub
 WriteIniStrErr:
