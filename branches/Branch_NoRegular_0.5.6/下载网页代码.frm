@@ -1,6 +1,5 @@
 VERSION 5.00
 Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "shdocvw.dll"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.OCX"
 Begin VB.Form Form1 
@@ -19,7 +18,7 @@ Begin VB.Form Form1
    Begin VB.TextBox cookies_text 
       Height          =   855
       Left            =   5400
-      TabIndex        =   32
+      TabIndex        =   30
       Top             =   7920
       Visible         =   0   'False
       Width           =   1575
@@ -35,7 +34,7 @@ Begin VB.Form Form1
       Picture         =   "下载网页代码.frx":4374
       ScaleHeight     =   150
       ScaleWidth      =   870
-      TabIndex        =   30
+      TabIndex        =   28
       ToolTipText     =   "代理B的设置被起用"
       Top             =   0
       Visible         =   0   'False
@@ -52,7 +51,7 @@ Begin VB.Form Form1
       Picture         =   "下载网页代码.frx":475E
       ScaleHeight     =   150
       ScaleWidth      =   870
-      TabIndex        =   29
+      TabIndex        =   27
       ToolTipText     =   "代理A的设置被起用"
       Top             =   0
       Visible         =   0   'False
@@ -69,7 +68,7 @@ Begin VB.Form Form1
       Picture         =   "下载网页代码.frx":4B45
       ScaleHeight     =   150
       ScaleWidth      =   870
-      TabIndex        =   28
+      TabIndex        =   26
       ToolTipText     =   "代理A和B的设置都被起用"
       Top             =   0
       Visible         =   0   'False
@@ -88,7 +87,7 @@ Begin VB.Form Form1
       Height          =   1830
       Left            =   1130
       System          =   -1  'True
-      TabIndex        =   26
+      TabIndex        =   24
       Top             =   650
       Visible         =   0   'False
       Width           =   5220
@@ -97,7 +96,7 @@ Begin VB.Form Form1
       Align           =   2  'Align Bottom
       Height          =   255
       Left            =   0
-      TabIndex        =   27
+      TabIndex        =   25
       Top             =   8805
       Width           =   12780
       _ExtentX        =   22543
@@ -179,7 +178,7 @@ Begin VB.Form Form1
       ScaleHeight     =   137.5
       ScaleMode       =   0  'User
       ScaleWidth      =   675
-      TabIndex        =   25
+      TabIndex        =   23
       ToolTipText     =   "go to Homepage"
       Top             =   0
       Width           =   930
@@ -190,7 +189,7 @@ Begin VB.Form Form1
       Left            =   9600
       ScaleHeight     =   300
       ScaleWidth      =   3015
-      TabIndex        =   21
+      TabIndex        =   19
       ToolTipText     =   "Ctrl+F"
       Top             =   360
       Visible         =   0   'False
@@ -198,7 +197,7 @@ Begin VB.Form Form1
       Begin VB.TextBox find_text 
          Height          =   270
          Left            =   0
-         TabIndex        =   22
+         TabIndex        =   20
          TabStop         =   0   'False
          Top             =   0
          Width           =   2175
@@ -227,7 +226,7 @@ Begin VB.Form Form1
    Begin MSComctlLib.ListView List1 
       Height          =   1095
       Left            =   45
-      TabIndex        =   20
+      TabIndex        =   18
       ToolTipText     =   "Shift or Ctrl to MultiSelect"
       Top             =   960
       Visible         =   0   'False
@@ -287,7 +286,7 @@ Begin VB.Form Form1
    Begin VB.TextBox text_sortname 
       Height          =   270
       Left            =   120
-      TabIndex        =   18
+      TabIndex        =   16
       Text            =   $"下载网页代码.frx":66DB
       Top             =   8520
       Visible         =   0   'False
@@ -304,7 +303,7 @@ Begin VB.Form Form1
       Picture         =   "下载网页代码.frx":69EE
       ScaleHeight     =   165
       ScaleWidth      =   675
-      TabIndex        =   17
+      TabIndex        =   15
       ToolTipText     =   "Always on top"
       Top             =   0
       Visible         =   0   'False
@@ -321,7 +320,7 @@ Begin VB.Form Form1
       Picture         =   "下载网页代码.frx":6DF6
       ScaleHeight     =   165
       ScaleWidth      =   675
-      TabIndex        =   16
+      TabIndex        =   14
       ToolTipText     =   "Always on top"
       Top             =   0
       Width           =   675
@@ -426,7 +425,7 @@ Begin VB.Form Form1
          ForeColor       =   &H000000FF&
          Height          =   180
          Left            =   0
-         TabIndex        =   31
+         TabIndex        =   29
          Top             =   600
          Visible         =   0   'False
          Width           =   480
@@ -614,80 +613,6 @@ Begin VB.Form Form1
          Width           =   90
       End
    End
-   Begin VB.PictureBox text_pic 
-      Appearance      =   0  'Flat
-      FillColor       =   &H8000000F&
-      ForeColor       =   &H8000000F&
-      Height          =   1980
-      Left            =   480
-      ScaleHeight     =   1950
-      ScaleWidth      =   5430
-      TabIndex        =   14
-      Top             =   960
-      Visible         =   0   'False
-      Width           =   5460
-      Begin VB.TextBox text_easy 
-         Height          =   1935
-         Left            =   0
-         MultiLine       =   -1  'True
-         OLEDropMode     =   1  'Manual
-         ScrollBars      =   2  'Vertical
-         TabIndex        =   15
-         Top             =   0
-         Width           =   5055
-      End
-      Begin VB.Image text_im4 
-         Height          =   225
-         Left            =   5130
-         MouseIcon       =   "下载网页代码.frx":C47C
-         MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":C786
-         ToolTipText     =   "Save As..."
-         Top             =   1000
-         Width           =   240
-      End
-      Begin VB.Image text_im3 
-         Height          =   225
-         Left            =   5130
-         MouseIcon       =   "下载网页代码.frx":C879
-         MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":CB83
-         ToolTipText     =   "Save Note"
-         Top             =   690
-         Width           =   240
-      End
-      Begin VB.Image text_im2 
-         Height          =   210
-         Left            =   5130
-         MouseIcon       =   "下载网页代码.frx":CCE6
-         MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":CFF0
-         ToolTipText     =   "Open TXT"
-         Top             =   395
-         Width           =   240
-      End
-      Begin VB.Image text_im1 
-         Appearance      =   0  'Flat
-         BorderStyle     =   1  'Fixed Single
-         Height          =   225
-         Left            =   5130
-         MouseIcon       =   "下载网页代码.frx":D15C
-         MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":D466
-         ToolTipText     =   "Close Note"
-         Top             =   105
-         Width           =   225
-      End
-      Begin VB.Image text_rs 
-         DragMode        =   1  'Automatic
-         Height          =   165
-         Left            =   5200
-         MousePointer    =   8  'Size NW SE
-         Picture         =   "下载网页代码.frx":D52C
-         Top             =   1720
-         Width           =   165
-      End
-   End
    Begin VB.Frame Frame1 
       Caption         =   "侦测用户或网址"
       Height          =   855
@@ -708,9 +633,9 @@ Begin VB.Form Form1
       Begin VB.Image list1_find 
          Height          =   375
          Left            =   2640
-         MouseIcon       =   "下载网页代码.frx":D581
+         MouseIcon       =   "下载网页代码.frx":C47C
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":D88B
+         Picture         =   "下载网页代码.frx":C786
          ToolTipText     =   "Find Keyword"
          Top             =   240
          Visible         =   0   'False
@@ -720,9 +645,9 @@ Begin VB.Form Form1
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   750
-         MouseIcon       =   "下载网页代码.frx":DDE7
+         MouseIcon       =   "下载网页代码.frx":CCE2
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":E0F1
+         Picture         =   "下载网页代码.frx":CFEC
          ToolTipText     =   "Input Passwrd"
          Top             =   285
          Width           =   285
@@ -730,9 +655,9 @@ Begin VB.Form Form1
       Begin VB.Image view_command 
          Height          =   375
          Left            =   8400
-         MouseIcon       =   "下载网页代码.frx":E5A5
+         MouseIcon       =   "下载网页代码.frx":D4A0
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":E8AF
+         Picture         =   "下载网页代码.frx":D7AA
          ToolTipText     =   "View Web"
          Top             =   240
          Width           =   375
@@ -742,9 +667,9 @@ Begin VB.Form Form1
          BorderStyle     =   1  'Fixed Single
          Height          =   225
          Left            =   480
-         MouseIcon       =   "下载网页代码.frx":EE17
+         MouseIcon       =   "下载网页代码.frx":DD12
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":F121
+         Picture         =   "下载网页代码.frx":E01C
          ToolTipText     =   "Open Note"
          Top             =   320
          Width           =   225
@@ -773,9 +698,9 @@ Begin VB.Form Form1
       Begin VB.Image stop1 
          Height          =   375
          Left            =   8400
-         MouseIcon       =   "下载网页代码.frx":F1E6
+         MouseIcon       =   "下载网页代码.frx":E0E1
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":F4F0
+         Picture         =   "下载网页代码.frx":E3EB
          ToolTipText     =   "Stop"
          Top             =   240
          Visible         =   0   'False
@@ -784,9 +709,9 @@ Begin VB.Form Form1
       Begin VB.Image list_stop 
          Height          =   375
          Left            =   600
-         MouseIcon       =   "下载网页代码.frx":FA45
+         MouseIcon       =   "下载网页代码.frx":E940
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":FD4F
+         Picture         =   "下载网页代码.frx":EC4A
          ToolTipText     =   "Stop"
          Top             =   240
          Width           =   375
@@ -794,9 +719,9 @@ Begin VB.Form Form1
       Begin VB.Image list_output 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "下载网页代码.frx":102A4
+         MouseIcon       =   "下载网页代码.frx":F19F
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":105AE
+         Picture         =   "下载网页代码.frx":F4A9
          ToolTipText     =   "Outup Download List"
          Top             =   240
          Width           =   375
@@ -804,9 +729,9 @@ Begin VB.Form Form1
       Begin VB.Image image_save 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "下载网页代码.frx":10AC4
+         MouseIcon       =   "下载网页代码.frx":F9BF
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":10DCE
+         Picture         =   "下载网页代码.frx":FCC9
          ToolTipText     =   "Save Checked Files"
          Top             =   240
          Width           =   375
@@ -814,9 +739,9 @@ Begin VB.Form Form1
       Begin VB.Image list_back 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "下载网页代码.frx":112E3
+         MouseIcon       =   "下载网页代码.frx":101DE
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":115ED
+         Picture         =   "下载网页代码.frx":104E8
          ToolTipText     =   "Back"
          Top             =   240
          Width           =   375
@@ -866,9 +791,9 @@ Begin VB.Form Form1
       Begin VB.Image makelist_command 
          Height          =   375
          Left            =   8880
-         MouseIcon       =   "下载网页代码.frx":11B40
+         MouseIcon       =   "下载网页代码.frx":10A3B
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":11E4A
+         Picture         =   "下载网页代码.frx":10D45
          ToolTipText     =   "Go & List"
          Top             =   260
          Width           =   375
@@ -876,9 +801,9 @@ Begin VB.Form Form1
       Begin VB.Image search163 
          Height          =   375
          Left            =   7920
-         MouseIcon       =   "下载网页代码.frx":12319
+         MouseIcon       =   "下载网页代码.frx":11214
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":12623
+         Picture         =   "下载网页代码.frx":1151E
          ToolTipText     =   "Search Albums"
          Top             =   240
          Width           =   375
@@ -886,9 +811,9 @@ Begin VB.Form Form1
       Begin VB.Image open_set 
          Height          =   375
          Left            =   80
-         MouseIcon       =   "下载网页代码.frx":12B7F
+         MouseIcon       =   "下载网页代码.frx":11A7A
          MousePointer    =   99  'Custom
-         Picture         =   "下载网页代码.frx":12E89
+         Picture         =   "下载网页代码.frx":11D84
          Stretch         =   -1  'True
          ToolTipText     =   "Setup"
          Top             =   240
@@ -923,7 +848,7 @@ Begin VB.Form Form1
    Begin SHDocVwCtl.WebBrowser Web_Search 
       Height          =   6120
       Left            =   45
-      TabIndex        =   19
+      TabIndex        =   17
       TabStop         =   0   'False
       Top             =   960
       Visible         =   0   'False
@@ -945,7 +870,7 @@ Begin VB.Form Form1
       NoFolders       =   0   'False
       Transparent     =   0   'False
       ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-      Location        =   ""
+      Location        =   "http:///"
    End
    Begin VB.PictureBox web_Picture 
       BorderStyle     =   0  'None
@@ -953,13 +878,13 @@ Begin VB.Form Form1
       Left            =   45
       ScaleHeight     =   5775
       ScaleWidth      =   11415
-      TabIndex        =   23
+      TabIndex        =   21
       Top             =   960
       Width           =   11415
       Begin SHDocVwCtl.WebBrowser Web_Browser 
          Height          =   4575
          Left            =   0
-         TabIndex        =   24
+         TabIndex        =   22
          Top             =   0
          Visible         =   0   'False
          Width           =   10575
@@ -980,23 +905,14 @@ Begin VB.Form Form1
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   ""
+         Location        =   "http:///"
       End
-   End
-   Begin MSComDlg.CommonDialog CommonDialog1 
-      Left            =   5400
-      Top             =   7320
-      _ExtentX        =   847
-      _ExtentY        =   847
-      _Version        =   393216
-      FilterIndex     =   1
-      Flags           =   1
    End
    Begin VB.Image process_Image 
       Height          =   150
       Index           =   2
       Left            =   7200
-      Picture         =   "下载网页代码.frx":13717
+      Picture         =   "下载网页代码.frx":12612
       Top             =   7680
       Visible         =   0   'False
       Width           =   225
@@ -1005,7 +921,7 @@ Begin VB.Form Form1
       Height          =   150
       Index           =   1
       Left            =   7200
-      Picture         =   "下载网页代码.frx":13766
+      Picture         =   "下载网页代码.frx":12661
       Top             =   7560
       Visible         =   0   'False
       Width           =   225
@@ -1014,7 +930,7 @@ Begin VB.Form Form1
       Height          =   150
       Index           =   0
       Left            =   7200
-      Picture         =   "下载网页代码.frx":137B8
+      Picture         =   "下载网页代码.frx":126B3
       Top             =   7440
       Visible         =   0   'False
       Width           =   225
@@ -1023,9 +939,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   2
       Left            =   6720
-      MouseIcon       =   "下载网页代码.frx":13806
+      MouseIcon       =   "下载网页代码.frx":12701
       MousePointer    =   99  'Custom
-      Picture         =   "下载网页代码.frx":13B10
+      Picture         =   "下载网页代码.frx":12A0B
       ToolTipText     =   "Outup Download List"
       Top             =   7440
       Visible         =   0   'False
@@ -1035,9 +951,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   1
       Left            =   6360
-      MouseIcon       =   "下载网页代码.frx":13FD3
+      MouseIcon       =   "下载网页代码.frx":12ECE
       MousePointer    =   99  'Custom
-      Picture         =   "下载网页代码.frx":142DD
+      Picture         =   "下载网页代码.frx":131D8
       ToolTipText     =   "Outup Download List"
       Top             =   7440
       Visible         =   0   'False
@@ -1047,9 +963,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   0
       Left            =   6000
-      MouseIcon       =   "下载网页代码.frx":147F3
+      MouseIcon       =   "下载网页代码.frx":136EE
       MousePointer    =   99  'Custom
-      Picture         =   "下载网页代码.frx":14AFD
+      Picture         =   "下载网页代码.frx":139F8
       ToolTipText     =   "Outup Download List"
       Top             =   7440
       Visible         =   0   'False
@@ -1059,9 +975,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   1
       Left            =   2400
-      MouseIcon       =   "下载网页代码.frx":14FEA
+      MouseIcon       =   "下载网页代码.frx":13EE5
       MousePointer    =   99  'Custom
-      Picture         =   "下载网页代码.frx":152F4
+      Picture         =   "下载网页代码.frx":141EF
       Stretch         =   -1  'True
       ToolTipText     =   "Setup"
       Top             =   7920
@@ -1072,9 +988,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   0
       Left            =   2400
-      MouseIcon       =   "下载网页代码.frx":15D10
+      MouseIcon       =   "下载网页代码.frx":14C0B
       MousePointer    =   99  'Custom
-      Picture         =   "下载网页代码.frx":1601A
+      Picture         =   "下载网页代码.frx":14F15
       Stretch         =   -1  'True
       ToolTipText     =   "Setup"
       Top             =   7440
@@ -1085,7 +1001,7 @@ Begin VB.Form Form1
       Height          =   1080
       Index           =   1
       Left            =   4080
-      Picture         =   "下载网页代码.frx":168A8
+      Picture         =   "下载网页代码.frx":157A3
       Top             =   7320
       Visible         =   0   'False
       Width           =   1080
@@ -1094,7 +1010,7 @@ Begin VB.Form Form1
       Height          =   1080
       Index           =   0
       Left            =   2880
-      Picture         =   "下载网页代码.frx":1A912
+      Picture         =   "下载网页代码.frx":1980D
       Top             =   7320
       Visible         =   0   'False
       Width           =   1080
@@ -1323,7 +1239,6 @@ Dim download_FileName
 Dim strURL As String
 Dim download_ok As Boolean
 Dim psw_v As String
-Dim is_open As Boolean
 Dim Html_Temp As String
 'Dim newwindow_temp As String
 Dim retry_time As Integer
@@ -1867,15 +1782,6 @@ Private Sub Form_Click()
     url_Filelist.Visible = False
 End Sub
 
-Private Sub Form_DragOver(Source As Control, x As Single, Y As Single, State As Integer)
-    If down_count = 0 Then
-        If x > 5200 Then text_pic.Width = x + 260
-        If Y > 1720 Then text_pic.Height = Y + 260
-    End If
-End Sub
-
-
-
 Private Sub Form_Load()
     On Error Resume Next
     'Label_text.Font = "新細明體"
@@ -1937,7 +1843,6 @@ Private Sub Form_Load()
     form_quit = True
     Web_Browser_header_tf = True
     form_height = 1470 + show_StatusBar
-    is_open = False
     htmlCharsetType = "GB2312"
     url_Referer = ""
     'url_Cookies = ""
@@ -2102,15 +2007,12 @@ Private Sub Form_Resize()
     End If
 End Sub
 
-
-
 Private Sub Form_Unload(Cancel As Integer)
     If form_quit = False And sysSet.askquit = True Then
         If MsgBox("正在执行操作，是否退出？", vbOKCancel + vbDefaultButton2, "退出询问") = vbCancel Then Cancel = True: Exit Sub
     End If
     form_quit = True
     DoEvents
-    If is_open = True Then save_text App_path & "\Documents.xml"
     sysTray False
     End
 End Sub
@@ -2126,7 +2028,6 @@ Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y
         mouse_dic = 0
     End If
 End Sub
-
 
 Private Sub Frame1_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
     If down_count = 0 Then
@@ -2147,8 +2048,6 @@ Private Sub Frame2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y
         mouse_dic = 15
     End If
 End Sub
-
-
 
 Private Sub Frame2_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
     If down_count = 0 Then
@@ -2609,6 +2508,13 @@ End Sub
 
 
 
+
+
+
+
+
+
+
 Private Sub top_Picture_Click(Index As Integer)
     If Form1.WindowState = 2 Then always_on_top False: Exit Sub
     If top_Picture(0).Visible = True = sysSet.always_top Then top_Picture(0).Visible = False: top_Picture(1).Visible = True: Exit Sub
@@ -2626,181 +2532,8 @@ Private Sub top_Picture_MouseMove(Index As Integer, Button As Integer, Shift As 
     End If
 End Sub
 
-Private Sub text_im4_Click()
-    CommonDialog1.CancelError = True
-    On Error GoTo ErrHandler
-    CommonDialog1.Filter = "Save Lst(*.lst)|*.lst|"
-    CommonDialog1.fileName = ""
-    CommonDialog1.ShowSave
-    
-    If CommonDialog1.CancelError = False Then
-ErrHandler:
-        Exit Sub
-    Else
-        If Dir(CommonDialog1.fileName) <> "" Then
-            answer_save = MsgBox("该文件已存在，是否覆盖？", vbYesNo + vbExclamation + vbDefaultButton2, "警告")
-            If answer_save = vbNo Then Exit Sub
-        End If
-    End If
-    
-    save_text CommonDialog1.fileName
-End Sub
-
-Private Sub text_im4_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 13 Then
-        Label_name = " 导出文本: "
-        Label_text = "将文本框内的文本另存为..."
-        label_rebuld
-        mouse_dic = 13
-    End If
-End Sub
-
-'Private Sub text_easy_DblClick()
-'Dim a As Double
-'Dim b As Double
-'Dim temp As String
-'a = 0
-'temp = Mid$(text_easy.Text, 1, text_easy.SelStart)
-'
-'Do While InStr(temp, vbCrLf) > 0
-'DoEvents
-'a = a + InStr(temp, vbCrLf) + 1
-'temp = Mid$(temp, InStr(temp, vbCrLf) + 2)
-'Loop
-'
-'b = 0
-'temp = Mid$(text_easy.Text, text_easy.SelStart + 1)
-'If InStr(temp, vbCrLf) > 0 Then
-'b = text_easy.SelStart - a + InStr(temp, vbCrLf) - 1
-'Else
-' b = Len(text_easy.Text) - a
-'End If
-'text_easy.SelStart = a
-'text_easy.SelLength = b
-'
-'
-'End Sub
-
-Private Sub text_easy_DragDrop(Source As Control, x As Single, Y As Single)
-    text_resize
-End Sub
-
-Private Sub text_easy_DragOver(Source As Control, x As Single, Y As Single, State As Integer)
-    If x > 5200 Then
-        text_pic.Width = x + 260
-    Else
-        text_pic.Width = 5460
-    End If
-    If Y > 1720 Then
-        text_pic.Height = Y + 260
-    Else
-        text_pic.Height = 1980
-    End If
-    text_resize
-End Sub
-
-Private Sub text_easy_KeyDown(KeyCode As Integer, Shift As Integer)
-    If KeyCode = 65 And Shift = vbCtrlMask Then
-        text_easy.SelStart = 0
-        text_easy.SelLength = Len(text_easy.Text)
-    End If
-End Sub
-
-
-Private Sub text_easy_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 0 Then
-        Label_text.Visible = False
-        Label_name.Visible = False
-        mouse_dic = 0
-    End If
-End Sub
-
-Private Sub text_easy_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If Data.GetFormat(vbCFText) = True Then
-        a = Len(text_easy.Text & vbCrLf)
-        text_easy.SetFocus
-        text_easy.Text = text_easy.Text & vbCrLf & Data.GetData(vbCFText)
-        text_easy.SelStart = a
-        text_easy.SelLength = Len(text_easy.Text)
-    End If
-End Sub
-
-Private Sub text_im1_Click()
-    text_pic.Visible = False
-End Sub
-
-Private Sub text_im1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 10 Then
-        Label_name = " 收起笔记: "
-        Label_text = "关闭简易笔记"
-        label_rebuld
-        mouse_dic = 10
-    End If
-End Sub
-
-Private Sub text_im2_Click()
-    CommonDialog1.CancelError = True
-    On Error GoTo ErrHandler
-    CommonDialog1.Filter = "Text Files(*.txt)|*.txt|All Files (*.*)|*.*|"
-    CommonDialog1.ShowOpen
-    If CommonDialog1.CancelError = False Then
-ErrHandler:
-        Exit Sub
-    Else
-        text_easy.Text = text_easy.Text & vbCrLf
-        load_text CommonDialog1.fileName
-    End If
-End Sub
-
-Private Sub text_im2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 11 Then
-        Label_name = " 打开文本: "
-        Label_text = "打开文本文件，追加在现有文本内容之后"
-        label_rebuld
-        mouse_dic = 11
-    End If
-End Sub
-
-Private Sub text_im3_Click()
-    save_text App_path & "\Documents.xml"
-End Sub
-
-Private Sub text_im3_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 12 Then
-        Label_name = " 保存文本: "
-        Label_text = "保存现有内容 (程序关闭时会自动保存)"
-        label_rebuld
-        mouse_dic = 12
-    End If
-End Sub
-
-
-Private Sub text_pic_DragDrop(Source As Control, x As Single, Y As Single)
-    text_resize
-End Sub
-
-Private Sub text_pic_DragOver(Source As Control, x As Single, Y As Single, State As Integer)
-    If x > 5200 Then text_pic.Width = x + 260
-    If Y > 1720 Then text_pic.Height = Y + 260
-End Sub
-
-Private Sub text_pic_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 0 Then
-        Label_text.Visible = False
-        Label_name.Visible = False
-        mouse_dic = 0
-    End If
-End Sub
-
 Private Sub text_show_Click()
     On Error Resume Next
-    If is_open = False Then
-        If Dir(App_path & "\Documents.xml") <> "" Then load_text App_path & "\Documents.xml"
-        is_open = True
-    End If
-    If text_pic.Visible = False Then newform_resize
-    text_pic.Visible = Not text_pic.Visible
-    
 End Sub
 
 Private Sub text_show_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
@@ -5631,7 +5364,6 @@ Public Sub step_two()
     search163.Visible = False
     text_show.Visible = False
     open_lock.Visible = False
-    text_pic.Visible = False
     
     list_stop.Visible = True
     list_back.Visible = True
@@ -5694,7 +5426,6 @@ Public Sub step_three()
     search163.Visible = False
     Frame1.Visible = False
     Frame2.Visible = True
-    text_pic.Visible = False
 End Sub
 
 Public Sub search_run()
@@ -7912,58 +7643,6 @@ end_sub:
     End If
     download_FileName = ""
 End Sub
-
-
-
-'------------------------------------------------------------------------------
-'------------------------------------------------------------------------------
-'------------------------------------------------------------------------------
-'------------------------------------------------------------------------------
-
-Private Sub text_resize()
-    'pic width=5460(5055),pic height=1980(1935)
-    text_easy.Width = text_pic.Width - 410
-    text_easy.Height = text_pic.Height - 45
-    
-    text_rs.Left = text_pic.Width - 260
-    text_rs.Top = text_pic.Height - 260
-    text_im1.Left = text_pic.Width - 330
-    text_im2.Left = text_pic.Width - 330
-    text_im3.Left = text_pic.Width - 330
-    text_im4.Left = text_pic.Width - 330
-End Sub
-
-
-Private Sub load_text(ByVal file_name)
-    On Error Resume Next
-    
-    Frame1.Enabled = False
-    text_pic.Enabled = False
-    
-    Dim fileline As String
-    Open file_name For Input As #4
-    Do While Not EOF(4)
-        Line Input #4, fileline
-        text_easy.Text = text_easy.Text + fileline & vbCrLf
-        DoEvents
-    Loop
-    Close #4
-    text_easy.Text = Left$(text_easy.Text, Len(text_easy.Text) - 2)
-    
-    Frame1.Enabled = True
-    text_pic.Enabled = True
-End Sub
-
-Private Sub save_text(ByVal file_name)
-    On Error Resume Next
-    Dim fso, file
-    Set fso = CreateObject("Scripting.FileSystemObject")
-    Set file = fso.CreateTextFile(file_name, True)
-    file.Write text_easy.Text
-    file.Close
-End Sub
-
-
 '------------------------------------------------------------------------------
 '------------------------------------------------------------------------------
 '------------------------------------------------------------------------------
@@ -7979,15 +7658,6 @@ End Sub
 'If top_Picture(0).Visible = False Then always_on_top False
 'End Sub
 
-Private Sub Web_Browser_DragOver(Source As Control, x As Single, Y As Single, State As Integer)
-    On Error Resume Next
-    If down_count = 0 Then
-        If x > 5200 Then text_pic.Width = x + 260
-        If Y > 1720 Then text_pic.Height = Y + 260
-    End If
-End Sub
-
-
 Private Sub Web_Browser_StatusTextChange(ByVal Text As String)
     On Error Resume Next
     If Text = "" Or Text = "完成" Or Text = LCase("completed") Then
@@ -7996,19 +7666,6 @@ Private Sub Web_Browser_StatusTextChange(ByVal Text As String)
         StatusBar.Panels(2) = Text
     End If
 End Sub
-
-
-
-
-
-Private Sub Web_Search_DragOver(Source As Control, x As Single, Y As Single, State As Integer)
-    On Error Resume Next
-    If down_count = 0 Then
-        If x > 5200 Then text_pic.Width = x + 260
-        If Y > 1720 Then text_pic.Height = Y + 260
-    End If
-End Sub
-
 
 Private Sub Web_Browser_NewWindow2(ppDisp As Object, Cancel As Boolean)
     On Error Resume Next

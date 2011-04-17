@@ -143,14 +143,12 @@ Private Sub Timer1_Timer()
         start_text.Text = start_text.Text & vbCrLf & "确认程序主目录短路径:" & App_path
         
     End If
-    
     Set test_Object = Nothing
-    Set check_path = Nothing
+    check_path = ""
     Err.Number = 0
     
     start_text.SelStart = Len(start_text.Text)
     '------------------------------------------------------------------------------------------
-    
     
     start_text.Text = start_text.Text & vbCrLf & "检查msvbvm60.dll"
     
@@ -167,38 +165,6 @@ Private Sub Timer1_Timer()
     Else
         start_text.Text = start_text.Text & "...OK"
     End If
-    
-    start_text.SelStart = Len(start_text.Text)
-    '------------------------------------------------------------------------------------------
-    
-    start_text.Text = start_text.Text & vbCrLf & "检查ole32.dll"
-    
-    If Dir(GetSysDir & "\ole32.dll") = "" Then
-        start_text.Text = start_text.Text & "ole32.dll不存在"
-        FileCopy App_path & "\ole32.dll", GetSysDir & "\ole32.dll"
-    ElseIf FileDateTime(GetSysDir & "\ole32.dll") < FileDateTime(App_path & "\ole32.dll") Then
-        start_text.Text = start_text.Text & "ole32.dll版本低"
-    End If
-    If Err.Number <> 0 Then
-        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-        Err.Number = 0
-    Else
-        start_text.Text = start_text.Text & "...OK"
-    End If
-    
-    start_text.SelStart = Len(start_text.Text)
-    '------------------------------------------------------------------------------------------
-    
-    start_text.Text = start_text.Text & vbCrLf & "检查COMDLG32.OCX" & vbCrLf & "创建CommonDialog"
-    Set test_Object = CreateObject("MSComDlg.CommonDialog")
-    If Err.Number <> 0 Then
-        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-    Else
-        start_text.Text = start_text.Text & "...OK"
-    End If
-    
-    Set test_Object = Nothing
-    Err.Number = 0
     
     start_text.SelStart = Len(start_text.Text)
     '------------------------------------------------------------------------------------------
@@ -272,20 +238,6 @@ Private Sub Timer1_Timer()
     Err.Number = 0
     
     start_text.SelStart = Len(start_text.Text)
-    '------------------------------------------------------------------------------------------
-    start_text.Text = start_text.Text & vbCrLf & "检查scrrun.dll" & vbCrLf & "创建FileSystemObject"
-    Set test_Object = CreateObject("Scripting.FileSystemObject")
-    If Err.Number <> 0 Then
-        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-    Else
-        start_text.Text = start_text.Text & "...OK"
-    End If
-    
-    Set test_Object = Nothing
-    Err.Number = 0
-    
-    start_text.SelStart = Len(start_text.Text)
-    
     '------------------------------------------------------------------------------------------
     start_text.Text = start_text.Text & vbCrLf & "检查文件夹"
     If Dir(App_path & "\download", vbDirectory) = "" Then

@@ -51,7 +51,7 @@ Public Declare Function SetPriorityClass Lib "kernel32" (ByVal hProcess As Long,
 Private Declare Function SHBrowseForFolder Lib "shell32" Alias "SHBrowseForFolderW" (lpBrowseInfo As BROWSEINFO) As Long
 Private Declare Function SHGetPathFromIDList Lib "shell32" Alias "SHGetPathFromIDListW" (ByVal pidl As Long, ByVal pszPath As Long) As Long
 Private Declare Function GetForegroundWindow Lib "user32" () As Long
-Private Declare Sub CoTaskMemFree Lib "ole32" (ByVal pv As Long)
+'Private Declare Sub CoTaskMemFree Lib "ole32" (ByVal pv As Long)
 Private Declare Function SendMessage Lib "user32" Alias "SendMessageW" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Long) As Long
 Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (pDest As Any, pSource As Any, ByVal dwLength As Long)
 Private Declare Function LocalAlloc Lib "kernel32" (ByVal uFlags As Long, ByVal uBytes As Long) As Long
@@ -95,7 +95,7 @@ Public Declare Function ShowWindow Lib "user32" (ByVal hWnd As Long, ByVal nCmdS
 
 '-------------------------------------------------------------------------
 '打开IE-------------------------------------------------------------------
-Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteW" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Public Declare Function ShellExecute Lib "shell32" Alias "ShellExecuteW" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
 '-------------------------------------------------------------------------
 'InternetCookie-----------------------------------------------------------
@@ -255,7 +255,7 @@ Public Function GetFolder(ByVal title As String, ByVal start As String, ByVal ne
             If InStr(spath, vbNullChar) > 0 Then spath = Left$(spath, InStr(spath, vbNullChar) - 1)
             GetFolder = GetShortName(spath)
         End If
-        Call CoTaskMemFree(pidl)
+        'Call CoTaskMemFree(pidl)
     Else
         'user clicked cancel
     End If
@@ -349,14 +349,14 @@ Public Function GetShortName(ByVal sLongFileName As String) As String
 End Function
 
 '-------------------------------------------------------------------------
-'取得系统文件夹（待改进）-------------------------------------------------
+'取得系统文件夹-----------------------------------------------------------
 '-------------------------------------------------------------------------
 Public Function GetSysDir() As String
     Dim strBuf As String
     Dim lngBuf As Long
     
-    strBuf = Space$(MAX_PATH)
-    lngBuf = MAX_PATH
+    strBuf = Space$(1024)
+    lngBuf = 1024
     
     lngBuf = GetSystemDirectory(StrPtr(strBuf), lngBuf)
     strBuf = Trim(strBuf)
@@ -449,9 +449,9 @@ Public Sub WriteIniTF(ByVal AppName As String, ByVal In_Key As String, ByVal In_
     On Error GoTo WriteIniTFErr
     Dim WriteIniTF_Cstr_tf As String
     If In_Data = True Then
-        WriteIniTF_Cstr_tf = StrConv("True", vbUnicode)
+        WriteIniTF_Cstr_tf = "True"
     Else
-        WriteIniTF_Cstr_tf = StrConv("False", vbUnicode)
+        WriteIniTF_Cstr_tf = "False"
     End If
     
     Dim INI_path As String, WIS_lp As Long
