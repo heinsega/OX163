@@ -1,4 +1,4 @@
-'2011-4-5 visceroid
+'2011-4-13 visceroid
 Dim started, multi_page, brief_mode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache
 started = False
 multi_page = True
@@ -233,15 +233,30 @@ Function get_next_page(ByVal html_str)
 End Function
 
 Function rename_utf8(ByVal utf8_str)
-	rename_utf8 = ""
-	
+	rename_utf8 = ""	
 	If Len(utf8_str) = 0 Then
 		Exit Function
-	End If
+	End If	
+	utf8_str=Hex_unicode_str(utf8_str)
+	
 	For i = 1 to Len(utf8_str)
 		If Asc(Mid(utf8_str, i, 1)) = 63 Then
 			utf8_str = replace(utf8_str, Mid(utf8_str, i, 1), "_")
 		End If
 	Next
 	rename_utf8 = replace(utf8_str, "|", "£ü")
+End Function
+
+Function Hex_unicode_str(ByVal old_String)
+    Dim i, UnAnsi_Str, Hex_UnAnsi_Str
+    For i = 1 To Len(old_String)
+        If Asc(Mid(old_String, i, 1)) = 63 Then UnAnsi_Str = UnAnsi_Str & Mid(old_String, i, 1)
+    Next
+        
+    For i = 1 To Len(UnAnsi_Str)
+        Hex_UnAnsi_Str = Mid(UnAnsi_Str, i, 1)
+        Hex_UnAnsi_Str = "&H" & Hex(AscW(Hex_UnAnsi_Str))
+        old_String = Replace(old_String, Mid(UnAnsi_Str, i, 1), "&#" & Int(Hex_UnAnsi_Str) & ";")
+    Next
+    Hex_unicode_str = old_String
 End Function

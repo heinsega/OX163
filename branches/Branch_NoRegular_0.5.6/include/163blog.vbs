@@ -115,7 +115,7 @@ Dim album_list,psw_tf,page_add
 album_list=split(html_str,"g_albumList.push({id: '")
 	
 For i = 0 To UBound(album_list)
-DoEvents
+
 	If InStr(LCase(album_list(i)), "albumname:  '") > 0 Then
 		'id
 		album_id=Mid(album_list(i),1,InStr(album_list(i), "'")-1)
@@ -258,7 +258,7 @@ ElseIf retry_times<5 Then
 	return_albums_list=return_albums_list & "c0-param0=string:" & user_id & "&for_ox163_replace_vbcrlf&"
 	return_albums_list=return_albums_list & "batchId=" & Int(Time() * 1000000)
 	return_albums_list="1|inet|10,13|http://photo.163.com/photo/" & user_id & "/dwr/call/plaincall/UserSpaceBean.getUserSpace.dwr|http://photo.163.com|" & return_albums_list
-	MsgBox user_id
+
 Else
     return_albums_list = "0"
 End If
@@ -350,7 +350,7 @@ ElseIf get_info="js" and InStr(html_str, "=[{id:") > 0 Then
 	a = Mid(a, InStr(a, "/"))
     
     	'M pic url or Ourl
-     	If Left(LCase(a), 7) = "/photo/" Then
+  If Left(LCase(a), 7) = "/photo/" Then
 		a = "http://img" & b & ".bimg.126.net" & a
 	Else
 		a = "http://img" & b & ".photo.163.com" & a
@@ -419,7 +419,6 @@ Else
 	post_pw=post_pw & "batchId=7"
 	return_password_rules = "http://blog.163.com/" & user_id & "/album/dwr/call/plaincall/Album.checkAlbumPassword.dwr|" & post_pw & "||1|var s0=[];"
 End If
-MsgBox return_password_rules
 End Function
 
 Function return_ad_password_rules(ByVal html_str, ByVal url_str, ByVal pass_word)
@@ -428,7 +427,6 @@ On Error Resume Next
 	If InStr(html_str, ".js"")") > 10 Then
 		return_ad_password_rules="password_correct"
 	End If
-MsgBox return_ad_password_rules
 End Function
 '------------------------------------------------------------------
 Function is_username(ByVal username)
