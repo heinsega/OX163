@@ -35,7 +35,7 @@ Public Type NOTIFYICONDATA
     uFlags As Long
     ucallbackMessage As Long
     hIcon As Long
-    szTip As String * 64
+    szTip As String * 256
 End Type
 
 Public TrayI As NOTIFYICONDATA

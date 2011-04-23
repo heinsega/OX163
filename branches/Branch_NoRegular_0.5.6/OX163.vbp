@@ -19,6 +19,7 @@ Module=OX_variable; variable.bas
 Module=Transcoding; Transcoding.bas
 Module=Parsing; Parsing.bas
 Module=OX_function; OX_function.bas
+Module=OX_FileSystem; OX_FileSystem.bas
 IconForm="start_ox163"
 Startup="Sub Main"
 HelpFile=""

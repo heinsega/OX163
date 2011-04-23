@@ -82,11 +82,11 @@ Public Function fix_Code(ByVal old_str As String) As String
     old_str = Replace$(old_str, "&gt;", ">")
     '&quot; - "
     old_str = Replace$(old_str, "&quot;", Chr(34))
-    '&#0039; - '
+    '&#0039;- '
     old_str = Replace$(old_str, "&#0039;", "'")
     '&#039; - '
     old_str = Replace$(old_str, "&#039;", "'")
-    '&#39; - '
+    '&#39;  - '
     old_str = Replace$(old_str, "&#39;", "'")
     '&amp;  - &
     fix_Code = Replace$(old_str, "&amp;", "&")
@@ -95,9 +95,8 @@ End Function
 '修正文件名，去除不可用的字符
 Public Function reName_Str(ByVal old_Name As String) As String
     Dim i As Long
-    reName_Str = Hex_unicode_str(old_Name)
     
-    reName_Str = Replace$(reName_Str, Chr(92), "_")
+    reName_Str = Replace$(old_Name, Chr(92), "_")
     reName_Str = Replace$(reName_Str, Chr(47), "_")
     reName_Str = Replace$(reName_Str, Chr(34), "_")
     reName_Str = Replace$(reName_Str, Chr(58), "_")
@@ -105,6 +104,8 @@ Public Function reName_Str(ByVal old_Name As String) As String
     reName_Str = Replace$(reName_Str, Chr(60), "[")
     reName_Str = Replace$(reName_Str, Chr(62), "]")
     reName_Str = Replace$(reName_Str, Chr(124), "_")
+        
+    reName_Str = Hex_unicode_str(reName_Str)
     
     For i = 1 To Len(reName_Str)
         If Asc(Mid(reName_Str, i, 1)) = 63 Then reName_Str = Replace(reName_Str, Mid(reName_Str, i, 1), "_")
@@ -116,7 +117,7 @@ Public Function reName_Str(ByVal old_Name As String) As String
 End Function
 
 '将非ANSI字符转换为16进制代码"&HFF75",再转换为10进制网页代码"&#65397;"(该字符网页16进制代码为"&#xFF75;")
-Function Hex_unicode_str(ByVal old_String As String) As String
+Public Function Hex_unicode_str(ByVal old_String As String) As String
     Dim i As Long, UnAnsi_Str As String, Hex_UnAnsi_Str As String
     For i = 1 To Len(old_String)
         If Asc(Mid(old_String, i, 1)) = 63 Then UnAnsi_Str = UnAnsi_Str & Mid(old_String, i, 1)

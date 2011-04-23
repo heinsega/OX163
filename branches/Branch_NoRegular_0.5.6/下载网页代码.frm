@@ -1233,9 +1233,9 @@ Public form_height As Integer
 Dim url_temp As String
 Dim down_count As Byte
 Public form_quit As Boolean
-Private m_lngDocSize As Single
-Private old_FileSize As Single
-Dim download_FileName
+Dim m_lngDocSize As Single
+Dim old_FileSize As Single
+Dim download_FileName As String
 Dim strURL As String
 Dim download_ok As Boolean
 Dim psw_v As String
@@ -1872,7 +1872,6 @@ Private Sub Form_Load()
     If start_ox163.Com1.Visible = False Then Unload start_ox163
     
     Timer3.Enabled = True
-    
 End Sub
 
 
@@ -2090,7 +2089,7 @@ Private Sub image_save_Click()
     
     Folder_path = ""
     If sysSet.def_path_tf = True And sysSet.def_path <> "" Then
-        Folder_path = GetFolder("默认下载文件夹", sysSet.def_path, True)
+        Folder_path = GetFolder("默认下载文件夹", sysSet.def_path & "\", True)
     Else
         Folder_path = GetFolder("请选择下载文件夹", Open_path_set & "\", True)
     End If
@@ -2863,7 +2862,7 @@ err_12029:
             download_ok = True
         ElseIf m_lngDocSize < down_len Then
             Close #1
-            Kill download_FileName
+            OX_Delfile download_FileName
             Open download_FileName For Binary Access Write As #1
             down_len = 0
             m_lngDocSize = 0
@@ -3558,7 +3557,7 @@ Private Sub makelist_command_Click()
     url_file_name = rename_URL(url_input.Text)
     If List1.ListItems.count > 0 And Dir(App_path & "\url\" & url_file_name) = "" Then
         If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
-        WriteUrlStr "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
+        WriteUnicodeIni "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
         url_Filelist.Refresh
     End If
     '----------------------------------------------------------------
@@ -3645,7 +3644,7 @@ Private Sub new163pic_list(ByVal input_User_Name As String, ByVal input_Album_ID
     '------------------------------创建url文件----------------------------------
     If List1.ListItems.count > 0 And Dir(App_path & "\url\" & url_file_name) = "" Then
         If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
-        WriteUrlStr "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
+        WriteUnicodeIni "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
         url_Filelist.Refresh
     End If
     '----------------------------------------------------------------
@@ -3966,7 +3965,7 @@ Private Sub out_all_lst_Click()
     
     Folder_path = ""
     If sysSet.def_path_tf = True And sysSet.def_path <> "" Then
-        Folder_path = GetFolder("默认下载文件夹", sysSet.def_path, True)
+        Folder_path = GetFolder("默认下载文件夹", sysSet.def_path & "\", True)
     Else
         Folder_path = GetFolder("请选择下载文件夹", Open_path_set & "\", True)
     End If
@@ -4017,7 +4016,7 @@ Private Sub save_all_Click()
     
     Folder_path = ""
     If sysSet.def_path_tf = True And sysSet.def_path <> "" Then
-        Folder_path = GetFolder("默认下载文件夹", sysSet.def_path, True)
+        Folder_path = GetFolder("默认下载文件夹", sysSet.def_path & "\", True)
     Else
         Folder_path = GetFolder("请选择下载文件夹", Open_path_set & "\", True)
     End If
@@ -4229,12 +4228,12 @@ Private Sub Timer3_Timer()
                     Form1.Enabled = True
                     Exit Sub
                 Else
-                    Form1.caption = "[新版本:" & ver & "]" & Form1.caption
+                    Form1.caption = "[有新版本]" & Form1.caption
                     TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
                     If now_tray = True Then TrayI.uFlags = NIF_TIP: Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
                 End If
             Else
-                Form1.caption = "[新版本:" & ver & "]" & Form1.caption
+                Form1.caption = "[有新版本]" & Form1.caption
                 TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
                 If now_tray = True Then TrayI.uFlags = NIF_TIP: Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
             End If
@@ -5772,15 +5771,17 @@ Private Sub save_list_image(ByVal floder_path)
             List1.ListItems(i).Bold = True
             List1.ListItems(i).ForeColor = vbRed
             
+
+            
             download_FileName = floder_path & "\" & name_rules_add & List1.ListItems(i).ListSubItems(1).Text
             strURL = Trim$(List1.ListItems(i).ListSubItems(3).Text)
-            
+
+            If form_quit = True Then GoTo end_sub
+            m_lngDocSize = 0
+            old_FileSize = 0
             check_FileName
             
-            If form_quit = True Then GoTo end_sub
-            
             If old_FileSize <> -1 Then
-                
                 download_ok = False
                 Open download_FileName For Binary Access Write As #1
                 retry_time = 0
@@ -5794,12 +5795,9 @@ Private Sub save_list_image(ByVal floder_path)
                 Loop
                 Close #1
                 
-                If m_lngDocSize = -100 And old_FileSize = -100 Then Kill download_FileName
+                If m_lngDocSize = -100 And old_FileSize = -100 Then OX_Delfile download_FileName
                 
             End If
-            m_lngDocSize = 0
-            old_FileSize = 0
-            
             List1.ListItems(i).ForeColor = f_color
             List1.ListItems(i).Bold = False
         End If
@@ -6292,26 +6290,26 @@ Private Function rename_ini_str(ByVal old_Name)
     Next
 End Function
 
+
+
 Private Sub check_FileName()
     On Error Resume Next
     
-    Dim count As Integer
-    Dim filename_len As Integer
+    Dim count As Integer, filename_len As Integer
+    Dim path_filename As String, temp_filename As String, text_sortname As String
     Dim dir_tf
     filename_len = 250
-    
     temp_filename = download_FileName
-    '---------------------------------------------------------检查过长文件名
-    '取得文件路径：path_filename，单独文件名：temp_filename
+    '---------------------------------------------------------
     path_filename = ""
-    
-    path_filename = Mid(download_FileName, 1, InStrRev(download_FileName, "\"))
-    temp_filename = Mid(temp_filename, InStrRev(temp_filename, "\") + 1)
-    
+    path_filename = Mid(download_FileName, 1, InStrRev(download_FileName, "\")) '取得文件路径：path_filename
+    temp_filename = Mid(temp_filename, InStrRev(temp_filename, "\") + 1) '单独文件名：temp_filename
+    '-------------------------------------------------------------------
     text_sortname = GetShortName(path_filename)
-    If Right(text_sortname, 1) = "\" Then text_sortname = Mid$(text_sortname, 1, Len(text_sortname) - 1)
-    path_filename = text_sortname & "\"
+    If Right(text_sortname, 1) <> "\" Then text_sortname = text_sortname & "\"
+    path_filename = text_sortname '取得文件短路径：path_filename
     
+    '检查过长文件名
     If InStrRev(temp_filename, ".") > 1 Then
         '单独文件名(无后缀)
         s_filename = Mid$(temp_filename, 1, InStrRev(temp_filename, ".") - 1)
@@ -6326,7 +6324,6 @@ Private Sub check_FileName()
         s_filename = s_filename & end_filename
         end_filename = ""
     End If
-    
     '-------------------判断文件名长度--------------------------
 re_len:
     temp_filename = ""
@@ -6338,11 +6335,10 @@ re_len:
     If temp_filename <> "" Then s_filename = s_filename & temp_filename
     '-----------------------------------------------------------
     
-    
-    temp_filename = path_filename & s_filename & end_filename
+    temp_filename = path_filename & s_filename & end_filename '创建完整文件路径
     
     Err.Number = 0
-    dir_tf = Dir(temp_filename)
+    dir_tf = Dir(temp_filename) 'Di完整文件路径，如果出错，表示win不能创建该文件
     If Err.Number <> 0 And filename_len > 2 Then
         filename_len = filename_len - 1
         GoTo re_len
@@ -6351,28 +6347,38 @@ re_len:
         Exit Sub
     End If
     
+    s_filename = fix_Unicode_FileName(s_filename) '修复含有unicode字符的文件名
+    end_filename = fix_Unicode_FileName(end_filename) '修复含有unicode字符的文件名
+    temp_filename = path_filename & s_filename & end_filename '创建完整文件路径
+    
     Err.Number = 0
-    If Dir(temp_filename) <> "" And sysSet.file_compare = 2 Then
+    If OX_Dirfile(temp_filename) = True And sysSet.file_compare = 2 Then
         old_FileSize = -1
-    ElseIf Dir(temp_filename) <> "" And sysSet.file_compare = 1 Then
-        old_FileSize = FileLen(temp_filename)
+        download_FileName = ""
+        Exit Sub
+    ElseIf OX_Dirfile(temp_filename) = True And sysSet.file_compare = 1 Then
+        old_FileSize = FileLen(GetShortName(temp_filename))
     Else
         old_FileSize = 0
     End If
     '---------------------------------------------------------检查文件名重复
+    count = 0
 restart:
-    
     DoEvents
-    
     count = count + 1
     If count > 20000 Then MsgBox "该文件相似文件名超过20000，请整理！", vbOKOnly, "警告": form_quit = True: Exit Sub
     
-    If Dir(temp_filename) <> "" Then
+    If OX_Dirfile(temp_filename) = True Then
         temp_filename = path_filename & s_filename & "(" & count & ")" & end_filename
         GoTo restart
     End If
     
-    download_FileName = temp_filename
+    If OX_GreatFile(temp_filename) = True Then
+    download_FileName = GetShortName(temp_filename)
+    Else
+    download_FileName = ""
+    End If
+    'download_FileName = temp_filename
 End Sub
 
 Private Sub delay(n As Integer)
@@ -6560,7 +6566,7 @@ Private Sub user_open()
             
             If temp(1) = "1" Then
                 temp(1) = ""
-                If pw_file_tf = True Then temp(1) = GetUrlStr("password", albumsID, pw_163)
+                If pw_file_tf = True Then temp(1) = GetUnicodeIniStr("password", albumsID, pw_163)
                 If temp(1) = "" Then temp(1) = "请填写密码............" & vbCrLf & ".........."
             Else
                 temp(1) = ""
@@ -6669,7 +6675,7 @@ old_user_open:
             
             If albums(1) = 2 Then
                 temp(1) = ""
-                If pw_file_tf = True Then temp(1) = GetUrlStr("password", albumsID, pw_163)
+                If pw_file_tf = True Then temp(1) = GetUnicodeIniStr("password", albumsID, pw_163)
                 If temp(1) = "" Then temp(1) = "请填写密码............" & vbCrLf & ".........."
             Else
                 temp(1) = ""
@@ -6748,7 +6754,7 @@ End If
 'http://photo.163.com/photos/wehi/
 If user_list.ListItems.count > 0 And Dir(App_path & "\url\" & url_file_name) = "" Then
     If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
-    WriteUrlStr "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
+    WriteUnicodeIni "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
     url_Filelist.Refresh
 End If
 '--------------------------------------------------------------------
@@ -6792,7 +6798,7 @@ Public Sub edit_psw(ByVal meth As Byte, ByVal psw_edit As String)
     Case 0
         If user_list.SelectedItem.ListSubItems(1).Text <> "" Then
             user_list.SelectedItem.ListSubItems(1).Text = psw_edit
-            If pw_163 <> "" Then WriteUrlStr "password", rename_ini_str(user_list.SelectedItem.ListSubItems(2).Text), psw_edit, pw_163
+            If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.SelectedItem.ListSubItems(2).Text), psw_edit, pw_163
         End If
         
     Case 1
@@ -6800,7 +6806,7 @@ Public Sub edit_psw(ByVal meth As Byte, ByVal psw_edit As String)
             DoEvents
             If user_list.ListItems(i).ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." And user_list.ListItems(i).Selected = True Then
                 user_list.ListItems(i).ListSubItems(1).Text = psw_edit
-                If pw_163 <> "" Then WriteUrlStr "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
+                If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
             End If
         Next i
         
@@ -6809,7 +6815,7 @@ Public Sub edit_psw(ByVal meth As Byte, ByVal psw_edit As String)
             DoEvents
             If user_list.ListItems(i).Selected = True And user_list.ListItems(i).ListSubItems(1).Text <> "" Then
                 user_list.ListItems(i).ListSubItems(1).Text = psw_edit
-                If pw_163 <> "" Then WriteUrlStr "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
+                If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
             End If
         Next i
         
@@ -6818,7 +6824,7 @@ Public Sub edit_psw(ByVal meth As Byte, ByVal psw_edit As String)
             DoEvents
             If user_list.ListItems(i).ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." Then
                 user_list.ListItems(i).ListSubItems(1).Text = psw_edit
-                If pw_163 <> "" Then WriteUrlStr "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
+                If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
             End If
         Next i
         
@@ -6827,7 +6833,7 @@ Public Sub edit_psw(ByVal meth As Byte, ByVal psw_edit As String)
             DoEvents
             If user_list.ListItems(i).ListSubItems(1).Text <> "" Then
                 user_list.ListItems(i).ListSubItems(1).Text = psw_edit
-                If pw_163 <> "" Then WriteUrlStr "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
+                If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
             End If
         Next i
         
@@ -6914,7 +6920,7 @@ retry_new_password:
                 End If
                 Html_Temp = new163pic_GetJs(Frame2.caption, Replace(user_list.ListItems(i).ListSubItems(2).Text, "new163_ID_", ""), user_list.ListItems(i).ListSubItems(1).Text)
                 If Html_Temp <> "" Then
-                    If pw_163 <> "" Then WriteUrlStr "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), user_list.ListItems(i).ListSubItems(1).Text, pw_163
+                    If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), user_list.ListItems(i).ListSubItems(1).Text, pw_163
                     user_list.ListItems(i).ListSubItems(2).Text = Html_Temp
                 ElseIf sysSet.change_psw = True Then
                     If MsgBox("密码不正确是否重新填写？", vbYesNo + vbExclamation, "警告") = vbYes Then
@@ -6980,9 +6986,8 @@ retry_new_password:
                 download_FileName = floder_path & "\" & download_FileName & ".lst"
             End Select
             
-            check_FileName
             If form_quit = True Then GoTo end_sub
-            
+            check_FileName
             
             '----------------------合并导出列表，打开文件------------------------------------------------
             
@@ -7101,7 +7106,7 @@ retry_psw:
                                 Sleep 10
                                 DoEvents
                             Loop
-                            If pw_163 <> "" Then WriteUrlStr "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), user_list.ListItems(i).ListSubItems(1).Text, pw_163
+                            If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), user_list.ListItems(i).ListSubItems(1).Text, pw_163
                             GoTo restar_psw
                         End If
                         
@@ -7372,15 +7377,16 @@ retry_new_password:
             If is_username(Frame2.caption) = True And IsNumeric(user_list.ListItems(i).ListSubItems(2).Text) = True Then
                 MkDir floder_path & "\" & reName_Str(user_list.ListItems(i).Text) & "\albums_" & user_list.ListItems(i).ListSubItems(2).Text
             End If
+            
+            If form_quit = True Then GoTo end_sub
+            
             'Else
             'MkDir floder_path & "\" & rename_str(user_list.ListItems(i).Text) & Format$(Now, "_YYYYMMDD_HHMMNN")
             'End If
             'download_FileName = floder_path & "\" & rename_str(user_list.ListItems(i).Text) & ".txt"
             'check_FileName
-            If form_quit = True Then GoTo end_sub
             
             fast_down.Cancel
-            
             '-------------------------------------------------------------------------------------
             
             If user_list.ListItems(i).ListSubItems(1).Text <> "" Then
@@ -7483,7 +7489,7 @@ retry_psw:
                                 Sleep 10
                                 DoEvents
                             Loop
-                            If pw_163 <> "" Then WriteUrlStr "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), user_list.ListItems(i).ListSubItems(1).Text, pw_163
+                            If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), user_list.ListItems(i).ListSubItems(1).Text, pw_163
                             GoTo restar_psw
                         End If
                         
@@ -7560,9 +7566,11 @@ new163_password_OK:
                         download_FileName = floder_path & "\" & reName_Str(user_list.ListItems(i).Text) & "\" & name_rules_add & List1.ListItems(save_img_i).ListSubItems(1).Text
                     End If
                     
-                    check_FileName
-                    
                     If form_quit = True Then GoTo end_sub
+
+                    m_lngDocSize = 0
+                    old_FileSize = 0
+                    check_FileName
                     
                     If old_FileSize <> -1 Then
                         
@@ -7582,11 +7590,9 @@ new163_password_OK:
                         Loop
                         Close #1
                         
-                        If m_lngDocSize = -100 And old_FileSize = -100 Then Kill download_FileName
+                        If m_lngDocSize = -100 And old_FileSize = -100 Then OX_Delfile download_FileName
                         
                     End If
-                    m_lngDocSize = 0
-                    old_FileSize = 0
                     
                 End If
                 
@@ -8136,7 +8142,7 @@ Private Sub run_script()
         '------------------------------创建url文件----------------------------------
         If List1.ListItems.count > 0 And Dir(App_path & "\url\" & url_file_name) = "" Then
             If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
-            WriteUrlStr "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
+            WriteUnicodeIni "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
             url_Filelist.Refresh
         End If
         '----------------------------------------------------------------
@@ -8214,7 +8220,7 @@ Private Sub run_script()
         '------------------------------创建url文件----------------------------------
         If user_list.ListItems.count > 0 And Dir(App_path & "\url\" & url_file_name) = "" Then
             If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
-            WriteUrlStr "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
+            WriteUnicodeIni "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
             url_Filelist.Refresh
         End If
         '----------------------------------------------------------------
@@ -8415,7 +8421,7 @@ Private Sub list_album_script(ByVal album_info)
                 'list_album_password
                 Script_Retrun_Temp = ""
                 If albmInfos(i).hasPassword = True Then
-                    If pw_file_tf = True Then Script_Retrun_Temp = GetUrlStr("password", rename_ini_str(albmInfos(i).URL), pw_163)
+                    If pw_file_tf = True Then Script_Retrun_Temp = GetUnicodeIniStr("password", rename_ini_str(albmInfos(i).URL), pw_163)
                     If Script_Retrun_Temp = "" Then Script_Retrun_Temp = "请填写密码............" & vbCrLf & ".........."
                 End If
                 Call currentListItem.ListSubItems.Add(, , Script_Retrun_Temp)

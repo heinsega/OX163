@@ -1478,7 +1478,7 @@ Begin VB.Form sys
          Index           =   1
          ItemData        =   "sys.frx":6F43
          Left            =   2280
-         List            =   "sys.frx":6F53
+         List            =   "sys.frx":6F50
          Style           =   2  'Dropdown List
          TabIndex        =   162
          Top             =   640
@@ -1487,9 +1487,9 @@ Begin VB.Form sys
       Begin VB.ComboBox Combo_unicode_ctrl 
          Height          =   300
          Index           =   0
-         ItemData        =   "sys.frx":6FD4
+         ItemData        =   "sys.frx":6FB3
          Left            =   2280
-         List            =   "sys.frx":6FE4
+         List            =   "sys.frx":6FC0
          Style           =   2  'Dropdown List
          TabIndex        =   160
          Top             =   285
@@ -1504,9 +1504,9 @@ Begin VB.Form sys
          Width           =   5895
          Begin VB.ComboBox Combo_rar 
             Height          =   300
-            ItemData        =   "sys.frx":706D
+            ItemData        =   "sys.frx":702B
             Left            =   3720
-            List            =   "sys.frx":707A
+            List            =   "sys.frx":7038
             Style           =   2  'Dropdown List
             TabIndex        =   138
             Top             =   240
@@ -1514,9 +1514,9 @@ Begin VB.Form sys
          End
          Begin VB.ComboBox Combo_rar_name 
             Height          =   300
-            ItemData        =   "sys.frx":709C
+            ItemData        =   "sys.frx":705A
             Left            =   2880
-            List            =   "sys.frx":709E
+            List            =   "sys.frx":705C
             Style           =   2  'Dropdown List
             TabIndex        =   137
             Top             =   900
@@ -1826,9 +1826,9 @@ Begin VB.Form sys
       End
       Begin VB.ListBox scriptList 
          Height          =   2580
-         ItemData        =   "sys.frx":70A0
+         ItemData        =   "sys.frx":705E
          Left            =   240
-         List            =   "sys.frx":70BF
+         List            =   "sys.frx":707D
          Style           =   1  'Checkbox
          TabIndex        =   102
          Top             =   960
@@ -2342,21 +2342,21 @@ Private Sub sys_apply_Click()
     If sysSet.def_path_tf = True Then
         sysSet.def_path = GetIniStr("maincenter", "def_path")
         Label1.caption = "准备OX163..." & vbCrLf & "    检查下载路径"
-        If Mid$(sysSet.def_path, 2, 2) <> ":\" Then GoTo reset_path
+        If Mid$(sysSet.def_path, 2, 2) <> ":\" And Len(sysSet.def_path) > 2 Then GoTo reset_path
         If Right(sysSet.def_path, 1) = "\" Then sysSet.def_path = Mid$(sysSet.def_path, 1, Len(sysSet.def_path) - 1): WriteIniStr "maincenter", "def_path", sysSet.def_path
-        Dim check_path
-        check_path = Split(sysSet.def_path, "\")
-        
-        For i = 0 To UBound(check_path)
-            If i > 0 Then
-                sysSet.def_path = sysSet.def_path & "\" & check_path(i)
-                If Dir(sysSet.def_path, vbDirectory) = "" Then
-                    MkDir sysSet.def_path
-                End If
-            Else
-                sysSet.def_path = check_path(0)
-            End If
-        Next i
+'        Dim check_path
+'        check_path = Split(sysSet.def_path, "\")
+'
+'        For i = 0 To UBound(check_path)
+'            If i > 0 Then
+'                sysSet.def_path = sysSet.def_path & "\" & check_path(i)
+'                If Dir(sysSet.def_path, vbDirectory) = "" Then
+'                    MkDir sysSet.def_path
+'                End If
+'            Else
+'                sysSet.def_path = check_path(0)
+'            End If
+'        Next i
         If (GetFileAttributes(sysSet.def_path) = -1) Then GoTo reset_path
     Else
 reset_path:

@@ -287,7 +287,7 @@ Public Function FARPROC(pfn As Long) As Long
 End Function
 '---------------------调用shell选择保存目录------end----------------------
 
-'-------------------------------------------------------------------------
+'OX163启动函数------------------------------------------------------------
 'XP风格-----start---------------------------------------------------------
 '-------------------------------------------------------------------------
 Public Function InitCommonControlsVB() As Boolean
@@ -301,7 +301,6 @@ Public Function InitCommonControlsVB() As Boolean
     InitCommonControlsVB = (Err.Number = 0)
     On Error GoTo 0
 End Function
-
 
 Sub Main()
     InitCommonControlsVB
@@ -368,7 +367,7 @@ End Function
 '-------------------------------------------------------------------------
 'INI文件读取保存----------------------------------------------------------
 '-------------------------------------------------------------------------
-'建立unicode编码的ini配置文件
+'建立或检查unicode编码的ini配置文件
 Public Function GreatUnicodeIniFile(ByVal url_str_path As String) As Boolean
     On Error GoTo GreatUnicodeIniFileErr
     Dim ReturnEncoding As String, GUIF_Object As Object, GUIF_file As Object
@@ -425,7 +424,7 @@ Public Function GetIniTF(ByVal AppName As String, ByVal In_Key As String) As Boo
     GetIniTF = True
     Dim GetStr As String, INI_path As String, dwSize As Long, str_null As String
     
-    GetStr = VBA.String(256, 0)
+    GetStr = String(256, 0)
     INI_path = App_path & "\OX163setup.ini" & vbNullChar
     AppName = AppName & vbNullChar
     In_Key = In_Key & vbNullChar
@@ -471,7 +470,7 @@ End Sub
 '空值表示出错
 Public Function GetIniStr(ByVal AppName As String, ByVal In_Key As String) As String
     On Error GoTo GetIniStrErr
-    If VBA.Trim(In_Key) = "" Then
+    If Trim(In_Key) = "" Then
         GoTo GetIniStrErr
     End If
     Dim GetStr As String, INI_path As String, dwSize As Long, str_null As String
@@ -497,7 +496,7 @@ End Function
 
 Public Sub WriteIniStr(ByVal AppName As String, ByVal In_Key As String, ByVal In_Data As String)
     On Error GoTo WriteIniStrErr
-    If VBA.Trim(In_Key) = "" Or VBA.Trim(AppName) = "" Then
+    If Trim(In_Key) = "" Or Trim(AppName) = "" Then
         GoTo WriteIniStrErr
     Else
         Dim INI_path As String, WIS_lp As Long
@@ -516,9 +515,9 @@ End Sub
 '-------------------------------------------------------------------------
 '保存和读取url历史记录配置文件--------------------------------------------
 '-------------------------------------------------------------------------
-Public Function GetUrlStr(ByVal AppName As String, ByVal In_Key As String, ByVal url_str_path As String) As String
+Public Function GetUnicodeIniStr(ByVal AppName As String, ByVal In_Key As String, ByVal url_str_path As String) As String
     On Error GoTo GetIniStrErr
-    If VBA.Trim(In_Key) = "" Then
+    If Trim(In_Key) = "" Then
         GoTo GetIniStrErr
     End If
     Dim GetStr As String, INI_path As String, dwSize As Long, str_null As String
@@ -532,19 +531,19 @@ Public Function GetUrlStr(ByVal AppName As String, ByVal In_Key As String, ByVal
     If GetStr = "" Then
         GoTo GetIniStrErr
     Else
-        GetUrlStr = GetStr
+        GetUnicodeIniStr = GetStr
         GetStr = ""
     End If
     Exit Function
 GetIniStrErr:
     Err.Clear
-    GetUrlStr = ""
+    GetUnicodeIniStr = ""
     GetStr = ""
 End Function
 
-Public Sub WriteUrlStr(ByVal AppName As String, ByVal In_Key As String, ByVal In_Data As String, ByVal url_str_path As String)
+Public Sub WriteUnicodeIni(ByVal AppName As String, ByVal In_Key As String, ByVal In_Data As String, ByVal url_str_path As String)
     On Error GoTo WriteIniStrErr
-    If VBA.Trim(In_Key) = "" Or VBA.Trim(AppName) = "" Then
+    If Trim(In_Key) = "" Or Trim(AppName) = "" Then
         GoTo WriteIniStrErr
     Else
         Dim WIS_lp As Long

@@ -34,7 +34,7 @@ End Function
 Public Function load_Script(file_name) As String
     On Error Resume Next
     Dim fileline As String
-    
+    Dim fso As Object, file As Object
     Set fso = CreateObject("Scripting.FileSystemObject")
     Set file = fso.OpenTextFile(file_name, 1, False, 0)
     load_Script = file.Readall
@@ -54,7 +54,7 @@ End Function
 '-------------------------------------------------------------------------
 '格式化图片尺寸文本（1920*1080）------------------------------------------
 '-------------------------------------------------------------------------
-Public Function fix_Pix(ByVal pix_str)
+Public Function fix_Pix(ByVal pix_str) As String
     fix_Pix = ""
     pix_str = Split(pix_str, "x")
     For i = 0 To UBound(pix_str)

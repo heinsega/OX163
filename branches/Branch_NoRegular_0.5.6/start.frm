@@ -423,21 +423,8 @@ Private Sub Timer1_Timer()
     start_text.Text = start_text.Text & vbCrLf & "¼ì²éÏÂÔØÂ·¾¶"
     If sysSet.def_path_tf = True Then
         sysSet.def_path = GetIniStr("maincenter", "def_path")
-        If Mid$(sysSet.def_path, 2, 2) <> ":\" Then GoTo reset_path
+        If Mid$(sysSet.def_path, 2, 2) <> ":\" And Len(sysSet.def_path) > 2 Then GoTo reset_path
         If Right(sysSet.def_path, 1) = "\" Then sysSet.def_path = Mid$(sysSet.def_path, 1, Len(sysSet.def_path) - 1): WriteIniStr "maincenter", "def_path", sysSet.def_path
-        
-        check_path = Split(sysSet.def_path, "\")
-        
-        For i = 0 To UBound(check_path)
-            If i > 0 Then
-                sysSet.def_path = sysSet.def_path & "\" & check_path(i)
-                If Dir(sysSet.def_path, vbDirectory) = "" Then
-                    MkDir sysSet.def_path
-                End If
-            Else
-                sysSet.def_path = check_path(0)
-            End If
-        Next i
         If (GetFileAttributes(sysSet.def_path) = -1) Then GoTo reset_path
     Else
 reset_path:
