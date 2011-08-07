@@ -1147,12 +1147,12 @@ Begin VB.Form sys
       Begin VB.Label Label9 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "导出下载列表格式："
+         Caption         =   "默认下载列表格式："
          Height          =   180
          Index           =   7
          Left            =   240
          TabIndex        =   115
-         ToolTipText     =   "建议使用LST方式"
+         ToolTipText     =   "建议使用HTM方式"
          Top             =   2520
          Width           =   1620
       End
@@ -1487,9 +1487,9 @@ Begin VB.Form sys
       Begin VB.ComboBox Combo_unicode_ctrl 
          Height          =   300
          Index           =   0
-         ItemData        =   "sys.frx":6FB3
+         ItemData        =   "sys.frx":6FAF
          Left            =   2280
-         List            =   "sys.frx":6FC0
+         List            =   "sys.frx":6FBC
          Style           =   2  'Dropdown List
          TabIndex        =   160
          Top             =   285
@@ -1504,9 +1504,9 @@ Begin VB.Form sys
          Width           =   5895
          Begin VB.ComboBox Combo_rar 
             Height          =   300
-            ItemData        =   "sys.frx":702B
+            ItemData        =   "sys.frx":7028
             Left            =   3720
-            List            =   "sys.frx":7038
+            List            =   "sys.frx":7035
             Style           =   2  'Dropdown List
             TabIndex        =   138
             Top             =   240
@@ -1514,9 +1514,9 @@ Begin VB.Form sys
          End
          Begin VB.ComboBox Combo_rar_name 
             Height          =   300
-            ItemData        =   "sys.frx":705A
+            ItemData        =   "sys.frx":7057
             Left            =   2880
-            List            =   "sys.frx":705C
+            List            =   "sys.frx":7059
             Style           =   2  'Dropdown List
             TabIndex        =   137
             Top             =   900
@@ -1826,12 +1826,13 @@ Begin VB.Form sys
       End
       Begin VB.ListBox scriptList 
          Height          =   2580
-         ItemData        =   "sys.frx":705E
+         ItemData        =   "sys.frx":705B
          Left            =   240
-         List            =   "sys.frx":707D
+         List            =   "sys.frx":707A
          Style           =   1  'Checkbox
          TabIndex        =   102
          Top             =   960
+         Visible         =   0   'False
          Width           =   3015
       End
       Begin VB.Label Label11 
@@ -1841,6 +1842,7 @@ Begin VB.Form sys
          Left            =   4080
          TabIndex        =   158
          Top             =   360
+         Visible         =   0   'False
          Width           =   1080
       End
       Begin VB.Label Label9 
@@ -1888,6 +1890,8 @@ Private Sub Combo_lst_KeyPress(KeyAscii As Integer)
         Combo_lst1.caption = "导出一个仅有下载地址的txt文档" & vbCrLf & "同时生成一个bat文档用于重命名"
     End If
 End Sub
+
+
 
 Private Sub Combo_rar_name_Click()
     If Combo_rar_name.ListIndex > 0 Then
@@ -2244,6 +2248,9 @@ Private Sub sys_apply_Click()
     WriteIniStr "maincenter", "list_type", Combo_lst.ListIndex
     WriteIniStr "maincenter", "fix_rar", Combo_rar.ListIndex
     
+    WriteIniStr "maincenter", "Unicode_File", Combo_unicode_ctrl(0).ListIndex
+    WriteIniStr "maincenter", "Unicode_Str", Combo_unicode_ctrl(1).ListIndex
+    
     fix_rar_name = ""
     If Combo_rar_name.ListCount > 1 Then
         For i = 1 To Combo_rar_name.ListCount - 1
@@ -2309,6 +2316,9 @@ Private Sub sys_apply_Click()
     
     sysSet.fix_rar = CByte(GetIniStr("maincenter", "fix_rar"))
     sysSet.fix_rar_name = Trim(GetIniStr("maincenter", "fix_rar_name"))
+    
+    sysSet.Unicode_File = CByte(GetIniStr("maincenter", "Unicode_File"))
+    sysSet.Unicode_Str = CByte(GetIniStr("maincenter", "Unicode_Str"))
     
     sysSet.sysTray = GetIniTF("maincenter", "sysTray")
     sysSet.list_copy = GetIniTF("maincenter", "list_copy")
@@ -2427,6 +2437,10 @@ Private Sub sys_def(ByVal frameID As Byte)
     End If
     '文件目录操作------------------------------------
     If frameID = 0 Or frameID = 2 Then
+        'Unicode文件夹\文件名
+        Combo_unicode_ctrl(0).ListIndex = 0
+        '其他Unicode文本字符：
+        Combo_unicode_ctrl(1).ListIndex = 0
         '下载默认路径
         def_path(0).Value = True
         def_path_txt = ""
@@ -2545,6 +2559,14 @@ Private Sub laod_ini(ByVal frameID As Byte)
     End If
     '文件目录操作------------------------------------
     If frameID = 0 Or frameID = 2 Then
+        'Unicode文件夹\文件名
+        If CByte(GetIniStr("maincenter", "Unicode_File")) >= 0 And CByte(GetIniStr("maincenter", "Unicode_File")) < 3 Then
+        Combo_unicode_ctrl(0).ListIndex = CByte(GetIniStr("maincenter", "Unicode_File"))
+        End If
+        '其他Unicode文本字符：
+        If CByte(GetIniStr("maincenter", "Unicode_Str")) >= 0 And CByte(GetIniStr("maincenter", "Unicode_Str")) < 3 Then
+        Combo_unicode_ctrl(1).ListIndex = CByte(GetIniStr("maincenter", "Unicode_Str"))
+        End If
         '下载默认路径
         If GetIniTF("maincenter", "def_path_tf") = True Then
             def_path(1).Value = True

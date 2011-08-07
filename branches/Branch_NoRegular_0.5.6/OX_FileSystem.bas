@@ -91,3 +91,34 @@ OX_CreateFolderErr:
     Err.Clear
     OX_CreateFolder = False
 End Function
+'-------------------------------------------------------------------------
+'创建url文件--------------------------------------------------------------
+'-------------------------------------------------------------------------
+Public Sub OX_CreateUrlIniFile(ByVal OX_UrlIniFileName As String)
+    If Dir(App_path & "\url\" & OX_UrlIniFileName) = "" Then
+        If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
+        WriteUnicodeIni "maincenter", "url", OX_UrlIniFileName, App_path & "\url\" & OX_UrlIniFileName
+    End If
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

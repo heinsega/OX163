@@ -1,6 +1,6 @@
 Attribute VB_Name = "OX_variable"
-Public Const title_info = "OX163 plus(0.5.5build110416)"
-Public Const ver_info = "55"
+Public Const title_info = "OX163 plus(0.5.6build110506 beta2)"
+Public Const ver_info = "56"
 '------------------------------------------------------------------------------------
 Public Const NIM_ADD = &H0
 Public Const NIM_MODIFY = &H1
@@ -128,6 +128,10 @@ Type sysSetting
     url_folder As Boolean
     '使用新163相册中文密码规则
     new163pass_rules As Boolean
+    'Unicode文件/文件夹字符操作
+    Unicode_File As Byte
+    'Unicode文本操作
+    Unicode_Str As Byte
 End Type
 
 Public sysSet As sysSetting

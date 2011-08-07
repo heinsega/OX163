@@ -377,11 +377,11 @@ Private Sub Check_script()
         '更新时间
         script_list.ListItems.Item(i + 1).ListSubItems.Add , , include_split(1)
         
-        If Dir(App_path & "\include\" & include_split(0)) <> "" Then
-            file_time = FileDateTime(App_path & "\include\" & include_split(0))
+        If Dir(App_path & "\include\sys\" & include_split(0)) <> "" Then
+            file_time = FileDateTime(App_path & "\include\sys\" & include_split(0))
             If DateDiff("s", include_split(1), file_time) < 0 Then
                 def_thing = "10"
-            ElseIf FileLen(App_path & "\include\" & include_split(0)) <> include_split(2) Then
+            ElseIf FileLen(App_path & "\include\sys\" & include_split(0)) <> include_split(2) Then
                 def_thing = "10"
             Else
                 def_thing = "11"
@@ -397,9 +397,9 @@ Private Sub Check_script()
     
     local_include = ""
     
-    If Dir(App_path & "\include\include.txt") <> "" Then
+    If Dir(App_path & "\include\sys\include.txt") <> "" Then
         
-        local_include = load_Script(App_path & "\include\include.txt")
+        local_include = load_Script(App_path & "\include\sys\include.txt")
         
         If script_include <> local_include Then
             StatusBar.Panels(2) = "include.txt has not matched"
@@ -537,7 +537,7 @@ Private Sub Toolbar_ButtonClick(ByVal Button As MSComctlLib.Button)
     Case 6
         ShellExecute 0&, vbNullString, StrConv("http://www.shanhaijing.net/163/?key=3", vbUnicode), vbNullString, vbNullString, vbNormalFocus
     Case 7
-        Shell "explorer.exe " & Replace$(App_path & "\include", "\\", "\"), vbNormalFocus
+        Shell "explorer.exe " & Replace$(App_path & "\include\sys", "\\", "\"), vbNormalFocus
     End Select
 End Sub
 
@@ -556,7 +556,7 @@ Private Sub Toolbar_ButtonMenuClick(ByVal ButtonMenu As MSComctlLib.ButtonMenu)
     Case 4
         Dim fso, file
         Set fso = CreateObject("Scripting.FileSystemObject")
-        Set file = fso.CreateTextFile(Replace$(App_path & "\include\include.txt", "\\", "\"), True, False)
+        Set file = fso.CreateTextFile(Replace$(App_path & "\include\sys\include.txt", "\\", "\"), True, False)
         file.Write script_include
         file.Close
         Toolbar.Buttons(1).Enabled = False
@@ -642,7 +642,7 @@ Public Sub Update_script(update_type As String)
             Loop
             
             Set fso = CreateObject("Scripting.FileSystemObject")
-            Set file = fso.CreateTextFile(Replace$(App_path & "\include\" & script_list.ListItems(i).ListSubItems(1).Text, "\\", "\"), True, False)
+            Set file = fso.CreateTextFile(Replace$(App_path & "\include\sys\" & script_list.ListItems(i).ListSubItems(1).Text, "\\", "\"), True, False)
             file.Write script_txt
             file.Close
             
@@ -654,7 +654,7 @@ Public Sub Update_script(update_type As String)
         StatusBar.Panels(2) = "Update include.txt"
         
         Set fso = CreateObject("Scripting.FileSystemObject")
-        Set file = fso.CreateTextFile(Replace$(App_path & "\include\include.txt", "\\", "\"), True, False)
+        Set file = fso.CreateTextFile(Replace$(App_path & "\include\sys\include.txt", "\\", "\"), True, False)
         file.Write script_include
         file.Close
         
@@ -803,7 +803,7 @@ next_inter_lack:
         local_include = Mid$(local_include, 1, Len(local_include) - 2)
         '----------------------------------------------------------------------------
         Set fso = CreateObject("Scripting.FileSystemObject")
-        Set file = fso.CreateTextFile(Replace$(App_path & "\include\include.txt", "\\", "\"), True, False)
+        Set file = fso.CreateTextFile(Replace$(App_path & "\include\sys\include.txt", "\\", "\"), True, False)
         file.Write local_include
         file.Close
         

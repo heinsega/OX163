@@ -3,6 +3,7 @@ Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "shdocvw.dll"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.OCX"
 Begin VB.Form Form1 
+   AutoRedraw      =   -1  'True
    Caption         =   "OX163"
    ClientHeight    =   9060
    ClientLeft      =   60
@@ -870,7 +871,7 @@ Begin VB.Form Form1
       NoFolders       =   0   'False
       Transparent     =   0   'False
       ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-      Location        =   "http:///"
+      Location        =   ""
    End
    Begin VB.PictureBox web_Picture 
       BorderStyle     =   0  'None
@@ -880,6 +881,7 @@ Begin VB.Form Form1
       ScaleWidth      =   11415
       TabIndex        =   21
       Top             =   960
+      Visible         =   0   'False
       Width           =   11415
       Begin SHDocVwCtl.WebBrowser Web_Browser 
          Height          =   4575
@@ -905,7 +907,7 @@ Begin VB.Form Form1
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   "http:///"
+         Location        =   ""
       End
    End
    Begin VB.Image process_Image 
@@ -1305,7 +1307,7 @@ Private Function ScriptDownload(ByVal mode As DownloadMode) As Boolean
         Set doc = BrowserW.WebBrowser.Document
         'Set objhtml = doc.Body.createtextrange
         'Html_Temp =doc.Body.OuterHtml
-        Err.Number = 0
+        Err.Clear
         Html_Temp = doc.All(0).outerHTML
         If Err.Number <> 0 Or Trim(Html_Temp) = "" Then Html_Temp = doc.All(1).outerHTML
         BrowserW.WebBrowser.Stop
@@ -1320,7 +1322,7 @@ End Function
 Private Sub CheckScriptError()
     If Err.Number <> 0 Then
         Call MsgBox("错误：" & vbCrLf & Err.Description, vbOKOnly + vbExclamation, "执行脚本错误")
-        Err.Number = 0
+        Err.Clear
     End If
 End Sub
 
@@ -2216,8 +2218,6 @@ List1_url_copy:
     Next
     If copy_txt <> "" Then
         Clipboard.Clear
-        'copy_txt = fix_Unicode_FileName(copy_txt)
-        'SetClipboardText copy_txt
         Clipboard.SetText copy_txt
     End If
     List1.Enabled = True
@@ -3363,9 +3363,7 @@ Private Sub List1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y 
 End Sub
 
 Private Sub makelist_command_Click()
-    
     On Error Resume Next
-    
     Web_Browser.Stop
     
     If Proxy_img(0).Visible = True And proxy_warning = vbOK Then
@@ -3478,7 +3476,7 @@ Private Sub makelist_command_Click()
     End Select
     
     
-    url_input.Text = "http://photo.163.com/photos/" & url_check(0) & "/" & url_check(1) & "/"
+    url_input.Text = "http://photo.163.com/" & url_check(0) & "/#aid=" & url_check(1)
     '---------------------------------------------------------------------------------------
     
     form_quit = False
@@ -3507,15 +3505,9 @@ Private Sub makelist_command_Click()
     
     url_temp = Trim$(url_input.Text)
     
-    '163pic Url----------------------------------------------------------------------------
-    
-    url_temp = Mid$(url_input.Text, InStr(url_input.Text, "photo.163.com/photos/") + 21)
-    strURL = Mid$(url_temp, 1, InStr(url_temp, "/") - 1)
-    url_temp = Mid$(url_temp, InStr(url_temp, "/") + 1)
-    url_temp = Mid$(url_temp, 1, InStr(url_temp, "/") - 1)
-    
-    list_163pic strURL, url_temp, ""
-    
+    '163pic Url------------------------------------------------
+    url_temp = url_input.Text
+    list_163pic url_check(0), url_check(1), ""
     '----------------------------------------------------------
     
     
@@ -3553,11 +3545,8 @@ Private Sub makelist_command_Click()
     End If
     
     '--------------------------创建url文件----------------------------
-    Dim url_file_name As String
-    url_file_name = rename_URL(url_input.Text)
-    If List1.ListItems.count > 0 And Dir(App_path & "\url\" & url_file_name) = "" Then
-        If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
-        WriteUnicodeIni "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
+    If List1.ListItems.count > 0 Then
+        Call OX_CreateUrlIniFile(rename_URL(url_input.Text))
         url_Filelist.Refresh
     End If
     '----------------------------------------------------------------
@@ -3642,9 +3631,8 @@ Private Sub new163pic_list(ByVal input_User_Name As String, ByVal input_Album_ID
     End If
     
     '------------------------------创建url文件----------------------------------
-    If List1.ListItems.count > 0 And Dir(App_path & "\url\" & url_file_name) = "" Then
-        If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
-        WriteUnicodeIni "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
+    If List1.ListItems.count > 0 Then
+        Call OX_CreateUrlIniFile(url_file_name)
         url_Filelist.Refresh
     End If
     '----------------------------------------------------------------
@@ -4350,7 +4338,6 @@ Private Sub url_Filelist_Click()
         url_input_DblClick
     End If
 End Sub
-
 
 Private Sub url_input_LostFocus()
     url_Filelist.Visible = False
@@ -5609,8 +5596,8 @@ Private Sub list_save(ByVal list_name)
     
     script_code_str = ""
     
-    If Dir(App_path & "\include\OX163_htmlst_include.vbs") <> "" Then
-        script_code_str = load_Script(App_path & "\include\OX163_htmlst_include.vbs")
+    If Dir(App_path & "\include\sys\OX163_htmlst_include.vbs") <> "" Then
+        script_code_str = load_Script(App_path & "\include\sys\OX163_htmlst_include.vbs")
     End If
     
     If script_code_str = "" Then script_code_str = "<script language='javascript'>function loadxunlei(){var Thunder=null;try{Thunder=new ActiveXObject('ThunderAgent.Agent')}catch(e){var Thunder=null};for(i=1;i<gPhotoID.length;i++){Thunder.AddTask4(gPhotoInfo[i][0],gPhotoInfo[i][1],'','',gPhotoInfo[i][2],-1,0,-1,gPhotoInfo[i][3],'','');};Thunder.CommitTasks2(1);};</script><input type='submit' name='xunlei' id='xunlei' value='调用迅雷下载' onclick='javascript:loadxunlei()'><br /><br />"
@@ -5771,11 +5758,11 @@ Private Sub save_list_image(ByVal floder_path)
             List1.ListItems(i).Bold = True
             List1.ListItems(i).ForeColor = vbRed
             
-
+            
             
             download_FileName = floder_path & "\" & name_rules_add & List1.ListItems(i).ListSubItems(1).Text
             strURL = Trim$(List1.ListItems(i).ListSubItems(3).Text)
-
+            
             If form_quit = True Then GoTo end_sub
             m_lngDocSize = 0
             old_FileSize = 0
@@ -6337,7 +6324,7 @@ re_len:
     
     temp_filename = path_filename & s_filename & end_filename '创建完整文件路径
     
-    Err.Number = 0
+    Err.Clear
     dir_tf = Dir(temp_filename) 'Di完整文件路径，如果出错，表示win不能创建该文件
     If Err.Number <> 0 And filename_len > 2 Then
         filename_len = filename_len - 1
@@ -6347,11 +6334,13 @@ re_len:
         Exit Sub
     End If
     
-    s_filename = fix_Unicode_FileName(s_filename) '修复含有unicode字符的文件名
-    end_filename = fix_Unicode_FileName(end_filename) '修复含有unicode字符的文件名
+    If sysSet.Unicode_File = 0 Then
+        s_filename = fix_Unicode_FileName(s_filename) '修复含有unicode字符的文件名
+        end_filename = fix_Unicode_FileName(end_filename) '修复含有unicode字符的文件名
+    End If
     temp_filename = path_filename & s_filename & end_filename '创建完整文件路径
     
-    Err.Number = 0
+    Err.Clear
     If OX_Dirfile(temp_filename) = True And sysSet.file_compare = 2 Then
         old_FileSize = -1
         download_FileName = ""
@@ -6374,9 +6363,9 @@ restart:
     End If
     
     If OX_GreatFile(temp_filename) = True Then
-    download_FileName = GetShortName(temp_filename)
+        download_FileName = GetShortName(temp_filename)
     Else
-    download_FileName = ""
+        download_FileName = ""
     End If
     'download_FileName = temp_filename
 End Sub
@@ -6398,7 +6387,7 @@ End Sub
 
 Private Function is_username(ByVal username As String) As Boolean
     is_username = True
-    If Len(username) > 2 And Len(username) < 35 Then
+    If Len(username) > 2 And Len(username) < 50 Then
         For i = 1 To Len(username)
             DoEvents
             If InStr("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@", Mid$(username, i, 1)) < 1 Then is_username = False: Exit Function
@@ -6462,306 +6451,184 @@ Private Sub user_open()
     
     '>你试图访问的相册地址不存在，请检查你输入的地址是否正确。<
     ', albumUrl : '
-    
+    Html_Temp = Replace(Html_Temp, " ", "")
     '------------------------------------------------------------------------------
-    If InStr(Html_Temp, "albumUrl       : '") > 0 Then
-    '新相册模式--------------------------------------------------------------------
-    pass_code = "new163_pass"
-    ', albumUrl : 'http://s1.photo.163.com/xu47UZNLlyzc91_-vcTcRw==/139048638495096616.js',
-    fast_down.Cancel
-    
-    Html_Temp = Mid$(Html_Temp, InStr(Html_Temp, "albumUrl       : '") + Len("albumUrl       : '"))
-    strURL = Mid$(Html_Temp, 1, InStr(Html_Temp, "'") - 1)
-    Html_Temp = ""
-    
-    download_ok = False
-    start_fast
-    
-    Do While download_ok = False
-        If form_quit = True Then GoTo end_user_open
-        DoEvents
-        Sleep 10
-        DoEvents
-    Loop
-    
-    '----------------定义url文件名----------------------------------------------------
-    url_file_name = rename_URL("http://photo.163.com/photo/" & url_input.Text & "/")
-    pw_163 = App_path & "\url\" & url_file_name
-    
-    If Dir(pw_163) <> "" Then
-        pw_file_tf = True
-    Else
-        pw_file_tf = False
-    End If
-    '----------------列表相册----------------------------------------------------
-    
-    If InStr(Html_Temp, "=[{id:") > 0 Then
-        runtime_Label = "正在分析" & url_input.Text & "相册列表"
-        Label_url1.caption = runtime_Label
+    '------------------------------------------------------------------------------
+    '------------------------------------------------------------------------------
+    If InStr(Html_Temp, "albumUrl:'") > 0 Then
+        '新相册模式--------------------------------------------------------------------
+        pass_code = "new163_pass"
+        ', albumUrl : 'http://s1.photo.163.com/xu47UZNLlyzc91_-vcTcRw==/139048638495096616.js',
+        fast_down.Cancel
         
-        'var g_a$514028s='1187485;1187484;1187472;1187470;1187468;1187464;1187460;1187457;1187456;1187453;1530930;';
-        'var g_a$514028d=[{id:
-        '1187468,name:'虫袄 虫师二十景 漆原友纪画集 ',s:3,desc:'蟲師二十景 漆原友紀画集',st:1,au:0,count:14,t:1220710254100,ut:0,curl:'396/HjWuimtpsp-486EMHXLQ3A==/3070610520936616491.jpg',surl:'396/OO0u-aWixlqZ2iVH5rT2vg==/3070610520936616515.jpg',dmt:1220924333238,alc:true,comm:'',comdmt:0,kw:'',purl:'s1.photo.163.com/2vNO5QX8iwqKXVr2xX2Oiw==/72620543991354232.js'
-        '},{id:
-        '1530930,name:'password_text',s:0,desc:'password_text',st:1,au:1,count:0,t:1221048756165,ut:0,curl:'',surl:'',dmt:1221583000801,alc:true,comm:'',comdmt:0,kw:'',purl:''}];
-        
-        
-        Html_Temp = Replace$(Replace$(Html_Temp, Chr(13), ""), Chr(10), "")
-        
-        
-        Html_Temp = Mid$(Html_Temp, InStr(Html_Temp, "=[{id:") + 6) '定位到第一个相册的ID头
-        Html_Temp = Mid$(Html_Temp, 1, InStr(Html_Temp, "'}];") - 1) '定位最后一个相册
-        
-        albumsINFO = Split(Html_Temp, "'},{id:")
-        
+        Html_Temp = Mid$(Html_Temp, InStr(Html_Temp, "albumUrl:'") + Len("albumUrl:'"))
+        strURL = Mid$(Html_Temp, 1, InStr(Html_Temp, "'") - 1)
         Html_Temp = ""
         
-        iCount = UBound(albumsINFO)
+        download_ok = False
+        start_fast
         
-        For cout_num = 0 To iCount
-            DoEvents
-            '1187484,
-            'name:'Emma(MaxFactory)2007-2-48',
-            's:3,desc:'Emma(MaxFactory)(2007-4-28)\r\n英国恋物语 艾玛\r\n英國戀物語エマ',
-            'st:1,au:0,count:24,t:1220710254259,ut:0,curl:'463/zCkQnRZRsGTajD3mPmWbPg==/2529052665745287561.jpg',surl:'463/WSgM5FA6TcNz6wDpA5Lygg==/2529052665745287567.jpg',
-            'dmt:1415505726,alc:true,comm:'',comdmt:0,kw:'',
-            'purl:'s1.photo.163.com/F_NKGYPejc2IEsiRlW6glw==/46443371157270973.js
-            
-            temp(0) = Mid$(albumsINFO(cout_num), InStr(albumsINFO(cout_num), ",name:'") + 7)
-            temp(3) = temp(0)
-            
-            temp(0) = Trim(Mid$(temp(0), 1, InStr(temp(0), "'") - 1))
-            If temp(0) = "" Then temp(0) = url_input.Text & "[Noname_Albums]"
-            
-            
-            temp(3) = Mid$(temp(3), InStr(temp(3), "'") + 1)
-            temp(3) = Mid$(temp(3), InStr(temp(3), ",desc:'") + 7)
-            temp(2) = temp(3)
-            temp(1) = temp(3)
-            
-            temp(3) = Trim(Mid$(temp(3), 1, InStr(temp(3), "'") - 1))
-            
-            temp(1) = Mid$(temp(1), InStr(temp(1), "'") + 1)
-            temp(1) = Mid$(temp(1), InStr(temp(1), "au:") + 3)
-            temp(1) = Trim(Mid$(temp(1), 1, InStr(temp(1), ",") - 1))
-            
-            temp(2) = Mid$(temp(2), InStr(temp(2), "'") + 1)
-            temp(2) = Mid$(temp(2), InStr(temp(2), "count:") + 6)
-            temp(2) = Trim(Mid$(temp(2), 1, InStr(temp(2), ",") - 1))
-            If IsNumeric(temp(2)) Then
-                temp(2) = Format$(temp(2), "00000") & "张"
-            Else
-                temp(2) = ""
-            End If
-            
-            albumsID = ""
-            
-            albumsID = Trim(Mid$(albumsINFO(cout_num), InStrRev(albumsINFO(cout_num), "'") + 1))
-            
-            If albumsID = "" Then
-                albumsID = "new163_ID_" & Mid$(albumsINFO(cout_num), 1, InStr(albumsINFO(cout_num), ",") - 1)
-            Else
-                albumsID = "http://" & albumsID
-            End If
-            
-            If temp(1) = "1" Then
-                temp(1) = ""
-                If pw_file_tf = True Then temp(1) = GetUnicodeIniStr("password", albumsID, pw_163)
-                If temp(1) = "" Then temp(1) = "请填写密码............" & vbCrLf & ".........."
-            Else
-                temp(1) = ""
-            End If
-            
-            'book_name temp(0)
-            user_list.ListItems.Add cout_num + 1, , fix_Code(unicode2asc(temp(0)))
-            'book_psw temp(1)
-            user_list.ListItems.Item(cout_num + 1).ListSubItems.Add , , temp(1)
-            'book_ID
-            user_list.ListItems.Item(cout_num + 1).ListSubItems.Add , , albumsID
-            'book_number temp(2)
-            user_list.ListItems.Item(cout_num + 1).ListSubItems.Add , , temp(2)
-            'book_disc temp(3)
-            user_list.ListItems.Item(cout_num + 1).ListSubItems.Add , , Format$(cout_num + 1, "00000") & " - " & fix_Code(unicode2asc(temp(3)))
-            'book_undown
-            user_list.ListItems.Item(cout_num + 1).ListSubItems.Add , , ""
-            
-            
-            count1.caption = cout_num + 1
-            
+        Do While download_ok = False
             If form_quit = True Then GoTo end_user_open
-            
-        Next
-        
-    End If
-    
-    If user_list.ListItems.count = 0 Then GoTo old_user_open
-    
-    '------------------------------------------------------------------------------
-Else
-    '老相册模式--------------------------------------------------------------------
-old_user_open:
-    
-    fast_down.Cancel
-    
-    strURL = Trim$("http://photo.163.com/js/albumsinfo.php?user=" & url_input.Text)
-    
-    download_ok = False
-    start_fast
-    
-    Do While download_ok = False
-        If form_quit = True Then GoTo end_user_open
-        DoEvents
-        Sleep 10
-        DoEvents
-    Loop
-    
-    '----------------定义url文件名----------------------------------------------------
-    url_file_name = rename_URL("http://photo.163.com/photos/" & url_input.Text & "/")
-    pw_163 = App_path & "\url\" & url_file_name
-    
-    
-    If Dir(pw_163) <> "" Then
-        pw_file_tf = True
-    Else
-        pw_file_tf = False
-    End If
-    
-    '----------------列表相册----------------------------------------------------
-    
-    
-    If InStr(Html_Temp, "gAlbumsIds[") > 0 Then
-        
-        runtime_Label = "正在分析" & url_input.Text & "相册列表"
-        Label_url1.caption = runtime_Label
-        'var hasAlbum = true;
-        'var hasCover = true;
-        'var gAlbumsInfo = {};
-        'var gAlbumsIds = [];
-        'gAlbumsIds[0] = 135032974;
-        'gAlbumsInfo[135032974] = ["http://img.photo.163.com/q4wqtDRTcXLvigwF1C_28A==/138204213568851785.jpg?2483x3487",1,101,"Mon-Mon Candy","Mon-Mon Candy (French)"];
-        'gAlbumsIds[1] = 135032915;
-        'gAlbumsInfo[135032915] = ["http://img.photo.163.com/OZiJWOJEmJuT1liEBF_idQ==/173388585654650670.jpg?2427x3489",1,53,"Magicu Vol 40","[pireze]Magicu Vol 40"];
-        'gAlbumsIds[2] = 134861092;
-        'gAlbumsInfo[134861092] = ["0.0.0.130x98",2,816,"\u7535\u5b50\u6e38\u620f\u8f6f\u4ef6 07\u5e749\u81f315\u671f ","\u7535\u5b50\u6e38\u620f\u8f6f\u4ef6 07\u5e749\u81f315\u671f "];
-        'gAlbumsIds[3] = 134810875;
-        'gAlbumsInfo[134810875] = ["http://img.photo.163.com/nVRVx2SGl5L6L_BuPYPZiw==/591660401045859417.jpg?4878x3467",1,14,"\u62e5\u62b1\u6625\u5929 calendar 2005","[Youka Nitta art] Haru wo daiteita calendar 2005"];
-        '------------------------------------------------------------------------------
-        
-        Html_Temp = Replace$(Replace$(Html_Temp, Chr(13), ""), Chr(10), "")
-        
-        
-        Html_Temp = Mid$(Html_Temp, InStr(Html_Temp, "gAlbumsIds[") + 11) '定位到第一个相册的ID头
-        Html_Temp = Mid$(Html_Temp, 1, Len(Html_Temp) - 3) '定位最后一个相册
-        
-        albumsINFO = Split(Html_Temp, Chr(34) & "];gAlbumsIds[")
-        
-        Html_Temp = ""
-        
-        iCount = UBound(albumsINFO)
-        
-        For cout_num = 0 To iCount
             DoEvents
-            albumsINFO(cout_num) = Mid$(albumsINFO(cout_num), InStr(albumsINFO(cout_num), ";gAlbumsInfo[") + 13)
-            albumsID = Mid$(albumsINFO(cout_num), 1, InStr(albumsINFO(cout_num), "] = [") - 1)
-            html_sort = Mid$(albumsINFO(cout_num), InStr(albumsINFO(cout_num), "] = [") + 5)
-            
-            
-            '格式 0.0.0.130x98",1,0,"adaasdasd","asdadassada
-            '格式 http://img.photo.163.com/WJUeHubazGog9Nn9mBVT8A==/14073748838883748.jpg?2000x1393",1,64,"Macr,oss画集 ","Mac,ross画集
-            '格式 536.1720686103.1.475x474",1,4,"jpg伪图工具 ","frar.exe
-            '格式 0.0.0.130x98",2,26,"test asd{}[]&lt;&gt;./*?&amp;%&quot;,&#039;,,, ","test
-            
-            albums = Split(html_sort, ",")
-            
-            If albums(1) = 2 Then
-                temp(1) = ""
-                If pw_file_tf = True Then temp(1) = GetUnicodeIniStr("password", albumsID, pw_163)
-                If temp(1) = "" Then temp(1) = "请填写密码............" & vbCrLf & ".........."
-            Else
-                temp(1) = ""
-            End If
-            
-            temp(2) = albums(2)
-            
-            albums = Split(Mid$(html_sort, InStr(html_sort, "," & Chr(34)) + 2), Chr(34) & "," & Chr(34)) '再次分配防止备注内容含有“,”出现分割错误
-            
-            temp(0) = Trim(albums(0))
-            If temp(0) = "" Then temp(0) = url_input.Text & "[Noname_Albums]"
-            
-            temp(3) = Trim$(albums(1))
-            
-            'book_name temp(0)
-            user_list.ListItems.Add cout_num + 1, , fix_Code(unicode2asc(temp(0)))
-            'book_psw temp(1)
-            user_list.ListItems.Item(cout_num + 1).ListSubItems.Add , , temp(1)
-            'book_ID
-            user_list.ListItems.Item(cout_num + 1).ListSubItems.Add , , albumsID
-            'book_number temp(2)
-            user_list.ListItems.Item(cout_num + 1).ListSubItems.Add , , Format$(temp(2), "00000") & "张"
-            'book_disc temp(3)
-            user_list.ListItems.Item(cout_num + 1).ListSubItems.Add , , Format$(cout_num + 1, "00000") & " - " & fix_Code(unicode2asc(temp(3)))
-            'book_undown
-            user_list.ListItems.Item(cout_num + 1).ListSubItems.Add , , ""
-            
-            
-            count1.caption = cout_num + 1
-            
-            If form_quit = True Then GoTo end_user_open
-            
-        Next
+            Sleep 10
+            DoEvents
+        Loop
         
+        '----------------定义url文件名----------------------------------------------------
+        url_file_name = rename_URL("http://photo.163.com/" & url_input.Text & "/")
+        pw_163 = App_path & "\url\" & url_file_name
+        
+        If Dir(pw_163) <> "" Then
+            pw_file_tf = True
+        Else
+            pw_file_tf = False
+        End If
+        '----------------列表相册----------------------------------------------------
+        
+        If InStr(Html_Temp, "=[{id:") > 0 Then
+            runtime_Label = "正在分析" & url_input.Text & "相册列表"
+            Label_url1.caption = runtime_Label
+            
+            'var g_a$514028s='1187485;1187484;1187472;1187470;1187468;1187464;1187460;1187457;1187456;1187453;1530930;';
+            'var g_a$514028d=[{id:
+            '1187468,name:'虫袄 虫师二十景 漆原友纪画集 ',s:3,desc:'蟲師二十景 漆原友紀画集',st:1,au:0,count:14,t:1220710254100,ut:0,curl:'396/HjWuimtpsp-486EMHXLQ3A==/3070610520936616491.jpg',surl:'396/OO0u-aWixlqZ2iVH5rT2vg==/3070610520936616515.jpg',dmt:1220924333238,alc:true,comm:'',comdmt:0,kw:'',purl:'s1.photo.163.com/2vNO5QX8iwqKXVr2xX2Oiw==/72620543991354232.js'
+            '},{id:
+            '1530930,name:'password_text',s:0,desc:'password_text',st:1,au:1,count:0,t:1221048756165,ut:0,curl:'',surl:'',dmt:1221583000801,alc:true,comm:'',comdmt:0,kw:'',purl:''}];
+            
+            
+            Html_Temp = Replace$(Replace$(Html_Temp, Chr(13), ""), Chr(10), "")
+            
+            
+            Html_Temp = Mid$(Html_Temp, InStr(Html_Temp, "=[{id:") + 6) '定位到第一个相册的ID头
+            Html_Temp = Mid$(Html_Temp, 1, InStr(Html_Temp, "'}];") - 1) '定位最后一个相册
+            
+            albumsINFO = Split(Html_Temp, "'},{id:")
+            
+            Html_Temp = ""
+            
+            iCount = UBound(albumsINFO)
+            
+            For cout_num = 0 To iCount
+                DoEvents
+                '1187484,
+                'name:'Emma(MaxFactory)2007-2-48',
+                's:3,desc:'Emma(MaxFactory)(2007-4-28)\r\n英国恋物语 艾玛\r\n英國戀物語エマ',
+                'st:1,au:0,count:24,t:1220710254259,ut:0,curl:'463/zCkQnRZRsGTajD3mPmWbPg==/2529052665745287561.jpg',surl:'463/WSgM5FA6TcNz6wDpA5Lygg==/2529052665745287567.jpg',
+                'dmt:1415505726,alc:true,comm:'',comdmt:0,kw:'',
+                'purl:'s1.photo.163.com/F_NKGYPejc2IEsiRlW6glw==/46443371157270973.js
+                
+                temp(0) = Mid$(albumsINFO(cout_num), InStr(albumsINFO(cout_num), ",name:'") + 7)
+                temp(3) = temp(0)
+                
+                temp(0) = Trim(Mid$(temp(0), 1, InStr(temp(0), "'") - 1))
+                If temp(0) = "" Then temp(0) = url_input.Text & "[Noname_Albums]"
+                
+                
+                temp(3) = Mid$(temp(3), InStr(temp(3), "'") + 1)
+                temp(3) = Mid$(temp(3), InStr(temp(3), ",desc:'") + 7)
+                temp(2) = temp(3)
+                temp(1) = temp(3)
+                
+                temp(3) = Trim(Mid$(temp(3), 1, InStr(temp(3), "'") - 1))
+                
+                temp(1) = Mid$(temp(1), InStr(temp(1), "'") + 1)
+                temp(1) = Mid$(temp(1), InStr(temp(1), "au:") + 3)
+                temp(1) = Trim(Mid$(temp(1), 1, InStr(temp(1), ",") - 1))
+                
+                temp(2) = Mid$(temp(2), InStr(temp(2), "'") + 1)
+                temp(2) = Mid$(temp(2), InStr(temp(2), "count:") + 6)
+                temp(2) = Trim(Mid$(temp(2), 1, InStr(temp(2), ",") - 1))
+                If IsNumeric(temp(2)) Then
+                    temp(2) = Format$(temp(2), "00000") & "张"
+                Else
+                    temp(2) = ""
+                End If
+                
+                albumsID = ""
+                
+                albumsID = Trim(Mid$(albumsINFO(cout_num), InStrRev(albumsINFO(cout_num), "'") + 1))
+                
+                If albumsID = "" Then
+                    albumsID = "new163_ID_" & Mid$(albumsINFO(cout_num), 1, InStr(albumsINFO(cout_num), ",") - 1)
+                Else
+                    albumsID = "http://" & albumsID
+                End If
+                
+                If temp(1) = "1" Then
+                    temp(1) = ""
+                    If pw_file_tf = True Then temp(1) = GetUnicodeIniStr("password", albumsID, pw_163)
+                    If temp(1) = "" Then temp(1) = "请填写密码............" & vbCrLf & ".........."
+                Else
+                    temp(1) = ""
+                End If
+                
+                'book_name temp(0)
+                user_list.ListItems.Add cout_num + 1, , fix_Code(unicode2asc(temp(0)))
+                'book_psw temp(1)
+                user_list.ListItems.Item(cout_num + 1).ListSubItems.Add , , temp(1)
+                'book_ID
+                user_list.ListItems.Item(cout_num + 1).ListSubItems.Add , , albumsID
+                'book_number temp(2)
+                user_list.ListItems.Item(cout_num + 1).ListSubItems.Add , , temp(2)
+                'book_disc temp(3)
+                user_list.ListItems.Item(cout_num + 1).ListSubItems.Add , , Format$(cout_num + 1, "00000") & " - " & Str_unicode_Ctrl(fix_Code(unicode2asc(temp(3))))
+                'book_undown
+                user_list.ListItems.Item(cout_num + 1).ListSubItems.Add , , ""
+                
+                
+                count1.caption = cout_num + 1
+                If form_quit = True Then GoTo end_user_open
+            Next
+        End If
     End If
-    
     '------------------------------------------------------------------------------
-End If
-'------------------------------------------------------------------------------
-
+    '------------------------------------------------------------------------------
+    '------------------------------------------------------------------------------
+    
 end_user_open:
-
-If sysSet.check_all = True Then menu_all_Click
-
-user_list.ListItems.Item(1).Selected = False
-
-user_list.Visible = True
-
-end_three
-form_quit = True
-'Timer2.Enabled = False
-Form1.Icon = ico(0).Picture
-If now_tray = True Then
-    TrayI.hIcon = ico(0).Picture
-    TrayI.uFlags = NIF_ICON
-    Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
-End If
-
-count1.caption = user_list.ListItems.count
-Label_url1.Visible = False
-
-If Form1.WindowState = 0 Then
-    Select Case user_list.ListItems.count
-    Case 0
-        list_back1_Click
-    Case Is < 7
-    Case Is < 15
-        Form1.Height = Form1.Height + (user_list.ListItems.count - 6) * 250
-    Case Else
-        Form1.Height = Form1.Height + 9 * 250
-    End Select
-End If
-
-
-'----------------创建url文件名----------------------------------------------------
-'http://photo.163.com/photos/wehi/
-If user_list.ListItems.count > 0 And Dir(App_path & "\url\" & url_file_name) = "" Then
-    If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
-    WriteUnicodeIni "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
-    url_Filelist.Refresh
-End If
-'--------------------------------------------------------------------
-
-
-user_list.SetFocus
-
+    
+    If sysSet.check_all = True Then menu_all_Click
+    
+    user_list.ListItems.Item(1).Selected = False
+    
+    user_list.Visible = True
+    
+    end_three
+    form_quit = True
+    'Timer2.Enabled = False
+    Form1.Icon = ico(0).Picture
+    If now_tray = True Then
+        TrayI.hIcon = ico(0).Picture
+        TrayI.uFlags = NIF_ICON
+        Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
+    End If
+    
+    count1.caption = user_list.ListItems.count
+    Label_url1.Visible = False
+    
+    If Form1.WindowState = 0 Then
+        Select Case user_list.ListItems.count
+        Case 0
+            list_back1_Click
+        Case Is < 7
+        Case Is < 15
+            Form1.Height = Form1.Height + (user_list.ListItems.count - 6) * 250
+        Case Else
+            Form1.Height = Form1.Height + 9 * 250
+        End Select
+    End If
+    
+    
+    '----------------创建url文件名---------------------------------------
+    If user_list.ListItems.count > 0 Then
+        Call OX_CreateUrlIniFile(url_file_name)
+        url_Filelist.Refresh
+    End If
+    '--------------------------------------------------------------------
+    
+    user_list.SetFocus
+    
 End Sub
 
 Private Sub start_three()
@@ -6942,8 +6809,8 @@ retry_new_password:
     
     script_code_str = ""
     
-    If Dir(App_path & "\include\OX163_htmlst_include.vbs") <> "" Then
-        script_code_str = load_Script(App_path & "\include\OX163_htmlst_include.vbs")
+    If Dir(App_path & "\include\sys\OX163_htmlst_include.vbs") <> "" Then
+        script_code_str = load_Script(App_path & "\include\sys\OX163_htmlst_include.vbs")
     End If
     
     If script_code_str = "" Then script_code_str = "<script language='javascript'>function loadxunlei(){var Thunder=null;try{Thunder=new ActiveXObject('ThunderAgent.Agent')}catch(e){var Thunder=null};for(i=1;i<gPhotoID.length;i++){Thunder.AddTask4(gPhotoInfo[i][0],gPhotoInfo[i][1],'','',gPhotoInfo[i][2],-1,0,-1,gPhotoInfo[i][3]);};Thunder.CommitTasks2(1);};</script><input type='submit' name='xunlei' id='xunlei' value='调用迅雷下载' onclick='javascript:loadxunlei()'><br /><br />"
@@ -7567,7 +7434,7 @@ new163_password_OK:
                     End If
                     
                     If form_quit = True Then GoTo end_sub
-
+                    
                     m_lngDocSize = 0
                     old_FileSize = 0
                     check_FileName
@@ -7684,6 +7551,7 @@ Private Sub Web_Browser_NewWindow2(ppDisp As Object, Cancel As Boolean)
         new_win = False
     End If
 End Sub
+
 
 Private Sub Web_Search_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
     On Error Resume Next
@@ -7951,7 +7819,7 @@ check_2nd:
                 'list_picName a
                 List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , a
                 'list_picDisc
-                List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , fix_Pix(Mid(html_sort(0), InStr(html_sort(0), Chr(34)) + 1)) & " - " & fix_Code(unicode2asc(Trim$(html_sort(1))))
+                List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , fix_Pix(Mid(html_sort(0), InStr(html_sort(0), Chr(34)) + 1)) & " - " & Str_unicode_Ctrl(fix_Code(unicode2asc(Trim$(html_sort(1)))))
                 'list_picUrl temp(2)
                 List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , b
                 
@@ -8029,7 +7897,7 @@ check_2nd:
                 'list_picName a
                 List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , a
                 'list_picDisc
-                List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , fix_Pix(Mid(html_sort(0), InStr(html_sort(0), Chr(34)) + 1)) & " - " & fix_Code(unicode2asc(Trim$(html_sort(1))))
+                List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , fix_Pix(Mid(html_sort(0), InStr(html_sort(0), Chr(34)) + 1)) & " - " & Str_unicode_Ctrl(fix_Code(unicode2asc(Trim$(html_sort(1)))))
                 'list_picUrl temp(2)
                 List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , b
                 
@@ -8139,10 +8007,9 @@ Private Sub run_script()
             End Select
         End If
         
-        '------------------------------创建url文件----------------------------------
-        If List1.ListItems.count > 0 And Dir(App_path & "\url\" & url_file_name) = "" Then
-            If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
-            WriteUnicodeIni "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
+        '------------------------------创建url文件-----------------------
+        If List1.ListItems.count > 0 Then
+            Call OX_CreateUrlIniFile(url_file_name)
             url_Filelist.Refresh
         End If
         '----------------------------------------------------------------
@@ -8218,9 +8085,8 @@ Private Sub run_script()
         End If
         
         '------------------------------创建url文件----------------------------------
-        If user_list.ListItems.count > 0 And Dir(App_path & "\url\" & url_file_name) = "" Then
-            If Dir(App_path & "\url", vbDirectory) = "" Then MkDir App_path & "\url"
-            WriteUnicodeIni "maincenter", "url", url_file_name, App_path & "\url\" & url_file_name
+        If user_list.ListItems.count > 0 Then
+            Call OX_CreateUrlIniFile(url_file_name)
             url_Filelist.Refresh
         End If
         '----------------------------------------------------------------
@@ -8249,7 +8115,7 @@ Private Sub list_photo_script(ByVal photo_info)
     top_Picture(1).Enabled = False
     'get cookies----------------------------------------------------------------
     cookies_text = GetCookie(Script_Info.Criteria)
-    Err.Number = 0
+    Err.Clear
     Call Script_App.Run("set_urlpagecookies", cookies_text)
     Call CheckScriptError
     '---------------------------------------------------------------------------
@@ -8287,7 +8153,7 @@ Private Sub list_photo_script(ByVal photo_info)
         top_Picture(1).Enabled = False
         'get cookies---------------------------------------------------------------------------------
         cookies_text = GetCookie(Dl_Info.downloadURL)
-        Err.Number = 0
+        Err.Clear
         Call Script_App.Run("set_urlpagecookies", cookies_text)
         Call CheckScriptError
         'list Photo Url 取得照片链接地址等信息------------------------------------------------------
@@ -8354,7 +8220,7 @@ Private Sub list_album_script(ByVal album_info)
     top_Picture(1).Enabled = False
     'get cookies----------------------------------------------------------------
     cookies_text = GetCookie(Script_Info.Criteria)
-    Err.Number = 0
+    Err.Clear
     Call Script_App.Run("set_urlpagecookies", cookies_text)
     Call CheckScriptError
     '---------------------------------------------------------------------------
@@ -8391,10 +8257,10 @@ Private Sub list_album_script(ByVal album_info)
         If Form1.WindowState = 0 Then always_on_top False
         top_Picture(0).Enabled = False
         top_Picture(1).Enabled = False
-        Err.Number = 0
+        Err.Clear
         'get cookies---------------------------------------------------------------------------------
         cookies_text = GetCookie(Dl_Info.downloadURL)
-        Err.Number = 0
+        Err.Clear
         Call Script_App.Run("set_urlpagecookies", cookies_text)
         Call CheckScriptError
         'list albums Url 取得相册链接地址等信息------------------------------------------------------
@@ -8464,7 +8330,7 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
     top_Picture(1).Enabled = False
     'get cookies----------------------------------------------------------------
     cookies_text = GetCookie(Script_Info.Criteria)
-    Err.Number = 0
+    Err.Clear
     Call Script_App.Run("set_urlpagecookies", cookies_text)
     Call CheckScriptError
     '---------------------------------------------------------------------------
@@ -8519,7 +8385,7 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
             top_Picture(1).Enabled = False
             'get cookies---------------------------------------------------------------------------------
             cookies_text = GetCookie(Dl_Info.downloadURL)
-            Err.Number = 0
+            Err.Clear
             Call Script_App.Run("set_urlpagecookies", cookies_text)
             Call CheckScriptError
             '--------------------------------------------------------------------------------------

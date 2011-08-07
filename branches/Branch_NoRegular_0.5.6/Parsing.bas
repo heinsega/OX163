@@ -49,11 +49,11 @@ Public Function check_Include(ByVal url_str As String) As String
     On Error Resume Next
     
     check_Include = ""
-    If Dir(App_path & "\include\include.txt") = "" Then Exit Function
+    If Dir(App_path & "\include\sys\include.txt") = "" Then Exit Function
     
     Dim include_str, include_str1
     
-    include_str = load_Script(App_path & "\include\include.txt")
+    include_str = load_Script(App_path & "\include\sys\include.txt")
     If include_str = "" Then Exit Function
     
     include_str = Split(Trim$(include_str), vbCrLf)
@@ -65,7 +65,7 @@ Public Function check_Include(ByVal url_str As String) As String
             include_str1 = Split(include_str(i), "|")
             
             If UBound(include_str1) < 4 Then GoTo next_i
-            If Dir(App_path & "\include\" & include_str1(0)) = "" Then GoTo next_i
+            If Dir(App_path & "\include\sys\" & include_str1(0)) = "" Then GoTo next_i
             If LCase$(include_str1(1)) <> "vbscript" And LCase$(include_str1(1)) <> "javascript" Then GoTo next_i
             If include_str1(2) = "" Then GoTo next_i
             If LCase$(include_str1(3)) <> "photo" And LCase$(include_str1(3)) <> "album" Then GoTo next_i
@@ -171,7 +171,7 @@ Public Function ParseAlbum(ByVal sourceString As String) As AlbumInfo()
             For j = 4 To UBound(ParseAlbumInfoSplit)
                 ParseAlbumInfo(i).Description = ParseAlbumInfo(i).Description & ParseAlbumInfoSplit(j)
             Next j
-            ParseAlbumInfo(i).Description = fix_Code(Trim$(ParseAlbumInfo(i).Description))
+            ParseAlbumInfo(i).Description = Str_unicode_Ctrl(fix_Code(Trim$(ParseAlbumInfo(i).Description)))
             '最后一行为下一页下载信息
         Else
             ParseAlbumInfo(i).URL = Trim$(ParseAlbumStrSplit(i))
@@ -216,7 +216,7 @@ Public Function ParsePhoto(ByVal sourceString As String) As PhotoInfo()
             For j = 3 To UBound(ParsePhotoInfoSplit)
                 ParsePhotoInfo(i).Description = ParsePhotoInfo(i).Description & ParsePhotoInfoSplit(j)
             Next j
-            ParsePhotoInfo(i).Description = fix_Code(Trim$(ParsePhotoInfo(i).Description))
+            ParsePhotoInfo(i).Description = Str_unicode_Ctrl(fix_Code(Trim$(ParsePhotoInfo(i).Description)))
             '最后一行为下一页下载信息
         Else
             ParsePhotoInfo(i).picURL = Trim$(ParsePhotoStrSplit(i))

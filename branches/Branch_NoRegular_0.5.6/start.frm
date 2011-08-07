@@ -145,7 +145,7 @@ Private Sub Timer1_Timer()
     End If
     Set test_Object = Nothing
     check_path = ""
-    Err.Number = 0
+    Err.Clear
     
     start_text.SelStart = Len(start_text.Text)
     '------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ Private Sub Timer1_Timer()
     End If
     If Err.Number <> 0 Then
         start_text.Text = start_text.Text & vbCrLf & "´íÎó" & Err.Number & "£º" & Err.Description
-        Err.Number = 0
+        Err.Clear
     Else
         start_text.Text = start_text.Text & "...OK"
     End If
@@ -178,7 +178,21 @@ Private Sub Timer1_Timer()
     End If
     
     Set test_Object = Nothing
-    Err.Number = 0
+    Err.Clear
+    
+    start_text.SelStart = Len(start_text.Text)
+    
+    '------------------------------------------------------------------------------------------
+    start_text.Text = start_text.Text & vbCrLf & "¼ì²écomdlg32.dll" & vbCrLf & "´´½¨CommonDialog"
+    Set test_Object = CreateObject("MSComDlg.CommonDialog.1")
+    If Err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & "´íÎó" & Err.Number & "£º" & Err.Description
+    Else
+        start_text.Text = start_text.Text & "...OK"
+    End If
+    
+    Set test_Object = Nothing
+    Err.Clear
     
     start_text.SelStart = Len(start_text.Text)
     
@@ -194,7 +208,7 @@ Private Sub Timer1_Timer()
     'End If
     '
     'Set test_Object = Nothing
-    'Err.Number = 0
+    'Err.Clear
     '
     'start_text.SelStart = Len(start_text.Text)
     '------------------------------------------------------------------------------------------
@@ -207,7 +221,7 @@ Private Sub Timer1_Timer()
     End If
     
     Set test_Object = Nothing
-    Err.Number = 0
+    Err.Clear
     
     start_text.SelStart = Len(start_text.Text)
     
@@ -221,7 +235,7 @@ Private Sub Timer1_Timer()
         start_text.Text = start_text.Text & "...OK"
     End If
     
-    Err.Number = 0
+    Err.Clear
     
     start_text.SelStart = Len(start_text.Text)
     
@@ -235,7 +249,7 @@ Private Sub Timer1_Timer()
     End If
     
     Set test_Object = Nothing
-    Err.Number = 0
+    Err.Clear
     
     start_text.SelStart = Len(start_text.Text)
     '------------------------------------------------------------------------------------------
@@ -250,7 +264,7 @@ Private Sub Timer1_Timer()
     
     If Err.Number <> 0 Then
         start_text.Text = start_text.Text & vbCrLf & "´íÎó£º" & Err.Description
-        Err.Number = 0
+        Err.Clear
     Else
         start_text.Text = start_text.Text & "...OK"
     End If
@@ -314,12 +328,16 @@ Private Sub Timer1_Timer()
         WriteIniStr "proxyset", "proxy_B_type", "icUseDefault"
         
         
+        WriteIniStr "maincenter", "Unicode_File", "0"
+        WriteIniStr "maincenter", "Unicode_Str", "0"
+        
+        
     End If
     
     
     If Err.Number <> 0 Then
         start_text.Text = start_text.Text & vbCrLf & "´íÎó£º" & Err.Description
-        Err.Number = 0
+        Err.Clear
     Else
         start_text.Text = start_text.Text & "...OK"
     End If
@@ -343,6 +361,9 @@ Private Sub Timer1_Timer()
     sysSet.fix_rar = CByte(GetIniStr("maincenter", "fix_rar"))
     sysSet.fix_rar_name = Trim(GetIniStr("maincenter", "fix_rar_name"))
     
+    sysSet.Unicode_File = CByte(GetIniStr("maincenter", "Unicode_File"))
+    sysSet.Unicode_Str = CByte(GetIniStr("maincenter", "Unicode_Str"))
+    
     sysSet.include_script = GetIniStr("maincenter", "include_script")
     
     sysSet.new163passcode_def(0) = GetIniStr("maincenter", "new163passcode_user")
@@ -354,7 +375,7 @@ Private Sub Timer1_Timer()
         sysSet.new163passcode_def(1) = "1530930"
         sysSet.new163passcode_def(2) = "asd"
     End If
-    
+
     sysSet.autocheck = GetIniTF("maincenter", "autocheck")
     sysSet.askquit = GetIniTF("maincenter", "askquit")
     sysSet.listshow = GetIniTF("maincenter", "listshow")
@@ -413,7 +434,7 @@ Private Sub Timer1_Timer()
     '------------------------------------------------------------------------------------------
     If Err.Number <> 0 Then
         start_text.Text = start_text.Text & vbCrLf & "´íÎó£º" & Err.Description
-        Err.Number = 0
+        Err.Clear
     Else
         start_text.Text = start_text.Text & "...OK"
     End If
@@ -434,7 +455,7 @@ reset_path:
     '------------------------------------------------------------------------------------------
     If Err.Number <> 0 Then
         start_text.Text = start_text.Text & vbCrLf & "´íÎó£º" & Err.Description
-        Err.Number = 0
+        Err.Clear
     Else
         start_text.Text = start_text.Text & "...OK"
     End If

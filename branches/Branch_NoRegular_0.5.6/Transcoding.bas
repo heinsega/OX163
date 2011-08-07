@@ -89,7 +89,9 @@ Public Function fix_Code(ByVal old_str As String) As String
     '&#39;  - '
     old_str = Replace$(old_str, "&#39;", "'")
     '&amp;  - &
-    fix_Code = Replace$(old_str, "&amp;", "&")
+    old_str = Replace$(old_str, "&amp;", "&")
+    
+    fix_Code = old_str
 End Function
 
 '修正文件名，去除不可用的字符
@@ -104,8 +106,17 @@ Public Function reName_Str(ByVal old_Name As String) As String
     reName_Str = Replace$(reName_Str, Chr(60), "[")
     reName_Str = Replace$(reName_Str, Chr(62), "]")
     reName_Str = Replace$(reName_Str, Chr(124), "_")
-        
-    reName_Str = Hex_unicode_str(reName_Str)
+    
+    
+    '0-默认,以"&#34;"方式显示列表,以原字符保存
+    '1-替换,字符替换为"&#34;"方式,不还原
+    '2-替除,字符替换为默认字符"_"
+    Select Case sysSet.Unicode_File
+    Case 0
+        reName_Str = Hex_unicode_str(reName_Str)
+    Case 1
+        reName_Str = Hex_unicode_str(reName_Str)
+    End Select
     
     For i = 1 To Len(reName_Str)
         If Asc(Mid(reName_Str, i, 1)) = 63 Then reName_Str = Replace(reName_Str, Mid(reName_Str, i, 1), "_")
@@ -115,6 +126,24 @@ Public Function reName_Str(ByVal old_Name As String) As String
     If Right(reName_Str, 1) = "." Then reName_Str = Mid$(reName_Str, 1, Len(reName_Str) - 1) & "_"
     
 End Function
+'Unicode字符操作函数
+Public Function Str_unicode_Ctrl(ByVal old_String As String) As String
+    '0-替换,字符替换为网页号"&#34;"方式
+    '1-不变,程序无法识别,显示为"?"
+    '2-替除,字符替换为默认字符"_"
+    Dim i As Long
+    
+    Select Case sysSet.Unicode_Str
+    Case 0
+        old_String = Hex_unicode_str(old_String)
+    Case 2
+        For i = 1 To Len(old_String)
+            If Asc(Mid(old_String, i, 1)) = 63 Then old_String = Replace(old_String, Mid(old_String, i, 1), "_")
+        Next
+    End Select
+    Str_unicode_Ctrl = old_String
+End Function
+
 
 '将非ANSI字符转换为16进制代码"&HFF75",再转换为10进制网页代码"&#65397;"(该字符网页16进制代码为"&#xFF75;")
 Public Function Hex_unicode_str(ByVal old_String As String) As String

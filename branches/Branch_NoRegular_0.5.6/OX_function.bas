@@ -184,11 +184,11 @@ Public Sub OX_load_Script_Code(sourceScriptInfo As ScriptInfo, sourceScriptApp A
     If LCase(Trim(sourceScriptInfo.Language)) = "vbscript" Then
         sourceScriptInfo.Language = "vbscript"
         sourceScriptApp.Language = "vbscript"
-        OX_load_Script_Code_STR = in_Script_Code.OX163_vbs_var & load_Script(App_path & "\include\" & sourceScriptInfo.fileName) & in_Script_Code.OX163_vbs_fn
+        OX_load_Script_Code_STR = in_Script_Code.OX163_vbs_var & load_Script(App_path & "\include\sys\" & sourceScriptInfo.fileName) & in_Script_Code.OX163_vbs_fn
     Else
         sourceScriptInfo.Language = "javascript"
         sourceScriptApp.Language = "javascript"
-        OX_load_Script_Code_STR = in_Script_Code.OX163_js_var & load_Script(App_path & "\include\" & sourceScriptInfo.fileName) & in_Script_Code.OX163_js_fn
+        OX_load_Script_Code_STR = in_Script_Code.OX163_js_var & load_Script(App_path & "\include\sys\" & sourceScriptInfo.fileName) & in_Script_Code.OX163_js_fn
     End If
     Call sourceScriptApp.AddCode(OX_load_Script_Code_STR)
 End Sub
@@ -196,36 +196,36 @@ End Sub
 Public Sub load_in_Script_Code()
     On Error Resume Next
     in_Script_Code.OX163_vbs_var = ""
-    If Dir(App_path & "\include\OX163_vbs_var.vbs") <> "" Then
-    in_Script_Code.OX163_vbs_var = vbCrLf & load_Script(App_path & "\include\OX163_vbs_var.vbs") & vbCrLf
+    If Dir(App_path & "\include\sys\OX163_vbs_var.vbs") <> "" Then
+    in_Script_Code.OX163_vbs_var = vbCrLf & load_Script(App_path & "\include\sys\OX163_vbs_var.vbs") & vbCrLf
     Else
     in_Script_Code.OX163_vbs_var = vbCrLf & "Dim OX163_urlpage_Referer,OX163_urlpage_Cookies" & vbCrLf
     End If
     
     in_Script_Code.OX163_vbs_fn = ""
-    If Dir(App_path & "\include\OX163_vbs_fn.vbs") <> "" Then
-    in_Script_Code.OX163_vbs_fn = vbCrLf & load_Script(App_path & "\include\OX163_vbs_fn.vbs") & vbCrLf
+    If Dir(App_path & "\include\sys\OX163_vbs_fn.vbs") <> "" Then
+    in_Script_Code.OX163_vbs_fn = vbCrLf & load_Script(App_path & "\include\sys\OX163_vbs_fn.vbs") & vbCrLf
     Else
     in_Script_Code.OX163_vbs_fn = vbCrLf & "Function set_urlpagecookies(byVal set_str)" & vbCrLf & "On Error Resume Next" & vbCrLf & "OX163_urlpage_Cookies = set_str" & vbCrLf & "End Function" & vbCrLf
     End If
     
     in_Script_Code.OX163_js_var = ""
-    If Dir(App_path & "\include\OX163_js_var.vbs") <> "" Then
-    in_Script_Code.OX163_js_var = vbCrLf & load_Script(App_path & "\include\OX163_js_var.vbs") & vbCrLf
+    If Dir(App_path & "\include\sys\OX163_js_var.vbs") <> "" Then
+    in_Script_Code.OX163_js_var = vbCrLf & load_Script(App_path & "\include\sys\OX163_js_var.vbs") & vbCrLf
     Else
     in_Script_Code.OX163_js_var = vbCrLf & "var OX163_urlpage_Referer='';var OX163_urlpage_Cookies='';" & vbCrLf
     End If
     
     in_Script_Code.OX163_js_fn = ""
-    If Dir(App_path & "\include\OX163_js_fn.vbs") <> "" Then
-    in_Script_Code.OX163_js_fn = vbCrLf & load_Script(App_path & "\include\OX163_js_fn.vbs") & vbCrLf
+    If Dir(App_path & "\include\sys\OX163_js_fn.vbs") <> "" Then
+    in_Script_Code.OX163_js_fn = vbCrLf & load_Script(App_path & "\include\sys\OX163_js_fn.vbs") & vbCrLf
     Else
     in_Script_Code.OX163_js_fn = vbCrLf & "function set_urlpagecookies(set_str){OX163_urlpage_Cookies=set_str;}" & vbCrLf
     End If
     
     OX163_WebBrowser_scriptCode = ""
-    If Dir(App_path & "\include\OX163_Web_Browser_ctrl.vbs") <> "" Then
-        OX163_WebBrowser_scriptCode = load_Script(App_path & "\include\OX163_Web_Browser_ctrl.vbs")
+    If Dir(App_path & "\include\sys\OX163_Web_Browser_ctrl.vbs") <> "" Then
+        OX163_WebBrowser_scriptCode = load_Script(App_path & "\include\sys\OX163_Web_Browser_ctrl.vbs")
         OX163_WebBrowser_scriptCode = Trim(OX163_WebBrowser_scriptCode)
     End If
 End Sub
@@ -297,7 +297,7 @@ Public Sub Proxy_set()
         Form1.check_header.AccessType = icUseDefault
     End Select
     
-    If Form1.Proxy_img(1).Visible = True And Form1.Proxy_img(2).Visible = True Then
+    If sysSet.proxy_A_type = 2 And sysSet.proxy_B_type = 2 Then
         Form1.Proxy_img(0).Visible = True
         Form1.Proxy_img(1).Visible = False
         Form1.Proxy_img(2).Visible = False

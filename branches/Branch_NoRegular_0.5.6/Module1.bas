@@ -334,11 +334,11 @@ Public Function GetShortName(ByVal sLongFileName As String) As String
     
     Set GetShortName_Fso = CreateObject("Scripting.FileSystemObject")
     
-    Err.Number = 0
+    Err.Clear
     GetShortName = GetShortName_Fso.GetFile(sLongFileName).ShortPath
     
     If Err.Number <> 0 Then
-        Err.Number = 0
+        Err.Clear
         GetShortName = GetShortName_Fso.GetFolder(sLongFileName).ShortPath
     End If
     
@@ -404,8 +404,8 @@ Public Function GreatUnicodeIniFile(ByVal url_str_path As String) As Boolean
         GUIF_file.Close
         
     Else
-        Set fso = CreateObject("Scripting.FileSystemObject")
-        Set file = GUIF_Object.CreateTextFile(url_str_path, True, True)
+        Set GUIF_Object = CreateObject("Scripting.FileSystemObject")
+        Set GUIF_file = GUIF_Object.CreateTextFile(url_str_path, True, True)
         GUIF_file.Write ""
         GUIF_file.Close
     End If
