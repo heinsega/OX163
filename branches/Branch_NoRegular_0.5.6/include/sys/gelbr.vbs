@@ -1,4 +1,4 @@
-'2010-12-20 163.shanhaijing.net
+'2011-8-11 163.shanhaijing.net
 Dim page,pid,tags,url_instr,page_retry
 
 Function return_download_url(ByVal url_str)
@@ -32,6 +32,7 @@ If InStr(LCase(page_tmp),"&pid=")>len("gelbooru.com/") Or InStr(LCase(page_tmp),
 		If Int(page_tmp)>1 Then
 			If MsgBox("本页为第" & Int(page_tmp/25)+1 & "页" & vbcrlf & "是否从第1页开始？", vbYesNo, "问题")=vbyes Then
 				page=0
+				url_str=format_page(url_str)
 			Else
 				page=Int(page_tmp)
 			End If
@@ -42,6 +43,26 @@ Else
 End If
 If page>0 Then url_str=url_str & "&pid=" & page
 return_download_url = "inet|10,13|" & url_str & "|http://gelbooru.com/"
+End Function
+'--------------------------------------------------------
+Function format_page(url_str)
+format_page=url_str
+Dim temp_str(2)
+If instr(lcase(url_str),"?pid=")>0 or instr(lcase(url_str),"&pid=")>0 Then
+	If instr(lcase(url_str),"?pid=")>0 Then
+		temp_str(0)=mid(url_str,1,instr(lcase(url_str),"?pid="))
+		temp_str(1)=mid(url_str,InStr(lcase(url_str),"?pid=")+1)
+	ElseIf instr(lcase(url_str),"&pid=")>0 Then
+		temp_str(0)=mid(url_str,1,InStr(lcase(url_str),"&pid="))
+		temp_str(1)=mid(url_str,InStr(lcase(url_str),"&pid=")+1)
+	End If
+	If instr(temp_str(1),"&")>0 Then
+		temp_str(1)=mid(url_str,instr(temp_str(1),"&"))
+	Else
+		temp_str(1)=""
+	End If
+	format_page=temp_str(0) & "1" & temp_str(1)
+End if
 End Function
 '--------------------------------------------------------
 Function return_download_list(ByVal html_str, ByVal url_str)

@@ -871,7 +871,7 @@ Begin VB.Form Form1
       NoFolders       =   0   'False
       Transparent     =   0   'False
       ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-      Location        =   ""
+      Location        =   "http:///"
    End
    Begin VB.PictureBox web_Picture 
       BorderStyle     =   0  'None
@@ -907,7 +907,7 @@ Begin VB.Form Form1
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   ""
+         Location        =   "http:///"
       End
    End
    Begin VB.Image process_Image 
@@ -1235,8 +1235,8 @@ Public form_height As Integer
 Dim url_temp As String
 Dim down_count As Byte
 Public form_quit As Boolean
-Dim m_lngDocSize As Single
-Dim old_FileSize As Single
+Dim m_lngDocSize As Double
+Dim old_FileSize As Double
 Dim download_FileName As String
 Dim strURL As String
 Dim download_ok As Boolean
@@ -1372,9 +1372,7 @@ Private Sub check_header_StateChanged(ByVal State As Integer)
             Content_Range = check_header.GetHeader("Content-Range")
             
             If LenB(file_size) > 0 Then
-                
-                m_lngDocSize = CSng(file_size)
-                
+                m_lngDocSize = CDbl(file_size)
                 If IsNumeric(m_lngDocSize) = False Then
                     m_lngDocSize = 0
                     lblProgressInfo.caption = "ERROR 文件大小未知"
@@ -1445,7 +1443,7 @@ Public Sub fast_down_StateChanged(ByVal State As Integer)
     Dim firt_byte As Boolean
     Dim buff() As Byte
     Dim file_size
-    Dim file_size_long As Single
+    Dim file_size_long As Double
     Dim gzip_tf As Boolean
     
     Select Case State
@@ -1455,7 +1453,7 @@ Public Sub fast_down_StateChanged(ByVal State As Integer)
         '检测文件大小--------------------------------------
         file_size = fast_down.GetHeader("Content-length")
         If LenB(file_size) > 0 Then
-            file_size_long = CSng(file_size)
+            file_size_long = CDbl(file_size)
         Else
             file_size_long = 0
         End If
@@ -1466,15 +1464,14 @@ Public Sub fast_down_StateChanged(ByVal State As Integer)
             file_size_long = 0
         End If
         '----------------------------------------------
-        
-        
-        
+
+
         If file_size_long > 204800 Then
             '-------------------------------------------------
             '获得文件大小情况下,直接定义数组大小写入缓存
             ReDim buff(file_size_long - 1) As Byte
-            Dim file_size_tmp As Single
-            Dim at_all_long As Integer
+            Dim file_size_tmp As Double
+            Dim at_all_long
             
             file_size_tmp = 0
             at_all_long = Int(file_size_long / 1024)
@@ -1570,7 +1567,7 @@ End Sub
 Private Function bin2str(ByVal binstr)
     On Error Resume Next
     
-    Dim file_long As Single
+    Dim file_long As Double
     
     file_long = UBound(binstr)
     If file_long > 2048000 Then
@@ -1604,9 +1601,9 @@ End Function
 Private Function UniteByteArray(bBa1() As Byte, bBa2() As Byte) As Byte()
     On Error Resume Next
     Dim bUb() As Byte
-    Dim iUbd1 As Single
-    Dim iUbd2 As Single
-    Dim i As Single
+    Dim iUbd1 As Double
+    Dim iUbd2 As Double
+    Dim i As Double
     
     iUbd1 = UBound(bBa1)
     iUbd2 = UBound(bBa2)
@@ -2825,7 +2822,7 @@ Private Sub Inet1_StateChanged(ByVal State As Integer)
     'DoEvents
     
     Dim binBuffer() As Byte
-    Dim sngProgerssValue As Single
+    Dim sngProgerssValue As Double
     Dim getblock As Long
     ''''''''Dim start_time As Date
     getblock = sysSet.downloadblock

@@ -14,8 +14,7 @@ sky-fire.vbs|vbscript|UTF-8|photo|http://*pic*.sfacg.com/AllComic/?*
 imouto.vbs|vbscript|UTF-8|photo|http://*.imouto.org/*
 ggyy8.vbs|vbscript|GB2312|photo|http://www.ggyy8.?*/html/?*/?*/?*.html
 ggyy8.vbs|vbscript|GB2312|album|http://www.ggyy8.?*/html/?*/?*/
-donmai_us.vbs|vbscript|UTF-8|photo|http://?*.donmai.us/post/show/?*
-donmai_us.vbs|vbscript|UTF-8|album|http://?*.donmai.us/*
+donmai_us.vbs|vbscript|UTF-8|photo|http://?*.donmai.us/*
 163blog.vbs|vbscript|GB2312|photo|http://?*.blog.163.com/?*?albumId=?*
 163blog.vbs|vbscript|GB2312|photo|http://blog.163.com/?*/?*?albumId=?*
 163blog.vbs|vbscript|GB2312|photo|http://?*.blog.163.com/?*?aId=?*
@@ -46,8 +45,8 @@ picasa.vbs|vbscript|UTF-8|photo|http://picasaweb.google.*/?*/?*
 picasa.vbs|vbscript|UTF-8|photo|https://picasaweb.google.*/?*/?*
 picasa.vbs|vbscript|UTF-8|album|http://picasaweb.google.*/?*
 picasa.vbs|vbscript|UTF-8|album|https://picasaweb.google.*/?*
-behoimi.vbs|vbscript|UTF-8|photo|http://behoimi.org/post*
-behoimi.vbs|vbscript|UTF-8|photo|http://www.behoimi.org/post*
+behoimi.vbs|vbscript|UTF-8|photo|http://behoimi.org/*
+behoimi.vbs|vbscript|UTF-8|photo|http://www.behoimi.org/*
 2cat.vbs|vbscript|UTF-8|photo|http://2cat.twbbs.org/~kirur/touhou/*.php*
 2cat.vbs|vbscript|UTF-8|album|http://2cat.twbbs.org/~kirur/touhou/*
 yupoo.vbs|vbscript|UTF-8|photo|http://v.yupoo.com/?*/view?*

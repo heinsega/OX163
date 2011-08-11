@@ -899,8 +899,8 @@ End Function
 Private Function UniteByteArray(bBa1() As Byte, bBa2() As Byte) As Byte()
     On Error Resume Next
     Dim bUb() As Byte
-    Dim iUbd1 As Single
-    Dim iUbd2 As Single
+    Dim iUbd1 As Double
+    Dim iUbd2 As Double
     Dim i As Single
     
     iUbd1 = UBound(bBa1)

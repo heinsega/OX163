@@ -1,4 +1,4 @@
-'2011-5-27 163.shanhaijing.net
+'2011-8-11 163.shanhaijing.net
 Dim page_counter
 Dim tags, page, url_instr, pool
 Function return_download_url(ByVal url_str)
@@ -48,15 +48,21 @@ End If
 page_counter=0
 page=1
 If InStr(LCase(page_tmp),"&page=")>len("http://konachan.com/post") Or InStr(LCase(page_tmp),"?page=")>len("http://konachan.com/post") Then
-	page_tmp=Mid(page_tmp,InStr(LCase(page_tmp),"&page=")+6)
-	page_tmp=Mid(page_tmp,InStr(LCase(page_tmp),"?page=")+6)
-	page_tmp=Mid(page_tmp,1,InStr(page_tmp,"&")-1)
+	If InStr(LCase(page_tmp),"&page=") Then page_tmp=Mid(page_tmp,InStr(LCase(page_tmp),"&page=")+6)
+	If InStr(LCase(page_tmp),"?page=") Then page_tmp=Mid(page_tmp,InStr(LCase(page_tmp),"?page=")+6)
+	If InStr(page_tmp,"&") Then page_tmp=Mid(page_tmp,1,InStr(page_tmp,"&")-1)
 	If IsNumeric(page_tmp) Then
 		If Int(page_tmp)>1 Then
 			If MsgBox("本页为第" & page_tmp & "页" & vbcrlf & "是否从第1页开始？", vbYesNo, "问题")=vbyes Then
 				page=1
+				If InStr(LCase(url_str),"&page=") Or InStr(LCase(url_str),"?page=") Then url_str=format_page(url_str)
 			Else
 				page=Int(page_tmp)
+				If instr(url_str,"?") Then
+					url_str=url_str & "&page=" & page
+					Else
+					url_str=url_str & "?page=" & page
+				End if
 			End If
 		End If
 	End If
@@ -65,6 +71,26 @@ Else
 End If
 return_download_url = "inet|10,13|" & url_str & "|http://konachan.com/"
 
+End Function
+'--------------------------------------------------------------
+Function format_page(url_str)
+format_page=url_str
+Dim temp_str(2)
+If instr(lcase(url_str),"?page=")>0 or instr(lcase(url_str),"&page=")>0 Then
+	If instr(lcase(url_str),"?page=")>0 Then
+		temp_str(0)=mid(url_str,1,instr(lcase(url_str),"?page=")+5)
+		temp_str(1)=mid(url_str,InStr(lcase(url_str),"?page=")+1)
+	ElseIf instr(lcase(url_str),"&page=")>0 Then
+		temp_str(0)=mid(url_str,1,InStr(lcase(url_str),"&page=")+5)
+		temp_str(1)=mid(url_str,InStr(lcase(url_str),"&page=")+1)
+	End If
+	If instr(temp_str(1),"&")>0 Then
+		temp_str(1)=mid(url_str,instr(temp_str(1),"&"))
+	Else
+		temp_str(1)=""
+	End If
+	format_page=temp_str(0) & "1" & temp_str(1)
+End if
 End Function
 '--------------------------------------------------------
 Function return_download_list(ByVal html_str, ByVal url_str)
