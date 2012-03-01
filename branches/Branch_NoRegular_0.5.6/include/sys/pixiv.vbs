@@ -1,4 +1,4 @@
-'2011-5-27 visceroid
+'2012-2-16 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, member_type
 started = False
 multi_page = True
@@ -77,7 +77,8 @@ On Error Resume Next
 	regex.Global = True
 	
 	If started Then
-		regex.Pattern = "<span[^>]*class=""f14b""[^>]*>\s*<a[^>]*href=""member\.php\?id=(\d+)[^""]*""[^>]*>\s*([^<" & name_filter_str & "]+)[^<]*</a>\s*</span>\s*(?:<span[^>]*class=""list_url""[^>]*>\s*<a[^>]*href=""jump\.php\?([^""\s]+)[^""]*""[^>]*>\s*</a>\s*</span>)?"
+		'<li><input name="id[]" value="1593522" type="checkbox" /><div class="usericon"><a href="member.php?id=1593522"><img src="http://img46.pixiv.net/profile/kasetsu_03/mobile/3399441_80.jpg" alt="Ï¼Ñ©"/></a></div><div class="userdata"><a href="member.php?id=1593522">Ï¼Ñ©</a>¤Ï¤¸¤á¤Ş¤·¤Æ¡¢¡°¥«¥»¥Ä¡±¤ÈÕi¤ß¤Ş¤¹¡£<br><span>&nbsp;</span></div></li>
+		regex.Pattern = "<div[^>]*class=""userdata""[^>]*>\s*<a[^>]*href=""member\.php\?id=(\d+)[^""]*""[^>]*>\s*([^<" & name_filter_str & "]+)[^<]*</a>([\s\S^]*?)<br>"
 		Set matches = regex.Execute(html_str)
 		If matches.Count = 0 Then
 			process_retry
@@ -110,13 +111,17 @@ On Error Resume Next
 	regex.Global = True
 	
 	If started Then
+		If InStr(LCase(html_str), "data-src=")>1 Then
+			html_str=format_transparent_html(html_str)
+		End If
 		If member_type<>1 and InStr(LCase(html_str), "<li class=""image"">")>1 Then
 			'<li class="image"><a href="/member_illust.php?mode=medium&amp;illust_id=19067842"><p><img src="http://img01.pixiv.net/img/akuneko/19067842_s.png"></p><h1>¡¾¥Ô¥¯¥µ¥¤¢ò¡¿‰ôÒŠ¤ëöL¤ÎÖĞ¤Ç¡¾uöL¤ÎÒŠ¤ë‰ô¡¿</h1></a>
-		html_str=format_new_html(html_str)
+			html_str=format_new_html(html_str)
 		End If
 		'<a href="member_illust.php?mode=medium&illust_id=17872081"><img src="http://img21.pixiv.net/img/youri19/17872081_s.png" alt="È®Šª/ÓÆ" title="È®Šª/ÓÆ" />È®Šª</a></li>
 		regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*/?>((?:(?!</a>).)*)</a>"
 		Set matches = regex.Execute(html_str)
+		
 		If matches.Count = 0 Then
 			process_retry
 		Else
@@ -139,7 +144,7 @@ On Error Resume Next
 						End If
 					Case "manga"
 						If InStr(next_page_str, match.SubMatches(2)) > 0 Then
-							regex.Pattern = "<div[^>]*class=""works_data""[^>]*>\s*<p[^>]*>(?:(?!</p>).)*(?:Âş»­|Âş®‹) (\d+)P(?:(?!</p>).)*</p>"
+							regex.Pattern = "<div[^>]*class=""works_data""[^>]*>\s*<p[^>]*>(?:(?!</p>).)*(?:Âş»­|Âş®‹|Manga) (\d+)P(?:(?!</p>).)*</p>"
 							page_count = regex.Execute(html_str).Item(0).SubMatches(0)
 							For page_index = 0 To page_count - 1
 								add_download_list_entry match, return_download_list, page_index
@@ -191,9 +196,9 @@ Function add_download_list_entry(ByRef match, ByRef download_list, ByVal page_in
 	format_str = match.SubMatches(4)
 	link_str = match.SubMatches(3) & match.SubMatches(2)
 	If match.SubMatches(6) <> "" Then
-		rename_str = rename_utf8(match.SubMatches(6)) & "_" & match.SubMatches(2)
+		rename_str = "(pid-" & match.SubMatches(2) & ")" & rename_utf8(match.SubMatches(6))
 	Else
-		rename_str = rename_utf8(match.SubMatches(5)) & "_" & match.SubMatches(2)
+		rename_str = "(pid-" & match.SubMatches(2) & ")" & rename_utf8(match.SubMatches(5))
 	End If
 	description_str = rename_utf8(match.SubMatches(5))
 	
@@ -201,8 +206,8 @@ Function add_download_list_entry(ByRef match, ByRef download_list, ByVal page_in
 		Case "medium", "big"
 			link_str = link_str & "." & format_str
 		Case "manga"
-			link_str = link_str & "_p" & page_index & "." & format_str
-			rename_str = rename_str & "_p" & page_index
+			link_str = link_str & "_big_p" & page_index & "." & format_str
+			rename_str = rename_str & "_big_p" & page_index
 			description_str = description_str & " - " & (page_index + 1)
 		Case Else
 			Exit Function
@@ -259,8 +264,8 @@ Function format_new_html(ByVal html_str)
         If Left(matches(1),1)="/" Then matches(1)=Mid(matches(1),2)
         matches(2) = Mid(split_str(i), InStr(LCase(split_str(i)), "<img src=""") + Len("<img src="""))
         matches(2) = Mid(matches(2), 1, InStr(matches(2), """") - 1)
-        matches(3) = Mid(split_str(i), InStr(LCase(split_str(i)), "<h1>") + Len("<h1>"))
-        matches(3) = Mid(matches(3), 1, InStr(LCase(matches(3)), "</h1>") - 1)
+        matches(3) = Mid(split_str(i), InStr(LCase(split_str(i)), "<h2>") + Len("<h2>"))
+        matches(3) = Mid(matches(3), 1, InStr(LCase(matches(3)), "</h2>") - 1)
         If i=ubound(split_str) Then
 			    temp(1) = Mid(split_str(i), InStr(LCase(split_str(i)), "</ul>"))
         End If 
@@ -272,6 +277,37 @@ Function format_new_html(ByVal html_str)
         split_str(i) = "<li id=""li_" & matches(0) & """><a href=""" & matches(1) & """><img src=""" & matches(2) & """ alt=""" & matches(3) & "/" & matches(4) & """ title=""" & matches(3) & "/" & matches(4) & """ />" & matches(3) & "</a></li>"
     Next
     format_new_html =temp(0) & "<ul>" & Join(split_str, "") & temp(1)
+End Function
+
+Function format_transparent_html(ByVal html_str)
+    format_transparent_html = html_str
+		'new
+		'<img src="http://source.pixiv.net/source/images/common/transparent.gif" alt="È®Šª/ÓÆ" title="È®Šª/ÓÆ" id="filterOff" class="ui-scroll-view" data-filter="thumbnail-filter lazy-image" data-src="http://img21.pixiv.net/img/youri19/17872081_s.png" data-altsrc="http://source.pixiv.net/source/images/filter_s.png" data-tags="" />È®Šª</a></li>
+		'×ª»»Îªold
+		'<img src="http://img21.pixiv.net/img/youri19/17872081_s.png" alt="È®Šª/ÓÆ" title="È®Šª/ÓÆ" />È®Šª</a></li>
+    Dim split_str, matches(4),temp(2)
+    html_str=replace(html_str,"<img class=""ui-scroll-view"" src=","<img src=")
+    temp(0) = Mid(html_str, 1, InStr(LCase(html_str), " data-src=") - 1)
+    temp(0) = Mid(temp(0), 1, InStrrev(LCase(temp(0)), "<img src=") - 1)
+    html_str = Mid(html_str, len(temp(0))+1)
+    temp(1) = Mid(html_str, InStr(LCase(html_str), "<div class=""clear""></div>"))    
+    html_str = Mid(html_str,10,InStr(LCase(html_str), "<div class=""clear""></div>")-1)
+    split_str = Split(html_str, "<img src=")
+    For i = 0 To UBound(split_str)
+    		'alt
+        matches(0) = Mid(split_str(i), InStr(LCase(split_str(i)), """ alt=""") + Len(""" alt="""))
+        matches(0) = Mid(matches(0), 1, InStr(matches(0), """") - 1)
+        'title=
+        matches(1) = Mid(split_str(i), InStr(LCase(split_str(i)), """ title=""") + Len(""" title="""))
+        matches(1) = Mid(matches(1), 1, InStr(matches(1), """") - 1)
+        'data-src=
+        matches(2) = Mid(split_str(i), InStr(LCase(split_str(i)), """ data-src=""") + Len(""" data-src="""))
+        matches(2) = Mid(matches(2), 1, InStr(matches(2), """") - 1)
+        '/>È®Šª</a></li>
+        matches(3) = Mid(split_str(i), InStr(LCase(split_str(i)), ">"))
+        split_str(i)="<img src=""" & matches(2) & """ alt=""" & matches(0) & """ title=""" & matches(1) & """ " & matches(3)
+    Next
+    format_transparent_html =temp(0) & Join(split_str, "") & temp(1)
 End Function
 '---------------------------------------------------------------------------------------------
 Function rename_utf8(ByVal utf8_str)

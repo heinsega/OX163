@@ -1,4 +1,4 @@
-'2010-11-14 163.shanhaijing.net
+'2011-8-14 163.shanhaijing.net
 Dim page_counter
 Dim tags, page, url_instr, pool, url_head
 Dim retry_time, retry_url
@@ -117,40 +117,48 @@ If pool="post" Then
 End If
 
 url_str=html_str
-If InStr(LCase(html_str), "post.register({""") > 0 Then
-	
-retry_time=0
-html_str = Mid(html_str, InStr(LCase(html_str), "post.register({""") + 16)
-
-Dim split_str,url_temp
-split_str = Split(html_str, "post.register({""", -1, 1)
+Dim key_str, split_str, add_temp, file_url
+key_str="Post.register({"
+If InStr(LCase(html_str), LCase(key_str)) > 0 Then	
+	retry_time=0
+	html_str = Mid(html_str, InStr(LCase(html_str), LCase(key_str)) + len(key_str))
+	split_str = Split(html_str, key_str, -1, 1)
 
     For split_i = 0 To UBound(split_str)
-    html_str=Mid(split_str(split_i), InStr(LCase(split_str(split_i)), """tags"":""") +8)
-    url_temp=html_str
-    'Tags
-    html_str =Trim(Mid(html_str,1, InStr(html_str, Chr(34)) -1))
-    url_temp=Mid(url_temp, InStr(LCase(url_temp), ",""id"":") +6)
-    url_temp="p" & Mid(url_temp,1, InStr(url_temp, ",") -1) & "_"
-    If IsNumeric(url_temp)=false Then url_temp=""
-    html_str=url_temp & html_str
-    If Len(html_str) > 180 Then html_str = Left(html_str, 179) & "~"
-    
-    split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), """file_url"":""") +12)
-    split_str(split_i) = Mid(split_str(split_i),1, InStr(split_str(split_i),Chr(34))-1)
-    'url
-    split_str(split_i)=replace(split_str(split_i),"\/","/")
-    
-    'name
-    html_str=html_str & unescape(Mid(split_str(split_i),instrrev(split_str(split_i),".")))
-    
-    return_download_list = return_download_list & "|" & split_str(split_i) & "|" & html_str & "|" & vbCrLf
-    Next
-    
+			'tags
+			html_str=""	
+			key_str=",""tags"":"""
+	    html_str=Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase(key_str)) + len(key_str))
+	    html_str=Mid(html_str,1,InStr(html_str,chr(34))-1)
+	    html_str=replace(html_str,"|","&#124;")
+	    html_str=replace(html_str,"\\","\")
+	    
+			'file_url
+			file_url=""
+			key_str=",""file_url"":"""
+	    file_url=Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase(key_str)) + len(key_str))
+	    file_url=Mid(file_url,1,InStr(file_url,chr(34))-1)
+	    
+			'ID
+			add_temp=""
+			key_str=",""id"":"
+	    add_temp=Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase(key_str)) + len(key_str))
+	    If InStr(add_temp,"}") Then add_temp=Mid(add_temp,1,InStr(add_temp,"}")-1)
+	    If InStr(add_temp,",") Then add_temp=Mid(add_temp,1,InStr(add_temp,",")-1)
+			If IsNumeric(add_temp)=false Then add_temp=""
+			
+			'file name
+			split_str(split_i)="p" & add_temp & "_" & Trim(html_str)
+	    If Len(split_str(split_i))>180 Then split_str(split_i)=Left(split_str(split_i),179) & "~"
+	    split_str(split_i) = Replace(split_str(split_i), " ", "-") & Mid(file_url, InStrRev(file_url, "."))	    
+
+	    return_download_list = return_download_list & "|" & file_url & "|" & split_str(split_i) & "|" & html_str & vbCrLf
+   Next
+   
 ElseIf retry_time<5 Then	
-    retry_time=retry_time+1
-    return_download_list = "2|" & retry_url
-    Exit Function    
+  retry_time=retry_time+1
+  return_download_list = "2|" & retry_url
+  Exit Function    
 End If
 
 If InStr(LCase(url_str), "<div id=""paginator""") > 0 Then

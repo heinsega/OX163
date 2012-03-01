@@ -1,4 +1,4 @@
-'2011-8-11 163.shanhaijing.net
+'2012-2-4 163.shanhaijing.net
 Dim page_counter, url_parent
 Dim tags, page, url_instr
 Dim login_TF
@@ -38,9 +38,9 @@ Else
 
 tags=""
 If InStr(LCase(url_str), "?tags=") > 0 or InStr(LCase(url_str), "&tags=") > 0 Then
-	url_str=Mid(url_str,InStr(LCase(url_str),"&tags=")+6)
-	url_str=Mid(url_str,InStr(LCase(url_str),"?tags=")+6)
-	url_str=Mid(url_str,1,InStr(url_str,"&")-1)
+	If InStr(LCase(url_str), "?tags=") > 0 Then url_str=Mid(url_str,InStr(LCase(url_str),"?tags=")+6)
+	If InStr(LCase(url_str), "&tags=") > 0 Then url_str=Mid(url_str,InStr(LCase(url_str),"&tags=")+6)
+	If InStr(LCase(url_str), "&") > 0 Then url_str=Mid(url_str,1,InStr(url_str,"&")-1)
 	tags=url_str
 End If
 page_counter = 0
@@ -74,7 +74,7 @@ On Error Resume Next
 Dim key_str, split_str, add_temp, file_url
 return_image_list = ""
 url_str = html_str
-key_str="Post.register({""preview_url"":"""
+key_str="Post.register({"
 If InStr(LCase(html_str), LCase(key_str)) > 0 Then
 	html_str = Mid(html_str, InStr(LCase(html_str), LCase(key_str)) + len(key_str))
 	
@@ -84,27 +84,28 @@ If InStr(LCase(html_str), LCase(key_str)) > 0 Then
 			'tags
 			html_str=""	
 			key_str=",""tags"":"""
-	    split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase(key_str)) + len(key_str))
-	    html_str=Mid(split_str(split_i),1,InStr(split_str(split_i),chr(34))-1)
+	    html_str=Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase(key_str)) + len(key_str))
+	    html_str=Mid(html_str,1,InStr(html_str,chr(34))-1)
 	    html_str=replace(html_str,"|","&#124;")
 	    html_str=replace(html_str,"\\","\")
 	    
 			'file_url
 			file_url=""
 			key_str=",""file_url"":"""
-	    split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase(key_str)) + len(key_str))
-	    file_url=Mid(split_str(split_i),1,InStr(split_str(split_i),chr(34))-1)
+	    file_url=Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase(key_str)) + len(key_str))
+	    file_url=Mid(file_url,1,InStr(file_url,chr(34))-1)
 	    
 			'ID
 			add_temp=""
 			key_str=",""id"":"
-	    split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase(key_str)) + len(key_str))
-	    add_temp=Mid(split_str(split_i),1,InStr(split_str(split_i),"}")-1)
+	    add_temp=Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase(key_str)) + len(key_str))
+	    If InStr(add_temp,"}") Then add_temp=Mid(add_temp,1,InStr(add_temp,"}")-1)
+	    If InStr(add_temp,",") Then add_temp=Mid(add_temp,1,InStr(add_temp,",")-1)
 			If IsNumeric(add_temp)=false Then add_temp=""
 			
 			'file name
 			split_str(split_i)="p" & add_temp & "_" & Trim(html_str)
-	    If Len(split_str(split_i))>100 Then split_str(split_i)=Left(split_str(split_i),99) & "~"
+	    If Len(split_str(split_i))>180 Then split_str(split_i)=Left(split_str(split_i),179) & "~"
 	    split_str(split_i) = Replace(split_str(split_i), " ", "-") & Mid(file_url, InStrRev(file_url, "."))	    
 
 	    return_image_list = return_image_list & "|" & file_url & "|" & split_str(split_i) & "|" & html_str & vbCrLf
@@ -125,7 +126,6 @@ If InStr(LCase(url_str), "<div id=""paginator"">") > 0 or page<page_counter Then
 	        page_counter = 1
 	    End If
     End If
-
     If page < page_counter And tags <> "" Then
 	    page = page + 1
 	    return_image_list = return_image_list & page_counter & "|inet|10,13|" & url_parent & "/post/index?tags=" & tags & "&page=" & page

@@ -12,8 +12,8 @@ sky-fire.vbs|vbscript|UTF-8|album|http://comic.sfacg.com/HTML/?*
 sky-fire.vbs|vbscript|UTF-8|photo|http://*pic*.sky-fire.com/AllComic/?*
 sky-fire.vbs|vbscript|UTF-8|photo|http://*pic*.sfacg.com/AllComic/?*
 imouto.vbs|vbscript|UTF-8|photo|http://*.imouto.org/*
-ggyy8.vbs|vbscript|GB2312|photo|http://www.ggyy8.?*/html/?*/?*/?*.html
-ggyy8.vbs|vbscript|GB2312|album|http://www.ggyy8.?*/html/?*/?*/
+ggyy8.vbs|vbscript|UTF-8|photo|http://www.ggyy8.?*/html/?*/?*.html*
+ggyy8.vbs|vbscript|UTF-8|album|http://www.ggyy8.?*/html/?*.html
 donmai_us.vbs|vbscript|UTF-8|photo|http://?*.donmai.us/*
 163blog.vbs|vbscript|GB2312|photo|http://?*.blog.163.com/?*?albumId=?*
 163blog.vbs|vbscript|GB2312|photo|http://blog.163.com/?*/?*?albumId=?*
@@ -70,3 +70,5 @@ booru.vbs|vbscript|UTF-8|photo|http://?*.booru.org/*
 b-sys.vbs|vbscript|UTF-8|photo|http://safebooru.org/*
 b-sys.vbs|vbscript|UTF-8|photo|http://lolibooru.com/*
 b-sys.vbs|vbscript|UTF-8|photo|b http://?*
+douban.vbs|vbscript|UTF-8|photo|http://www.douban.com/photos/?*
+douban.vbs|vbscript|UTF-8|album|http://www.douban.com/people/?*
