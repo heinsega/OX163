@@ -3,17 +3,22 @@ Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "shdocvw.dll"
 Begin VB.Form BrowserW 
    BorderStyle     =   0  'None
    Caption         =   "Browser Windows"
-   ClientHeight    =   1920
+   ClientHeight    =   1845
    ClientLeft      =   -105
    ClientTop       =   -105
-   ClientWidth     =   2430
+   ClientWidth     =   2460
    Enabled         =   0   'False
    LinkTopic       =   "BrowserW"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   1920
-   ScaleWidth      =   2430
+   ScaleHeight     =   1845
+   ScaleWidth      =   2460
    ShowInTaskbar   =   0   'False
+   Begin VB.Timer BrowserW_Timer 
+      Interval        =   1
+      Left            =   2040
+      Top             =   1440
+   End
    Begin VB.PictureBox Picture1 
       BorderStyle     =   0  'None
       Enabled         =   0   'False
@@ -23,22 +28,20 @@ Begin VB.Form BrowserW
       ScaleWidth      =   2295
       TabIndex        =   0
       Top             =   0
-      Visible         =   0   'False
       Width           =   2295
       Begin SHDocVwCtl.WebBrowser WebBrowser 
-         Height          =   4935
-         Left            =   120
+         Height          =   4575
+         Left            =   0
          TabIndex        =   1
-         TabStop         =   0   'False
-         Top             =   120
-         Width           =   6735
-         ExtentX         =   11880
-         ExtentY         =   8705
+         Top             =   0
+         Width           =   10575
+         ExtentX         =   18653
+         ExtentY         =   8070
          ViewMode        =   0
          Offline         =   0
          Silent          =   0
          RegisterAsBrowser=   0
-         RegisterAsDropTarget=   0
+         RegisterAsDropTarget=   1
          AutoArrange     =   0   'False
          NoClientEdge    =   0   'False
          AlignLeft       =   0   'False
@@ -58,10 +61,19 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Public BrowserW_load_ok As Boolean
-Public BrowserW_url As String
-Dim doc As Object
-
+Private Sub BrowserW_Timer_Timer()
+    On Error Resume Next
+    
+    BrowserW_Timer.Enabled = False
+    
+    WebBrowser.Silent = True
+    WebBrowser.Document.Open
+    WebBrowser.Document.Write ""
+    WebBrowser.Document.Close
+    '
+    BrowserW_load_ok = True
+    'BrowserW.Hide
+End Sub
 
 Private Sub Form_Load()
     On Error Resume Next
@@ -73,6 +85,7 @@ Private Sub Form_Load()
     BrowserW.Left = 0
     BrowserW.Enabled = False
     
+    
     'BrowserW.Height = 5200
     'BrowserW.Width = 10000
     'Picture1.Height = 5200
@@ -83,28 +96,30 @@ Private Sub Form_Load()
     'Picture1.Enabled = True
     'Me.Enabled = True
     
+    BrowserW_Timer.Enabled = True
     
-    BrowserW_load_ok = True
 End Sub
 
 
 Private Sub WebBrowser_DownloadComplete()
+    On Error Resume Next
     WebBrowser.Stop
-    
 End Sub
 
-Private Sub WebBrowser_FileDownload(Cancel As Boolean)
-    On Error Resume Next
-    Cancel = True
-End Sub
 
 Private Sub WebBrowser_NewWindow2(ppDisp As Object, Cancel As Boolean)
     On Error Resume Next
     Cancel = True
 End Sub
 
+
 Private Sub WebBrowser_StatusTextChange(ByVal Text As String)
-    If InStr(Text, "http://") > 0 And InStr(Text, BrowserW_url) <= 0 Then
+    On Error Resume Next
+    Static count_http As Byte
+    If InStr(Text, "http://") > 0 And InStr(Text, BrowserW_url) <= 0 And count_http > 10 Then
+        count_http = 0
         WebBrowser.Stop
+    Else
+        count_http = count_http + 1
     End If
 End Sub

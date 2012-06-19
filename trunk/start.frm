@@ -77,8 +77,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Const ver_info = "53"
-
 Private Sub Com1_Click()
     End
 End Sub
@@ -94,81 +92,79 @@ Private Sub Com3_Click()
     End
 End Sub
 
-
-
 Private Sub Com5_Click()
     Unload start_ox163
 End Sub
-
-
-
-'Private Sub Form_Initialize()
-'InitCommonControls
-'End Sub
 
 Private Sub Form_Load()
     Timer1.Interval = 100
     Timer1.Enabled = True
 End Sub
 
+Private Sub Form_Unload(Cancel As Integer)
+    Timer1.Enabled = False
+    Timer1.Interval = 0
+End Sub
+
 Private Sub Timer1_Timer()
     On Error Resume Next
     
-    Timer1.Enabled = False
+    Static timer1_counter As Boolean
     
-    Dim err_report As Boolean
-    Dim test_Object As Object
+    Timer1.Enabled = False
+    Timer1.Interval = 0
+    
+    If timer1_counter = False Then
+        timer1_counter = True
+    Else
+        Exit Sub
+    End If
+    
+    Dim err_report As Boolean, test_Object As Object, check_path
     
     start_text.Text = ""
-    
     '------------------------------------------------------------------------------------------
+    start_text.Text = start_text.Text & vbCrLf & "检查scrrun.dll" & vbCrLf & "创建FileSystemObject"
+    Set test_Object = CreateObject("Scripting.FileSystemObject")
+    If Err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
+        
+        start_text.Text = start_text.Text & vbCrLf & "无法创建创建FileSystemObject：程序操作含有unicode字符文件将失效" & vbCrLf & "建议修复windows系统文件：scrrun.dll"
+        MsgBox "无法创建创建FileSystemObject" & vbCrLf & "程序操作含有unicode字符文件将失效" & vbCrLf & vbCrLf & "建议修复windows系统文件：scrrun.dll", vbOKOnly + vbCritical, "Warning!"
+        App_path = App.Path
+    Else
+        start_text.Text = start_text.Text & "...OK"
+        
+        check_path = IIf(Right(App.Path, 1) = "\", App.Path, App.Path & "\")
+        App_path = test_Object.GetAbsolutePathName("")
+        App_path = IIf(Right(App_path, 1) = "\", App_path, App_path & "\")
+        App_path = IIf((InStr(check_path, Chr(63)) < 1 And App_path <> check_path), check_path, App_path)
+        App_path = GetShortName(App_path)
+        start_text.Text = start_text.Text & vbCrLf & "确认程序主目录短路径:" & App_path
+        
+    End If
+    Set test_Object = Nothing
+    check_path = ""
+    Err.Clear
+    
+    start_text.SelStart = Len(start_text.Text)
+    '------------------------------------------------------------------------------------------
+    
     start_text.Text = start_text.Text & vbCrLf & "检查msvbvm60.dll"
     
     If Dir(GetSysDir & "\msvbvm60.dll") = "" Then
         start_text.Text = start_text.Text & "msvbvm60.dll不存在"
-        FileCopy App.Path & "\msvbvm60.dll", GetSysDir & "\msvbvm60.dll"
-    ElseIf FileDateTime(GetSysDir & "\msvbvm60.dll") < FileDateTime(App.Path & "\msvbvm60.dll") Then
+        FileCopy App_path & "\msvbvm60.dll", GetSysDir & "\msvbvm60.dll"
+    ElseIf FileDateTime(GetSysDir & "\msvbvm60.dll") < FileDateTime(App_path & "\msvbvm60.dll") Then
         start_text.Text = start_text.Text & "msvbvm60.dll版本低"
-        FileCopy App.Path & "\msvbvm60.dll", GetSysDir & "\msvbvm60.dll"
+        FileCopy App_path & "\msvbvm60.dll", GetSysDir & "\msvbvm60.dll"
     End If
     If Err.Number <> 0 Then
         start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-        Err.Number = 0
+        Err.Clear
     Else
         start_text.Text = start_text.Text & "...OK"
     End If
-    
-    start_text.SelStart = Len(start_text.Text)
-    '------------------------------------------------------------------------------------------
-    
-    start_text.Text = start_text.Text & vbCrLf & "检查ole32.dll"
-    
-    If Dir(GetSysDir & "\ole32.dll") = "" Then
-        start_text.Text = start_text.Text & "ole32.dll不存在"
-        FileCopy App.Path & "\ole32.dll", GetSysDir & "\ole32.dll"
-    ElseIf FileDateTime(GetSysDir & "\ole32.dll") < FileDateTime(App.Path & "\ole32.dll") Then
-        start_text.Text = start_text.Text & "ole32.dll版本低"
-    End If
-    If Err.Number <> 0 Then
-        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-        Err.Number = 0
-    Else
-        start_text.Text = start_text.Text & "...OK"
-    End If
-    
-    start_text.SelStart = Len(start_text.Text)
-    '------------------------------------------------------------------------------------------
-    
-    start_text.Text = start_text.Text & vbCrLf & "检查COMDLG32.OCX" & vbCrLf & "创建CommonDialog"
-    Set test_Object = CreateObject("MSComDlg.CommonDialog")
-    If Err.Number <> 0 Then
-        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-    Else
-        start_text.Text = start_text.Text & "...OK"
-    End If
-    
-    Set test_Object = Nothing
-    Err.Number = 0
     
     start_text.SelStart = Len(start_text.Text)
     '------------------------------------------------------------------------------------------
@@ -182,7 +178,21 @@ Private Sub Timer1_Timer()
     End If
     
     Set test_Object = Nothing
-    Err.Number = 0
+    Err.Clear
+    
+    start_text.SelStart = Len(start_text.Text)
+    
+    '------------------------------------------------------------------------------------------
+    start_text.Text = start_text.Text & vbCrLf & "检查comdlg32.dll" & vbCrLf & "创建CommonDialog"
+    Set test_Object = CreateObject("MSComDlg.CommonDialog.1")
+    If Err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
+    Else
+        start_text.Text = start_text.Text & "...OK"
+    End If
+    
+    Set test_Object = Nothing
+    Err.Clear
     
     start_text.SelStart = Len(start_text.Text)
     
@@ -198,7 +208,7 @@ Private Sub Timer1_Timer()
     'End If
     '
     'Set test_Object = Nothing
-    'Err.Number = 0
+    'Err.Clear
     '
     'start_text.SelStart = Len(start_text.Text)
     '------------------------------------------------------------------------------------------
@@ -211,7 +221,7 @@ Private Sub Timer1_Timer()
     End If
     
     Set test_Object = Nothing
-    Err.Number = 0
+    Err.Clear
     
     start_text.SelStart = Len(start_text.Text)
     
@@ -225,7 +235,7 @@ Private Sub Timer1_Timer()
         start_text.Text = start_text.Text & "...OK"
     End If
     
-    Err.Number = 0
+    Err.Clear
     
     start_text.SelStart = Len(start_text.Text)
     
@@ -239,36 +249,22 @@ Private Sub Timer1_Timer()
     End If
     
     Set test_Object = Nothing
-    Err.Number = 0
+    Err.Clear
     
     start_text.SelStart = Len(start_text.Text)
-    '------------------------------------------------------------------------------------------
-    start_text.Text = start_text.Text & vbCrLf & "检查scrrun.dll" & vbCrLf & "创建FileSystemObject"
-    Set test_Object = CreateObject("Scripting.FileSystemObject")
-    If Err.Number <> 0 Then
-        start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-    Else
-        start_text.Text = start_text.Text & "...OK"
-    End If
-    
-    Set test_Object = Nothing
-    Err.Number = 0
-    
-    start_text.SelStart = Len(start_text.Text)
-    
     '------------------------------------------------------------------------------------------
     start_text.Text = start_text.Text & vbCrLf & "检查文件夹"
-    If Dir(App.Path & "\download", vbDirectory) = "" Then
-        MkDir App.Path & "\download"
+    If Dir(App_path & "\download", vbDirectory) = "" Then
+        MkDir App_path & "\download"
     End If
     
-    If Dir(App.Path & "\url", vbDirectory) = "" Then
-        MkDir App.Path & "\url"
+    If Dir(App_path & "\url", vbDirectory) = "" Then
+        MkDir App_path & "\url"
     End If
     
     If Err.Number <> 0 Then
         start_text.Text = start_text.Text & vbCrLf & "错误：" & Err.Description
-        Err.Number = 0
+        Err.Clear
     Else
         start_text.Text = start_text.Text & "...OK"
     End If
@@ -277,10 +273,11 @@ Private Sub Timer1_Timer()
     
     '------------------------------------------------------------------------------------------
     start_text.Text = start_text.Text & vbCrLf & "检查设定文档"
-    If Dir(App.Path & "\OX163setup.ini") = "" Then
+    If Dir(App_path & "\OX163setup.ini") = "" Then
         
         '默认参数
         WriteIniStr "maincenter", "ver", ver_info '默认参数
+        WriteIniStr "maincenter", "update_host", "http://www.shanhaijing.net/163/" '默认参数
         
         WriteIniStr "maincenter", "downloadblock", "5120"
         WriteIniStr "maincenter", "time_out", "30"
@@ -332,12 +329,16 @@ Private Sub Timer1_Timer()
         WriteIniStr "proxyset", "proxy_B_type", "icUseDefault"
         
         
+        WriteIniStr "maincenter", "Unicode_File", "0"
+        WriteIniStr "maincenter", "Unicode_Str", "0"
+        
+        
     End If
     
     
     If Err.Number <> 0 Then
         start_text.Text = start_text.Text & vbCrLf & "错误：" & Err.Description
-        Err.Number = 0
+        Err.Clear
     Else
         start_text.Text = start_text.Text & "...OK"
     End If
@@ -352,6 +353,8 @@ Private Sub Timer1_Timer()
     WriteIniStr "maincenter", "ver", ver_info '默认参数
     
     sysSet.ver = CInt(GetIniStr("maincenter", "ver"))
+    sysSet.update_host = GetIniStr("maincenter", "update_host")
+    If sysSet.update_host = "" Then sysSet.update_host = "http://www.shanhaijing.net/163/"
     
     sysSet.downloadblock = CLng(GetIniStr("maincenter", "downloadblock"))
     sysSet.time_out = CInt(GetIniStr("maincenter", "time_out"))
@@ -360,6 +363,9 @@ Private Sub Timer1_Timer()
     sysSet.list_type = CByte(GetIniStr("maincenter", "list_type"))
     sysSet.fix_rar = CByte(GetIniStr("maincenter", "fix_rar"))
     sysSet.fix_rar_name = Trim(GetIniStr("maincenter", "fix_rar_name"))
+    
+    sysSet.Unicode_File = CByte(GetIniStr("maincenter", "Unicode_File"))
+    sysSet.Unicode_Str = CByte(GetIniStr("maincenter", "Unicode_Str"))
     
     sysSet.include_script = GetIniStr("maincenter", "include_script")
     
@@ -372,7 +378,7 @@ Private Sub Timer1_Timer()
         sysSet.new163passcode_def(1) = "1530930"
         sysSet.new163passcode_def(2) = "asd"
     End If
-    
+
     sysSet.autocheck = GetIniTF("maincenter", "autocheck")
     sysSet.askquit = GetIniTF("maincenter", "askquit")
     sysSet.listshow = GetIniTF("maincenter", "listshow")
@@ -431,7 +437,7 @@ Private Sub Timer1_Timer()
     '------------------------------------------------------------------------------------------
     If Err.Number <> 0 Then
         start_text.Text = start_text.Text & vbCrLf & "错误：" & Err.Description
-        Err.Number = 0
+        Err.Clear
     Else
         start_text.Text = start_text.Text & "...OK"
     End If
@@ -441,21 +447,8 @@ Private Sub Timer1_Timer()
     start_text.Text = start_text.Text & vbCrLf & "检查下载路径"
     If sysSet.def_path_tf = True Then
         sysSet.def_path = GetIniStr("maincenter", "def_path")
-        If Mid$(sysSet.def_path, 2, 2) <> ":\" Then GoTo reset_path
+        If Mid$(sysSet.def_path, 2, 2) <> ":\" And Len(sysSet.def_path) > 2 Then GoTo reset_path
         If Right(sysSet.def_path, 1) = "\" Then sysSet.def_path = Mid$(sysSet.def_path, 1, Len(sysSet.def_path) - 1): WriteIniStr "maincenter", "def_path", sysSet.def_path
-        Dim check_path
-        check_path = Split(sysSet.def_path, "\")
-        
-        For i = 0 To UBound(check_path)
-            If i > 0 Then
-                sysSet.def_path = sysSet.def_path & "\" & check_path(i)
-                If Dir(sysSet.def_path, vbDirectory) = "" Then
-                    MkDir sysSet.def_path
-                End If
-            Else
-                sysSet.def_path = check_path(0)
-            End If
-        Next i
         If (GetFileAttributes(sysSet.def_path) = -1) Then GoTo reset_path
     Else
 reset_path:
@@ -465,7 +458,7 @@ reset_path:
     '------------------------------------------------------------------------------------------
     If Err.Number <> 0 Then
         start_text.Text = start_text.Text & vbCrLf & "错误：" & Err.Description
-        Err.Number = 0
+        Err.Clear
     Else
         start_text.Text = start_text.Text & "...OK"
     End If
@@ -484,6 +477,8 @@ reset_path:
     start_text.SelStart = Len(start_text.Text)
     Timer2.Interval = 15000
     Timer2.Enabled = True
+    BrowserW_url = ""
+    BrowserW_load_ok = True
     Form1.Show
     start_text.Enabled = True
 End Sub
