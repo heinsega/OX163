@@ -136,7 +136,7 @@ End Sub
 Public Sub show_pass_code()
     On Error Resume Next
     Dim url_links As String
-    url_links = "http://photo.163.com/photo/verify/image.jpg?t=12345678"
+    url_links = "http://photo.163.com/photo/cap/captcha.jpgx?parentId=" & Int(Time() * 100000000) & "&t=" & Int(Time() * 10000000000#)
     WebBrowser.Navigate url_links
 End Sub
 

@@ -327,20 +327,6 @@ Private Sub Form_Resize()
     End If
 End Sub
 
-Private Function load_script(file_name)
-    On Error Resume Next
-    
-    Dim fileline As String
-    Open file_name For Input As #6
-    Do While Not EOF(6)
-        Line Input #6, fileline
-        load_script = load_script + fileline & vbCrLf
-        DoEvents
-    Loop
-    Close #6
-    load_script = Left$(load_script, Len(load_script) - 2)
-    
-End Function
 
 Private Sub Check_script()
     Dim update_split
@@ -350,7 +336,7 @@ Private Sub Check_script()
     
     script_load.Cancel
     script_down_ok = False
-    strURL = Trim$("http://www.shanhaijing.net/163/script_update.vbs?ntime=" & CDbl(Now()))
+    strURL = Trim$(sysSet.update_host & "script_update.vbs?ntime=" & CDbl(Now()))
     
     script_download
     
@@ -362,7 +348,7 @@ Private Sub Check_script()
     
     script_load.Cancel
     script_down_ok = False
-    strURL = Trim$("http://www.shanhaijing.net/163/include.vbs?ntime=" & CDbl(Now()))
+    strURL = Trim$(sysSet.update_host & "include.vbs?ntime=" & CDbl(Now()))
     
     script_download
     
@@ -391,11 +377,11 @@ Private Sub Check_script()
         '更新时间
         script_list.ListItems.Item(i + 1).ListSubItems.Add , , include_split(1)
         
-        If Dir(App.Path & "\include\" & include_split(0)) <> "" Then
-            file_time = FileDateTime(App.Path & "\include\" & include_split(0))
+        If Dir(App_path & "\include\sys\" & include_split(0)) <> "" Then
+            file_time = FileDateTime(App_path & "\include\sys\" & include_split(0))
             If DateDiff("s", include_split(1), file_time) < 0 Then
                 def_thing = "10"
-            ElseIf FileLen(App.Path & "\include\" & include_split(0)) <> include_split(2) Then
+            ElseIf FileLen(App_path & "\include\sys\" & include_split(0)) <> include_split(2) Then
                 def_thing = "10"
             Else
                 def_thing = "11"
@@ -411,9 +397,9 @@ Private Sub Check_script()
     
     local_include = ""
     
-    If Dir(App.Path & "\include\include.txt") <> "" Then
+    If Dir(App_path & "\include\sys\include.txt") <> "" Then
         
-        local_include = load_script(App.Path & "\include\include.txt")
+        local_include = load_Script(App_path & "\include\sys\include.txt")
         
         If script_include <> local_include Then
             StatusBar.Panels(2) = "include.txt has not matched"
@@ -490,17 +476,11 @@ Private Function static_str(ByVal str_temp)
     End Select
 End Function
 
-
 Private Sub Form_Unload(Cancel As Integer)
     If script_quit = False And sysSet.askquit = True Then
         If MsgBox("正在执行操作，是否退出？", vbOKCancel + vbDefaultButton2, "退出询问") = vbCancel Then Cancel = True: Exit Sub
     End If
-    
-    If Dir(App.Path & "\include\OX163_Web_Browser_ctrl.vbs") <> "" Then
-        Form1.OX163_WebBrowser_scriptCode = load_script(App.Path & "\include\OX163_Web_Browser_ctrl.vbs")
-        Form1.OX163_WebBrowser_scriptCode = Trim(Form1.OX163_WebBrowser_scriptCode)
-    End If
-    
+    Call load_in_Script_Code
     script_quit = True
 End Sub
 
@@ -530,8 +510,8 @@ Private Sub Toolbar_ButtonClick(ByVal Button As MSComctlLib.Button)
     On Error Resume Next
     
     
-    If Dir(App.Path & "\include", vbDirectory) = "" Then
-        MkDir App.Path & "\include"
+    If Dir(App_path & "\include", vbDirectory) = "" Then
+        MkDir App_path & "\include"
     End If
     
     
@@ -555,9 +535,9 @@ Private Sub Toolbar_ButtonClick(ByVal Button As MSComctlLib.Button)
     Case 4
         script_quit = True
     Case 6
-        ShellExecute 0&, vbNullString, "http://script.shanhaijing.net/", vbNullString, vbNullString, vbNormalFocus
+        ShellExecute 0&, vbNullString, StrConv(sysSet.update_host & "?key=3", vbUnicode), vbNullString, vbNullString, vbNormalFocus
     Case 7
-        Shell "explorer.exe " & Replace$(App.Path & "\include", "\\", "\"), vbNormalFocus
+        Shell "explorer.exe " & Replace$(App_path & "\include\sys", "\\", "\"), vbNormalFocus
     End Select
 End Sub
 
@@ -576,7 +556,7 @@ Private Sub Toolbar_ButtonMenuClick(ByVal ButtonMenu As MSComctlLib.ButtonMenu)
     Case 4
         Dim fso, file
         Set fso = CreateObject("Scripting.FileSystemObject")
-        Set file = fso.CreateTextFile(Replace$(App.Path & "\include\include.txt", "\\", "\"), True, False)
+        Set file = fso.CreateTextFile(Replace$(App_path & "\include\sys\include.txt", "\\", "\"), True, False)
         file.Write script_include
         file.Close
         Toolbar.Buttons(1).Enabled = False
@@ -652,7 +632,7 @@ Public Sub Update_script(update_type As String)
             
             script_load.Cancel
             script_down_ok = False
-            strURL = Trim$("http://www.shanhaijing.net/163/" & script_list.ListItems(i).ListSubItems(1).Text & "?ntime=" & CDbl(Now()))
+            strURL = Trim$(sysSet.update_host & script_list.ListItems(i).ListSubItems(1).Text & "?ntime=" & CDbl(Now()))
             
             script_download
             
@@ -662,7 +642,7 @@ Public Sub Update_script(update_type As String)
             Loop
             
             Set fso = CreateObject("Scripting.FileSystemObject")
-            Set file = fso.CreateTextFile(Replace$(App.Path & "\include\" & script_list.ListItems(i).ListSubItems(1).Text, "\\", "\"), True, False)
+            Set file = fso.CreateTextFile(Replace$(App_path & "\include\sys\" & script_list.ListItems(i).ListSubItems(1).Text, "\\", "\"), True, False)
             file.Write script_txt
             file.Close
             
@@ -674,7 +654,7 @@ Public Sub Update_script(update_type As String)
         StatusBar.Panels(2) = "Update include.txt"
         
         Set fso = CreateObject("Scripting.FileSystemObject")
-        Set file = fso.CreateTextFile(Replace$(App.Path & "\include\include.txt", "\\", "\"), True, False)
+        Set file = fso.CreateTextFile(Replace$(App_path & "\include\sys\include.txt", "\\", "\"), True, False)
         file.Write script_include
         file.Close
         
@@ -823,7 +803,7 @@ next_inter_lack:
         local_include = Mid$(local_include, 1, Len(local_include) - 2)
         '----------------------------------------------------------------------------
         Set fso = CreateObject("Scripting.FileSystemObject")
-        Set file = fso.CreateTextFile(Replace$(App.Path & "\include\include.txt", "\\", "\"), True, False)
+        Set file = fso.CreateTextFile(Replace$(App_path & "\include\sys\include.txt", "\\", "\"), True, False)
         file.Write local_include
         file.Close
         
@@ -919,8 +899,8 @@ End Function
 Private Function UniteByteArray(bBa1() As Byte, bBa2() As Byte) As Byte()
     On Error Resume Next
     Dim bUb() As Byte
-    Dim iUbd1 As Single
-    Dim iUbd2 As Single
+    Dim iUbd1 As Double
+    Dim iUbd2 As Double
     Dim i As Single
     
     iUbd1 = UBound(bBa1)

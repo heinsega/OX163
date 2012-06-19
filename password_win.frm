@@ -54,7 +54,7 @@ Begin VB.Form password_win
    Begin VB.Label Label1 
       AutoSize        =   -1  'True
       BackStyle       =   0  'Transparent
-      Caption         =   "µ±«∞√‹¬Î:"
+      Caption         =   "PassWord:"
       Height          =   180
       Left            =   45
       TabIndex        =   0
@@ -122,7 +122,7 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Private Sub Text1_Change()
-    Label2.Caption = Text1.Text
+    Label2.caption = Text1.Text
 End Sub
 
 Private Sub Text1_DblClick()

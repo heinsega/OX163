@@ -307,7 +307,7 @@ End Sub
 Private Sub shutdown_timer_Timer()
     If count_times < 60 Then
         count_times = count_times + 1
-        infro.Caption = "程序将在 " & (60 - count_times) & " 秒后自动关机" & Chr(13) & "请保存您的重要数据" & Chr(13) & Chr(13) & "点击下面按钮取消自动关机"
+        infro.caption = "程序将在 " & (60 - count_times) & " 秒后自动关机" & Chr(13) & "请保存您的重要数据" & Chr(13) & Chr(13) & "点击下面按钮取消自动关机"
     Else
         shutdown_timer.Enabled = False
         If (IsNT) Then
