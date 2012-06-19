@@ -1,1 +1,0 @@
-function set_urlpagecookies(set_str){OX163_urlpage_Cookies=set_str;}
