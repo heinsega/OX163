@@ -1,4 +1,4 @@
-'2012-5-3 163.shanhaijing.net
+'2012-11-11 163.shanhaijing.net
 Dim page_counter
 Dim tags, page, url_instr, pool, url_head
 '----------------------------------------------------
@@ -81,8 +81,8 @@ If InStr(LCase(page_tmp),"&page=")>len(url_head & "post") Or InStr(LCase(page_tm
 Else
 	page=1
 End If
-return_download_url = "inet|10,13|" & url_str & "|" & url_head & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)"
-
+return_download_url = "inet|10,13|" & url_str & "|" & url_head & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
+OX163_urlpage_Referer = "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
 End Function
 '--------------------------------------------------------
 Function return_download_list(ByVal html_str, ByVal url_str)
@@ -125,13 +125,11 @@ End If
 If InStr(LCase(url_str), "<div id=""paginator"">") > 0 Then
 	If page_counter=0 Then
 	url_str = Mid(url_str, InStr(LCase(url_str), "<div id=""paginator"">") + 20)
-	url_str = Mid(url_str, InStr(LCase(url_str), "<a href=""") + 9)
-	url_str = Mid(url_str,1, InStr(LCase(url_str), "</div>") -1)
-	split_str=Split(url_str, "<a href=""", -1, 1)
-	url_str=Mid(split_str(UBound(split_str)-1), InStr(split_str(UBound(split_str)-1), """>") + 2)
-	url_str=Mid(url_str,1, InStr(url_str, "<") -1)
+	url_str = Mid(url_str,1,InStr(LCase(url_str), "<a class=""next_page""") - 1)
+	url_str = Mid(url_str,1,InStrrev(LCase(url_str), "</a>") - 1)
+	url_str = Mid(url_str,InStrrev(LCase(url_str), ">")+1)
 		If IsNumeric(url_str) Then
-			page_counter=Int(url_str)		
+			page_counter=Int(url_str)	
 		Else
 			page_counter=1
 		End If
