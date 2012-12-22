@@ -1,4 +1,4 @@
-'2012-5-17 163.shanhaijing.net
+'2012-11-8 163.shanhaijing.net
 Dim page,tags,url_instr,page_retry,delay_tf,start_time,Next_page
 
 Function return_download_url(ByVal url_str)
@@ -148,6 +148,7 @@ ElseIf InStr(html_str, " class=""thumb"">") > 0 Then
     url_temp = replace(url_temp,"/thumbs/","/images/")
     url_temp = replace(url_temp,"http://youhate.us/","http://gelbooru.com/")
     url_temp = replace(url_temp,"http://www.youhate.us/","http://gelbooru.com/")
+    url_temp = replace(url_temp,"http://cdn2.","http://cdn1.")
     
     'Tags
     html_str =html_str & Trim(Mid(split_str(split_i), InStr(split_str(split_i), "alt=""") +5))

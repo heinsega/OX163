@@ -1,4 +1,4 @@
-'2012-5-22 163.shanhaijing.net
+'2012-11-27 163.shanhaijing.net
 Dim start_time
 Dim delay_tf
 Dim page_url,page,album_info
@@ -117,8 +117,8 @@ End If
 
 Dim file_name,file_type,full_image
 
-If InStr(LCase(html_str),"</div><div class=""sa"">")>0 Then
-		
+If InStr(LCase(html_str),"<div id=""i3"">")>0 Then
+
 	If InStr(LCase(html_str),"<h1>")>0 Then
 		file_name=Mid(html_str,InStr(LCase(html_str),"<h1>"))
 		file_name=Mid(file_name,InStr(file_name,">")+1)
@@ -134,8 +134,8 @@ If InStr(LCase(html_str),"</div><div class=""sa"">")>0 Then
 	'full_image=Mid(html_str,InStrrev(LCase(html_str),"<div class=""if"">"))
 	'full_image=Get_full_image_url(full_image)
 	'---------------------------
-	html_str=Mid(html_str,1,InStr(LCase(html_str),"</div><div class=""sa"">"))
-	html_str=Mid(html_str,InStrrev(LCase(html_str),"<img src=""")+10)
+	html_str=Mid(html_str,InStr(LCase(html_str),"<div id=""i3"">"))
+	html_str=Mid(html_str,InStr(LCase(html_str),"src=""")+5)
 	file_type=Mid(html_str,InStr(html_str,Chr(34))+1)
 	html_str=Mid(html_str,1,InStr(html_str,Chr(34))-1)
 	html_str=replace(html_str,"&amp;","&")

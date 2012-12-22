@@ -1,5 +1,5 @@
-'2012-6-16 visceroid & hein@shanghaijing.net
-Dim started, multi_page, brief_mode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, member_type
+'2012-12-22 visceroid & hein@shanghaijing.net
+Dim started, multi_page, brief_mode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, member_type, php_name
 started = False
 multi_page = True
 retries_count = 0
@@ -27,22 +27,30 @@ On Error Resume Next
 		Select Case LCase(match.SubMatches(0))
 			Case "member", "member_illust"
 				member_type=1
+				php_name="member_illust.php"
 				sub_url_str = "/member_illust.php?" & match.SubMatches(1) & "&" & match.SubMatches(2) & "&" & match.SubMatches(4)
 				multi_page = (match.SubMatches(4) = "")
 			Case "tags"
+				php_name="tags.php"
 				sub_url_str = "/tags.php?" & match.SubMatches(2)
 			Case "search"
+				php_name="search.php"
 				sub_url_str = "/search.php?" & match.SubMatches(2) & "&" & match.SubMatches(4)
 			Case "bookmark"
+				php_name="bookmark.php"
 				sub_url_str = "/bookmark.php?" & match.SubMatches(1) & "&" & match.SubMatches(3) & "&" & match.SubMatches(4)
 				multi_page = (InStr(match.SubMatches(3), "user") = 0)
 			Case "response"
+				php_name="response.php"
 				sub_url_str = "/response.php?" & match.SubMatches(1) & "&" & match.SubMatches(4)
 			Case "new_illust", "index"
+				php_name="new_illust.php"
 				sub_url_str = "/new_illust.php"
 			Case "bookmark_new_illust", "mypage"
+				php_name="bookmark_new_illust.php"
 				sub_url_str = "/bookmark_new_illust.php"
 			Case "bookmark_new_illust_r18"
+				php_name="bookmark_new_illust_r18.php"
 				sub_url_str = "/bookmark_new_illust_r18.php"
 			Case Else
 				Exit Function
@@ -113,20 +121,25 @@ On Error Resume Next
 	regex.Global = True
 	
 	If started Then
+		'清楚搜索页showcase内容
 		If InStr(LCase(html_str), "<section class=""showcase"">")>0 Then
 			Dim html_str_temp
 			html_str_temp=mid(html_str,1,InStr(LCase(html_str), "<section class=""showcase"">")-1)
 			html_str=mid(html_str,InStr(LCase(html_str), "<section class=""showcase"">")+len("<section class=""showcase"">"))
 			html_str=html_str_temp & mid(html_str,InStr(LCase(html_str), "</section>")+len("</section>"))
 		End If
+		'清除付费会员特殊格式
 		If InStr(LCase(html_str), "data-src=")>1 Then
 			html_str=format_transparent_html(html_str)
 		End If
+		'格式化非画师页面格式为画师页面格式
 		If member_type<>1 and InStr(LCase(html_str), "<li class=""image"">")>1 Then
 			'<li class="image"><a href="/member_illust.php?mode=medium&amp;illust_id=19067842"><p><img src="http://img01.pixiv.net/img/akuneko/19067842_s.png"></p><h1>【ピクサイⅡ】夢見る鯨の中で【島鯨の見る夢】</h1></a>
 			html_str=format_new_html(html_str)
 		End If
-		'<a href="member_illust.php?mode=medium&illust_id=17872081"><img src="http://img21.pixiv.net/img/youri19/17872081_s.png" alt="犬姫/悠" title="犬姫/悠" />犬姫</a></li>
+		html_str=replace(html_str,"a href=""/member_illust.php","a href=""member_illust.php")
+		'2012-12-12 new'<li><a href="/member_illust.php?mode=medium&amp;illust_id=30337755"><img src="http://i1.pixiv.net/img07/img/itou/30337755_s.jpg">月光</a></li>
+		'old'<a href="member_illust.php?mode=medium&illust_id=17872081"><img src="http://img21.pixiv.net/img/youri19/17872081_s.png" alt="犬姫/悠" title="犬姫/悠" />犬姫</a></li>
 		regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*/?>((?:(?!</a>).)*)</a>"
 		Set matches = regex.Execute(html_str)
 		
@@ -152,7 +165,8 @@ On Error Resume Next
 						End If
 					Case "manga"
 						If InStr(next_page_str, match.SubMatches(2)) > 0 Then
-							regex.Pattern = "<div[^>]*class=""works_data""[^>]*>\s*<p[^>]*>(?:(?!</p>).)*(?:漫画|漫畫|Manga) (\d+)P(?:(?!</p>).)*</p>"
+							'regex.Pattern = "<div[^>]*class=""works_data""[^>]*>\s*<p[^>]*>(?:(?!</p>).)*(?:漫画|漫畫|Manga) (\d+)P(?:(?!</p>).)*</p>"
+							regex.Pattern = "<li>(?:漫画|漫畫|Manga) (\d+)P</li>"
 							page_count = regex.Execute(html_str).Item(0).SubMatches(0)
 							For page_index = 0 To page_count - 1
 								add_download_list_entry match, return_download_list, page_index
@@ -188,7 +202,6 @@ On Error Resume Next
 	Else
 		check_login html_str
 	End If
-	
 	return_download_list = return_download_list & next_page_str
 End Function
 
@@ -226,7 +239,7 @@ Function add_download_list_entry(ByRef match, ByRef download_list, ByVal page_in
 		Case Else
 			Exit Function
 	End Select
-	download_list = download_list & format_str & "|" & link_str & "|" & rename_str & "|" & description_str & vbCrLf
+	download_list = download_list & format_str & "|" & link_str & "?" & (CDbl(Now()) * 10000000000) & "|" & rename_str & "|" & description_str & vbCrLf
 End Function
 '---------------------------------------------------------------------------------------------
 Function check_login(ByVal html_str)
@@ -248,13 +261,17 @@ Function get_next_page(ByVal html_str)
 	Dim regex, matches
 	Set regex = New RegExp
 	regex.Global = True
-	
 	regex.Pattern = "<a[^>]*href=""([^>\s]+)""[^>]*class=""[^""]*button[^""]*""[^>]*rel=""next""[^>]*>.*?</a>\s*</li>"
-								 '"<li><a href=""([^>\s]+)"" class=""button"" rel=""next"">.*?</a></li>"
-								 '</li><li class="next"><a href="?tag=%E4%BD%90%E5%A4%A9%E6%B6%99%E5%AD%90&amp;p=2" class="ui-button-light" rel="next" title="次へ">&gt;</a></li>
+								 '<li><a href="member_illust.php?id=517481&p=2" class="button" rel="next">下一面 ?</a></li>
+								 '<li class="next"><a href="?word=sega&amp;order=date_d&amp;p=2" class="ui-button-light" rel="next" title="下一面">&gt;</a></li>
 	Set matches = regex.Execute(html_str)
+	'InputBox next_page_str,next_page_str,next_page_str
 	For Each match In matches
-		get_next_page = "1|inet|10,13|" & root_str & "/" & replace(match.SubMatches(0),"&amp;","&")
+		get_next_page = replace(match.SubMatches(0),"&amp;","&")
+		If Left(get_next_page,1)="?" Then
+			get_next_page=php_name & get_next_page
+		End If
+		get_next_page = "1|inet|10,13|" & root_str & "/" & get_next_page
 		Exit For
 	Next
 End Function
@@ -296,29 +313,27 @@ End Function
 Function format_transparent_html(ByVal html_str)
     format_transparent_html = html_str
 		'new
-		'<img alt="犬姫/悠" title="犬姫/悠" id="filterOff" src="http://source.pixiv.net/source/images/common/transparent.gif" class="ui-scroll-view" data-filter="thumbnail-filter lazy-image" data-src="http://img21.pixiv.net/img/youri19/17872081_s.png" data-tags="" />犬姫</a></li>
+		'<li><a href="/member_illust.php?mode=medium&amp;illust_id=31510157">
+		'<div class="layout-thumbnail"><img src="http://source.pixiv.net/source/images/common/transparent.gif" alt="" class="ui-scroll-view" data-filter="thumbnail-filter lazy-image" data-src="http://i1.pixiv.net/img03/img/fuzichoco/31510157_s.jpg" data-tags="オリジナル 女の子 龍 幻想的 ドラゴン クリック推奨 巫女 ハイセンス ふつくしい"></div>水龍の巫女</a></li>
 		'转换为old
 		'<img src="http://img21.pixiv.net/img/youri19/17872081_s.png" alt="犬姫/悠" title="犬姫/悠" />犬姫</a></li>
     Dim split_str, matches(4),temp(2)
-    html_str=replace(html_str,"<img class=""ui-scroll-view"" src=","<img alt=")
-    temp(0) = Mid(html_str, 1, InStr(LCase(html_str), " data-src=") - 1)
-    temp(0) = Mid(temp(0), 1, InStrrev(LCase(temp(0)), "<img alt=") - 1)
-    html_str = Mid(html_str, len(temp(0))+1)
-    temp(1) = Mid(html_str, InStr(LCase(html_str), "<div class=""clear""></div>"))    
-    html_str = Mid(html_str,10,InStr(LCase(html_str), "<div class=""clear""></div>")-1)
-    split_str = Split(html_str, "<img alt=")
+    temp(0) = Mid(html_str,1,InStr(LCase(html_str), "<div class=""layout-thumbnail"">")-1)
+    html_str = Mid(html_str,InStr(LCase(html_str), "<div class=""layout-thumbnail"">")+len("<div class=""layout-thumbnail"">"))
+    temp(1) = Mid(html_str,InStr(LCase(html_str), "<div class=""clear""></div>"))    
+    html_str = Mid(html_str,1,InStr(LCase(html_str), "<div class=""clear""></div>")-1)
+    split_str = Split(html_str, "<div class=""layout-thumbnail"">")
     For i = 0 To UBound(split_str)
     		'alt
-        matches(0) = Mid(split_str(i), InStr(LCase(split_str(i)), """") + Len(""""))
+        matches(0) = Mid(split_str(i), InStr(LCase(split_str(i)), """ data-tags=""") + Len(""" data-tags="""))
         matches(0) = Mid(matches(0), 1, InStr(matches(0), """") - 1)
         'title=
-        matches(1) = Mid(split_str(i), InStr(LCase(split_str(i)), """ title=""") + Len(""" title="""))
-        matches(1) = Mid(matches(1), 1, InStr(matches(1), """") - 1)
+        matches(1) = matches(0)
         'data-src=
         matches(2) = Mid(split_str(i), InStr(LCase(split_str(i)), """ data-src=""") + Len(""" data-src="""))
         matches(2) = Mid(matches(2), 1, InStr(matches(2), """") - 1)
         '/>犬姫</a></li>
-        matches(3) = Mid(split_str(i), InStr(LCase(split_str(i)), ">")+1)
+        matches(3) = Mid(split_str(i), InStr(LCase(split_str(i)), "</div>")+6)
         split_str(i)="<img src=""" & matches(2) & """ alt=""" & matches(0) & """ title=""" & matches(1) & """ />" & matches(3)
     Next
     format_transparent_html =temp(0) & Join(split_str, "") & temp(1)
