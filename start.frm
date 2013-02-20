@@ -120,6 +120,8 @@ Private Sub Timer1_Timer()
         Exit Sub
     End If
     
+    'App.PrevInstance 检查是否多开程序 F没有， T多开
+    
     Dim err_report As Boolean, test_Object As Object, check_path
     
     start_text.Text = ""

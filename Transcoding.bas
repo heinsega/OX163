@@ -16,6 +16,26 @@ Public Function OX_CInternal(ByVal sourceString As String, ByVal sourceType As S
     End Select
     OX_CInternal = sourceString
 End Function
+'2进制数据转换对应的字符集文本------------------------------------------------------------------------------------------
+Public Function Bin2CharsetTypeStr(ByVal binstr, ByVal CharsetType)
+    On Error Resume Next
+    Const adTypeBinary = 1
+    Const adTypeText = 2
+    Dim BytesStream, StringReturn
+    Set BytesStream = CreateObject("ADODB.Stream") '建立一个流对象
+    With BytesStream
+        .Type = adTypeText
+        .Open
+        .WriteText binstr
+        .Position = 0
+        .Charset = CharsetType
+        .Position = 2
+        StringReturn = .ReadText
+        .Close
+    End With
+    Set BytesStream = Nothing
+    Bin2CharsetTypeStr = StringReturn
+End Function
 
 '过滤指定关键字集------------------------------------------------------------------------------------------
 Public Function OX_FilterKeywords(ByVal sourceString As String, ByVal keywords As String) As String
@@ -373,4 +393,52 @@ Public Function UTF8EncodeURI(ByVal szInput As String) As String
     
     UTF8EncodeURI = szRet
 End Function
-
+Function UTF8DecodeURI(ByVal strIn)
+UTF8DecodeURI = ""
+Dim sl:     sl = 1
+Dim tl:     tl = 1
+Dim key:     key = "%"
+Dim kl:     kl = Len(key)
+sl = InStr(sl, strIn, key, 1)
+Do While sl > 0
+If (tl = 1 And sl <> 1) Or tl < sl Then
+UTF8DecodeURI = UTF8DecodeURI & Mid(strIn, tl, sl - tl)
+End If
+Dim hh, hi, hl
+Dim a
+Select Case UCase(Mid(strIn, sl + kl, 1))
+Case "U": 'Unicode URLEncode
+a = Mid(strIn, sl + kl + 1, 4)
+UTF8DecodeURI = UTF8DecodeURI & ChrW("&H" & a)
+sl = sl + 6
+Case "E": 'UTF-8 URLEncode
+hh = Mid(strIn, sl + kl, 2)
+a = Int("&H" & hh)          'ascii码
+If Abs(a) < 128 Then
+sl = sl + 3
+UTF8DecodeURI = UTF8DecodeURI & Chr(a)
+Else
+hi = Mid(strIn, sl + 3 + kl, 2)
+hl = Mid(strIn, sl + 6 + kl, 2)
+a = ("&H" & hh And &HF) * 2 ^ 12 Or ("&H" & hi And &H3F) * 2 ^ 6 Or ("&H" & hl And &H3F)
+If a < 0 Then a = a + 65536
+UTF8DecodeURI = UTF8DecodeURI & ChrW(a)
+sl = sl + 9
+End If
+Case Else:   'Asc   URLEncode
+hh = Mid(strIn, sl + kl, 2)       '高位
+a = Int("&H" & hh)          'ascii码
+If Abs(a) < 128 Then
+sl = sl + 3
+Else
+hi = Mid(strIn, sl + 3 + kl, 2)     '低位
+a = Int("&H" & hh & hi)              '非ascii码
+sl = sl + 6
+End If
+UTF8DecodeURI = UTF8DecodeURI & Chr(a)
+End Select
+tl = sl
+sl = InStr(sl, strIn, key, 1)
+Loop
+UTF8DecodeURI = UTF8DecodeURI & Mid(strIn, tl)
+End Function

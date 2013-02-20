@@ -1,4 +1,4 @@
-'2012-11-13 163.shanhaijing.net
+'2013-1-7 163.shanhaijing.net
 Dim deep_DL, split_str, split_c0, split_c1
 Dim tags, page, page_counter, url_instr, pool, url_head
 Dim retry_time, retry_url
@@ -35,13 +35,18 @@ Function return_download_url(ByVal url_str)
         url_head = "http://chan"
     End If
     
+'---------------------------单独页面-----------------------------------------
     If InStr(LCase(url_str), ".sankakucomplex.com/post/show/") = 12 Then
         pool = "post"
         return_download_url = "inet|10,13|" & url_str
         retry_url = return_download_url
+    		return_download_url = return_download_url & "|http://chan.sankakucomplex.com/post/show/1936676" & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
+				OX163_urlpage_Referer = "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
         Exit Function
     End If
-    
+'----------------------------------------------------------------------------
+
+
     Dim page_str
     page_str = ""
     If InStr(LCase(url_str), "?page=") > 10 Then
@@ -78,6 +83,9 @@ Function return_download_url(ByVal url_str)
     End If
     
     retry_url = return_download_url
+    
+    return_download_url = return_download_url & "|http://chan.sankakucomplex.com/post/show/1936676" & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
+OX163_urlpage_Referer = "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
     
     deep_DL = MsgBox("是否使用快速分析？" & vbCrLf & "(部分非JPG图片如PNG/GIF等可能无法正常获取)" & vbCrLf & vbCrLf & "[YES]快速分析" & vbCrLf & "[NO]深入分析", vbYesNo, "询问")
 End Function
