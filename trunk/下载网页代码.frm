@@ -871,7 +871,7 @@ Begin VB.Form Form1
       NoFolders       =   0   'False
       Transparent     =   0   'False
       ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-      Location        =   ""
+      Location        =   "http:///"
    End
    Begin VB.PictureBox web_Picture 
       BorderStyle     =   0  'None
@@ -907,7 +907,7 @@ Begin VB.Form Form1
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   ""
+         Location        =   "http:///"
       End
    End
    Begin VB.Image process_Image 
@@ -1119,11 +1119,20 @@ Begin VB.Form Form1
       Begin VB.Menu menu_11 
          Caption         =   "-"
       End
-      Begin VB.Menu tray_dir 
-         Caption         =   "程序路径"
-      End
       Begin VB.Menu tray_path 
          Caption         =   "下载路径"
+      End
+      Begin VB.Menu tray_p 
+         Caption         =   "程序路径"
+         Begin VB.Menu tray_dir 
+            Caption         =   "程序路径"
+         End
+         Begin VB.Menu tray_dirsys 
+            Caption         =   "系统脚本路径"
+         End
+         Begin VB.Menu tray_dircustom 
+            Caption         =   "自定脚本路径"
+         End
       End
       Begin VB.Menu menu_6 
          Caption         =   "-"
@@ -1156,11 +1165,20 @@ Begin VB.Form Form1
       Begin VB.Menu menu_7 
          Caption         =   "-"
       End
-      Begin VB.Menu tray_dir1 
-         Caption         =   "程序路径"
-      End
       Begin VB.Menu tray_path1 
          Caption         =   "下载路径"
+      End
+      Begin VB.Menu tray_p1 
+         Caption         =   "程序路径"
+         Begin VB.Menu tray_dir1 
+            Caption         =   "程序路径"
+         End
+         Begin VB.Menu tray_dirsys1 
+            Caption         =   "系统脚本路径"
+         End
+         Begin VB.Menu tray_dircustom1 
+            Caption         =   "自定脚本路径"
+         End
       End
       Begin VB.Menu menu_8 
          Caption         =   "-"
@@ -1238,6 +1256,7 @@ Public form_quit As Boolean
 Dim m_lngDocSize As Double
 Dim old_FileSize As Double
 Dim download_FileName As String
+Dim download_FileFullName As String
 Dim strURL As String
 Dim download_ok As Boolean
 Dim psw_v As String
@@ -1877,14 +1896,14 @@ End Sub
 
 
 Public Sub always_on_top(on_top As Boolean)
-    Dim flags As Integer
-    flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
+    Dim Flags As Integer
+    Flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
     If on_top = True Then
-        SetWindowPos Form1.hWnd, HWND_TOPMOST, 0, 0, 0, 0, flags
+        SetWindowPos Form1.hWnd, HWND_TOPMOST, 0, 0, 0, 0, Flags
         top_Picture(1).Visible = True
         top_Picture(0).Visible = False
     Else
-        SetWindowPos Form1.hWnd, -2, 0, 0, 0, 0, flags
+        SetWindowPos Form1.hWnd, -2, 0, 0, 0, 0, Flags
         top_Picture(0).Visible = True
         top_Picture(1).Visible = False
     End If
@@ -2193,11 +2212,11 @@ Private Sub List1_KeyDown(KeyCode As Integer, Shift As Integer)
         If sysSet.list_copy = True Then
             GoTo List1_url_copy
         Else
-            GoTo List1_ubb_copy
+            GoTo List1_name_copy
         End If
-    ElseIf KeyCode = 67 And Shift = vbShiftMask Then
+    ElseIf KeyCode = 67 And Shift = vbAltMask Then
         If sysSet.list_copy = True Then
-            GoTo List1_ubb_copy
+            GoTo List1_name_copy
         Else
             GoTo List1_url_copy
         End If
@@ -2207,8 +2226,41 @@ Private Sub List1_KeyDown(KeyCode As Integer, Shift As Integer)
         Frame_search.Visible = False
     End If
     Exit Sub
+    '复制url List1_url_copy:
+    '复制文件名 List1_name_copy:
+    '复制url+文件名 List1_lst_copy:
+    '复制Ubb代码 List1_ubb_copy:
+    '复制描述
     '--------------------------------------------------
 List1_url_copy:
+    List1.Enabled = False
+    copy_txt = ""
+    For i = 1 To List1.ListItems.count
+        DoEvents
+        If List1.ListItems(i).Selected = True Then copy_txt = copy_txt & Trim$(List1.ListItems(i).ListSubItems(3).Text) & vbCrLf
+    Next
+    If copy_txt <> "" Then
+        Call SetClipboardText(copy_txt)
+    End If
+    List1.Enabled = True
+    List1.SetFocus
+    Exit Sub
+    '--------------------------------------------------
+List1_name_copy:
+    List1.Enabled = False
+    copy_txt = ""
+    For i = 1 To List1.ListItems.count
+        DoEvents
+        If List1.ListItems(i).Selected = True Then copy_txt = copy_txt & Trim$(List1.ListItems(i).ListSubItems(1).Text) & vbCrLf
+    Next
+    If copy_txt <> "" Then
+        Call SetClipboardText(copy_txt)
+    End If
+    List1.Enabled = True
+    List1.SetFocus
+    Exit Sub
+    '--------------------------------------------------
+List1_lst_copy:
     List1.Enabled = False
     copy_txt = ""
     For i = 1 To List1.ListItems.count
@@ -2216,8 +2268,7 @@ List1_url_copy:
         If List1.ListItems(i).Selected = True Then copy_txt = copy_txt & Trim$(List1.ListItems(i).ListSubItems(3).Text) & "?/" & Trim$(List1.ListItems(i).ListSubItems(1).Text) & vbCrLf
     Next
     If copy_txt <> "" Then
-        Clipboard.Clear
-        Clipboard.SetText copy_txt
+        Call SetClipboardText(copy_txt)
     End If
     List1.Enabled = True
     List1.SetFocus
@@ -2231,23 +2282,11 @@ List1_ubb_copy:
         If List1.ListItems(i).Selected = True Then copy_txt = copy_txt & "[url=" & Trim$(List1.ListItems(i).ListSubItems(3).Text) & "]" & Trim$(List1.ListItems(i).ListSubItems(1).Text) & "[/url]" & vbCrLf
     Next
     If copy_txt <> "" Then
-        Clipboard.Clear
-        Clipboard.SetText copy_txt
+        Call SetClipboardText(copy_txt)
     End If
     List1.Enabled = True
     List1.SetFocus
 End Sub
-Sub SetClipboardText(ByVal ClipboardText As String)    '写入信息到剪切板
-    Dim Form, TextBox
-    Set Form = CreateObject("Forms.Form.1")
-    Set TextBox = Form.Controls.Add("Forms.TextBox.1").Object
-    TextBox.MultiLine = True
-    TextBox.Text = ClipboardText
-    TextBox.SelStart = 0
-    TextBox.SelLength = TextBox.TextLength
-    TextBox.Copy
-End Sub
-
 
 Private Sub List1_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
     On Error Resume Next
@@ -2861,7 +2900,8 @@ err_12029:
             download_ok = True
         ElseIf m_lngDocSize < down_len Then
             Close #1
-            OX_Delfile download_FileName
+            If OX_Delfile(download_FileName) = False Then OX_Delfile download_FileName
+            If OX_GreatFile(download_FileFullName) = False Then OX_GreatFile download_FileFullName
             Open download_FileName For Binary Access Write As #1
             down_len = 0
             m_lngDocSize = 0
@@ -3293,15 +3333,18 @@ ErrHandler:
     Else: def_txtpath = ""
         def_txtpath = Mid(txtpath, 1, InStrRev(txtpath, "\"))
         txtpath = Mid(txtpath, InStrRev(txtpath, "\") + 1)
-        txtpath = Replace(GetShortName(def_txtpath) & "\" & Hex_unicode_str(txtpath), "\\", "\")
+        txtpath = Replace(GetShortName(def_txtpath) & "\" & fix_Unicode_FileName(Hex_unicode_str(txtpath)), "\\", "\")
         
         
-        If Dir(txtpath) <> "" Then
+        If OX_Dirfile(txtpath) Then
             answer_save = MsgBox("该文件已存在，是否覆盖？", vbYesNo + vbExclamation + vbDefaultButton2, "警告")
             If answer_save = vbNo Then Exit Sub
+        ElseIf OX_GreatFile(txtpath) = False Then
+            MsgBox "文件创建失败！", vbOKOnly, "警告"
+            Exit Sub
         End If
     End If
-    
+    txtpath = GetShortName(txtpath)
     list_save txtpath
     
 End Sub
@@ -3400,11 +3443,14 @@ Private Sub makelist_command_Click()
     'http://photo.163.com/photos/wehi/17653496/  判断是否为163单一相册----------------------
     'http://photo.163.com/photo/wehi/#m=1&ai=1530930&p=1&n=70&cp=1
     'http://photo.163.com/wehi/list/#aid=63181820&m=0&page=1
+    'http://photo.163.com/wehi/list/#m=1&aid=63181790&p=1
     
     If LCase(url_input.Text) Like "http://?*.photo.163.com*" Then
+        '老相册地址，格式化为163用户名
         url_input.Text = Mid$(url_input.Text, 8)
         url_input.Text = Mid$(url_input.Text, 1, InStr(url_input.Text, ".photo.163.com") - 1)
-    ElseIf LCase(url_input.Text) Like "?*photo.163.com/?*" And InStr(LCase(url_input.Text), "#aid=") < 1 Then
+        
+    ElseIf LCase(url_input.Text) Like "?*photo.163.com/?*" And InStr(LCase(url_input.Text), "#aid=") < 1 And InStr(LCase(url_input.Text), "&aid=") < 1 Then
         If InStr(LCase(url_input.Text), "/list/#aid=") < 1 Or InStr(LCase(url_input.Text), "/list#aid=") < 1 Then
             url_input.Text = Mid$(url_input.Text, InStr(LCase(url_input.Text), "photo.163.com/") + Len("photo.163.com/"))
             url_input.Text = Mid$(url_input.Text, 1, InStr(url_input.Text, "/") - 1)
@@ -3426,10 +3472,20 @@ Private Sub makelist_command_Click()
         Exit Sub
     End If
     '---------------------------------------------------------------------------------------
+    'http://photo.163.com/wehi/list/#m=1&aid=63181790&p=1
+    If InStr(LCase(url_input.Text), "&aid=") > 1 Then
+        url_temp = "#" & Mid$(url_input.Text, InStr(LCase(url_input.Text), "&aid=") + 1)
+        url_input.Text = Mid$(url_input.Text, 1, InStr(LCase(url_input.Text), "#") - 1) & url_temp
+        url_temp = ""
+    End If
+    'http://photo.163.com/wehi/list/#aid=63181790&p=1
+    
+    
     
     'wehi/17653496/
     'wehi/#m=1&ai=1530930&p=1&n=70&cp=1
     'http://photo.163.com/wehi/list/#aid=63181820&m=0&page=1
+    Dim url_check
     If InStr(url_input.Text, "photo.163.com/photos/") > 0 Then
         url_temp = Mid$(url_input.Text, InStr(url_input.Text, "photo.163.com/photos/") + 21)
         url_check = Split(url_temp, "/")
@@ -4167,12 +4223,11 @@ Private Sub Timer3_Timer()
         show_inform(0) = "正在自动检查最新版本..."
         StatusBar.Panels(2) = show_inform(0)
     End If
-    ver = update.OpenURL(sysSet.update_host & "../ox163_update.htm?ntime=" & CDbl(Now()))
-    If IsNumeric(ver) = False Then ver = update.OpenURL("http://www.ugschina.com/ox163_update.htm?ntime=" & CDbl(Now()))
+    ver = update.OpenURL(sysSet.update_host & "ox163_update.htm?ntime=" & CDbl(Now()))
     If IsNumeric(ver) Then
         ver = Mid$(ver, 1, InStr(ver, ".") - 1)
         If CInt(ver) > sysSet.ver And Len(ver) < 5 Then
-            ver = update.OpenURL(sysSet.update_host & "../ox163_update_info.htm?ntime=" & CDbl(Now()))
+            ver = update.OpenURL(sysSet.update_host & "ox163_update_info.htm?ntime=" & CDbl(Now()))
             ver = Left$(Replace(Replace(ver, Chr(10), ""), Chr(13), ""), 100)
             
             If download_ok = True Then
@@ -4238,10 +4293,24 @@ Private Sub tray_dir_Click()
 End Sub
 
 Private Sub tray_dir1_Click()
-    Shell "explorer.exe " & App_path, vbNormalFocus
+    Call tray_dir_Click
 End Sub
 
+Private Sub tray_dircustom_Click()
+    Shell "explorer.exe " & App_path & "\include\custom", vbNormalFocus
+End Sub
 
+Private Sub tray_dircustom1_Click()
+    Call tray_dircustom_Click
+End Sub
+
+Private Sub tray_dirsys_Click()
+    Shell "explorer.exe " & App_path & "\include\sys", vbNormalFocus
+End Sub
+
+Private Sub tray_dirsys1_Click()
+    Call tray_dirsys_Click
+End Sub
 
 Private Sub tray_path_Click()
     If Open_path = "" Then Open_path = App_path & "\download"
@@ -4249,8 +4318,7 @@ Private Sub tray_path_Click()
 End Sub
 
 Private Sub tray_path1_Click()
-    If Open_path = "" Then Open_path = App_path & "\download"
-    Shell "explorer.exe " & Open_path, vbNormalFocus
+    Call tray_path_Click
 End Sub
 
 Private Sub tray_quit_Click()
@@ -5031,7 +5099,7 @@ Private Sub user_list_KeyDown(KeyCode As Integer, Shift As Integer)
         Else
             GoTo user_ubb_copy
         End If
-    ElseIf KeyCode = 67 And Shift = vbShiftMask Then
+    ElseIf KeyCode = 67 And Shift = vbAltMask Then
         If sysSet.list_copy = True Then
             GoTo user_ubb_copy
         Else
@@ -5282,9 +5350,12 @@ Public Sub frame_resize()
         List1.Width = Frame1.Width
         List1.Height = Form1.Height - 1510 - show_StatusBar
         List1.ColumnHeaders.Item(3).Width = 2400
-        If List1.Width - 5000 > 4000 Then
+        If List1.Width - 5000 > 4000 And List1.Width - 5000 < 10000 Then
             List1.ColumnHeaders.Item(2).Width = 4000
             List1.ColumnHeaders.Item(4).Width = List1.Width - 8000
+        ElseIf List1.Width - 5000 > 10000 Then
+            List1.ColumnHeaders.Item(4).Width = 7000
+            List1.ColumnHeaders.Item(2).Width = List1.Width - 10900
         Else
             List1.ColumnHeaders.Item(2).Width = List1.Width - 5200
         End If
@@ -5433,7 +5504,7 @@ End Sub
 
 
 
-Private Sub Web_Browser_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
+Private Sub Web_Browser_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, Flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
     
     On Error GoTo Web_Browser_BeforeNavigate_error
     
@@ -5453,23 +5524,25 @@ Private Sub Web_Browser_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, f
     Dim script_retrun_code As String
     Dim run_script_str
     
+    Set Script_App = Nothing
     Script_App.Language = "vbscript"
+    'Script_App.Reset
     Script_App.AddCode (OX163_WebBrowser_scriptCode)
     
-    script_retrun_code = Script_App.Eval("OX163_Web_Browser_ctrl(" & Chr(34) & URL & Chr(34) & "," & Chr(34) & flags & Chr(34) & "," & Chr(34) & TargetFrameName & Chr(34) & "," & Chr(34) & PostData & Chr(34) & "," & Chr(34) & Headers & Chr(34) & ")")
+    script_retrun_code = Script_App.Eval("OX163_Web_Browser_ctrl(" & Chr(34) & URL & Chr(34) & "," & Chr(34) & Flags & Chr(34) & "," & Chr(34) & TargetFrameName & Chr(34) & "," & Chr(34) & PostData & Chr(34) & "," & Chr(34) & Headers & Chr(34) & ")")
     
     '0-URL, 1-Flags, 2-TargetFrameName, 3-PostData, 4-Headers
     run_script_str = Split(script_retrun_code, vbCrLf & vbCrLf)
     
     If (run_script_str(0) <> "" Or run_script_str(1) <> "" Or run_script_str(2) <> "" Or run_script_str(3) <> "" Or run_script_str(4) <> "") And Web_Browser_header_tf = False Then
         If run_script_str(0) <> "" Then URL = run_script_str(0)
-        If run_script_str(1) <> "" Then flags = run_script_str(1)
+        If run_script_str(1) <> "" Then Flags = run_script_str(1)
         If run_script_str(2) <> "" Then TargetFrameName = run_script_str(2)
         If run_script_str(3) <> "" Then PostData = run_script_str(3)
         If run_script_str(4) <> "" Then Headers = run_script_str(4) ': MsgBox URL & vbCrLf & flags & vbCrLf & TargetFrameName & vbCrLf & PostData & vbCrLf & Headers
         Web_Browser_header_tf = True
         Cancel = True
-        pDisp.Navigate URL, flags, TargetFrameName, PostData, Headers
+        pDisp.Navigate URL, Flags, TargetFrameName, PostData, Headers
         'URL = Replace(URL, "g.e-hentai.org", "www.hentaiverse.net")
         'Web_Browser.Navigate URL, , , PostData, "Host: 95.211.21.16" & vbCrLf & "Referer: http://g.e-hentai.org/"
         
@@ -5483,7 +5556,17 @@ Web_Browser_BeforeNavigate_error:
     
 End Sub
 
-
+'Private Sub Web_Browser_DocumentComplete(ByVal pDisp As Object, URL As Variant)
+'    Static script_retrun_code
+'
+'    If script_retrun_code = "" Then
+'    script_retrun_code = "<script language='javascript'>function OX163(){alter(""OK"");}</script>" & URL & "<br>"
+'    script_retrun_code = Web_Browser.Document.body.innerhtml & script_retrun_code
+'    Web_Browser.Document.body.innerhtml = script_retrun_code
+'    Else
+'    'Web_Browser.Document.body.execScript "OX163()", "JavaScript"
+'    End If
+'End Sub
 
 'Private Sub Web_Browser_DocumentComplete(ByVal pDisp As Object, URL As Variant)
 'On Error Resume Next
@@ -5518,11 +5601,14 @@ Private Sub Web_Browser_NavigateComplete2(ByVal pDisp As Object, URL As Variant)
         Dim Script_App As New ScriptControl
         Dim script_retrun_code As String
         
+        Set Script_App = Nothing
         Script_App.Language = "vbscript"
+        'Script_App.Reset
         Script_App.AddCode (OX163_WebBrowser_scriptCode)
-        script_retrun_code = Web_Browser.LocationURL
-        script_retrun_code = Script_App.Eval("OX163_Web_Browser_url(" & Chr(34) & script_retrun_code & Chr(34) & ")")
+        
         If Web_Browser.Visible = True And script_retrun_code <> Replace$(App_path & "\start.htm", "\\start.htm", "\start.htm") Then
+            script_retrun_code = Web_Browser.LocationURL
+            script_retrun_code = Script_App.Eval("OX163_Web_Browser_url(" & Chr(34) & script_retrun_code & Chr(34) & ")")
             url_temp = script_retrun_code
             url_input.Text = script_retrun_code
             buttom_enable True
@@ -5996,6 +6082,7 @@ new_down:
         If url_Referer <> "" Then
             Referer_temp = Referer_check
             check_header.Execute Trim$(strURL), "GET", , Referer_temp & vbCrLf & "Range: bytes=0-"
+            
             Do
                 DoEvents
                 Sleep 10
@@ -6330,6 +6417,7 @@ re_len:
         GoTo re_len
     ElseIf Err.Number <> 0 And filename_len <= 2 Then
         download_FileName = ""
+        download_FileFullName = ""
         Exit Sub
     End If
     
@@ -6346,6 +6434,7 @@ re_len:
     If OX_Dirfile(temp_filename) = True And sysSet.file_compare = 2 Then
         old_FileSize = -1
         download_FileName = ""
+        download_FileFullName = ""
         Exit Sub
     ElseIf OX_Dirfile(temp_filename) = True And sysSet.file_compare = 1 Then
         old_FileSize = FileLen(GetShortName(temp_filename))
@@ -6365,9 +6454,11 @@ restart:
     End If
     
     If OX_GreatFile(temp_filename) = True Then
+        download_FileFullName = download_FileName
         download_FileName = GetShortName(temp_filename)
     Else
         download_FileName = ""
+        download_FileFullName = ""
     End If
     'download_FileName = temp_filename
 End Sub
@@ -6520,6 +6611,8 @@ Private Sub user_open()
                 'dmt:1415505726,alc:true,comm:'',comdmt:0,kw:'',
                 'purl:'s1.photo.163.com/F_NKGYPejc2IEsiRlW6glw==/46443371157270973.js
                 
+                '2012/9/12
+                '1530930,name:'没&东西了',s:0,desc:'没东西了',st:1,au:1,count:0,t:1221048756165,ut:0,cvid:0,curl:'',surl:'',lurl:'',dmt:0,alc:true,kw:'',purl:'
                 temp(0) = Mid$(albumsINFO(cout_num), InStr(albumsINFO(cout_num), ",name:'") + 7)
                 temp(3) = temp(0)
                 
@@ -6536,6 +6629,7 @@ Private Sub user_open()
                 
                 temp(1) = Mid$(temp(1), InStr(temp(1), "'") + 1)
                 temp(1) = Mid$(temp(1), InStr(temp(1), "au:") + 3)
+                temp(4) = temp(1)
                 temp(1) = Trim(Mid$(temp(1), 1, InStr(temp(1), ",") - 1))
                 
                 temp(2) = Mid$(temp(2), InStr(temp(2), "'") + 1)
@@ -6555,6 +6649,17 @@ Private Sub user_open()
                     albumsID = "new163_ID_" & Mid$(albumsINFO(cout_num), 1, InStr(albumsINFO(cout_num), ",") - 1)
                 Else
                     albumsID = "http://" & albumsID
+                End If
+                
+                If temp(1) = "8" Then
+                    temp(1) = "1"
+                    temp(4) = Mid(temp(4), InStr(temp(4), "ut:") + 3)
+                    temp(4) = Mid(temp(4), 1, InStr(temp(4), ",") - 1)
+                    If temp(4) = "0" Then
+                        temp(1) = "0"
+                    End If
+                ElseIf temp(1) <> "1" Then
+                    temp(1) = "0"
                 End If
                 
                 If temp(1) = "1" Then
@@ -6856,7 +6961,7 @@ retry_new_password:
             End Select
             
             If form_quit = True Then GoTo end_sub
-            check_FileName
+            If list_pic_cout = 0 Or out_lst_type_tf = False Then check_FileName
             
             '----------------------合并导出列表，打开文件------------------------------------------------
             
@@ -7127,6 +7232,7 @@ end_sub:
         ShutDownWin.Show
     End If
     download_FileName = ""
+    download_FileFullName = ""
 End Sub
 
 
@@ -7517,6 +7623,7 @@ end_sub:
         ShutDownWin.Show
     End If
     download_FileName = ""
+    download_FileFullName = ""
 End Sub
 '------------------------------------------------------------------------------
 '------------------------------------------------------------------------------
@@ -7555,7 +7662,7 @@ Private Sub Web_Browser_NewWindow2(ppDisp As Object, Cancel As Boolean)
 End Sub
 
 
-Private Sub Web_Search_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
+Private Sub Web_Search_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, Flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
     On Error Resume Next
     If new_win = True Then
         new_win = False

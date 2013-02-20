@@ -184,10 +184,12 @@ Public Sub OX_load_Script_Code(sourceScriptInfo As ScriptInfo, sourceScriptApp A
     If LCase(Trim(sourceScriptInfo.Language)) = "vbscript" Then
         sourceScriptInfo.Language = "vbscript"
         sourceScriptApp.Language = "vbscript"
+        sourceScriptApp.Reset
         OX_load_Script_Code_STR = in_Script_Code.OX163_vbs_var & load_Script(App_path & "\include\sys\" & sourceScriptInfo.fileName) & in_Script_Code.OX163_vbs_fn
     Else
         sourceScriptInfo.Language = "javascript"
         sourceScriptApp.Language = "javascript"
+        sourceScriptApp.Reset
         OX_load_Script_Code_STR = in_Script_Code.OX163_js_var & load_Script(App_path & "\include\sys\" & sourceScriptInfo.fileName) & in_Script_Code.OX163_js_fn
     End If
     Call sourceScriptApp.AddCode(OX_load_Script_Code_STR)

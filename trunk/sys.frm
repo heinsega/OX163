@@ -188,7 +188,7 @@ Begin VB.Form sys
       Height          =   5295
       Index           =   8
       Left            =   9000
-      TabIndex        =   143
+      TabIndex        =   142
       Top             =   9000
       Width           =   6375
       Begin VB.PictureBox Picture29 
@@ -197,14 +197,14 @@ Begin VB.Form sys
          Left            =   360
          ScaleHeight     =   375
          ScaleWidth      =   1500
-         TabIndex        =   177
+         TabIndex        =   176
          Top             =   2400
          Width           =   1500
          Begin VB.CommandButton Comm_edit_black 
             Caption         =   "编辑黑名单"
             Height          =   300
             Left            =   0
-            TabIndex        =   178
+            TabIndex        =   177
             Top             =   0
             Width           =   1335
          End
@@ -215,14 +215,14 @@ Begin VB.Form sys
          Left            =   3120
          ScaleHeight     =   375
          ScaleWidth      =   1500
-         TabIndex        =   175
+         TabIndex        =   174
          Top             =   2400
          Width           =   1500
          Begin VB.CommandButton Comm_edit_white 
             Caption         =   "编辑白名单"
             Height          =   300
             Left            =   0
-            TabIndex        =   176
+            TabIndex        =   175
             Top             =   0
             Width           =   1335
          End
@@ -233,7 +233,7 @@ Begin VB.Form sys
          Left            =   360
          ScaleHeight     =   255
          ScaleWidth      =   1395
-         TabIndex        =   172
+         TabIndex        =   171
          Top             =   2040
          Width           =   1395
          Begin VB.OptionButton ie_black_list 
@@ -241,7 +241,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   1
             Left            =   0
-            TabIndex        =   174
+            TabIndex        =   173
             Top             =   0
             Width           =   495
          End
@@ -250,7 +250,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   0
             Left            =   840
-            TabIndex        =   173
+            TabIndex        =   172
             Top             =   0
             Width           =   495
          End
@@ -261,7 +261,7 @@ Begin VB.Form sys
          Left            =   3120
          ScaleHeight     =   255
          ScaleWidth      =   1395
-         TabIndex        =   169
+         TabIndex        =   168
          Top             =   2040
          Width           =   1395
          Begin VB.OptionButton ie_white_list 
@@ -269,7 +269,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   0
             Left            =   840
-            TabIndex        =   171
+            TabIndex        =   170
             Top             =   0
             Width           =   495
          End
@@ -278,7 +278,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   1
             Left            =   0
-            TabIndex        =   170
+            TabIndex        =   169
             Top             =   0
             Width           =   495
          End
@@ -289,7 +289,7 @@ Begin VB.Form sys
          Left            =   3120
          ScaleHeight     =   255
          ScaleWidth      =   1395
-         TabIndex        =   164
+         TabIndex        =   163
          Top             =   1320
          Width           =   1395
          Begin VB.OptionButton ie_local_window 
@@ -297,7 +297,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   0
             Left            =   840
-            TabIndex        =   166
+            TabIndex        =   165
             Top             =   0
             Width           =   495
          End
@@ -306,7 +306,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   1
             Left            =   0
-            TabIndex        =   165
+            TabIndex        =   164
             Top             =   0
             Width           =   495
          End
@@ -317,7 +317,7 @@ Begin VB.Form sys
          Left            =   360
          ScaleHeight     =   255
          ScaleWidth      =   1395
-         TabIndex        =   147
+         TabIndex        =   146
          Top             =   600
          Width           =   1395
          Begin VB.OptionButton ox163_window 
@@ -325,7 +325,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   0
             Left            =   840
-            TabIndex        =   149
+            TabIndex        =   148
             Top             =   0
             Width           =   495
          End
@@ -334,7 +334,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   1
             Left            =   0
-            TabIndex        =   148
+            TabIndex        =   147
             Top             =   0
             Width           =   495
          End
@@ -345,7 +345,7 @@ Begin VB.Form sys
          Left            =   360
          ScaleHeight     =   255
          ScaleWidth      =   1395
-         TabIndex        =   144
+         TabIndex        =   143
          Top             =   1320
          Width           =   1395
          Begin VB.OptionButton ie_window 
@@ -353,7 +353,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   1
             Left            =   0
-            TabIndex        =   146
+            TabIndex        =   145
             Top             =   0
             Width           =   495
          End
@@ -362,7 +362,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   0
             Left            =   840
-            TabIndex        =   145
+            TabIndex        =   144
             Top             =   0
             Width           =   495
          End
@@ -374,7 +374,7 @@ Begin VB.Form sys
          Height          =   180
          Index           =   19
          Left            =   360
-         TabIndex        =   168
+         TabIndex        =   167
          ToolTipText     =   "非特定需求建议选择(是)"
          Top             =   1800
          Width           =   1080
@@ -386,7 +386,7 @@ Begin VB.Form sys
          Height          =   180
          Index           =   18
          Left            =   3120
-         TabIndex        =   167
+         TabIndex        =   166
          ToolTipText     =   "非特定需求建议选择(是)"
          Top             =   1800
          Width           =   1080
@@ -398,7 +398,7 @@ Begin VB.Form sys
          Height          =   180
          Index           =   17
          Left            =   3120
-         TabIndex        =   163
+         TabIndex        =   162
          ToolTipText     =   "非特定需求建议选择(是)"
          Top             =   1080
          Width           =   2160
@@ -410,7 +410,7 @@ Begin VB.Form sys
          Height          =   180
          Index           =   14
          Left            =   360
-         TabIndex        =   151
+         TabIndex        =   150
          ToolTipText     =   "浏览特定网站请建议选择(是)"
          Top             =   360
          Width           =   2070
@@ -422,7 +422,7 @@ Begin VB.Form sys
          Height          =   180
          Index           =   0
          Left            =   360
-         TabIndex        =   150
+         TabIndex        =   149
          ToolTipText     =   "非特定需求建议选择(是)"
          Top             =   1080
          Width           =   2520
@@ -432,7 +432,7 @@ Begin VB.Form sys
       Caption         =   "应用"
       Height          =   465
       Left            =   7680
-      TabIndex        =   113
+      TabIndex        =   112
       Top             =   5520
       Width           =   1215
    End
@@ -489,7 +489,7 @@ Begin VB.Form sys
    Begin MSComctlLib.TreeView SysTreeView 
       Height          =   5295
       Left            =   120
-      TabIndex        =   112
+      TabIndex        =   111
       Top             =   120
       Width           =   2295
       _ExtentX        =   4048
@@ -558,7 +558,7 @@ Begin VB.Form sys
          Left            =   3600
          ScaleHeight     =   255
          ScaleWidth      =   1395
-         TabIndex        =   152
+         TabIndex        =   151
          Top             =   2040
          Width           =   1395
          Begin VB.OptionButton quitOp 
@@ -566,7 +566,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   1
             Left            =   0
-            TabIndex        =   154
+            TabIndex        =   153
             Top             =   0
             Width           =   495
          End
@@ -575,7 +575,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   0
             Left            =   840
-            TabIndex        =   153
+            TabIndex        =   152
             Top             =   0
             Width           =   495
          End
@@ -674,7 +674,7 @@ Begin VB.Form sys
          Top             =   1200
          Width           =   2475
          Begin VB.OptionButton ubb_copy 
-            Caption         =   "Shift+C"
+            Caption         =   "Alt+C"
             Height          =   255
             Index           =   0
             Left            =   1200
@@ -711,7 +711,7 @@ Begin VB.Form sys
             Width           =   975
          End
          Begin VB.OptionButton list_copy 
-            Caption         =   "Shift+C"
+            Caption         =   "Alt+C"
             Height          =   255
             Index           =   0
             Left            =   1200
@@ -726,7 +726,7 @@ Begin VB.Form sys
          Caption         =   "程序执行时，打开退出询问？"
          Height          =   180
          Left            =   3600
-         TabIndex        =   155
+         TabIndex        =   154
          ToolTipText     =   "建议选择(是)防止误操作"
          Top             =   1800
          Width           =   2340
@@ -991,7 +991,7 @@ Begin VB.Form sys
          Left            =   240
          List            =   "sys.frx":6EC6
          Style           =   2  'Dropdown List
-         TabIndex        =   114
+         TabIndex        =   113
          Top             =   2760
          Width           =   2415
       End
@@ -1122,14 +1122,14 @@ Begin VB.Form sys
          Left            =   240
          ScaleHeight     =   495
          ScaleWidth      =   2535
-         TabIndex        =   140
+         TabIndex        =   139
          Top             =   3120
          Width           =   2535
          Begin VB.CommandButton LST_Help 
             Caption         =   "下载列表文件使用说明"
             Height          =   465
             Left            =   0
-            TabIndex        =   141
+            TabIndex        =   140
             Top             =   0
             Width           =   2295
          End
@@ -1140,7 +1140,7 @@ Begin VB.Form sys
          ForeColor       =   &H000000FF&
          Height          =   360
          Left            =   2760
-         TabIndex        =   142
+         TabIndex        =   141
          Top             =   2760
          Width           =   2610
       End
@@ -1151,7 +1151,7 @@ Begin VB.Form sys
          Height          =   180
          Index           =   7
          Left            =   240
-         TabIndex        =   115
+         TabIndex        =   114
          ToolTipText     =   "建议使用HTM方式"
          Top             =   2520
          Width           =   1620
@@ -1225,7 +1225,7 @@ Begin VB.Form sys
       Begin VB.TextBox update_host_Text 
          Height          =   270
          Left            =   1440
-         TabIndex        =   181
+         TabIndex        =   180
          Text            =   "http://www.shanhaijing.net"
          Top             =   920
          Width           =   4335
@@ -1235,7 +1235,7 @@ Begin VB.Form sys
          ItemData        =   "sys.frx":6F43
          Left            =   1440
          List            =   "sys.frx":6F45
-         TabIndex        =   179
+         TabIndex        =   178
          Text            =   "update_host_Combo"
          ToolTipText     =   "以""http://""开头, 默认""http://www.shanhaijing.net/163/"""
          Top             =   1200
@@ -1247,7 +1247,7 @@ Begin VB.Form sys
          Left            =   120
          ScaleHeight     =   255
          ScaleWidth      =   1395
-         TabIndex        =   108
+         TabIndex        =   107
          Top             =   2040
          Width           =   1395
          Begin VB.OptionButton set_tray 
@@ -1255,7 +1255,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   0
             Left            =   840
-            TabIndex        =   110
+            TabIndex        =   109
             Top             =   0
             Width           =   495
          End
@@ -1264,7 +1264,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   1
             Left            =   0
-            TabIndex        =   109
+            TabIndex        =   108
             Top             =   0
             Width           =   495
          End
@@ -1396,7 +1396,7 @@ Begin VB.Form sys
          Caption         =   "设置更新服务："
          Height          =   180
          Left            =   120
-         TabIndex        =   180
+         TabIndex        =   179
          ToolTipText     =   "以""http://""开头, 默认""http://www.shanhaijing.net/163/"""
          Top             =   960
          Width           =   1260
@@ -1408,7 +1408,7 @@ Begin VB.Form sys
          Height          =   180
          Index           =   4
          Left            =   120
-         TabIndex        =   111
+         TabIndex        =   110
          ToolTipText     =   "如果出现错误或者程序假死请选择(否)"
          Top             =   1800
          Width           =   1980
@@ -1507,29 +1507,29 @@ Begin VB.Form sys
          Height          =   300
          Index           =   1
          ItemData        =   "sys.frx":6F47
-         Left            =   2280
+         Left            =   240
          List            =   "sys.frx":6F54
          Style           =   2  'Dropdown List
-         TabIndex        =   162
-         Top             =   640
-         Width           =   3855
+         TabIndex        =   161
+         Top             =   1080
+         Width           =   5895
       End
       Begin VB.ComboBox Combo_unicode_ctrl 
          Height          =   300
          Index           =   0
          ItemData        =   "sys.frx":6FB3
-         Left            =   2280
+         Left            =   240
          List            =   "sys.frx":6FC0
          Style           =   2  'Dropdown List
-         TabIndex        =   160
-         Top             =   285
-         Width           =   3855
+         TabIndex        =   159
+         Top             =   480
+         Width           =   5895
       End
       Begin VB.Frame Frame2 
          ForeColor       =   &H00C00000&
          Height          =   1575
          Left            =   240
-         TabIndex        =   117
+         TabIndex        =   116
          Top             =   2880
          Width           =   5895
          Begin VB.ComboBox Combo_rar 
@@ -1538,7 +1538,7 @@ Begin VB.Form sys
             Left            =   3720
             List            =   "sys.frx":7039
             Style           =   2  'Dropdown List
-            TabIndex        =   138
+            TabIndex        =   137
             Top             =   240
             Width           =   1815
          End
@@ -1548,7 +1548,7 @@ Begin VB.Form sys
             Left            =   2880
             List            =   "sys.frx":705D
             Style           =   2  'Dropdown List
-            TabIndex        =   137
+            TabIndex        =   136
             Top             =   900
             Width           =   1335
          End
@@ -1556,7 +1556,7 @@ Begin VB.Form sys
             Height          =   270
             Left            =   2880
             MaxLength       =   15
-            TabIndex        =   136
+            TabIndex        =   135
             Top             =   570
             Width           =   2655
          End
@@ -1566,14 +1566,14 @@ Begin VB.Form sys
             Left            =   4200
             ScaleHeight     =   375
             ScaleWidth      =   1500
-            TabIndex        =   134
+            TabIndex        =   133
             Top             =   840
             Width           =   1500
             Begin VB.CommandButton Command1 
                Caption         =   "添加后缀"
                Height          =   300
                Left            =   120
-               TabIndex        =   135
+               TabIndex        =   134
                Top             =   60
                Width           =   1215
             End
@@ -1584,7 +1584,7 @@ Begin VB.Form sys
             Left            =   480
             ScaleHeight     =   975
             ScaleWidth      =   2115
-            TabIndex        =   129
+            TabIndex        =   128
             Top             =   480
             Width           =   2115
             Begin VB.OptionButton file_compare 
@@ -1592,7 +1592,7 @@ Begin VB.Form sys
                Height          =   255
                Index           =   2
                Left            =   0
-               TabIndex        =   132
+               TabIndex        =   131
                ToolTipText     =   "skip same name files"
                Top             =   360
                Width           =   2055
@@ -1602,7 +1602,7 @@ Begin VB.Form sys
                Height          =   255
                Index           =   1
                Left            =   0
-               TabIndex        =   131
+               TabIndex        =   130
                ToolTipText     =   "skip same files"
                Top             =   0
                Width           =   2055
@@ -1612,7 +1612,7 @@ Begin VB.Form sys
                Height          =   255
                Index           =   0
                Left            =   0
-               TabIndex        =   130
+               TabIndex        =   129
                ToolTipText     =   "rename as new files"
                Top             =   720
                Width           =   2055
@@ -1625,7 +1625,7 @@ Begin VB.Form sys
             Height          =   180
             Index           =   5
             Left            =   120
-            TabIndex        =   156
+            TabIndex        =   155
             Top             =   0
             Width           =   360
          End
@@ -1636,7 +1636,7 @@ Begin VB.Form sys
             Height          =   180
             Index           =   3
             Left            =   2880
-            TabIndex        =   139
+            TabIndex        =   138
             ToolTipText     =   "建议使用自动改名"
             Top             =   300
             Width           =   900
@@ -1648,7 +1648,7 @@ Begin VB.Form sys
             Height          =   180
             Index           =   10
             Left            =   240
-            TabIndex        =   133
+            TabIndex        =   132
             ToolTipText     =   "请按用户需要设定"
             Top             =   240
             Width           =   1620
@@ -1656,26 +1656,26 @@ Begin VB.Form sys
       End
       Begin VB.Frame Frame1 
          ForeColor       =   &H00C00000&
-         Height          =   1695
+         Height          =   1335
          Left            =   240
-         TabIndex        =   116
-         Top             =   1080
+         TabIndex        =   115
+         Top             =   1440
          Width           =   5895
          Begin VB.PictureBox Picture20 
             BorderStyle     =   0  'None
             Height          =   255
-            Left            =   120
+            Left            =   3360
             ScaleHeight     =   255
             ScaleWidth      =   1395
-            TabIndex        =   125
-            Top             =   1320
+            TabIndex        =   124
+            Top             =   910
             Width           =   1395
             Begin VB.OptionButton set_url_folder 
                Caption         =   "是"
                Height          =   255
                Index           =   1
                Left            =   0
-               TabIndex        =   127
+               TabIndex        =   126
                Top             =   0
                Width           =   495
             End
@@ -1684,7 +1684,7 @@ Begin VB.Form sys
                Height          =   255
                Index           =   0
                Left            =   840
-               TabIndex        =   126
+               TabIndex        =   125
                Top             =   0
                Width           =   495
             End
@@ -1693,7 +1693,7 @@ Begin VB.Form sys
             Enabled         =   0   'False
             Height          =   270
             Left            =   150
-            TabIndex        =   123
+            TabIndex        =   122
             Top             =   510
             Width           =   4935
          End
@@ -1703,7 +1703,7 @@ Begin VB.Form sys
             Left            =   1440
             ScaleHeight     =   255
             ScaleWidth      =   1515
-            TabIndex        =   120
+            TabIndex        =   119
             Top             =   240
             Width           =   1515
             Begin VB.OptionButton def_path 
@@ -1711,7 +1711,7 @@ Begin VB.Form sys
                Height          =   255
                Index           =   1
                Left            =   840
-               TabIndex        =   122
+               TabIndex        =   121
                Top             =   0
                Width           =   735
             End
@@ -1720,7 +1720,7 @@ Begin VB.Form sys
                Height          =   255
                Index           =   0
                Left            =   0
-               TabIndex        =   121
+               TabIndex        =   120
                Top             =   0
                Width           =   735
             End
@@ -1731,7 +1731,7 @@ Begin VB.Form sys
             Left            =   5160
             ScaleHeight     =   255
             ScaleWidth      =   555
-            TabIndex        =   118
+            TabIndex        =   117
             Top             =   510
             Width           =   555
             Begin VB.CommandButton def_path_com 
@@ -1739,7 +1739,7 @@ Begin VB.Form sys
                Enabled         =   0   'False
                Height          =   255
                Left            =   0
-               TabIndex        =   119
+               TabIndex        =   118
                Top             =   0
                Width           =   495
             End
@@ -1751,7 +1751,7 @@ Begin VB.Form sys
             Height          =   180
             Index           =   6
             Left            =   120
-            TabIndex        =   157
+            TabIndex        =   156
             Top             =   0
             Width           =   360
          End
@@ -1762,9 +1762,9 @@ Begin VB.Form sys
             Height          =   180
             Index           =   13
             Left            =   120
-            TabIndex        =   128
+            TabIndex        =   127
             ToolTipText     =   "（如：C:\163blog.vbs_vbscript_GB2312\http：／／blog.163.com／aaa／\）"
-            Top             =   1080
+            Top             =   960
             Width           =   2880
          End
          Begin VB.Label Label9 
@@ -1774,7 +1774,7 @@ Begin VB.Form sys
             Height          =   180
             Index           =   5
             Left            =   120
-            TabIndex        =   124
+            TabIndex        =   123
             ToolTipText     =   "建议自定义设置"
             Top             =   270
             Width           =   1260
@@ -1788,8 +1788,8 @@ Begin VB.Form sys
          Height          =   180
          Index           =   16
          Left            =   240
-         TabIndex        =   161
-         Top             =   720
+         TabIndex        =   160
+         Top             =   840
          Width           =   1890
       End
       Begin VB.Label Label9 
@@ -1800,8 +1800,8 @@ Begin VB.Form sys
          Height          =   180
          Index           =   15
          Left            =   240
-         TabIndex        =   159
-         Top             =   360
+         TabIndex        =   158
+         Top             =   240
          Width           =   1980
       End
    End
@@ -1814,13 +1814,157 @@ Begin VB.Form sys
       TabIndex        =   97
       Top             =   120
       Width           =   6375
+      Begin VB.Frame Frame3 
+         Height          =   2415
+         Left            =   240
+         TabIndex        =   181
+         Top             =   960
+         Width           =   5895
+         Begin VB.FileListBox scriptFile 
+            BeginProperty Font 
+               Name            =   "宋体"
+               Size            =   11.25
+               Charset         =   134
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   1665
+            Hidden          =   -1  'True
+            Left            =   3360
+            Pattern         =   "*.txt"
+            TabIndex        =   192
+            Top             =   480
+            Width           =   2415
+         End
+         Begin VB.ListBox scriptList 
+            BeginProperty Font 
+               Name            =   "宋体"
+               Size            =   12
+               Charset         =   134
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   1680
+            ItemData        =   "sys.frx":705F
+            Left            =   120
+            List            =   "sys.frx":707E
+            Style           =   1  'Checkbox
+            TabIndex        =   191
+            Top             =   480
+            Width           =   2655
+         End
+         Begin VB.CommandButton IncLstCtrl_Com1 
+            Height          =   255
+            Index           =   0
+            Left            =   2880
+            Picture         =   "sys.frx":70D7
+            Style           =   1  'Graphical
+            TabIndex        =   190
+            ToolTipText     =   "Top"
+            Top             =   480
+            Width           =   375
+         End
+         Begin VB.CommandButton IncLstCtrl_Com1 
+            Height          =   255
+            Index           =   1
+            Left            =   2880
+            Picture         =   "sys.frx":7130
+            Style           =   1  'Graphical
+            TabIndex        =   189
+            ToolTipText     =   "Up"
+            Top             =   720
+            Width           =   375
+         End
+         Begin VB.CommandButton IncLstCtrl_Com1 
+            Height          =   255
+            Index           =   2
+            Left            =   2880
+            Picture         =   "sys.frx":7188
+            Style           =   1  'Graphical
+            TabIndex        =   188
+            ToolTipText     =   "Remove Include File"
+            Top             =   1560
+            Width           =   375
+         End
+         Begin VB.CommandButton IncLstCtrl_Com1 
+            Height          =   255
+            Index           =   3
+            Left            =   2880
+            Picture         =   "sys.frx":71E4
+            Style           =   1  'Graphical
+            TabIndex        =   187
+            ToolTipText     =   "Down"
+            Top             =   960
+            Width           =   375
+         End
+         Begin VB.CommandButton IncLstCtrl_Com1 
+            Height          =   255
+            Index           =   4
+            Left            =   2880
+            Picture         =   "sys.frx":723D
+            Style           =   1  'Graphical
+            TabIndex        =   186
+            ToolTipText     =   "Bottom"
+            Top             =   1200
+            Width           =   375
+         End
+         Begin VB.CommandButton IncLstCtrl_Com1 
+            Height          =   255
+            Index           =   5
+            Left            =   2880
+            Picture         =   "sys.frx":7298
+            Style           =   1  'Graphical
+            TabIndex        =   185
+            ToolTipText     =   "Add Incule File"
+            Top             =   1920
+            Width           =   375
+         End
+         Begin VB.Label Label3 
+            AutoSize        =   -1  'True
+            Caption         =   "Include Flie(优先级由高至低)"
+            ForeColor       =   &H00C00000&
+            Height          =   180
+            Index           =   9
+            Left            =   120
+            TabIndex        =   184
+            Top             =   240
+            Width           =   2520
+         End
+         Begin VB.Label Label3 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "custom文件夹内容"
+            ForeColor       =   &H00C00000&
+            Height          =   180
+            Index           =   8
+            Left            =   3600
+            TabIndex        =   183
+            Top             =   240
+            Width           =   1440
+         End
+         Begin VB.Label Label3 
+            AutoSize        =   -1  'True
+            Caption         =   "include列表"
+            ForeColor       =   &H00C00000&
+            Height          =   180
+            Index           =   7
+            Left            =   120
+            TabIndex        =   182
+            Top             =   0
+            Width           =   990
+         End
+      End
       Begin VB.PictureBox Picture12 
          BorderStyle     =   0  'None
          Height          =   315
          Left            =   240
          ScaleHeight     =   315
          ScaleWidth      =   2655
-         TabIndex        =   103
+         TabIndex        =   102
          Top             =   600
          Width           =   2655
          Begin VB.OptionButton scriptOP 
@@ -1828,7 +1972,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   0
             Left            =   0
-            TabIndex        =   106
+            TabIndex        =   105
             ToolTipText     =   "在程序分析完是否为163相册后执行"
             Top             =   20
             Width           =   735
@@ -1838,7 +1982,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   1
             Left            =   915
-            TabIndex        =   105
+            TabIndex        =   104
             ToolTipText     =   "优先执行外部脚本"
             Top             =   0
             Width           =   735
@@ -1848,29 +1992,18 @@ Begin VB.Form sys
             Height          =   255
             Index           =   2
             Left            =   1785
-            TabIndex        =   104
+            TabIndex        =   103
             ToolTipText     =   "关闭外部脚本执行"
             Top             =   20
             Width           =   735
          End
-      End
-      Begin VB.ListBox scriptList 
-         Height          =   2580
-         ItemData        =   "sys.frx":705F
-         Left            =   240
-         List            =   "sys.frx":707E
-         Style           =   1  'Checkbox
-         TabIndex        =   102
-         Top             =   960
-         Visible         =   0   'False
-         Width           =   3015
       End
       Begin VB.Label Label11 
          AutoSize        =   -1  'True
          Caption         =   "脚本信息报告"
          Height          =   180
          Left            =   4080
-         TabIndex        =   158
+         TabIndex        =   157
          Top             =   360
          Visible         =   0   'False
          Width           =   1080
@@ -1882,7 +2015,7 @@ Begin VB.Form sys
          Height          =   180
          Index           =   6
          Left            =   240
-         TabIndex        =   107
+         TabIndex        =   106
          ToolTipText     =   "请按用户需要设定"
          Top             =   360
          Width           =   1260
@@ -2008,6 +2141,9 @@ Private Sub Form_Load()
     'flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
     'SetWindowPos Me.hwnd, HWND_TOPMOST, 0, 0, 0, 0, flags
     Form1.Enabled = False
+    scriptList.Height = 1840
+    scriptFile.Height = 1840
+    scriptFile.Path = App_path & "\include\custom"
     Call sys_def(0)
     Call laod_ini(0)
 End Sub

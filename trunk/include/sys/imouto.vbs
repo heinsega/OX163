@@ -1,4 +1,4 @@
-'2012-11-11 163.shanhaijing.net
+'2013-1-19 163.shanhaijing.net
 Dim page_counter
 Dim tags, page, url_instr, pool, url_head
 '----------------------------------------------------
@@ -28,6 +28,11 @@ Dim page_tmp
 If InStr(LCase(url_str), url_head & "pool/show/") =1 Then
 		'http://yande.re/pool/show/2218
 		'http://yande.re/post?tags=pool%3A2218
+		pool="pool"
+		return_download_url = "inet|10,13|" & url_str & "|" & url_str & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
+		OX163_urlpage_Referer = "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
+		Exit Function
+		'使用tag来获取pool数据（不使用该方法）
     url_str=Mid(url_str, len(url_head & "pool/show/")+1)
     If InStr(LCase(url_str), "/") > 0 Then url_str = Mid(url_str, 1, InStr(LCase(url_str), "/") - 1)
     If InStr(LCase(url_str), "?") > 0 Then url_str = Mid(url_str, 1, InStr(LCase(url_str), "?") - 1)
@@ -88,14 +93,76 @@ End Function
 Function return_download_list(ByVal html_str, ByVal url_str)
 On Error Resume Next
 return_download_list = ""
-
 Call get_url_head(url_str)
+
+Dim key_word,split_str,url_temp,split_i
+
+If pool="pool" Then
+	key_word="Post.register_resp({""posts"":["
+	If instr(LCase(html_str),lcase(key_word))>0 Then
+		html_str=mid(html_str,instr(LCase(html_str),lcase(key_word))+len(key_word))
+		key_word="],""pools"":["
+		html_str=mid(html_str,1,instr(LCase(html_str),lcase(key_word))-1)
+		split_str=split(html_str,"},{")
+		For split_i = 0 To UBound(split_str)
+		html_str=""
+		url_str=""
+		key_word="""file_url"":"""
+		'url
+		url_str=mid(split_str(split_i),instr(LCase(split_str(split_i)),LCase(key_word))+len(key_word))
+		url_str=mid(url_str,1,instr(url_str,chr(34))-1)
+		url_str=replace(url_str,"\/","/")
+    'name
+    html_str=unescape(Mid(url_str,instrrev(url_str,"/")+1))
+		split_str(split_i)=""
+		split_str(split_i)="|" & url_str & "|" & html_str & "|" & vbCrLf
+		Next
+		
+		return_download_list=join(split_str,"")
+		
+    '"id":219298,
+    '"tags":"chinadress hong_meiling moneti touhou",
+    '"created_at":1343833859,
+    '"creator_id":111274,
+    '"author":"\u690e\u540d\u6df1\u590f",
+    '"change":1127276,
+    '"source":"http:\/\/i2.pixiv.net\/img76\/img\/daifuku1285\/29049995.jpg",
+    '"score":53,"md5":"d89fd5410e06811c4ed9e12cb28d07b5",
+    '"file_size":559972,
+    '"file_url":"https:\/\/yande.re\/image\/d89fd5410e06811c4ed9e12cb28d07b5\/yande.re%20219298%20chinadress%20hong_meiling%20moneti%20touhou.jpg",
+    '"is_shown_in_index":true,
+    '"preview_url":"https:\/\/yande.re\/data\/preview\/d8\/9f\/d89fd5410e06811c4ed9e12cb28d07b5.jpg",
+    '"preview_width":116,
+    '"preview_height":150,
+    '"actual_preview_width":233,"actual_preview_height":300,
+    '"sample_url":"https:\/\/yande.re\/sample\/d89fd5410e06811c4ed9e12cb28d07b5\/yande.re%20219298%20sample.jpg",
+    '"sample_width":1164,
+    '"sample_height":1500,
+    '"sample_file_size":430205,
+    '"jpeg_url":"https:\/\/yande.re\/image\/d89fd5410e06811c4ed9e12cb28d07b5\/yande.re%20219298%20chinadress%20hong_meiling%20moneti%20touhou.jpg",
+    '"jpeg_width":1246,
+    '"jpeg_height":1606,
+    '"jpeg_file_size":0,
+    '"rating":"s","
+    'has_children":false,
+    '"parent_id":null,
+    '"status":"active",
+    '"width":1246,
+    '"height":1606,
+    '"is_held":false,
+    '"frames_pending_string":"",
+    '"frames_pending":[],
+    '"frames_string":"",
+    '"frames":[]
+    
+	End If
+Exit Function
+End If
 
 url_str=html_str
 If InStr(LCase(html_str), "<a class=""thumb") > 0 Then
 html_str = Mid(html_str, InStr(LCase(html_str), "<a class=""thumb") + Len("<a class=""thumb"))
 
-Dim split_str,url_temp
 split_str = Split(html_str, "<a class=""thumb")
 
     For split_i = 0 To UBound(split_str)

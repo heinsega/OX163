@@ -164,7 +164,7 @@ Begin VB.Form script_from
             Style           =   3
          EndProperty
          BeginProperty Button6 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Caption         =   "查看主页"
+            Caption         =   "查看网页"
             Key             =   "View_web"
             Description     =   "View Homepage"
             Object.ToolTipText     =   "View Homepage"
@@ -305,7 +305,7 @@ Private Sub Form_Load()
     script_quit = True
     script_down_ok = True
     htmlCharsetType = "GB2312"
-    
+    script_from.caption = script_from.caption & " (" & sysSet.update_host & ")"
     Timer1.Enabled = True
     
 End Sub
@@ -348,7 +348,7 @@ Private Sub Check_script()
     
     script_load.Cancel
     script_down_ok = False
-    strURL = Trim$(sysSet.update_host & "include.vbs?ntime=" & CDbl(Now()))
+    strURL = Trim$(sysSet.update_host & "include.txt?ntime=" & CDbl(Now()))
     
     script_download
     

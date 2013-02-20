@@ -128,10 +128,16 @@ Public Function ParseDownloadURL(ByVal sourceString As String) As downloadInfo
     End If
     If UBound(script_ParseStr) < (2 + script_ParseStr_counts) Then Exit Function
     
+    '0|1|2|3|4 <-> inet|10,13|url|url_Referer|POST method
+    '0
     If LCase$(script_ParseStr(0 + script_ParseStr_counts)) = "web" Then ParseDownloadURL.mode = OX_WEB
+    '1
     ParseDownloadURL.excludeChar = script_ParseStr(1 + script_ParseStr_counts)
+    '2
     ParseDownloadURL.downloadURL = Trim$(script_ParseStr(2 + script_ParseStr_counts))
+    '3
     If UBound(script_ParseStr) > (2 + script_ParseStr_counts) Then ParseDownloadURL.refererINFO = OX_PrivateChr(script_ParseStr(3 + script_ParseStr_counts))
+    '4
     If UBound(script_ParseStr) > (3 + script_ParseStr_counts) Then ParseDownloadURL.POSTmethod = OX_PrivateChr(script_ParseStr(4 + script_ParseStr_counts))
 End Function
 
