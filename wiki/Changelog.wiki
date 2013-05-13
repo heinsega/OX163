@@ -1,4 +1,3 @@
-#labels Changelog,OX163schangelogfromv0.1.0tov0.5.8
 *0.5.8(coming soon)*
 
 增加更新服务器设置
