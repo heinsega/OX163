@@ -1,5 +1,5 @@
 #labels Changelog,OX163schangelogfromv0.1.0tov0.5.8
-*0.5.8(2012.10.25)*
+*0.5.8(coming soon)*
 增加更新服务器设置
 修正163相册问题密码的识别
 修正导出单个列表文件时产生多个0KB列表文件
