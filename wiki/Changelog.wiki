@@ -1,7 +1,5 @@
-#labels Changelog
-#OX163's changelog from v0.1.0 to v0.5.8
-
-0.5.8(2012.10.25)
+#labels Changelog,OX163schangelogfromv0.1.0tov0.5.8
+*0.5.8(2012.10.25)*
 增加更新服务器设置
 修正163相册问题密码的识别
 修正导出单个列表文件时产生多个0KB列表文件
@@ -10,11 +8,11 @@
 #调整Shift+C为Alt+C
 #修正支持将列表文本转换为Unicode文本到剪贴板（Ctrl+C,Alt+C）
 
-0.5.7beta(2012.04.01)
+*0.5.7beta(2012.04.01)*
 修正获取大文件文件尺寸误差的问题
 修正Unicode字符转换过程中产生不能用于文件名的特殊字符
 
-0.5.6 beta2(2011.05.06)
+*0.5.6 beta2(2011.05.06)*
 更新163相册相关内容
 增加Unicode操作菜单选择
 更新OX163_SystemRecovery.exe针对0.5.6 beta2的临时版本
