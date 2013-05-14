@@ -1,4 +1,4 @@
-*0.5.8(coming soon)*
+<a href="http://www.shanhaijing.net/163/">0.5.8(coming soon)</a>
 
 增加更新服务器设置
 
