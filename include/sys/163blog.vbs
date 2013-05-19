@@ -1,4 +1,4 @@
-'2011-8-1 http://www.shanhaijing.net/163
+'2013-5-18 http://www.shanhaijing.net/163
 Dim user_id,album_id,page_id,retry_times,get_info
 
 Function return_download_url(ByVal url_str)
@@ -367,7 +367,7 @@ ElseIf get_info="js" and InStr(html_str, "=[{id:") > 0 Then
   If Left(LCase(a), 7) = "/photo/" Then
 		a = "http://img" & b & ".bimg.126.net" & a
 	Else
-		a = "http://img" & b & ".photo.163.com" & a
+		a = "http://img" & b & ".ph.126.net" & a
 	End If
     
 	new163pic_str_split(i) = Mid(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), "',desc:'") + 8)
