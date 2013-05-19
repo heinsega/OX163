@@ -1,10 +1,12 @@
 Attribute VB_Name = "OX_variable"
-Public Const title_info = "OX163 plus(0.5.7build120401 beta)"
-Public Const ver_info = "57"
+Public Const title_info = "OX163 plus(0.5.8build130519 beta)"
+Public Const ver_info = "58"
 'Public Const update_host_info = "http://www.shanhaijing.net/163/|国外默认" & vbCrLf & "http://shanhaijing.net/163/|国内默认" & vbCrLf & "http://163.shanhaijing.net/163/|国内备份" & vbCrLf & "http://www.ugschina.com/163/|国外备份"
-Public Const update_host_info1 = "http://www.shanhaijing.net/163/|http://www.gamepast.net/163/|http://ox163.googlecode.com/svn/trunk/include/sys/"
-Public Const update_host_info2 = "国外默认|国外备份|google code"
+Public Const update_host_info1 = "http://www.shanhaijing.net/163/|http://ox163.googlecode.com/svn/trunk/include/sys/"
+Public Const update_host_info2 = "默认|google code"
+
 '------------------------------------------------------------------------------------
+
 Public Const NIM_ADD = &H0
 Public Const NIM_MODIFY = &H1
 Public Const NIM_DELETE = &H2

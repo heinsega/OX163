@@ -59,8 +59,10 @@ Private Declare Function LocalFree Lib "kernel32" (ByVal hMem As Long) As Long
 
 Private Const MAX_PATH = 1024
 
+'可以参看“调用shell保存路径 BROWSEINFO structure (Windows) 参数.doc”
 Private Const BIF_RETURNONLYFSDIRS = 1
 Private Const BIF_NEWDIALOGSTYLE = &H40
+Private Const BIF_EDITBOX = &H10
 
 Private Const BFFM_INITIALIZED As Long = 1
 Private Const BFFM_SELCHANGED As Long = 2
@@ -105,7 +107,7 @@ Public Declare Function InternetGetCookie Lib "wininet.dll" Alias "InternetGetCo
 '解Gzip压缩数组-----------------------------------------------------------
 'Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (hpvDest As Any, hpvSource As Any, ByVal cbCopy As Long) '已经定义
 Private Declare Function InitDecompression Lib "gzip.dll" () As Long
-Private Declare Function CreateDecompression Lib "gzip.dll" (ByRef context As Long, ByVal flags As Long) As Long
+Private Declare Function CreateDecompression Lib "gzip.dll" (ByRef context As Long, ByVal Flags As Long) As Long
 Private Declare Function DestroyDecompression Lib "gzip.dll" (ByRef context As Long) As Long
 Private Declare Function Decompress Lib "gzip.dll" (ByVal context As Long, inBytes As Any, ByVal input_size As Long, outBytes As Any, ByVal output_size As Long, ByRef input_used As Long, ByRef output_used As Long) As Long
 'Private Const OFFSET As Long = &H8
@@ -129,7 +131,7 @@ Private Type OPENFILENAME
     nMaxFileTitle As Long
     lpstrInitialDir As String
     lpstrTitle As String
-    flags As Long
+    Flags As Long
     nFileOffset As Integer
     nFileExtension As Integer
     lpstrDefExt As String
@@ -161,7 +163,7 @@ Public Function ShowOpenFileDialog(InitialDir As String, DialogTitle As String, 
     OpenFile.nMaxFileTitle = Len(OpenFile.lpstrFileTitle)
     OpenFile.lpstrInitialDir = StrConv(InitialDir, vbUnicode)
     OpenFile.lpstrTitle = StrConv(DialogTitle, vbUnicode)
-    OpenFile.flags = OFN_FILEMUSTEXIST
+    OpenFile.Flags = OFN_FILEMUSTEXIST
     lReturn = GetOpenFileName(OpenFile)
     
     If lReturn = 0 Then  'lReturn is always 0 even when a file is selected!!
@@ -197,7 +199,7 @@ Public Function ShowSaveFileDialog(InitialDir As String, DialogTitle As String, 
     OpenFile.nMaxFileTitle = Len(OpenFile.lpstrFileTitle)
     OpenFile.lpstrInitialDir = StrConv(InitialDir, vbUnicode)
     OpenFile.lpstrTitle = StrConv(DialogTitle, vbUnicode)
-    OpenFile.flags = OFN_FILEMUSTEXIST
+    OpenFile.Flags = OFN_FILEMUSTEXIST
     lReturn = GetSaveFileName(OpenFile)
     
     If lReturn = 0 Then  'lReturn is always 0 even when a file is selected!!
@@ -237,8 +239,8 @@ Public Function GetFolder(ByVal title As String, ByVal start As String, ByVal ne
         .pidlRoot = 0
         .lpszTitle = StrConv(title, vbUnicode)
         .lpfn = FARPROC(AddressOf BrowseCallbackProcStr)
-        .ulFlags = BIF_RETURNONLYFSDIRS
-        If newfolder = True Then .ulFlags = BIF_RETURNONLYFSDIRS + BIF_NEWDIALOGSTYLE
+        .ulFlags = BIF_RETURNONLYFSDIRS + BIF_EDITBOX
+        If newfolder = True Then .ulFlags = BIF_RETURNONLYFSDIRS + BIF_NEWDIALOGSTYLE + BIF_EDITBOX
         lpSelPath = LocalAlloc(LPTR, LenB(start) + 1)
         CopyMemory ByVal lpSelPath, ByVal start, LenB(start) + 1
         .lParam = lpSelPath

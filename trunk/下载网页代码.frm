@@ -1485,8 +1485,8 @@ Public Sub fast_down_StateChanged(ByVal State As Integer)
             file_size_long = 0
         End If
         '----------------------------------------------
-
-
+        
+        
         If file_size_long > 204800 Then
             '-------------------------------------------------
             '获得文件大小情况下,直接定义数组大小写入缓存
@@ -2085,13 +2085,16 @@ End Sub
 
 Private Sub homepage_Click()
     On Error Resume Next
-    ShellExecute 0&, vbNullString, StrConv(sysSet.update_host, vbUnicode), vbNullString, vbNullString, vbNormalFocus
+    Dim homepage_str As String
+    homepage_str = LCase(sysSet.update_host)
+    If InStr(homepage_str, ".googlecode.com") > 0 Then homepage_str = Mid(homepage_str, 1, InStr(homepage_str, ".googlecode.com") + Len(".googlecode.com"))
+    ShellExecute 0&, vbNullString, StrConv(homepage_str, vbUnicode), vbNullString, vbNullString, vbNormalFocus
 End Sub
 
 Private Sub homepage_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 22 Then
         Label_name = " 软件主页: "
-        Label_text = "前往 " & sysSet.update_host & " 查看更多更新信息和外部脚本"
+        Label_text = "前往更新页"
         label_rebuld
         mouse_dic = 22
     End If
@@ -3902,7 +3905,7 @@ check_2nd:
                 If Left(LCase(a), 7) = "/photo/" Then
                     a = "http://img" & b & ".bimg.126.net" & a
                 Else
-                    a = "http://img" & b & ".photo.163.com" & a
+                    a = "http://img" & b & ".ph.126.net" & a
                 End If
             Else
                 a = new163_pic_ID
@@ -4231,44 +4234,8 @@ Private Sub Timer3_Timer()
             ver = Left$(Replace(Replace(ver, Chr(10), ""), Chr(13), ""), 100)
             
             If download_ok = True Then
-                If MsgBox("发现新版本:" & vbCrLf & ver & vbCrLf & "是否现在下载？", vbYesNo + vbQuestion, "OX163版本检查") = vbYes Then
-                    If sys.Visible = True Then Unload sys
-                    form_height = 3000
-                    step_two
-                    Web_Browser.Visible = False
-                    Web_Search.Visible = False
-                    newform_resize
-                    List1.Width = Frame1.Width
-                    List1.Height = Form1.Height - List1.Top - 550 - show_StatusBar
-                    List1.ListItems.Clear
-                    List1.Visible = True
-                    list_count.Visible = True
-                    
-                    'list_picID
-                    List1.ListItems.Add 1, , "0001"
-                    'list_picName
-                    List1.ListItems.Item(1).ListSubItems.Add , , "OX163.rar"
-                    'list_picDisc
-                    List1.ListItems.Item(1).ListSubItems.Add , , "下载点1(shanhaijing.net)"
-                    'list_picUrl
-                    List1.ListItems.Item(1).ListSubItems.Add , , sysSet.update_host & "OX163.rar"
-                    
-                    'list_picID
-                    List1.ListItems.Add 2, , "0002"
-                    'list_picName
-                    List1.ListItems.Item(2).ListSubItems.Add , , "OX163.rar"
-                    'list_picDisc
-                    List1.ListItems.Item(2).ListSubItems.Add , , "下载点2(ugschina.com)"
-                    'list_picUrl
-                    List1.ListItems.Item(2).ListSubItems.Add , , "http://www.ugschina.com/tools/OX163.rar"
-                    
-                    List1.ListItems(2).Checked = True
-                    
-                    list_count.caption = List1.ListItems.count
-                    search_end
-                    List1.Enabled = True
-                    Form1.Enabled = True
-                    Exit Sub
+                If MsgBox("发现新版本:" & vbCrLf & ver & vbCrLf & "是否前往主页下载？", vbYesNo + vbQuestion, "OX163版本检查") = vbYes Then
+                    Call homepage_Click
                 Else
                     Form1.caption = "[有新版本]" & Form1.caption
                     TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)

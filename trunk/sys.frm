@@ -1819,6 +1819,7 @@ Begin VB.Form sys
          Left            =   240
          TabIndex        =   181
          Top             =   960
+         Visible         =   0   'False
          Width           =   5895
          Begin VB.FileListBox scriptFile 
             BeginProperty Font 
