@@ -1,4 +1,4 @@
-'2013-2-20 visceroid & hein@shanghaijing.net
+'2013-2-24 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, member_type, php_name
 started = False
 multi_page = True
@@ -38,7 +38,7 @@ On Error Resume Next
 				sub_url_str = "/search.php?" & sub_url_str
 			Case "search"
 				php_name="search.php"
-				sub_url_str=Mid(url_str,instr(url_str,"/search.php?")+12)				
+				sub_url_str=Mid(url_str,instr(url_str,"/search.php?")+12)
 				sub_url_str=replace(sub_url_str,"&brief_mode=t","")
 				sub_url_str=replace(sub_url_str,"&brief_mode=f","")
 				If match.SubMatches(5)<> "" Then sub_url_str=replace(sub_url_str,"&" & match.SubMatches(5),"")
@@ -59,6 +59,11 @@ On Error Resume Next
 			Case "bookmark_new_illust_r18"
 				php_name="bookmark_new_illust_r18.php"
 				sub_url_str = "/bookmark_new_illust_r18.php"
+			Case "ranking"
+				php_name="ranking.php"
+				sub_url_str=Mid(url_str,instr(url_str,"/ranking.php?")+13)
+				If match.SubMatches(5)<> "" Then sub_url_str=replace(sub_url_str,"&" & match.SubMatches(5),"")
+				sub_url_str = "/ranking.php?" & sub_url_str
 			Case Else
 				Exit Function
 		End Select
@@ -137,6 +142,14 @@ On Error Resume Next
 			html_str=html_str_temp & mid(html_str,InStr(LCase(html_str), "</section>")+len("</section>"))
 		End If
 		
+    '2013最新ranking.php
+		'<a class="image-thumbnail" href="member_illust.php?mode=medium&amp;illust_id=33775874&amp;ref=rn-b--thumbnail"><img class="ui-scroll-view" data-filter="lazy-image" data-src="http://i2.pixiv.net/img16/img/cappin/33775874_s.jpg?ctype=ranking" src="http://source.pixiv.net/source/images/common/transparent.gif"></a><div class="data"><h2><a href="member_illust.php?mode=medium&amp;illust_id=33775874&amp;ref=rn-b-1-title">夢の東方タッグ編1002「てっしゅー！」</a></h2>
+		'<a href="member.php?id=259275&amp;ref=rn-b-1-user" class="user-container"><img class="user-icon ui-scroll-view" data-filter="lazy-image" data-src="http://i2.pixiv.net/img16/profile/cappin/3749258_s.jpg?ctype=ranking" src="http://source.pixiv.net/source/images/common/transparent.gif" height="32">オレンジゼリー</a><dl class="stat"><dt class="view">阅览数</dt><dd>16966</dd><dt class="score">总分</dt><dd>7209</dd></dl><dl class="meta"><dt class="date">投稿日期</dt><dd>2013年02月23日 05:44</dd></dl><div class="share ui-selectbox-container"><div class="ui-modal-trigger" data-target="share-1">分享 ?</div><ul id="share-1" data-rank="1" data-rank-text="#1" data-rank-type="" data-title="夢の東方タッグ編1002「てっしゅー！」" data-user-name="オレンジゼリー"></ul></div></div></article><article id="2"><div class="rank"><h1>
+		'清除ranking.php
+		If php_name="ranking.php" and cache_index = 0 Then
+				html_str=format_ranking_html(html_str)
+		End If
+			
 		'清除付费会员特殊格式
 		If InStr(LCase(html_str), "data-src=")>1 Then
 				html_str=format_transparent_html(html_str)
@@ -155,7 +168,7 @@ On Error Resume Next
 		'<li class="image"><a href="/member_illust.php?mode=medium&amp;illust_id=33516395"><p><img src="http://i2.pixiv.net/img36/img/mid0nightcom3/33516395_s.jpg"></p><h2>【腐向け】一足早いキスをした【緑高】</h2></a><p class="user"><a href="/member.php?id=1050672">鳩丸</a></p></li>
     '2013最新bookmark.php
 		'<a href="member_illust.php?mode=medium&amp;illust_id=33347566"><img src="http://i1.pixiv.net/img119/img/ms_sacory/33347566_s.jpg">ジブリがいっぱいコレクション</a>
-
+		
 		'old'<a href="member_illust.php?mode=medium&illust_id=17872081"><img src="http://img21.pixiv.net/img/youri19/17872081_s.png" alt="犬姫/悠" title="犬姫/悠" />犬姫</a></li>
 
 		html_str=replace(html_str,"a href=""/member_illust.php","a href=""member_illust.php")
@@ -169,7 +182,7 @@ On Error Resume Next
 		If brief_mode and php_name<>"bookmark.php" Then
 			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*/?><h1[^>]*>((?:(?!</h1>).)*)</h1></a>"
 		Else
-			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*/?>((?:(?!</a>).)*)</a>"
+			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*/?>((?:(?!</a>).)*)</a>"'+\s*/?  --->  [^>]*
 		End If
 		Set matches = regex.Execute(html_str)
 		
@@ -183,7 +196,7 @@ On Error Resume Next
 						If InStr(next_page_str, match.SubMatches(2)) = 0 Then
 							If brief_mode Then
 								add_download_list_entry match, return_download_list, 0
-							Else
+							ElseIf cache_index=0 Then
 								Set matches_cache = matches
 								Exit For
 							End If
@@ -216,9 +229,23 @@ On Error Resume Next
 				End If
 				If Not brief_mode Then
 					If cache_index < matches_cache.Count Then
-						next_page_str = "1|inet|10,13|" & root_str & "/" & matches_cache.Item(cache_index).SubMatches(0)
-						next_page_str = replace(next_page_str,"&amp;","&")
-						cache_index = cache_index + 1
+						'http://source.pixiv.net/source/images/limit_mypixiv_s.png?20110520
+						'http://source.pixiv.net/source/images/limit_unknown_s.png?20110520
+						Do While instr(lcase(matches_cache.Item(cache_index).SubMatches(3) & matches_cache.Item(cache_index).SubMatches(2)),".pixiv.net/img")<1
+							If cache_index < matches_cache.Count Then
+							cache_index = cache_index + 1
+							Else
+							Exit Do
+							End If
+						loop
+						If cache_index < matches_cache.Count Then
+							next_page_str = "1|inet|10,13|" & root_str & "/" & matches_cache.Item(cache_index).SubMatches(0)
+							next_page_str = replace(next_page_str,"&amp;","&")
+							cache_index = cache_index + 1
+						Else
+						next_page_str = parent_next_page_str
+						cache_index = 0						
+						End If
 					Else
 						next_page_str = parent_next_page_str
 						cache_index = 0
@@ -297,6 +324,11 @@ Function get_next_page(ByVal html_str)
 								 '作者页面与老search.php页面
 								 '<li><a href="member_illust.php?id=517481&p=2" class="button" rel="next">下一面 ?</a></li>
 								 '<li class="next"><a href="?word=sega&amp;order=date_d&amp;p=2" class="ui-button-light" rel="next" title="下一面">&gt;</a></li>
+								 
+								 '新ranking.php页面
+								 '<li class="next"><a rel="next" href="?mode=rookie&amp;p=2&amp;ref=rn-h-next">&gt;</a></li>
+	If php_name="ranking.php" Then regex.Pattern = "<a[^>]*rel=""next""[^>]*href=""([^>\s]+)""[^>]*>.*?</a>\s*</li>"
+
 	Set matches = regex.Execute(html_str)
 	'InputBox next_page_str,next_page_str,next_page_str
 	For Each match In matches
@@ -313,10 +345,12 @@ Function format_transparent_html(ByVal html_str)
     format_transparent_html = html_str
     '2013最新search.php
     '<LI class="image-item"><A class="work" href="http://www.pixiv.net/member_illust.php?mode=medium&amp;illust_id=33484357"><DIV class="layout-thumbnail"><IMG class="_thumbnail ui-scroll-view" alt="" src="http://source.pixiv.net/source/images/common/transparent.gif" data-user-id="2876335" data-tags="オリジナル 女の子 落書き" data-src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg" data-filter="thumbnail-filter lazy-image"></DIV><H1 class="title" title="一人旅">一人旅</H1></A><A class="user" title="たいそす" href="http://www.pixiv.net/member_illust.php?id=2876335">たいそす</A></LI>
+		'转换为
+		'<LI class="image-item"><A class="work" href="http://www.pixiv.net/member_illust.php?mode=medium&amp;illust_id=33484357"><img src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg"><H1 class="title" title="一人旅">一人旅</H1></A><A class="user" title="たいそす" href="http://www.pixiv.net/member_illust.php?id=2876335">たいそす</A></LI>
     '2013最新search.php <ul class="images autopagerize_page_element">重复部分
 		'<li class="image"><a href="/member_illust.php?mode=medium&amp;illust_id=33484357"><p><div class="layout-thumbnail"><img alt="" class="ui-scroll-view" src="http://source.pixiv.net/source/images/common/transparent.gif" data-filter="thumbnail-filter lazy-image" data-src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg" data-tags="オリジナル 女の子 落書き"></div></p><h2>一人旅</h2></a><p class="user"><a href="/member.php?id=2876335">たいそす</a></p></li>
-		'转换为old
-		'<img src="http://img21.pixiv.net/img/youri19/17872081_s.png" alt="犬姫/悠" title="犬姫/悠" />犬姫</a></li>
+		'转换为
+		'<li class="image"><a href="/member_illust.php?mode=medium&amp;illust_id=33484357"><img src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg"><h1>一人旅</h1></a><p class="user"><a href="/member.php?id=2876335">たいそす</a></li>
     Dim split_str, matches(4),temp(2)
     temp(0) = Mid(html_str,1,InStr(LCase(html_str), "<div class=""layout-thumbnail"">")-1)
     html_str = Mid(html_str,InStr(LCase(html_str), "<div class=""layout-thumbnail"">")+len("<div class=""layout-thumbnail"">"))
@@ -332,7 +366,7 @@ Function format_transparent_html(ByVal html_str)
     		matches(0)="<img src="""
     		matches(1)=Mid(split_str(i), InStr(LCase(split_str(i)), """ data-src=""") + Len(""" data-src="""))
     		matches(2) = Mid(matches(1), InStr(matches(1), ">"))
-    		matches(1) = Mid(matches(1),1,InStr(matches(1), """")+1)
+    		matches(1) = Mid(matches(1),1,InStr(matches(1), """"))
     		'<img src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg">....
     		split_str(i)=matches(0) & matches(1) & matches(2)
     		'del data-tags
@@ -346,6 +380,45 @@ Function format_transparent_html(ByVal html_str)
 		format_transparent_html=replace(format_transparent_html,"</h2>","</h1>")
 		format_transparent_html=replace(format_transparent_html,"<p>","")
 		format_transparent_html=replace(format_transparent_html,"</p>","")
+End Function
+
+Function format_ranking_html(ByVal html_str)
+    format_ranking_html = html_str
+    '2013最新ranking.php
+		'<a class="image-thumbnail" href="member_illust.php?mode=medium&amp;illust_id=33775874&amp;ref=rn-b--thumbnail"><img class="ui-scroll-view" data-filter="lazy-image" data-src="http://i2.pixiv.net/img16/img/cappin/33775874_s.jpg?ctype=ranking" src="http://source.pixiv.net/source/images/common/transparent.gif"></a><div class="data"><h2><a href="member_illust.php?mode=medium&amp;illust_id=33775874&amp;ref=rn-b-1-title">夢の東方タッグ編1002「てっしゅー！」</a></h2><a href="member.php?id=259275&amp;ref=rn-b-1-user" class="user-container"><img class="user-icon ui-scroll-view" data-filter="lazy-image" data-src="http://i2.pixiv.net/img16/profile/cappin/3749258_s.jpg?ctype=ranking" src="http://source.pixiv.net/source/images/common/transparent.gif" height="32">オレンジゼリー</a><dl class="stat"><dt class="view">阅览数</dt><dd>16966</dd><dt class="score">总分</dt><dd>7209</dd></dl><dl class="meta"><dt class="date">投稿日期</dt><dd>2013年02月23日 05:44</dd></dl><div class="share ui-selectbox-container"><div class="ui-modal-trigger" data-target="share-1">分享 ?</div><ul id="share-1" data-rank="1" data-rank-text="#1" data-rank-type="" data-title="夢の東方タッグ編1002「てっしゅー！」" data-user-name="オレンジゼリー"></ul></div></div></article><article id="2"><div class="rank"><h1>
+		'转换为
+
+		Dim split_str, matches(4),temp(2)
+    html_str=replace(html_str,"http://source.pixiv.net/source/images/common/transparent.gif","")
+    html_str=replace(html_str,"?ctype=ranking","")
+    temp(0) = Mid(html_str,1,InStr(LCase(html_str), "<a class=""image-thumbnail""")-1)
+    html_str = Mid(html_str,InStr(LCase(html_str), "<a class=""image-thumbnail""")+len("<a class=""image-thumbnail"""))
+    split_str = Split(html_str, "<a class=""image-thumbnail""")
+    For i = 0 To UBound(split_str)
+    		matches(0) = ""
+    		matches(1) = ""
+    		matches(2) = ""
+    		matches(3) = ""
+    		matches(4) = ""
+    		'del transparent.gif
+    		'<li class="image-thumbnail"><a href="/member_illust.php?mode=medium&amp;illust_id=33484357&amp;ref=rn-b--thumbnail">
+    		matches(0)="<li class=""image-thumbnail""><a" & Mid(split_str(i),1,InStr(split_str(i),">"))
+    		
+    		matches(1)=Mid(split_str(i), InStr(LCase(split_str(i)), """ data-src=""") + Len(""" data-src="""))
+    		matches(2) = Mid(matches(1), InStr(LCase(matches(1)), "<h2>")+4)
+    		
+    		'<img src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg">
+    		matches(1) ="<img src=""" & Mid(matches(1),1,InStr(matches(1), """")) & ">"
+    		
+    		'<a href="member_illust.php?mode=medium&amp;illust_id=33775874&amp;ref=rn-b-1-title">夢の東方タッグ編1002「てっしゅー！」
+        matches(3) = Mid(matches(2),1,InStr(LCase(matches(2)), "</a>")-1)
+        matches(3) = "<h1>" & Mid(matches(3),InStr(matches(3), ">")+1) & "</h1></a>"
+               
+        matches(2) = Mid(matches(2),InStr(LCase(matches(2)), "</h2>")+5)
+        
+    		split_str(i)=matches(0) & matches(1) & matches(3) & matches(2)
+    Next
+    format_ranking_html =temp(0) & Join(split_str, "")
 End Function
 '---------------------------------------------------------------------------------------------
 ' 保存文本文件

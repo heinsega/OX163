@@ -1,7 +1,7 @@
-'2013-1-7 163.shanhaijing.net
+'2013-5-14 163.shanhaijing.net
 Dim deep_DL, split_str, split_c0, split_c1
 Dim tags, page, page_counter, url_instr, pool, url_head
-Dim retry_time, retry_url
+Dim retry_time, retry_url, delay_time, start_time, delay_url
 Function return_download_url(ByVal url_str)
     'idol.sankakucomplex.com
     'http://chan.sankakucomplex.com/
@@ -27,6 +27,7 @@ Function return_download_url(ByVal url_str)
     retry_time = 0
     page_counter = 0
     page = 1
+    delay_time=1
     'idol.sankakucomplex.com
     'chan.sankakucomplex.com
     If InStr(LCase(url_str), "http://idol.sankakucomplex.com") = 1 Then
@@ -92,14 +93,25 @@ End Function
 '--------------------------------------------------------
 Function return_download_list(ByVal html_str, ByVal url_str)
     On Error Resume Next
-    Dim key_str, add_temp, file_url, preview_url, md5_code, file_type
     
+    If delay_time=0 Then
+    	If DateDiff("s", start_time, Now()) < 30 Then
+    		return_download_list="1|inet|10,13|http://www.163.com/?Delay_30s-利用163页面延迟30秒"
+    		Exit Function
+    	Else
+    		return_download_list=delay_url
+    		delay_time=1
+    	End If
+    End If
+    
+    Dim key_str, add_temp, file_url, preview_url, md5_code, file_type
+
     return_download_list = ""
     
     If pool = "post" Or pool = "deep_DL" Then
         'http://chan.sankakucomplex.com/post/show/9506/cg-d-o-_-publisher-eigoukaiki-eroge-ino-tagme
         Dim pic_alt
-        If InStr(LCase(html_str), "<li>original:") > 0 Then
+        If InStr(LCase(html_str), "<li>original:") > 0 or InStr(LCase(html_str), LCase(">Save this flash (right click and save)</a>")) > 0 Then
             retry_time = 0
             'ID
             url_str = Mid(html_str, InStr(html_str, "id='hidden_post_id'"))
@@ -114,10 +126,17 @@ Function return_download_list(ByVal html_str, ByVal url_str)
 						pic_alt = Replace(pic_alt, "\\", "\")
             url_str = url_str & "_" & pic_alt
             If Len(url_str) > 180 Then url_str = Left(url_str, 179) & "~"
+            
             'url
-            html_str = Mid(html_str, InStr(LCase(html_str), "<li>original:"))
-            html_str = Mid(html_str, InStr(LCase(html_str), "<a href=""") + 9)
-            html_str = Mid(html_str, 1, InStr(html_str, Chr(34)) - 1)
+            If InStr(LCase(html_str), "<li>original:") > 0 Then
+	            html_str = Mid(html_str, InStr(LCase(html_str), "<li>original:"))
+	            html_str = Mid(html_str, InStr(LCase(html_str), "<a href=""") + 9)
+	            html_str = Mid(html_str, 1, InStr(html_str, Chr(34)) - 1)
+	          ElseIf InStr(LCase(html_str),LCase(">Save this flash (right click and save)</a>")) > 0 Then
+            	html_str = Mid(html_str,1,InStr(LCase(html_str), LCase(">Save this flash (right click and save)</a>")))
+            	html_str = Mid(html_str,1,InStrrev(html_str, Chr(34)) - 1)
+            	html_str = Mid(html_str,InStrrev(html_str, Chr(34)) + 1)
+          	End If
             url_str = Replace(url_str, " ", "-") & Mid(html_str, InStrRev(html_str, "."))
             If pool = "deep_DL" Then
             		split_str(split_c0)=""
@@ -131,6 +150,9 @@ Function return_download_list(ByVal html_str, ByVal url_str)
                 		pool=""
                     key_str = check_nextpage()
                 End If
+                
+                key_str=delay_time_tf(key_str)
+                
                 return_download_list = "|" & html_str & "|" & url_str & "|" & vbCrLf & key_str
             Else
                 return_download_list = "|" & html_str & "|" & url_str & "|" & vbCrLf & "0"
@@ -151,6 +173,8 @@ Function return_download_list(ByVal html_str, ByVal url_str)
                 		pool=""
                     key_str = check_nextpage()
                 End If
+                key_str=delay_time_tf(key_str)
+                
                 return_download_list = key_str
             Else
                 return_download_list = "0"
@@ -230,21 +254,9 @@ Function return_download_list(ByVal html_str, ByVal url_str)
     
     key_str = ""
     
-    If InStr(LCase(url_str), "<div id=""paginator""") > 0 And page_counter = 0 Then
-        Dim page_split
-        key_str = Mid(url_str, InStr(LCase(url_str), "<div id=""paginator""") + 20)
-        key_str = Mid(key_str, InStr(LCase(key_str), "<a href=""") + 9)
-        key_str = Mid(key_str, 1, InStr(LCase(key_str), "</div>") - 1)
-        page_split = Split(key_str, "<a href=""", -1, 1)
-        key_str = Mid(page_split(UBound(page_split) - 1), InStr(page_split(UBound(page_split) - 1), ">") + 1)
-        key_str = Mid(key_str, 1, InStr(key_str, "<") - 1)
-        
-        If IsNumeric(key_str) Then
-            page_counter = Int(key_str)
-        Else
-            page_counter = 1
-        End If
-    ElseIf page_counter = 0 Then
+    If InStr(LCase(url_str), "next-page-url=""") > 0 Then
+        page_counter=page+1
+    Else
         page_counter = 1
     End If
     
@@ -267,10 +279,25 @@ Function return_download_list(ByVal html_str, ByVal url_str)
     End If
     
     pool = ""
-    return_download_list = return_download_list & check_nextpage()
+    return_download_list = return_download_list & delay_time_tf(check_nextpage())
+    
+
     
 End Function
 '--------------------------------------------
+Function delay_time_tf(byval nextpage)
+    If delay_time<15 Then
+    	delay_time=delay_time+1
+    	delay_time_tf=nextpage
+    Else
+    	delay_time=0
+    	delay_url=""
+    	delay_url=nextpage
+    	delay_time_tf="1|inet|10,13|http://www.163.com/?Delay_5s-利用163页面延迟30秒"
+    	start_time=Now()
+    End If
+End Function
+
 Function check_nextpage()
     check_nextpage = 0
     If page < page_counter Then

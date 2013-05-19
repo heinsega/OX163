@@ -1,5 +1,5 @@
-'2012-11-8 163.shanhaijing.net
-Dim page,tags,url_instr,page_retry,delay_tf,start_time,Next_page
+'2013-5-4 163.shanhaijing.net
+Dim page,tags,url_instr,page_retry,delay_tf,start_time,Next_page,cdn_counter
 
 Function return_download_url(ByVal url_str)
 'http://gelbooru.com/index.php?page=post&s=list&pid=336960
@@ -16,6 +16,7 @@ page_tmp=url_str
 page_retry=0
 page=0
 delay_tf=0
+cdn_counter=15
 
 '-----------------pool--------------------
 If InStr(LCase(url_str), "page=pool") >1 Then
@@ -107,17 +108,23 @@ If Next_page="pool" Then
 		url_str=""
 		sid=""
 		pic_type=""
+		
   	'sid
 	  sid = Mid(split_str(split_i), 1, InStr(split_str(split_i), chr(34))-1)	  
-	  split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), "src=""")+len("src="""))	  	  
+	  split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), "src=""")+len("src="""))	
+	    	  
 	  'url
+	  'http://simg.gelbooru.com/thumbs/1632/thumbnail_23df55074d6d49878e9f79d5dc82ef8a.jpg?1843721
+		'http://cdn2.gelbooru.com//images/1632/23df55074d6d49878e9f79d5dc82ef8a.jpg
 	  url_str = Mid(split_str(split_i), 1, InStr(split_str(split_i), chr(34))-1)
-	  MsgBox url_str
     url_str = replace(replace(url_str,"/thumbnails/","/images/"),"thumbnail_","")
     url_str = replace(url_str,"/thumbs/","/images/")
-    url_str = replace(url_str,"http://youhate.us/","http://gelbooru.com/")
-    url_str = replace(url_str,"http://www.youhate.us/","http://gelbooru.com/")
-	  MsgBox url_str
+    url_str = replace(url_str,"http://simg.","http://cdn" & cdn_counter & ".")
+    If cdn_counter<100 Then
+    	cdn_counter=cdn_counter+1
+    Else
+    	cdn_counter=15
+    End If
 		If InStr(url_str,"?")>1 Then url_str=mid(url_str,1,InStr(url_str,"?")-1)
 		pic_type=Mid(url_str,instrrev(url_str,"."))
 		
@@ -146,9 +153,12 @@ ElseIf InStr(html_str, " class=""thumb"">") > 0 Then
     url_temp = Mid(split_str(split_i), 1,InStr(split_str(split_i), "?") -1)
     url_temp = replace(replace(url_temp,"/thumbnails/","/images/"),"thumbnail_","")
     url_temp = replace(url_temp,"/thumbs/","/images/")
-    url_temp = replace(url_temp,"http://youhate.us/","http://gelbooru.com/")
-    url_temp = replace(url_temp,"http://www.youhate.us/","http://gelbooru.com/")
-    url_temp = replace(url_temp,"http://cdn2.","http://cdn1.")
+    url_temp = replace(url_temp,"http://simg.","http://cdn" & cdn_counter & ".")
+    If cdn_counter<100 Then
+    	cdn_counter=cdn_counter+1
+    Else
+    	cdn_counter=15
+    End If
     
     'Tags
     html_str =html_str & Trim(Mid(split_str(split_i), InStr(split_str(split_i), "alt=""") +5))

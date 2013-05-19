@@ -26,6 +26,7 @@ pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/bookmark_new_illust*.php*
 pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/response.php?*
 pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/mypage.php
 pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/index.php
+pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/ranking.php?*
 eht.vbs|vbscript|UTF-8|album|http://g.e-hentai.org/g/?*/?*/*
 eht.vbs|vbscript|UTF-8|photo|http://g.e-hentai.org/s/?*/?*-?*
 eht.vbs|vbscript|UTF-8|album|http://exhentai.org/g/?*/?*/*
@@ -61,6 +62,25 @@ yxnpc.vbs|vbscript|GB2312|album|http://www.yxnpc.com/manhua/?*
 booru.vbs|vbscript|UTF-8|photo|http://?*.booru.org/*
 b-sys.vbs|vbscript|UTF-8|photo|http://safebooru.org/*
 b-sys.vbs|vbscript|UTF-8|photo|http://lolibooru.com/*
+b-sys.vbs|vbscript|UTF-8|photo|http://rule34.xxx/*
 b-sys.vbs|vbscript|UTF-8|photo|b http://?*
 douban.vbs|vbscript|UTF-8|photo|http://www.douban.com/photos/?*
 douban.vbs|vbscript|UTF-8|album|http://www.douban.com/people/?*
+facebook.vbs|vbscript|UTF-8|photo|?*/www.facebook.com/media/set/?*
+facebook.vbs|vbscript|UTF-8|album|?*/www.facebook.com/?*/photos_albums
+facebook.vbs|vbscript|UTF-8|album|?*/www.facebook.com/?*
+rosmm.vbs|vbscript|GB2312|photo|http://www.rosmm.com/rosimm/????/??/??/*.htm
+rosmm.vbs|vbscript|GB2312|album|http://www.rosmm.com/*
+rosiyy.vbs|vbscript|UTF-8|album|http://www.rosiyy.com/tag/*
+rosiyy.vbs|vbscript|UTF-8|album|http://www.rosiyy.com/search/*
+rosiyy.vbs|vbscript|UTF-8|album|http://www.rosiyy.com/?*/1.html
+rosiyy.vbs|vbscript|UTF-8|album|http://www.rosiyy.com/?*/2.html
+rosiyy.vbs|vbscript|UTF-8|album|http://www.rosiyy.com/?*/3.html
+rosiyy.vbs|vbscript|UTF-8|album|http://www.rosiyy.com/?*/4.html
+rosiyy.vbs|vbscript|UTF-8|album|http://www.rosiyy.com/?*/5.html
+rosiyy.vbs|vbscript|UTF-8|album|http://www.rosiyy.com/?*/6.html
+rosiyy.vbs|vbscript|UTF-8|photo|http://www.rosiyy.com/?*/?*.html
+rosiyy.vbs|vbscript|UTF-8|album|http://www.rosiyy.com*
+youtube.vbs|vbscript|UTF-8|photo|http://www.youtube.com/watch?v=?*
+youtube.vbs|vbscript|UTF-8|photo|https://www.youtube.com/watch?v=?*
+moeyo.vbs|vbscript|UTF-8|photo|http://www.moeyo.com/?*/?*/?*.html
