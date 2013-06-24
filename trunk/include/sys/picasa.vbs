@@ -1,4 +1,4 @@
-'2012-3-16 http://www.shanhaijing.net/163
+'2013-6-24 http://www.shanhaijing.net/163
 Function return_download_url(ByVal url_str)
 On Error Resume Next
 return_download_url = ""
@@ -31,7 +31,6 @@ If photo_tf=1 Then
 Else
 	return_download_url = "inet|10,13|https://picasaweb.google." & url_str_split(0) & "/" & url_str_split(1) & "/?showall=true"
 End If
-
 End Function
 '--------------------------------------------------------
 Function return_albums_list(ByVal html_str, ByVal url_str)
@@ -73,12 +72,12 @@ Function return_download_list(ByVal html_str, ByVal url_str)
 On Error Resume Next
 return_download_list=""
 
-If InStr(lcase(html_str), "entry"":[{""gd$kind"":""photos#photo"",""id"":""") > 0 Then
-	html_str = Mid(html_str, InStr(lcase(html_str), "entry"":[{""gd$kind"":""photos#photo"",""id"":""")+Len("entry"":[{""gd$kind"":""photos#photo"",""id"":"""))
+If InStr(lcase(html_str), "entry"":[{""gd$kind"":""photos#photo"",") > 0 Then
+	html_str = Mid(html_str, InStr(lcase(html_str), "entry"":[{""gd$kind"":""photos#photo"",")+Len("entry"":[{""gd$kind"":""photos#photo"","))
 	html_str = Mid(html_str, 1, InStr(lcase(html_str), "</script>")-1)
 
 	Dim str_split,pic_type
-	str_split=split(html_str,"},{""gd$kind"":""photos#photo"",""id"":""")
+	str_split=split(html_str,"},{""gd$kind"":""photos#photo"",")
 
 	For i=0 to UBound(str_split)
 		str_split(i)=Mid(str_split(i),InStr(lcase(str_split(i)),",""title"":""")+10)
