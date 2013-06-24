@@ -1,4 +1,4 @@
-'2013-5-24 163.shanhaijing.net
+'2013-5-25 163.shanhaijing.net
 Dim new_trailer_page, new_trailer_large, new_trailer_extralarge, includes_html, trailer_url_split, trailer_url_i, trailer_url_ubound
 Function return_download_url(ByVal url_str)
 'http://www.apple.com/trailers/wb/wherethewildthingsare/
@@ -66,19 +66,19 @@ Else
 			Exit Function
 		End If
 		
-	ElseIf new_trailer_page=1 and new_trailer_extralarge=1 Then
-			includes_html=return_ncludes_list(html_str)
-			new_trailer_extralarge=0
-			return_download_list = "1|inet|10,13|" & url_str & "/includes/extralarge.html"
-			Exit Function
+	'ElseIf new_trailer_page=1 and new_trailer_extralarge=1 Then
+	'		includes_html=return_ncludes_list(html_str)
+	'		new_trailer_extralarge=0
+	'		return_download_list = "1|inet|10,13|" & url_str & "/includes/extralarge.html"
+	'		Exit Function
 
 	'step2
 	ElseIf new_trailer_page=1 Then
-		If includes_html="" Then
+		'If includes_html="" Then
 			includes_html=return_ncludes_list(html_str)
-		Else
-			includes_html=includes_html & vbcrlf & return_ncludes_list(html_str)
-		End If
+		'Else
+		'	includes_html=includes_html & vbcrlf & return_ncludes_list(html_str)
+		'End If
 		
 		If includes_html<>"" Then
 			new_trailer_page=2
@@ -99,24 +99,22 @@ Else
 	'step3 list trailer url
 	ElseIf new_trailer_page=2 Then
 		If InStr(LCase(html_str), LCase(".mov")) > 0 Then
-			'html_str=mid(html_str,1,InStr(LCase(html_str), LCase(".mov"))-1) & ".mov"
-			'html_str=mid(html_str, InStrrev(html_str, """")+1)
-	    'html_str = replace(html_str,"_480p.mov","_h480p.mov")
-	    'html_str = replace(html_str,"_720p.mov","_h720p.mov")
-	    'html_str = replace(html_str,"_1080p.mov","_h1080p.mov")
 			split_str = Split(html_str, ".mov", -1, 1)
 			end_i=UBound(split_str)-1
 	    For split_i = 0 To end_i
 		    'url
 		    split_str(split_i) = Mid(split_str(split_i), InStrrev(LCase(split_str(split_i)), chr(34))+1)
 		    split_str(split_i) = split_str(split_i) & ".mov"
-		    split_str(split_i) = replace(split_str(split_i),"_480p.mov","_h480p.mov")
-		    split_str(split_i) = replace(split_str(split_i),"_720p.mov","_h720p.mov")
-		    split_str(split_i) = replace(split_str(split_i),"_1080p.mov","_h1080p.mov")
+		    'split_str(split_i) = replace(split_str(split_i),"_480p.mov","_h480p.mov")
+		    'split_str(split_i) = replace(split_str(split_i),"_720p.mov","_h720p.mov")
+		    'split_str(split_i) = replace(split_str(split_i),"_1080p.mov","_h1080p.mov")
+		    split_str(split_i) = Mid(split_str(split_i),1,InStrrev(split_str(split_i), "_"))
 		    'name
 		    html_str=Mid(split_str(split_i),InStrrev(split_str(split_i), "/")+1)
 		    
-		    return_download_list = return_download_list & "|" & split_str(split_i) & "|" & html_str & "|" & vbCrLf
+		    return_download_list = return_download_list & "|" & split_str(split_i) & "h480p.mov|" & html_str & "h480p.mov|" & vbCrLf
+		    return_download_list = return_download_list & "|" & split_str(split_i) & "h720p.mov|" & html_str & "h720p.mov|" & vbCrLf
+		    return_download_list = return_download_list & "|" & split_str(split_i) & "h1080p.mov|" & html_str & "h1080p.mov|" & vbCrLf
 	    Next
 		End If
 	    
