@@ -1815,11 +1815,10 @@ Begin VB.Form sys
       Top             =   120
       Width           =   6375
       Begin VB.Frame Frame3 
-         Height          =   2415
+         Height          =   3615
          Left            =   240
          TabIndex        =   181
          Top             =   960
-         Visible         =   0   'False
          Width           =   5895
          Begin VB.FileListBox scriptFile 
             BeginProperty Font 
@@ -1831,98 +1830,74 @@ Begin VB.Form sys
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   1665
+            Height          =   3015
             Hidden          =   -1  'True
-            Left            =   3360
+            Left            =   3600
             Pattern         =   "*.txt"
-            TabIndex        =   192
+            TabIndex        =   187
             Top             =   480
-            Width           =   2415
+            Width           =   2175
          End
-         Begin VB.ListBox scriptList 
-            BeginProperty Font 
+         Begin VB.CommandButton IncLstCtrl_Com1 
+            Height          =   255
+            Index           =   2
+            Left            =   3120
+            Picture         =   "sys.frx":705F
+            Style           =   1  'Graphical
+            TabIndex        =   186
+            ToolTipText     =   "Remove Include File"
+            Top             =   840
+            Width           =   375
+         End
+         Begin VB.CommandButton IncLstCtrl_Com1 
+            Height          =   255
+            Index           =   5
+            Left            =   3120
+            Picture         =   "sys.frx":70BB
+            Style           =   1  'Graphical
+            TabIndex        =   185
+            ToolTipText     =   "Add Incule File"
+            Top             =   480
+            Width           =   375
+         End
+         Begin MSComctlLib.ListView scriptList 
+            DragIcon        =   "sys.frx":7117
+            Height          =   2820
+            Left            =   120
+            TabIndex        =   188
+            Top             =   480
+            Width           =   2895
+            _ExtentX        =   5106
+            _ExtentY        =   4974
+            View            =   3
+            Arrange         =   1
+            LabelEdit       =   1
+            MultiSelect     =   -1  'True
+            LabelWrap       =   -1  'True
+            HideSelection   =   0   'False
+            Checkboxes      =   -1  'True
+            FullRowSelect   =   -1  'True
+            GridLines       =   -1  'True
+            _Version        =   393217
+            ForeColor       =   -2147483640
+            BackColor       =   -2147483643
+            Appearance      =   1
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "宋体"
-               Size            =   12
+               Size            =   9
                Charset         =   134
                Weight          =   400
                Underline       =   0   'False
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   1680
-            ItemData        =   "sys.frx":705F
-            Left            =   120
-            List            =   "sys.frx":707E
-            Style           =   1  'Checkbox
-            TabIndex        =   191
-            Top             =   480
-            Width           =   2655
-         End
-         Begin VB.CommandButton IncLstCtrl_Com1 
-            Height          =   255
-            Index           =   0
-            Left            =   2880
-            Picture         =   "sys.frx":70D7
-            Style           =   1  'Graphical
-            TabIndex        =   190
-            ToolTipText     =   "Top"
-            Top             =   480
-            Width           =   375
-         End
-         Begin VB.CommandButton IncLstCtrl_Com1 
-            Height          =   255
-            Index           =   1
-            Left            =   2880
-            Picture         =   "sys.frx":7130
-            Style           =   1  'Graphical
-            TabIndex        =   189
-            ToolTipText     =   "Up"
-            Top             =   720
-            Width           =   375
-         End
-         Begin VB.CommandButton IncLstCtrl_Com1 
-            Height          =   255
-            Index           =   2
-            Left            =   2880
-            Picture         =   "sys.frx":7188
-            Style           =   1  'Graphical
-            TabIndex        =   188
-            ToolTipText     =   "Remove Include File"
-            Top             =   1560
-            Width           =   375
-         End
-         Begin VB.CommandButton IncLstCtrl_Com1 
-            Height          =   255
-            Index           =   3
-            Left            =   2880
-            Picture         =   "sys.frx":71E4
-            Style           =   1  'Graphical
-            TabIndex        =   187
-            ToolTipText     =   "Down"
-            Top             =   960
-            Width           =   375
-         End
-         Begin VB.CommandButton IncLstCtrl_Com1 
-            Height          =   255
-            Index           =   4
-            Left            =   2880
-            Picture         =   "sys.frx":723D
-            Style           =   1  'Graphical
-            TabIndex        =   186
-            ToolTipText     =   "Bottom"
-            Top             =   1200
-            Width           =   375
-         End
-         Begin VB.CommandButton IncLstCtrl_Com1 
-            Height          =   255
-            Index           =   5
-            Left            =   2880
-            Picture         =   "sys.frx":7298
-            Style           =   1  'Graphical
-            TabIndex        =   185
-            ToolTipText     =   "Add Incule File"
-            Top             =   1920
-            Width           =   375
+            NumItems        =   1
+            BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+               Key             =   "include_name"
+               Object.Tag             =   "name_include"
+               Text            =   "include列表"
+               Object.Width           =   3881
+            EndProperty
          End
          Begin VB.Label Label3 
             AutoSize        =   -1  'True
@@ -2028,6 +2003,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim m_dragItem As ListItem
+Dim m_dragNode As Node
 
 Private Sub Combo_lst_Click()
     'lst (for flashget)
@@ -2141,10 +2118,16 @@ Private Sub Form_Load()
     'Dim flags As Integer
     'flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
     'SetWindowPos Me.hwnd, HWND_TOPMOST, 0, 0, 0, 0, flags
+    
+    
     Form1.Enabled = False
-    scriptList.Height = 1840
-    scriptFile.Height = 1840
     scriptFile.Path = App_path & "\include\custom"
+    scriptList.Height = scriptFile.Height
+    For i = 1 To 10
+        scriptList.ListItems.Add , , CStr(i)
+    Next i
+    
+    
     Call sys_def(0)
     Call laod_ini(0)
 End Sub
@@ -2181,6 +2164,10 @@ Private Sub Build_TVW_Menu()
     '    End With
     
 End Sub
+
+
+
+
 
 Private Sub SysTreeView_NodeClick(ByVal Node As MSComctlLib.Node)
     Dim i As Byte
@@ -2314,7 +2301,7 @@ Private Sub sys_apply_Click()
         WriteIniTF "maincenter", "autocheck", False
     End If
     
-    If Left(LCase(update_host_Text), 7) = "http://" Then
+    If Left(LCase(update_host_Text), 7) = "http://" Or Left(LCase(update_host_Text), 8) = "https://" Then
         WriteIniStr "maincenter", "update_host", update_host_Text
     Else
         WriteIniStr "maincenter", "update_host", "http://www.shanhaijing.net/163/"
@@ -2972,6 +2959,7 @@ update_host_Text = update_host_Combo.List(update_host_Combo.ListIndex)
 update_host_Text = Mid$(update_host_Text, InStr(update_host_Text, "|") + 1)
 End Sub
 
+
 Private Sub VS_retry_Change()
     If VS_retry.Value > 0 Then
         LB_retry.caption = VS_retry.Value & "次"
@@ -2982,6 +2970,57 @@ End Sub
 
 Private Sub VS_timeout_Change()
     LB_timeout.caption = VS_timeout.Value & "秒"
+End Sub
+
+'-----------------------------------------------------------------------------
+Private Sub scriptList_DragOver(Source As Control, x As Single, y As Single, State As Integer)
+    Dim li As ListItem
+
+    Set li = scriptList.HitTest(x, y)
+    If Not li Is Nothing Then
+        li.EnsureVisible
+        scriptList.DropHighlight = li
+    End If
+End Sub
+Private Sub scriptList_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If Button = 1 Then
+        Set m_dragItem = scriptList.HitTest(x, y)
+    End If
+End Sub
+Private Sub scriptList_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If Button = 1 Then
+        If Not m_dragItem Is Nothing Then
+            'scriptList.DragIcon = m_dragItem.CreateDragImage
+            scriptList.Drag vbBeginDrag
+        End If
+    End If
+End Sub
+Private Sub scriptList_DragDrop(Source As Control, x As Single, y As Single)
+    Dim li As ListItem
+    Dim addli As ListItem
+    Dim i As Integer
+
+    Set li = scriptList.HitTest(x, y)
+
+    If (Not li Is Nothing) And (Not m_dragItem Is Nothing) Then
+
+        If li.Index <> m_dragItem.Index Then
+            If li.Index > m_dragItem.Index Then
+                scriptList.ListItems.Remove m_dragItem.Index
+                Set addli = scriptList.ListItems.Add(li.Index + 1, m_dragItem.key, m_dragItem.Text)
+            Else
+                scriptList.ListItems.Remove m_dragItem.Index
+                Set addli = scriptList.ListItems.Add(li.Index, m_dragItem.key, m_dragItem.Text)
+            End If
+            For i = 1 To m_dragItem.ListSubItems.count
+                addli.SubItems(i) = m_dragItem.ListSubItems(i).Text
+            Next i
+        End If
+    End If
+
+    scriptList.DropHighlight = Nothing
+    Set m_dragItem = Nothing
+    scriptList.Refresh
 End Sub
 
 '------------------------------------------------------------------------------------------

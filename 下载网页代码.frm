@@ -353,7 +353,6 @@ Begin VB.Form Form1
          FullRowSelect   =   -1  'True
          GridLines       =   -1  'True
          _Version        =   393217
-         Icons           =   "ImageList1"
          ForeColor       =   -2147483640
          BackColor       =   -2147483643
          Appearance      =   1
@@ -1433,7 +1432,7 @@ End Sub
 
 
 
-Private Sub count1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub count1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 12 Then
         Label_name1 = " 列表统计: "
         Label_text1 = "列表中共有 " & count1.caption & " 条记录"
@@ -1443,7 +1442,7 @@ Private Sub count1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y
 End Sub
 
 
-Private Sub count2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub count2_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 12 Then
         Label_name1 = " 列表统计: "
         Label_text1 = "列表中共有 " & count2.caption & " 条记录"
@@ -1685,7 +1684,7 @@ Private Sub find_next_Click()
     End If
 End Sub
 
-Private Sub find_next_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub find_next_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 23 Then
         Label_name1 = " 查找内容: "
         Label_text1 = "查找下一个匹配字符（PageDown）"
@@ -1750,7 +1749,7 @@ Private Sub find_unselect_Click()
     End If
 End Sub
 
-Private Sub find_prev_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub find_prev_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 24 Then
         Label_name1 = " 查找内容: "
         Label_text1 = "查找上一个匹配字符（PageUp）"
@@ -1777,7 +1776,7 @@ Private Sub find_text_KeyDown(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub find_text_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub find_text_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 25 Then
         Label_name1 = " 查找内容: "
         Label_text1 = "填写需要查找的文本"
@@ -1912,7 +1911,7 @@ End Sub
 
 
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 0 Then
         Label_text.Visible = False
         Label_name.Visible = False
@@ -1922,7 +1921,7 @@ End Sub
 
 
 
-Private Sub Form_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Form_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
     If down_count = 0 Then
         OLEDragDrop Data
     ElseIf download_ok = True And form_quit = True Then
@@ -1939,7 +1938,7 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
     sysTray False
 End Sub
 
-Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     On Error Resume Next
     
     If now_tray = False Then Exit Sub
@@ -2040,7 +2039,7 @@ Private Sub Frame1_Click()
     url_Filelist.Visible = False
 End Sub
 
-Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 0 Then
         Label_text.Visible = False
         Label_name.Visible = False
@@ -2048,7 +2047,7 @@ Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y
     End If
 End Sub
 
-Private Sub Frame1_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Frame1_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
     If down_count = 0 Then
         OLEDragDrop Data
     ElseIf download_ok = True And form_quit = True Then
@@ -2060,7 +2059,7 @@ Private Sub Frame1_OLEDragDrop(Data As DataObject, Effect As Long, Button As Int
     End If
 End Sub
 
-Private Sub Frame2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Frame2_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 15 Then
         Label_text1.Visible = False
         Label_name1.Visible = False
@@ -2068,7 +2067,7 @@ Private Sub Frame2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y
     End If
 End Sub
 
-Private Sub Frame2_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Frame2_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
     If down_count = 0 Then
         OLEDragDrop Data
     ElseIf download_ok = True And form_quit = True Then
@@ -2087,11 +2086,11 @@ Private Sub homepage_Click()
     On Error Resume Next
     Dim homepage_str As String
     homepage_str = LCase(sysSet.update_host)
-    If InStr(homepage_str, ".googlecode.com") > 0 Then homepage_str = Mid(homepage_str, 1, InStr(homepage_str, ".googlecode.com") + Len(".googlecode.com"))
+    If InStr(homepage_str, "ox163.googlecode.com") > 0 Then homepage_str = "https://code.google.com/p/ox163/"
     ShellExecute 0&, vbNullString, StrConv(homepage_str, vbUnicode), vbNullString, vbNullString, vbNormalFocus
 End Sub
 
-Private Sub homepage_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub homepage_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 22 Then
         Label_name = " 软件主页: "
         Label_text = "前往更新页"
@@ -2145,7 +2144,7 @@ start:
     
 End Sub
 
-Private Sub image_save_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub image_save_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 7 Then
         Label_name = " 保存图片: "
         Label_text = "保存列表中被勾选的文件"
@@ -2174,7 +2173,7 @@ Private Sub list1_find_Click()
     user_list_find_Click
 End Sub
 
-Private Sub list1_find_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub list1_find_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 21 Then
         Label_name1 = " 查找内容: "
         Label_text1 = "查找列表中的文本内容（Ctrl+F）"
@@ -2291,7 +2290,7 @@ List1_ubb_copy:
     List1.SetFocus
 End Sub
 
-Private Sub List1_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub List1_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     On Error Resume Next
     If Button = 2 And List1.ListItems.count > 0 Then
         PopupMenu menu_pic
@@ -2414,7 +2413,7 @@ user_password:
     
 End Sub
 
-Private Sub open_lock_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub open_lock_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 20 Then
         Label_name = " 填写密码: "
         Label_text = "填写用户名密码，或者填写相册密码"
@@ -2462,7 +2461,7 @@ Private Sub process_h_Click()
 End Sub
 '-------------------------------------------------------------------------------------------------------------------
 
-Private Sub Proxy_img_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Proxy_img_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 26 Then
         Label_name = " 代理设置: "
         Label_text = "代理设置已经启用"
@@ -2502,7 +2501,7 @@ Private Sub search163_Click()
     End If
 End Sub
 
-Private Sub search163_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub search163_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 18 Then
         Label_name = " 搜索相册: "
         Label_text = "OX163支持163相册和博客相册的搜索"
@@ -2563,7 +2562,7 @@ Private Sub top_Picture_Click(Index As Integer)
     always_on_top sysSet.always_top
 End Sub
 
-Private Sub top_Picture_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub top_Picture_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 18 Then
         Label_name = " 窗体置前: "
         Label_text = "总是在最前面/Always on top"
@@ -2576,7 +2575,7 @@ Private Sub text_show_Click()
     On Error Resume Next
 End Sub
 
-Private Sub text_show_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub text_show_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 17 Then
         Label_name = " 简易笔记: "
         Label_text = "打开或关闭简易笔记"
@@ -2596,7 +2595,7 @@ Private Sub list_back1_Click()
     If sysSet.bottom_StatusBar = True Then Refresh_Panel
 End Sub
 
-Private Sub list_back1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub list_back1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 16 Then
         Label_name1 = " 返回首页: "
         Label_text1 = "返回初始界面"
@@ -2659,7 +2658,7 @@ retry_next:
     user_list.Enabled = True
 End Sub
 
-Private Sub list_check_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub list_check_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 16 Then
         Label_name1 = " 排列标记: "
         Label_text1 = "将已标记选择的相册排列在最上方"
@@ -2837,7 +2836,7 @@ Private Sub open_set_Click()
     PopupMenu setMenu
 End Sub
 
-Private Sub open_set_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub open_set_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 13 Then
         Label_name = " 程序菜单: "
         Label_text = "程序设置-脚本更新-自动关机-路径查看"
@@ -2976,7 +2975,7 @@ Private Sub list_back_Click()
 End Sub
 
 
-Private Sub list_back_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub list_back_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 5 Then
         Label_name = " 返回首页: "
         Label_text = "返回初始界面"
@@ -2986,7 +2985,7 @@ Private Sub list_back_MouseMove(Button As Integer, Shift As Integer, x As Single
 End Sub
 
 
-Private Sub list_count_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub list_count_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 12 Then
         Label_name = " 列表统计: "
         Label_text = "列表中共有 " & list_count.caption & " 条记录"
@@ -3352,7 +3351,7 @@ ErrHandler:
     
 End Sub
 
-Private Sub list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 6 Then
         Label_name = " 导出列表: "
         If sysSet.list_type = 1 Then
@@ -3371,7 +3370,7 @@ Private Sub list_stop_Click()
     form_quit = True
 End Sub
 
-Private Sub list_stop_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub list_stop_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 4 Then
         Label_name = " 全部停止: "
         Label_text = "结束当前下载列表活动"
@@ -3398,7 +3397,7 @@ Private Sub List1_KeyUp(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub List1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub List1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 10 Then
         Label_name = " 列表清单: "
         Label_text = "在当前列表删除或选择需要的文件"
@@ -3951,7 +3950,7 @@ check_2nd:
 End Sub
 
 
-Private Sub makelist_command_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub makelist_command_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 2 Then
         Label_name = " 下载链接: "
         Label_text = "确定下载该链接，生成下载列表"
@@ -3970,7 +3969,7 @@ Private Sub open_set1_Click()
     PopupMenu setMenu
 End Sub
 
-Private Sub open_set1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub open_set1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 14 Then
         Label_name1 = " 程序菜单: "
         Label_text1 = "程序设置-脚本更新-自动关机-路径查看"
@@ -4039,7 +4038,7 @@ start:
     
 End Sub
 
-Private Sub out_all_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub out_all_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 6 Then
         Label_name1 = " 导出列表: "
         If sysSet.list_type = 1 Then
@@ -4089,7 +4088,7 @@ start:
     End If
 End Sub
 
-Private Sub save_all_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub save_all_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 7 Then
         Label_name1 = " 保存相册: "
         Label_text1 = "保存列表中的全部文件"
@@ -4110,7 +4109,7 @@ Private Sub stop1_Click()
     buttom_enable True
 End Sub
 
-Private Sub stop1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub stop1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 11 Then
         Label_name = " 全部停止: "
         Label_text = "结束当前下载列表活动"
@@ -4123,7 +4122,7 @@ Private Sub stop2_Click()
     form_quit = True
 End Sub
 
-Private Sub stop2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub stop2_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 4 Then
         Label_name1 = " 全部停止:"
         Label_text1 = "结束当前下载列表活动"
@@ -4377,7 +4376,7 @@ Private Sub url_input_LostFocus()
     url_Filelist.Visible = False
 End Sub
 
-Private Sub url_input_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub url_input_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 3 Then
         Label_name = " 填写链接: "
         Label_text = "填写用户名或链接(Ctrl+回车浏览网页,Shift+回车填写密码)"
@@ -4388,7 +4387,7 @@ End Sub
 
 
 
-Private Sub url_input_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub url_input_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
     OLEDragDrop Data
 End Sub
 
@@ -4471,7 +4470,7 @@ Private Sub albumslist_back_Click()
     
 End Sub
 
-Private Sub albumslist_back_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub albumslist_back_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 5 Then
         Label_name1 = " 返回列表: "
         Label_text1 = "返回相册列表"
@@ -5020,7 +5019,7 @@ Private Sub user_list_find_Click()
     End If
 End Sub
 
-Private Sub user_list_find_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub user_list_find_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 21 Then
         Label_name1 = " 查找内容: "
         Label_text1 = "查找列表中的文本内容（Ctrl+F）"
@@ -5140,7 +5139,7 @@ Private Sub user_list_KeyUp(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub user_list_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub user_list_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 3 Then
         Label_name1 = " 相册列表: "
         Label_text1 = "在列表中标记复选框确定下载相册（右键列出详细菜单）"
@@ -5149,7 +5148,7 @@ Private Sub user_list_MouseMove(Button As Integer, Shift As Integer, x As Single
     End If
 End Sub
 
-Private Sub user_list_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub user_list_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     On Error Resume Next
     If Button = 2 And user_list.ListItems.count > 0 Then
         If user_list.SelectedItem.ListSubItems(1).Text = "" Then
@@ -5180,7 +5179,7 @@ Private Sub user_list_output_Click()
     list_output_Click
 End Sub
 
-Private Sub user_list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub user_list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 6 Then
         Label_name1 = " 导出列表:"
         If sysSet.list_type = 1 Then
@@ -5199,7 +5198,7 @@ Private Sub user_list_save_Click()
     image_save_Click
 End Sub
 
-Private Sub user_list_save_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub user_list_save_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 7 Then
         Label_name1 = " 保存相册: "
         Label_text1 = "保存列表中被勾选的文件"
@@ -5354,7 +5353,7 @@ Private Sub newform_resize()
 End Sub
 
 
-Private Sub view_command_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub view_command_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 1 Then
         Label_name = " 查看网页: "
         Label_text = "如果该相册为加密相册或者不能确定内容，请点击"

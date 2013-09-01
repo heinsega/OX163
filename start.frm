@@ -474,7 +474,7 @@ reset_path:
         Com3.Visible = True
         Com5.Visible = True
     Else
-        start_text.Text = start_text.Text & vbCrLf & vbCrLf & "一切就绪,启动主程序" & vbCrLf & "如遇问题修复按钮15秒启动" & vbCrLf & "请确认网络已经连接"
+        start_text.Text = start_text.Text & vbCrLf & vbCrLf & "一切就绪,启动主程序" & vbCrLf & "如遇问题修复按钮15秒启动" & vbCrLf & "请确认网络已连接" & vbCrLf & "如果VISTA Win7 Win8无法启动可对程序" & vbCrLf & """右键->以管理员身份运行程序""一次"
     End If
     start_text.SelStart = Len(start_text.Text)
     Timer2.Interval = 15000

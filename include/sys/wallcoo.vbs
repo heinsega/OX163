@@ -1,4 +1,4 @@
-'2012-3-3 163.shanhaijing.net
+'2013-3-3 163.shanhaijing.net
 dim main_url
 
 Function return_download_url(ByVal url_str)
@@ -18,9 +18,9 @@ split_str=split(url_str,"/")
 if ubound(split_str)>0 then
 	main_url="http://www.wallcoo.com/" & split_str(0) & "/" & split_str(1) & "/"
 	'http://www.wallcoo.com/cartoon/The_fiery_English_alphabets_and_fiery_numbers_1920_1600/
-	return_download_url = "inet|10,13|http://www.wallcoo.com/" & split_str(0) & "/" & split_str(1) & "/index.html"
+	return_download_url = "inet|10,13|http://www.wallcoo.com/" & split_str(0) & "/" & split_str(1) & "/index.html|http://www.wallcoo.com/" & vbCrLf & "User-Agent: Mozilla/4.0 (compatible: MSIE 8.0)"
 end If
-'OX163_urlpage_Referer="Referer: http://www.wallcoo.com/" & vbCrLf & "User-Agent: Mozilla/4.0 (compatible: MSIE 8.0)"
+OX163_urlpage_Referer="Referer: http://www.wallcoo.com/" & vbCrLf & "User-Agent: Mozilla/4.0 (compatible: MSIE 8.0)"
 End Function
 
 '--------------------------------------------------------

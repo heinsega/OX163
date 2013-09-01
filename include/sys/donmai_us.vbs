@@ -1,4 +1,4 @@
-'2013-2-25 163.shanhaijing.net
+'2012-2-25 163.shanhaijing.net
 Dim url_parent, tags, page, pic_counter, url_instr, retry_time, login_TF
 
 Function return_download_url(ByVal url_str)
