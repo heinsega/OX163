@@ -1,4 +1,4 @@
-'2013-2-24 visceroid & hein@shanghaijing.net
+'2013-9-1 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, member_type, php_name
 started = False
 multi_page = True
@@ -20,7 +20,7 @@ On Error Resume Next
 	ElseIf Right(url_str,Len("&brief_mode=f"))="&brief_mode=f" Then
 		brief_mode_rf="&brief_mode=f"
 	End If		
-	
+	url_str = replace(url_str,"mode=manga","mode=medium")
 	regex.Pattern = root_str & "/(\w+)\.php(?:\?(?:(?:((?:id|illust_id)=\d+)|((?:tag|word)=(?:[%\w\-]+\+?)+)|(type=(?:illust|user|reg_user))|(mode=(?:medium|all)|rest=(?:show|hide)|s_mode=(?:s_tc|s_tag))|(p=\d+)|[^&]+)(?:&|$))*)?"
 	Set matches = regex.Execute(url_str)
 	For Each match In matches
@@ -80,7 +80,7 @@ On Error Resume Next
 		ElseIf brief_mode_rf="&brief_mode=f" Then
 			brief_mode=0
 		Else
-			brief_mode = (MsgBox("是否忽略漫画（采用简略分析方式）？", vbYesNo, "问题") = vbYes)
+			brief_mode = (MsgBox("是否忽略漫画（采用简略分析方式）？" & vbcrlf & vbcrlf & "2013年4月之后的作品必须选“否”才能正确分析", vbYesNo, "问题") = vbYes)
 		End If
 		Exit For
 	Next
