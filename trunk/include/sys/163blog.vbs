@@ -1,4 +1,4 @@
-'2013-5-18 http://www.shanhaijing.net/163
+'2013-10-11 http://www.shanhaijing.net/163
 Dim user_id,album_id,page_id,retry_times,get_info
 
 Function return_download_url(ByVal url_str)
@@ -222,15 +222,9 @@ ElseIf InStr(html_str, "=[{id:") > 0 Then
             If IsNumeric(temp(2))=flase Then temp(2) = ""
             
             albumsID = ""
-            
-            albumsID = Trim(Mid(albumsINFO(cout_num), InStrRev(albumsINFO(cout_num), "'") + 1))
-            
-            If albumsID = "" Then
             albumsID = "http://blog.163.com/" & user_id & "/album/?albumId=" & Mid(albumsINFO(cout_num), 1, InStr(albumsINFO(cout_num), ",") - 1)
-            Else
-            albumsID = "http://" & albumsID
-            End If
-            
+            'albumsID = Trim(Mid(albumsINFO(cout_num), InStrRev(albumsINFO(cout_num), "'") + 1))
+                        
             If temp(1) = "8" Then
             	temp(1)="1"
             	temp(4) = Mid(temp(4), InStr(temp(4), "ut:") + 3)
@@ -451,7 +445,7 @@ End Function
 Function is_username(ByVal username)
 On Error Resume Next
 is_username =True
-If Len(username) > 2 And Len(username) < 100 Then
+If Len(username) > 3 And Len(username) < 100 Then
 For i = 1 To Len(username)
 DoEvents
 If InStr("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@", Mid(username, i, 1)) < 1 Then
