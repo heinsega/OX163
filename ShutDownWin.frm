@@ -268,17 +268,14 @@ Private Function ShutdownSystem(Optional ByVal eType As EShutDownTypes = REBOOT)
     Else
         ShutdownSystem = True
     End If
-End Function
-
-
-
-
 '在win2000或者NT中，关机是需要一定权限的。下面给你一个完整的模块，将它保存为一个bas文件，其中的一个主要函数就是：ShutdownSystem()
 '
 '调用格式:
 '2000 中关机: Call ShutdownSystem(POWEROFF)
 '98 中关机: Call ShutdownSystem(SHUTDOWN)
 '重启: Call ShutdownSystem(REBOOT)
+End Function
+
 '
 '----------------------
 Private Sub always_on_top(on_top As Boolean)

@@ -47,6 +47,10 @@ Public Declare Function SetPriorityClass Lib "kernel32" (ByVal hProcess As Long,
 'Const REALTIME_PRIORITY_CLASS = &H100
 
 '-------------------------------------------------------------------------
+'API将返回Windows的Non - Unicode设定--------------------------------------
+Private Declare Function GetSystemDefaultLCID Lib "kernel32" () As Long
+
+'-------------------------------------------------------------------------
 '调用shell保存路径--------------------------------------------------------
 Private Declare Function SHBrowseForFolder Lib "shell32" Alias "SHBrowseForFolderW" (lpBrowseInfo As BROWSEINFO) As Long
 Private Declare Function SHGetPathFromIDList Lib "shell32" Alias "SHGetPathFromIDListW" (ByVal pidl As Long, ByVal pszPath As Long) As Long
@@ -591,3 +595,63 @@ Public Function UnCompressGzipByte(ByteArray() As Byte) As Variant
     ReDim Preserve ByteArray(0 To outUsed - 1)
     CopyMemory ByteArray(0), buffer(0), outUsed
 End Function
+
+'-------------------------------------------------------------------------
+'-------------------------------------------------------------------------
+'-----------------返回Windows的Non - Unicode设定组------------------------
+Public Function GetOSLCID() As Integer
+    Dim sysLCID As Long
+    
+    'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\Language
+    'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\Locale
+    
+    '说明:
+    'GetSystemDefaultLCID API将返回Windows的Non - Unicode设定 StrConv的最后一个参数有可能用到
+    '
+    '例如:
+    'LOCALE_ILANGUAGE: 0804
+    'LOCALE_SLANGUAGE: Chinese (PRC)
+    'LOCALE_SENGLANGUAGE: Chinese
+    'LOCALE_SABBREVLANGNAME: CHS
+    'LOCALE_SNATIVELANGNAME: 中文 (简体)
+    'LOCALE_ICOUNTRY: 86
+    'LOCALE_SCOUNTRY: People 's Republic of China
+    'LOCALE_SENGCOUNTRY: People 's Republic of China
+    'LOCALE_SABBREVCTRYNAME: CHN
+    'LOCALE_SNATIVECTRYNAME: 中华人民共和国
+    'LOCALE_IDEFAULTLANGUAGE: 0804
+    'LOCALE_IDEFAULTCOUNTRY: 86
+    'LOCALE_IDEFAULTCODEPAGE: 936
+    
+    sysLCID = GetSystemDefaultLCID
+    '&H409(us-英文)&H809(gb-英文)  &HC09(au-英文) &H1009(ca-英文)
+    '&H004(zh-中文)&H404(tw-Big5)&H804(cn-GBK/GB)&HC04(hk-Big5) &H1004(sg-GBK)
+    '&H804=2052 &H404=1028 &H409=1033 &H809=2057
+    
+    'eslDefault 0
+    'eslHongKong = &HC04     '3076 SAR   950 ZHH
+    'eslMacau = &H1404       '5124 SAR   950 ZHM
+    'eslChinese = &H804      '2052       936 CHS
+    'eslSingapore = &H1004   '4100       936 ZHI
+    'eslTaiwan = &H404       '1028       950 CHT
+    'eslEnglish = &H409      '1033
+    'eslJapanese = &H411     '1041 Japan 932 JAPAN
+    'eslKorean = &H412       '1042 Korea Unicode only KOREA
+
+
+    If sysLCID = &H804 Or sysLCID = &H4 Or sysLCID = &H1004 Then
+        GetOSLCID = 1 '中文简体
+    ElseIf sysLCID = &H404 Or sysLCID = &HC04 Then
+        GetOSLCID = 2 '中文繁体
+    ElseIf sysLCID = &H411 Then
+        GetOSLCID = 3 '日文
+    ElseIf sysLCID = &H412 Then
+        GetOSLCID = 4 '韩文
+    ElseIf sysLCID Mod 16 = 9 Then
+        GetOSLCID = 0 '英文
+    Else
+        GetOSLCID = 0
+    End If
+    
+End Function
+

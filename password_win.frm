@@ -113,8 +113,10 @@ Private Sub Form_Unload(Cancel As Integer)
     
     If Form1.pass_code = "163" And isDown = 0 And ESC_quit = False Then
         Call Form1.check_pass_code(False, isDown)
-    ElseIf Form1.pass_code = "new163_pass" And isDown = 0 And ESC_quit = False Then
-        Call Form1.new163_check_passcode(False, isDown)
+'    ElseIf Form1.pass_code = "new163_pass" And isDown = 0 And ESC_quit = False Then
+'        Call Form1.new163_check_passcode(False, isDown)
+'        Form1.Enabled = True
+'        Exit Sub
     Else
         Form1.Enabled = True
     End If

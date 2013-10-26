@@ -286,12 +286,12 @@ Dim script_include As String
 Dim local_include As String
 
 Public Sub on_top(on_top As Boolean)
-    Dim flags As Integer
-    flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
+    Dim Flags As Integer
+    Flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
     If on_top = True Then
-        SetWindowPos script_from.hWnd, HWND_TOPMOST, 0, 0, 0, 0, flags
+        SetWindowPos script_from.hWnd, HWND_TOPMOST, 0, 0, 0, 0, Flags
     Else
-        SetWindowPos script_from.hWnd, -2, 0, 0, 0, 0, flags
+        SetWindowPos script_from.hWnd, -2, 0, 0, 0, 0, Flags
     End If
 End Sub
 
@@ -334,6 +334,7 @@ Private Sub Check_script()
     Dim def_thing
     Dim file_time
     
+    StatusBar.Panels(2) = "Now Checking"
     script_load.Cancel
     script_down_ok = False
     strURL = Trim$(sysSet.update_host & "script_update.vbs?ntime=" & CDbl(Now()))
