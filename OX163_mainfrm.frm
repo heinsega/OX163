@@ -1,8 +1,7 @@
 VERSION 5.00
 Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "shdocvw.dll"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
 Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.OCX"
-Object = "{0D452EE1-E08F-101A-852E-02608C4D0BB4}#2.0#0"; "FM20.DLL"
 Begin VB.Form Form1 
    AutoRedraw      =   -1  'True
    Caption         =   "OX163"
@@ -622,20 +621,14 @@ Begin VB.Form Form1
       TabIndex        =   0
       Top             =   70
       Width           =   12615
-      Begin MSForms.TextBox url_input 
-         Height          =   330
+      Begin VB.TextBox url_input 
+         Height          =   300
          Left            =   1080
+         OLEDropMode     =   1  'Manual
          TabIndex        =   1
-         Top             =   260
+         Text            =   "http://"
+         Top             =   280
          Width           =   6735
-         VariousPropertyBits=   746604571
-         Size            =   "11880;582"
-         Value           =   "http://"
-         SpecialEffect   =   3
-         FontName        =   "宋体"
-         FontHeight      =   180
-         FontCharSet     =   134
-         FontPitchAndFamily=   34
       End
       Begin VB.Image list1_find 
          Height          =   375
@@ -1236,16 +1229,54 @@ Begin VB.Form Form1
       Caption         =   "进程"
       Visible         =   0   'False
       Begin VB.Menu process_h 
-         Caption         =   "  高"
+         Caption         =   "高"
       End
       Begin VB.Menu process_mh 
-         Caption         =   ">>高于标准"
+         Caption         =   "高于标准"
+         Checked         =   -1  'True
       End
       Begin VB.Menu process_m 
-         Caption         =   "  标准"
+         Caption         =   "标准"
       End
       Begin VB.Menu process_c 
-         Caption         =   "  取消"
+         Caption         =   "取消"
+      End
+   End
+   Begin VB.Menu textboxpop_menu 
+      Caption         =   "文本编辑菜单"
+      Visible         =   0   'False
+      Begin VB.Menu textboxpop_undo 
+         Caption         =   "撤销(&U)"
+         Enabled         =   0   'False
+         Visible         =   0   'False
+      End
+      Begin VB.Menu textboxpop_1 
+         Caption         =   "-"
+         Visible         =   0   'False
+      End
+      Begin VB.Menu textboxpop_cut 
+         Caption         =   "剪切(&T)"
+      End
+      Begin VB.Menu textboxpop_copy 
+         Caption         =   "复制(&C)"
+      End
+      Begin VB.Menu textboxpop_paste 
+         Caption         =   "粘贴(&P)"
+      End
+      Begin VB.Menu textboxpop_del 
+         Caption         =   "删除(&D)"
+      End
+      Begin VB.Menu textboxpop_2 
+         Caption         =   "-"
+      End
+      Begin VB.Menu textboxpop_selectall 
+         Caption         =   "全选(&A)"
+      End
+      Begin VB.Menu textboxpop_3 
+         Caption         =   "-"
+      End
+      Begin VB.Menu textboxpop_read 
+         Caption         =   "从右向左的阅读顺序(&R)"
       End
    End
 End
@@ -1362,12 +1393,12 @@ End Sub
 Private Sub auto_shutdown_Click()
     If auto_shutdown_tf = False Then
         auto_shutdown_tf = True
-        auto_shutdown.caption = "自动关机√"
-        auto_shutdown1.caption = "自动关机√"
+        auto_shutdown.Checked = True
+        auto_shutdown1.Checked = True
     Else
         auto_shutdown_tf = False
-        auto_shutdown.caption = "自动关机"
-        auto_shutdown1.caption = "自动关机"
+        auto_shutdown.Checked = False
+        auto_shutdown1.Checked = False
     End If
     open_set.Picture = set_ico(-Int(auto_shutdown_tf)).Picture
     open_set1.Picture = open_set.Picture
@@ -1439,7 +1470,8 @@ End Sub
 
 
 
-Private Sub count1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+
+Private Sub count1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 12 Then
         Label_name1 = " 列表统计: "
         Label_text1 = "列表中共有 " & count1.caption & " 条记录"
@@ -1449,7 +1481,7 @@ Private Sub count1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y
 End Sub
 
 
-Private Sub count2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub count2_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 12 Then
         Label_name1 = " 列表统计: "
         Label_text1 = "列表中共有 " & count2.caption & " 条记录"
@@ -1691,7 +1723,7 @@ Private Sub find_next_Click()
     End If
 End Sub
 
-Private Sub find_next_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub find_next_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 23 Then
         Label_name1 = " 查找内容: "
         Label_text1 = "查找下一个匹配字符（PageDown）"
@@ -1756,7 +1788,7 @@ Private Sub find_unselect_Click()
     End If
 End Sub
 
-Private Sub find_prev_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub find_prev_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 24 Then
         Label_name1 = " 查找内容: "
         Label_text1 = "查找上一个匹配字符（PageUp）"
@@ -1783,7 +1815,7 @@ Private Sub find_text_KeyDown(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub find_text_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub find_text_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 25 Then
         Label_name1 = " 查找内容: "
         Label_text1 = "填写需要查找的文本"
@@ -1917,7 +1949,7 @@ End Sub
 
 
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 0 Then
         Label_text.Visible = False
         Label_name.Visible = False
@@ -1927,7 +1959,7 @@ End Sub
 
 
 
-Private Sub Form_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Form_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
     If down_count = 0 Then
         OLEDragDrop Data
     ElseIf download_ok = True And form_quit = True Then
@@ -1944,7 +1976,7 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
     sysTray False
 End Sub
 
-Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     On Error Resume Next
     
     If now_tray = False Then Exit Sub
@@ -2045,7 +2077,7 @@ Private Sub Frame1_Click()
     url_Filelist.Visible = False
 End Sub
 
-Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 0 Then
         Label_text.Visible = False
         Label_name.Visible = False
@@ -2053,7 +2085,7 @@ Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y
     End If
 End Sub
 
-Private Sub Frame1_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Frame1_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
     If down_count = 0 Then
         OLEDragDrop Data
     ElseIf download_ok = True And form_quit = True Then
@@ -2065,7 +2097,7 @@ Private Sub Frame1_OLEDragDrop(Data As DataObject, Effect As Long, Button As Int
     End If
 End Sub
 
-Private Sub Frame2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Frame2_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 15 Then
         Label_text1.Visible = False
         Label_name1.Visible = False
@@ -2073,7 +2105,7 @@ Private Sub Frame2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y
     End If
 End Sub
 
-Private Sub Frame2_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Frame2_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
     If down_count = 0 Then
         OLEDragDrop Data
     ElseIf download_ok = True And form_quit = True Then
@@ -2096,7 +2128,7 @@ Private Sub homepage_Click()
     ShellExecute 0&, vbNullString, StrConv(homepage_str, vbUnicode), vbNullString, vbNullString, vbNormalFocus
 End Sub
 
-Private Sub homepage_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub homepage_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 22 Then
         Label_name = " 软件主页: "
         Label_text = "前往更新页"
@@ -2150,7 +2182,7 @@ start:
     
 End Sub
 
-Private Sub image_save_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub image_save_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 7 Then
         Label_name = " 保存图片: "
         Label_text = "保存列表中被勾选的文件"
@@ -2158,13 +2190,6 @@ Private Sub image_save_MouseMove(Button As Integer, Shift As Integer, x As Singl
         mouse_dic = 7
     End If
 End Sub
-
-
-
-
-
-
-
 
 
 Private Sub lblProgressInfo1_Change()
@@ -2179,7 +2204,7 @@ Private Sub list1_find_Click()
     user_list_find_Click
 End Sub
 
-Private Sub list1_find_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub list1_find_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 21 Then
         Label_name1 = " 查找内容: "
         Label_text1 = "查找列表中的文本内容（Ctrl+F）"
@@ -2296,7 +2321,7 @@ List1_ubb_copy:
     List1.SetFocus
 End Sub
 
-Private Sub List1_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub List1_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     On Error Resume Next
     If Button = 2 And List1.ListItems.count > 0 Then
         PopupMenu menu_pic
@@ -2419,7 +2444,7 @@ user_password:
     
 End Sub
 
-Private Sub open_lock_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub open_lock_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 20 Then
         Label_name = " 填写密码: "
         Label_text = "填写用户名密码，或者填写相册密码"
@@ -2442,32 +2467,32 @@ Private Sub process_m_Click()
     Dim CurrentProcesshWnd As Long
     CurrentProcesshWnd = GetCurrentProcess
     Call SetPriorityClass(CurrentProcesshWnd, &H20)
-    process_m.caption = ">>标准"
-    process_mh.caption = "  高于标准"
-    process_h.caption = "  高"
+    process_m.Checked = True
+    process_mh.Checked = False
+    process_h.Checked = False
     StatusBar.Panels.Item(4).Picture = process_Image(2).Picture
 End Sub
 Private Sub process_mh_Click()
     Dim CurrentProcesshWnd As Long
     CurrentProcesshWnd = GetCurrentProcess
     Call SetPriorityClass(CurrentProcesshWnd, &H8000)
-    process_m.caption = "  标准"
-    process_mh.caption = ">>高于标准"
-    process_h.caption = "  高"
+    process_m.Checked = False
+    process_mh.Checked = True
+    process_h.Checked = False
     StatusBar.Panels.Item(4).Picture = process_Image(1).Picture
 End Sub
 Private Sub process_h_Click()
     Dim CurrentProcesshWnd As Long
     CurrentProcesshWnd = GetCurrentProcess
     Call SetPriorityClass(CurrentProcesshWnd, &H80)
-    process_m.caption = "  标准"
-    process_mh.caption = "  高于标准"
-    process_h.caption = ">>高"
+    process_m.Checked = False
+    process_mh.Checked = False
+    process_h.Checked = True
     StatusBar.Panels.Item(4).Picture = process_Image(0).Picture
 End Sub
 '-------------------------------------------------------------------------------------------------------------------
 
-Private Sub Proxy_img_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Proxy_img_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 26 Then
         Label_name = " 代理设置: "
         Label_text = "代理设置已经启用"
@@ -2507,7 +2532,7 @@ Private Sub search163_Click()
     End If
 End Sub
 
-Private Sub search163_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub search163_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 18 Then
         Label_name = " 搜索相册: "
         Label_text = "OX163支持163相册和博客相册的搜索"
@@ -2523,8 +2548,6 @@ Private Sub setProgram_Click()
     sys.Left = Form1.Left
     sys.Show
 End Sub
-
-
 
 Private Sub StatusBar_PanelClick(ByVal Panel As MSComctlLib.Panel)
     On Error Resume Next
@@ -2549,17 +2572,6 @@ End Sub
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 Private Sub top_Picture_Click(Index As Integer)
     If Form1.WindowState = 2 Then always_on_top False: Exit Sub
     If top_Picture(0).Visible = True = sysSet.always_top Then top_Picture(0).Visible = False: top_Picture(1).Visible = True: Exit Sub
@@ -2568,7 +2580,7 @@ Private Sub top_Picture_Click(Index As Integer)
     always_on_top sysSet.always_top
 End Sub
 
-Private Sub top_Picture_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub top_Picture_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 18 Then
         Label_name = " 窗体置前: "
         Label_text = "总是在最前面/Always on top"
@@ -2581,7 +2593,7 @@ Private Sub text_show_Click()
     On Error Resume Next
 End Sub
 
-Private Sub text_show_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub text_show_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 17 Then
         Label_name = " 简易笔记: "
         Label_text = "打开或关闭简易笔记"
@@ -2601,7 +2613,7 @@ Private Sub list_back1_Click()
     If sysSet.bottom_StatusBar = True Then Refresh_Panel
 End Sub
 
-Private Sub list_back1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub list_back1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 16 Then
         Label_name1 = " 返回首页: "
         Label_text1 = "返回初始界面"
@@ -2664,7 +2676,7 @@ retry_next:
     user_list.Enabled = True
 End Sub
 
-Private Sub list_check_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub list_check_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 16 Then
         Label_name1 = " 排列标记: "
         Label_text1 = "将已标记选择的相册排列在最上方"
@@ -2842,7 +2854,7 @@ Private Sub open_set_Click()
     PopupMenu setMenu
 End Sub
 
-Private Sub open_set_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub open_set_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 13 Then
         Label_name = " 程序菜单: "
         Label_text = "程序设置-脚本更新-自动关机-路径查看"
@@ -2981,7 +2993,7 @@ Private Sub list_back_Click()
 End Sub
 
 
-Private Sub list_back_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub list_back_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 5 Then
         Label_name = " 返回首页: "
         Label_text = "返回初始界面"
@@ -2991,7 +3003,7 @@ Private Sub list_back_MouseMove(Button As Integer, Shift As Integer, x As Single
 End Sub
 
 
-Private Sub list_count_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub list_count_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 12 Then
         Label_name = " 列表统计: "
         Label_text = "列表中共有 " & list_count.caption & " 条记录"
@@ -3286,7 +3298,7 @@ Private Sub input_lst_sub(ByVal LstFileName)
             Form1.Height = Form1.Height + 9 * 250
         End Select
     End If
-    
+    urlpage_Referer = url_Referer
     List1.ListItems.Item(1).Selected = False
     List1.SetFocus
 End Sub
@@ -3357,7 +3369,7 @@ ErrHandler:
     
 End Sub
 
-Private Sub list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 6 Then
         Label_name = " 导出列表: "
         If sysSet.list_type = 1 Then
@@ -3376,7 +3388,7 @@ Private Sub list_stop_Click()
     form_quit = True
 End Sub
 
-Private Sub list_stop_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub list_stop_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 4 Then
         Label_name = " 全部停止: "
         Label_text = "结束当前下载列表活动"
@@ -3403,7 +3415,7 @@ Private Sub List1_KeyUp(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub List1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub List1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 10 Then
         Label_name = " 列表清单: "
         Label_text = "在当前列表删除或选择需要的文件"
@@ -3956,7 +3968,7 @@ check_2nd:
 End Sub
 
 
-Private Sub makelist_command_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub makelist_command_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 2 Then
         Label_name = " 下载链接: "
         Label_text = "确定下载该链接，生成下载列表"
@@ -3975,7 +3987,7 @@ Private Sub open_set1_Click()
     PopupMenu setMenu
 End Sub
 
-Private Sub open_set1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub open_set1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 14 Then
         Label_name1 = " 程序菜单: "
         Label_text1 = "程序设置-脚本更新-自动关机-路径查看"
@@ -4044,7 +4056,7 @@ start:
     
 End Sub
 
-Private Sub out_all_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub out_all_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 6 Then
         Label_name1 = " 导出列表: "
         If sysSet.list_type = 1 Then
@@ -4094,7 +4106,7 @@ start:
     End If
 End Sub
 
-Private Sub save_all_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub save_all_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 7 Then
         Label_name1 = " 保存相册: "
         Label_text1 = "保存列表中的全部文件"
@@ -4115,7 +4127,7 @@ Private Sub stop1_Click()
     buttom_enable True
 End Sub
 
-Private Sub stop1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub stop1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 11 Then
         Label_name = " 全部停止: "
         Label_text = "结束当前下载列表活动"
@@ -4128,7 +4140,7 @@ Private Sub stop2_Click()
     form_quit = True
 End Sub
 
-Private Sub stop2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub stop2_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 4 Then
         Label_name1 = " 全部停止:"
         Label_text1 = "结束当前下载列表活动"
@@ -4314,19 +4326,18 @@ Private Sub update_StateChanged(ByVal State As Integer)
     DoEvents
 End Sub
 
-Private Sub url_input_DblClick(Cancel As MSForms.ReturnBoolean)
+
+'---------------------------------------------------------------------------------------
+'----------------------------url_input--------------------------------------------------
+'---------------------------------------------------------------------------------------
+
+Private Sub url_input_DblClick()
     url_input_SelectAll
 End Sub
 
-Private Sub url_input_SelectAll()
-    url_input.SelStart = 0
-    url_input.SelLength = Len(url_input.Text)
-End Sub
-
-Private Sub url_input_KeyDown(KeyCode As MSForms.ReturnInteger, Shift As Integer)
+Private Sub url_input_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 65 And Shift = vbCtrlMask Then
-        url_input.SelStart = 0
-        url_input.SelLength = Len(url_input.Text)
+        url_input_SelectAll
     ElseIf KeyCode = 13 And Shift = vbCtrlMask Then
         view_command_Click
     ElseIf KeyCode = 13 And Shift = vbShiftMask Then
@@ -4337,7 +4348,7 @@ Private Sub url_input_KeyDown(KeyCode As MSForms.ReturnInteger, Shift As Integer
     End If
 End Sub
 
-Private Sub url_input_KeyUp(KeyCode As MSForms.ReturnInteger, Shift As Integer)
+Private Sub url_input_KeyUp(KeyCode As Integer, Shift As Integer)
     On Error Resume Next
     If Shift <> vbCtrlMask And Shift <> vbAltMask And url_Filelist.Visible = False Then
         
@@ -4385,7 +4396,7 @@ Private Sub url_input_LostFocus()
     url_Filelist.Visible = False
 End Sub
 
-Private Sub url_input_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub url_input_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 3 Then
         Label_name = " 填写链接: "
         Label_text = "填写用户名或链接(Ctrl+回车浏览网页,Shift+回车填写密码)"
@@ -4394,9 +4405,16 @@ Private Sub url_input_MouseMove(Button As Integer, Shift As Integer, x As Single
     End If
 End Sub
 
-Private Sub url_input_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub url_input_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
     OLEDragDrop Data
 End Sub
+
+Private Sub url_input_SelectAll()
+    url_input.SelStart = 0
+    url_input.SelLength = Len(url_input.Text)
+End Sub
+'---------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------
 
 
 Private Sub user_list_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
@@ -4475,7 +4493,7 @@ Private Sub albumslist_back_Click()
     
 End Sub
 
-Private Sub albumslist_back_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub albumslist_back_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 5 Then
         Label_name1 = " 返回列表: "
         Label_text1 = "返回相册列表"
@@ -4603,12 +4621,12 @@ re_call_new163:
         Exit Sub
     ElseIf user_list.SelectedItem.ListSubItems(2).Text Like "new163_ID_?*" Then
         If user_list.SelectedItem.ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." Then
-        
+            
             menu_psw_Click
             Exit Sub
             
         ElseIf user_list.SelectedItem.ListSubItems(1).Text <> "" Then
-        
+            
             Call new163_check_passcode(False, 0)
             Exit Sub
             
@@ -5033,7 +5051,7 @@ Private Sub user_list_find_Click()
     End If
 End Sub
 
-Private Sub user_list_find_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub user_list_find_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 21 Then
         Label_name1 = " 查找内容: "
         Label_text1 = "查找列表中的文本内容（Ctrl+F）"
@@ -5153,7 +5171,7 @@ Private Sub user_list_KeyUp(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub user_list_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub user_list_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 3 Then
         Label_name1 = " 相册列表: "
         Label_text1 = "在列表中标记复选框确定下载相册（右键列出详细菜单）"
@@ -5162,7 +5180,7 @@ Private Sub user_list_MouseMove(Button As Integer, Shift As Integer, x As Single
     End If
 End Sub
 
-Private Sub user_list_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub user_list_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     On Error Resume Next
     If Button = 2 And user_list.ListItems.count > 0 Then
         If user_list.SelectedItem.ListSubItems(1).Text = "" Then
@@ -5193,7 +5211,7 @@ Private Sub user_list_output_Click()
     list_output_Click
 End Sub
 
-Private Sub user_list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub user_list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 6 Then
         Label_name1 = " 导出列表:"
         If sysSet.list_type = 1 Then
@@ -5212,7 +5230,7 @@ Private Sub user_list_save_Click()
     image_save_Click
 End Sub
 
-Private Sub user_list_save_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub user_list_save_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 7 Then
         Label_name1 = " 保存相册: "
         Label_text1 = "保存列表中被勾选的文件"
@@ -5367,7 +5385,7 @@ Private Sub newform_resize()
 End Sub
 
 
-Private Sub view_command_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub view_command_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If mouse_dic <> 1 Then
         Label_name = " 查看网页: "
         Label_text = "如果该相册为加密相册或者不能确定内容，请点击"
@@ -5392,8 +5410,10 @@ End Sub
 Public Sub step_two()
     down_count = 1
     rename_rules_val = 0
-    Frame1.caption = "列表与下载相册"
+    url_input_SelectAll
+    url_input.Enabled = False
     url_input.Visible = False
+    Frame1.caption = "列表与下载相册"
     view_command.Visible = False
     makelist_command.Visible = False
     stop1.Visible = False
@@ -5417,7 +5437,6 @@ Public Sub step_one()
     Frame1.caption = "侦测用户名或网址"
     Frame2.Visible = False
     Frame_search.Visible = False
-    url_input.Visible = True
     stop1.Visible = False
     search163.Visible = True
     view_command.Visible = True
@@ -5441,6 +5460,8 @@ Public Sub step_one()
     url_Referer = ""
     urlpage_Referer = ""
     Html_Temp = ""
+    url_input.Visible = True
+    url_input.Enabled = True
     url_input.SetFocus
     url_input.SelStart = 0
     url_input.SelLength = Len(url_input.Text)
@@ -5460,6 +5481,9 @@ Public Sub step_three()
     down_count = 1
     rename_rules_val = 0
     search163.Visible = False
+    url_input_SelectAll
+    url_input.Visible = False
+    url_input.Enabled = False
     Frame1.Visible = False
     Frame2.Visible = True
 End Sub
@@ -5956,10 +5980,14 @@ Private Function Referer_check() As String
         End If
     End Select
     '"Referer: http://moe.imouto.org/"
+    
+    If InStr(Referer_check, "User-Agent:") <> 1 And InStr(Referer_check, vbCrLf & "User-Agent:") < 1 Then
+        Referer_check = Referer_check & vbCrLf & "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)"
+    End If
     Exit Function
     
 Referer_error:
-    Referer_check = ""
+    Referer_check = "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)"
 End Function
 
 Private Function Referer_page_check() As String
@@ -6084,7 +6112,7 @@ new_down:
             
         Else
             
-            check_header.Execute Trim$(strURL), "GET", , "Range: bytes=0-"
+            check_header.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)" & vbCrLf & "Range: bytes=0-"
             Do
                 DoEvents
                 Sleep 10
@@ -6102,7 +6130,7 @@ new_down:
                 Exit Sub
             End If
             
-            Inet1.Execute Trim$(strURL), "GET"
+            Inet1.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)"
             
         End If
         
@@ -6140,7 +6168,7 @@ new_down:
             Referer_temp = Referer_check
             Inet1.Execute Trim$(strURL), "GET", , Referer_temp & vbCrLf & "Range: bytes=" & down_len & "-"
         Else
-            Inet1.Execute Trim$(strURL), "GET", , "Range: bytes=" & down_len & "-"
+            Inet1.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)" & vbCrLf & "Range: bytes=" & down_len & "-"
         End If
     End If
     
@@ -6623,12 +6651,12 @@ Private Sub user_open()
                 
                 albumsID = ""
                 albumsID = "new163_ID_" & Mid$(albumsINFO(cout_num), 1, InStr(albumsINFO(cout_num), ",") - 1)
-'                albumsID = Trim(Mid$(albumsINFO(cout_num), InStrRev(albumsINFO(cout_num), "'") + 1))
-'                If albumsID = "" Then
-'                    albumsID = "new163_ID_" & Mid$(albumsINFO(cout_num), 1, InStr(albumsINFO(cout_num), ",") - 1)
-'                Else
-'                    albumsID = "http://" & albumsID
-'                End If
+                '                albumsID = Trim(Mid$(albumsINFO(cout_num), InStrRev(albumsINFO(cout_num), "'") + 1))
+                '                If albumsID = "" Then
+                '                    albumsID = "new163_ID_" & Mid$(albumsINFO(cout_num), 1, InStr(albumsINFO(cout_num), ",") - 1)
+                '                Else
+                '                    albumsID = "http://" & albumsID
+                '                End If
                 
                 If temp(1) = "8" Then
                     temp(1) = "1"
