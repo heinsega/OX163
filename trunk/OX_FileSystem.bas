@@ -136,13 +136,13 @@ Sub SetClipboardText(ClipboardText)
 On Error GoTo OX_SetClipboardTextErr
     If sysSet.Unicode_File = 0 Then
         Dim hMem As Long, pMem As Long, StringToCopy As String
-        StringToCopy = fix_Unicode_FileName(ClipboardText)
+        StringToCopy = fix_Unicode_FileName(ClipboardText) & vbNullChar
         Clipboard.Clear
         Call OpenClipboard(Form1.hWnd)
         Call EmptyClipboard
-        hMem = GlobalAlloc(GMEM_MOVEABLE Or GMEM_ZEROINIT, LenB(StringToCopy) + 1)
+        hMem = GlobalAlloc(GMEM_MOVEABLE Or GMEM_ZEROINIT, LenB(StringToCopy))
         pMem = GlobalLock(hMem)
-        Call RtlMoveMemory(pMem, StrPtr(StringToCopy), LenB(StringToCopy) + 1)
+        Call RtlMoveMemory(pMem, StrPtr(StringToCopy), LenB(StringToCopy))
         Call GlobalUnlock(hMem)
         Call SetClipboardData(CF_UNICODETEXT, hMem)
         Call CloseClipboard
