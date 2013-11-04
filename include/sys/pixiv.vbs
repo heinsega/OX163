@@ -1,4 +1,4 @@
-'2013-9-1 visceroid & hein@shanghaijing.net
+'2013-11-4 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, member_type, php_name
 started = False
 multi_page = True
@@ -19,8 +19,10 @@ On Error Resume Next
 		brief_mode_rf="&brief_mode=t"
 	ElseIf Right(url_str,Len("&brief_mode=f"))="&brief_mode=f" Then
 		brief_mode_rf="&brief_mode=f"
-	End If		
+	End If
 	url_str = replace(url_str,"mode=manga","mode=medium")
+	url_str = replace(url_str,"mode=big","mode=medium")
+	url_str = replace(url_str,"mode=manga_big","mode=medium")
 	regex.Pattern = root_str & "/(\w+)\.php(?:\?(?:(?:((?:id|illust_id)=\d+)|((?:tag|word)=(?:[%\w\-]+\+?)+)|(type=(?:illust|user|reg_user))|(mode=(?:medium|all)|rest=(?:show|hide)|s_mode=(?:s_tc|s_tag))|(p=\d+)|[^&]+)(?:&|$))*)?"
 	Set matches = regex.Execute(url_str)
 	For Each match In matches
@@ -75,11 +77,16 @@ On Error Resume Next
 		regex.Pattern = "(?:(?:\?|&)+(?=$)|(\?|&)&+)"
 		next_page_str = "1|inet|10,13|" & root_str & regex.Replace(sub_url_str, "$1")
 		
+		If instr(LCase(next_page_str),"illust_id=")>0 Then
+			php_name="illust_id"
+			brief_mode=vbYes
+		End If
+		
 		If brief_mode_rf="&brief_mode=t" Then
 			brief_mode=-1
 		ElseIf brief_mode_rf="&brief_mode=f" Then
 			brief_mode=0
-		Else
+		ElseIf php_name<>"illust_id" Then
 			brief_mode = (MsgBox("是否忽略漫画（采用简略分析方式）？" & vbcrlf & vbcrlf & "2013年4月之后的作品必须选“否”才能正确分析", vbYesNo, "问题") = vbYes)
 		End If
 		Exit For
@@ -142,13 +149,12 @@ On Error Resume Next
 			html_str=html_str_temp & mid(html_str,InStr(LCase(html_str), "</section>")+len("</section>"))
 		End If
 		
-    '2013最新ranking.php
-		'<a class="image-thumbnail" href="member_illust.php?mode=medium&amp;illust_id=33775874&amp;ref=rn-b--thumbnail"><img class="ui-scroll-view" data-filter="lazy-image" data-src="http://i2.pixiv.net/img16/img/cappin/33775874_s.jpg?ctype=ranking" src="http://source.pixiv.net/source/images/common/transparent.gif"></a><div class="data"><h2><a href="member_illust.php?mode=medium&amp;illust_id=33775874&amp;ref=rn-b-1-title">夢の東方タッグ編1002「てっしゅー！」</a></h2>
-		'<a href="member.php?id=259275&amp;ref=rn-b-1-user" class="user-container"><img class="user-icon ui-scroll-view" data-filter="lazy-image" data-src="http://i2.pixiv.net/img16/profile/cappin/3749258_s.jpg?ctype=ranking" src="http://source.pixiv.net/source/images/common/transparent.gif" height="32">オレンジゼリー</a><dl class="stat"><dt class="view">阅览数</dt><dd>16966</dd><dt class="score">总分</dt><dd>7209</dd></dl><dl class="meta"><dt class="date">投稿日期</dt><dd>2013年02月23日 05:44</dd></dl><div class="share ui-selectbox-container"><div class="ui-modal-trigger" data-target="share-1">分享 ?</div><ul id="share-1" data-rank="1" data-rank-text="#1" data-rank-type="" data-title="夢の東方タッグ編1002「てっしゅー！」" data-user-name="オレンジゼリー"></ul></div></div></article><article id="2"><div class="rank"><h1>
+    '2013-10最新ranking.php
+		'<div id="1" class="ranking-item"><div class="rank"><h1><a href="#1" class="label ui-scroll" data-hash-link="true">#1</a><i class="up sprites-up"></i></h1><p><a href="ranking.php?mode=daily&amp;date=20131101&amp;p=1&amp;ref=rn-b--yesterday#31"><span style='font-size:9px;'>之前: #31</span></a></p></div><a href="member_illust.php?mode=medium&amp;illust_id=39472803&amp;uarea=daily&amp;ref=rn-b-1-thumbnail" class="work"><img src="http://i2.pixiv.net/img-inf/img/2013/11/01/09/01/43/39472803_s.jpg" class="_thumbnail"></a><div class="data"><h2><a href="member_illust.php?mode=medium&amp;illust_id=39472803&amp;ref=rn-b-1-title&amp;uarea=daily" class="title">Little witch</a></h2><a href="member.php?id=6654&amp;ref=rn-b-1-user" class="user-container"><img class="user-icon ui-scroll-view" data-filter="lazy-image" data-src="http://i1.pixiv.net/img01/profile/yuukikuchi/6385644_s.jpg" src="http://source.pixiv.net/www/images/common/transparent.gif" height="32"><span class="icon-text">YUU菊池</span></a><dl class="inline-list slash-separated"><dt>阅览数</dt><dd>13926</dd><dt>总分</dt><dd>6011</dd></dl><dl class="inline-list"><dt>投稿日期</dt><dd>2013年11月01日 09:01</dd></dl><div class="share ui-selectbox-container"><div class="label ui-modal-trigger" data-target="share-1">分享 ?</div><ul id="share-1" data-rank="1" data-rank-text="#1" data-rank-type="" data-title="Little witch" data-user-name="YUU菊池"></ul></div></div></div>
 		'清除ranking.php
-		If php_name="ranking.php" and cache_index = 0 Then
-				html_str=format_ranking_html(html_str)
-		End If
+		'If php_name="ranking.php" and cache_index = 0 Then
+				'html_str=format_ranking_html(html_str)
+		'End If
 			
 		'清除付费会员特殊格式
 		If InStr(LCase(html_str), "data-src=")>1 Then
@@ -179,14 +185,17 @@ On Error Resume Next
 			html_str=replace(html_str,"<p>","")
 			html_str=replace(html_str,"</p>","")
 		End If
-		If brief_mode and php_name<>"bookmark.php" Then
+		
+		If brief_mode and php_name="ranking.php" Then
+			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*>[\s\S]*?<h2><a[^>]*href=[^>]*>((?:(?!</a>).)*)</a></h2>"
+		ElseIf brief_mode and php_name<>"bookmark.php" and php_name<>"illust_id" Then
 			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*/?><h1[^>]*>((?:(?!</h1>).)*)</h1></a>"
 		Else
 			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*/?>((?:(?!</a>).)*)</a>"'+\s*/?  --->  [^>]*
 		End If
 		Set matches = regex.Execute(html_str)
 		
-		If matches.Count = 0 Then
+		If matches.Count = 0 and php_name<>"illust_id" Then
 			process_retry
 		Else
 			retries_count = 0
@@ -271,6 +280,7 @@ End Function
 
 Function add_download_list_entry(ByRef match, ByRef download_list, ByVal page_index)
 	Dim format_str, link_str, rename_str, description_str, manga_big_str
+	If match.SubMatches(3)="" Then Exit Function
 	format_str = match.SubMatches(4)
 	link_str = match.SubMatches(3) & match.SubMatches(2)
 	If match.SubMatches(6) <> "" Then
@@ -326,8 +336,8 @@ Function get_next_page(ByVal html_str)
 								 '<li class="next"><a href="?word=sega&amp;order=date_d&amp;p=2" class="ui-button-light" rel="next" title="下一面">&gt;</a></li>
 								 
 								 '新ranking.php页面
-								 '<li class="next"><a rel="next" href="?mode=rookie&amp;p=2&amp;ref=rn-h-next">&gt;</a></li>
-	If php_name="ranking.php" Then regex.Pattern = "<a[^>]*rel=""next""[^>]*href=""([^>\s]+)""[^>]*>.*?</a>\s*</li>"
+								 '<span class="next"><a href="?mode=daily&amp;p=2&amp;ref=rn-h-next" rel="next" class="_button" title="下一面"><i class="_icon sprites-next-linked"></i></a></span>
+	'If php_name="ranking.php" Then regex.Pattern = "<a[^>]*rel=""next""[^>]*href=""([^>\s]+)""[^>]*>.*?</a>\s*</li>"
 
 	Set matches = regex.Execute(html_str)
 	'InputBox next_page_str,next_page_str,next_page_str
@@ -385,8 +395,10 @@ End Function
 Function format_ranking_html(ByVal html_str)
     format_ranking_html = html_str
     '2013最新ranking.php
-		'<a class="image-thumbnail" href="member_illust.php?mode=medium&amp;illust_id=33775874&amp;ref=rn-b--thumbnail"><img class="ui-scroll-view" data-filter="lazy-image" data-src="http://i2.pixiv.net/img16/img/cappin/33775874_s.jpg?ctype=ranking" src="http://source.pixiv.net/source/images/common/transparent.gif"></a><div class="data"><h2><a href="member_illust.php?mode=medium&amp;illust_id=33775874&amp;ref=rn-b-1-title">夢の東方タッグ編1002「てっしゅー！」</a></h2><a href="member.php?id=259275&amp;ref=rn-b-1-user" class="user-container"><img class="user-icon ui-scroll-view" data-filter="lazy-image" data-src="http://i2.pixiv.net/img16/profile/cappin/3749258_s.jpg?ctype=ranking" src="http://source.pixiv.net/source/images/common/transparent.gif" height="32">オレンジゼリー</a><dl class="stat"><dt class="view">阅览数</dt><dd>16966</dd><dt class="score">总分</dt><dd>7209</dd></dl><dl class="meta"><dt class="date">投稿日期</dt><dd>2013年02月23日 05:44</dd></dl><div class="share ui-selectbox-container"><div class="ui-modal-trigger" data-target="share-1">分享 ?</div><ul id="share-1" data-rank="1" data-rank-text="#1" data-rank-type="" data-title="夢の東方タッグ編1002「てっしゅー！」" data-user-name="オレンジゼリー"></ul></div></div></article><article id="2"><div class="rank"><h1>
+		'<div id="1" class="ranking-item"><div class="rank"><h1><a href="#1" class="label ui-scroll" data-hash-link="true">#1</a><i class="up sprites-up"></i></h1><p><a href="ranking.php?mode=daily&amp;date=20131101&amp;p=1&amp;ref=rn-b--yesterday#31"><span style='font-size:9px;'>之前: #31</span></a></p></div>
+		'<a href="member_illust.php?mode=medium&amp;illust_id=39472803&amp;uarea=daily&amp;ref=rn-b-1-thumbnail" class="work"><img src="http://i2.pixiv.net/img-inf/img/2013/11/01/09/01/43/39472803_s.jpg" class="_thumbnail"></a><div class="data"><h2><a href="member_illust.php?mode=medium&amp;illust_id=39472803&amp;ref=rn-b-1-title&amp;uarea=daily" class="title">Little witch</a></h2><a href="member.php?id=6654&amp;ref=rn-b-1-user" class="user-container"><img class="user-icon ui-scroll-view" data-filter="lazy-image" data-src="http://i1.pixiv.net/img01/profile/yuukikuchi/6385644_s.jpg" src="http://source.pixiv.net/www/images/common/transparent.gif" height="32"><span class="icon-text">YUU菊池</span></a><dl class="inline-list slash-separated"><dt>阅览数</dt><dd>13926</dd><dt>总分</dt><dd>6011</dd></dl><dl class="inline-list"><dt>投稿日期</dt><dd>2013年11月01日 09:01</dd></dl><div class="share ui-selectbox-container"><div class="label ui-modal-trigger" data-target="share-1">分享 ?</div><ul id="share-1" data-rank="1" data-rank-text="#1" data-rank-type="" data-title="Little witch" data-user-name="YUU菊池"></ul></div></div>
 		'转换为
+		'<li class="image"><a href="/member_illust.php?mode=medium&amp;illust_id=33484357"><img src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg"><h1>一人旅</h1></a><p class="user"><a href="/member.php?id=2876335">たいそす</a></li>
 
 		Dim split_str, matches(4),temp(2)
     html_str=replace(html_str,"http://source.pixiv.net/source/images/common/transparent.gif","")
