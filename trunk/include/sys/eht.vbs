@@ -1,7 +1,7 @@
-'2012-11-27 163.shanhaijing.net
+'2013-12-23 163.shanhaijing.net
 Dim start_time
 Dim delay_tf
-Dim page_url,page,album_info
+Dim page_url,page,album_info,root_url
 Dim retry
 Function return_download_url(ByVal url_str)
 On Error Resume Next
@@ -20,26 +20,31 @@ On Error Resume Next
 'objFSO.Deletefile tfolder ,True
 'Set objFSO=nothing
 retry=0
+delay_tf=0
+page=0
 start_time=Now()
 Dim split_str
 'http://exhentai.org
 If InStr(LCase(url_str), "http://g.e-hentai.org/g/")=1 Then
 	url_str=Mid(url_str,InStr(LCase(url_str),"http://g.e-hentai.org/g/")+Len("http://g.e-hentai.org/g/"))
 	split_str=split(url_str,"/")
-	page_url="http://g.e-hentai.org/codegen.php?gid=" & split_str(0) & "&t=" & split_str(1) & "&s=1-n-n&type=html"
-	album_info="http://g.e-hentai.org/"
+	page_url="http://g.e-hentai.org/g/" & split_str(0) & "/" & split_str(1) & "/"
+	album_info=split_str(0)
+	root_url="http://g.e-hentai.org/"
 	return_download_url="inet|10,13|" & page_url
 ElseIf InStr(LCase(url_str), "http://exhentai.org/g/")=1 Then
 	url_str=Mid(url_str,InStr(LCase(url_str),"http://exhentai.org/g/")+Len("http://exhentai.org/g/"))
 	split_str=split(url_str,"/")
-	page_url="http://g.e-hentai.org/codegen.php?gid=" & split_str(0) & "&t=" & split_str(1) & "&s=1-n-n&type=html"
-	album_info="http://exhentai.org/"
+	page_url="http://exhentai.org/g/" & split_str(0) & "/" & split_str(1) & "/"
+	album_info=split_str(0)
+	root_url="http://exhentai.org/"
 	return_download_url="inet|10,13|" & page_url
 Else
 	return_download_url="inet|10,13|http://www.163.com/?Delay_5s-利用163页面延迟3秒"' & vbcrlf & "Cookie: lastvisit=1238694351; impcookie=71b644e1b37ee8c8a6052d952804eb54df00d475cb9c72bf3e82e43384c30ab8; Apache=168296599x0.116+1240025775x1022208447; b=%3A%3Amm4l%2Cmm4e%2Cmm4s%2Cmm4p%2Cih53%2Cih56; ut=1%3Aq1YqM1SyqlYqTi1WslJKya%2FJzsxIMa8x0kkxgTINdVJMEaKZMFElHaXc1JJEkN6S4iKQbgszEwOD2tpaAA%3D%3D; __utma=11274144.128020507.1240025776.1241191778.1241714935.4; __utmz=11274144.1240025776.1.1.utmccn=(direct)&for_ox163_replace_vline&utmcsr=(direct)&for_ox163_replace_vline&utmcmd=(none); geo=1%3Aq1YqM1SyqlZKyU1UslIyUNJRSs4vBbKc%2FYDMovQ8IDPYA8gszkwHMi1M0swtjc0NUkzTjJMsExMNTNISU5JNDYwSLQyNUpPTlGprAQ%3D%3D; __utmb=11274144; x=344921-573e35987c794f547f5eeb330dde7dbbabbb0450"
 	delay_tf=1
 	OX163_urlpage_Referer=""
 End If
+
 '突破墙，暂时无用
 'OX163_urlpage_Referer="Host: 95.211.21.16" & vbcrlf & "Referer: http://g.e-hentai.org/"' & vbcrlf & "Cookie: lastvisit=1238694351; impcookie=71b644e1b37ee8c8a6052d952804eb54df00d475cb9c72bf3e82e43384c30ab8; Apache=168296599x0.116+1240025775x1022208447; b=%3A%3Amm4l%2Cmm4e%2Cmm4s%2Cmm4p%2Cih53%2Cih56; ut=1%3Aq1YqM1SyqlYqTi1WslJKya%2FJzsxIMa8x0kkxgTINdVJMEaKZMFElHaXc1JJEkN6S4iKQbgszEwOD2tpaAA%3D%3D; __utma=11274144.128020507.1240025776.1241191778.1241714935.4; __utmz=11274144.1240025776.1.1.utmccn=(direct)&for_ox163_replace_vline&utmcsr=(direct)&for_ox163_replace_vline&utmcmd=(none); geo=1%3Aq1YqM1SyqlZKyU1UslIyUNJRSs4vBbKc%2FYDMovQ8IDPYA8gszkwHMi1M0swtjc0NUkzTjJMsExMNTNISU5JNDYwSLQyNUpPTlGprAQ%3D%3D; __utmb=11274144; x=344921-573e35987c794f547f5eeb330dde7dbbabbb0450"
 'http://g.e-hentai.org/g/  ->  http://r.e-hentai.org/g/
@@ -50,50 +55,56 @@ End Function
 Function return_albums_list(ByVal html_str, ByVal url_str)
 On Error Resume Next
 return_albums_list = ""
-Dim Instr_String,counts
-If InStr(LCase(html_str), "<a class=""ehga"" href=""") > 0 Then
-	Instr_String="<td class=""ehgtd ehgtdc"">Title:</td><td class=""ehgtd ehgtdv"">"
+Dim Instr_String,counts,regex,matches
+
+If delay_tf=1 Then
+	If DateDiff("s", start_time, Now())<30 Then
+		return_albums_list="1|inet|10,13|http://www.163.com/?Delay_30s-利用163页面延迟30秒"
+	Else
+		return_albums_list="1|inet|10,13|" & page_url & "?p=" & page
+		delay_tf=0
+	End If
+	Exit Function
+End If
+
+If InStr(LCase(html_str), "<a href=""" & root_url & "s/") > 0 Then
+	retry=0
+	delay_tf=0
+	Instr_String="<h1 id=""gn"">"
 	If InStr(LCase(html_str), LCase(Instr_String)) > 0 Then
 		url_str=Mid(html_str,InStr(LCase(html_str), LCase(Instr_String))+len(Instr_String))
-		url_str=Mid(url_str,1,InStr(LCase(url_str), "</td></tr>")-1)
+		url_str=Mid(url_str,1,InStr(LCase(url_str), "</h1>")-1)
 		url_str=rename_utf8(Trim(url_str))
 	Else
 		url_str="E-Hentai Unknow Title Gallery"
 	End If
 
-	Instr_String="<td class=""ehgtd ehgtdc"">Images:</td><td class=""ehgtd ehgtdv"">"
-	If InStr(LCase(html_str), LCase(Instr_String)) > 0 Then
-		counts=Mid(html_str,InStr(LCase(html_str), LCase(Instr_String))+len(Instr_String))
-		counts=Mid(counts,1,InStr(LCase(counts), "</td></tr>")-1)
-		If IsNumeric(counts) Then
-			counts=int(counts)
-			If counts<1 Then counts=0
-		End if
-	Else
-		counts=0
-	End If
+	Set regex = new RegExp
+	regex.Global = True
+	regex.Pattern = "<a href=""(" & root_url & "s/[0-9A-Za-z]+/" & album_info & "-[0-9]+)"">"
+	Set matches = regex.Execute(html_str)
 	
-	html_str=mid(html_str,InStr(LCase(html_str), "<table class=""ehggt"">"))
-	Instr_String="<a class=""ehga"" href="""
-	html_str=mid(html_str,InStr(LCase(html_str), Instr_String)+len(Instr_String))
-	split_str=Split(html_str, Instr_String)
-	
-	page=UBound(split_str)
-	For split_i = 0 To page
-		'url
-		split_str(split_i) = Mid(split_str(split_i), 1, InStr(split_str(split_i), Chr(34)) - 1)
-		If album_info="http://exhentai.org/" Then split_str(split_i)=replace(split_str(split_i),"http://g.e-hentai.org/","http://exhentai.org/")
-		return_albums_list = return_albums_list & "0|1|" & split_str(split_i) & "|" & url_str & "|" & url_str & vbCrLf
+	For Each match In matches
+		return_albums_list = return_albums_list & "0|1|" & match.SubMatches(0) & "|" & url_str & "|" & url_str & vbCrLf
 	Next
 
-	If page<counts-1 and retry<4 Then
-		retry=retry+1
-		return_albums_list="1|inet|10,13|" & page_url
+	Instr_String="onclick=""return false"">&gt;</a>"
+	If InStr(LCase(html_str), LCase(Instr_String)) > 0 Then
+		page=page+1
+		
+		If page mod 10=0 Then
+			return_albums_list=return_albums_list & "1|inet|10,13|http://www.163.com/?Delay_30s-利用163页面延迟30秒"
+			start_time=Now()
+			delay_tf=1
+		Else
+			return_albums_list=return_albums_list & "1|inet|10,13|" & page_url & "?p=" & page
+		End If
+		
 	Else
 		return_albums_list = return_albums_list & "0"
 	End If
-
-ElseIf retry<4 and html_str<>"" Then
+	
+ElseIf retry<0 and html_str<>"" Then
 	retry=retry+1
 	return_albums_list="1|inet|10,13|" & page_url
 Else
