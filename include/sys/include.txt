@@ -27,6 +27,7 @@ pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/response.php?*
 pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/mypage.php
 pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/index.php
 pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/ranking.php?*
+pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/ranking_area.php?*
 eht.vbs|vbscript|UTF-8|album|http://g.e-hentai.org/g/?*/?*/*
 eht.vbs|vbscript|UTF-8|photo|http://g.e-hentai.org/s/?*/?*-?*
 eht.vbs|vbscript|UTF-8|album|http://exhentai.org/g/?*/?*/*
@@ -59,10 +60,12 @@ yahoo.vbs|vbscript|UTF-8|photo|http://photos.i.cn.yahoo.com/?*/?*/*
 yahoo.vbs|vbscript|UTF-8|album|http://photos.i.cn.yahoo.com/?*/*
 yxnpc.vbs|vbscript|GB2312|photo|http://www.yxnpc.com/?*-?*-?*/?*/?*.html*
 yxnpc.vbs|vbscript|GB2312|album|http://www.yxnpc.com/manhua/?*
-booru.vbs|vbscript|UTF-8|photo|http://?*.booru.org/*
-b-sys.vbs|vbscript|UTF-8|photo|http://safebooru.org/*
-b-sys.vbs|vbscript|UTF-8|photo|http://lolibooru.com/*
-b-sys.vbs|vbscript|UTF-8|photo|http://rule34.xxx/*
+booru.vbs|vbscript|UTF-8|photo|http://rule34.xxx/?*
+booru.vbs|vbscript|UTF-8|photo|http://rule34.booru.org/?*
+b-sys.vbs|vbscript|UTF-8|photo|http://?*.booru.org/?*
+b-sys.vbs|vbscript|UTF-8|photo|http://safebooru.org/?*
+b-sys.vbs|vbscript|UTF-8|photo|http://lolibooru.com/?*
+b-sys.vbs|vbscript|UTF-8|photo|http://www.allthefallen.org/gallery/?*
 b-sys.vbs|vbscript|UTF-8|photo|b http://?*
 douban.vbs|vbscript|UTF-8|photo|http://www.douban.com/photos/?*
 douban.vbs|vbscript|UTF-8|album|http://www.douban.com/people/?*

@@ -1,10 +1,15 @@
-'2011-7-4 163.shanhaijing.net
-Dim url_parent, tags, page, Next_page
+'2013-12-28 163.shanhaijing.net
+Dim url_parent, tags, page, Next_page, page_counter, retry_counter
 
 Function return_download_url(ByVal url_str)
+Dim XML_TF
 '/index.php?page=post&s=view&id=44
 '/index.php?page=post&s=list&tags=all&pid=768750
 '/index.php?page=pool&s=show&id=5
+'http://rule34.booru.org/index.php?page=post&s=view&id=44
+'http://rule34.booru.org/index.php?page=post&s=list&tags=all&pid=768750
+'http://rule34.booru.org/index.php?page=pool&s=show&id=5
+'http://rule34.xxx/index.php?page=dapi&s=post&q=index&tags=nakoruru&pid=0
 On Error Resume Next
 return_download_url=""
 
@@ -17,9 +22,14 @@ If InStr(LCase(url_str), "page=post") >1 and InStr(LCase(url_str), "s=list") >1 
 	'tags
 	If InStr(LCase(url_str), "tags=") >1 Then
 		tags=mid(url_str,InStr(LCase(url_str), "tags=")+5)
-	  If InStr(url_str, "&") >1 Then tags=mid(tags,1,InStr(tags, "&")-1)
+	  If InStr(tags, "&") >1 Then tags=mid(tags,1,InStr(tags, "&")-1)
 	Else
-		tags="all"
+		tags=""
+	End If
+	If Trim(tags)="" Then
+		tags=""
+		Else
+		tags="&tags=" & Trim(tags)
 	End If
 
 	'page
@@ -30,20 +40,33 @@ If InStr(LCase(url_str), "page=post") >1 and InStr(LCase(url_str), "s=list") >1 
 		page=0
 	End If
 	
+	XML_TF=0
+	If MsgBox("是否尝试使用更快速的XML模式列表图片?" & vbcrlf & "(XML模式只支持从第一页开始列表，某些网站需要在XML模式下才能正确获得图片连接比如“rule34”)", vbYesNo, "问题")=vbyes Then
+		page=0
+		XML_TF=1
+	End If
+		
 	If page>0 Then
-		If MsgBox("本页为第" & (int(page/25)+1) & "页" & vbcrlf & "是否从第1页开始？", vbYesNo, "问题")=vbyes Then page=0
+		If MsgBox("本页不是第1页" & vbcrlf & "是否从第1页开始？", vbYesNo, "问题")=vbyes Then page=0
 	Else
 	  page=0
-	End If
-	
+	End If	
 	Next_page=0
-	return_download_url = "inet|10,13|http://" & url_parent & "/index.php?page=post&s=list&tags=" & tags & "&pid=" & page & "|" & "http://" & url_parent & "/"
+	retry_counter=0
+	
+	If XML_TF=1 Then
+	 	page_counter=0
+	 	Next_page=-1
+	 	return_download_url = "inet|10,13|http://" & url_parent & "/index.php?page=dapi&s=post&q=index" & tags & "|" & "http://" & url_parent & "/"
+	Else
+		return_download_url = "inet|10,13|http://" & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & page & "|" & "http://" & url_parent & "/"
+	End If
 ElseIf InStr(LCase(url_str), "page=pool") >1 Then
 	page="pool"
 	return_download_url = "inet|10,13|" & url_str & "|" & url_str
 End If
+return_download_url=return_download_url & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.00; Windows XP)"
 OX163_urlpage_Referer="http://" & url_parent & "/" & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.00; Windows XP)"
-
 End Function
 '--------------------------------------------------------
 Function return_download_list(ByVal html_str, ByVal url_str)
@@ -84,9 +107,72 @@ If page="pool" Then
 		split_str(split_i) = "|" & url_str & "|" & split_str(split_i) & "|"
   Next  
   return_download_list=join(split_str,vbCrLf) & vbCrLf
+
+ElseIf Next_page<0 Then
+	
+	If InStr(LCase(html_str), "<posts count=""") > 0 Then
+		Next_page=-2
+		retry_counter=0
+		Dim key_word
+		key_word="<posts count="""
+		url_str=Mid(html_str, InStr(LCase(html_str), key_word) + len(key_word))
+		url_str=Mid(url_str,1,InStr(url_str, chr(34))-1)
+		If IsNumeric(url_str) Then page_counter=Int(url_str)
+	
+		html_str = Mid(html_str, InStr(LCase(html_str), key_word) + len(key_word))
+		html_str = Mid(html_str, InStr(LCase(html_str), "<post ") + len("<post "))
+		html_str = Mid(html_str, 1, InStr(LCase(html_str), "</posts>")-1)
+		split_str = Split(html_str, "/><post ")
+	  For split_i = 0 To UBound(split_str)
+			html_str=""
+			url_str=""
+			sid=""
+			pic_type=""
+					
+	  	'sid
+	  	key_word=""" id="""
+		  sid = Mid(split_str(split_i), InStr(split_str(split_i), key_word) + len(key_word))
+		  sid = Mid(sid,1,InStr(sid, chr(34))-1)
+		  	  	  
+		  'file_url
+	  	key_word=""" file_url="""
+		  url_str = Mid(split_str(split_i), InStr(split_str(split_i), key_word) + len(key_word))
+		  url_str = Mid(url_str,1,InStr(url_str, chr(34))-1)	  
+		  
+			pic_type=Mid(url_str,instrrev(url_str,"."))
+			
+			'pic name
+	  	key_word=""" tags="""
+		  html_str = Mid(split_str(split_i), InStr(split_str(split_i), key_word) + len(key_word))
+		  html_str = Mid(html_str,1,InStr(html_str, chr(34))-1)
+		  
+		  If Len(html_str)>180 Then html_str=Left(html_str,179) & "~"
+		  html_str = replace(html_str,"|","_")
+		  html_str = "(" & url_parent & ") " & sid & " - " & html_str & pic_type
+			split_str(split_i) = "|" & url_str & "|" & html_str & "|"
+	  Next
+	  
+	  return_download_list=join(split_str,vbCrLf) & vbCrLf
+	  If (page+1)*100<page_counter Then
+	  	page=page+1
+	  	return_download_list=return_download_list & "1|inet|10,13|http://" & url_parent & "/index.php?page=dapi&s=post&q=index" & tags & "&pid=" & page
+		End If
+		
+	ElseIf Next_page<-1 Then
+		If retry_counter<3 Then
+			retry_counter=retry_counter+1
+			return_download_list="1|inet|10,13|http://" & url_parent & "/index.php?page=dapi&s=post&q=index" & tags & "&pid=" & page
+		Else
+			return_download_list="0"
+		End If
+	Else
+		Next_page=0
+		return_download_list = "1|inet|10,13|http://" & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & page & "|" & "http://" & url_parent & "/"
+	End If
   
 ElseIf InStr(LCase(html_str), "class=""thumb""><a id=""") > 0 Then
 	Next_page=0
+	retry_counter=0
 	If InStr(LCase(html_str), "alt=""next"">") > 0 Then
 		url_str=Mid(html_str,1,InStr(LCase(html_str), "alt=""next"">")-1)
 		url_str=Mid(url_str, InStrrev(LCase(url_str), "pid=")+4)
@@ -134,10 +220,12 @@ ElseIf InStr(LCase(html_str), "class=""thumb""><a id=""") > 0 Then
   Next
   return_download_list=join(split_str,vbCrLf) & vbCrLf
   If Next_page>0 Then
-  	return_download_list=return_download_list & "1|inet|10,13|http://" & url_parent & "/index.php?page=post&s=list&tags=" & tags & "&pid=" & Next_page
+  	return_download_list=return_download_list & "1|inet|10,13|http://" & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & Next_page
 	End If
+ElseIf retry_counter<3 Then
+	retry_counter=retry_counter+1
+  return_download_list="1|inet|10,13|http://" & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & Next_page
 Else
 return_download_list = "0"
 End If
-
 End Function
