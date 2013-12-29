@@ -14,11 +14,21 @@ On Error Resume Next
 return_download_url=""
 
 url_str="http://" & mid(url_str,InStr(LCase(url_str), "http://")+7)
-'rule34
-url_parent=mid(url_str,1,InStr(LCase(url_str), "/index.php?")-1)
-url_parent=mid(url_parent,InStr(LCase(url_parent), "http://")+7)
 
-If InStr(LCase(url_str), "page=post") >1 and InStr(LCase(url_str), "s=list") >1 Then	
+url_parent=mid(url_str,InStr(LCase(url_str), "http://")+7)
+
+If InStr(LCase(url_parent), "/index.php?")>0 Then
+	url_parent=mid(url_parent,1,InStr(LCase(url_parent), "/index.php?")-1)
+ElseIf InStr(LCase(url_parent), "/?")>0 Then
+	url_parent=mid(url_parent,1,InStr(LCase(url_parent), "/?")-1)
+Else
+	url_parent=mid(url_parent,1,InStrrev(LCase(url_parent), "/")-1)			
+End If
+
+If InStr(LCase(url_str), "page=pool") >1 Then
+	page="pool"
+	return_download_url = "inet|10,13|" & url_str & "|" & url_str
+Else'If InStr(LCase(url_str), "page=post") >1 and InStr(LCase(url_str), "s=list") >1 Then
 	'tags
 	If InStr(LCase(url_str), "tags=") >1 Then
 		tags=mid(url_str,InStr(LCase(url_str), "tags=")+5)
@@ -61,12 +71,11 @@ If InStr(LCase(url_str), "page=post") >1 and InStr(LCase(url_str), "s=list") >1 
 	Else
 		return_download_url = "inet|10,13|http://" & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & page & "|" & "http://" & url_parent & "/"
 	End If
-ElseIf InStr(LCase(url_str), "page=pool") >1 Then
-	page="pool"
-	return_download_url = "inet|10,13|" & url_str & "|" & url_str
 End If
 return_download_url=return_download_url & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.00; Windows XP)"
 OX163_urlpage_Referer="http://" & url_parent & "/" & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.00; Windows XP)"
+
+
 End Function
 '--------------------------------------------------------
 Function return_download_list(ByVal html_str, ByVal url_str)
