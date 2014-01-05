@@ -87,3 +87,4 @@ rosiyy.vbs|vbscript|UTF-8|album|http://www.rosiyy.com*
 youtube.vbs|vbscript|UTF-8|photo|http://www.youtube.com/watch?v=?*
 youtube.vbs|vbscript|UTF-8|photo|https://www.youtube.com/watch?v=?*
 moeyo.vbs|vbscript|UTF-8|photo|http://www.moeyo.com/?*/?*/?*.html
+moeyo.vbs|vbscript|UTF-8|photo|http://www.moeyo.com/article/?*
