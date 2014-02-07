@@ -1,4 +1,4 @@
-'2013-1-19 163.shanhaijing.net
+'2014-2-7 163.shanhaijing.net
 Dim page_counter
 Dim tags, page, url_instr, pool, url_head
 '----------------------------------------------------
@@ -95,30 +95,53 @@ On Error Resume Next
 return_download_list = ""
 Call get_url_head(url_str)
 
-Dim key_word,split_str,url_temp,split_i
+Dim key_word,js_block,url_temp,split_str,split_i
 
 If pool="pool" Then
-	key_word="Post.register_resp({""posts"":["
+	key_word="Post.register_resp({"
 	If instr(LCase(html_str),lcase(key_word))>0 Then
-		html_str=mid(html_str,instr(LCase(html_str),lcase(key_word))+len(key_word))
+		js_block=mid(html_str,instr(LCase(html_str),lcase(key_word))+len(key_word))
 		key_word="],""pools"":["
-		html_str=mid(html_str,1,instr(LCase(html_str),lcase(key_word))-1)
-		split_str=split(html_str,"},{")
+		js_block=mid(js_block,1,instr(LCase(js_block),lcase(key_word))-1)
+		split_str=split(js_block,"},{")
 		For split_i = 0 To UBound(split_str)
-		html_str=""
+		js_block=""
 		url_str=""
-		key_word="""file_url"":"""
+		url_temp=""
+		
+		'width x height
+		key_word="""width"":"
+		url_temp=mid(split_str(split_i),instr(LCase(split_str(split_i)),LCase(key_word))+len(key_word))
+		url_temp=mid(url_temp,1,instr(url_temp,",")-1)
+		If IsNumeric(url_temp)=false Then url_temp=""
+		js_block=url_temp
+		key_word="""height"":"
+		url_temp=mid(split_str(split_i),instr(LCase(split_str(split_i)),LCase(key_word))+len(key_word))
+		url_temp=mid(url_temp,1,instr(url_temp,",")-1)
+		If IsNumeric(url_temp)=false Then url_temp=""
+		If js_block<>"" and url_temp<>"" Then
+			url_temp=js_block & " x " & url_temp
+		Else
+			url_temp=""
+		End If
+		
 		'url
+		key_word="""file_url"":"""
 		url_str=mid(split_str(split_i),instr(LCase(split_str(split_i)),LCase(key_word))+len(key_word))
 		url_str=mid(url_str,1,instr(url_str,chr(34))-1)
 		url_str=replace(url_str,"\/","/")
     'name
-    html_str=unescape(Mid(url_str,instrrev(url_str,"/")+1))
+    js_block=""
+    js_block=unescape(Mid(url_str,instrrev(url_str,"/")+1))    
+    
 		split_str(split_i)=""
-		split_str(split_i)="|" & url_str & "|" & html_str & "|" & vbCrLf
+		split_str(split_i)="|" & url_str & "|" & js_block & "|" & url_temp & vbCrLf
 		Next
 		
 		return_download_list=join(split_str,"")
+	End If
+Exit Function
+End If
 		
     '"id":219298,
     '"tags":"chinadress hong_meiling moneti touhou",
@@ -153,42 +176,52 @@ If pool="pool" Then
     '"frames_pending_string":"",
     '"frames_pending":[],
     '"frames_string":"",
-    '"frames":[]
+    '"frames":[]    
+
+	key_word="Post.register({"
+	If instr(LCase(html_str),lcase(key_word))>0 Then
+		js_block=mid(html_str,instr(LCase(html_str),lcase(key_word))+len(key_word))
+		key_word="</script>"
+		js_block=mid(js_block,1,instr(LCase(js_block),lcase(key_word))-1)
+		split_str=split(js_block,"Post.register({")
+		For split_i = 0 To UBound(split_str)
+		js_block=""
+		url_str=""
+		url_temp=""
+		
+		'width x height
+		key_word="""width"":"
+		url_temp=mid(split_str(split_i),instr(LCase(split_str(split_i)),LCase(key_word))+len(key_word))
+		url_temp=mid(url_temp,1,instr(url_temp,",")-1)
+		If IsNumeric(url_temp)=false Then url_temp=""
+		js_block=url_temp
+		key_word="""height"":"
+		url_temp=mid(split_str(split_i),instr(LCase(split_str(split_i)),LCase(key_word))+len(key_word))
+		url_temp=mid(url_temp,1,instr(url_temp,",")-1)
+		If IsNumeric(url_temp)=false Then url_temp=""
+		If js_block<>"" and url_temp<>"" Then
+			url_temp=js_block & " x " & url_temp
+		Else
+			url_temp=""
+		End If
+		
+		'url
+		key_word="""file_url"":"""
+		url_str=mid(split_str(split_i),instr(LCase(split_str(split_i)),LCase(key_word))+len(key_word))
+		url_str=mid(url_str,1,instr(url_str,chr(34))-1)
+		url_str=replace(url_str,"\/","/")
+    'name
+    js_block=""
+    js_block=unescape(Mid(url_str,instrrev(url_str,"/")+1))    
     
-	End If
-Exit Function
+		split_str(split_i)=""
+		split_str(split_i)="|" & url_str & "|" & js_block & "|" & url_temp & vbCrLf
+		Next
+		
+		return_download_list=join(split_str,"")
 End If
 
 url_str=html_str
-If InStr(LCase(html_str), "<a class=""thumb") > 0 Then
-html_str = Mid(html_str, InStr(LCase(html_str), "<a class=""thumb") + Len("<a class=""thumb"))
-
-split_str = Split(html_str, "<a class=""thumb")
-
-    For split_i = 0 To UBound(split_str)
-    split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), "tags:") +5)
-
-    'Tags
-    split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), "<a class=""directlink"))
-    split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), "href=""") +6)
-    
-    'url
-    url_temp = Mid(split_str(split_i),1,InStr(split_str(split_i), Chr(34))-1)
-    If InStr(LCase(url_temp),"/jpeg/")>0 Then
-    	url_temp=Mid(url_temp,1,InStr(LCase(url_temp),"/jpeg/")-1) & "/image/" & Mid(url_temp,InStr(LCase(url_temp),"/jpeg/")+6)
-    	url_temp=Mid(url_temp,1,InStrrev(url_temp,".")) & "png"
-    End If
-        
-    split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), "<span class=""directlink-res"">") +Len("<span class=""directlink-res"">"))
-    split_str(split_i) = Mid(split_str(split_i), 1,InStr(LCase(split_str(split_i)), "</span>") -1)
-    If Len(split_str(split_i))>20 Then split_str(split_i)=""
-    'name
-    html_str=unescape(Mid(url_temp,instrrev(url_temp,"/")+1))
-    
-    return_download_list = return_download_list & "|" & url_temp & "|" & html_str & "|" & split_str(split_i) & vbCrLf
-    Next
-End If
-
 If InStr(LCase(url_str), "<div id=""paginator"">") > 0 Then
 	If page_counter=0 Then
 	url_str = Mid(url_str, InStr(LCase(url_str), "<div id=""paginator"">") + 20)
