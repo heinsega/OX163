@@ -1,4 +1,4 @@
-'2013-10-11 http://www.shanhaijing.net/163
+'2014-2-17 http://www.shanhaijing.net/163
 Dim user_id,album_id,page_id,retry_times,get_info
 
 Function return_download_url(ByVal url_str)
@@ -197,7 +197,12 @@ ElseIf InStr(html_str, "=[{id:") > 0 Then
         iCount = UBound(albumsINFO)
                 
         For cout_num = 0 To iCount
-            
+        
+            temp(0) = ""
+            temp(1) = ""
+            temp(2) = ""
+            temp(3) = ""
+            temp(4) = ""
             temp(0) = Mid(albumsINFO(cout_num), InStr(albumsINFO(cout_num), ",name:'") + 7)
             temp(3) = temp(0)
             
@@ -294,9 +299,6 @@ If retry_times=0 and get_info<>"js" Then
 	Exit Function
 End If
 
-
-
-
 If get_info="newblog" and InStr(html_str, ".js"")") > 10 Then
 	html_str=Mid(html_str,1,InStr(html_str, ".js"")")+2)
 	html_str=Mid(html_str,InStr(html_str, Chr(34))+1)
@@ -314,71 +316,73 @@ ElseIf get_info="js" and InStr(html_str, "=[{id:") > 0 Then
 	Dim a, b,new163pic_str_split,ourl
 	Dim cout_num
 	
-	a=""
-	b=""
 	cout_num = 0
-	
 	new163pic_str_split = Split(html_str, "},{id:")
     
-    For i = 0 To UBound(new163pic_str_split)
-	ourl = ""
+  For i = 0 To UBound(new163pic_str_split)
+		ourl = ""
+		a=""
+		b=""
+		'blog
+		'{id:2665422496,s:1,
+		'ourl:'3/photo/bveEQxqzGf3-iLP4ihV4yQ==/855402454224501762.jpg',
+		'ow:7449,oh:3000,
+		'murl:'3/photo/V1BxMjQ9vNeTZiwKlmBfZA==/855402454224501764.jpg',
+		'surl:'3/photo/yX5FI7wVmU0bOFdwz2a5qg==/855402454224501766.jpg',
+		'turl:'47/photo/3Gy7l6-IIgSEXdgW2it6Fw==/844706405109833346.jpg',
+		'qurl:'3/photo/OGfb2qN6Az7V5rd0K89R_w==/855402454224501767.jpg',
+		'desc:'colors000-1',t:1224488234491,comm:'',comdmt:0,comnum:0,exif:'',kw:',e^unknow,e^unknow'
+		'},{id:
+	
+		If InStr(LCase(new163pic_str_split(i)), ",ourl:'") > 1 Then
+		ourl = Mid(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), ",ourl:'") + 7)
+		ourl = Trim(Mid(ourl, 1, InStr(ourl, "'") - 1))
+		End If
+		new163pic_str_split(i) = Mid(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), ",murl:'") + 7)
+	    	If ourl = "" Then
+	        	a = Mid(new163pic_str_split(i), 1, InStr(LCase(new163pic_str_split(i)), "'") - 1)
+	        	ourl=""
+	    	Else
+	        	a = ourl
+	    	End If
+		'第一种
+		'616/bq4wr0XiQkbDUgWICDBoTg==/1026539240063803524.jpg
+		'http://img616.photo.163.com/bq4wr0XiQkbDUgWICDBoTg==/1026539240063803524.jpg
+		'第二种
+		'/photo/nzovvldOrJcsKJ2iLjW8rA==/2845149064591786998.jpg
+		'http://img.bimg.126.net/photo/nzovvldOrJcsKJ2iLjW8rA==/2845149064591786998.jpg
+		b = Mid(a, 1, InStr(a, "/") - 1)
+		a = Mid(a, InStr(a, "/"))
+	    
+	    	'M pic url or Ourl
+	  If Left(LCase(a), 7) = "/photo/" Then
+			a = "http://img" & b & ".bimg.126.net" & a
+		Else
+			a = "http://img" & b & ".ph.126.net" & a
+		End If
+	    
+		new163pic_str_split(i) = Mid(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), "',desc:'") + 8)
+	    
+		'描述
+		b = Trim(Mid(new163pic_str_split(i), 1, InStr(new163pic_str_split(i), "'") - 1))
+	    
+		If b = "" Then b = Mid(a, InStrRev(a, "/") + 1)
+		new163pic_str_split(i) = ""
+		new163pic_str_split(i) = LCase(Mid(b, InStrRev(b, ".")))
+	    
+		If new163pic_str_split(i) <> LCase(Mid(a, InStrRev(a, "."))) Then b = b & Mid(a, InStrRev(a, "."))
 
-	'blog
-	'{id:2665422496,s:1,
-	'ourl:'3/photo/bveEQxqzGf3-iLP4ihV4yQ==/855402454224501762.jpg',
-	'ow:7449,oh:3000,
-	'murl:'3/photo/V1BxMjQ9vNeTZiwKlmBfZA==/855402454224501764.jpg',
-	'surl:'3/photo/yX5FI7wVmU0bOFdwz2a5qg==/855402454224501766.jpg',
-	'turl:'47/photo/3Gy7l6-IIgSEXdgW2it6Fw==/844706405109833346.jpg',
-	'qurl:'3/photo/OGfb2qN6Az7V5rd0K89R_w==/855402454224501767.jpg',
-	'desc:'colors000-1',t:1224488234491,comm:'',comdmt:0,comnum:0,exif:'',kw:',e^unknow,e^unknow'
-	'},{id:
-
-	If InStr(LCase(new163pic_str_split(i)), ",ourl:'") > 1 Then
-	ourl = Mid(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), ",ourl:'") + 7)
-	ourl = Trim(Mid(ourl, 1, InStr(ourl, "'") - 1))
-	End If
-
-	new163pic_str_split(i) = Mid(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), ",murl:'") + 7)
+  	If ourl<>"" Then
+			new163pic_str_split(i) = "|" & a & "|" & b & "|" & vbcrlf
+		Else
+			new163pic_str_split(i) = ""
+		End If
     
-    
-    	If ourl = "" Then
-        	a = Mid(new163pic_str_split(i), 1, InStr(LCase(new163pic_str_split(i)), "'") - 1)
-    	Else
-        	a = ourl
-    	End If    
-    
-	'第一种
-	'616/bq4wr0XiQkbDUgWICDBoTg==/1026539240063803524.jpg
-	'http://img616.photo.163.com/bq4wr0XiQkbDUgWICDBoTg==/1026539240063803524.jpg
-	'第二种
-	'/photo/nzovvldOrJcsKJ2iLjW8rA==/2845149064591786998.jpg
-	'http://img.bimg.126.net/photo/nzovvldOrJcsKJ2iLjW8rA==/2845149064591786998.jpg
-	b = Mid(a, 1, InStr(a, "/") - 1)
-	a = Mid(a, InStr(a, "/"))
-    
-    	'M pic url or Ourl
-  If Left(LCase(a), 7) = "/photo/" Then
-		a = "http://img" & b & ".bimg.126.net" & a
-	Else
-		a = "http://img" & b & ".ph.126.net" & a
-	End If
-    
-	new163pic_str_split(i) = Mid(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), "',desc:'") + 8)
-    
-	'描述
-	b = Trim(Mid(new163pic_str_split(i), 1, InStr(new163pic_str_split(i), "'") - 1))
-    
-	If b = "" Then b = Mid(a, InStrRev(a, "/") + 1)
-	new163pic_str_split(i) = ""
-	new163pic_str_split(i) = LCase(Mid(b, InStrRev(b, ".")))
-    
-	If new163pic_str_split(i) <> LCase(Mid(a, InStrRev(a, "."))) Then b = b & Mid(a, InStrRev(a, "."))
-    
-	new163pic_str_split(i) = "|" & a & "|" & b & "|"
-        
-    Next
-	return_download_list = join(new163pic_str_split,vbcrlf) & vbcrlf & "0"	
+  Next
+	return_download_list = join(new163pic_str_split,"") & vbcrlf & "0"
+	Do While instr(return_download_list,vbcrlf & vbcrlf)>0
+  	return_download_list = replace(return_download_list,vbcrlf & vbcrlf,vbcrlf)
+	loop
 	
 ElseIf InStr(html_str,".photoName=""")>20 Then
 
@@ -386,22 +390,31 @@ ElseIf InStr(html_str,".photoName=""")>20 Then
 	Dim photo_list
 	photo_list=split(html_str,".photoName=""")
 
-For i = 0 To UBound(photo_list)
-DoEvents
-	'name
-	html_str=Trim(Mid(photo_list(i),1,InStr(photo_list(i),Chr(34))-1))
-	html_str=replace(vbsUnEscape(html_str),"|","_")
-	If Len(html_str)>30 Then html_str=Left(html_str,29) & "~"
-	If html_str="" Then html_str="no_name"
-	'url
-	photo_list(i)=Mid(photo_list(i),InStr(photo_list(i),Chr(34))+1)
-	photo_list(i)=Mid(photo_list(i),InStr(photo_list(i),".url=""")+6)
-	url_str=Mid(photo_list(i),1,InStr(photo_list(i),Chr(34))-1)
-	'name.pic_type
-	If Mid(LCase(url_str),instrrev(url_str,".")) <> Mid(LCase(html_str),instrrev(html_str,".")) Then html_str=html_str & Mid(url_str,instrrev(url_str,"."))
-	photo_list(i) = "|" & url_str & "|" & html_str & "|"
-Next
-	return_download_list = join(photo_list,vbcrlf) & vbcrlf & "0"	
+	For i = 0 To UBound(photo_list)
+	DoEvents
+		'name
+		html_str=""
+		url_str=""
+		html_str=Trim(Mid(photo_list(i),1,InStr(photo_list(i),Chr(34))-1))
+		html_str=replace(vbsUnEscape(html_str),"|","_")
+		If Len(html_str)>30 Then html_str=Left(html_str,29) & "~"
+		If html_str="" Then html_str="no_name"
+		'url
+		photo_list(i)=Mid(photo_list(i),InStr(photo_list(i),Chr(34))+1)
+		photo_list(i)=Mid(photo_list(i),InStr(photo_list(i),".url=""")+6)
+		url_str=Mid(photo_list(i),1,InStr(photo_list(i),Chr(34))-1)
+		'name.pic_type
+		If Mid(LCase(url_str),instrrev(url_str,".")) <> Mid(LCase(html_str),instrrev(html_str,".")) Then html_str=html_str & Mid(url_str,instrrev(url_str,"."))
+		If url_str<>"" Then 
+			photo_list(i) = "|" & url_str & "|" & html_str & "|" & vbcrlf
+		Else
+			photo_list(i) = ""
+		End If
+	Next
+	return_download_list = join(photo_list,"") & vbcrlf & "0"
+	Do While instr(return_download_list,vbcrlf & vbcrlf)>0
+  	return_download_list = replace(return_download_list,vbcrlf & vbcrlf,vbcrlf)
+	loop
 Else
 	return_download_list = ""
 End If

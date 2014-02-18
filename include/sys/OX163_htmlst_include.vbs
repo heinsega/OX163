@@ -1,11 +1,14 @@
 <script language='javascript'>
-//2013-10-28 since 2009-8-13 163.shanhaijing.net
+//2014-2-18 since 2009-8-13 163.shanhaijing.net
 var dl_type=0;
-var html_temp="<br /><input type=\"submit\" name=\"xunlei\" id=\"xunlei\" value=\"迅雷4以上版本\r\n(可以自动重命名)\" onclick=\"javascript:loadxunlei4()\">&nbsp;&nbsp;&nbsp;&nbsp;"+
-"<input type=\"submit\" name=\"xunlei\" id=\"xunlei\" value=\"迅雷5以上版本\r\n(可以自动重命名)\" onclick=\"javascript:loadxunlei5()\">&nbsp;&nbsp;&nbsp;&nbsp;"+
-"<input type=\"submit\" name=\"flashget\" id=\"flashget\" value=\"快车1以上版本\r\n(可以自动重命名)\" onclick=\"vbscript:flashget1\">&nbsp;&nbsp;&nbsp;&nbsp;"+
-"<input type=\"submit\" name=\"flashget\" id=\"flashget\" value=\"快车2以上版本\r\n(不会自动重命名)\" onclick=\"vbscript:flashget2\">&nbsp;&nbsp;&nbsp;&nbsp;"+
-"<input type=\"submit\" name=\"flashget\" id=\"flashget\" value=\"快车3以上版本\r\n(不会自动重命名)\" onclick=\"vbscript:flashget3\">&nbsp;&nbsp;&nbsp;&nbsp;<br /><br />";
+var html_temp="<br />"+
+"<button name=\"xunlei\" id=\"xunlei\" onclick=\"javascript:QQDownload4()\">QQ旋风4以上版本<br/>(可以自动重命名)<br/>&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;"+
+"<button name=\"xunlei\" id=\"xunlei\" onclick=\"javascript:loadxunlei7()\">迅雷7以上版本<br/>(可以自动重命名)<br/>&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;"+
+"<button name=\"xunlei\" id=\"xunlei\" onclick=\"javascript:loadxunlei5()\">迅雷5以上版本<br/>(可以自动重命名)<br/>&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;"+
+"<button name=\"xunlei\" id=\"xunlei\" onclick=\"javascript:loadxunlei4()\">迅雷4以上版本<br/>(可以自动重命名)<br/>&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;"+
+"<button name=\"flashget\" id=\"flashget\" onclick=\"vbscript:flashget1\">快车1以上版本<br/>(可以自动重命名)<br/>不支持IE11及以上版本</button>&nbsp;&nbsp;&nbsp;&nbsp;"+
+"<button name=\"flashget\" id=\"flashget\" onclick=\"vbscript:flashget2\">快车2以上版本<br/>(不会自动重命名)<br/>不支持IE11及以上版本</button>&nbsp;&nbsp;&nbsp;&nbsp;"+
+"<button name=\"flashget\" id=\"flashget\" onclick=\"vbscript:flashget3\">快车3以上版本<br/>(不会自动重命名)<br/>不支持IE11及以上版本</button>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br />";
 
 function dl_all()
 {
@@ -16,17 +19,17 @@ document.getElementById("htm_str").innerHTML="<hr/>"+html_temp;
 function dl_ckeck()
 {
 dl_type=1;
-var a = "<hr/><br/>一共有 <b style='color=#FF0000;'>"+(gPhotoID.length-1)+"</b> 张图片 - "+
-"下载第 <input name='num_start' id='num_start' type='text' size='8' maxlength='10' value='1' style='color=#FF0000;font-weight=bold'> 张到"+
-"第 <input name='num_end' id='num_end' type='text' size='8' maxlength='10' value='"+(gPhotoID.length-1)+"' style='color=#FF0000;font-weight=bold'> 张<br/>";
+var a = "<hr/><br/>一共有 <b style='color:#FF0000;'>"+(gPhotoID.length-1)+"</b> 张图片 - "+
+"下载第 <input name='num_start' id='num_start' type='text' size='8' maxlength='10' value='1' style='color:#FF0000;font-weight:bold'> 张到"+
+"第 <input name='num_end' id='num_end' type='text' size='8' maxlength='10' value='"+(gPhotoID.length-1)+"' style='color:#FF0000;font-weight:bold'> 张<br/>";
 document.getElementById("htm_str").innerHTML=a+html_temp;
 }
 
 function UBB_ckeck(){
 dl_type=0;
-document.getElementById("htm_str").innerHTML="<hr/><br/><input type=\"submit\" value=\"复制[img]***[/img]\r\n标签到剪贴版\" onclick=\"javascript:UBB_IMG()\">&nbsp;&nbsp;&nbsp;&nbsp;"+
-"<input type=\"submit\" value=\"复制[url]***[/url]\r\n标签到剪贴版\" onclick=\"javascript:UBB_URL1()\">&nbsp;&nbsp;&nbsp;&nbsp;"+
-"<input type=\"submit\" value=\"复制[url=***]***[/url]\r\n标签到剪贴版\" onclick=\"javascript:UBB_URL2()\">&nbsp;&nbsp;&nbsp;&nbsp;<br /><br />";
+document.getElementById("htm_str").innerHTML="<hr/><br/><button onclick=\"javascript:UBB_IMG()\">复制[img]***[/img]<br/>标签到剪贴版</button>&nbsp;&nbsp;&nbsp;&nbsp;"+
+"<button onclick=\"javascript:UBB_URL1()\">复制[url]***[/url]<br/>标签到剪贴版</button>&nbsp;&nbsp;&nbsp;&nbsp;"+
+"<button onclick=\"javascript:UBB_URL2()\">复制[url=***]***[/url]<br/>标签到剪贴版</button>&nbsp;&nbsp;&nbsp;&nbsp;<br /><br />";
 }
 
 function UBB_IMG(){
@@ -60,7 +63,7 @@ try{
 	Thunder=new ActiveXObject("ThunderAgent.Agent");
 	}catch(e){
 	var Thunder=null
-	};
+	}
 
 if(dl_type==1){
 var a1=Number(document.getElementById("num_start").value);
@@ -68,11 +71,11 @@ var a2=Number(document.getElementById("num_end").value)+1;
 }else{
 var a1=1;
 var a2=gPhotoID.length;
-};
+}
 
 for(i=a1;i<a2;i++){
 Thunder.AddTask4(gPhotoInfo[i][0],fix_Unicode_FileName(gPhotoInfo[i][1]),"","",gPhotoInfo[i][2],-1,0,-1,gPhotoInfo[i][3],"","");
-};
+}
 Thunder.CommitTasks2(1);
 }
 
@@ -83,7 +86,7 @@ try{
 	ThunderAgent = new ActiveXObject("ThunderAgent.Agent");
 	}catch(e){
 	var ThunderAgent=null
-	};
+	}
 
 if(dl_type==1){
 var a1=Number(document.getElementById("num_start").value);
@@ -91,26 +94,92 @@ var a2=Number(document.getElementById("num_end").value)+1;
 }else{
 var a1=1;
 var a2=gPhotoID.length;
-};
+}
 	
 for(i=a1;i<a2;i++){
 ThunderAgent.AddTask5(gPhotoInfo[i][0], fix_Unicode_FileName(gPhotoInfo[i][1]), "", "", gPhotoInfo[i][2], -1, 0, -1,  gPhotoInfo[i][3], "", "", 1, "", -1);
-};
+}
 ThunderAgent.CommitTasks2(1);
 }
 
-
 function flashget_ref(i)
 {
-var a = gPhotoInfo[i][2];
-return a;
+return gPhotoInfo[i][2];
 }
 
 function flashget_cookie(i)
 {
-var a = gPhotoInfo[i][3];
-return a;
+return gPhotoInfo[i][3];
 }
+
+function loadxunlei7()
+{
+var ThunderAgent=null;
+try{
+ThunderAgent = new ActiveXObject("ThunderAgent.Agent");
+}catch(e){
+	try{
+	ThunderAgent = new ActiveXObject("ThunderAgent.Agent64");
+	}catch(e){
+	var ThunderAgent=null
+	}
+}
+if(dl_type==1){
+var a1=Number(document.getElementById("num_start").value);
+var a2=Number(document.getElementById("num_end").value)+1;
+}else{
+var a1=1;
+var a2=gPhotoID.length;
+}
+for(i=a1;i<a2;i++){
+ThunderAgent.AddTask12(gPhotoInfo[i][0], fix_Unicode_FileName(gPhotoInfo[i][1]), "", "", gPhotoInfo[i][2], "UTF-8", -1, 0, -1,gPhotoInfo[i][3], "", gPhotoInfo[i][2], 0, "rightup");
+}
+
+ThunderAgent.CommitTasks2(1);
+}
+
+
+function QQDownload4()
+{
+var QQIEHelper=null;
+try{
+QQIEHelper = new ActiveXObject("QQIEHelper.QQRightClick.2");
+}catch(e){
+	var QQIEHelper=null
+}
+
+if(dl_type==1){
+var a1=Number(document.getElementById("num_start").value);
+var a2=Number(document.getElementById("num_end").value)+1;
+}else{
+var a1=1;
+var a2=gPhotoID.length;
+}
+
+for(i=a1;i<a2;i++){
+QQIEHelper.AddTask3(gPhotoInfo[i][0], gPhotoInfo[i][2], "", 0, fix_Unicode_FileName(gPhotoInfo[i][1]));
+}
+QQIEHelper.SendMultiTask();
+}
+
+function fix_Unicode_FileName(sLongFileName){
+if(sLongFileName){
+//str=str.replace(/&amp;((#[^-?\\d+$]{1,7})|([A-Za-z]{2,6}));/gi,"&$1;");/*还原&#12345;&Auml;这类特殊字符*/
+sLongFileName=sLongFileName.replace(/&#([0-9]{1,8});/gi,function(s,s1){return CharCodeB10(s1)});
+sLongFileName=sLongFileName.replace(/&#x([A-Za-z]{2,6});/gi,function(s,s1){return CharCodeB16(s1)});
+}
+return sLongFileName;
+}
+
+function CharCodeB10(fix_Unicode10){
+return String.fromCharCode(fix_Unicode10);
+}
+
+function CharCodeB16(fix_Unicode16){
+fix_Unicode16="0x"+fix_Unicode;
+return String.fromCharCode(fix_Unicode16);
+}
+
 </script>
 
 <script language="VBScript">
@@ -205,47 +274,10 @@ Function flashget3
 		call JetCarCatch.AddAll(params, params(0), "FlashGet3", flashget_cookie(1),0)
         end If
 End Function
-
-Function fix_Unicode_FileName(ByVal sLongFileName)
-		On Error Resume Next
-    Dim i, fixed_Unicode_tf, split_str,fix_Unicode    
-    fix_Unicode_FileName = sLongFileName    
-    split_str = Split(sLongFileName, "&#")
-    If UBound(split_str) >= 1 Then        
-        For i = 1 To UBound(split_str)            
-            fixed_Unicode_tf = False
-            If InStr(split_str(i), ";") > 1 Then                
-                fix_Unicode = Mid(split_str(i), 1, InStr(split_str(i), ";") - 1)
-                split_str(i) = Mid(split_str(i), InStr(split_str(i), ";") + 1)                
-                '检测16进制网页代码"&#xFF75;"
-                If Left(LCase(fix_Unicode), 1) = "x" And Len(fix_Unicode) >= 2 Then
-                    If is_Hex_code(Mid(fix_Unicode, 2)) And (LCase(fix_Unicode) <> "3f" And LCase(fix_Unicode) <> "5c" And LCase(fix_Unicode) <> "2f" And LCase(fix_Unicode) <> "22" And LCase(fix_Unicode) <> "3a" And LCase(fix_Unicode) <> "2a" And LCase(fix_Unicode) <> "3c" And LCase(fix_Unicode) <> "3e" And LCase(fix_Unicode) <> "7c") Then
-                        fix_Unicode = Mid(fix_Unicode, 2)
-                        fix_Unicode = ChrW(Int("&H" & fix_Unicode))
-                        fixed_Unicode_tf = True
-                    End If
-                    '检测10进制网页代码"&#65397;"
-                ElseIf IsNumeric(fix_Unicode) = True Then
-                    If Int(fix_Unicode) <> 63 And Int(fix_Unicode) <> 92 And Int(fix_Unicode) <> 47 And Int(fix_Unicode) <> 34 And Int(fix_Unicode) <> 58 And Int(fix_Unicode) <> 42 And Int(fix_Unicode) <> 60 And Int(fix_Unicode) <> 62 And Int(fix_Unicode) <> 124 Then
-                        fix_Unicode = ChrW(Int(fix_Unicode))
-                        fixed_Unicode_tf = True
-                    End If
-                End If                
-                If fixed_Unicode_tf = False Then
-                    split_str(i) = fix_Unicode & ";" & split_str(i)
-                Else
-                    split_str(i) = fix_Unicode & split_str(i)
-                End If                
-            End If
-            If fixed_Unicode_tf = False Then split_str(i) = "&#" & split_str(i)
-        Next
-        fix_Unicode_FileName = Join(split_str, "")
-    End If
-End Function
 </script>
 
-<b style='color=#FF0000;'>请等待页面装载完毕之后再下载(避免下载图片数量不全)</b><br/>
-<b style='color=#FF0000;'>该页面部分功能只有IE可以完成，请使用Internet Explorer浏览本页</b><br/><br/>
+<b style='color:#FF0000;'>请等待页面装载完毕之后再下载(避免下载图片数量不全)</b><br/>
+<b style='color:#FF0000;'>该页面部分功能只有IE可以完成，请使用Internet Explorer浏览本页</b><br/><br/>
 <b><label><input name="A" type="radio" id="limit_albums" value="0" onClick="javascript:dl_all()" checked='checked'/>使用下载工具下载全部</label>&nbsp;&nbsp;
 <label><input name="A" type="radio" id="limit_albums" value="1" onClick="javascript:dl_ckeck()"/>使用下载工具下载部分</label>&nbsp;&nbsp;
 <label><input name="A" type="radio" id="limit_albums" value="2" onClick="javascript:UBB_ckeck()"/>复制论坛标签到剪贴板</label></b>

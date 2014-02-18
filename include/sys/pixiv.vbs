@@ -1,9 +1,11 @@
-'2013-11-4 visceroid & hein@shanghaijing.net
+'2013-12-1 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, member_type, php_name
 started = False
 multi_page = True
 retries_count = 0
 cache_index = 0
+ranking_page=0
+ranking_url=""
 root_str = "http://www.pixiv.net"
 
 Function return_download_url(ByVal url_str)
@@ -62,10 +64,18 @@ On Error Resume Next
 				php_name="bookmark_new_illust_r18.php"
 				sub_url_str = "/bookmark_new_illust_r18.php"
 			Case "ranking"
-				php_name="ranking.php"
-				sub_url_str=Mid(url_str,instr(url_str,"/ranking.php?")+13)
+				'http://www.pixiv.net/ranking.php?format=json&mode=daily&p=1
+				php_name=LCase(match.SubMatches(0)) & ".php"
+				sub_url_str=Mid(url_str,instr(url_str,".php?")+5)
 				If match.SubMatches(5)<> "" Then sub_url_str=replace(sub_url_str,"&" & match.SubMatches(5),"")
-				sub_url_str = "/ranking.php?" & sub_url_str
+				sub_url_str = "/" & php_name & "?" & sub_url_str & "&format=json"
+				ranking_url = sub_url_str
+				ranking_page=1
+			Case "ranking_area"
+				php_name=LCase(match.SubMatches(0)) & ".php"
+				sub_url_str=Mid(url_str,instr(url_str,".php?")+5)
+				If match.SubMatches(5)<> "" Then sub_url_str=replace(sub_url_str,"&" & match.SubMatches(5),"")
+				sub_url_str = "/" & php_name & "?" & sub_url_str
 			Case Else
 				Exit Function
 		End Select
@@ -149,12 +159,10 @@ On Error Resume Next
 			html_str=html_str_temp & mid(html_str,InStr(LCase(html_str), "</section>")+len("</section>"))
 		End If
 		
-    '2013-10最新ranking.php
-		'<div id="1" class="ranking-item"><div class="rank"><h1><a href="#1" class="label ui-scroll" data-hash-link="true">#1</a><i class="up sprites-up"></i></h1><p><a href="ranking.php?mode=daily&amp;date=20131101&amp;p=1&amp;ref=rn-b--yesterday#31"><span style='font-size:9px;'>之前: #31</span></a></p></div><a href="member_illust.php?mode=medium&amp;illust_id=39472803&amp;uarea=daily&amp;ref=rn-b-1-thumbnail" class="work"><img src="http://i2.pixiv.net/img-inf/img/2013/11/01/09/01/43/39472803_s.jpg" class="_thumbnail"></a><div class="data"><h2><a href="member_illust.php?mode=medium&amp;illust_id=39472803&amp;ref=rn-b-1-title&amp;uarea=daily" class="title">Little witch</a></h2><a href="member.php?id=6654&amp;ref=rn-b-1-user" class="user-container"><img class="user-icon ui-scroll-view" data-filter="lazy-image" data-src="http://i1.pixiv.net/img01/profile/yuukikuchi/6385644_s.jpg" src="http://source.pixiv.net/www/images/common/transparent.gif" height="32"><span class="icon-text">YUU菊池</span></a><dl class="inline-list slash-separated"><dt>阅览数</dt><dd>13926</dd><dt>总分</dt><dd>6011</dd></dl><dl class="inline-list"><dt>投稿日期</dt><dd>2013年11月01日 09:01</dd></dl><div class="share ui-selectbox-container"><div class="label ui-modal-trigger" data-target="share-1">分享 ?</div><ul id="share-1" data-rank="1" data-rank-text="#1" data-rank-type="" data-title="Little witch" data-user-name="YUU菊池"></ul></div></div></div>
-		'清除ranking.php
-		'If php_name="ranking.php" and cache_index = 0 Then
-				'html_str=format_ranking_html(html_str)
-		'End If
+		'转换ranking.php页面json数据
+		If php_name="ranking.php" and cache_index = 0 Then
+			html_str=format_ranking_html(html_str)
+		End If
 			
 		'清除付费会员特殊格式
 		If InStr(LCase(html_str), "data-src=")>1 Then
@@ -185,16 +193,14 @@ On Error Resume Next
 			html_str=replace(html_str,"<p>","")
 			html_str=replace(html_str,"</p>","")
 		End If
-		
-		If brief_mode and php_name="ranking.php" Then
-			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*>[\s\S]*?<h2><a[^>]*href=[^>]*>((?:(?!</a>).)*)</a></h2>"
+		If cache_index=0 and php_name="ranking_area.php" Then
+			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img[^>]*(?:\s*(?:data-src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""))+\s*>[\s\S]*?<h2><a[^>]*href=[^>]*>((?:(?!</a>).)*)</a></h2>"
 		ElseIf brief_mode and php_name<>"bookmark.php" and php_name<>"illust_id" Then
 			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*/?><h1[^>]*>((?:(?!</h1>).)*)</h1></a>"
 		Else
 			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*/?>((?:(?!</a>).)*)</a>"'+\s*/?  --->  [^>]*
 		End If
 		Set matches = regex.Execute(html_str)
-		
 		If matches.Count = 0 and php_name<>"illust_id" Then
 			process_retry
 		Else
@@ -337,7 +343,11 @@ Function get_next_page(ByVal html_str)
 								 
 								 '新ranking.php页面
 								 '<span class="next"><a href="?mode=daily&amp;p=2&amp;ref=rn-h-next" rel="next" class="_button" title="下一面"><i class="_icon sprites-next-linked"></i></a></span>
-	'If php_name="ranking.php" Then regex.Pattern = "<a[^>]*rel=""next""[^>]*href=""([^>\s]+)""[^>]*>.*?</a>\s*</li>"
+	If php_name="ranking.php" and ranking_page>0 and ranking_page<10 Then
+		ranking_page=ranking_page+1
+		get_next_page = "1|inet|10,13|" & root_str & "/" & ranking_url & "&p=" & ranking_page
+		Exit Function
+	End If
 
 	Set matches = regex.Execute(html_str)
 	'InputBox next_page_str,next_page_str,next_page_str
@@ -394,45 +404,103 @@ End Function
 
 Function format_ranking_html(ByVal html_str)
     format_ranking_html = html_str
-    '2013最新ranking.php
-		'<div id="1" class="ranking-item"><div class="rank"><h1><a href="#1" class="label ui-scroll" data-hash-link="true">#1</a><i class="up sprites-up"></i></h1><p><a href="ranking.php?mode=daily&amp;date=20131101&amp;p=1&amp;ref=rn-b--yesterday#31"><span style='font-size:9px;'>之前: #31</span></a></p></div>
-		'<a href="member_illust.php?mode=medium&amp;illust_id=39472803&amp;uarea=daily&amp;ref=rn-b-1-thumbnail" class="work"><img src="http://i2.pixiv.net/img-inf/img/2013/11/01/09/01/43/39472803_s.jpg" class="_thumbnail"></a><div class="data"><h2><a href="member_illust.php?mode=medium&amp;illust_id=39472803&amp;ref=rn-b-1-title&amp;uarea=daily" class="title">Little witch</a></h2><a href="member.php?id=6654&amp;ref=rn-b-1-user" class="user-container"><img class="user-icon ui-scroll-view" data-filter="lazy-image" data-src="http://i1.pixiv.net/img01/profile/yuukikuchi/6385644_s.jpg" src="http://source.pixiv.net/www/images/common/transparent.gif" height="32"><span class="icon-text">YUU菊池</span></a><dl class="inline-list slash-separated"><dt>阅览数</dt><dd>13926</dd><dt>总分</dt><dd>6011</dd></dl><dl class="inline-list"><dt>投稿日期</dt><dd>2013年11月01日 09:01</dd></dl><div class="share ui-selectbox-container"><div class="label ui-modal-trigger" data-target="share-1">分享 ?</div><ul id="share-1" data-rank="1" data-rank-text="#1" data-rank-type="" data-title="Little witch" data-user-name="YUU菊池"></ul></div></div>
+    '{"illust_id":40019442,
+    '"title":"\u305d\u3063\u3068 \u308f\u305f\u3057\u306f \u5927\u4eba\u306b\u306a\u3063\u305f","width":1000,"height":1000,"date":"2013\u5e7411\u670830\u65e5 15:35","tags":["\u30aa\u30ea\u30b8\u30ca\u30eb","\u3075\u3064\u304f\u3057\u3044",    "\u306a\u306b\u3053\u308c\u7d20\u6575","\u9ed2\u30bb\u30fc\u30e9\u30fc","\u30aa\u30ea\u30b8\u30ca\u30eb500users\u5165\u308a"],
+    '"url":"http:\/\/i1.pixiv.net\/img77\/img\/fff365\/mobile\/40019442_240mw.jpg",
+    '"user_id":3118206,
+    '"user_name":"\u53e4\u753a","profile_img":"http:\/\/i1.pixiv.net\/img77\/profile\/fff365\/6437486_s.png","rank":53,"yes_rank":0,"total_score":3959,"view_count":3560},
 		'转换为
-		'<li class="image"><a href="/member_illust.php?mode=medium&amp;illust_id=33484357"><img src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg"><h1>一人旅</h1></a><p class="user"><a href="/member.php?id=2876335">たいそす</a></li>
+		'<li class="image"><a href="/member_illust.php?mode=medium&amp;illust_id=33484357">
+		'<img src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg"><h1>一人旅</h1></a>
+		'<p class="user"><a href="/member.php?id=2876335">たいそす</a></li>
 
-		Dim split_str, matches(4),temp(2)
-    html_str=replace(html_str,"http://source.pixiv.net/source/images/common/transparent.gif","")
-    html_str=replace(html_str,"?ctype=ranking","")
-    temp(0) = Mid(html_str,1,InStr(LCase(html_str), "<a class=""image-thumbnail""")-1)
-    html_str = Mid(html_str,InStr(LCase(html_str), "<a class=""image-thumbnail""")+len("<a class=""image-thumbnail"""))
-    split_str = Split(html_str, "<a class=""image-thumbnail""")
+		Dim split_str, matches(4)
+    If InStr(html_str, "{""illust_id"":") > 0 Then
+        html_str = Mid(html_str, InStr(LCase(html_str), "{""illust_id"":") + Len("{""illust_id"":"))
+    Else
+        format_ranking_html = ""
+        Exit Function
+    End If
+		html_str=replace(html_str,"\/","/")
+    split_str = Split(html_str, "{""illust_id"":")
     For i = 0 To UBound(split_str)
     		matches(0) = ""
     		matches(1) = ""
     		matches(2) = ""
     		matches(3) = ""
     		matches(4) = ""
-    		'del transparent.gif
-    		'<li class="image-thumbnail"><a href="/member_illust.php?mode=medium&amp;illust_id=33484357&amp;ref=rn-b--thumbnail">
-    		matches(0)="<li class=""image-thumbnail""><a" & Mid(split_str(i),1,InStr(split_str(i),">"))
-    		
-    		matches(1)=Mid(split_str(i), InStr(LCase(split_str(i)), """ data-src=""") + Len(""" data-src="""))
-    		matches(2) = Mid(matches(1), InStr(LCase(matches(1)), "<h2>")+4)
-    		
-    		'<img src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg">
-    		matches(1) ="<img src=""" & Mid(matches(1),1,InStr(matches(1), """")) & ">"
-    		
-    		'<a href="member_illust.php?mode=medium&amp;illust_id=33775874&amp;ref=rn-b-1-title">夢の東方タッグ編1002「てっしゅー！」
-        matches(3) = Mid(matches(2),1,InStr(LCase(matches(2)), "</a>")-1)
-        matches(3) = "<h1>" & Mid(matches(3),InStr(matches(3), ">")+1) & "</h1></a>"
-               
-        matches(2) = Mid(matches(2),InStr(LCase(matches(2)), "</h2>")+5)
-        
-    		split_str(i)=matches(0) & matches(1) & matches(3) & matches(2)
+    		'illust_id
+    		matches(0)=Mid(split_str(i),1,InStr(split_str(i),",")-1)
+    		'url
+    		matches(1)=Mid(split_str(i), InStr(LCase(split_str(i)), """url"":""") + Len("""url"":"""))
+    		matches(1)=Mid(matches(1),1,InStr(matches(1),"""")-1)
+    		matches(1)=replace(matches(1),"/mobile/","/")
+    		matches(1)=Mid(matches(1),1,InStrrev(matches(1),"_")-1) & "_s" & Mid(matches(1),InStrrev(matches(1),"."))
+    		'title
+    		matches(2)=Mid(split_str(i), InStr(LCase(split_str(i)), """title"":""") + Len("""title"":"""))
+    		matches(2)=Mid(matches(2),1,InStr(matches(2),"""")-1)
+    		matches(2)=fix_Unicode_Name(matches(2))
+    		matches(2)=replace(matches(2),">","&gt;")
+    		matches(2)=replace(matches(2),"<","&lt;")
+    		'user_id
+    		matches(3)=Mid(split_str(i), InStr(LCase(split_str(i)), """user_id"":") + Len("""user_id"":"))
+    		matches(3)=Mid(matches(3),1,InStr(matches(3),",")-1)
+    		'user_name
+    		matches(4)=Mid(split_str(i), InStr(LCase(split_str(i)), """user_name"":""") + Len("""user_name"":"""))
+    		matches(4)=Mid(matches(4),1,InStr(matches(4),"""")-1)
+    		matches(4)=fix_Unicode_Name(matches(4))
+    		matches(4)=replace(matches(4),">","&gt;")
+    		matches(4)=replace(matches(4),"<","&lt;")
+
+    		split_str(i)="<li class=""image""><a href=""/member_illust.php?mode=medium&amp;illust_id=" & matches(0) & """><img src=""" & matches(1) & """><h1>" & matches(2) & "</h1></a><p class=""user""><a href=""/member.php?id=" & matches(3) & """>" & matches(4) & "</a></li>"
     Next
-    format_ranking_html =temp(0) & Join(split_str, "")
+    format_ranking_html =Join(split_str, "")
 End Function
 '---------------------------------------------------------------------------------------------
+Function fix_Unicode_Name(ByVal sLongFileName)
+    Dim i,fixed_Unicode_tf,split_str,fix_Unicode    
+    fix_Unicode_Name = sLongFileName 
+    split_str = Split(sLongFileName, "\u")
+    If UBound(split_str) >= 1 Then
+        For i = 1 To UBound(split_str)
+            fixed_Unicode_tf = False
+            If Len(split_str(i)) > 3 Then
+                fix_Unicode = Mid(split_str(i), 1, 4)
+                If Len(split_str(i)) > 4 Then
+                	split_str(i) = Mid(split_str(i), 5)
+                Else
+                	split_str(i) = ""
+                End If
+                
+                If is_Hex_code(fix_Unicode) Then
+                    fix_Unicode = ChrW(Int("&H" & fix_Unicode))
+                    fixed_Unicode_tf = True
+                End If
+                
+                If fixed_Unicode_tf = False Then
+                    split_str(i) = "\u" & fix_Unicode & split_str(i)
+                Else
+                    split_str(i) = fix_Unicode & split_str(i)
+                End If
+            End If
+        Next
+        fix_Unicode_Name = Join(split_str, "")
+    End If
+End Function
+
+Function is_Hex_code(ByVal Hex_code)
+    Dim i
+    is_Hex_code = True
+    If Len(Hex_code)>0 And Len(Hex_code)<7 Then
+        For i=1 To Len(Hex_code)
+            If InStr("ABCDEFabcdef0123456789", Mid(Hex_code, i, 1)) < 1 Then is_Hex_code = False: Exit Function
+        Next
+    Else
+        is_Hex_code = False
+    End If
+End Function
+
+'----------------------------------------------------------------------
 ' 保存文本文件
 Function SaveEncodedTextFile(sFilePath, sCharset, s)
     Dim oStream
