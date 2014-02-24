@@ -9,16 +9,19 @@ Begin VB.Form start_ox163
    ClientWidth     =   6000
    Icon            =   "start.frx":0000
    LinkTopic       =   "start_ox163"
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
    Picture         =   "start.frx":406A
    ScaleHeight     =   3375
    ScaleWidth      =   6000
+   ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '屏幕中心
    Begin VB.CommandButton Com5 
       Caption         =   "仅关闭本窗口"
       Height          =   420
-      Left            =   4200
+      Left            =   2160
       TabIndex        =   4
-      Top             =   480
+      Top             =   0
       Visible         =   0   'False
       Width           =   1695
    End
@@ -39,7 +42,7 @@ Begin VB.Form start_ox163
    Begin VB.CommandButton Com2 
       Caption         =   "关闭错误提示"
       Height          =   420
-      Left            =   2400
+      Left            =   120
       TabIndex        =   2
       Top             =   0
       Visible         =   0   'False
@@ -131,10 +134,11 @@ Private Sub Timer1_Timer()
     Dim err_report As Boolean, test_Object As Object, check_path
     
     If GetOSLCID <> 1 Then MsgBox "Your System Lanuages for Non Unicode Program is not Simplified Chinese." _
-                       & vbCrLf & "If you want to make better use of this software.(No distortion, No unknow Error...)" _
-                       & vbCrLf & "You can open the 'Control Panel'->'Region and Language'->'Administrative'." _
-                       & vbCrLf & "Change 'language for non-Unicode programs' to 'Chinese(Simplified, PRC)'." _
-                       & vbCrLf & "When done selecting the language, you need to restart your computer.", vbOKOnly
+        & vbCrLf & "If you want to make a better use.(No distortion No unknow Error etc.)" _
+        & vbCrLf & "You should open" _
+        & vbCrLf & "'Control Panel'->'Region and Language'->'Administrative'" _
+        & vbCrLf & "Change 'language for non-Unicode programs' to 'Chinese(Simplified, PRC)'." _
+        & vbCrLf & "When done selecting the language, you need to restart your computer.", vbOKOnly
         
         start_text.Text = ""
         '------------------------------------------------------------------------------------------
@@ -287,6 +291,7 @@ Private Sub Timer1_Timer()
         
         '------------------------------------------------------------------------------------------
         start_text.Text = start_text.Text & vbCrLf & "检查设定文档"
+        
         If Dir(App_path & "\OX163setup.ini") = "" Then
             
             '默认参数
@@ -302,6 +307,7 @@ Private Sub Timer1_Timer()
             WriteIniTF "maincenter", "def_path_tf", False
             WriteIniStr "maincenter", "def_path", ""
             WriteIniStr "maincenter", "include_script", "delay"
+            WriteIniStr "maincenter", "include_scriptList", "sys_163,1|sys_include,1"
             
             WriteIniStr "maincenter", "new163passcode_user", "wehi"
             WriteIniStr "maincenter", "new163passcode_album", "1530930"
@@ -341,6 +347,7 @@ Private Sub Timer1_Timer()
             WriteIniStr "proxyset", "proxy_B_pw", ""
             WriteIniStr "proxyset", "proxy_A_type", "icUseDefault"
             WriteIniStr "proxyset", "proxy_B_type", "icUseDefault"
+            WriteIniStr "proxyset", "web_proxy", "1"
             
             
             WriteIniStr "maincenter", "Unicode_File", "0"
@@ -364,7 +371,7 @@ Private Sub Timer1_Timer()
         start_text.Text = start_text.Text & vbCrLf & "读取参数"
         
         
-        WriteIniStr "maincenter", "ver", ver_info '默认参数
+        WriteIniStr "maincenter", "ver", ver_info '此参数为系统默认
         
         sysSet.ver = CInt(GetIniStr("maincenter", "ver"))
         sysSet.update_host = GetIniStr("maincenter", "update_host")
@@ -382,6 +389,7 @@ Private Sub Timer1_Timer()
         sysSet.Unicode_Str = CByte(GetIniStr("maincenter", "Unicode_Str"))
         
         sysSet.include_script = GetIniStr("maincenter", "include_script")
+        sysSet.include_scriptlist = OX_Check_include_scriptlist(GetIniStr("maincenter", "include_scriptList"), False)
         
         sysSet.new163passcode_def(0) = GetIniStr("maincenter", "new163passcode_user")
         sysSet.new163passcode_def(1) = GetIniStr("maincenter", "new163passcode_album")
@@ -438,6 +446,14 @@ Private Sub Timer1_Timer()
             sysSet.proxy_B_type = 2
         Case Else
             sysSet.proxy_B_type = 0
+        End Select
+        
+        sysSet.web_proxy = GetIniStr("proxyset", "web_proxy")
+        Select Case sysSet.web_proxy
+        Case "0"
+            sysSet.web_proxy = 0
+        Case Else
+            sysSet.web_proxy = 1
         End Select
         
         sysSet.proxy_A = Trim(GetIniStr("proxyset", "proxy_A"))
@@ -504,6 +520,7 @@ reset_path:
         Com2.Visible = True
         Com3.Visible = True
         Com5.Visible = True
+        start_text.Enabled = True
     End Sub
     
     Private Sub Timer3_Timer()

@@ -36,7 +36,7 @@ Begin VB.Form sys
       Index           =   7
       Left            =   2400
       TabIndex        =   30
-      Top             =   9960
+      Top             =   10200
       Visible         =   0   'False
       Width           =   6375
       Begin VB.PictureBox Picture23 
@@ -44,10 +44,10 @@ Begin VB.Form sys
          Height          =   615
          Left            =   480
          ScaleHeight     =   615
-         ScaleWidth      =   4995
+         ScaleWidth      =   5595
          TabIndex        =   92
          Top             =   600
-         Width           =   4995
+         Width           =   5595
          Begin VB.OptionButton new163passrule 
             Caption         =   "否(我有老相册用到中文密码)"
             Height          =   255
@@ -115,7 +115,7 @@ Begin VB.Form sys
          TabIndex        =   38
          Top             =   1440
          Width           =   2535
-         Begin VB.CommandButton Command2 
+         Begin VB.CommandButton Auto_Password_com 
             Caption         =   "自动填写"
             Height          =   975
             Left            =   0
@@ -124,7 +124,7 @@ Begin VB.Form sys
             Width           =   2415
          End
       End
-      Begin VB.Label Label3 
+      Begin VB.Label FrameL7_1 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "是否修正163相册中文密码问题:"
@@ -799,6 +799,16 @@ Begin VB.Form sys
       Top             =   6000
       Visible         =   0   'False
       Width           =   6375
+      Begin VB.CheckBox web_proxy_box 
+         Caption         =   "对内置浏览器启用代理A (还原IE代理模式后必须重启软件)"
+         ForeColor       =   &H00C00000&
+         Height          =   375
+         Left            =   120
+         TabIndex        =   189
+         Top             =   2880
+         Value           =   1  'Checked
+         Width           =   5535
+      End
       Begin VB.ComboBox ProxyComb 
          Height          =   300
          Index           =   1
@@ -807,7 +817,7 @@ Begin VB.Form sys
          List            =   "sys.frx":6E2E
          Style           =   2  'Dropdown List
          TabIndex        =   68
-         Top             =   1920
+         Top             =   1440
          Width           =   3135
       End
       Begin VB.ComboBox ProxyComb 
@@ -826,7 +836,7 @@ Begin VB.Form sys
          Index           =   2
          Left            =   4080
          TabIndex        =   61
-         Top             =   2280
+         Top             =   1800
          Width           =   2055
       End
       Begin VB.TextBox proxy_txt2 
@@ -834,7 +844,7 @@ Begin VB.Form sys
          Index           =   1
          Left            =   4080
          TabIndex        =   60
-         Top             =   1920
+         Top             =   1440
          Width           =   2055
       End
       Begin VB.TextBox proxy_txt1 
@@ -900,7 +910,7 @@ Begin VB.Form sys
          Index           =   0
          Left            =   120
          TabIndex        =   50
-         Top             =   2280
+         Top             =   1800
          Width           =   3135
       End
       Begin VB.Label Label2 
@@ -910,7 +920,7 @@ Begin VB.Form sys
          Index           =   7
          Left            =   3360
          TabIndex        =   63
-         Top             =   2340
+         Top             =   1860
          Width           =   630
       End
       Begin VB.Label Label2 
@@ -920,7 +930,7 @@ Begin VB.Form sys
          Index           =   6
          Left            =   3360
          TabIndex        =   62
-         Top             =   1965
+         Top             =   1485
          Width           =   630
       End
       Begin VB.Label Label2 
@@ -945,14 +955,14 @@ Begin VB.Form sys
       End
       Begin VB.Label Label2 
          AutoSize        =   -1  'True
-         Caption         =   "格式 127.0.0.1:80（代理IP或网址:端口），用户名密码可为空"
+         Caption         =   $"sys.frx":6EB9
          ForeColor       =   &H000000FF&
-         Height          =   180
+         Height          =   540
          Index           =   2
          Left            =   120
          TabIndex        =   55
-         Top             =   2880
-         Width           =   5040
+         Top             =   2160
+         Width           =   4590
       End
       Begin VB.Label Label2 
          AutoSize        =   -1  'True
@@ -961,7 +971,7 @@ Begin VB.Form sys
          Index           =   1
          Left            =   120
          TabIndex        =   54
-         Top             =   1680
+         Top             =   1200
          Width           =   2070
       End
       Begin VB.Label Label2 
@@ -987,9 +997,9 @@ Begin VB.Form sys
       Width           =   6375
       Begin VB.ComboBox Combo_lst 
          Height          =   300
-         ItemData        =   "sys.frx":6EB9
+         ItemData        =   "sys.frx":6F52
          Left            =   240
-         List            =   "sys.frx":6EC6
+         List            =   "sys.frx":6F5F
          Style           =   2  'Dropdown List
          TabIndex        =   113
          Top             =   2760
@@ -1025,34 +1035,27 @@ Begin VB.Form sys
          Top             =   600
          Width           =   5715
          Begin VB.HScrollBar downHS 
-            Height          =   220
-            Left            =   2880
+            Height          =   225
+            Left            =   3000
             Max             =   400
             Min             =   1
             TabIndex        =   9
-            Top             =   360
+            Top             =   390
             Value           =   4
-            Width           =   2175
+            Width           =   2055
          End
          Begin VB.TextBox downText 
             Alignment       =   2  'Center
             Appearance      =   0  'Flat
+            BackColor       =   &H8000000F&
+            BorderStyle     =   0  'None
             Enabled         =   0   'False
-            BeginProperty Font 
-               Name            =   "宋体"
-               Size            =   7.5
-               Charset         =   134
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
             Height          =   225
             Left            =   2160
             TabIndex        =   8
             Text            =   "2KB"
             ToolTipText     =   "区块大小和下载速度有一定关系(不建议设定太大)"
-            Top             =   360
+            Top             =   420
             Width           =   735
          End
          Begin VB.OptionButton downOp 
@@ -1136,7 +1139,7 @@ Begin VB.Form sys
       End
       Begin VB.Label Combo_lst1 
          AutoSize        =   -1  'True
-         Caption         =   $"sys.frx":6F06
+         Caption         =   $"sys.frx":6F9F
          ForeColor       =   &H000000FF&
          Height          =   360
          Left            =   2760
@@ -1232,9 +1235,9 @@ Begin VB.Form sys
       End
       Begin VB.ComboBox update_host_Combo 
          Height          =   300
-         ItemData        =   "sys.frx":6F43
+         ItemData        =   "sys.frx":6FDC
          Left            =   1440
-         List            =   "sys.frx":6F45
+         List            =   "sys.frx":6FDE
          TabIndex        =   178
          Text            =   "update_host_Combo"
          ToolTipText     =   "以""http://""开头, 默认""http://www.shanhaijing.net/163/"""
@@ -1246,10 +1249,10 @@ Begin VB.Form sys
          Height          =   255
          Left            =   120
          ScaleHeight     =   255
-         ScaleWidth      =   1395
+         ScaleWidth      =   1755
          TabIndex        =   107
          Top             =   2040
-         Width           =   1395
+         Width           =   1755
          Begin VB.OptionButton set_tray 
             Caption         =   "否"
             Height          =   255
@@ -1274,10 +1277,10 @@ Begin VB.Form sys
          Height          =   255
          Left            =   3600
          ScaleHeight     =   255
-         ScaleWidth      =   1395
+         ScaleWidth      =   1755
          TabIndex        =   45
          Top             =   2040
-         Width           =   1395
+         Width           =   1755
          Begin VB.OptionButton set_checkall 
             Caption         =   "否"
             Height          =   255
@@ -1302,10 +1305,10 @@ Begin VB.Form sys
          Height          =   255
          Left            =   3600
          ScaleHeight     =   255
-         ScaleWidth      =   1395
+         ScaleWidth      =   1755
          TabIndex        =   41
          Top             =   2760
-         Width           =   1395
+         Width           =   1755
          Begin VB.OptionButton set_sbar 
             Caption         =   "是"
             Height          =   255
@@ -1330,10 +1333,10 @@ Begin VB.Form sys
          Height          =   255
          Left            =   120
          ScaleHeight     =   255
-         ScaleWidth      =   1395
+         ScaleWidth      =   1635
          TabIndex        =   20
          Top             =   2760
-         Width           =   1395
+         Width           =   1635
          Begin VB.OptionButton listOp 
             Caption         =   "是"
             Height          =   255
@@ -1362,8 +1365,8 @@ Begin VB.Form sys
          TabIndex        =   15
          Top             =   480
          Width           =   2895
-         Begin VB.CommandButton Command4 
-            Caption         =   "立刻检查更新"
+         Begin VB.CommandButton Update_now_Command 
+            Caption         =   "立即检查更新"
             Height          =   300
             Left            =   1440
             TabIndex        =   23
@@ -1506,9 +1509,9 @@ Begin VB.Form sys
       Begin VB.ComboBox Combo_unicode_ctrl 
          Height          =   300
          Index           =   1
-         ItemData        =   "sys.frx":6F47
+         ItemData        =   "sys.frx":6FE0
          Left            =   240
-         List            =   "sys.frx":6F54
+         List            =   "sys.frx":6FED
          Style           =   2  'Dropdown List
          TabIndex        =   161
          Top             =   1080
@@ -1517,9 +1520,9 @@ Begin VB.Form sys
       Begin VB.ComboBox Combo_unicode_ctrl 
          Height          =   300
          Index           =   0
-         ItemData        =   "sys.frx":6FB3
+         ItemData        =   "sys.frx":704C
          Left            =   240
-         List            =   "sys.frx":6FC0
+         List            =   "sys.frx":7059
          Style           =   2  'Dropdown List
          TabIndex        =   159
          Top             =   480
@@ -1534,9 +1537,9 @@ Begin VB.Form sys
          Width           =   5895
          Begin VB.ComboBox Combo_rar 
             Height          =   300
-            ItemData        =   "sys.frx":702C
+            ItemData        =   "sys.frx":70C5
             Left            =   3720
-            List            =   "sys.frx":7039
+            List            =   "sys.frx":70D2
             Style           =   2  'Dropdown List
             TabIndex        =   137
             Top             =   240
@@ -1544,9 +1547,9 @@ Begin VB.Form sys
          End
          Begin VB.ComboBox Combo_rar_name 
             Height          =   300
-            ItemData        =   "sys.frx":705B
+            ItemData        =   "sys.frx":70F4
             Left            =   2880
-            List            =   "sys.frx":705D
+            List            =   "sys.frx":70F6
             Style           =   2  'Dropdown List
             TabIndex        =   136
             Top             =   900
@@ -1562,9 +1565,9 @@ Begin VB.Form sys
          End
          Begin VB.PictureBox Picture15 
             BorderStyle     =   0  'None
-            Height          =   375
+            Height          =   495
             Left            =   4200
-            ScaleHeight     =   375
+            ScaleHeight     =   495
             ScaleWidth      =   1500
             TabIndex        =   133
             Top             =   840
@@ -1666,10 +1669,10 @@ Begin VB.Form sys
             Height          =   255
             Left            =   3360
             ScaleHeight     =   255
-            ScaleWidth      =   1395
+            ScaleWidth      =   1635
             TabIndex        =   124
             Top             =   910
-            Width           =   1395
+            Width           =   1635
             Begin VB.OptionButton set_url_folder 
                Caption         =   "是"
                Height          =   255
@@ -1821,16 +1824,7 @@ Begin VB.Form sys
          Top             =   960
          Width           =   5895
          Begin VB.FileListBox scriptFile 
-            BeginProperty Font 
-               Name            =   "宋体"
-               Size            =   11.25
-               Charset         =   134
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   3015
+            Height          =   2970
             Hidden          =   -1  'True
             Left            =   3600
             Pattern         =   "*.txt"
@@ -1840,9 +1834,9 @@ Begin VB.Form sys
          End
          Begin VB.CommandButton IncLstCtrl_Com1 
             Height          =   255
-            Index           =   2
+            Index           =   1
             Left            =   3120
-            Picture         =   "sys.frx":705F
+            Picture         =   "sys.frx":70F8
             Style           =   1  'Graphical
             TabIndex        =   186
             ToolTipText     =   "Remove Include File"
@@ -1851,9 +1845,9 @@ Begin VB.Form sys
          End
          Begin VB.CommandButton IncLstCtrl_Com1 
             Height          =   255
-            Index           =   5
+            Index           =   0
             Left            =   3120
-            Picture         =   "sys.frx":70BB
+            Picture         =   "sys.frx":7154
             Style           =   1  'Graphical
             TabIndex        =   185
             ToolTipText     =   "Add Incule File"
@@ -1861,10 +1855,11 @@ Begin VB.Form sys
             Width           =   375
          End
          Begin MSComctlLib.ListView scriptList 
-            DragIcon        =   "sys.frx":7117
+            DragIcon        =   "sys.frx":71B0
             Height          =   2820
             Left            =   120
             TabIndex        =   188
+            ToolTipText     =   "拖拽排列顺序"
             Top             =   480
             Width           =   2895
             _ExtentX        =   5106
@@ -1899,7 +1894,7 @@ Begin VB.Form sys
                Object.Width           =   3881
             EndProperty
          End
-         Begin VB.Label Label3 
+         Begin VB.Label custom_sLabel2 
             AutoSize        =   -1  'True
             Caption         =   "Include Flie(优先级由高至低)"
             ForeColor       =   &H00C00000&
@@ -1910,19 +1905,21 @@ Begin VB.Form sys
             Top             =   240
             Width           =   2520
          End
-         Begin VB.Label Label3 
+         Begin VB.Label custom_sLabel 
             AutoSize        =   -1  'True
             BackStyle       =   0  'Transparent
-            Caption         =   "custom文件夹内容"
+            Caption         =   "custom文件夹(点击打开)"
             ForeColor       =   &H00C00000&
             Height          =   180
             Index           =   8
             Left            =   3600
+            MouseIcon       =   "sys.frx":B21A
+            MousePointer    =   99  'Custom
             TabIndex        =   183
             Top             =   240
-            Width           =   1440
+            Width           =   1980
          End
-         Begin VB.Label Label3 
+         Begin VB.Label custom_sLabel1 
             AutoSize        =   -1  'True
             Caption         =   "include列表"
             ForeColor       =   &H00C00000&
@@ -2045,10 +2042,10 @@ Private Sub Combo_rar_name_Click()
 End Sub
 
 
-Private Sub Command2_Click()
+Private Sub Auto_Password_com_Click()
     On Error Resume Next
     sys.Enabled = False
-    Command2.caption = "正在查找,请等待..."
+    Auto_Password_com.caption = "正在查找,请等待..."
     Dim html, split_html
     html = Form1.update.OpenURL(sysSet.update_host & "passcode_inf.txt?ntime=" & CDbl(Now()))
     split_html = Split(html, vbCrLf)
@@ -2062,13 +2059,54 @@ Private Sub Command2_Click()
             passcode_text(2) = html(2)
         End If
     End If
-    Command2.caption = "自动填写"
+    Auto_Password_com.caption = "自动填写"
     sys.Enabled = True
 End Sub
 
-Private Sub Command4_Click()
+Private Sub IncLstCtrl_Com1_Click(Index As Integer)
+    
+    Select Case Index
+    Case 0
+        If Len(scriptFile.fileName) > 0 And sys_CheckIncLst_NoThisfile(scriptFile.fileName) = True Then
+            scriptList.ListItems.Add , , scriptFile.fileName
+            scriptList.ListItems(scriptList.ListItems.count).Checked = True
+        End If
+        
+    Case 1
+        If MsgBox("是否要移除选中的自定义Inc文件?" & vbCrLf & "(sys_163与sys_include不会被移除)", vbYesNo, "询问") = vbYes Then
+            For i = scriptList.ListItems.count To 1 Step -1
+                DoEvents
+                If scriptList.ListItems(i).Selected = True And scriptList.ListItems(i).Text <> "sys_163" And scriptList.ListItems(i).Text <> "sys_include" Then
+                    scriptList.ListItems.Remove i
+                End If
+            Next
+        End If
+        
+    End Select
+End Sub
+
+Private Function sys_CheckIncLst_NoThisfile(scriptFileName As String) As Boolean
+    sys_CheckIncLst_NoThisfile = True
+    For i = 1 To scriptList.ListItems.count
+        If scriptFileName = scriptList.ListItems(i).Text Then
+            sys_CheckIncLst_NoThisfile = False
+            MsgBox "文件已存在", vbOKOnly, "警告"
+        End If
+    Next
+End Function
+
+Private Sub scriptFile_DblClick()
+    Call IncLstCtrl_Com1_Click(0)
+End Sub
+
+Private Sub scriptList_DblClick()
+scriptList.SelectedItem.Checked = Not scriptList.SelectedItem.Checked
+End Sub
+
+
+Private Sub Update_now_Command_Click()
     Form1.Timer3.Enabled = True
-    Command4.caption = "再次检查更新"
+    Update_now_Command.caption = "再次检查更新"
 End Sub
 
 Private Sub def_path_Click(Index As Integer)
@@ -2123,10 +2161,6 @@ Private Sub Form_Load()
     Form1.Enabled = False
     scriptFile.Path = App_path & "\include\custom"
     scriptList.Height = scriptFile.Height
-    For i = 1 To 10
-        scriptList.ListItems.Add , , CStr(i)
-    Next i
-    
     
     Call sys_def(0)
     Call laod_ini(0)
@@ -2151,6 +2185,10 @@ Private Sub Build_TVW_Menu()
     '参数说明:
     'a: 参照物,在谁的基础上建节点,a就是谁的key值,如果是跟节点,可省略.
     'b: 参照物和本身的关系 , 如果是父子关系, 值为tvwchile, 如果是兄弟关系, 值为tvwnext
+    'tvwlast--1；该节点置于任何其他的在relative中被命名的同一级别的节点的后面
+    'tvwNext--2；该节点置于在relative中被命名节点的后面
+    'tvwPrevius--3；该节点置于在relative中被命名的节点的前面
+    'tvwChild--4；该节点成为在relative中被命名的节点的的子节点
     'key: 关键字,唯一的.
     'text: 节点上显示的文字
     'image: 节点前的小图标 , 需要配合图标控件用, 可省略
@@ -2165,9 +2203,9 @@ Private Sub Build_TVW_Menu()
     
 End Sub
 
-
-
-
+Private Sub custom_sLabel_Click(Index As Integer)
+    Shell "explorer.exe " & App_path & "\include\custom", vbNormalFocus
+End Sub
 
 Private Sub SysTreeView_NodeClick(ByVal Node As MSComctlLib.Node)
     Dim i As Byte
@@ -2294,6 +2332,20 @@ Private Sub sys_apply_Click()
     Else
         WriteIniStr "maincenter", "include_script", "close"
     End If
+    
+    Dim sys_scriptlist_str As String
+    sys_scriptlist_str = ""
+    For i = 1 To scriptList.ListItems.count
+    sys_scriptlist_str = sys_scriptlist_str & "|" & scriptList.ListItems(i).Text
+    If scriptList.ListItems(i).Checked = True Then
+    sys_scriptlist_str = sys_scriptlist_str & ",1"
+    Else
+    sys_scriptlist_str = sys_scriptlist_str & ",0"
+    End If
+    Next
+    sys_scriptlist_str = OX_Check_include_scriptlist(Mid(sys_scriptlist_str, 2), False)
+    WriteIniStr "maincenter", "include_scriptList", sys_scriptlist_str
+    
     
     If autoOp(1).Value = True Then
         WriteIniTF "maincenter", "autocheck", True
@@ -2454,6 +2506,7 @@ Private Sub sys_apply_Click()
     WriteIniStr "proxyset", "proxy_B", proxy_txt2(0)
     WriteIniStr "proxyset", "proxy_B_user", proxy_txt2(1)
     WriteIniStr "proxyset", "proxy_B_pw", proxy_txt2(2)
+    WriteIniStr "proxyset", "web_proxy", web_proxy_box.Value
     
     
     '重新载入设定
@@ -2515,19 +2568,19 @@ Private Sub sys_apply_Click()
         Label1.caption = "准备OX163..." & vbCrLf & "    检查下载路径"
         If Mid$(sysSet.def_path, 2, 2) <> ":\" And Len(sysSet.def_path) > 2 Then GoTo reset_path
         If Right(sysSet.def_path, 1) = "\" Then sysSet.def_path = Mid$(sysSet.def_path, 1, Len(sysSet.def_path) - 1): WriteIniStr "maincenter", "def_path", sysSet.def_path
-'        Dim check_path
-'        check_path = Split(sysSet.def_path, "\")
-'
-'        For i = 0 To UBound(check_path)
-'            If i > 0 Then
-'                sysSet.def_path = sysSet.def_path & "\" & check_path(i)
-'                If Dir(sysSet.def_path, vbDirectory) = "" Then
-'                    MkDir sysSet.def_path
-'                End If
-'            Else
-'                sysSet.def_path = check_path(0)
-'            End If
-'        Next i
+        '        Dim check_path
+        '        check_path = Split(sysSet.def_path, "\")
+        '
+        '        For i = 0 To UBound(check_path)
+        '            If i > 0 Then
+        '                sysSet.def_path = sysSet.def_path & "\" & check_path(i)
+        '                If Dir(sysSet.def_path, vbDirectory) = "" Then
+        '                    MkDir sysSet.def_path
+        '                End If
+        '            Else
+        '                sysSet.def_path = check_path(0)
+        '            End If
+        '        Next i
         If (GetFileAttributes(sysSet.def_path) = -1) Then GoTo reset_path
     Else
 reset_path:
@@ -2560,6 +2613,14 @@ reset_path:
     sysSet.proxy_B = Trim(GetIniStr("proxyset", "proxy_B"))
     sysSet.proxy_B_user = Trim(GetIniStr("proxyset", "proxy_B_user"))
     sysSet.proxy_B_pw = GetIniStr("proxyset", "proxy_B_pw")
+    
+    sysSet.web_proxy = GetIniStr("proxyset", "web_proxy")
+    Select Case sysSet.web_proxy
+    Case "0"
+        sysSet.web_proxy = 0
+    Case Else
+        sysSet.web_proxy = 1
+    End Select
     
     Proxy_set
     
@@ -2619,6 +2680,11 @@ Private Sub sys_def(ByVal frameID As Byte)
     '脚本控制---------------------------------------
     If frameID = 0 Or frameID = 3 Then
         scriptOP(0).Value = True
+        scriptList.ListItems.Clear
+        scriptList.ListItems.Add , , "sys_163"
+        scriptList.ListItems(scriptList.ListItems.count).Checked = True
+        scriptList.ListItems.Add , , "sys_include"
+        scriptList.ListItems(scriptList.ListItems.count).Checked = True
     End If
     
     '代理服务器设置------------------------------------
@@ -2631,6 +2697,7 @@ Private Sub sys_def(ByVal frameID As Byte)
         proxy_txt2(2).Text = ""
         ProxyComb(0).ListIndex = 0
         ProxyComb(1).ListIndex = 0
+        web_proxy_box.Value = 1
     End If
     
     '常规参数设置------------------------------------
@@ -2738,11 +2805,11 @@ Private Sub laod_ini(ByVal frameID As Byte)
     If frameID = 0 Or frameID = 2 Then
         'Unicode文件夹\文件名
         If CByte(GetIniStr("maincenter", "Unicode_File")) >= 0 And CByte(GetIniStr("maincenter", "Unicode_File")) < 3 Then
-        Combo_unicode_ctrl(0).ListIndex = CByte(GetIniStr("maincenter", "Unicode_File"))
+            Combo_unicode_ctrl(0).ListIndex = CByte(GetIniStr("maincenter", "Unicode_File"))
         End If
         '其他Unicode文本字符：
         If CByte(GetIniStr("maincenter", "Unicode_Str")) >= 0 And CByte(GetIniStr("maincenter", "Unicode_Str")) < 3 Then
-        Combo_unicode_ctrl(1).ListIndex = CByte(GetIniStr("maincenter", "Unicode_Str"))
+            Combo_unicode_ctrl(1).ListIndex = CByte(GetIniStr("maincenter", "Unicode_Str"))
         End If
         '下载默认路径
         If GetIniTF("maincenter", "def_path_tf") = True Then
@@ -2776,6 +2843,16 @@ Private Sub laod_ini(ByVal frameID As Byte)
         Case Else
             scriptOP(0).Value = True
         End Select
+        
+        Dim sys_scriptlist_str, split_i
+        scriptList.ListItems.Clear
+        sys_scriptlist_str = Split(OX_Check_include_scriptlist(GetIniStr("maincenter", "include_scriptList"), False), "|")
+        For split_i = 0 To UBound(sys_scriptlist_str)
+            scriptList.ListItems.Add , , Left(sys_scriptlist_str(split_i), Len(sys_scriptlist_str(split_i)) - 2)
+            scriptList.ListItems(scriptList.ListItems.count).Checked = (Right(sys_scriptlist_str(split_i), 1) = "1")
+        Next
+        
+        
     End If
     
     '代理服务器设置------------------------------------
@@ -2826,6 +2903,13 @@ Private Sub laod_ini(ByVal frameID As Byte)
             proxy_txt2(1) = proxy_str(1)
             proxy_txt2(2) = proxy_str(2)
         End If
+        
+        Select Case GetIniStr("proxyset", "web_proxy")
+        Case "0"
+            web_proxy_box.Value = 0
+        Case Else
+            web_proxy_box.Value = 1
+        End Select
     End If
     '常规参数设置------------------------------------
     If frameID = 0 Or frameID = 5 Then
@@ -2950,15 +3034,14 @@ Private Sub sys_yes_Click()
 End Sub
 
 Private Sub update_host_Combo_Click()
-update_host_Text = update_host_Combo.List(update_host_Combo.ListIndex)
-update_host_Text = Mid$(update_host_Text, InStr(update_host_Text, "|") + 1)
+    update_host_Text = update_host_Combo.List(update_host_Combo.ListIndex)
+    update_host_Text = Mid$(update_host_Text, InStr(update_host_Text, "|") + 1)
 End Sub
 
 Private Sub update_host_Combo_KeyUp(KeyCode As Integer, Shift As Integer)
-update_host_Text = update_host_Combo.List(update_host_Combo.ListIndex)
-update_host_Text = Mid$(update_host_Text, InStr(update_host_Text, "|") + 1)
+    update_host_Text = update_host_Combo.List(update_host_Combo.ListIndex)
+    update_host_Text = Mid$(update_host_Text, InStr(update_host_Text, "|") + 1)
 End Sub
-
 
 Private Sub VS_retry_Change()
     If VS_retry.Value > 0 Then
@@ -2973,21 +3056,21 @@ Private Sub VS_timeout_Change()
 End Sub
 
 '-----------------------------------------------------------------------------
-Private Sub scriptList_DragOver(Source As Control, x As Single, y As Single, State As Integer)
+Private Sub scriptList_DragOver(Source As Control, x As Single, Y As Single, State As Integer)
     Dim li As ListItem
-
-    Set li = scriptList.HitTest(x, y)
+    
+    Set li = scriptList.HitTest(x, Y)
     If Not li Is Nothing Then
         li.EnsureVisible
         scriptList.DropHighlight = li
     End If
 End Sub
-Private Sub scriptList_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub scriptList_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If Button = 1 Then
-        Set m_dragItem = scriptList.HitTest(x, y)
+        Set m_dragItem = scriptList.HitTest(x, Y)
     End If
 End Sub
-Private Sub scriptList_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub scriptList_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If Button = 1 Then
         If Not m_dragItem Is Nothing Then
             'scriptList.DragIcon = m_dragItem.CreateDragImage
@@ -2995,29 +3078,34 @@ Private Sub scriptList_MouseMove(Button As Integer, Shift As Integer, x As Singl
         End If
     End If
 End Sub
-Private Sub scriptList_DragDrop(Source As Control, x As Single, y As Single)
+Private Sub scriptList_DragDrop(Source As Control, x As Single, Y As Single)
     Dim li As ListItem
     Dim addli As ListItem
     Dim i As Integer
-
-    Set li = scriptList.HitTest(x, y)
-
+    Dim li_check As Boolean
+    
+    Set li = scriptList.HitTest(x, Y)
+    
     If (Not li Is Nothing) And (Not m_dragItem Is Nothing) Then
-
+        
         If li.Index <> m_dragItem.Index Then
+            li_check = True
+            li_check = scriptList.ListItems(m_dragItem.Index).Checked
             If li.Index > m_dragItem.Index Then
                 scriptList.ListItems.Remove m_dragItem.Index
                 Set addli = scriptList.ListItems.Add(li.Index + 1, m_dragItem.key, m_dragItem.Text)
+                addli.Checked = li_check
             Else
                 scriptList.ListItems.Remove m_dragItem.Index
                 Set addli = scriptList.ListItems.Add(li.Index, m_dragItem.key, m_dragItem.Text)
+                addli.Checked = li_check
             End If
             For i = 1 To m_dragItem.ListSubItems.count
                 addli.SubItems(i) = m_dragItem.ListSubItems(i).Text
             Next i
         End If
     End If
-
+    
     scriptList.DropHighlight = Nothing
     Set m_dragItem = Nothing
     scriptList.Refresh
@@ -3033,3 +3121,8 @@ Private Sub Com3_Click()
     End
 End Sub
 
+Private Sub web_proxy_box_Click()
+    If web_proxy_box.Value <> sysSet.web_proxy And web_proxy_box.Value = 0 Then
+        MsgBox "关闭该功能后，可能需要重新启动程序才能有效", vbOKOnly, "提示"
+    End If
+End Sub

@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "shdocvw.dll"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
+Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "ieframe.dll"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.OCX"
 Begin VB.Form Form1 
    AutoRedraw      =   -1  'True
@@ -118,7 +118,7 @@ Begin VB.Form Form1
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
             Bevel           =   0
-            Object.Width           =   20064
+            Object.Width           =   19985
             MinWidth        =   353
             Text            =   "信息栏，点击查看"
             TextSave        =   "信息栏，点击查看"
@@ -129,8 +129,10 @@ Begin VB.Form Form1
             Alignment       =   1
             AutoSize        =   2
             Bevel           =   0
-            Object.Width           =   873
+            Object.Width           =   953
             MinWidth        =   882
+            Text            =   "设置"
+            TextSave        =   "设置"
             Object.Tag             =   "mode"
             Object.ToolTipText     =   "OX163设定模式"
          EndProperty
@@ -209,6 +211,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":5826
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":5B30
+         Stretch         =   -1  'True
          ToolTipText     =   "Next(PageDown)"
          Top             =   0
          Width           =   300
@@ -219,6 +222,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":5F82
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":628C
+         Stretch         =   -1  'True
          ToolTipText     =   "Previous(PageUp)"
          Top             =   0
          Width           =   300
@@ -436,6 +440,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":6EF5
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":71FF
+         Stretch         =   -1  'True
          ToolTipText     =   "Find Keyword"
          Top             =   240
          Width           =   375
@@ -446,6 +451,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":775B
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":7A65
+         Stretch         =   -1  'True
          ToolTipText     =   "Save Checked Files"
          Top             =   240
          Visible         =   0   'False
@@ -457,6 +463,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":7F7A
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":8284
+         Stretch         =   -1  'True
          ToolTipText     =   "Outup Download List"
          Top             =   240
          Visible         =   0   'False
@@ -468,6 +475,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":879A
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":8AA4
+         Stretch         =   -1  'True
          ToolTipText     =   "Back"
          Top             =   240
          Visible         =   0   'False
@@ -486,6 +494,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":8FF7
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":9301
+         Stretch         =   -1  'True
          ToolTipText     =   "Range Checked Albums on Top"
          Top             =   240
          Width           =   375
@@ -566,6 +575,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":B085
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":B38F
+         Stretch         =   -1  'True
          ToolTipText     =   "Stop"
          Top             =   240
          Width           =   375
@@ -636,6 +646,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":C47C
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":C786
+         Stretch         =   -1  'True
          ToolTipText     =   "Find Keyword"
          Top             =   240
          Visible         =   0   'False
@@ -648,6 +659,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":CCE2
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":CFEC
+         Stretch         =   -1  'True
          ToolTipText     =   "Input Passwrd"
          Top             =   285
          Width           =   285
@@ -658,6 +670,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":D4A0
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":D7AA
+         Stretch         =   -1  'True
          ToolTipText     =   "View Web"
          Top             =   240
          Width           =   375
@@ -670,6 +683,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":DD12
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":E01C
+         Stretch         =   -1  'True
          ToolTipText     =   "Open Note"
          Top             =   320
          Width           =   225
@@ -722,6 +736,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":F19F
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":F4A9
+         Stretch         =   -1  'True
          ToolTipText     =   "Outup Download List"
          Top             =   240
          Width           =   375
@@ -732,6 +747,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":F9BF
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":FCC9
+         Stretch         =   -1  'True
          ToolTipText     =   "Save Checked Files"
          Top             =   240
          Width           =   375
@@ -742,6 +758,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":101DE
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":104E8
+         Stretch         =   -1  'True
          ToolTipText     =   "Back"
          Top             =   240
          Width           =   375
@@ -794,6 +811,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":10A3B
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":10D45
+         Stretch         =   -1  'True
          ToolTipText     =   "Go & List"
          Top             =   260
          Width           =   375
@@ -804,6 +822,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":11214
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":1151E
+         Stretch         =   -1  'True
          ToolTipText     =   "Search Albums"
          Top             =   240
          Width           =   375
@@ -882,6 +901,34 @@ Begin VB.Form Form1
       Top             =   960
       Visible         =   0   'False
       Width           =   11415
+      Begin MSComctlLib.Toolbar Toolbar1 
+         Height          =   330
+         Left            =   0
+         TabIndex        =   31
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   11295
+         _ExtentX        =   19923
+         _ExtentY        =   582
+         ButtonWidth     =   609
+         ButtonHeight    =   582
+         AllowCustomize  =   0   'False
+         Wrappable       =   0   'False
+         Appearance      =   1
+         Style           =   1
+         _Version        =   393216
+         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
+            NumButtons      =   4
+            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+            EndProperty
+            BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+            EndProperty
+            BeginProperty Button3 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+            EndProperty
+            BeginProperty Button4 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+            EndProperty
+         EndProperty
+      End
       Begin SHDocVwCtl.WebBrowser Web_Browser 
          Height          =   4575
          Left            =   0
@@ -914,6 +961,7 @@ Begin VB.Form Form1
       Index           =   2
       Left            =   7200
       Picture         =   "OX163_mainfrm.frx":12612
+      Stretch         =   -1  'True
       Top             =   7680
       Visible         =   0   'False
       Width           =   225
@@ -932,6 +980,7 @@ Begin VB.Form Form1
       Index           =   0
       Left            =   7200
       Picture         =   "OX163_mainfrm.frx":126B3
+      Stretch         =   -1  'True
       Top             =   7440
       Visible         =   0   'False
       Width           =   225
@@ -943,6 +992,7 @@ Begin VB.Form Form1
       MouseIcon       =   "OX163_mainfrm.frx":12701
       MousePointer    =   99  'Custom
       Picture         =   "OX163_mainfrm.frx":12A0B
+      Stretch         =   -1  'True
       ToolTipText     =   "Outup Download List"
       Top             =   7440
       Visible         =   0   'False
@@ -955,6 +1005,7 @@ Begin VB.Form Form1
       MouseIcon       =   "OX163_mainfrm.frx":12ECE
       MousePointer    =   99  'Custom
       Picture         =   "OX163_mainfrm.frx":131D8
+      Stretch         =   -1  'True
       ToolTipText     =   "Outup Download List"
       Top             =   7440
       Visible         =   0   'False
@@ -967,6 +1018,7 @@ Begin VB.Form Form1
       MouseIcon       =   "OX163_mainfrm.frx":136EE
       MousePointer    =   99  'Custom
       Picture         =   "OX163_mainfrm.frx":139F8
+      Stretch         =   -1  'True
       ToolTipText     =   "Outup Download List"
       Top             =   7440
       Visible         =   0   'False
@@ -1003,6 +1055,7 @@ Begin VB.Form Form1
       Index           =   1
       Left            =   4080
       Picture         =   "OX163_mainfrm.frx":157A3
+      Stretch         =   -1  'True
       Top             =   7320
       Visible         =   0   'False
       Width           =   1080
@@ -1012,6 +1065,7 @@ Begin VB.Form Form1
       Index           =   0
       Left            =   2880
       Picture         =   "OX163_mainfrm.frx":1980D
+      Stretch         =   -1  'True
       Top             =   7320
       Visible         =   0   'False
       Width           =   1080
@@ -1308,7 +1362,6 @@ Dim auto_shutdown_tf As Boolean
 Dim runtime_Label As String
 Dim htmlCharsetType As String
 Dim url_Referer As String
-'Dim url_Cookies As String
 Dim urlpage_Referer As String
 Public pass_code As String
 Dim pw_163 As String
@@ -1322,6 +1375,7 @@ Dim url_text_keyupdown As Boolean
 Dim Web_Browser_header_tf As Boolean
 Dim Content_Range As String
 Dim new_win As Boolean
+Public OX_Script_Type As String
 'Dim download_speed As Integer
 
 Private Function ScriptDownload(ByVal mode As DownloadMode) As Boolean
@@ -1459,19 +1513,7 @@ Private Sub check_header_StateChanged(ByVal State As Integer)
 End Sub
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-Private Sub count1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub count1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 12 Then
         Label_name1 = " 列表统计: "
         Label_text1 = "列表中共有 " & count1.caption & " 条记录"
@@ -1481,7 +1523,7 @@ Private Sub count1_MouseMove(Button As Integer, Shift As Integer, x As Single, y
 End Sub
 
 
-Private Sub count2_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub count2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 12 Then
         Label_name1 = " 列表统计: "
         Label_text1 = "列表中共有 " & count2.caption & " 条记录"
@@ -1643,12 +1685,23 @@ Private Function bin2str(ByVal binstr)
     Dim BytesStream, StringReturn
     Set BytesStream = CreateObject("ADODB.Stream") '建立一个流对象
     With BytesStream
-        .Type = adTypeText
+        
+        '不规范
+        '.Type = adTypeText
+        '.Open
+        '.WriteText binstr
+        '.Position = 0
+        '.Charset = htmlCharsetType
+        '.Position = 2
+        'StringReturn = .ReadText
+        '.Close
+        
+        .Type = adTypeBinary
         .Open
-        .WriteText binstr
+        .Write binstr
         .Position = 0
+        .Type = adTypeText
         .Charset = htmlCharsetType
-        .Position = 2
         StringReturn = .ReadText
         .Close
     End With
@@ -1723,7 +1776,7 @@ Private Sub find_next_Click()
     End If
 End Sub
 
-Private Sub find_next_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub find_next_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 23 Then
         Label_name1 = " 查找内容: "
         Label_text1 = "查找下一个匹配字符（PageDown）"
@@ -1788,7 +1841,7 @@ Private Sub find_unselect_Click()
     End If
 End Sub
 
-Private Sub find_prev_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub find_prev_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 24 Then
         Label_name1 = " 查找内容: "
         Label_text1 = "查找上一个匹配字符（PageUp）"
@@ -1815,7 +1868,7 @@ Private Sub find_text_KeyDown(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub find_text_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub find_text_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 25 Then
         Label_name1 = " 查找内容: "
         Label_text1 = "填写需要查找的文本"
@@ -1900,12 +1953,12 @@ Private Sub Form_Load()
     Height = 1470 + show_StatusBar
     form_quit = True
     Web_Browser_header_tf = True
-    form_height = 1470 + show_StatusBar
+    form_height = 1500 + show_StatusBar
     htmlCharsetType = "GB2312"
     url_Referer = ""
-    'url_Cookies = ""
     urlpage_Referer = ""
     pass_code = ""
+    OX_Script_Type = ""
     List1.ListItems.Clear
     user_list.ListItems.Clear
     Frame2.Top = Frame1.Top
@@ -1913,12 +1966,7 @@ Private Sub Form_Load()
     Content_Range = ""
     Call load_in_Script_Code
     
-    'Inet1.AccessType = icDirect
-    'check_header.AccessType = icDirect
-    'fast_down.AccessType = icNamedProxy
-    'fast_down.Proxy = "127.0.0.1:8000"
     Proxy_set
-    
     'url_input.Text = "http://"
     url_input_SelectAll
     
@@ -1933,14 +1981,14 @@ End Sub
 
 
 Public Sub always_on_top(on_top As Boolean)
-    Dim Flags As Integer
-    Flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
+    Dim flags As Integer
+    flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
     If on_top = True Then
-        SetWindowPos Form1.hWnd, HWND_TOPMOST, 0, 0, 0, 0, Flags
+        SetWindowPos Form1.hWnd, HWND_TOPMOST, 0, 0, 0, 0, flags
         top_Picture(1).Visible = True
         top_Picture(0).Visible = False
     Else
-        SetWindowPos Form1.hWnd, -2, 0, 0, 0, 0, Flags
+        SetWindowPos Form1.hWnd, -2, 0, 0, 0, 0, flags
         top_Picture(0).Visible = True
         top_Picture(1).Visible = False
     End If
@@ -1949,7 +1997,7 @@ End Sub
 
 
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 0 Then
         Label_text.Visible = False
         Label_name.Visible = False
@@ -1959,7 +2007,7 @@ End Sub
 
 
 
-Private Sub Form_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Form_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
     If down_count = 0 Then
         OLEDragDrop Data
     ElseIf download_ok = True And form_quit = True Then
@@ -1976,7 +2024,7 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
     sysTray False
 End Sub
 
-Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
     On Error Resume Next
     
     If now_tray = False Then Exit Sub
@@ -2039,7 +2087,6 @@ Private Sub Form_Resize()
     On Error Resume Next
     Static max_size As Boolean
     
-    
     If Form1.WindowState = 1 Then
         
         If sysSet.sysTray = True And Not (down_count = 0 And (Web_Browser.Visible = True Or Web_Search.Visible = True)) Then sysTray True
@@ -2077,7 +2124,7 @@ Private Sub Frame1_Click()
     url_Filelist.Visible = False
 End Sub
 
-Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 0 Then
         Label_text.Visible = False
         Label_name.Visible = False
@@ -2085,7 +2132,7 @@ Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, x As Single, y
     End If
 End Sub
 
-Private Sub Frame1_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Frame1_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
     If down_count = 0 Then
         OLEDragDrop Data
     ElseIf download_ok = True And form_quit = True Then
@@ -2097,7 +2144,7 @@ Private Sub Frame1_OLEDragDrop(Data As DataObject, Effect As Long, Button As Int
     End If
 End Sub
 
-Private Sub Frame2_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Frame2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 15 Then
         Label_text1.Visible = False
         Label_name1.Visible = False
@@ -2105,7 +2152,7 @@ Private Sub Frame2_MouseMove(Button As Integer, Shift As Integer, x As Single, y
     End If
 End Sub
 
-Private Sub Frame2_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Frame2_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
     If down_count = 0 Then
         OLEDragDrop Data
     ElseIf download_ok = True And form_quit = True Then
@@ -2128,7 +2175,7 @@ Private Sub homepage_Click()
     ShellExecute 0&, vbNullString, StrConv(homepage_str, vbUnicode), vbNullString, vbNullString, vbNormalFocus
 End Sub
 
-Private Sub homepage_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub homepage_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 22 Then
         Label_name = " 软件主页: "
         Label_text = "前往更新页"
@@ -2142,10 +2189,8 @@ End Sub
 Private Sub image_save_Click()
     On Error Resume Next
     
-    
     rename_rules_val = 0
     PopupMenu rename_rules
-    
     
     Folder_path = ""
     If sysSet.def_path_tf = True And sysSet.def_path <> "" Then
@@ -2165,7 +2210,7 @@ start:
         Open_path = text_sortname
         Open_path_set = text_sortname
         
-        save_list_image text_sortname
+        Call save_list_image(Open_path)
         
     ElseIf sysSet.savedef = False Then
         Folder_path = App_path & "\download": GoTo start
@@ -2182,7 +2227,7 @@ start:
     
 End Sub
 
-Private Sub image_save_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub image_save_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 7 Then
         Label_name = " 保存图片: "
         Label_text = "保存列表中被勾选的文件"
@@ -2204,7 +2249,7 @@ Private Sub list1_find_Click()
     user_list_find_Click
 End Sub
 
-Private Sub list1_find_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub list1_find_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 21 Then
         Label_name1 = " 查找内容: "
         Label_text1 = "查找列表中的文本内容（Ctrl+F）"
@@ -2321,7 +2366,7 @@ List1_ubb_copy:
     List1.SetFocus
 End Sub
 
-Private Sub List1_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub List1_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
     On Error Resume Next
     If Button = 2 And List1.ListItems.count > 0 Then
         PopupMenu menu_pic
@@ -2335,14 +2380,14 @@ Private Sub open_lock_Click()
     
     url_input.Text = Trim(url_input.Text)
     
-    If Trim(url_input.Text) = "" And Trim(url_temp) = "" Then
-        Exit Sub
-    ElseIf Trim(url_input.Text) = "" And Trim(url_temp) <> "" Then
+    If Trim(url_input.Text) = "" And Trim(url_temp) <> "" Then
         url_input.Text = Trim(url_temp)
     End If
     
     '为用户名，填写用户名密码
-    If is_username(url_input.Text) = True Then GoTo user_password
+    If is_username(url_input.Text) = True Then
+        GoTo user_password
+    End If
     
     
     'http://photo.163.com/photos/wehi/17653496/  判断是否为163单一相册----------------------
@@ -2356,7 +2401,7 @@ Private Sub open_lock_Click()
         If InStr(url_input.Text, "/") > 1 Then url_input.Text = Mid$(url_input.Text, 1, InStr(url_input.Text, "/") - 1)
         GoTo user_password
     End If
-    
+    If is_username(Trim(InputBox("请输入163通行证帐号", "提醒"))) Then GoTo user_password
     Exit Sub
     
 user_password:
@@ -2368,7 +2413,6 @@ user_password:
     password_win.Show
     
     Do While Form1.Enabled = False
-        DoEvents
         Sleep 10
         DoEvents
     Loop
@@ -2386,7 +2430,6 @@ user_password:
     start_fast
     Do While download_ok = False
         If form_quit = True Then url_input.Enabled = True: Exit Sub
-        DoEvents
         Sleep 10
         DoEvents
     Loop
@@ -2402,24 +2445,13 @@ user_password:
         form_quit = False
         fast_down.Cancel
         download_ok = False
-        'strURL = "http://photo.163.com/photo/" & Html_Temp & "/dwr/call/plaincall/IndexBean.logout.dwr?u=" & Html_Temp
-        'start_fast_method = ""
         
         strURL = "http://photo.163.com/photo/" & Html_Temp & "/dwr/call/plaincall/IndexBean.logout.dwr?u=" & Html_Temp
         start_Post "", "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)" & vbCrLf & _
-        "Accept: */*" & vbCrLf & _
-        "Accept-Language: zh-cn" & vbCrLf & _
-        "Referer: http://photo.163.com/" & vbCrLf & _
-        "Content-Type: text/plain" & vbCrLf & _
-        "UA-CPU: x86" & vbCrLf & _
-        "Accept-Encoding: gzip, deflate" & vbCrLf & _
-        "Host: photo.163.com" & vbCrLf & _
-        "Connection: Keep-Alive" & vbCrLf & _
-        "Cache-Control: no-cache"
+        "Referer: http://photo.163.com/"
         
         Do While download_ok = False
             If form_quit = True Then url_input.Enabled = True: Exit Sub
-            DoEvents
             Sleep 10
             DoEvents
         Loop
@@ -2431,10 +2463,9 @@ user_password:
     
     fast_down.Cancel
     download_ok = False
-    start_User url_temp, pass
+    start_User format_username(url_temp, 1), pass
     Do While download_ok = False
         If form_quit = True Then url_input.Enabled = True: Exit Sub
-        DoEvents
         Sleep 10
         DoEvents
     Loop
@@ -2444,7 +2475,7 @@ user_password:
     
 End Sub
 
-Private Sub open_lock_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub open_lock_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 20 Then
         Label_name = " 填写密码: "
         Label_text = "填写用户名密码，或者填写相册密码"
@@ -2492,7 +2523,7 @@ Private Sub process_h_Click()
 End Sub
 '-------------------------------------------------------------------------------------------------------------------
 
-Private Sub Proxy_img_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Proxy_img_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 26 Then
         Label_name = " 代理设置: "
         Label_text = "代理设置已经启用"
@@ -2520,19 +2551,19 @@ End Sub
 
 Private Sub search_local_Click()
     On Error Resume Next
-    Shell Replace$(App_path & "\search163.exe", "\\", "\"), vbNormalFocus
+    Shell App_path & "\search163.exe", vbNormalFocus
 End Sub
 
 Private Sub search163_Click()
     On Error Resume Next
-    If Dir(Replace$(App_path & "\search163.exe", "\\", "\")) = "" Then
+    If Dir(App_path & "\search163.exe") = "" Then
         search_internt_Click
     Else
         PopupMenu searchMenu
     End If
 End Sub
 
-Private Sub search163_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub search163_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 18 Then
         Label_name = " 搜索相册: "
         Label_text = "OX163支持163相册和博客相册的搜索"
@@ -2580,7 +2611,7 @@ Private Sub top_Picture_Click(Index As Integer)
     always_on_top sysSet.always_top
 End Sub
 
-Private Sub top_Picture_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub top_Picture_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 18 Then
         Label_name = " 窗体置前: "
         Label_text = "总是在最前面/Always on top"
@@ -2593,7 +2624,7 @@ Private Sub text_show_Click()
     On Error Resume Next
 End Sub
 
-Private Sub text_show_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub text_show_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 17 Then
         Label_name = " 简易笔记: "
         Label_text = "打开或关闭简易笔记"
@@ -2613,7 +2644,7 @@ Private Sub list_back1_Click()
     If sysSet.bottom_StatusBar = True Then Refresh_Panel
 End Sub
 
-Private Sub list_back1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub list_back1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 16 Then
         Label_name1 = " 返回首页: "
         Label_text1 = "返回初始界面"
@@ -2676,7 +2707,7 @@ retry_next:
     user_list.Enabled = True
 End Sub
 
-Private Sub list_check_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub list_check_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 16 Then
         Label_name1 = " 排列标记: "
         Label_text1 = "将已标记选择的相册排列在最上方"
@@ -2701,10 +2732,6 @@ Private Sub menu_pic_all_Click()
         List1.ListItems(i).Checked = True
     Next
     List1.Enabled = True
-End Sub
-
-Private Sub menu_cpsw_Click()
-    If MsgBox("是否清空所有的相册密码？" & Chr(13) & "该操作不可逆！", vbYesNo + vbExclamation + vbDefaultButton2, "警告") = vbYes Then edit_psw 4, "请填写密码............" & vbCrLf & ".........."
 End Sub
 
 Private Sub menu_delall_Click()
@@ -2734,21 +2761,6 @@ Private Sub menu_pic_delall_Click()
         count2.caption = List1.ListItems.count
         List1.Enabled = True
     End If
-End Sub
-
-Private Sub menu_psw_Click()
-    Form1.Enabled = False
-    password_win.isDown = 0
-    If user_list.SelectedItem.ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then password_win.Text1.Text = user_list.SelectedItem.ListSubItems(1).Text
-    password_win.Show
-End Sub
-
-Private Sub menu_pswc_Click()
-    If user_list.SelectedItem.ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then psw_v = user_list.SelectedItem.ListSubItems(1).Text
-End Sub
-
-Private Sub menu_pswv_Click()
-    edit_psw 2, psw_v
 End Sub
 
 Private Sub menu_qsel_Click()
@@ -2805,9 +2817,89 @@ Private Sub menu_pic_sel_Click()
     List1.Enabled = True
 End Sub
 
+'-----------------------------------------------------------------------------------
+'密码填写---------------------------------------------------------------------------
+'-----------------------------------------------------------------------------------
+Private Sub menu_cpsw_Click()
+    If MsgBox("是否清空所有的相册密码？" & Chr(13) & "该操作不可逆！", vbYesNo + vbExclamation + vbDefaultButton2, "警告") = vbYes Then edit_psw 4, "请填写密码............" & vbCrLf & ".........."
+End Sub
+
 Private Sub menu_spsw_Click()
     If MsgBox("是否清空你所选择的相册密码？" & Chr(13) & "该操作不可逆！", vbYesNo + vbExclamation + vbDefaultButton2, "警告") = vbYes Then edit_psw 2, "请填写密码............" & vbCrLf & ".........."
 End Sub
+
+Private Sub menu_psw_Click()
+    Form1.Enabled = False
+    password_win.isDown = 0
+    If user_list.SelectedItem.ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then password_win.Text1.Text = user_list.SelectedItem.ListSubItems(1).Text
+    password_win.password_win_title.caption = "相册 """ & Replace(user_list.SelectedItem.Text, "&", "&&") & """ 的" & password_win.password_win_title.caption
+    password_win.Show
+End Sub
+
+Private Sub menu_pswv_Click()
+    edit_psw 2, psw_v
+End Sub
+
+Private Sub menu_pswc_Click()
+    If user_list.SelectedItem.ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then psw_v = user_list.SelectedItem.ListSubItems(1).Text
+End Sub
+
+Public Sub edit_psw(ByVal meth As Byte, ByVal psw_edit As String)
+    Form1.Enabled = False
+    Select Case meth
+        '0输给 当前相册
+        '1输给 选择中未输入密码的
+        '2替换 所有被选择的
+        '3输给 所有未输入密码的
+        '4替换 全部密码
+    Case 0
+        If user_list.SelectedItem.ListSubItems(1).Text <> "" Then
+            user_list.SelectedItem.ListSubItems(1).Text = psw_edit
+            If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.SelectedItem.ListSubItems(2).Text), psw_edit, pw_163
+        End If
+        
+    Case 1
+        For i = 1 To user_list.ListItems.count
+            DoEvents
+            If user_list.ListItems(i).ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." And user_list.ListItems(i).Selected = True Then
+                user_list.ListItems(i).ListSubItems(1).Text = psw_edit
+                If pw_163 <> "" And user_list.ListItems(i).ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
+            End If
+        Next i
+        
+    Case 2
+        For i = 1 To user_list.ListItems.count
+            DoEvents
+            If user_list.ListItems(i).Selected = True And user_list.ListItems(i).ListSubItems(1).Text <> "" Then
+                user_list.ListItems(i).ListSubItems(1).Text = psw_edit
+                If pw_163 <> "" And user_list.ListItems(i).ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
+            End If
+        Next i
+        
+    Case 3
+        For i = 1 To user_list.ListItems.count
+            DoEvents
+            If user_list.ListItems(i).ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." Then
+                user_list.ListItems(i).ListSubItems(1).Text = psw_edit
+                If pw_163 <> "" And user_list.ListItems(i).ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
+            End If
+        Next i
+        
+    Case 4
+        For i = 1 To user_list.ListItems.count
+            DoEvents
+            If user_list.ListItems(i).ListSubItems(1).Text <> "" Then
+                user_list.ListItems(i).ListSubItems(1).Text = psw_edit
+                If pw_163 <> "" And user_list.ListItems(i).ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
+            End If
+        Next i
+        
+    End Select
+    Form1.Enabled = True
+End Sub
+
+'-----------------------------------------------------------------------------------
+'-----------------------------------------------------------------------------------
 
 Private Sub menu_unall_Click()
     user_list.Enabled = False
@@ -2854,7 +2946,7 @@ Private Sub open_set_Click()
     PopupMenu setMenu
 End Sub
 
-Private Sub open_set_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub open_set_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 13 Then
         Label_name = " 程序菜单: "
         Label_text = "程序设置-脚本更新-自动关机-路径查看"
@@ -2993,7 +3085,7 @@ Private Sub list_back_Click()
 End Sub
 
 
-Private Sub list_back_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub list_back_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 5 Then
         Label_name = " 返回首页: "
         Label_text = "返回初始界面"
@@ -3003,7 +3095,7 @@ Private Sub list_back_MouseMove(Button As Integer, Shift As Integer, x As Single
 End Sub
 
 
-Private Sub list_count_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub list_count_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 12 Then
         Label_name = " 列表统计: "
         Label_text = "列表中共有 " & list_count.caption & " 条记录"
@@ -3023,7 +3115,6 @@ Private Sub input_lst_sub(ByVal LstFileName)
     Dim url_i, name_i As String
     
     url_Referer = ""
-    'url_Cookies = ""
     urlpage_Referer = ""
     
     count1.caption = 0
@@ -3099,7 +3190,7 @@ Private Sub input_lst_sub(ByVal LstFileName)
         Set BytesStream = CreateObject("ADODB.Stream") '建立一个流对象
         With BytesStream
             .Type = 2
-            .mode = 3
+            .mode = 3 '1－读，2－写，3－读写
             .Charset = "UTF-8"
             .Open
             .LoadFromFile LstFileName
@@ -3134,12 +3225,7 @@ Private Sub input_lst_sub(ByVal LstFileName)
             
             url_Referer = Mid$(split_url(0), InStr(split_url(0), """,""") + 3)
             url_Referer = Mid$(url_Referer, InStr(url_Referer, """,""") + 3)
-            bat_txt = url_Referer
             url_Referer = Trim(Mid$(url_Referer, 1, InStr(url_Referer, """") - 1))
-            bat_txt = Mid$(url_Cookies, InStr(url_Cookies, """,""") + 3)
-            bat_txt = Trim(Mid$(url_Cookies, 1, InStr(url_Cookies, """") - 1))
-            
-            If bat_txt <> "" Then url_Referer = url_Referer & vbCrLf & "Cookie: " & bat_txt
             bat_txt = ""
             
             For i = 0 To UBound(split_url)
@@ -3353,7 +3439,7 @@ ErrHandler:
     Else: def_txtpath = ""
         def_txtpath = Mid(txtpath, 1, InStrRev(txtpath, "\"))
         txtpath = Mid(txtpath, InStrRev(txtpath, "\") + 1)
-        txtpath = Replace(GetShortName(def_txtpath) & "\" & fix_Unicode_FileName(Hex_unicode_str(txtpath)), "\\", "\")
+        txtpath = GetShortName(def_txtpath) & "\" & fix_Unicode_FileName(Hex_unicode_str(txtpath))
         
         
         If OX_Dirfile(txtpath) Then
@@ -3369,7 +3455,7 @@ ErrHandler:
     
 End Sub
 
-Private Sub list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 6 Then
         Label_name = " 导出列表: "
         If sysSet.list_type = 1 Then
@@ -3388,7 +3474,7 @@ Private Sub list_stop_Click()
     form_quit = True
 End Sub
 
-Private Sub list_stop_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub list_stop_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 4 Then
         Label_name = " 全部停止: "
         Label_text = "结束当前下载列表活动"
@@ -3415,7 +3501,7 @@ Private Sub List1_KeyUp(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub List1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub List1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 10 Then
         Label_name = " 列表清单: "
         Label_text = "在当前列表删除或选择需要的文件"
@@ -3426,6 +3512,7 @@ End Sub
 
 Private Sub makelist_command_Click()
     On Error Resume Next
+    
     Web_Browser.Stop
     
     If Proxy_img(0).Visible = True And proxy_warning = vbOK Then
@@ -3436,11 +3523,10 @@ Private Sub makelist_command_Click()
         proxy_warning = MsgBox("当前 图片下载" & vbCrLf & "正在使用OX163的代理设置B" & vbCrLf & "[OK]确认" & vbCrLf & "[Cancel]取消,不再显示该提示", vbOKCancel + vbExclamation, "警告")
     End If
     
+    '初始化----------------------------------------
     url_input.Text = Replace(Replace(url_input.Text, Chr(10), ""), Chr(13), "")
     url_input.Text = Trim(url_input.Text)
-    
     url_Referer = ""
-    'url_Cookies = ""
     urlpage_Referer = ""
     
     count1.caption = 0
@@ -3454,6 +3540,7 @@ Private Sub makelist_command_Click()
     ElseIf Trim(url_input.Text) = "" And Trim(url_temp) <> "" Then
         url_input.Text = Trim(url_temp)
     End If
+    '----------------------------------------------
     
     If sysSet.include_script = "first" Then
         url_temp = check_Include(url_input.Text)
@@ -3491,6 +3578,9 @@ Private Sub makelist_command_Click()
         view_command_Click
         Exit Sub
     End If
+    
+    
+    
     '---------------------------------------------------------------------------------------
     'http://photo.163.com/wehi/list/#m=1&aid=63181790&p=1
     If InStr(LCase(url_input.Text), "&aid=") > 1 Then
@@ -3726,15 +3816,16 @@ Private Function new163pic_GetJs(ByVal input_User_Name As String, ByVal input_Al
         Else
             input_psw = URLEncode(input_psw)
         End If
-        '老版本 strURL = "http://photo.163.com/photo/" & input_User_Name & "/dwr/call/plaincall/AlbumBean.getAlbumData.dwr?callCount=1&batchId=5_w_h_8_Pp_43&scriptSessionId=5_w_h_8_Pp_43&c0-id=0&c0-scriptName=AlbumBean&c0-methodName=getAlbumData&c0-param0=string:" & input_Album_ID & "&c0-param1=string:" & input_psw & "&c0-param2=string:" & pass_code & "&c0-param3=string:&c0-param4=boolean:false"
+        
+        '老版本无效 strURL = "http://photo.163.com/photo/" & input_User_Name & "/dwr/call/plaincall/AlbumBean.getAlbumData.dwr?callCount=1&batchId=5_w_h_8_Pp_43&scriptSessionId=5_w_h_8_Pp_43&c0-id=0&c0-scriptName=AlbumBean&c0-methodName=getAlbumData&c0-param0=string:" & input_Album_ID & "&c0-param1=string:" & input_psw & "&c0-param2=string:" & pass_code & "&c0-param3=string:&c0-param4=boolean:false"
         'http://photo.163.com/photo/ wehi /dwr/call/plaincall/AlbumBean.getAlbumData.dwr?callCount=1&scriptSessionId=%24%7BscriptSessionId%7D187&c0-scriptName=AlbumBean&c0-methodName=getAlbumData&c0-id=0&c0-param0=number%3A1530930&c0-param1=string%3Aasd&c0-param2=string%3Akkbk&c0-param3=string%3A32350899&c0-param4=boolean%3Afalse&batchId=974914
-        strURL = "http://photo.163.com/photo/" & input_User_Name & "/dwr/call/plaincall/AlbumBean.getAlbumData.dwr?callCount=1&scriptSessionId=%24%7BscriptSessionId%7D187&c0-scriptName=AlbumBean&c0-methodName=getAlbumData&c0-id=0&c0-param0=number%3A" & input_Album_ID & "&c0-param1=string%3A" & input_psw & "&c0-param2=string%3Afromblog&c0-param3=string%3A32350899&c0-param4=boolean%3Afalse&batchId=" & Int(Time() * 1000000)
+        strURL = "http://photo.163.com/photo/" & input_User_Name & "/dwr/call/plaincall/AlbumBean.getAlbumData.dwr?callCount=1&scriptSessionId=%24%7BscriptSessionId%7D187&c0-scriptName=AlbumBean&c0-methodName=getAlbumData&c0-id=0&c0-param0=number%3A" & input_Album_ID & "&c0-param1=string%3A" & input_psw & "&c0-param2=string%3Afromblog&c0-param3=string%3A" & Int(Timer() * 1000000) & "&c0-param4=boolean%3Afalse&batchId=" & Int(Timer() * 1000000)
         
         'strURL = "http://photo.163.com/photo/dwrcross/" & input_User_Name & "/u/" & input_User_Name & "/dwr/call/plaincall/AlbumBean.getAlbumData.dwr?callCount=1&scriptSessionId=%24%7BscriptSessionId%7D822&c0-scriptName=AlbumBean&c0-methodName=getAlbumData&c0-id=0&c0-param0=number%3A" & input_Album_ID & "&c0-param1=string%3A" & input_psw & "&c0-param2=string%3Afromblog&c0-param3=number%3A&c0-param4=boolean%3Afalse&batchId=4&ntime=" & CDbl(Now())
     Else
         
         'strURL = "http://photo.163.com/photo/" & input_User_Name & "/dwr/call/plaincall/AlbumBean.getAlbumData.dwr?callCount=1&batchId=5_w_h_8_Pp_43&scriptSessionId=5_w_h_8_Pp_43&c0-id=0&c0-scriptName=AlbumBean&c0-methodName=getAlbumData&c0-param0=string:" & input_Album_ID & "&c0-param1=string:&c0-param2=string:&c0-param3=string:&c0-param4=boolean:false"
-        strURL = "http://photo.163.com/photo/" & input_User_Name & "/dwr/call/plaincall/AlbumBean.getAlbumData.dwr?callCount=1&scriptSessionId=%24%7BscriptSessionId%7D187&c0-scriptName=AlbumBean&c0-methodName=getAlbumData&c0-id=0&c0-param0=number%3A" & input_Album_ID & "&c0-param1=string%3A&c0-param2=string%3Afromblog&c0-param3=string%3A32350899&c0-param4=boolean%3Afalse&batchId=" & Int(Time() * 1000000)
+        strURL = "http://photo.163.com/photo/" & input_User_Name & "/dwr/call/plaincall/AlbumBean.getAlbumData.dwr?callCount=1&scriptSessionId=%24%7BscriptSessionId%7D187&c0-scriptName=AlbumBean&c0-methodName=getAlbumData&c0-id=0&c0-param0=number%3A" & input_Album_ID & "&c0-param1=string%3A&c0-param2=string%3Afromblog&c0-param3=string%3A" & Int(Timer() * 1000000) & "&c0-param4=boolean%3Afalse&batchId=" & Int(Timer() * 1000000)
         
     End If
     
@@ -3760,6 +3851,7 @@ Private Function new163pic_GetJs(ByVal input_User_Name As String, ByVal input_Al
         '//#DWR-INSERT
         '//#DWR-REPLY
         'dwr.engine._remoteHandleCallback('4','0',"s5.ph.126.net/18qMoKBCzMmwVobGPj8Zwg==/137922738591899540.js");
+        
         Html_Temp = Mid$(Html_Temp, 1, InStrRev(Html_Temp, ".js""") + 2)
         Debug.Print Html_Temp
         new163pic_GetJs = "http://" & Mid$(Html_Temp, InStrRev(Html_Temp, Chr(34)) + 1)
@@ -3790,7 +3882,6 @@ check_2nd:
         If form_quit = True Then Exit Sub
         DoEvents
         Sleep 10
-        DoEvents
     Loop
     
     runtime_Label = "正在分析" & strURL
@@ -3827,6 +3918,9 @@ check_2nd:
         
         For i = 0 To UBound(new163pic_str_split)
             ourl = ""
+            a = ""
+            b = ""
+            new163_pic_ID = ""
             
             'var g_p$1187457d=[{id:
             '54139872,s:3,ourl:'616/131167339148051849.jpg',ow:2138,oh:3000,
@@ -3836,7 +3930,6 @@ check_2nd:
             'qurl:'616/iNq1Q5QEW0-M_q4Jc2H2Lw==/1785395777275895656.jpg',
             'desc:'yours113-end.jpg ',t:1220710299336,comm:'',comdmt:0,exif:'',kw:''
             '},{id:
-            
             
             'blog
             '{id:2665422496,s:1,
@@ -3853,20 +3946,19 @@ check_2nd:
                 ourl = Mid$(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), ",ourl:'") + 7)
                 ourl = Trim(Mid$(ourl, 1, InStr(ourl, "'") - 1))
             End If
+            new163_pic_ID = Mid$(new163pic_str_split(i), 1, InStr(new163pic_str_split(i), ",") - 1)
             
             
+            '当获取图片地址失败,如果为相册主人,则进入单张列表模式------------------------------------------
             If new163_isAlbumOwner_TF = True And ourl = "" Then
                 runtime_Label = "正在分析原始图片：第" & (i + 1) & "张/共" & (UBound(new163pic_str_split) + 1) & "张，耗时较长"
                 Label_url.caption = runtime_Label
                 Label_url1.caption = runtime_Label
-                
-                new163_pic_ID = Mid$(new163pic_str_split(i), 1, InStr(new163pic_str_split(i), ",") - 1)
-                
                 fast_down.Cancel
                 download_ok = False
                 htmlCharsetType = "GB2312"
                 a = strURL
-                strURL = "http://photo.163.com/photo/" & Frame2.caption & "/dwr/call/plaincall/PhotoBean.getUrl.dwr?u=" & Frame2.caption
+                strURL = "http://photo.163.com/photo/" & OX_Script_Type & "/dwr/call/plaincall/PhotoBean.getUrl.dwr?u=" & OX_Script_Type
                 start_Post new163post_pic_ourl & new163_pic_ID, "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)"
                 
                 Do While download_ok = False
@@ -3885,28 +3977,29 @@ check_2nd:
                 '//#DWR-INSERT
                 '//#DWR-REPLY
                 'dwr.engine._remoteHandleException('5_w_h_8_Pp_43','0',{javaClassName:"java.lang.Throwable",message:"Error"});
-                If InStr(LCase(Html_Temp), LCase("dwr.engine._remoteHandleCallback('5_w_h_8_Pp_43'")) < 1 Or InStr(LCase(Html_Temp), "http://") < 1 Then
+                If InStr(LCase(Html_Temp), LCase("dwr.engine._remoteHandleCallback")) < 1 And InStr(LCase(Html_Temp), "http://") < 1 Then
                     
                     runtime_Label = "您不是相册主人或者没有登陆相册，下载中等尺寸图片"
                     Label_url.caption = runtime_Label
                     Label_url1.caption = runtime_Label
                     new163_isAlbumOwner_TF = False
+                    ourl = ""
+                ElseIf InStr(LCase(Html_Temp), "http://") > 1 Then
+                    ourl = Mid$(Html_Temp, InStr(Html_Temp, "http://"))
+                    ourl = Mid$(ourl, 1, InStr(ourl, Chr(34)) - 1)
                 Else
-                    new163_pic_ID = Mid$(Html_Temp, InStr(Html_Temp, "http://"))
-                    new163_pic_ID = Mid$(new163_pic_ID, 1, InStr(new163_pic_ID, Chr(34)) - 1)
+                    ourl = ""
                 End If
-                
             End If
-            
-            new163pic_str_split(i) = Mid$(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), ",murl:'") + 7)
-            
+            '----------------------------------------------------------------------------------------------
             
             If ourl = "" Then
+                new163pic_str_split(i) = Mid$(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), ",murl:'") + 7)
                 a = Mid$(new163pic_str_split(i), 1, InStr(LCase(new163pic_str_split(i)), "'") - 1)
+                ourl = a
             Else
                 a = ourl
             End If
-            
             
             '第一种
             '616/bq4wr0XiQkbDUgWICDBoTg==/1026539240063803524.jpg
@@ -3917,29 +4010,35 @@ check_2nd:
             b = Mid$(a, 1, InStr(a, "/") - 1)
             a = Mid$(a, InStr(a, "/"))
             
-            If new163_isAlbumOwner_TF = False Or ourl <> "" Then
+            If ourl <> "" Then
                 'M pic url or Ourl
-                If Left(LCase(a), 7) = "/photo/" Then
+                If Left(ourl, 4) = "http" Then
+                    a = ourl
+                ElseIf Left(LCase(a), 7) = "/photo/" Then
                     a = "http://img" & b & ".bimg.126.net" & a
                 Else
                     a = "http://img" & b & ".ph.126.net" & a
                 End If
             Else
-                a = new163_pic_ID
+                a = ""
             End If
             
-            new163pic_str_split(i) = Mid$(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), "',desc:'") + 8)
-            
-            '描述
-            b = reName_Str(Trim(Mid$(new163pic_str_split(i), 1, InStr(new163pic_str_split(i), "'") - 1)))
-            
-            If b = "" Then b = reName_Str(Mid$(a, InStrRev(a, "/") + 1))
-            new163pic_str_split(i) = ""
-            new163pic_str_split(i) = LCase(Mid$(b, InStrRev(b, ".")))
-            
-            
-            If new163pic_str_split(i) <> LCase(Mid$(a, InStrRev(a, "."))) Then
-                b = b & Mid$(a, InStrRev(a, "."))
+            If a <> "" Then
+                new163pic_str_split(i) = Mid$(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), "',desc:'") + 8)
+                
+                '描述
+                new163_pic_ID = "PID:" & new163_pic_ID & ",UID:" & OX_Script_Type
+                
+                b = reName_Str(Trim(Mid$(new163pic_str_split(i), 1, InStr(new163pic_str_split(i), "'") - 1)))
+                If b = "" Then b = reName_Str(Mid$(a, InStrRev(a, "/") + 1))
+                new163pic_str_split(i) = ""
+                new163pic_str_split(i) = LCase(Mid$(b, InStrRev(b, ".")))
+                
+                If new163pic_str_split(i) <> LCase(Mid$(a, InStrRev(a, "."))) Then
+                    b = b & Mid$(a, InStrRev(a, "."))
+                End If
+            Else
+                new163_pic_ID = "Error Link, No Photo!"
             End If
             
             'list_picID
@@ -3947,7 +4046,7 @@ check_2nd:
             'list_picName b
             List1.ListItems.Item(i + 1).ListSubItems.Add , , b
             'list_picDisc
-            List1.ListItems.Item(i + 1).ListSubItems.Add , , ""
+            List1.ListItems.Item(i + 1).ListSubItems.Add , , new163_pic_ID
             'list_picUrl temp(2)
             List1.ListItems.Item(i + 1).ListSubItems.Add , , a
             
@@ -3968,7 +4067,7 @@ check_2nd:
 End Sub
 
 
-Private Sub makelist_command_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub makelist_command_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 2 Then
         Label_name = " 下载链接: "
         Label_text = "确定下载该链接，生成下载列表"
@@ -3987,7 +4086,7 @@ Private Sub open_set1_Click()
     PopupMenu setMenu
 End Sub
 
-Private Sub open_set1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub open_set1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 14 Then
         Label_name1 = " 程序菜单: "
         Label_text1 = "程序设置-脚本更新-自动关机-路径查看"
@@ -4011,7 +4110,6 @@ End Sub
 Private Sub rename_desc_Click()
     rename_rules_val = 2
 End Sub
-
 
 Private Sub out_lst_stand_Click()
     out_lst_type_tf = False
@@ -4043,7 +4141,7 @@ start:
         Open_path = text_sortname
         Open_path_set = text_sortname
         
-        save_all_list text_sortname
+        Call save_all_list(Open_path)
         
     ElseIf sysSet.savedef = False Then
         Folder_path = App_path & "\download": GoTo start
@@ -4056,7 +4154,7 @@ start:
     
 End Sub
 
-Private Sub out_all_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub out_all_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 6 Then
         Label_name1 = " 导出列表: "
         If sysSet.list_type = 1 Then
@@ -4106,7 +4204,7 @@ start:
     End If
 End Sub
 
-Private Sub save_all_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub save_all_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 7 Then
         Label_name1 = " 保存相册: "
         Label_text1 = "保存列表中的全部文件"
@@ -4127,7 +4225,7 @@ Private Sub stop1_Click()
     buttom_enable True
 End Sub
 
-Private Sub stop1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub stop1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 11 Then
         Label_name = " 全部停止: "
         Label_text = "结束当前下载列表活动"
@@ -4140,7 +4238,7 @@ Private Sub stop2_Click()
     form_quit = True
 End Sub
 
-Private Sub stop2_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub stop2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 4 Then
         Label_name1 = " 全部停止:"
         Label_text1 = "结束当前下载列表活动"
@@ -4148,36 +4246,6 @@ Private Sub stop2_MouseMove(Button As Integer, Shift As Integer, x As Single, y 
         mouse_dic = 4
     End If
 End Sub
-
-
-
-'Private Sub Timer2_Timer()
-'Static open_web_count As Byte
-'    Select Case open_web_count
-'    Case 1
-'    Label_url.Caption = runtime_Label & ".."
-'    Label_url1.Caption = runtime_Label & ".."
-'    open_web_count = 2
-'    Case 2
-'    Label_url.Caption = runtime_Label & "..."
-'    Label_url1.Caption = runtime_Label & "..."
-'    open_web_count = 3
-'    Case 3
-'    Label_url.Caption = runtime_Label & "...."
-'    Label_url1.Caption = runtime_Label & "...."
-'    open_web_count = 4
-'    Case 4
-'    Label_url.Caption = runtime_Label & "....."
-'    Label_url1.Caption = runtime_Label & "....."
-'    open_web_count = 0
-'    Case Else
-'    Label_url.Caption = runtime_Label & "."
-'    Label_url1.Caption = runtime_Label & "."
-'    open_web_count = 1
-'    End Select
-'End Sub
-
-
 
 Private Sub Timer3_Timer()
     On Error Resume Next
@@ -4193,7 +4261,6 @@ Private Sub Timer3_Timer()
     Web_Search.Document.Write ""
     Web_Search.Document.Close
     'Web_Search.Navigate "about:blank" '"http://163.ugschina.com/"
-    
     
     
     If sysSet.autocheck = False And Len(Command()) <= 0 Then Exit Sub
@@ -4234,8 +4301,6 @@ Private Sub Timer3_Timer()
         Call view_command_Click
         Exit Sub
     End If
-    
-    
     
     Dim ver As String, temp_str As String
     temp_str = show_inform(0)
@@ -4396,7 +4461,7 @@ Private Sub url_input_LostFocus()
     url_Filelist.Visible = False
 End Sub
 
-Private Sub url_input_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub url_input_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 3 Then
         Label_name = " 填写链接: "
         Label_text = "填写用户名或链接(Ctrl+回车浏览网页,Shift+回车填写密码)"
@@ -4405,7 +4470,7 @@ Private Sub url_input_MouseMove(Button As Integer, Shift As Integer, x As Single
     End If
 End Sub
 
-Private Sub url_input_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub url_input_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
     OLEDragDrop Data
 End Sub
 
@@ -4415,7 +4480,6 @@ Private Sub url_input_SelectAll()
 End Sub
 '---------------------------------------------------------------------------------
 '---------------------------------------------------------------------------------
-
 
 Private Sub user_list_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
     If ColumnHeader.Text = "禁止下载列表" Then Exit Sub
@@ -4493,7 +4557,7 @@ Private Sub albumslist_back_Click()
     
 End Sub
 
-Private Sub albumslist_back_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub albumslist_back_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 5 Then
         Label_name1 = " 返回列表: "
         Label_text1 = "返回相册列表"
@@ -4502,7 +4566,7 @@ Private Sub albumslist_back_MouseMove(Button As Integer, Shift As Integer, x As 
     End If
 End Sub
 
-Private Sub albums_check_pic(ByVal undown_str)
+Private Sub albums_checked_pic(ByVal undown_str)
     undown_str = Split(undown_str, "|")
     For i = 0 To UBound(undown_str)
         DoEvents
@@ -4512,528 +4576,209 @@ Private Sub albums_check_pic(ByVal undown_str)
     Next i
 End Sub
 
-
 Private Sub user_list_DblClick()
     On Error Resume Next
-    Static list_albums_ID As String
+    Dim list_albums_ID As String
     list_albums_ID = ""
     If Trim(user_list.SelectedItem.ListSubItems(2).Text) = "" Then Exit Sub
     
     Form1.Enabled = True
     
-    '163新相册
-re_call_new163:
-    
-    If is_username(Frame2.caption) = True And LCase(user_list.SelectedItem.ListSubItems(2).Text) Like "http://s*.ph*.1*.???/?*.js" Then
-        '------------------------------------------------------------------------------------
-        If list_albums_ID = user_list.SelectedItem.ListSubItems(2).Text And list_albums_ID <> "" Then '是否前一次已经列表过
-            
-            user_list.Visible = False
-            count1.Visible = False
-            List1.Visible = True
-            count2.Visible = True
-            
-            albumslist_back.Visible = True
-            user_list_output.Visible = True
-            user_list_save.Visible = True
-            list_check.Visible = False
-            save_all.Visible = False
-            out_all.Visible = False
-            list_back1.Visible = False
-            Line1.Visible = False
-            
-            
-        Else
-            
-            
-            form_quit = False
-            user_list.Visible = False
-            count1.Visible = False
-            List1.ListItems.Clear
-            
-            albumslist_back.Visible = True
-            user_list_output.Visible = True
-            user_list_save.Visible = True
-            list_check.Visible = False
-            save_all.Visible = False
-            out_all.Visible = False
-            list_back1.Visible = False
-            Line1.Visible = False
-            
-            stop2.Enabled = True
-            user_list_find.Enabled = False
-            Frame_search.Visible = False
-            setProgram.Enabled = False
-            albumslist_back.Enabled = False
-            user_list_output.Enabled = False
-            user_list_save.Enabled = False
-            
-            List1.Visible = True
-            count2.Visible = True
-            List1.Enabled = False
-            runtime_Label = "正在分析链接"
-            Label_url1.caption = runtime_Label
-            Label_url1.Visible = True
-            'Timer2.Enabled = True
-            Form1.Icon = ico(1).Picture
-            If sysSet.listshow = False Then List1.Visible = False
-            
-            count2.caption = 0
-            
-            
-            strURL = user_list.SelectedItem.ListSubItems(2).Text
-            new163pic_listPhotoUrl
-            
-            Label_url1.Visible = False
-            'Timer2.Enabled = False
-            Form1.Icon = ico(0).Picture
-            
-            If now_tray = True Then
-                TrayI.hIcon = ico(0).Picture
-                TrayI.uFlags = NIF_ICON
-                Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
-            End If
-            
-            count2.caption = List1.ListItems.count
-            
-            stop2.Enabled = False
-            user_list_find.Enabled = True
-            setProgram.Enabled = True
-            albumslist_back.Enabled = True
-            user_list_output.Enabled = True
-            user_list_save.Enabled = True
-            
-            form_quit = True
-            List1.Enabled = True
-            Html_Temp = ""
-            If List1.Visible = False Then List1.Visible = True
-            If List1.ListItems.count = 0 Then albumslist_back_Click: Exit Sub
-            
-            If user_list.SelectedItem.ListSubItems(5).Text <> "" Then albums_check_pic user_list.SelectedItem.ListSubItems(5).Text
-            
-            list_albums_ID = user_list.SelectedItem.ListSubItems(2).Text
-            
-            List1.ListItems.Item(1).Selected = False
-            List1.SetFocus
-            
-        End If
-        
-        Exit Sub
-    ElseIf user_list.SelectedItem.ListSubItems(2).Text Like "new163_ID_?*" Then
+    '-------------------------------------------------------------------------
+    '163新相册----------------------------------------------------------------
+    If is_username(OX_Script_Type) = True Then
         If user_list.SelectedItem.ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." Then
-            
             menu_psw_Click
             Exit Sub
             
-        ElseIf user_list.SelectedItem.ListSubItems(1).Text <> "" Then
-            
-            Call new163_check_passcode(False, 0)
-            Exit Sub
-            
         Else
-            list_albums_ID = new163pic_GetJs(Frame2.caption, Replace(user_list.SelectedItem.ListSubItems(2).Text, "new163_ID_", ""), "")
+            If user_list.SelectedItem.ListSubItems(1).Text <> "" Then
+                list_albums_ID = new163pic_GetJs(OX_Script_Type, Replace(user_list.SelectedItem.ListSubItems(2).Text, "new163_ID_", ""), user_list.SelectedItem.ListSubItems(1).Text)
+                If list_albums_ID = "" Then
+                    If MsgBox("密码不正确是否重新填写？", vbYesNo + vbExclamation, "警告") = vbYes Then menu_psw_Click
+                    Exit Sub
+                End If
+            ElseIf user_list.SelectedItem.ListSubItems(2).Text Like "new163_ID_?*" Then
+                'list_albums_ID like http://s2.ph.126.net/aZQ_eDjNsFowIq9SG-bGpg==/195713069957396.js
+                list_albums_ID = new163pic_GetJs(OX_Script_Type, Replace(user_list.SelectedItem.ListSubItems(2).Text, "new163_ID_", ""), "")
+            End If
+            
             If Left(list_albums_ID, 4) = "http" Then
-                user_list.SelectedItem.ListSubItems(2).Text = list_albums_ID
-                list_albums_ID = ""
-                GoTo re_call_new163
+                form_quit = False
+                user_list.Visible = False
+                count1.Visible = False
+                List1.ListItems.Clear
+                
+                albumslist_back.Visible = True
+                user_list_output.Visible = True
+                user_list_save.Visible = True
+                list_check.Visible = False
+                save_all.Visible = False
+                out_all.Visible = False
+                list_back1.Visible = False
+                Line1.Visible = False
+                
+                stop2.Enabled = True
+                user_list_find.Enabled = False
+                Frame_search.Visible = False
+                setProgram.Enabled = False
+                albumslist_back.Enabled = False
+                user_list_output.Enabled = False
+                user_list_save.Enabled = False
+                
+                List1.Visible = True
+                count2.Visible = True
+                List1.Enabled = False
+                runtime_Label = "正在分析链接"
+                Label_url1.caption = runtime_Label
+                Label_url1.Visible = True
+                'Timer2.Enabled = True
+                Form1.Icon = ico(1).Picture
+                If sysSet.listshow = False Then List1.Visible = False
+                
+                count2.caption = 0
+                
+                strURL = list_albums_ID
+                new163pic_listPhotoUrl
+                
+                Label_url1.Visible = False
+                'Timer2.Enabled = False
+                Form1.Icon = ico(0).Picture
+                
+                If now_tray = True Then
+                    TrayI.hIcon = ico(0).Picture
+                    TrayI.uFlags = NIF_ICON
+                    Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
+                End If
+                
+                count2.caption = List1.ListItems.count
+                
+                stop2.Enabled = False
+                user_list_find.Enabled = True
+                setProgram.Enabled = True
+                albumslist_back.Enabled = True
+                user_list_output.Enabled = True
+                user_list_save.Enabled = True
+                
+                form_quit = True
+                List1.Enabled = True
+                Html_Temp = ""
+                If List1.Visible = False Then List1.Visible = True
+                If List1.ListItems.count = 0 Then albumslist_back_Click: Exit Sub
+                
+                If user_list.SelectedItem.ListSubItems(5).Text <> "" Then albums_checked_pic user_list.SelectedItem.ListSubItems(5).Text
+                
+                List1.ListItems.Item(1).Selected = False
+                List1.SetFocus
+                Exit Sub
+                
             End If
             list_albums_ID = ""
         End If
+        Exit Sub
     End If
     '163新相册结束
     '------------------------------------------------------------------------------------
-    If is_username(Frame2.caption) = False And IsNumeric(user_list.SelectedItem.ListSubItems(2).Text) = False Then GoTo include_script
-    
     '------------------------------------------------------------------------------------
+    '外部脚本调用------------------------------------------------------------------------
     
     If user_list.SelectedItem.ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." Then
-        
         menu_psw_Click
+        Exit Sub
         
     ElseIf user_list.SelectedItem.ListSubItems(1).Text <> "" Then
+        'check_album_password----------------------------------------------
+        Dim pass_accept As Boolean
+        url_temp = check_Include(Trim(user_list.SelectedItem.ListSubItems(2).Text))
+        If url_temp = "" Then GoTo script_nopass_list
         
-        If list_albums_ID = user_list.SelectedItem.ListSubItems(2).Text And list_albums_ID <> "" Then
-            
-            user_list.Visible = False
-            count1.Visible = False
-            List1.Visible = True
-            count2.Visible = True
-            
-            albumslist_back.Visible = True
-            user_list_output.Visible = True
-            user_list_save.Visible = True
-            albumslist_back.Enabled = True
-            user_list_output.Enabled = True
-            user_list_save.Enabled = True
-            list_check.Visible = False
-            save_all.Visible = False
-            out_all.Visible = False
-            list_back1.Visible = False
-            Line1.Visible = False
-            
-        Else
-            
-            If pass_code = "163" Or pass_code = "" Then Call check_pass_code(False, isDown): Exit Sub
-            
-            form_quit = False
-            fast_down.Cancel
-            download_ok = False
-            
-            strURL = "http://photo.163.com/photos/" & Frame2.caption & "/" & user_list.SelectedItem.ListSubItems(2).Text & "/"
-            
-            
-            start_Post "checking=1" & pass_code & "&pass=" & URLEncode(user_list.SelectedItem.ListSubItems(1).Text) & "&submit=%D1%E9%D6%A4", "Content-Type: application/x-www-form-urlencoded"
-            
-            Do While download_ok = False
-                If form_quit = True Then Exit Sub
-                DoEvents
-                Sleep 10
-                DoEvents
-            Loop
-            
-            '您的验证信息已经过期
-            '您输入的验证码有误
-            '您输入的密码有误
-            
-            If InStr(Html_Temp, "alert(" & Chr(34) & "您输入的密码有误") > 0 Or user_list.SelectedItem.ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." Then
-                fast_down.Cancel
-                download_ok = False
-                start_fast_method = ""
-                start_fast
-                
-                Do While download_ok = False
-                    If form_quit = True Then Exit Sub
-                    DoEvents
-                    Sleep 10
-                    DoEvents
-                Loop
-                
-                If InStr(Html_Temp, "/captcha.php?code=") > 0 Then
-                    download_ok = True
-                    form_quit = True
-                    menu_psw_Click
-                    Exit Sub
-                End If
-                
-            ElseIf (InStr(Html_Temp, "alert(" & Chr(34) & "您的验证信息已经过期") > 0) Or (InStr(Html_Temp, "alert(" & Chr(34) & "您输入的验证码有误") > 0) Then
-                fast_down.Cancel
-                download_ok = False
-                start_fast_method = ""
-                start_fast
-                
-                Do While download_ok = False
-                    If form_quit = True Then Exit Sub
-                    DoEvents
-                    Sleep 10
-                    DoEvents
-                Loop
-                
-                If InStr(Html_Temp, "/captcha.php?code=") > 0 Then
-                    
-                    download_ok = True
-                    form_quit = True
-                    pass_code = "163"
-                    Call check_pass_code(False, isDown)
-                    Exit Sub
-                End If
-                
-            End If
-            
-            
-            user_list.Visible = False
-            count1.Visible = False
-            List1.ListItems.Clear
-            
-            albumslist_back.Visible = True
-            user_list_output.Visible = True
-            user_list_save.Visible = True
-            list_check.Visible = False
-            save_all.Visible = False
-            out_all.Visible = False
-            list_back1.Visible = False
-            Line1.Visible = False
-            
-            stop2.Enabled = True
-            user_list_find.Enabled = False
-            Frame_search.Visible = False
-            setProgram.Enabled = False
-            albumslist_back.Enabled = False
-            user_list_output.Enabled = False
-            user_list_save.Enabled = False
-            
-            List1.Visible = True
-            count2.Visible = True
-            List1.Enabled = False
-            runtime_Label = "正在分析链接"
-            Label_url1.caption = runtime_Label
-            Label_url1.Visible = True
-            'Timer2.Enabled = True
-            Form1.Icon = ico(1).Picture
-            If sysSet.listshow = False Then List1.Visible = False
-            
-            count2.caption = 0
-            
-            list_163pic Frame2.caption, user_list.SelectedItem.ListSubItems(2).Text, "&from=guest"
-            
-            GoTo nopass_list
-            
-            
-        End If
+        form_quit = False
         
-    Else
+        runtime_Label = "开始执行外部脚本"
+        Label_url1.caption = runtime_Label
+        Label_url1.Visible = True
+        pass_accept = check_album_password(url_temp, user_list.SelectedItem.ListSubItems(1).Text)
+        Label_url1.Visible = False
         
-        If list_albums_ID = user_list.SelectedItem.ListSubItems(2).Text And list_albums_ID <> "" Then
-            
-            user_list.Visible = False
-            count1.Visible = False
-            List1.Visible = True
-            count2.Visible = True
-            
-            albumslist_back.Visible = True
-            user_list_output.Visible = True
-            user_list_save.Visible = True
-            list_check.Visible = False
-            save_all.Visible = False
-            out_all.Visible = False
-            list_back1.Visible = False
-            Line1.Visible = False
-            
-            
-        Else
-            
-            
-            form_quit = False
-            user_list.Visible = False
-            count1.Visible = False
-            List1.ListItems.Clear
-            
-            albumslist_back.Visible = True
-            user_list_output.Visible = True
-            user_list_save.Visible = True
-            list_check.Visible = False
-            save_all.Visible = False
-            out_all.Visible = False
-            list_back1.Visible = False
-            Line1.Visible = False
-            
-            stop2.Enabled = True
-            user_list_find.Enabled = False
-            Frame_search.Visible = False
-            setProgram.Enabled = False
-            albumslist_back.Enabled = False
-            user_list_output.Enabled = False
-            user_list_save.Enabled = False
-            
-            List1.Visible = True
-            count2.Visible = True
-            List1.Enabled = False
-            runtime_Label = "正在分析链接"
-            Label_url1.caption = runtime_Label
-            Label_url1.Visible = True
-            'Timer2.Enabled = True
-            Form1.Icon = ico(1).Picture
-            If sysSet.listshow = False Then List1.Visible = False
-            
-            count2.caption = 0
-            
-            list_163pic Frame2.caption, user_list.SelectedItem.ListSubItems(2).Text, ""
-            
-nopass_list:
-            
-            Label_url1.Visible = False
-            'Timer2.Enabled = False
-            Form1.Icon = ico(0).Picture
-            
-            If now_tray = True Then
-                TrayI.hIcon = ico(0).Picture
-                TrayI.uFlags = NIF_ICON
-                Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
-            End If
-            
-            count2.caption = List1.ListItems.count
-            
-            stop2.Enabled = False
-            user_list_find.Enabled = True
-            setProgram.Enabled = True
-            albumslist_back.Enabled = True
-            user_list_output.Enabled = True
-            user_list_save.Enabled = True
-            
+        If pass_accept = False Then
+            download_ok = True
             form_quit = True
-            List1.Enabled = True
-            Html_Temp = ""
-            If List1.Visible = False Then List1.Visible = True
-            If List1.ListItems.count = 0 Then albumslist_back_Click: Exit Sub
-            
-            If user_list.SelectedItem.ListSubItems(5).Text <> "" Then albums_check_pic user_list.SelectedItem.ListSubItems(5).Text
-            
-            list_albums_ID = user_list.SelectedItem.ListSubItems(2).Text
-            
-            List1.ListItems.Item(1).Selected = False
-            List1.SetFocus
-            
+            menu_psw_Click
+            Exit Sub
         End If
-        
-    End If
-    Exit Sub
-    
-    
-    '------------------------------------------------------------------------------------
-include_script:
-    
-    If user_list.SelectedItem.ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." Then
-        
-        menu_psw_Click
-        
-    ElseIf user_list.SelectedItem.ListSubItems(1).Text <> "" Then
-        
-        'check_album_password
-        
-        If list_albums_ID = user_list.SelectedItem.ListSubItems(2).Text And list_albums_ID <> "" Then
-            
-            user_list.Visible = False
-            count1.Visible = False
-            List1.Visible = True
-            count2.Visible = True
-            
-            albumslist_back.Visible = True
-            user_list_output.Visible = True
-            user_list_save.Visible = True
-            albumslist_back.Enabled = True
-            user_list_output.Enabled = True
-            user_list_save.Enabled = True
-            list_check.Visible = False
-            save_all.Visible = False
-            out_all.Visible = False
-            list_back1.Visible = False
-            Line1.Visible = False
-            
-        Else
-            
-            Dim pass_accept As Boolean
-            
-            url_temp = check_Include(Trim(user_list.SelectedItem.ListSubItems(2).Text))
-            If url_temp = "" Then GoTo script_nopass_list
-            
-            form_quit = False
-            
-            runtime_Label = "开始执行外部脚本"
-            Label_url1.caption = runtime_Label
-            Label_url1.Visible = True
-            pass_accept = check_album_password(url_temp, user_list.SelectedItem.ListSubItems(1).Text)
-            Label_url1.Visible = False
-            
-            If pass_accept = False Or user_list.SelectedItem.ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." Then
-                download_ok = True
-                form_quit = True
-                menu_psw_Click
-                Exit Sub
-            End If
-            
-            GoTo script_nopass_list
-            
-            
-        End If
-        
+        GoTo script_nopass_list
     Else
-        
-        If list_albums_ID = user_list.SelectedItem.ListSubItems(2).Text And list_albums_ID <> "" Then
-            
-            user_list.Visible = False
-            count1.Visible = False
-            List1.Visible = True
-            count2.Visible = True
-            
-            albumslist_back.Visible = True
-            user_list_output.Visible = True
-            user_list_save.Visible = True
-            list_check.Visible = False
-            save_all.Visible = False
-            out_all.Visible = False
-            list_back1.Visible = False
-            Line1.Visible = False
-            
-            
-        Else
-            
 script_nopass_list:
-            
-            form_quit = False
-            user_list.Visible = False
-            count1.Visible = False
-            List1.ListItems.Clear
-            
-            albumslist_back.Visible = True
-            user_list_output.Visible = True
-            user_list_save.Visible = True
-            list_check.Visible = False
-            save_all.Visible = False
-            out_all.Visible = False
-            list_back1.Visible = False
-            Line1.Visible = False
-            
-            stop2.Enabled = True
-            user_list_find.Enabled = False
-            Frame_search.Visible = False
-            setProgram.Enabled = False
-            albumslist_back.Enabled = False
-            user_list_output.Enabled = False
-            user_list_save.Enabled = False
-            
-            List1.Visible = True
-            count2.Visible = True
-            List1.Enabled = False
-            runtime_Label = "正在分析链接"
-            Label_url1.caption = runtime_Label
-            Label_url1.Visible = True
-            'Timer2.Enabled = True
-            Form1.Icon = ico(1).Picture
-            If sysSet.listshow = False Then List1.Visible = False
-            
-            count2.caption = 0
-            
-            url_temp = check_Include(Trim(user_list.SelectedItem.ListSubItems(2).Text))
-            
-            
-            If url_temp <> "" Then list_photo_script url_temp
-            If List1.ListItems.count > 0 And sysSet.fix_rar > 0 Then fix_rar
-            
-            Label_url1.Visible = False
-            'Timer2.Enabled = False
-            Form1.Icon = ico(0).Picture
-            
-            If now_tray = True Then
-                TrayI.hIcon = ico(0).Picture
-                TrayI.uFlags = NIF_ICON
-                Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
-            End If
-            
-            count2.caption = List1.ListItems.count
-            
-            stop2.Enabled = False
-            user_list_find.Enabled = True
-            setProgram.Enabled = True
-            albumslist_back.Enabled = True
-            user_list_output.Enabled = True
-            user_list_save.Enabled = True
-            
-            form_quit = True
-            List1.Enabled = True
-            Html_Temp = ""
-            If List1.Visible = False Then List1.Visible = True
-            If List1.ListItems.count = 0 Then albumslist_back_Click: Exit Sub
-            
-            If user_list.SelectedItem.ListSubItems(5).Text <> "" Then albums_check_pic user_list.SelectedItem.ListSubItems(5).Text
-            
-            list_albums_ID = user_list.SelectedItem.ListSubItems(2).Text
-            
-            List1.ListItems.Item(1).Selected = False
-            List1.SetFocus
-            
+        'list_album_photos----------------------------------------------
+        form_quit = False
+        user_list.Visible = False
+        count1.Visible = False
+        List1.ListItems.Clear
+        
+        albumslist_back.Visible = True
+        user_list_output.Visible = True
+        user_list_save.Visible = True
+        list_check.Visible = False
+        save_all.Visible = False
+        out_all.Visible = False
+        list_back1.Visible = False
+        Line1.Visible = False
+        
+        stop2.Enabled = True
+        user_list_find.Enabled = False
+        Frame_search.Visible = False
+        setProgram.Enabled = False
+        albumslist_back.Enabled = False
+        user_list_output.Enabled = False
+        user_list_save.Enabled = False
+        
+        List1.Visible = True
+        count2.Visible = True
+        List1.Enabled = False
+        runtime_Label = "正在分析链接"
+        Label_url1.caption = runtime_Label
+        Label_url1.Visible = True
+        'Timer2.Enabled = True
+        Form1.Icon = ico(1).Picture
+        If sysSet.listshow = False Then List1.Visible = False
+        
+        count2.caption = 0
+        
+        url_temp = check_Include(Trim(user_list.SelectedItem.ListSubItems(2).Text))
+        If url_temp <> "" Then list_photo_script url_temp
+        If List1.ListItems.count > 0 And sysSet.fix_rar > 0 Then fix_rar
+        
+        Label_url1.Visible = False
+        'Timer2.Enabled = False
+        Form1.Icon = ico(0).Picture
+        
+        If now_tray = True Then
+            TrayI.hIcon = ico(0).Picture
+            TrayI.uFlags = NIF_ICON
+            Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
         End If
         
+        count2.caption = List1.ListItems.count
+        
+        stop2.Enabled = False
+        user_list_find.Enabled = True
+        setProgram.Enabled = True
+        albumslist_back.Enabled = True
+        user_list_output.Enabled = True
+        user_list_save.Enabled = True
+        
+        form_quit = True
+        List1.Enabled = True
+        Html_Temp = ""
+        If List1.Visible = False Then List1.Visible = True
+        
+        If List1.ListItems.count = 0 Then albumslist_back_Click: Exit Sub
+        '去除上一次不被勾选的图片
+        If user_list.SelectedItem.ListSubItems(5).Text <> "" Then albums_checked_pic user_list.SelectedItem.ListSubItems(5).Text
+        list_albums_ID = ""
+        List1.ListItems.Item(1).Selected = False
+        List1.SetFocus
     End If
-    
 End Sub
 
 
@@ -5051,7 +4796,7 @@ Private Sub user_list_find_Click()
     End If
 End Sub
 
-Private Sub user_list_find_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub user_list_find_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 21 Then
         Label_name1 = " 查找内容: "
         Label_text1 = "查找列表中的文本内容（Ctrl+F）"
@@ -5116,8 +4861,8 @@ user_url_copy:
     For i = 1 To user_list.ListItems.count
         DoEvents
         If user_list.ListItems(i).Selected = True Then
-            If IsNumeric(user_list.ListItems(i).ListSubItems(2).Text) Then
-                copy_txt = copy_txt & "http://photo.163.com/photos/" & Frame2.caption & "/" & user_list.ListItems(i).ListSubItems(2).Text & "/" & vbCrLf
+            If user_list.ListItems(i).ListSubItems(2).Text Like "new163_ID_?*" Then
+                copy_txt = copy_txt & "http://photo.163.com/" & OX_Script_Type & "/#m=1&aid=" & Mid(user_list.ListItems(i).ListSubItems(2).Text, 11) & vbCrLf
             Else
                 copy_txt = copy_txt & user_list.ListItems(i).ListSubItems(2).Text & vbCrLf
             End If
@@ -5137,8 +4882,8 @@ user_ubb_copy:
     For i = 1 To user_list.ListItems.count
         DoEvents
         If user_list.ListItems(i).Selected = True Then
-            If IsNumeric(user_list.ListItems(i).ListSubItems(2).Text) Then
-                copy_txt = copy_txt & "[url=http://photo.163.com/photos/" & Frame2.caption & "/" & user_list.ListItems(i).ListSubItems(2).Text & "/]" & user_list.ListItems(i).Text & "[/url]" & vbCrLf
+            If user_list.ListItems(i).ListSubItems(2).Text Like "new163_ID_?*" Then
+                copy_txt = copy_txt & "[url=http://photo.163.com/" & OX_Script_Type & "/#m=1&aid=" & Mid(user_list.ListItems(i).ListSubItems(2).Text, 11) & "]" & user_list.ListItems(i).Text & "[/url]" & vbCrLf
             Else
                 copy_txt = copy_txt & "[url=" & user_list.ListItems(i).ListSubItems(2).Text & "]" & user_list.ListItems(i).Text & "[/url]" & vbCrLf
             End If
@@ -5171,7 +4916,7 @@ Private Sub user_list_KeyUp(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub user_list_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub user_list_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 3 Then
         Label_name1 = " 相册列表: "
         Label_text1 = "在列表中标记复选框确定下载相册（右键列出详细菜单）"
@@ -5180,7 +4925,7 @@ Private Sub user_list_MouseMove(Button As Integer, Shift As Integer, x As Single
     End If
 End Sub
 
-Private Sub user_list_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub user_list_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
     On Error Resume Next
     If Button = 2 And user_list.ListItems.count > 0 Then
         If user_list.SelectedItem.ListSubItems(1).Text = "" Then
@@ -5211,7 +4956,7 @@ Private Sub user_list_output_Click()
     list_output_Click
 End Sub
 
-Private Sub user_list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub user_list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 6 Then
         Label_name1 = " 导出列表:"
         If sysSet.list_type = 1 Then
@@ -5230,7 +4975,7 @@ Private Sub user_list_save_Click()
     image_save_Click
 End Sub
 
-Private Sub user_list_save_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub user_list_save_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 7 Then
         Label_name1 = " 保存相册: "
         Label_text1 = "保存列表中被勾选的文件"
@@ -5242,7 +4987,7 @@ End Sub
 Private Sub view_command_Click()
     If Trim(url_input.Text) = "" Or Trim(url_input.Text) = "http://" Then url_input.Text = "http://photo.163.com/"
     url_input.Text = Trim(url_input.Text)
-    If is_username(url_input.Text) = True Then url_input.Text = "http://photo.163.com/photos/" & url_input.Text & "/"
+    If is_username(url_input.Text) = True Then url_input.Text = "http://photo.163.com/photos/" & format_username(url_input.Text, 2) & "/"
     buttom_enable False
     form_height = 3000
     If Form1.WindowState = 0 Then
@@ -5251,7 +4996,7 @@ Private Sub view_command_Click()
     End If
     newform_resize
     'path_url
-    Web_Browser.Navigate Trim(url_input.Text) ', , , , "User-Agent: Mozilla/5.0 (compatible; MSIE 8.0)" //.Navigate2 http://zhidao.baidu.com/question/9685639.html
+    Web_Browser.Navigate Trim(url_input.Text) ', , , , "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0)"  '//.Navigate2 http://zhidao.baidu.com/question/9685639.html
     web_Picture.Visible = True
     Web_Browser.Visible = True
     Web_Search.Visible = False
@@ -5385,7 +5130,7 @@ Private Sub newform_resize()
 End Sub
 
 
-Private Sub view_command_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub view_command_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 1 Then
         Label_name = " 查看网页: "
         Label_text = "如果该相册为加密相册或者不能确定内容，请点击"
@@ -5434,6 +5179,7 @@ Public Sub step_one()
     Label_url.Visible = False
     rename_rules_val = 0
     pass_code = ""
+    OX_Script_Type = ""
     Frame1.caption = "侦测用户名或网址"
     Frame2.Visible = False
     Frame_search.Visible = False
@@ -5453,7 +5199,7 @@ Public Sub step_one()
     Web_Browser.Visible = False
     Web_Search.Visible = False
     list_count.Visible = False
-    form_height = 1470 + show_StatusBar
+    form_height = 1500 + show_StatusBar
     If Form1.WindowState = 0 Then Form1.Height = 1470 + show_StatusBar
     list_count = ""
     url_temp = ""
@@ -5508,7 +5254,7 @@ End Sub
 
 
 
-Private Sub Web_Browser_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, Flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
+Private Sub Web_Browser_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
     
     On Error GoTo Web_Browser_BeforeNavigate_error
     
@@ -5533,20 +5279,20 @@ Private Sub Web_Browser_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, F
     'Script_App.Reset
     Script_App.AddCode (OX163_WebBrowser_scriptCode)
     
-    script_retrun_code = Script_App.Eval("OX163_Web_Browser_ctrl(" & Chr(34) & URL & Chr(34) & "," & Chr(34) & Flags & Chr(34) & "," & Chr(34) & TargetFrameName & Chr(34) & "," & Chr(34) & PostData & Chr(34) & "," & Chr(34) & Headers & Chr(34) & ")")
+    script_retrun_code = Script_App.Eval("OX163_Web_Browser_ctrl(" & Chr(34) & URL & Chr(34) & "," & Chr(34) & flags & Chr(34) & "," & Chr(34) & TargetFrameName & Chr(34) & "," & Chr(34) & PostData & Chr(34) & "," & Chr(34) & Headers & Chr(34) & ")")
     
     '0-URL, 1-Flags, 2-TargetFrameName, 3-PostData, 4-Headers
     run_script_str = Split(script_retrun_code, vbCrLf & vbCrLf)
     
     If (run_script_str(0) <> "" Or run_script_str(1) <> "" Or run_script_str(2) <> "" Or run_script_str(3) <> "" Or run_script_str(4) <> "") And Web_Browser_header_tf = False Then
         If run_script_str(0) <> "" Then URL = run_script_str(0)
-        If run_script_str(1) <> "" Then Flags = run_script_str(1)
+        If run_script_str(1) <> "" Then flags = run_script_str(1)
         If run_script_str(2) <> "" Then TargetFrameName = run_script_str(2)
         If run_script_str(3) <> "" Then PostData = run_script_str(3)
         If run_script_str(4) <> "" Then Headers = run_script_str(4) ': MsgBox URL & vbCrLf & flags & vbCrLf & TargetFrameName & vbCrLf & PostData & vbCrLf & Headers
         Web_Browser_header_tf = True
         Cancel = True
-        pDisp.Navigate URL, Flags, TargetFrameName, PostData, Headers
+        pDisp.Navigate URL, flags, TargetFrameName, PostData, Headers
         'URL = Replace(URL, "g.e-hentai.org", "www.hentaiverse.net")
         'Web_Browser.Navigate URL, , , PostData, "Host: 95.211.21.16" & vbCrLf & "Referer: http://g.e-hentai.org/"
         
@@ -5682,6 +5428,8 @@ Private Sub list_save(ByVal list_name)
     Dim list_pic_cout As Long
     Dim script_code As String
     Dim script_code_str As String
+    Dim byteTmp() As Byte
+    Dim old_Name
     
     script_code_str = ""
     
@@ -5698,6 +5446,7 @@ Private Sub list_save(ByVal list_name)
     
     Select Case sysSet.list_type
     Case 1
+        'Open list_name For Binary Access Write As #1
         Open list_name For Output As #1
         Print #1, script_code
     Case 2
@@ -5707,46 +5456,50 @@ Private Sub list_save(ByVal list_name)
         Open list_name For Output As #1
     End Select
     
-    For i = 1 To List1.ListItems.count
+    For list_save_i = 1 To List1.ListItems.count
         DoEvents
-        List1.ListItems(i).EnsureVisible
-        If List1.ListItems(i).Selected = True Then List1.ListItems(i).Selected = False
+        List1.ListItems(list_save_i).EnsureVisible
+        If List1.ListItems(list_save_i).Selected = True Then List1.ListItems(list_save_i).Selected = False
         
-        If List1.ListItems(i).Checked = True Then
-            List1.ListItems(i).Bold = True
-            List1.ListItems(i).ForeColor = vbRed
+        If List1.ListItems(list_save_i).Checked = True Then
+            List1.ListItems(list_save_i).Bold = True
+            List1.ListItems(list_save_i).ForeColor = vbRed
             
             '----------------------------命名规则---------------------------------
             Select Case rename_rules_val
             Case 0
                 name_rules_add = ""
             Case 1
-                name_rules_add = Format((0 + i), "00000") & "_"
+                name_rules_add = Format((0 + list_save_i), "00000") & "_"
             Case 2
-                name_rules_add = Format((List1.ListItems.count + 1 - i), "00000") & "_"
+                name_rules_add = Format((List1.ListItems.count + 1 - list_save_i), "00000") & "_"
             End Select
             '-----------------------------------------------------------------
             
             Select Case sysSet.list_type
             Case 1
                 list_pic_cout = list_pic_cout + 1
-                Print #1, "<script language='javascript'>gPhotoID[" & list_pic_cout & "]=" & list_pic_cout & ";gPhotoInfo[" & list_pic_cout & "]=[""" & Trim$(List1.ListItems(i).ListSubItems(3).Text) & """,""" & name_rules_add & Trim$(List1.ListItems(i).ListSubItems(1).Text) & """," & fix_referer_cookies(Trim$(List1.ListItems(i).ListSubItems(3).Text)) & "]</script>" & _
-                "<a href=" & Chr(34) & Trim$(List1.ListItems(i).ListSubItems(3).Text) & Chr(34) & " title=" & Chr(34) & name_rules_add & Trim$(List1.ListItems(i).ListSubItems(1).Text) & Chr(34) & " target=_blank>" & name_rules_add & Trim$(List1.ListItems(i).ListSubItems(1).Text) & "</a><br />" & Trim$(List1.ListItems(i).ListSubItems(2).Text) & "<br /><br />"
+                Print #1, "<script language='javascript'>gPhotoID[" & list_pic_cout & "]=" & list_pic_cout & ";gPhotoInfo[" & list_pic_cout & "]=[""" & Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & """,""" & name_rules_add & Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text) & """," & fix_referer_cookies(Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text)) & "]</script>" & _
+                "<a href=" & Chr(34) & Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & Chr(34) & "title=" & Chr(34) & name_rules_add & Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text) & Chr(34) & " target=_blank>" & name_rules_add & Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text) & "</a><br />" & Trim$(List1.ListItems(list_save_i).ListSubItems(2).Text) & "<br /><br />"
+                
             Case 2
-                Print #1, Trim$(List1.ListItems(i).ListSubItems(3).Text)
-                old_Name = Split(Trim$(List1.ListItems(i).ListSubItems(3).Text), "/")
-                Print #2, "rename " & Chr(34) & old_Name(UBound(old_Name)) & Chr(34) & " " & Chr(34) & name_rules_add & Trim$(List1.ListItems(i).ListSubItems(1).Text) & Chr(34)
+                old_Name = ""
+                Print #1, Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & vbCrLf
+                old_Name = Split(Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text), "/")
+                Print #2, "rename " & Chr(34) & old_Name(UBound(old_Name)) & Chr(34) & " " & Chr(34) & name_rules_add & fix_Unicode_FileName(Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text)) & Chr(34)
+                
             Case Else
-                Print #1, Trim$(List1.ListItems(i).ListSubItems(3).Text) & "?/" & name_rules_add & Trim$(List1.ListItems(i).ListSubItems(1).Text)
+                Print #1, Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & "?/" & name_rules_add & fix_Unicode_FileName(Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text))
             End Select
+            
             DoEvents
-            List1.ListItems(i).ForeColor = f_color
-            List1.ListItems(i).Bold = False
+            List1.ListItems(list_save_i).ForeColor = f_color
+            List1.ListItems(list_save_i).Bold = False
         End If
         
-    Next i
+    Next list_save_i
     
-    Close 1
+    Close #1
     If sysSet.list_type = 2 Then Close #2
     List1.Enabled = True
     search_end
@@ -5830,7 +5583,7 @@ Private Sub save_list_image(ByVal floder_path)
         If List1.ListItems(i).Selected = True Then List1.ListItems(i).Selected = False
         
         
-        If List1.ListItems(i).Checked = True Then
+        If List1.ListItems(i).Checked = True And Trim$(List1.ListItems(i).ListSubItems(3).Text) <> "" Then
             
             '----------------------------命名规则---------------------------------
             Select Case rename_rules_val
@@ -5867,7 +5620,6 @@ Private Sub save_list_image(ByVal floder_path)
                     If form_quit = True Then Close #1: GoTo end_sub
                     DoEvents
                     Sleep 10
-                    DoEvents
                 Loop
                 Close #1
                 
@@ -6082,7 +5834,6 @@ new_down:
             If form_quit = True Then Exit Do
             DoEvents
             Sleep 10
-            DoEvents
         Loop
         If form_quit = True Then GoTo err_end
         
@@ -6094,7 +5845,6 @@ new_down:
             Do
                 DoEvents
                 Sleep 10
-                DoEvents
                 If form_quit = True Then GoTo err_end
             Loop While (check_header.StillExecuting = True Or Inet1.StillExecuting = True)
             
@@ -6116,7 +5866,6 @@ new_down:
             Do
                 DoEvents
                 Sleep 10
-                DoEvents
                 If form_quit = True Then GoTo err_end
             Loop While (check_header.StillExecuting = True Or Inet1.StillExecuting = True)
             
@@ -6189,7 +5938,7 @@ Sub start_fast()
     '文件大小值复位
     On Error GoTo err_ctrl
     '定义ITC控件使用的协议为HTTP协议
-    fast_down.Protocol = icHTTP
+    'fast_down.Protocol = icHTTP
     '调用Execute方法向Web服务器发送HTTP请求
     If start_fast_method = "" Then
         If urlpage_Referer = "" Then
@@ -6236,50 +5985,20 @@ Sub startBrowser_fast()
     End If
 End Sub
 
-Sub new163_check_passcode(ByVal code_type As Boolean, ByVal isDown As Integer)
+Function new163_check_passcode(ByVal code_type As Boolean, ByVal check_passcode_isDown As Integer) As String
     On Error Resume Next
-    
-    Form1.Enabled = True
-    
-    'If pass_code <> "new163_pass" And pass_code <> "" And code_type = False Then
-    code_type = True
-    '    Html_Temp = new163pic_GetJs(sysSet.new163passcode_def(0), sysSet.new163passcode_def(1), sysSet.new163passcode_def(2))
-    '    If Html_Temp <> "" Then code_type = True
-    'End If
-    
-    'If code_type = False Then
-    
-    'Form1.Enabled = False
-    
-    'pass_code = "new163_pass"
-    'Unload new163_passcode
-    'new163_passcode.Show
-    'new163_passcode.isDown = isDown
-    'new163_passcode.show_pass_code
-    
-    'Else
-    '    If pass_code <> "new163_pass" And pass_code <> "" Then
-    '        Html_Temp = new163pic_GetJs(sysSet.new163passcode_def(0), sysSet.new163passcode_def(1), sysSet.new163passcode_def(2))
-    '        form_quit = True
-    '        If Html_Temp = "" Then MsgBox "验证码不正确", vbOKOnly + vbExclamation, "警告": Exit Sub
-    '    Else
-    '    MsgBox "验证码不正确", vbOKOnly + vbExclamation, "警告"
-    '    Exit Sub
-    '    End If
-    
+    new163_check_passcode = ""
     If isDown = 0 Then
-        Html_Temp = new163pic_GetJs(Frame2.caption, Replace(user_list.SelectedItem.ListSubItems(2).Text, "new163_ID_", ""), user_list.SelectedItem.ListSubItems(1).Text)
+        Html_Temp = new163pic_GetJs(OX_Script_Type, Replace(user_list.SelectedItem.ListSubItems(2).Text, "new163_ID_", ""), user_list.SelectedItem.ListSubItems(1).Text)
         form_quit = True
         If Html_Temp <> "" Then
-            user_list.SelectedItem.ListSubItems(2).Text = Html_Temp
-            Call user_list_DblClick
+            new163_check_passcode = Html_Temp
+            If code_type = True Then user_list.SelectedItem.ListSubItems(2).Text = new163_check_passcode
         Else
             If MsgBox("密码不正确是否重新填写？", vbYesNo + vbExclamation, "警告") = vbYes Then menu_psw_Click
         End If
     End If
-    
-    'End If
-End Sub
+End Function
 
 Sub check_pass_code(ByVal code_type As Boolean, ByVal isDown As Integer)
     
@@ -6292,9 +6011,9 @@ Sub check_pass_code(ByVal code_type As Boolean, ByVal isDown As Integer)
         
         
         If isDown = 0 Then
-            strURL = "http://photo.163.com/photos/" & Frame2.caption & "/" & user_list.SelectedItem.ListSubItems(2).Text & "/"
+            strURL = "http://photo.163.com/photos/" & OX_Script_Type & "/" & user_list.SelectedItem.ListSubItems(2).Text & "/"
         Else
-            strURL = "http://photo.163.com/photos/" & Frame2.caption & "/" & user_list.ListItems(isDown).ListSubItems(2).Text & "/"
+            strURL = "http://photo.163.com/photos/" & OX_Script_Type & "/" & user_list.ListItems(isDown).ListSubItems(2).Text & "/"
         End If
         
         download_ok = False
@@ -6333,7 +6052,7 @@ Sub start_Post(ByVal psw As String, Referer_str As String)
     '文件大小值复位
     On Error GoTo err_ctrl
     '定义ITC控件使用的协议为HTTP协议
-    fast_down.Protocol = icHTTP
+    'fast_down.Protocol = icHTTP
     '调用Execute方法向Web服务器发送HTTP请求
     fast_down.Execute Trim(strURL), "POST", psw, Referer_str 'Content-Type: application/x-www-form-urlencoded
     Exit Sub
@@ -6351,10 +6070,9 @@ Sub start_User(ByVal username, ByVal psw As String)
     On Error GoTo err_ctrl
     
     '定义ITC控件使用的协议为HTTP协议
-    fast_down.Protocol = icHTTP
-    
+    'fast_down.Protocol = icHTTP
     '调用Execute方法向Web服务器发送HTTP请求
-    fast_down.Execute "http://reg.163.com/in.jsp?url=http://photo.163.com/myalbum.php", "Post", "username=" & username & "&password=" & psw, "Content-Type: application/x-www-form-urlencoded"
+    fast_down.Execute "https://reg.163.com/in.jsp?url=http://photo.163.com/myalbum.php", "Post", "username=" & username & "&password=" & psw, "Content-Type: application/x-www-form-urlencoded"
     Exit Sub
     
 err_ctrl:
@@ -6462,7 +6180,6 @@ restart:
     End If
     
     If OX_GreatFile(temp_filename) = True Then
-        download_FileFullName = download_FileName
         download_FileName = GetShortName(temp_filename)
     Else
         download_FileName = ""
@@ -6486,18 +6203,6 @@ Private Sub delay(n As Integer)
     delay_time = False
 End Sub
 
-Private Function is_username(ByVal username As String) As Boolean
-    is_username = True
-    If Len(username) > 2 And Len(username) < 50 Then
-        For i = 1 To Len(username)
-            DoEvents
-            If InStr("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@", Mid$(username, i, 1)) < 1 Then is_username = False: Exit Function
-        Next i
-    Else
-        is_username = False
-    End If
-End Function
-
 Private Sub user_open()
     On Error Resume Next
     user_list.ListItems.Clear
@@ -6513,7 +6218,8 @@ Private Sub user_open()
     form_quit = False
     count1.caption = 0
     count2.caption = 0
-    Frame2.caption = url_input
+    'Frame2.caption = url_input
+    OX_Script_Type = url_input
     pass_code = "163"
     urlpage_Referer = ""
     
@@ -6532,7 +6238,7 @@ Private Sub user_open()
     htmlCharsetType = "GB2312"
     start_fast_method = ""
     
-    strURL = "http://photo.163.com/" & url_input.Text & "/"
+    strURL = "http://photo.163.com/" & url_input.Text & "/?" & Int(Timer() * 100000)
     
     download_ok = False
     start_fast
@@ -6563,7 +6269,7 @@ Private Sub user_open()
         fast_down.Cancel
         
         Html_Temp = Mid$(Html_Temp, InStr(Html_Temp, "albumUrl:'") + Len("albumUrl:'"))
-        strURL = Mid$(Html_Temp, 1, InStr(Html_Temp, "'") - 1)
+        strURL = Mid$(Html_Temp, 1, InStr(Html_Temp, "'") - 1) & "?" & Int(Timer() * 100000)
         Html_Temp = ""
         
         download_ok = False
@@ -6768,67 +6474,19 @@ Private Sub end_three()
 End Sub
 
 
-Public Sub edit_psw(ByVal meth As Byte, ByVal psw_edit As String)
-    Form1.Enabled = False
-    Select Case meth
-        '0输给 当前相册
-        '1输给 选择中未输入密码的
-        '2替换 所有被选择的
-        '3输给 所有未输入密码的
-        '4替换 全部密码
-    Case 0
-        If user_list.SelectedItem.ListSubItems(1).Text <> "" Then
-            user_list.SelectedItem.ListSubItems(1).Text = psw_edit
-            If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.SelectedItem.ListSubItems(2).Text), psw_edit, pw_163
-        End If
-        
-    Case 1
-        For i = 1 To user_list.ListItems.count
-            DoEvents
-            If user_list.ListItems(i).ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." And user_list.ListItems(i).Selected = True Then
-                user_list.ListItems(i).ListSubItems(1).Text = psw_edit
-                If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
-            End If
-        Next i
-        
-    Case 2
-        For i = 1 To user_list.ListItems.count
-            DoEvents
-            If user_list.ListItems(i).Selected = True And user_list.ListItems(i).ListSubItems(1).Text <> "" Then
-                user_list.ListItems(i).ListSubItems(1).Text = psw_edit
-                If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
-            End If
-        Next i
-        
-    Case 3
-        For i = 1 To user_list.ListItems.count
-            DoEvents
-            If user_list.ListItems(i).ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." Then
-                user_list.ListItems(i).ListSubItems(1).Text = psw_edit
-                If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
-            End If
-        Next i
-        
-    Case 4
-        For i = 1 To user_list.ListItems.count
-            DoEvents
-            If user_list.ListItems(i).ListSubItems(1).Text <> "" Then
-                user_list.ListItems(i).ListSubItems(1).Text = psw_edit
-                If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), psw_edit, pw_163
-            End If
-        Next i
-        
-    End Select
-    Form1.Enabled = True
-End Sub
-
 Private Sub save_all_list(ByVal floder_path)
     On Error Resume Next
     
     Dim f_color
-    f_color = user_list.ListItems(1).ForeColor
-    
+    Dim byteTmp() As Byte
     Dim name_rules_add As String
+    Dim list_pic_cout As Long
+    Dim script_code As String
+    Dim script_code_str As String
+    Dim out_lst_file_name As String
+    Dim old_Name
+    
+    f_color = user_list.ListItems(1).ForeColor
     
     form_quit = False
     user_list.Enabled = False
@@ -6847,7 +6505,7 @@ Private Sub save_all_list(ByVal floder_path)
     list_check.Enabled = False
     lblProgressInfo1.Visible = True
     
-    floder_path = floder_path & "\" & reName_Str(Frame2.caption)
+    floder_path = floder_path & "\" & reName_Str(OX_Script_Type)
     MkDir floder_path
     
     If sysSet.url_folder = True Then
@@ -6860,50 +6518,44 @@ Private Sub save_all_list(ByVal floder_path)
     
     Open_path = floder_path
     
-    '检查新163相册密码和验证码-------------------------------------------------------------
-    If is_username(Frame2.caption) = True And (user_list.ListItems(1).ListSubItems(2).Text Like "http://s*.ph*.1*.???/?*.js" Or user_list.ListItems(1).ListSubItems(2).Text Like "new163_ID_?*") Then
+    '-----------------------------------------------------------------------
+    '检查新163相册密码和验证码----------------------------------------------
+    '-----------------------------------------------------------------------
+    If is_username(OX_Script_Type) = True And user_list.ListItems(1).ListSubItems(2).Text Like "new163_ID_?*" Then
+        
         For i = 1 To user_list.ListItems.count
             DoEvents
-            If user_list.ListItems(i).ListSubItems(2).Text Like "new163_ID_?*" And user_list.ListItems(i).Checked = True And user_list.ListItems(i).ListSubItems(1).Text = "" Then
+            If user_list.ListItems(i).ListSubItems(2).Text Like "new163_ID_?*" And user_list.ListItems(i).Checked = True And user_list.ListItems(i).ListSubItems(1).Text <> "" Then
                 
-                user_list.ListItems(i).ListSubItems(2).Text = new163pic_GetJs(Frame2.caption, Replace(user_list.ListItems(i).ListSubItems(2).Text, "new163_ID_", ""), "")
-                
-            ElseIf user_list.ListItems(i).ListSubItems(2).Text Like "new163_ID_?*" And user_list.ListItems(i).Checked = True Then
-                user_list.ListItems(i).EnsureVisible
+                user_list.ListItems(i).EnsureVisible '显示到该行
                 user_list.ListItems(i).Bold = True
-retry_new_passcode:
-                If pass_code = "new163_pass" Or pass_code = "" Then
-                    new163_check_passcode False, i
-                    Do While Form1.Enabled = False
-                        DoEvents
-                        Sleep 10
-                        DoEvents
-                    Loop
-                End If
-                
-                '            Html_Temp = new163pic_GetJs(sysSet.new163passcode_def(0), sysSet.new163passcode_def(1), sysSet.new163passcode_def(2))
-                '            If Html_Temp = "" Then
-                '            pass_code = "new163_pass"
-                '                If MsgBox("验证码错误是否重新验证？", vbYesNo + vbExclamation, "警告") = vbYes Then GoTo retry_new_passcode
-                '            End If
                 
                 If user_list.ListItems(i).ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." And sysSet.change_psw = True Then
+                    If MsgBox("正在下载的相册中有加密相册，是否填写密码？", vbYesNo, "询问") = vbYes Then
 retry_new_password:
-                    Form1.Enabled = False
-                    password_win.isDown = i
-                    password_win.Combo1.Visible = False
-                    password_win.Show
-                    Do While Form1.Enabled = False
-                        DoEvents
-                        Sleep 10
-                        DoEvents
-                    Loop
+                        Form1.Enabled = False
+                        password_win.isDown = i
+                        password_win.Combo1.Visible = False
+                        password_win.password_win_title.caption = "相册 """ & Replace(user_list.ListItems(i).Text, "&", "&&") & """ 的" & password_win.password_win_title.caption
+                        password_win.Show
+                        Do While Form1.Enabled = False
+                            DoEvents
+                            Sleep 10
+                        Loop
+                    Else
+                        If MsgBox("您是否忽略所有未填写密码或密码错误的相册？", vbYesNo, "询问") = vbYes Then
+                            user_list.ListItems(i).Bold = False
+                            Exit For
+                        Else
+                            GoTo next_new_password
+                        End If
+                    End If
                 End If
-                Html_Temp = new163pic_GetJs(Frame2.caption, Replace(user_list.ListItems(i).ListSubItems(2).Text, "new163_ID_", ""), user_list.ListItems(i).ListSubItems(1).Text)
-                If Html_Temp <> "" Then
-                    If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), user_list.ListItems(i).ListSubItems(1).Text, pw_163
-                    user_list.ListItems(i).ListSubItems(2).Text = Html_Temp
-                ElseIf sysSet.change_psw = True Then
+                
+                Html_Temp = ""
+                Html_Temp = new163pic_GetJs(OX_Script_Type, Replace(user_list.ListItems(i).ListSubItems(2).Text, "new163_ID_", ""), user_list.ListItems(i).ListSubItems(1).Text)
+                
+                If Html_Temp = "" And sysSet.change_psw = True Then
                     If MsgBox("密码不正确是否重新填写？", vbYesNo + vbExclamation, "警告") = vbYes Then
                         If user_list.ListItems(i).ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then password_win.Text1.Text = user_list.ListItems(i).ListSubItems(1).Text
                         GoTo retry_new_password
@@ -6911,237 +6563,161 @@ retry_new_password:
                 End If
                 user_list.ListItems(i).Bold = False
             End If
+next_new_password:
         Next i
     End If
+    '-----------------------------------------------------------------------
+    '-----------------------------------------------------------------------
     
-    '--------------------------------------------------------------------------------------
     
-    
-    Dim list_pic_cout As Long
-    Dim script_code As String
-    Dim script_code_str As String
-    
+    list_pic_cout = 0
     script_code_str = ""
-    
+    '-----------------------------------------------------------------------
+    '下载列表默认页面代码---------------------------------------------------
+    '-----------------------------------------------------------------------
     If Dir(App_path & "\include\sys\OX163_htmlst_include.vbs") <> "" Then
         script_code_str = load_Script(App_path & "\include\sys\OX163_htmlst_include.vbs")
     End If
     
     If script_code_str = "" Then script_code_str = "<script language='javascript'>function loadxunlei(){var Thunder=null;try{Thunder=new ActiveXObject('ThunderAgent.Agent')}catch(e){var Thunder=null};for(i=1;i<gPhotoID.length;i++){Thunder.AddTask4(gPhotoInfo[i][0],gPhotoInfo[i][1],'','',gPhotoInfo[i][2],-1,0,-1,gPhotoInfo[i][3]);};Thunder.CommitTasks2(1);};</script><input type='submit' name='xunlei' id='xunlei' value='调用迅雷下载' onclick='javascript:loadxunlei()'><br /><br />"
-    
-    list_pic_cout = 0
     script_code = "<script language='javascript'>var gPhotoInfo = {};var gPhotoID = [];</script>" & script_code_str
-    
-    
+    '-----------------------------------------------------------------------
+    '-----------------------------------------------------------------------
     
     For i = 1 To user_list.ListItems.count
-        
         DoEvents
-        If Trim(user_list.ListItems(i).ListSubItems(2).Text) = "" Then user_list.ListItems(i).Checked = False
+        If form_quit = True Then GoTo end_sub
         
+        '进度描述---------------------------------------------------------------
         Form1.caption = title_info & " - " & i & "/" & user_list.ListItems.count
         TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
         If now_tray = True Then TrayI.uFlags = NIF_TIP: Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
-        
+        '-----------------------------------------------------------------------
+        '格式清理---------------------------------------------------------------
         If user_list.ListItems(i).Selected = True Then user_list.ListItems(i).Selected = False
-        
+        If Trim(user_list.ListItems(i).ListSubItems(2).Text) = "" Then user_list.ListItems(i).Checked = False
+        '-----------------------------------------------------------------------
+        '正式下载---------------------------------------------------------------
         If user_list.ListItems(i).Checked = True Then
-            
             user_list.ListItems(i).EnsureVisible
-            user_list.ListItems(i).ForeColor = vbRed
             user_list.ListItems(i).Bold = True
-            
-            If out_lst_type_tf = False Then
-                download_FileName = reName_Str(user_list.ListItems(i).Text)
-                list_pic_cout = 0
-            Else
-                download_FileName = reName_Str(Frame2.caption & "_in_all(" & Now() & ")")
-            End If
-            
-            Select Case sysSet.list_type
-            Case 1
-                download_FileName = floder_path & "\" & download_FileName & ".htm"
-            Case 2
-                download_FileName = floder_path & "\" & download_FileName
-            Case Else
-                download_FileName = floder_path & "\" & download_FileName & ".lst"
-            End Select
-            
-            If form_quit = True Then GoTo end_sub
-            If list_pic_cout = 0 Or out_lst_type_tf = False Then check_FileName
-            
-            '----------------------合并导出列表，打开文件------------------------------------------------
-            
-            If out_lst_type_tf = True Then
-                Select Case sysSet.list_type
-                Case 1
-                    Open download_FileName For Output As #1
-                    Print #1, script_code & "<font color=red>" & user_list.ListItems(i).Text & "</font><br /><br />"
-                    script_code = ""
-                Case 2
-                    Dim old_Name
-                    Open download_FileName & ".txt" For Output As #1
-                    Open download_FileName & ".bat" For Output As #2
-                Case Else
-                    Open download_FileName For Output As #1
-                End Select
-            End If
-            '------------------------------------
-            
             fast_down.Cancel
             
-            '-------------------------------------------------------------------------------------
-            
+            '-----------------------------------------------------------------------
+            '检查相册密码-----------------------------------------------------------
+            '-----------------------------------------------------------------------
             If user_list.ListItems(i).ListSubItems(1).Text <> "" Then
                 
-                If is_username(Frame2.caption) = True And LCase(user_list.SelectedItem.ListSubItems(2).Text) Like "http://s*.ph*.1*.???/?*.js" Then GoTo new163_password_OK
-                If is_username(Frame2.caption) = True And LCase(user_list.SelectedItem.ListSubItems(2).Text) Like "new163_ID_?*" Then GoTo end_one
+                '跳过新163相册密码检查-----------------------------------------------
+                If is_username(OX_Script_Type) = True And user_list.SelectedItem.ListSubItems(2).Text Like "new163_ID_?*" And user_list.ListItems(i).ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." Then GoTo end_one
+                If is_username(OX_Script_Type) = True And user_list.SelectedItem.ListSubItems(2).Text Like "new163_ID_?*" Then GoTo new163_password_OK
+                '--------------------------------------------------------------------
                 
-restar_psw:
+restar_psw: '重试密码----------------------------------------------------------------
                 If user_list.ListItems(i).ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then
-                    If is_username(Frame2.caption) = True And IsNumeric(user_list.ListItems(i).ListSubItems(2).Text) = True Then
-                        
-                        If pass_code = "163" Or pass_code = "" Then
-                            Form1.Enabled = False
-                            Call check_pass_code(False, i)
-                            
-                            Do While Form1.Enabled = False
-                                DoEvents
-                                Sleep 10
-                                DoEvents
-                            Loop
-                        End If
-                        
-                        form_quit = False
-                        download_ok = False
-                        
-                        strURL = "http://photo.163.com/photos/" & Frame2.caption & "/" & user_list.ListItems(i).ListSubItems(2).Text & "/"
-                        start_Post "checking=1" & pass_code & "&pass=" & URLEncode(user_list.ListItems(i).ListSubItems(1).Text) & "&submit=%D1%E9%D6%A4", "Content-Type: application/x-www-form-urlencoded"
-                        
-                        Do While download_ok = False
-                            If form_quit = True Then GoTo end_sub
-                            DoEvents
-                            Sleep 10
-                            DoEvents
-                        Loop
-                        
-                        '您的验证信息已经过期
-                        '您输入的验证码有误
-                        '您输入的密码有误
-                        pass_accept = Not ((InStr(Html_Temp, "alert(" & Chr(34) & "您输入的密码有误") > 0) Or (InStr(Html_Temp, "alert(" & Chr(34) & "您的验证信息已经过期") > 0) Or (InStr(Html_Temp, "alert(" & Chr(34) & "您输入的验证码有误") > 0))
-                        
-                        If pass_accept = False Then
-                            fast_down.Cancel
-                            download_ok = False
-                            url_temp = Html_Temp
-                            start_fast_method = ""
-                            start_fast
-                            
-                            Do While download_ok = False
-                                If form_quit = True Then GoTo end_sub
-                                DoEvents
-                                Sleep 10
-                                DoEvents
-                            Loop
-                            
-                            If InStr(Html_Temp, "/captcha.php?code=") < 1 Then pass_accept = True
-                            Html_Temp = url_temp
-                            url_temp = ""
-                            
-                        End If
-                        
-                    Else
-                        url_temp = check_Include(Trim(user_list.ListItems(i).ListSubItems(2).Text))
-                        If url_temp = "" Then GoTo end_one
-                        pass_accept = check_album_password(url_temp, user_list.ListItems(i).ListSubItems(1).Text)
-                    End If
-                    
-                Else
-                    GoTo retry_psw
+                    url_temp = check_Include(Trim(user_list.ListItems(i).ListSubItems(2).Text))
+                    If url_temp = "" Then GoTo end_one
+                    pass_accept = check_album_password(url_temp, user_list.ListItems(i).ListSubItems(1).Text)
                 End If
-retry_psw:
                 
+retry_psw: '重填密码----------------------------------------------------------------
                 If (pass_accept = False Or user_list.ListItems(i).ListSubItems(1).Text = "请填写密码............" & vbCrLf & "..........") And sysSet.change_psw = True Then
-                    
-                    If is_username(Frame2.caption) = True And IsNumeric(user_list.ListItems(i).ListSubItems(2).Text) = True And ((InStr(Html_Temp, "alert(" & Chr(34) & "您的验证信息已经过期") > 0) Or (InStr(Html_Temp, "alert(" & Chr(34) & "您输入的验证码有误") > 0)) Then
+                    If MsgBox("相册 " & user_list.ListItems(i).Text & " 的密码不正确，是否重新填写密码？", vbYesNo + vbExclamation, "警告") = vbYes Then
                         Form1.Enabled = False
-                        Call check_pass_code(False, i)
-                        
+                        If user_list.ListItems(i).ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then password_win.Text1.Text = user_list.ListItems(i).ListSubItems(1).Text
+                        password_win.password_win_title.caption = "相册 """ & Replace(user_list.ListItems(i).Text, "&", "&&") & """ 的" & password_win.password_win_title.caption
+                        password_win.isDown = i
+                        password_win.Combo1.Visible = False
+                        password_win.Show
                         Do While Form1.Enabled = False
                             DoEvents
                             Sleep 10
-                            DoEvents
                         Loop
-                        
+                        If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), user_list.ListItems(i).ListSubItems(1).Text, pw_163
                         GoTo restar_psw
-                    Else
-                        
-                        If MsgBox("相册 " & user_list.ListItems(i).Text & " 的密码不正确，是否重新填写密码？", vbYesNo + vbExclamation, "警告") = vbYes Then
-                            Form1.Enabled = False
-                            If user_list.ListItems(i).ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then password_win.Text1.Text = user_list.ListItems(i).ListSubItems(1).Text
-                            password_win.isDown = i
-                            password_win.Combo1.Visible = False
-                            password_win.Show
-                            Do While Form1.Enabled = False
-                                DoEvents
-                                Sleep 10
-                                DoEvents
-                            Loop
-                            If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), user_list.ListItems(i).ListSubItems(1).Text, pw_163
-                            GoTo restar_psw
-                        End If
-                        
                     End If
-                    
                 End If
-                
             End If
-new163_password_OK:
+            '-----------------------------------------------------------------------
+            '-----------------------------------------------------------------------
+            '-----------------------------------------------------------------------
             
+new163_password_OK:
+            '-----------------------------------------------------------------------------------------------------
+            '开始下载文件列表-------------------------------------------------------------------------------------
+            '-----------------------------------------------------------------------------------------------------
+            lblProgressInfo1.caption = "正在分析相册"
             List1.ListItems.Clear
             
-            '---------------------------------------开始下载文件列表----------------------------------------------
-            If is_username(Frame2.caption) = True And IsNumeric(user_list.ListItems(i).ListSubItems(2).Text) = True Then
-                If user_list.ListItems(i).ListSubItems(1).Text <> "" Then
-                    list_163pic Frame2.caption, user_list.ListItems(i).ListSubItems(2).Text, "&from=guest"
-                Else
-                    list_163pic Frame2.caption, user_list.ListItems(i).ListSubItems(2).Text, ""
-                End If
-            ElseIf is_username(Frame2.caption) = True And LCase(user_list.ListItems(i).ListSubItems(2).Text) Like "http://s*.ph*.1*.???/?*.js" Then
-                strURL = user_list.ListItems(i).ListSubItems(2).Text
-                new163pic_listPhotoUrl
+            'old 163-----------------------------------------------------------------------------------------------------
+            'If is_username(OX_Script_Type) = True And IsNumeric(user_list.ListItems(i).ListSubItems(2).Text) = True Then
+            '    If user_list.ListItems(i).ListSubItems(1).Text <> "" Then
+            '        list_163pic OX_Script_Type, user_list.ListItems(i).ListSubItems(2).Text, "&from=guest"
+            '    Else
+            '        list_163pic OX_Script_Type, user_list.ListItems(i).ListSubItems(2).Text, ""
+            '    End If
+            '------------------------------------------------------------------------------------------------------------
+            
+            If is_username(OX_Script_Type) = True And user_list.ListItems(i).ListSubItems(2).Text Like "new163_ID_?*" Then
+                strURL = Trim(new163pic_GetJs(OX_Script_Type, Replace(user_list.ListItems(i).ListSubItems(2).Text, "new163_ID_", ""), user_list.ListItems(i).ListSubItems(1).Text))
+                If strURL = "" Then GoTo end_one
+                Call new163pic_listPhotoUrl
             Else
                 url_temp = check_Include(Trim(user_list.ListItems(i).ListSubItems(2).Text))
                 If url_temp = "" Then GoTo end_one
-                list_photo_script url_temp
+                '!!!!!没有把密码值赋给函数，如果该网站密码不是通过session判断，那么前一次check_album_password就会无效（一般网站都是可以的）
+                Call list_photo_script(url_temp)
                 If List1.ListItems.count > 0 And sysSet.fix_rar > 0 Then fix_rar
             End If
             '------------------------------------------------------------------------------------
-            
             If List1.ListItems.count = 0 Then GoTo end_one
+            If user_list.ListItems(i).ListSubItems(5).Text <> "" Then albums_checked_pic user_list.ListItems(i).ListSubItems(5).Text
             
-            If user_list.ListItems(i).ListSubItems(5).Text <> "" Then albums_check_pic user_list.ListItems(i).ListSubItems(5).Text
-            
-            
-            '------------------------------------------------------------------------------------
-            
-            lblProgressInfo1.caption = "正在下载" & Chr(13) & download_FileName
-            
-            '--------------------------不合并文件导出表，打开保存文件-----------------------------------------
+            '----------------------------------------------------------------
+            '创建文件--------------------------------------------------------
+            '----------------------------------------------------------------
             If out_lst_type_tf = False Then
-                Select Case sysSet.list_type
-                Case 1
-                    Open download_FileName For Output As #1
-                    Print #1, script_code & "<font color=red>" & user_list.ListItems(i).Text & "</font><br /><br />"
-                Case 2
-                    Open download_FileName & ".txt" For Output As #1
-                    Open download_FileName & ".bat" For Output As #2
-                Case Else
-                    Open download_FileName For Output As #1
-                End Select
+                '每个相册单个下载列表
+                out_lst_file_name = floder_path & "\" & reName_Str(user_list.ListItems(i).Text)
+                '每次重置计数
+                list_pic_cout = 0
+            Else
+                '所有相册一个下载列表
+                out_lst_file_name = floder_path & "\" & reName_Str(OX_Script_Type & "_in_all(" & Now() & ")")
             End If
             
+            If list_pic_cout = 0 Then
+                Select Case sysSet.list_type
+                Case 1
+                    download_FileName = out_lst_file_name & ".htm"
+                    check_FileName
+                    'Open download_FileName For Binary Access Write As #1
+                    Open download_FileName For Output As #1
+                    Print #1, script_code & "<font color=red>" & user_list.ListItems(i).Text & "</font><br /><br />"
+                    If out_lst_type_tf = True Then script_code = ""
+                    
+                Case 2
+                    download_FileName = out_lst_file_name & ".txt"
+                    check_FileName
+                    Open download_FileName For Output As #1
+                    download_FileName = out_lst_file_name & ".bat"
+                    check_FileName
+                    Open download_FileName For Output As #2
+                    
+                Case Else
+                    download_FileName = out_lst_file_name & ".lst"
+                    check_FileName
+                    Open download_FileName For Output As #1
+                End Select
+                
+            ElseIf out_lst_type_tf = True And sysSet.list_type = 1 Then
+                Print #1, "<font color=red>" & user_list.ListItems(i).Text & "</font><br /><br />"
+            End If
             '-------------------------------------------------------------------
+            '----------------------------------------------------------------
+            '----------------------------------------------------------------
+            
+            lblProgressInfo1.caption = "正在下载" & Chr(13) & download_FileName
             
             For list_save_i = 1 To List1.ListItems.count
                 DoEvents
@@ -7165,12 +6741,17 @@ new163_password_OK:
                         list_pic_cout = list_pic_cout + 1
                         Print #1, "<script language='javascript'>gPhotoID[" & list_pic_cout & "]=" & list_pic_cout & ";gPhotoInfo[" & list_pic_cout & "]=[""" & Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & """,""" & name_rules_add & Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text) & """," & fix_referer_cookies(Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text)) & "]</script>" & _
                         "<a href=" & Chr(34) & Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & Chr(34) & "title=" & Chr(34) & name_rules_add & Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text) & Chr(34) & " target=_blank>" & name_rules_add & Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text) & "</a><br />" & Trim$(List1.ListItems(list_save_i).ListSubItems(2).Text) & "<br /><br />"
+                        
                     Case 2
-                        Print #1, Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text)
+                        old_Name = ""
+                        list_pic_cout = list_pic_cout + 1
+                        Print #1, Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & vbCrLf
                         old_Name = Split(Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text), "/")
-                        Print #2, "rename " & Chr(34) & old_Name(UBound(old_Name)) & Chr(34) & " " & Chr(34) & name_rules_add & Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text) & Chr(34)
+                        Print #2, "rename " & Chr(34) & old_Name(UBound(old_Name)) & Chr(34) & " " & Chr(34) & name_rules_add & fix_Unicode_FileName(Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text)) & Chr(34)
+                        
                     Case Else
-                        Print #1, Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & "?/" & name_rules_add & Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text)
+                        list_pic_cout = list_pic_cout + 1
+                        Print #1, Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & "?/" & name_rules_add & fix_Unicode_FileName(Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text))
                     End Select
                     
                     DoEvents
@@ -7248,6 +6829,7 @@ Private Sub save_all_pic(ByVal floder_path)
     
     Dim f_color
     Dim pass_accept As Boolean
+    
     f_color = user_list.ListItems(1).ForeColor
     
     Dim name_rules_add As String
@@ -7270,7 +6852,7 @@ Private Sub save_all_pic(ByVal floder_path)
     lblProgressInfo1.Visible = True
     
     
-    floder_path = floder_path & "\" & reName_Str(Frame2.caption)
+    floder_path = floder_path & "\" & reName_Str(OX_Script_Type)
     MkDir floder_path
     
     If sysSet.url_folder = True Then
@@ -7283,50 +6865,44 @@ Private Sub save_all_pic(ByVal floder_path)
     
     Open_path = floder_path
     
-    '检查新163相册密码和验证码-------------------------------------------------------------
-    If is_username(Frame2.caption) = True And (user_list.ListItems(1).ListSubItems(2).Text Like "http://s*.ph*.1*.???/?*.js" Or user_list.ListItems(1).ListSubItems(2).Text Like "new163_ID_?*") Then
+    '-----------------------------------------------------------------------
+    '检查新163相册密码和验证码----------------------------------------------
+    '-----------------------------------------------------------------------
+    If is_username(OX_Script_Type) = True And user_list.ListItems(1).ListSubItems(2).Text Like "new163_ID_?*" Then
         
         For i = 1 To user_list.ListItems.count
             DoEvents
-            If user_list.ListItems(i).ListSubItems(2).Text Like "new163_ID_?*" And user_list.ListItems(i).Checked = True And user_list.ListItems(i).ListSubItems(1).Text = "" Then
+            If user_list.ListItems(i).ListSubItems(2).Text Like "new163_ID_?*" And user_list.ListItems(i).Checked = True And user_list.ListItems(i).ListSubItems(1).Text <> "" Then
                 
-                user_list.ListItems(i).ListSubItems(2).Text = new163pic_GetJs(Frame2.caption, Replace(user_list.ListItems(i).ListSubItems(2).Text, "new163_ID_", ""), "")
-                
-            ElseIf user_list.ListItems(i).ListSubItems(2).Text Like "new163_ID_?*" And user_list.ListItems(i).Checked = True Then
-                user_list.ListItems(i).EnsureVisible
+                user_list.ListItems(i).EnsureVisible '显示到该行
                 user_list.ListItems(i).Bold = True
-retry_new_passcode:
-                If pass_code = "new163_pass" Or pass_code = "" Then
-                    new163_check_passcode False, i
-                    Do While Form1.Enabled = False
-                        DoEvents
-                        Sleep 10
-                        DoEvents
-                    Loop
-                End If
-                
-                '            Html_Temp = new163pic_GetJs(sysSet.new163passcode_def(0), sysSet.new163passcode_def(1), sysSet.new163passcode_def(2))
-                '            If Html_Temp = "" Then
-                '            pass_code = "new163_pass"
-                '                If MsgBox("验证码错误是否重新验证？", vbYesNo + vbExclamation, "警告") = vbYes Then GoTo retry_new_passcode
-                '            End If
                 
                 If user_list.ListItems(i).ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." And sysSet.change_psw = True Then
+                    If MsgBox("正在下载的相册中有加密相册，是否填写密码？", vbYesNo, "询问") = vbYes Then
 retry_new_password:
-                    Form1.Enabled = False
-                    password_win.isDown = i
-                    password_win.Combo1.Visible = False
-                    password_win.Show
-                    Do While Form1.Enabled = False
-                        DoEvents
-                        Sleep 10
-                        DoEvents
-                    Loop
+                        Form1.Enabled = False
+                        password_win.isDown = i
+                        password_win.Combo1.Visible = False
+                        password_win.password_win_title.caption = "相册 """ & Replace(user_list.ListItems(i).Text, "&", "&&") & """ 的" & password_win.password_win_title.caption
+                        password_win.Show
+                        Do While Form1.Enabled = False
+                            DoEvents
+                            Sleep 10
+                        Loop
+                    Else
+                        If MsgBox("您是否忽略所有未填写密码或密码错误的相册？", vbYesNo, "询问") = vbYes Then
+                            user_list.ListItems(i).Bold = False
+                            Exit For
+                        Else
+                            GoTo next_new_password
+                        End If
+                    End If
                 End If
-                Html_Temp = new163pic_GetJs(Frame2.caption, Replace(user_list.ListItems(i).ListSubItems(2).Text, "new163_ID_", ""), user_list.ListItems(i).ListSubItems(1).Text)
-                If Html_Temp <> "" Then
-                    user_list.ListItems(i).ListSubItems(2).Text = Html_Temp
-                ElseIf sysSet.change_psw = True Then
+                
+                Html_Temp = ""
+                Html_Temp = new163pic_GetJs(OX_Script_Type, Replace(user_list.ListItems(i).ListSubItems(2).Text, "new163_ID_", ""), user_list.ListItems(i).ListSubItems(1).Text)
+                
+                If Html_Temp = "" And sysSet.change_psw = True Then
                     If MsgBox("密码不正确是否重新填写？", vbYesNo + vbExclamation, "警告") = vbYes Then
                         If user_list.ListItems(i).ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then password_win.Text1.Text = user_list.ListItems(i).ListSubItems(1).Text
                         GoTo retry_new_password
@@ -7334,182 +6910,116 @@ retry_new_password:
                 End If
                 user_list.ListItems(i).Bold = False
             End If
+next_new_password:
         Next i
     End If
-    
-    '--------------------------------------------------------------------------------------
+    '-----------------------------------------------------------------------
+    '-----------------------------------------------------------------------
     
     For i = 1 To user_list.ListItems.count
-        
         DoEvents
-        If Trim(user_list.ListItems(i).ListSubItems(2).Text) = "" Then user_list.ListItems(i).Checked = False
         
+        '进度描述---------------------------------------------------------------
         Form1.caption = title_info & " - " & i & "/" & user_list.ListItems.count
         TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
         If now_tray = True Then TrayI.uFlags = NIF_TIP: Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
-        
+        '-----------------------------------------------------------------------
+        '格式清理---------------------------------------------------------------
         If user_list.ListItems(i).Selected = True Then user_list.ListItems(i).Selected = False
-        
+        If Trim(user_list.ListItems(i).ListSubItems(2).Text) = "" Then user_list.ListItems(i).Checked = False
+        '-----------------------------------------------------------------------
+        '正式下载---------------------------------------------------------------
         If user_list.ListItems(i).Checked = True Then
             user_list.ListItems(i).EnsureVisible
             user_list.ListItems(i).Bold = True
+            fast_down.Cancel
             
+            '建立相册文件夹-----------------------------------------------------
             'if then
             MkDir floder_path & "\" & reName_Str(user_list.ListItems(i).Text)
-            If is_username(Frame2.caption) = True And IsNumeric(user_list.ListItems(i).ListSubItems(2).Text) = True Then
+            If is_username(OX_Script_Type) = True And IsNumeric(user_list.ListItems(i).ListSubItems(2).Text) = True Then
                 MkDir floder_path & "\" & reName_Str(user_list.ListItems(i).Text) & "\albums_" & user_list.ListItems(i).ListSubItems(2).Text
             End If
             
             If form_quit = True Then GoTo end_sub
             
             'Else
-            'MkDir floder_path & "\" & rename_str(user_list.ListItems(i).Text) & Format$(Now, "_YYYYMMDD_HHMMNN")
+            '   MkDir floder_path & "\" & rename_str(user_list.ListItems(i).Text) & Format$(Now, "_YYYYMMDD_HHMMNN")
             'End If
             'download_FileName = floder_path & "\" & rename_str(user_list.ListItems(i).Text) & ".txt"
             'check_FileName
+            '-------------------------------------------------------------------
             
-            fast_down.Cancel
-            '-------------------------------------------------------------------------------------
-            
+            '-----------------------------------------------------------------------
+            '检查相册密码-----------------------------------------------------------
+            '-----------------------------------------------------------------------
             If user_list.ListItems(i).ListSubItems(1).Text <> "" Then
-restar_psw:
                 
-                If is_username(Frame2.caption) = True And user_list.SelectedItem.ListSubItems(2).Text Like "http://s*.ph*.1*.???/?*.js" Then GoTo new163_password_OK
-                If is_username(Frame2.caption) = True And user_list.SelectedItem.ListSubItems(2).Text Like "new163_ID_?*" Then GoTo end_one
+                '跳过新163相册密码检查-----------------------------------------------
+                If is_username(OX_Script_Type) = True And user_list.SelectedItem.ListSubItems(2).Text Like "new163_ID_?*" And user_list.ListItems(i).ListSubItems(1).Text = "请填写密码............" & vbCrLf & ".........." Then GoTo end_one
+                If is_username(OX_Script_Type) = True And user_list.SelectedItem.ListSubItems(2).Text Like "new163_ID_?*" Then GoTo new163_password_OK
+                '--------------------------------------------------------------------
                 
+restar_psw: '重试密码----------------------------------------------------------------
                 If user_list.ListItems(i).ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then
-                    
-                    If is_username(Frame2.caption) = True And IsNumeric(user_list.ListItems(i).ListSubItems(2).Text) = True Then
-                        
-                        If pass_code = "163" Or pass_code = "" Then
-                            Form1.Enabled = False
-                            Call check_pass_code(False, i)
-                            
-                            Do While Form1.Enabled = False
-                                DoEvents
-                                Sleep 10
-                                DoEvents
-                            Loop
-                        End If
-                        
-                        form_quit = False
-                        download_ok = False
-                        
-                        strURL = "http://photo.163.com/photos/" & Frame2.caption & "/" & user_list.ListItems(i).ListSubItems(2).Text & "/"
-                        start_Post "checking=1" & pass_code & "&pass=" & URLEncode(user_list.ListItems(i).ListSubItems(1).Text) & "&submit=%D1%E9%D6%A4", "Content-Type: application/x-www-form-urlencoded"
-                        
-                        Do While download_ok = False
-                            If form_quit = True Then GoTo end_sub
-                            DoEvents
-                            Sleep 10
-                            DoEvents
-                        Loop
-                        
-                        '您的验证信息已经过期
-                        '您输入的验证码有误
-                        '您输入的密码有误
-                        pass_accept = Not ((InStr(Html_Temp, "alert(" & Chr(34) & "您输入的密码有误") > 0) Or (InStr(Html_Temp, "alert(" & Chr(34) & "您的验证信息已经过期") > 0) Or (InStr(Html_Temp, "alert(" & Chr(34) & "您输入的验证码有误") > 0))
-                        
-                        If pass_accept = False Then
-                            fast_down.Cancel
-                            download_ok = False
-                            url_temp = Html_Temp
-                            start_fast_method = ""
-                            start_fast
-                            
-                            Do While download_ok = False
-                                If form_quit = True Then GoTo end_sub
-                                DoEvents
-                                Sleep 10
-                                DoEvents
-                            Loop
-                            
-                            If InStr(Html_Temp, "/captcha.php?code=") < 1 Then pass_accept = True
-                            Html_Temp = url_temp
-                            url_temp = ""
-                            
-                        End If
-                        
-                    Else
-                        url_temp = check_Include(Trim(user_list.ListItems(i).ListSubItems(2).Text))
-                        If url_temp = "" Then GoTo end_one
-                        pass_accept = check_album_password(url_temp, user_list.ListItems(i).ListSubItems(1).Text)
-                    End If
-                    
-                Else
-                    
-                    GoTo retry_psw
-                    
+                    url_temp = check_Include(Trim(user_list.ListItems(i).ListSubItems(2).Text))
+                    If url_temp = "" Then GoTo end_one
+                    pass_accept = check_album_password(url_temp, user_list.ListItems(i).ListSubItems(1).Text)
                 End If
                 
-                '-----------------------------------------------------------------------------
-retry_psw:
-                
+retry_psw: '重填密码----------------------------------------------------------------
                 If (pass_accept = False Or user_list.ListItems(i).ListSubItems(1).Text = "请填写密码............" & vbCrLf & "..........") And sysSet.change_psw = True Then
-                    
-                    If is_username(Frame2.caption) = True And IsNumeric(user_list.ListItems(i).ListSubItems(2).Text) = True And ((InStr(Html_Temp, "alert(" & Chr(34) & "您的验证信息已经过期") > 0) Or (InStr(Html_Temp, "alert(" & Chr(34) & "您输入的验证码有误") > 0)) Then
+                    If MsgBox("相册 " & user_list.ListItems(i).Text & " 的密码不正确，是否重新填写密码？", vbYesNo + vbExclamation, "警告") = vbYes Then
                         Form1.Enabled = False
-                        Call check_pass_code(False, i)
-                        
+                        If user_list.ListItems(i).ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then password_win.Text1.Text = user_list.ListItems(i).ListSubItems(1).Text
+                        password_win.password_win_title.caption = "相册 """ & Replace(user_list.ListItems(i).Text, "&", "&&") & """ 的" & password_win.password_win_title.caption
+                        password_win.isDown = i
+                        password_win.Combo1.Visible = False
+                        password_win.Show
                         Do While Form1.Enabled = False
                             DoEvents
                             Sleep 10
-                            DoEvents
                         Loop
-                        
+                        If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), user_list.ListItems(i).ListSubItems(1).Text, pw_163
                         GoTo restar_psw
-                    Else
-                        
-                        If MsgBox("相册 " & user_list.ListItems(i).Text & " 的密码不正确，是否重新填写密码？", vbYesNo + vbExclamation, "警告") = vbYes Then
-                            Form1.Enabled = False
-                            If user_list.ListItems(i).ListSubItems(1).Text <> "请填写密码............" & vbCrLf & ".........." Then password_win.Text1.Text = user_list.ListItems(i).ListSubItems(1).Text
-                            password_win.isDown = i
-                            password_win.Combo1.Visible = False
-                            password_win.Show
-                            Do While Form1.Enabled = False
-                                DoEvents
-                                Sleep 10
-                                DoEvents
-                            Loop
-                            If pw_163 <> "" Then WriteUnicodeIni "password", rename_ini_str(user_list.ListItems(i).ListSubItems(2).Text), user_list.ListItems(i).ListSubItems(1).Text, pw_163
-                            GoTo restar_psw
-                        End If
-                        
                     End If
-                    
                 End If
-                
             End If
+            '-----------------------------------------------------------------------
+            '-----------------------------------------------------------------------
+            '-----------------------------------------------------------------------
             
 new163_password_OK:
-            
-            '-------------------------------------------------------------------------------------
-            
-            lblProgressInfo1.caption = "正在分析相册：" & Chr(13) & download_FileName
-            
+            '-----------------------------------------------------------------------------------------------------
+            '开始下载文件列表-------------------------------------------------------------------------------------
+            '-----------------------------------------------------------------------------------------------------
+            lblProgressInfo1.caption = "正在分析相册"
             List1.ListItems.Clear
             
-            '-------------------------------------开始下载文件列表------------------------------------------------
-            If is_username(Frame2.caption) = True And IsNumeric(user_list.ListItems(i).ListSubItems(2).Text) = True Then
-                If user_list.ListItems(i).ListSubItems(1).Text <> "" Then
-                    list_163pic Frame2.caption, user_list.ListItems(i).ListSubItems(2).Text, "&from=guest"
-                Else
-                    list_163pic Frame2.caption, user_list.ListItems(i).ListSubItems(2).Text, ""
-                End If
-            ElseIf is_username(Frame2.caption) = True And LCase(user_list.ListItems(i).ListSubItems(2).Text) Like "http://s*.ph*.1*.???/?*.js" Then
-                strURL = user_list.ListItems(i).ListSubItems(2).Text
-                new163pic_listPhotoUrl
+            'old 163-----------------------------------------------------------------------------------------------------
+            'If is_username(OX_Script_Type) = True And IsNumeric(user_list.ListItems(i).ListSubItems(2).Text) = True Then
+            '    If user_list.ListItems(i).ListSubItems(1).Text <> "" Then
+            '        list_163pic OX_Script_Type, user_list.ListItems(i).ListSubItems(2).Text, "&from=guest"
+            '    Else
+            '        list_163pic OX_Script_Type, user_list.ListItems(i).ListSubItems(2).Text, ""
+            '    End If
+            '------------------------------------------------------------------------------------------------------------
+            
+            If is_username(OX_Script_Type) = True And user_list.ListItems(i).ListSubItems(2).Text Like "new163_ID_?*" Then
+                strURL = Trim(new163pic_GetJs(OX_Script_Type, Replace(user_list.ListItems(i).ListSubItems(2).Text, "new163_ID_", ""), user_list.ListItems(i).ListSubItems(1).Text))
+                If strURL = "" Then GoTo end_one
+                Call new163pic_listPhotoUrl
             Else
                 url_temp = check_Include(Trim(user_list.ListItems(i).ListSubItems(2).Text))
                 If url_temp = "" Then GoTo end_one
-                list_photo_script url_temp
+                '!!!!!没有把密码值赋给函数，如果该网站密码不是通过session判断，那么前一次check_album_password就会无效（一般网站都是可以的）
+                Call list_photo_script(url_temp)
                 If List1.ListItems.count > 0 And sysSet.fix_rar > 0 Then fix_rar
             End If
             '------------------------------------------------------------------------------------
             
             If List1.ListItems.count = 0 Then GoTo end_one
-            
-            If user_list.ListItems(i).ListSubItems(5).Text <> "" Then albums_check_pic user_list.ListItems(i).ListSubItems(5).Text
+            If user_list.ListItems(i).ListSubItems(5).Text <> "" Then albums_checked_pic user_list.ListItems(i).ListSubItems(5).Text
             
             '保存列表中的图片------------------------------------
             
@@ -7528,8 +7038,7 @@ new163_password_OK:
                 
                 user_list.ListItems(i).ListSubItems(3).Text = save_img_i & Mid$(user_list.ListItems(i).ListSubItems(3).Text, InStr(user_list.ListItems(i).ListSubItems(3).Text, "/"))
                 
-                
-                If List1.ListItems(save_img_i).Checked = True Then
+                If List1.ListItems(save_img_i).Checked = True And Trim$(List1.ListItems(i).ListSubItems(3).Text) <> "" Then
                     
                     '----------------------------命名规则---------------------------------
                     Select Case rename_rules_val
@@ -7542,7 +7051,7 @@ new163_password_OK:
                     End Select
                     '-----------------------------------------------------------------
                     
-                    If is_username(Frame2.caption) = True And IsNumeric(user_list.ListItems(i).ListSubItems(2).Text) = True Then
+                    If is_username(OX_Script_Type) = True And IsNumeric(user_list.ListItems(i).ListSubItems(2).Text) = True Then
                         download_FileName = floder_path & "\" & reName_Str(user_list.ListItems(i).Text) & "\albums_" & user_list.ListItems(i).ListSubItems(2).Text & "\" & name_rules_add & List1.ListItems(save_img_i).ListSubItems(1).Text
                     Else
                         download_FileName = floder_path & "\" & reName_Str(user_list.ListItems(i).Text) & "\" & name_rules_add & List1.ListItems(save_img_i).ListSubItems(1).Text
@@ -7552,7 +7061,7 @@ new163_password_OK:
                     
                     m_lngDocSize = 0
                     old_FileSize = 0
-                    check_FileName
+                    Call check_FileName
                     
                     If old_FileSize <> -1 Then
                         
@@ -7568,7 +7077,6 @@ new163_password_OK:
                             If form_quit = True Then Close #1: GoTo end_sub
                             DoEvents
                             Sleep 10
-                            DoEvents
                         Loop
                         Close #1
                         
@@ -7669,7 +7177,7 @@ Private Sub Web_Browser_NewWindow2(ppDisp As Object, Cancel As Boolean)
 End Sub
 
 
-Private Sub Web_Search_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, Flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
+Private Sub Web_Search_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
     On Error Resume Next
     If new_win = True Then
         new_win = False
@@ -7705,8 +7213,14 @@ Private Sub OLEDragDrop(Data As DataObject)
         url_input.SelStart = 0
         url_input.SelLength = Len(url_input.Text)
         
-        'ElseIf Data.GetFormat(vbCFFiles) = True Then
-        
+    ElseIf Data.GetFormat(vbCFFiles) = True Then
+    For Each n In Data.Files
+    If LCase(n) Like "*.htm" Or LCase(n) Like "*txt" Or LCase(n) Like "*.html" Then
+    url_input.Text = n
+    Call view_command_Click
+    Exit For
+    End If
+    Next
     End If
     url_input.SetFocus
 End Sub
@@ -8159,8 +7673,8 @@ Private Sub run_script()
         
         Form1.Icon = ico(1).Picture
         
-        Frame2.caption = run_script_str(0) & "|" & run_script_str(1) & "|" & run_script_str(2)
-        
+        'Frame2.caption = run_script_str(0) & "|" & run_script_str(1) & "|" & run_script_str(2)
+        OX_Script_Type = run_script_str(0) & "|" & run_script_str(1) & "|" & run_script_str(2)
         '--------------------------------------------------------
         
         list_album_script url_temp
@@ -8260,7 +7774,7 @@ Private Sub list_photo_script(ByVal photo_info)
         '执行下载页面函数
         If ScriptDownload(Dl_Info.mode) Then Exit Sub
         'replace html----------------------------------------------------------------------------
-        Html_Temp = OX_FilterKeywords(Html_Temp, Dl_Info.excludeChar)    'Html_Temp = OX_CInternal(Html_Temp, script_app.Language)'使用script_app.Run方式不需要替换回车，引号等特殊字符
+        Html_Temp = OX_FilterKeywords(Html_Temp, Dl_Info.excludeChar)    'Html_Temp = OX_CInternal(Html_Temp, script_app.Language) '使用script_app.Run方式不需要替换回车、引号等特殊字符
         DoEvents
         If form_quit = True Then Exit Sub
         Call DisplayCaption("执行return_download_list")
@@ -8275,7 +7789,7 @@ Private Sub list_photo_script(ByVal photo_info)
         'list Photo Url 取得照片链接地址等信息------------------------------------------------------
         Script_Retrun_Temp = Script_App.Run("return_download_list", Html_Temp, Script_Info.Criteria)
         Call CheckScriptError
-        '取得格式化后的改业面的引用页、头信息等
+        '取得格式化后的该页面的引用页、头信息等
         urlpage_Referer = Trim$(Script_App.Eval("OX163_urlpage_Referer"))
         Call CheckScriptError
         If Form1.WindowState = 0 Then always_on_top sysSet.always_top
@@ -8285,7 +7799,6 @@ Private Sub list_photo_script(ByVal photo_info)
         
         Dim photoInfos() As PhotoInfo
         photoInfos = ParsePhoto(Script_Retrun_Temp)
-        script_code_replace = Split(Script_Retrun_Temp, vbCrLf)
         
         For i = 0 To UBound(photoInfos)
             DoEvents
@@ -8508,7 +8021,7 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
             'Function return_ad_password_rules(ByVal html_str, ByVal url_str, ByVal pass_word)
             Script_Retrun_Temp = Script_App.Run("return_ad_password_rules", Html_Temp, Script_Info.Criteria, pass_word)
             Call CheckScriptError
-            '取得格式化后的改业面的引用页、头信息等
+            '取得格式化后的该页面的引用页、头信息等
             urlpage_Referer = Trim(Script_App.Eval("OX163_urlpage_Referer"))
             Call CheckScriptError
             If Form1.WindowState = 0 Then always_on_top sysSet.always_top
@@ -8569,3 +8082,4 @@ End Function
 '------------------------------------------------------------------------------
 '------------------------------------------------------------------------------
 '------------------------------------------------------------------------------
+'-------------------------------------------------------------------------

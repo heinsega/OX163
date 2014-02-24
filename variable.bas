@@ -110,6 +110,8 @@ Type sysSetting
     def_path As String
     '外部脚本执行方式
     include_script As String
+    '脚本列表
+    include_scriptlist As String
     'ctrl+c等操作设定
     list_copy As Boolean
     '已下载文件比较
@@ -131,6 +133,8 @@ Type sysSetting
     '代理服务器使用方式
     proxy_A_type As Byte
     proxy_B_type As Byte
+    '代理服务器A应用于内置浏览器
+    web_proxy As Byte
     '是否建立URL文件夹
     url_folder As Boolean
     '使用新163相册中文密码规则
