@@ -106,12 +106,11 @@ Public Declare Function ShellExecute Lib "shell32" Alias "ShellExecuteW" (ByVal 
 '-------------------------------------------------------------------------
 'InternetCookie-----------------------------------------------------------
 Public Declare Function InternetGetCookie Lib "wininet.dll" Alias "InternetGetCookieA" (ByVal lpszUrlName As String, ByVal lpszCookieName As String, ByVal lpszCookieData As String, ByRef lpdwSize As Long) As Long
-
 '-------------------------------------------------------------------------
 '解Gzip压缩数组-----------------------------------------------------------
 'Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (hpvDest As Any, hpvSource As Any, ByVal cbCopy As Long) '已经定义
 Private Declare Function InitDecompression Lib "gzip.dll" () As Long
-Private Declare Function CreateDecompression Lib "gzip.dll" (ByRef context As Long, ByVal Flags As Long) As Long
+Private Declare Function CreateDecompression Lib "gzip.dll" (ByRef context As Long, ByVal flags As Long) As Long
 Private Declare Function DestroyDecompression Lib "gzip.dll" (ByRef context As Long) As Long
 Private Declare Function Decompress Lib "gzip.dll" (ByVal context As Long, inBytes As Any, ByVal input_size As Long, outBytes As Any, ByVal output_size As Long, ByRef input_used As Long, ByRef output_used As Long) As Long
 'Private Const OFFSET As Long = &H8
@@ -135,7 +134,7 @@ Private Type OPENFILENAME
     nMaxFileTitle As Long
     lpstrInitialDir As String
     lpstrTitle As String
-    Flags As Long
+    flags As Long
     nFileOffset As Integer
     nFileExtension As Integer
     lpstrDefExt As String
@@ -167,7 +166,7 @@ Public Function ShowOpenFileDialog(InitialDir As String, DialogTitle As String, 
     OpenFile.nMaxFileTitle = Len(OpenFile.lpstrFileTitle)
     OpenFile.lpstrInitialDir = StrConv(InitialDir, vbUnicode)
     OpenFile.lpstrTitle = StrConv(DialogTitle, vbUnicode)
-    OpenFile.Flags = OFN_FILEMUSTEXIST
+    OpenFile.flags = OFN_FILEMUSTEXIST
     lReturn = GetOpenFileName(OpenFile)
     
     If lReturn = 0 Then  'lReturn is always 0 even when a file is selected!!
@@ -203,7 +202,7 @@ Public Function ShowSaveFileDialog(InitialDir As String, DialogTitle As String, 
     OpenFile.nMaxFileTitle = Len(OpenFile.lpstrFileTitle)
     OpenFile.lpstrInitialDir = StrConv(InitialDir, vbUnicode)
     OpenFile.lpstrTitle = StrConv(DialogTitle, vbUnicode)
-    OpenFile.Flags = OFN_FILEMUSTEXIST
+    OpenFile.flags = OFN_FILEMUSTEXIST
     lReturn = GetSaveFileName(OpenFile)
     
     If lReturn = 0 Then  'lReturn is always 0 even when a file is selected!!
@@ -312,7 +311,7 @@ Sub Main()
     InitCommonControlsVB
     
     Dim CurrentProcesshWnd As Long
-    CurrentProcesshWnd = GetCurrentProcess
+    CurrentProcesshWnd = cess
     Call SetPriorityClass(CurrentProcesshWnd, &H8000)
     
     start_ox163.Show
@@ -324,33 +323,10 @@ End Sub
 'get cookies--------------------------------------------------------------
 '-------------------------------------------------------------------------
 Public Function GetCookie(ByVal InternetGetCookie_url) As String
-    Dim buf_Cookies As String * 256, ret As Long, cLen As Long
-    cLen = 256
-    ret = InternetGetCookie(InternetGetCookie_url, "", buf_Cookies, cLen)
+    Dim buf_Cookies As String * 5000, cLen As Long
+    cLen = 5000
+    Call InternetGetCookie(InternetGetCookie_url, vbNullString, buf_Cookies, cLen)
     GetCookie = Left(buf_Cookies, cLen)
-End Function
-
-'-------------------------------------------------------------------------
-'取得文件夹短路径（支持unnicode字符）-------------------------------------
-'-------------------------------------------------------------------------
-Public Function GetShortName(ByVal sLongFileName As String) As String
-    On Error Resume Next
-    GetShortName = ""
-    Dim GetShortName_Fso
-    
-    Set GetShortName_Fso = CreateObject("Scripting.FileSystemObject")
-    
-    Err.Clear
-    GetShortName = GetShortName_Fso.GetFile(sLongFileName).ShortPath
-    
-    If Err.Number <> 0 Then
-        Err.Clear
-        GetShortName = GetShortName_Fso.GetFolder(sLongFileName).ShortPath
-    End If
-    
-    Set GetShortName_Fso = Nothing
-    
-    If GetShortName = "" Then GetShortName = sLongFileName
 End Function
 
 '-------------------------------------------------------------------------

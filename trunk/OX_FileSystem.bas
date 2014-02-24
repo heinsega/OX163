@@ -10,7 +10,7 @@ Private Declare Function OpenClipboard Lib "user32" (ByVal hWnd As Long) As Long
 Private Declare Function SetClipboardData Lib "user32" (ByVal Format As Long, ByVal hMem As Long) As Long
 Private Declare Function CloseClipboard Lib "user32" () As Long
 Private Declare Function EmptyClipboard Lib "user32" () As Long
-Private Declare Function GlobalAlloc Lib "kernel32" (ByVal Flags As Long, ByVal lent As Long) As Long
+Private Declare Function GlobalAlloc Lib "kernel32" (ByVal flags As Long, ByVal lent As Long) As Long
 Private Declare Function GlobalLock Lib "kernel32" (ByVal hMem As Long) As Long
 Private Declare Function GlobalUnlock Lib "kernel32" (ByVal hMem As Long) As Long
 Private Declare Sub RtlMoveMemory Lib "kernel32" (ByVal pDest As Long, ByVal pSource As Long, ByVal lent As Long)
@@ -18,6 +18,44 @@ Private Declare Sub RtlMoveMemory Lib "kernel32" (ByVal pDest As Long, ByVal pSo
 Private Const CF_UNICODETEXT = &HD&
 Private Const GMEM_MOVEABLE = &O2&
 Private Const GMEM_ZEROINIT = &O40&
+
+'取得文件夹短路径（支持unnicode字符）-------------------------------------
+Private Declare Function GetShortPathNameW Lib "Kernel32.dll" (ByVal sLongPath As Long, ByVal sShortPath As Long, ByVal maxLen As Integer) As Integer
+'-------------------------------------------------------------------------
+
+'-------------------------------------------------------------------------
+'取得文件夹短路径（支持unnicode字符）-------------------------------------
+'-------------------------------------------------------------------------
+Public Function GetShortName(ByVal sLongFileName As String) As String
+    On Error Resume Next
+'Unicode API mode-----------------------------------------------------------------
+    GetShortName = Space(255)
+    Dim GetShortName_slength As Integer
+
+    GetShortName_slength = GetShortPathNameW(StrPtr(sLongFileName), StrPtr(GetShortName), 255)
+    GetShortName = Left(GetShortName, GetShortName_slength)
+    If Right(GetShortName, 1) = "\" Or Right(GetShortName, 1) = "/" Then GetShortName = Left(GetShortName, GetShortName_slength - 1)
+
+    If GetShortName = "" Then GetShortName = sLongFileName
+    
+'Scripting.FileSystemObject mode---------------------------------------
+'    GetShortName = ""
+'    Dim GetShortName_Fso
+'
+'    Set GetShortName_Fso = CreateObject("Scripting.FileSystemObject")
+'
+'    Err.Clear
+'    GetShortName = GetShortName_Fso.GetFile(sLongFileName).ShortPath
+'
+'    If Err.Number <> 0 Then
+'        Err.Clear
+'        GetShortName = GetShortName_Fso.GetFolder(sLongFileName).ShortPath
+'    End If
+'
+'    Set GetShortName_Fso = Nothing
+'
+'    If GetShortName = "" Then GetShortName = sLongFileName
+End Function
 '-------------------------------------------------------------------------
 '创建文件（含有Unicode字符亦可）------------------------------------------
 '-------------------------------------------------------------------------
@@ -31,14 +69,15 @@ On Error GoTo OX_GreatFileErr
 OX_GreatFileRetry:
     Set ADO_Stream = CreateObject("ADODB.Stream")
     With ADO_Stream
-        .Type = 1
+        .Type = 1 '1-二进制 2-文本
         .Open
-        .SaveToFile OX_GreatFileName, 2
+        .SaveToFile OX_GreatFileName, 2 '1-不允许覆盖 2-覆盖写入
         .Close
     End With
     Set ADO_Stream = Nothing
     
     If OX_Dirfile(OX_GreatFileName) = False And OX_GreatFile_retry = False Then
+        OX_GreatFile_retry = True
         GoTo OX_GreatFileRetry
     ElseIf OX_Dirfile(OX_GreatFileName) = False Then
         GoTo OX_GreatFileErr
@@ -51,7 +90,42 @@ OX_GreatFileErr:
     Err.Clear
     OX_GreatFile = False
 End Function
+'-------------------------------------------------------------------------
+'创建自定义字符集的文本文件-----------------------------------------------
+'-------------------------------------------------------------------------
+Public Function OX_GreatTxtFile(OX_GreatTxtFileName As String, TxtFile_Char As String, TxtFileCharset As String) As Boolean
+On Error GoTo OX_GreatFileErr
 
+    Dim ADO_Stream As Object
+    Dim OX_GreatTxtFile_retry As Boolean
+    OX_GreatTxtFile_retry = False
+
+OX_GreatFileRetry:
+    Set ADO_Stream = CreateObject("ADODB.Stream")
+    With ADO_Stream
+        .Type = 2 '1-二进制 2-文本
+        .Open
+        .Charset = TxtFileCharset
+        .WriteText TxtFile_Char
+        .SaveToFile OX_GreatTxtFileName, 2 '1-不允许覆盖 2-覆盖写入
+        .Close
+    End With
+    Set ADO_Stream = Nothing
+    
+    If OX_Dirfile(OX_GreatTxtFileName) = False And OX_GreatTxtFile_retry = False Then
+        OX_GreatTxtFile_retry = True
+        GoTo OX_GreatFileRetry
+    ElseIf OX_Dirfile(OX_GreatTxtFileName) = False Then
+        GoTo OX_GreatFileErr
+    End If
+    
+    OX_GreatTxtFile = True
+    Exit Function
+    
+OX_GreatFileErr:
+    Err.Clear
+    OX_GreatTxtFile = False
+End Function
 '-------------------------------------------------------------------------
 '判断文件是否存在---------------------------------------------------------
 '-------------------------------------------------------------------------

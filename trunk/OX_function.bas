@@ -1,4 +1,156 @@
 Attribute VB_Name = "OX_function"
+Public Declare Function InternetSetOption Lib "wininet.dll" Alias "InternetSetOptionA" (ByVal hInternet As Long, ByVal dwOption As Long, ByRef lpBuffer As Any, ByVal dwBufferLength As Long) As Long
+
+Public Type INTERNET_PROXY_INFO
+    dwAccessType    As Long
+    lpszProxy      As String
+    lpszProxyBypass As String
+End Type
+
+Private Const INTERNET_OPTION_PROXY = 38
+Private Const INTERNET_OPTION_PROXY_USERNAME = 43
+Private Const INTERNET_OPTION_PROXY_PASSWORD = 44
+Private Const INTERNET_OPTION_SETTINGS_CHANGED = 39
+
+Private Const INTERNET_OPEN_TYPE_PRECONFIG = 0
+Private Const INTERNET_OPEN_TYPE_DIRECT = 1
+Private Const INTERNET_OPEN_TYPE_PROXY = 3
+Private Const INTERNET_OPEN_TYPE_PRECONFIG_WITH_NO_AUTOPROXY = 4
+
+Dim options As INTERNET_PROXY_INFO
+
+Public Enum OX_ntimeTypes
+    OX_ntime_Now
+    OX_ntime_Time
+    OX_ntime_Timer
+End Enum
+
+Public Enum OX_ntimeFormat
+    OX_ntime_Default
+    OX_ntime_Hex
+    OX_ntime_int
+End Enum
+'-------------------------------------------------------------------------
+'参数调整后重新设置代理服务器设置-----------------------------------------
+'-------------------------------------------------------------------------
+Public Sub Proxy_set()
+    '程序第一次启动判断
+    Static star_up_count As Boolean
+    
+    Dim inf As INTERNET_PROXY_INFO
+    
+    Form1.fast_down.Proxy = ""
+    Form1.fast_down.username = ""
+    Form1.fast_down.password = ""
+    Form1.Proxy_img(0).Visible = False
+    Form1.Proxy_img(1).Visible = False
+    Form1.Proxy_img(2).Visible = False
+    
+    Select Case sysSet.proxy_A_type
+    Case 1
+        
+        If sysSet.web_proxy = 1 Then
+            inf.dwAccessType = INTERNET_OPEN_TYPE_DIRECT
+            inf.lpszProxy = ""
+            inf.lpszProxyBypass = ""
+            
+            Call InternetSetOption(0, INTERNET_OPTION_PROXY, inf, LenB(inf))
+            Call InternetSetOption(0, INTERNET_OPTION_SETTINGS_CHANGED, "", 0)
+        End If
+        
+        Form1.fast_down.AccessType = icDirect
+        
+    Case 2
+        sysSet.proxy_A = Trim(Replace(Replace(sysSet.proxy_A, Chr(10), ""), Chr(13), ""))
+        If Len(sysSet.proxy_A) > 4 Then
+            
+            If sysSet.web_proxy = 1 Then
+                inf.dwAccessType = INTERNET_OPEN_TYPE_PROXY
+                inf.lpszProxy = sysSet.proxy_A
+                inf.lpszProxyBypass = ""
+                Call InternetSetOption(0, INTERNET_OPTION_PROXY, inf, LenB(inf))
+                Call InternetSetOption(0, INTERNET_OPTION_SETTINGS_CHANGED, "", 0)
+            End If
+            
+            Form1.fast_down.AccessType = icNamedProxy
+            Form1.fast_down.Proxy = sysSet.proxy_A
+            Form1.Proxy_img(1).Visible = True
+            
+            sysSet.proxy_A_user = Trim(Replace(Replace(sysSet.proxy_A_user, Chr(10), ""), Chr(13), ""))
+            sysSet.proxy_A_pw = Trim(Replace(Replace(sysSet.proxy_A_pw, Chr(10), ""), Chr(13), ""))
+            
+            If Len(sysSet.proxy_A_user) > 0 Then
+                Form1.fast_down.username = sysSet.proxy_A_user
+                If sysSet.web_proxy = 1 Then Call InternetSetOption(0, INTERNET_OPTION_PROXY_USERNAME, sysSet.proxy_A_user, LenB(sysSet.proxy_A_user))
+            End If
+            If Len(sysSet.proxy_A_pw) > 0 Then
+                Form1.fast_down.password = sysSet.proxy_A_pw
+                If sysSet.web_proxy = 1 Then Call InternetSetOption(0, INTERNET_OPTION_PROXY_PASSWORD, sysSet.proxy_A_user, LenB(sysSet.proxy_A_user))
+            End If
+            
+            
+        Else
+            Form1.fast_down.AccessType = icUseDefault
+        End If
+        
+    Case Else
+        '程序第一次启动,使用IE代理情况下不设置
+        If sysSet.web_proxy = 1 And star_up_count = True Then
+            inf.dwAccessType = INTERNET_OPEN_TYPE_DIRECT
+            inf.lpszProxy = ""
+            inf.lpszProxyBypass = ""
+            
+            Call InternetSetOption(0, INTERNET_OPTION_PROXY, inf, LenB(inf))
+            Call InternetSetOption(0, INTERNET_OPTION_SETTINGS_CHANGED, "", 0)
+        End If
+        
+        Form1.fast_down.AccessType = icUseDefault
+        
+    End Select
+    
+    '-------------------------------------------------------------------------
+    Form1.Inet1.Proxy = ""
+    Form1.Inet1.username = ""
+    Form1.Inet1.password = ""
+    Form1.check_header.Proxy = ""
+    Form1.check_header.username = ""
+    Form1.check_header.password = ""
+    
+    Select Case sysSet.proxy_B_type
+    Case 1 'icDirect
+        Form1.Inet1.AccessType = icDirect
+        Form1.check_header.AccessType = icDirect
+    Case 2 'icNamedProxy
+        sysSet.proxy_B = Trim(Replace(Replace(sysSet.proxy_B, Chr(10), ""), Chr(13), ""))
+        If Len(sysSet.proxy_B) > 4 Then
+            Form1.Inet1.AccessType = icNamedProxy
+            Form1.Inet1.Proxy = sysSet.proxy_B
+            Form1.check_header.AccessType = icNamedProxy
+            Form1.check_header.Proxy = sysSet.proxy_B
+            Form1.Proxy_img(2).Visible = True
+            sysSet.proxy_B_user = Trim(Replace(Replace(sysSet.proxy_B_user, Chr(10), ""), Chr(13), ""))
+            sysSet.proxy_B_pw = Trim(Replace(Replace(sysSet.proxy_B_pw, Chr(10), ""), Chr(13), ""))
+            If Len(sysSet.proxy_B_user) > 0 Then Form1.Inet1.username = sysSet.proxy_B_user: Form1.check_header.username = sysSet.proxy_B_user
+            If Len(sysSet.proxy_B_pw) > 0 Then Form1.Inet1.password = sysSet.proxy_B_pw: Form1.check_header.password = sysSet.proxy_B_pw
+        Else 'icUseDefault
+            Form1.Inet1.AccessType = icUseDefault
+            Form1.check_header.AccessType = icUseDefault
+        End If
+        
+    Case Else
+        Form1.Inet1.AccessType = icUseDefault
+        Form1.check_header.AccessType = icUseDefault
+    End Select
+    
+    If sysSet.proxy_A_type = 2 And sysSet.proxy_B_type = 2 Then
+        Form1.Proxy_img(0).Visible = True
+        Form1.Proxy_img(1).Visible = False
+        Form1.Proxy_img(2).Visible = False
+    End If
+    If star_up_count = False Then star_up_count = True
+End Sub
+
+
 '-------------------------------------------------------------------------
 'debug调试用函数----------------------------------------------------------
 Public Sub OX_Debug_File(ByVal Debug_file_String As String)
@@ -7,8 +159,8 @@ Public Sub OX_Debug_File(ByVal Debug_file_String As String)
     End If
     Dim FileNumber
     FileNumber = FreeFile ' 取得未使用的文件号。
-    Open App_path & "\debug\OX163_Debug_File(" & Now() & ").txt" For Output As #FileNumber   ' 创建文件名。
-    Write #FileNumber, Debug_file_String ' 输出文本至文件中。
+    Open App_path & "\debug\OX163_Debug_" & Int(Timer() * 1000000) & ".txt" For Output As #FileNumber ' 创建文件名。
+    Print #FileNumber, Debug_file_String ' 输出文本至文件中。
     Close #FileNumber   ' 关闭文件。
 End Sub
 
@@ -33,22 +185,36 @@ End Function
 '-------------------------------------------------------------------------
 Public Function load_Script(file_name) As String
     On Error Resume Next
-    Dim fileline As String
-    Dim fso As Object, file As Object
-    Set fso = CreateObject("Scripting.FileSystemObject")
-    Set file = fso.OpenTextFile(file_name, 1, False, 0)
-    load_Script = file.Readall
-    file.Close
-    Set fso = Nothing
     
-    'Open file_name For Input As #5
-    'Do While Not EOF(5)
-    'Line Input #5, fileline
-    'load_script = load_script + fileline & vbCrLf
-    'DoEvents
-    'Loop
-    'Close #5
-    'load_script = Left$(load_script, Len(load_script) - 2)
+    Dim ADO_Stream As Object
+    Set ADO_Stream = CreateObject("ADODB.Stream")
+    
+    With ADO_Stream
+        .Type = 2 '1-二进制 2-文本
+        .Charset = "GB2312"
+        .Open
+        .LoadFromFile file_name
+        load_Script = .ReadText
+        .Close
+    End With
+    Set ADO_Stream = Nothing
+    
+    '    Dim fileline As String
+    '    Dim fso As Object, file As Object
+    '    Set fso = CreateObject("Scripting.FileSystemObject")
+    '    Set file = fso.OpenTextFile(file_name, 1, False, 0)
+    '    load_Script = file.Readall
+    '    file.Close
+    '    Set fso = Nothing
+    
+    '    Open file_name For Input As #5
+    '    Do While Not EOF(5)
+    '    Line Input #5, fileline
+    '    load_Script = load_Script + fileline & vbCrLf
+    '    DoEvents
+    '    Loop
+    '    Close #5
+    '    load_Script = Left$(load_Script, Len(load_Script) - 2)
 End Function
 
 '-------------------------------------------------------------------------
@@ -176,7 +342,128 @@ Public Sub FileTo_UTF8File(fileName As String)
     Set ADO_Stream = Nothing
 End Sub
 '-------------------------------------------------------------------------
+'设定随机参数-------------------------------------------------------------
 '-------------------------------------------------------------------------
+Public Function OX_ntime(OX_ntime_T As OX_ntimeTypes, OX_ntime_F As OX_ntimeFormat)
+    Dim OX_ntime_D As Double
+    Select Case OX_ntime_T
+    Case OX_ntime_Time
+        OX_ntime_D = CDbl(Time())
+    Case OX_ntime_Timer
+        OX_ntime_D = CDbl(Timer())
+    Case Else
+        OX_ntime_D = CDbl(Now())
+    End Select
+    OX_ntime = OX_ntime_D
+    
+    Select Case OX_ntime_F
+    Case OX_ntime_Hex
+        OX_ntime_D = CDbl(Replace(OX_ntime_D, ".", ""))
+        Do While OX_ntime_D > 268435455
+            OX_ntime_D = OX_ntime_D - 268435455
+        Loop
+        OX_ntime = Hex(OX_ntime_D)
+    Case OX_ntime_int
+        OX_ntime = Int(Replace(OX_ntime_D, ".", ""))
+    End Select
+    
+    OX_ntime = Trim(OX_ntime)
+End Function
+
+'-------------------------------------------------------------------------
+'-------------------------------------------------------------------------
+'加载OX163脚本顺序函数----------------------------------------------------
+Public Function OX_Check_include_scriptlist(ByVal OX_sCIS As String, OX_CIS_tf As Boolean) As String 'CIS is "Check Include Scriptlist"
+    Dim spilt_string1
+    Dim split_i As Integer
+    Dim Check_CIS As String
+    Dim OX_CIS_first As Boolean
+    Dim OX_CIS_sys163 As Boolean
+    Dim OX_CIS_sysinc As Boolean
+    
+    OX_CIS_first = False
+    OX_CIS_sys163 = False
+    OX_CIS_sysinc = False
+    
+    spilt_string1 = Split(OX_sCIS, "|")
+    
+    For split_i = 0 To UBound(spilt_string1)
+        
+        spilt_string1(split_i) = Trim(spilt_string1(split_i))
+        
+        If spilt_string1(split_i) <> "" And InStr(spilt_string1(split_i), ",") > 0 And InStr(spilt_string1(split_i), "\") < 1 Then
+            
+            Check_CIS = Trim(Mid(spilt_string1(split_i), InStr(spilt_string1(split_i), ",") + 1))
+            spilt_string1(split_i) = Trim(Mid(spilt_string1(split_i), 1, InStr(spilt_string1(split_i), ",") - 1))
+            If Check_CIS <> "1" Then Check_CIS = "0"
+            
+            Select Case LCase(spilt_string1(split_i))
+                
+            Case "sys_163"
+                
+                If OX_CIS_tf = True And Check_CIS = "0" Then
+                    spilt_string1(split_i) = ""
+                ElseIf OX_CIS_tf = True And Check_CIS = "1" Then
+                    spilt_string1(split_i) = "sys_163"
+                Else
+                    OX_CIS_sys163 = True
+                    spilt_string1(split_i) = "sys_163," & Check_CIS
+                End If
+                
+            Case "sys_include"
+                
+                If OX_CIS_tf = True And Check_CIS = "0" Then
+                    spilt_string1(split_i) = ""
+                ElseIf OX_CIS_tf = True And Check_CIS = "1" Then
+                    spilt_string1(split_i) = "sys\include.txt"
+                Else
+                    OX_CIS_sysinc = True
+                    spilt_string1(split_i) = "sys_include," & Check_CIS
+                End If
+                
+            Case Else
+                
+                If LCase(spilt_string1(split_i)) Like "?*.txt" Then
+                    If Dir(App_path & "\include\custom\" & spilt_string1(split_i)) = "" Then
+                        spilt_string1(split_i) = ""
+                    Else
+                        If OX_CIS_tf = True And Check_CIS = "0" Then
+                            spilt_string1(split_i) = ""
+                        ElseIf OX_CIS_tf = True And Check_CIS = "1" Then
+                            spilt_string1(split_i) = "custom\" & spilt_string1(split_i)
+                        Else
+                            spilt_string1(split_i) = spilt_string1(split_i) & "," & Check_CIS
+                        End If
+                    End If
+                Else
+                    spilt_string1(split_i) = ""
+                End If
+                
+            End Select
+            
+        Else
+            spilt_string1(split_i) = ""
+        End If
+        
+        If OX_CIS_first = False And spilt_string1(split_i) <> "" Then
+            OX_CIS_first = True
+        ElseIf OX_CIS_first = True And spilt_string1(split_i) <> "" Then
+            spilt_string1(split_i) = "|" & spilt_string1(split_i)
+        End If
+        
+    Next
+    
+    OX_Check_include_scriptlist = Join(spilt_string1, "")
+    If OX_CIS_tf = False Then
+        If OX_Check_include_scriptlist = "" Then
+            OX_Check_include_scriptlist = "sys_163,1|sys_include,1"
+        ElseIf OX_CIS_sys163 = False Or OX_CIS_sysinc = False Then
+            If OX_CIS_sysinc = False Then OX_Check_include_scriptlist = "sys_include,1|" & OX_Check_include_scriptlist
+            If OX_CIS_sys163 = False Then OX_Check_include_scriptlist = "sys_163,1|" & OX_Check_include_scriptlist
+        End If
+    End If
+End Function
+
 '加载OX163脚本默认函数----------------------------------------------------
 Public Sub OX_load_Script_Code(sourceScriptInfo As ScriptInfo, sourceScriptApp As ScriptControl)
     On Error Resume Next
@@ -199,30 +486,30 @@ Public Sub load_in_Script_Code()
     On Error Resume Next
     in_Script_Code.OX163_vbs_var = ""
     If Dir(App_path & "\include\sys\OX163_vbs_var.vbs") <> "" Then
-    in_Script_Code.OX163_vbs_var = vbCrLf & load_Script(App_path & "\include\sys\OX163_vbs_var.vbs") & vbCrLf
+        in_Script_Code.OX163_vbs_var = vbCrLf & load_Script(App_path & "\include\sys\OX163_vbs_var.vbs") & vbCrLf
     Else
-    in_Script_Code.OX163_vbs_var = vbCrLf & "Dim OX163_urlpage_Referer,OX163_urlpage_Cookies" & vbCrLf
+        in_Script_Code.OX163_vbs_var = vbCrLf & "Dim OX163_urlpage_Referer,OX163_urlpage_Cookies" & vbCrLf
     End If
     
     in_Script_Code.OX163_vbs_fn = ""
     If Dir(App_path & "\include\sys\OX163_vbs_fn.vbs") <> "" Then
-    in_Script_Code.OX163_vbs_fn = vbCrLf & load_Script(App_path & "\include\sys\OX163_vbs_fn.vbs") & vbCrLf
+        in_Script_Code.OX163_vbs_fn = vbCrLf & load_Script(App_path & "\include\sys\OX163_vbs_fn.vbs") & vbCrLf
     Else
-    in_Script_Code.OX163_vbs_fn = vbCrLf & "Function set_urlpagecookies(byVal set_str)" & vbCrLf & "On Error Resume Next" & vbCrLf & "OX163_urlpage_Cookies = set_str" & vbCrLf & "End Function" & vbCrLf
+        in_Script_Code.OX163_vbs_fn = vbCrLf & "Function set_urlpagecookies(byVal set_str)" & vbCrLf & "On Error Resume Next" & vbCrLf & "OX163_urlpage_Cookies = set_str" & vbCrLf & "End Function" & vbCrLf
     End If
     
     in_Script_Code.OX163_js_var = ""
     If Dir(App_path & "\include\sys\OX163_js_var.vbs") <> "" Then
-    in_Script_Code.OX163_js_var = vbCrLf & load_Script(App_path & "\include\sys\OX163_js_var.vbs") & vbCrLf
+        in_Script_Code.OX163_js_var = vbCrLf & load_Script(App_path & "\include\sys\OX163_js_var.vbs") & vbCrLf
     Else
-    in_Script_Code.OX163_js_var = vbCrLf & "var OX163_urlpage_Referer='';var OX163_urlpage_Cookies='';" & vbCrLf
+        in_Script_Code.OX163_js_var = vbCrLf & "var OX163_urlpage_Referer='';var OX163_urlpage_Cookies='';" & vbCrLf
     End If
     
     in_Script_Code.OX163_js_fn = ""
     If Dir(App_path & "\include\sys\OX163_js_fn.vbs") <> "" Then
-    in_Script_Code.OX163_js_fn = vbCrLf & load_Script(App_path & "\include\sys\OX163_js_fn.vbs") & vbCrLf
+        in_Script_Code.OX163_js_fn = vbCrLf & load_Script(App_path & "\include\sys\OX163_js_fn.vbs") & vbCrLf
     Else
-    in_Script_Code.OX163_js_fn = vbCrLf & "function set_urlpagecookies(set_str){OX163_urlpage_Cookies=set_str;}" & vbCrLf
+        in_Script_Code.OX163_js_fn = vbCrLf & "function set_urlpagecookies(set_str){OX163_urlpage_Cookies=set_str;}" & vbCrLf
     End If
     
     OX163_WebBrowser_scriptCode = ""
@@ -232,77 +519,3 @@ Public Sub load_in_Script_Code()
     End If
 End Sub
 
-'-------------------------------------------------------------------------
-'-------------------------------------------------------------------------
-'参数调整后重新设置代理服务器设置-----------------------------------------
-'-------------------------------------------------------------------------
-Public Sub Proxy_set()
-    Form1.fast_down.Proxy = ""
-    Form1.fast_down.username = ""
-    Form1.fast_down.password = ""
-    Form1.Proxy_img(0).Visible = False
-    Form1.Proxy_img(1).Visible = False
-    Form1.Proxy_img(2).Visible = False
-    
-    Select Case sysSet.proxy_A_type
-    Case 1
-        Form1.fast_down.AccessType = icDirect
-    Case 2
-        sysSet.proxy_A = Trim(Replace(Replace(sysSet.proxy_A, Chr(10), ""), Chr(13), ""))
-        If Len(sysSet.proxy_A) > 4 Then
-            Form1.fast_down.AccessType = icNamedProxy
-            Form1.fast_down.Proxy = sysSet.proxy_A
-            Form1.Proxy_img(1).Visible = True
-            sysSet.proxy_A_user = Trim(Replace(Replace(sysSet.proxy_A_user, Chr(10), ""), Chr(13), ""))
-            sysSet.proxy_A_pw = Trim(Replace(Replace(sysSet.proxy_A_pw, Chr(10), ""), Chr(13), ""))
-            If Len(sysSet.proxy_A_user) > 0 Then Form1.fast_down.username = sysSet.proxy_A_user
-            If Len(sysSet.proxy_A_pw) > 0 Then Form1.fast_down.password = sysSet.proxy_A_pw
-        Else
-            Form1.fast_down.AccessType = icUseDefault
-        End If
-        
-    Case Else
-        Form1.fast_down.AccessType = icUseDefault
-    End Select
-    
-    '-------------------------------------------------------------------------
-    Form1.Inet1.Proxy = ""
-    Form1.Inet1.username = ""
-    Form1.Inet1.password = ""
-    Form1.check_header.Proxy = ""
-    Form1.check_header.username = ""
-    Form1.check_header.password = ""
-    
-    Select Case sysSet.proxy_B_type
-    Case 1
-        Form1.Inet1.AccessType = icDirect
-        Form1.check_header.AccessType = icDirect
-    Case 2
-        sysSet.proxy_B = Trim(Replace(Replace(sysSet.proxy_B, Chr(10), ""), Chr(13), ""))
-        If Len(sysSet.proxy_B) > 4 Then
-            Form1.Inet1.AccessType = icNamedProxy
-            Form1.Inet1.Proxy = sysSet.proxy_B
-            Form1.check_header.AccessType = icNamedProxy
-            Form1.check_header.Proxy = sysSet.proxy_B
-            Form1.Proxy_img(2).Visible = True
-            sysSet.proxy_B_user = Trim(Replace(Replace(sysSet.proxy_B_user, Chr(10), ""), Chr(13), ""))
-            sysSet.proxy_B_pw = Trim(Replace(Replace(sysSet.proxy_B_pw, Chr(10), ""), Chr(13), ""))
-            If Len(sysSet.proxy_B_user) > 0 Then Form1.Inet1.username = sysSet.proxy_B_user: Form1.check_header.username = sysSet.proxy_B_user
-            If Len(sysSet.proxy_B_pw) > 0 Then Form1.Inet1.password = sysSet.proxy_B_pw: Form1.check_header.password = sysSet.proxy_B_pw
-        Else
-            Form1.Inet1.AccessType = icUseDefault
-            Form1.check_header.AccessType = icUseDefault
-        End If
-        
-    Case Else
-        Form1.Inet1.AccessType = icUseDefault
-        Form1.check_header.AccessType = icUseDefault
-    End Select
-    
-    If sysSet.proxy_A_type = 2 And sysSet.proxy_B_type = 2 Then
-        Form1.Proxy_img(0).Visible = True
-        Form1.Proxy_img(1).Visible = False
-        Form1.Proxy_img(2).Visible = False
-    End If
-    
-End Sub

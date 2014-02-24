@@ -47,7 +47,7 @@ Public Function OX_FilterKeywords(ByVal sourceString As String, ByVal keywords A
         For i = 0 To UBound(script_code_replace)
             DoEvents
             If IsNumeric(script_code_replace(i)) Then
-                sourceString = Replace$(sourceString, Chr(Int(script_code_replace(i))), "")
+                sourceString = Replace$(sourceString, ChrW(Int(script_code_replace(i))), "")
             Else
                 sourceString = Replace$(sourceString, script_code_replace(i), "")
             End If
@@ -200,15 +200,15 @@ Public Function fix_Unicode_FileName(ByVal sLongFileName As String) As String
                 split_str(i) = Mid(split_str(i), InStr(split_str(i), ";") + 1)
                 
                 '¼ì²â16½øÖÆÍøÒ³´úÂë"&#xFF75;"
-                If Left(LCase(fix_Unicode), 1) = "x" And Len(fix_Unicode) >= 2 Then
-                    If is_Hex_code(Mid(fix_Unicode, 2)) And (LCase(fix_Unicode) <> "3f" And LCase(fix_Unicode) <> "5c" And LCase(fix_Unicode) <> "2f" And LCase(fix_Unicode) <> "22" And LCase(fix_Unicode) <> "3a" And LCase(fix_Unicode) <> "2a" And LCase(fix_Unicode) <> "3c" And LCase(fix_Unicode) <> "3e" And LCase(fix_Unicode) <> "7c") Then
+                If Left(LCase(fix_Unicode), 1) = "x" And Len(fix_Unicode) > 1 And Len(fix_Unicode) < 10 Then
+                    If is_Hex_code(Mid(fix_Unicode, 2)) And (LCase(fix_Unicode) <> "x3f" And LCase(fix_Unicode) <> "x5c" And LCase(fix_Unicode) <> "x2f" And LCase(fix_Unicode) <> "x22" And LCase(fix_Unicode) <> "x3a" And LCase(fix_Unicode) <> "x2a" And LCase(fix_Unicode) <> "x3c" And LCase(fix_Unicode) <> "x3e" And LCase(fix_Unicode) <> "x7c") Then
                         fix_Unicode = Mid(fix_Unicode, 2)
                         fix_Unicode = ChrW(Int("&H" & fix_Unicode))
                         fixed_Unicode_tf = True
                     End If
                     '¼ì²â10½øÖÆÍøÒ³´úÂë"&#65397;"
-                ElseIf IsNumeric(fix_Unicode) = True Then
-                    If Int(fix_Unicode) <> 63 And Int(fix_Unicode) <> 92 And Int(fix_Unicode) <> 47 And Int(fix_Unicode) <> 34 And Int(fix_Unicode) <> 58 And Int(fix_Unicode) <> 42 And Int(fix_Unicode) <> 60 And Int(fix_Unicode) <> 62 And Int(fix_Unicode) <> 124 Then
+                ElseIf IsNumeric(fix_Unicode) = True And Len(fix_Unicode) > 0 And Len(fix_Unicode) < 10 Then
+                    If Int(fix_Unicode) <> 0 And Int(fix_Unicode) <> 63 And Int(fix_Unicode) <> 92 And Int(fix_Unicode) <> 47 And Int(fix_Unicode) <> 34 And Int(fix_Unicode) <> 58 And Int(fix_Unicode) <> 42 And Int(fix_Unicode) <> 60 And Int(fix_Unicode) <> 62 And Int(fix_Unicode) <> 124 Then
                         fix_Unicode = ChrW(Int(fix_Unicode))
                         fixed_Unicode_tf = True
                     End If
@@ -230,7 +230,7 @@ End Function
 Private Function is_Hex_code(ByVal Hex_code As String) As Boolean
     Dim i
     is_Hex_code = True
-    If Len(Hex_code) > 2 And Len(Hex_code) < 35 Then
+    If Len(Hex_code) > 0 And Len(Hex_code) < 9 Then
         For i = 1 To Len(Hex_code)
             DoEvents
             If InStr("ABCDEFabcdef0123456789", Mid$(Hex_code, i, 1)) < 1 Then is_Hex_code = False: Exit Function
