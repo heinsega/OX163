@@ -1,4 +1,4 @@
-'2013-12-1 visceroid & hein@shanghaijing.net
+'2014-3-28 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, member_type, php_name
 started = False
 multi_page = True
@@ -201,7 +201,7 @@ On Error Resume Next
 			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*/?>((?:(?!</a>).)*)</a>"'+\s*/?  --->  [^>]*
 		End If
 		Set matches = regex.Execute(html_str)
-		If matches.Count = 0 and php_name<>"illust_id" Then
+		If matches.Count = 0 and php_name<>"illust_id" and instr(html_str,"<i class=""_icon sprites-mypixiv-badge""></i>")<1 Then
 			process_retry
 		Else
 			retries_count = 0
