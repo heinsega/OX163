@@ -1,4 +1,4 @@
-'2013-5-14 163.shanhaijing.net
+'2014-6-11 163.shanhaijing.net
 Dim deep_DL, split_str, split_c0, split_c1
 Dim tags, page, page_counter, url_instr, pool, url_head
 Dim retry_time, retry_url, delay_time, start_time, delay_url
@@ -111,17 +111,15 @@ Function return_download_list(ByVal html_str, ByVal url_str)
     If pool = "post" Or pool = "deep_DL" Then
         'http://chan.sankakucomplex.com/post/show/9506/cg-d-o-_-publisher-eigoukaiki-eroge-ino-tagme
         Dim pic_alt
-        If InStr(LCase(html_str), "<li>original:") > 0 or InStr(LCase(html_str), LCase(">Save this flash (right click and save)</a>")) > 0 Then
+        If InStr(LCase(html_str), "<li>original:") > 0 or InStr(LCase(html_str), LCase(">Save this file (right click and save as)</a>")) > 0 Then
             retry_time = 0
             'ID
-            url_str = Mid(html_str, InStr(html_str, "id='hidden_post_id'"))
-            url_str = Mid(url_str, InStr(url_str, ">") + 1)
-            url_str = Mid(url_str, 1, InStr(url_str, "<") - 1)
+            key_str="<meta content=""Post "
+            url_str = Mid(html_str, InStr(html_str, key_str)+len(key_str))
+            url_str = Mid(url_str, 1, InStr(url_str, """") - 1)
             url_str = "p" & url_str
             'alt
-            pic_alt = Mid(html_str, InStr(LCase(html_str), "id=""post_old_tags"""))
-            pic_alt = Mid(pic_alt, InStr(LCase(pic_alt), "value=""") + 7)
-            pic_alt = Trim(Mid(pic_alt, 1, InStr(pic_alt, Chr(34)) - 1))
+            pic_alt = get_tags(html_str)
 						pic_alt = Replace(pic_alt, "|", "&#124;")
 						pic_alt = Replace(pic_alt, "\\", "\")
             url_str = url_str & "_" & pic_alt
@@ -132,12 +130,14 @@ Function return_download_list(ByVal html_str, ByVal url_str)
 	            html_str = Mid(html_str, InStr(LCase(html_str), "<li>original:"))
 	            html_str = Mid(html_str, InStr(LCase(html_str), "<a href=""") + 9)
 	            html_str = Mid(html_str, 1, InStr(html_str, Chr(34)) - 1)
-	          ElseIf InStr(LCase(html_str),LCase(">Save this flash (right click and save)</a>")) > 0 Then
-            	html_str = Mid(html_str,1,InStr(LCase(html_str), LCase(">Save this flash (right click and save)</a>")))
+	          ElseIf InStr(LCase(html_str),LCase(">Save this file (right click and save as)</a>")) > 0 Then
+            	html_str = Mid(html_str,1,InStr(LCase(html_str), LCase(">Save this file (right click and save as)</a>")))
             	html_str = Mid(html_str,1,InStrrev(html_str, Chr(34)) - 1)
             	html_str = Mid(html_str,InStrrev(html_str, Chr(34)) + 1)
           	End If
-            url_str = Replace(url_str, " ", "-") & Mid(html_str, InStrRev(html_str, "."))
+          	key_str=Mid(html_str, InStrRev(html_str, "."))
+            If instr(key_str,"?")>2 Then key_str=Mid(key_str,1,InStr(key_str, "?")-1)
+            url_str = Replace(url_str, " ", "-") & key_str
             If pool = "deep_DL" Then
             		split_str(split_c0)=""
                 Do While split_str(split_c0) = "" And split_c0 < split_c1
@@ -189,12 +189,15 @@ Function return_download_list(ByVal html_str, ByVal url_str)
         retry_time = 0
         html_str = Mid(html_str, InStr(LCase(html_str), LCase(key_str)) + Len(key_str))
         split_str = Split(html_str, key_str, -1, 1)
-        
+
         For split_i = 0 To UBound(split_str)
-            
             If deep_DL = vbNo Then
                 split_str(split_i) = Mid(split_str(split_i), InStr(split_str(split_i), ",""id"":") + len(",""id"":"))
-                split_str(split_i) = Mid(split_str(split_i), 1, InStr(split_str(split_i), "});") - 1)
+                If InStr(split_str(split_i),",")>1 Then
+                	split_str(split_i) = Mid(split_str(split_i), 1, InStr(split_str(split_i), ",") - 1)
+                ElseIf InStr(split_str(split_i),"});")>1 Then
+                	split_str(split_i) = Mid(split_str(split_i), 1, InStr(split_str(split_i), "});") - 1)
+                End if
                 If IsNumeric(split_str(split_i)) = False Then split_str(split_i) = ""
             Else
                 'tags
@@ -221,14 +224,18 @@ Function return_download_list(ByVal html_str, ByVal url_str)
                 key_str = ",""md5"":"""
                 md5_code = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase(key_str)) + Len(key_str))
                 md5_code = Mid(md5_code, 1, InStr(md5_code, Chr(34)) - 1)
-                If LCase(preview_url) = "http://chan.sankakucomplex.com/download-preview.png" Then
+                If InStr(LCase(preview_url), "download-preview.png")>0 Then
                     file_type = ".swf"
                 Else
                     file_type = check_gif_png(html_str)
                     If file_type = "" Then file_type = Mid(preview_url, InStrRev(preview_url, "."))
                 End If
-                file_url = url_head & ".sankakustatic.com/data/" & Left(md5_code, 2) & "/" & Mid(md5_code, 3, 2) & "/" & md5_code & file_type
-                
+                If url_head = "http://idol" Then
+                		file_url = "http://is.sankakucomplex.com/data/" & Left(md5_code, 2) & "/" & Mid(md5_code, 3, 2) & "/" & md5_code & file_type
+    						ElseIf url_head = "http://chan" Then
+                		file_url = "http://cs.sankakucomplex.com/data/" & Left(md5_code, 2) & "/" & Mid(md5_code, 3, 2) & "/" & md5_code & file_type
+								End If
+								             
                 'ID
                 add_temp = ""
                 key_str = ",""id"":"
@@ -280,9 +287,7 @@ Function return_download_list(ByVal html_str, ByVal url_str)
     
     pool = ""
     return_download_list = return_download_list & delay_time_tf(check_nextpage())
-    
 
-    
 End Function
 '--------------------------------------------
 Function delay_time_tf(byval nextpage)
@@ -312,6 +317,24 @@ Function check_nextpage()
     Else
         check_nextpage = "0"
     End If
+End Function
+
+Function get_tags(ByVal html_str)
+		On Error Resume Next
+		get_tags=""
+    html_str = Mid(html_str, InStr(html_str, "<ul id=tag-sidebar>"))
+    html_str = Mid(html_str, InStr(html_str, "<li class=tag-type-")+len("<li class=tag-type-"))
+    html_str = Mid(html_str, 1, InStr(html_str, "</ul>")-1)
+    Dim split_str
+    split_str=split(html_str,"<li class=tag-type-")
+    For i=0 to ubound(split_str)
+    	split_str(i)=Mid(split_str(i),InStr(split_str(i),"<a href=")+8)
+    	split_str(i)=Mid(split_str(i),InStr(split_str(i),">")+1)
+    	split_str(i)=Trim(Mid(split_str(i),1,InStr(split_str(i),"</a>")-1))
+    	split_str(i)=replace(split_str(i)," ","_")
+  	Next
+  	html_str=join(split_str," ")
+  	get_tags=html_str
 End Function
 '--------------------------------------------
 

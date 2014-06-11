@@ -54,10 +54,8 @@ picasa.vbs|vbscript|UTF-8|album|https://picasaweb.google.*/?*
 yupoo.vbs|vbscript|UTF-8|photo|http://v.yupoo.com/?*/view?*
 yupoo.vbs|vbscript|UTF-8|album|http://?*.yupoo.com*
 apple.vbs|vbscript|UTF-8|photo|http://?*.apple.com/trailers/*
-sohu.vbs|vbscript|GB2312|photo|http://pp.sohu.com/photo?*
-sohu.vbs|vbscript|GB2312|album|http://pp.sohu.com/user/?*/*
-sohu.vbs|vbscript|GB2312|album|http://pp.sohu.com/member/*
-sohu.vbs|vbscript|GB2312|album|http://pp.sohu.com/setlist.jhtml?*
+sohupp.vbs|vbscript|UTF-8|photo|http://pp.sohu.com/u/?*/w?*
+sohupp.vbs|vbscript|UTF-8|album|http://pp.sohu.com/u/?*
 sohu.vbs|vbscript|GB2312|photo|http://?*.blog.sohu.com/album/photo?*
 sohu.vbs|vbscript|GB2312|album|http://?*.blog.sohu.com*
 wallcoo.vbs|vbscript|GB2312|photo|http://www.wallcoo.com/?*/?*/?*
@@ -88,3 +86,6 @@ youtube.vbs|vbscript|UTF-8|photo|http://www.youtube.com/watch?v=?*
 youtube.vbs|vbscript|UTF-8|photo|https://www.youtube.com/watch?v=?*
 moeyo.vbs|vbscript|UTF-8|photo|http://www.moeyo.com/?*/?*/?*.html
 moeyo.vbs|vbscript|UTF-8|photo|http://www.moeyo.com/article/?*
+3dm.vbs|vbscript|UTF-8|photo|http://bbs.3dmgame.com/home.php?mod=space&uid=*&id=*
+3dm.vbs|vbscript|UTF-8|album|http://bbs.3dmgame.com/home.php?mod=space&uid=*
+3dm.vbs|vbscript|UTF-8|album|http://bbs.3dmgame.com/space-uid-*
