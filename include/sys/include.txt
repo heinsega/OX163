@@ -86,3 +86,6 @@ youtube.vbs|vbscript|UTF-8|photo|http://www.youtube.com/watch?v=?*
 youtube.vbs|vbscript|UTF-8|photo|https://www.youtube.com/watch?v=?*
 moeyo.vbs|vbscript|UTF-8|photo|http://www.moeyo.com/?*/?*/?*.html
 moeyo.vbs|vbscript|UTF-8|photo|http://www.moeyo.com/article/?*
+3dm.vbs|vbscript|UTF-8|photo|http://bbs.3dmgame.com/home.php?mod=space&uid=*&id=*
+3dm.vbs|vbscript|UTF-8|album|http://bbs.3dmgame.com/home.php?mod=space&uid=*
+3dm.vbs|vbscript|UTF-8|album|http://bbs.3dmgame.com/space-uid-*
