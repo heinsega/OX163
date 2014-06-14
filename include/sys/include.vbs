@@ -66,7 +66,10 @@ yahoo.vbs|vbscript|UTF-8|album|http://photos.i.cn.yahoo.com/?*/*
 yxnpc.vbs|vbscript|GB2312|photo|http://www.yxnpc.com/?*-?*-?*/?*/?*.html*
 yxnpc.vbs|vbscript|GB2312|album|http://www.yxnpc.com/manhua/?*
 douban.vbs|vbscript|UTF-8|photo|http://www.douban.com/photos/?*
+douban.vbs|vbscript|UTF-8|photo|http://site.douban.com/?*/widget/photos/?*
+douban.vbs|vbscript|UTF-8|photo|http://site.douban.com/?*/widget/public_album/?*
 douban.vbs|vbscript|UTF-8|album|http://www.douban.com/people/?*
+douban.vbs|vbscript|UTF-8|album|http://site.douban.com/?*
 facebook.vbs|vbscript|UTF-8|photo|?*/www.facebook.com/media/set/?*
 facebook.vbs|vbscript|UTF-8|album|?*/www.facebook.com/?*/photos_albums
 facebook.vbs|vbscript|UTF-8|album|?*/www.facebook.com/?*
