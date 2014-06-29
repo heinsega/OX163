@@ -1,4 +1,4 @@
-'2014-3-28 visceroid & hein@shanghaijing.net
+'2014-6-29 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, member_type, php_name
 started = False
 multi_page = True
@@ -145,9 +145,10 @@ End Function
 Function return_download_list(ByVal html_str, ByVal url_str)
 On Error Resume Next
 	return_download_list = ""
-	Dim page_count, regex, matches
+	Dim page_count, regex, matches, ugoira_zip
 	Set regex = new RegExp
 	regex.Global = True
+	ugoira_zip=0
 	
 	If started Then
 		
@@ -197,45 +198,55 @@ On Error Resume Next
 			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img[^>]*(?:\s*(?:data-src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""))+\s*>[\s\S]*?<h2><a[^>]*href=[^>]*>((?:(?!</a>).)*)</a></h2>"
 		ElseIf brief_mode and php_name<>"bookmark.php" and php_name<>"illust_id" Then
 			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*/?><h1[^>]*>((?:(?!</h1>).)*)</h1></a>"
+		ElseIf instr(LCase(html_str),LCase("_ugoira1920x1080.zip"))>0 Then
+			'{"src":"http:\/\/i2.pixiv.net\/img-zip-ugoira\/img\/2014\/06\/29\/14\/08\/25\/44387029_ugoira1920x1080.zip"
+			regex.Pattern = "\{""src"":""(http)[^""]*(_ugoira1920x1080)\.zip"""'+\s*/?  --->  [^>]*
+		ugoira_zip=1
 		Else
 			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*/?>((?:(?!</a>).)*)</a>"'+\s*/?  --->  [^>]*
 		End If
 		Set matches = regex.Execute(html_str)
-		If matches.Count = 0 and php_name<>"illust_id" and instr(html_str,"<i class=""_icon sprites-mypixiv-badge""></i>")<1 Then
+		If matches.Count = 0 and php_name<>"illust_id" and instr(html_str,"<i class=""_icon sprites-mypixiv-badge""></i>")<1 and ugoira_zip=0 Then
 			process_retry
 		Else
-			retries_count = 0
-			For Each match In matches
-				Select Case match.SubMatches(1)
-					Case "medium"
-						If InStr(next_page_str, match.SubMatches(2)) = 0 Then
-							If brief_mode Then
+			If ugoira_zip>0 Then
+				add_download_list_ugoira html_str, return_download_list
+			Else
+				For Each match In matches
+					Select Case match.SubMatches(1)
+						Case "medium"
+							If InStr(next_page_str, match.SubMatches(2)) = 0 Then
+								If brief_mode Then
+									add_download_list_entry match, return_download_list, 0
+								ElseIf cache_index=0 Then
+									Set matches_cache = matches
+									Exit For
+								End If
+							End If
+						Case "big"
+							If InStr(next_page_str, match.SubMatches(2)) > 0 Then
 								add_download_list_entry match, return_download_list, 0
-							ElseIf cache_index=0 Then
-								Set matches_cache = matches
 								Exit For
 							End If
-						End If
-					Case "big"
-						If InStr(next_page_str, match.SubMatches(2)) > 0 Then
-							add_download_list_entry match, return_download_list, 0
-							Exit For
-						End If
-					Case "manga"
-						If InStr(next_page_str, match.SubMatches(2)) > 0 Then
-							'regex.Pattern = "<div[^>]*class=""works_data""[^>]*>\s*<p[^>]*>(?:(?!</p>).)*(?:Âþ»­|Âþ®‹|Manga) (\d+)P(?:(?!</p>).)*</p>"
-							regex.Pattern = "<li>(?:Âþ»­|Âþ®‹|Manga) (\d+)P</li>"
-							page_count = regex.Execute(html_str).Item(0).SubMatches(0)
-							For page_index = 0 To page_count - 1
-								add_download_list_entry match, return_download_list, page_index
-							Next
-							Exit For
-						End If
-					Case Else
-						Exit Function
-				End Select
-			Next
+						Case "manga"
+							If InStr(next_page_str, match.SubMatches(2)) > 0 Then
+								'regex.Pattern = "<div[^>]*class=""works_data""[^>]*>\s*<p[^>]*>(?:(?!</p>).)*(?:Âþ»­|Âþ®‹|Manga) (\d+)P(?:(?!</p>).)*</p>"
+								regex.Pattern = "<li>(?:Âþ»­|Âþ®‹|Manga) (\d+)P</li>"
+								page_count = regex.Execute(html_str).Item(0).SubMatches(0)
+								For page_index = 0 To page_count - 1
+									add_download_list_entry match, return_download_list, page_index
+								Next
+								Exit For
+							End If
+						Case Else
+							process_retry()
+							return_download_list = return_download_list & next_page_str
+							Exit Function
+					End Select
+				Next
+			End If
 			
+			retries_count = 0
 			next_page_str = "0"
 			If multi_page Then
 				If cache_index = 0 Then
@@ -276,14 +287,31 @@ On Error Resume Next
 	End If
 	return_download_list = return_download_list & next_page_str
 End Function
-
+'----------------------------------------------------------------------------------------------------
 Function process_retry()
 	retries_count = retries_count + 1
 	If retries_count > 3 Then
-		next_page_str = "0"
+		retries_count=0
+		If brief_mode Then
+			If Len(parent_next_page_str)>2 Then
+				next_page_str = parent_next_page_str
+			Else
+				next_page_str = "0"
+			End If
+		Else
+		 If cache_index < matches_cache.Count Then
+		 	next_page_str = "1|inet|10,13|" & root_str & "/" & matches_cache.Item(cache_index).SubMatches(0)
+		 	next_page_str = replace(next_page_str,"&amp;","&")
+		 	cache_index = cache_index + 1
+		 	ElseIf Len(parent_next_page_str)>2 Then
+				next_page_str = parent_next_page_str
+				Else
+				next_page_str = "0"
+			End If
+		End If
 	End If
 End Function
-
+'----------------------------------------------------------------------------------------------------
 Function add_download_list_entry(ByRef match, ByRef download_list, ByVal page_index)
 	Dim format_str, link_str, rename_str, description_str, manga_big_str
 	If match.SubMatches(3)="" Then Exit Function
@@ -315,6 +343,34 @@ Function add_download_list_entry(ByRef match, ByRef download_list, ByVal page_in
 	download_list = download_list & format_str & "|" & link_str & "?" & (CDbl(Now()) * 10000000000) & "|" & rename_str & "|" & description_str & vbCrLf
 End Function
 '---------------------------------------------------------------------------------------------
+
+Function add_download_list_ugoira(byval ugoira_str, ByRef download_list)
+		'pixiv.context.illustId         = '44387029';
+		'pixiv.context.illustTitle      = 'Hello ¥ß¥¯';pixiv.context.userId           = '395595';
+		'pixiv.context.userName         = 'KD'
+		'{"src":"http:\/\/i2.pixiv.net\/img-zip-ugoira\/img\/2014\/06\/29\/14\/08\/25\/44387029_ugoira1920x1080.zip"
+		Dim file_ID,file_name,file_Url,file_description
+		
+		ugoira_str=mid(ugoira_str,1,instr(LCase(ugoira_str),LCase("_ugoira1920x1080.zip"))) & "ugoira1920x1080.zip"
+		
+		file_Url=Mid(ugoira_str,InStrrev(ugoira_str,chr(34))+1)
+		file_Url=replace(file_Url,"\/","/")
+		
+		file_ID=mid(ugoira_str,InStr(LCase(ugoira_str),LCase("pixiv.context.illustId")))
+		file_ID=mid(file_ID,InStr(file_ID,"'")+1)
+		file_ID=mid(file_ID,1,InStr(file_ID,"'")-1)
+
+		file_description=mid(ugoira_str,InStr(LCase(ugoira_str),LCase("pixiv.context.illustTitle")))
+		file_description=mid(file_description,InStr(file_description,"'")+1)
+		file_description=mid(file_description,1,InStr(file_description,"'")-1)
+		file_name=file_description
+		If Len(file_name)>200 Then file_name=left(file_name,200)
+		file_name="(pid-" & file_ID & ")" & rename_utf8(file_name) & "_ugoira1920x1080.zip"
+		
+		download_list = "zip|" & file_Url & "?" & (CDbl(Now()) * 10000000000) & "|" & file_name & "|" & file_description & vbCrLf
+End Function
+'---------------------------------------------------------------------------------------------
+
 Function check_login(ByVal html_str)
 	Dim regex, matches
 	Set regex = new RegExp
@@ -432,9 +488,17 @@ Function format_ranking_html(ByVal html_str)
     		'illust_id
     		matches(0)=Mid(split_str(i),1,InStr(split_str(i),",")-1)
     		'url
+    		'http://i1.pixiv.net/img35/img/snika5800/mobile/44331825_240mw.jpg
+    		'--->http://i1.pixiv.net/img35/img/snika5800/44331825_s.jpg
+    		'http://i1.pixiv.net/c/240x480/img-master/img/2014/06/27/14/45/03/44340318_master1200.jpg
+    		'--->http://i1.pixiv.net/img-inf/img/2014/06/27/14/45/03/44340318_s.jpg
     		matches(1)=Mid(split_str(i), InStr(LCase(split_str(i)), """url"":""") + Len("""url"":"""))
     		matches(1)=Mid(matches(1),1,InStr(matches(1),"""")-1)
-    		matches(1)=replace(matches(1),"/mobile/","/")
+    		If InStr(matches(1),"/mobile/")>0 Then
+    			matches(1)=replace(matches(1),"/mobile/","/")
+    		ElseIf InStr(matches(1),"/img-master/")>0 Then
+    			matches(1)=Mid(matches(1),1,instr(matches(1),".pixiv.net/")+9) & "/img-inf/" & Mid(matches(1),InStr(matches(1),"/img-master/")+12)
+    		End if
     		matches(1)=Mid(matches(1),1,InStrrev(matches(1),"_")-1) & "_s" & Mid(matches(1),InStrrev(matches(1),"."))
     		'title
     		matches(2)=Mid(split_str(i), InStr(LCase(split_str(i)), """title"":""") + Len("""title"":"""))
