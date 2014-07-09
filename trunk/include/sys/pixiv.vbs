@@ -1,4 +1,4 @@
-'2014-6-29 visceroid & hein@shanghaijing.net
+'2014-7-9 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, member_type, php_name
 started = False
 multi_page = True
@@ -194,17 +194,21 @@ On Error Resume Next
 			html_str=replace(html_str,"<p>","")
 			html_str=replace(html_str,"</p>","")
 		End If
+
 		If cache_index=0 and php_name="ranking_area.php" Then
-			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img[^>]*(?:\s*(?:data-src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""))+\s*>[\s\S]*?<h2><a[^>]*href=[^>]*>((?:(?!</a>).)*)</a></h2>"
+			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>[\s\S]*?<img[^>]*(?:\s*(?:src=""([^""]+)(?:_(?:s|m)\.)(\w+)[^""]*""|alt=""([^""]+)""))+\s*>[\s\S]*?<h2><a[^>]*href=[^>]*>((?:(?!</a>).)*)</a></h2>"
 		ElseIf brief_mode and php_name<>"bookmark.php" and php_name<>"illust_id" Then
-			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*/?><h1[^>]*>((?:(?!</h1>).)*)</h1></a>"
+			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>[\s\S]*?<img(?:\s*(?:src=""([^""]+)(?:_(?:s|m)\.)(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""))+\s*/?>[\s\S]*?<h1[^>]*title=""([^""]*?)"""
+		ElseIf brief_mode and php_name="bookmark.php" Then
+			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>[\s\S]*?<img(?:\s*(?:src=""([^""]+)(?:_(?:s|m)\.)(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""))+\s*/?><h1[^>]*>((?:(?!</h1>).)*)</h1></a>"
 		ElseIf instr(LCase(html_str),LCase("_ugoira1920x1080.zip"))>0 Then
 			'{"src":"http:\/\/i2.pixiv.net\/img-zip-ugoira\/img\/2014\/06\/29\/14\/08\/25\/44387029_ugoira1920x1080.zip"
 			regex.Pattern = "\{""src"":""(http)[^""]*(_ugoira1920x1080)\.zip"""'+\s*/?  --->  [^>]*
-		ugoira_zip=1
+			ugoira_zip=1
 		Else
-			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>\s*<img(?:\s*(?:src=""([^""]+)\3_(?:s|m)\.(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""|))+\s*/?>((?:(?!</a>).)*)</a>"'+\s*/?  --->  [^>]*
+			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>[\s\S]*?<img(?:\s*(?:src=""([^""]+)(?:_(?:s|m)\.)(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""))+\s*/?>((?:(?!</a>).)*)</a>"'+\s*/?  --->  [^>]*
 		End If
+
 		Set matches = regex.Execute(html_str)
 		If matches.Count = 0 and php_name<>"illust_id" and instr(html_str,"<i class=""_icon sprites-mypixiv-badge""></i>")<1 and ugoira_zip=0 Then
 			process_retry
@@ -316,7 +320,7 @@ Function add_download_list_entry(ByRef match, ByRef download_list, ByVal page_in
 	Dim format_str, link_str, rename_str, description_str, manga_big_str
 	If match.SubMatches(3)="" Then Exit Function
 	format_str = match.SubMatches(4)
-	link_str = match.SubMatches(3) & match.SubMatches(2)
+	link_str = match.SubMatches(3)
 	If match.SubMatches(6) <> "" Then
 		rename_str = "(pid-" & match.SubMatches(2) & ")" & rename_utf8(match.SubMatches(6))
 	Else
@@ -516,7 +520,7 @@ Function format_ranking_html(ByVal html_str)
     		matches(4)=replace(matches(4),">","&gt;")
     		matches(4)=replace(matches(4),"<","&lt;")
 
-    		split_str(i)="<li class=""image""><a href=""/member_illust.php?mode=medium&amp;illust_id=" & matches(0) & """><img src=""" & matches(1) & """><h1>" & matches(2) & "</h1></a><p class=""user""><a href=""/member.php?id=" & matches(3) & """>" & matches(4) & "</a></li>"
+    		split_str(i)="<li class=""image""><a href=""/member_illust.php?mode=medium&amp;illust_id=" & matches(0) & """><img src=""" & matches(1) & """><h1 class=""title"" title=""" & matches(2) & """>aaa</a><p class=""user""><a href=""/member.php?id=" & matches(3) & """>" & matches(4) & "</a></li>"
     Next
     format_ranking_html =Join(split_str, "")
 End Function
