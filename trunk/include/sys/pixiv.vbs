@@ -1,4 +1,4 @@
-'2014-7-9 visceroid & hein@shanghaijing.net
+'2014-7-12 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, member_type, php_name
 started = False
 multi_page = True
@@ -15,6 +15,7 @@ On Error Resume Next
 	Dim sub_url_str, regex, matches, page_number, page_url
 	Set regex = New RegExp
 	regex.Global = True
+	regex.IgnoreCase = True
 	page_number=1
 	brief_mode_rf=""
 	If Right(url_str,Len("&brief_mode=t"))="&brief_mode=t" Then
@@ -113,6 +114,7 @@ On Error Resume Next
 	name_filter_str = ""
 	Set regex = New RegExp
 	regex.Global = True
+	regex.IgnoreCase = True
 	
 	If started Then
 		'<li><input name="id[]" value="1593522" type="checkbox" /><div class="usericon"><a href="member.php?id=1593522"><img src="http://img46.pixiv.net/profile/kasetsu_03/mobile/3399441_80.jpg" alt="霞雪"/></a></div><div class="userdata"><a href="member.php?id=1593522">霞雪</a>はじめまして、“カセツ”と読みます。<br><span>&nbsp;</span></div></li>
@@ -148,6 +150,7 @@ On Error Resume Next
 	Dim page_count, regex, matches, ugoira_zip
 	Set regex = new RegExp
 	regex.Global = True
+	regex.IgnoreCase = True
 	ugoira_zip=0
 	
 	If started Then
@@ -195,9 +198,7 @@ On Error Resume Next
 			html_str=replace(html_str,"</p>","")
 		End If
 
-		If cache_index=0 and php_name="ranking_area.php" Then
-			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>[\s\S]*?<img[^>]*(?:\s*(?:src=""([^""]+)(?:_(?:s|m)\.)(\w+)[^""]*""|alt=""([^""]+)""))+\s*>[\s\S]*?<h2><a[^>]*href=[^>]*>((?:(?!</a>).)*)</a></h2>"
-		ElseIf brief_mode and php_name<>"bookmark.php" and php_name<>"illust_id" Then
+		If brief_mode and php_name<>"bookmark.php" and php_name<>"illust_id" Then
 			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>[\s\S]*?<img(?:\s*(?:src=""([^""]+)(?:_(?:s|m)\.)(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""))+\s*/?>[\s\S]*?<h1[^>]*title=""([^""]*?)"""
 		ElseIf brief_mode and php_name="bookmark.php" Then
 			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>[\s\S]*?<img(?:\s*(?:src=""([^""]+)(?:_(?:s|m)\.)(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""))+\s*/?><h1[^>]*>((?:(?!</h1>).)*)</h1></a>"
@@ -422,44 +423,18 @@ Function get_next_page(ByVal html_str)
 End Function
 '---------------------------------------------------------------------------------------------
 Function format_transparent_html(ByVal html_str)
-    format_transparent_html = html_str
-    '2013最新search.php
-    '<LI class="image-item"><A class="work" href="http://www.pixiv.net/member_illust.php?mode=medium&amp;illust_id=33484357"><DIV class="layout-thumbnail"><IMG class="_thumbnail ui-scroll-view" alt="" src="http://source.pixiv.net/source/images/common/transparent.gif" data-user-id="2876335" data-tags="オリジナル 女の子 落書き" data-src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg" data-filter="thumbnail-filter lazy-image"></DIV><H1 class="title" title="一人旅">一人旅</H1></A><A class="user" title="たいそす" href="http://www.pixiv.net/member_illust.php?id=2876335">たいそす</A></LI>
-		'转换为
-		'<LI class="image-item"><A class="work" href="http://www.pixiv.net/member_illust.php?mode=medium&amp;illust_id=33484357"><img src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg"><H1 class="title" title="一人旅">一人旅</H1></A><A class="user" title="たいそす" href="http://www.pixiv.net/member_illust.php?id=2876335">たいそす</A></LI>
-    '2013最新search.php <ul class="images autopagerize_page_element">重复部分
-		'<li class="image"><a href="/member_illust.php?mode=medium&amp;illust_id=33484357"><p><div class="layout-thumbnail"><img alt="" class="ui-scroll-view" src="http://source.pixiv.net/source/images/common/transparent.gif" data-filter="thumbnail-filter lazy-image" data-src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg" data-tags="オリジナル 女の子 落書き"></div></p><h2>一人旅</h2></a><p class="user"><a href="/member.php?id=2876335">たいそす</a></p></li>
-		'转换为
-		'<li class="image"><a href="/member_illust.php?mode=medium&amp;illust_id=33484357"><img src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg"><h1>一人旅</h1></a><p class="user"><a href="/member.php?id=2876335">たいそす</a></li>
-    Dim split_str, matches(4),temp(2)
-    temp(0) = Mid(html_str,1,InStr(LCase(html_str), "<div class=""layout-thumbnail"">")-1)
-    html_str = Mid(html_str,InStr(LCase(html_str), "<div class=""layout-thumbnail"">")+len("<div class=""layout-thumbnail"">"))
-    'temp(1) = Mid(html_str,InStr(LCase(html_str), "<div class=""clear""></div>"))
-    split_str = Split(html_str, "<div class=""layout-thumbnail"">")
-    For i = 0 To UBound(split_str)
-    		matches(0) = ""
-    		matches(1) = ""
-    		matches(2) = ""
-    		matches(3) = ""
-    		matches(4) = ""
-    		'del transparent.gif
-    		matches(0)="<img src="""
-    		matches(1)=Mid(split_str(i), InStr(LCase(split_str(i)), """ data-src=""") + Len(""" data-src="""))
-    		matches(2) = Mid(matches(1), InStr(matches(1), ">"))
-    		matches(1) = Mid(matches(1),1,InStr(matches(1), """"))
-    		'<img src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg">....
-    		split_str(i)=matches(0) & matches(1) & matches(2)
-    		'del data-tags
-    		'del </div>
-        matches(3) = Mid(split_str(i),1,InStr(LCase(split_str(i)), "</div>")-1)
-        matches(4) = Mid(split_str(i),InStr(LCase(split_str(i)), "</div>")+6)
-        split_str(i)=matches(3) & matches(4)
-    Next
-    format_transparent_html =temp(0) & Join(split_str, "")
-    format_transparent_html=replace(format_transparent_html,"<h2>","<h1>")
-		format_transparent_html=replace(format_transparent_html,"</h2>","</h1>")
-		format_transparent_html=replace(format_transparent_html,"<p>","")
-		format_transparent_html=replace(format_transparent_html,"</p>","")
+	Dim FTH_regex
+	Set FTH_regex = new RegExp
+	FTH_regex.Global = True
+	FTH_regex.IgnoreCase = True
+	'<img src="http://i2.pixiv.net/img-inf/img/2011/02/11/23/03/36/16592817_s.jpg" alt="" class="_thumbnail ui-scroll-view" data-filter="thumbnail-filter" data-src="http://i2.pixiv.net/img-inf/img/2011/02/11/23/03/36/16592817_s.jpg" data-tags="大股開き" data-user-id="465458">
+	FTH_regex.Pattern = "<img[^>]*?src=""([^""]+)""[^>]*?data-src=""([^""]+)""[^>]*?>"
+	html_str=FTH_regex.replace(html_str,"<img src=""$2"" alt="""">")
+	'<h2><a href="member_illust.php?mode=medium&amp;illust_id=44501062">オオダマ</a></h2>
+	'--><h1 class="title" title="オオダマ">オオダマ</h1>
+	FTH_regex.Pattern = "<h2><a[^>]*?>((?:(?!</a>).)*)</a></h2>"
+	html_str=FTH_regex.replace(html_str,"<h1 class=""title"" title=""$1"">$1</h1>")
+	format_transparent_html=html_str
 End Function
 
 Function format_ranking_html(ByVal html_str)
