@@ -1,4 +1,4 @@
-'2012-12-2 163.shanhaijing.net
+'2014-7-19 163.shanhaijing.net
 Dim vid
 Function return_download_url(ByVal url_str)
 On Error Resume Next
@@ -6,11 +6,11 @@ return_download_url =""
 'http://www.youtube.com/watch?v=rjZds93XHeQ&list=PL932AB0958975441F&index=32&feature=plpp_video
 'http://www.youtube.com/watch?v=vY8PBYQTtUM&feature=plcp
 'http://www.youtube.com/get_video_info?video_id=vY8PBYQTtUM
-If instr(lcase(url_str),"http://www.youtube.com/watch?v=") Then
-	url_str=Mid(url_str,instr(lcase(url_str),"http://www.youtube.com/watch?v=")+len("http://www.youtube.com/watch?v="))
+If instr(lcase(url_str),"://www.youtube.com/watch?v=") Then
+	url_str=Mid(url_str,instr(lcase(url_str),"://www.youtube.com/watch?v=")+len("://www.youtube.com/watch?v="))
 	If instr(url_str,"&")>0 Then url_str=Mid(url_str,1,instr(url_str,"&")-1)
 	vid=url_str
-	return_download_url = "inet|10,13|https://www.youtube.com/get_video_info?video_id=" & url_str
+	return_download_url = "inet|10,13|http://www.youtube.com/get_video_info?video_id=" & url_str
 End If
 End Function
 
