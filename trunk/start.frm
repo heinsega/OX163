@@ -26,13 +26,13 @@ Begin VB.Form start_ox163
       Width           =   1695
    End
    Begin VB.CommandButton Com3 
-      Caption         =   $"start.frx":9B24
+      Caption         =   $"start.frx":91F1
       Height          =   1095
-      Left            =   2400
+      Left            =   2760
       TabIndex        =   3
       Top             =   960
       Visible         =   0   'False
-      Width           =   3495
+      Width           =   3135
    End
    Begin VB.Timer Timer2 
       Enabled         =   0   'False
@@ -63,12 +63,12 @@ Begin VB.Form start_ox163
       Enabled         =   0   'False
       ForeColor       =   &H000000FF&
       Height          =   1215
-      Left            =   3840
+      Left            =   2760
       MultiLine       =   -1  'True
       ScrollBars      =   2  'Vertical
       TabIndex        =   0
       Top             =   2160
-      Width           =   2055
+      Width           =   3135
    End
    Begin VB.Timer Timer1 
       Left            =   120
@@ -80,12 +80,27 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+'Private Declare Function SetLayeredWindowAttributes Lib "user32" (ByVal hwnd As Long, ByVal crKey As Long, ByVal bAlpha As Byte, ByVal dwFlags As Long) As Long
+'Private Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long) As Long
+'Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
+'Private Const WS_EX_LAYERED = &H80000
+'Private Const GWL_EXSTYLE = (-20)
+'Private Const LWA_ALPHA = &H2
+'Private Const LWA_COLORKEY = &H1
+'Private Sub Start_Form_alph()
+'    BorderStyler = 0
+'    rtn = GetWindowLong(hwnd, GWL_EXSTYLE)
+'    rtn = rtn Or WS_EX_LAYERED
+'    SetWindowLong hwnd, GWL_EXSTYLE, rtn
+'    SetLayeredWindowAttributes hwnd, &HFFFFFF, 0, LWA_COLORKEY
+'End Sub
+
 Private Sub Com1_Click()
     End
 End Sub
 
 Private Sub Com2_Click()
-    WriteIniTF "maincenter", "err_report", False
+    'WriteIniTF "maincenter", "err_report", False
     Unload start_ox163
 End Sub
 
@@ -100,6 +115,9 @@ Private Sub Com5_Click()
 End Sub
 
 Private Sub Form_Load()
+Dim rtn As Long
+
+    
     Timer1.Interval = 100
     Timer1.Enabled = True
 End Sub
@@ -295,7 +313,6 @@ Private Sub Timer1_Timer()
         If Dir(App_path & "\OX163setup.ini") = "" Then
             
             '默认参数
-            WriteIniStr "maincenter", "ver", ver_info '默认参数
             WriteIniStr "maincenter", "update_host", "http://www.shanhaijing.net/163/" '默认参数
             
             WriteIniStr "maincenter", "downloadblock", "5120"
@@ -370,10 +387,8 @@ Private Sub Timer1_Timer()
         
         start_text.Text = start_text.Text & vbCrLf & "读取参数"
         
-        
-        WriteIniStr "maincenter", "ver", ver_info '此参数为系统默认
-        
-        sysSet.ver = CInt(GetIniStr("maincenter", "ver"))
+        'sysSet.ver = CInt(GetIniStr("maincenter", "ver"))
+        sysSet.ver = ver_info
         sysSet.update_host = GetIniStr("maincenter", "update_host")
         If sysSet.update_host = "" Then sysSet.update_host = "http://www.shanhaijing.net/163/"
         
@@ -498,32 +513,26 @@ reset_path:
         If InStr(start_text.Text, "错误：") > 0 And err_report = True Then
             start_text.Text = start_text.Text & vbCrLf & vbCrLf & "有错误发生，可以点击上方'X (QUIT)'按钮关闭"
             Com1.Visible = True
-            Com2.Visible = True
+            'Com2.Visible = True
             Com3.Visible = True
             Com5.Visible = True
         Else
-            start_text.Text = start_text.Text & vbCrLf & vbCrLf & "一切就绪,启动主程序" & vbCrLf & "如遇问题修复按钮15秒启动" & vbCrLf & "请确认网络已连接" & vbCrLf & "如果VISTA Win7 Win8无法启动可对程序" & vbCrLf & """右键->以管理员身份运行程序""一次"
+            start_text.Text = start_text.Text & vbCrLf & vbCrLf & "一切就绪,启动主程序,请确认网络已连接,修复按钮15秒后启动" & vbCrLf & vbCrLf & "Vista Win7 Win8下无法启动,可对程序进行如下操作:" & vbCrLf & "右键 -> 以管理员身份运行程序"
         End If
         start_text.SelStart = Len(start_text.Text)
+        start_text.Enabled = True
         Timer2.Interval = 15000
         Timer2.Enabled = True
         BrowserW_url = ""
         BrowserW_load_ok = True
         Form1.Show
-        start_text.Enabled = True
     End Sub
     
     Private Sub Timer2_Timer()
         Timer2.Interval = 0
         Timer2.Enabled = False
         Com1.Visible = True
-        Com2.Visible = True
+        'Com2.Visible = True
         Com3.Visible = True
         Com5.Visible = True
-        start_text.Enabled = True
-    End Sub
-    
-    Private Sub Timer3_Timer()
-        Timer3.Enabled = False
-        End
     End Sub

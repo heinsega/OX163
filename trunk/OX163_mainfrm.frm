@@ -5,16 +5,16 @@ Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.OCX"
 Begin VB.Form Form1 
    AutoRedraw      =   -1  'True
    Caption         =   "OX163"
-   ClientHeight    =   9060
+   ClientHeight    =   9390
    ClientLeft      =   60
    ClientTop       =   450
-   ClientWidth     =   12780
+   ClientWidth     =   12900
    ForeColor       =   &H00FF0000&
    Icon            =   "OX163_mainfrm.frx":0000
    LinkTopic       =   "Form1"
    OLEDropMode     =   1  'Manual
-   ScaleHeight     =   9060
-   ScaleWidth      =   12780
+   ScaleHeight     =   9390
+   ScaleWidth      =   12900
    StartUpPosition =   2  '屏幕中心
    Begin VB.TextBox cookies_text 
       Height          =   855
@@ -98,9 +98,9 @@ Begin VB.Form Form1
       Height          =   255
       Left            =   0
       TabIndex        =   25
-      Top             =   8805
-      Width           =   12780
-      _ExtentX        =   22543
+      Top             =   9135
+      Width           =   12900
+      _ExtentX        =   22754
       _ExtentY        =   450
       _Version        =   393216
       BeginProperty Panels {8E3867A5-8586-11D1-B16A-00C0F0283628} 
@@ -118,7 +118,7 @@ Begin VB.Form Form1
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
             Bevel           =   0
-            Object.Width           =   19985
+            Object.Width           =   20197
             MinWidth        =   353
             Text            =   "信息栏，点击查看"
             TextSave        =   "信息栏，点击查看"
@@ -163,7 +163,7 @@ Begin VB.Form Form1
       _ExtentX        =   1005
       _ExtentY        =   1005
       _Version        =   393216
-      RequestTimeout  =   15
+      RequestTimeout  =   10
    End
    Begin VB.Timer Timer3 
       Interval        =   200
@@ -545,6 +545,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":97E9
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":9AF3
+         Stretch         =   -1  'True
          ToolTipText     =   "Back"
          Top             =   240
          Width           =   375
@@ -555,6 +556,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":A046
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":A350
+         Stretch         =   -1  'True
          ToolTipText     =   "Save Checked Albums"
          Top             =   240
          Width           =   375
@@ -565,6 +567,7 @@ Begin VB.Form Form1
          MouseIcon       =   "OX163_mainfrm.frx":A865
          MousePointer    =   99  'Custom
          Picture         =   "OX163_mainfrm.frx":AB6F
+         Stretch         =   -1  'True
          ToolTipText     =   "Outup Download List"
          Top             =   240
          Width           =   375
@@ -1203,6 +1206,26 @@ Begin VB.Form Form1
       Begin VB.Menu setProgram 
          Caption         =   "程序设置"
       End
+      Begin VB.Menu setProgram_quick 
+         Caption         =   "快速设置"
+         Enabled         =   0   'False
+         Visible         =   0   'False
+         Begin VB.Menu setProgram_Scrpit 
+            Caption         =   "脚本控制"
+         End
+         Begin VB.Menu setProgram_Proxy 
+            Caption         =   "代理设置"
+         End
+         Begin VB.Menu setProgram_Lst 
+            Caption         =   "导出设置"
+         End
+         Begin VB.Menu setProgram_File 
+            Caption         =   "文件控制"
+         End
+      End
+      Begin VB.Menu menu11 
+         Caption         =   "-"
+      End
       Begin VB.Menu tray_script1 
          Caption         =   "更新脚本"
       End
@@ -1376,7 +1399,7 @@ Dim Web_Browser_header_tf As Boolean
 Dim Content_Range As String
 Dim new_win As Boolean
 Public OX_Script_Type As String
-'Dim download_speed As Integer
+Dim stop_check_header As Boolean
 
 Private Function ScriptDownload(ByVal mode As DownloadMode) As Boolean
     On Error Resume Next
@@ -1424,7 +1447,6 @@ Private Function ScriptDownload(ByVal mode As DownloadMode) As Boolean
         BrowserW.Hide
         download_ok = True
     Case Else
-        Debug.Assert False
     End Select
     Download = False
 End Function
@@ -1475,7 +1497,7 @@ Private Sub check_header_StateChanged(ByVal State As Integer)
         '读取页面文件大小
         lblProgressInfo.caption = "读取页面文件大小"
         lblProgressInfo1.caption = "读取页面文件大小"
-        If m_lngDocSize = 0 Then
+        If m_lngDocSize = 0 And stop_check_header = False Then
             '35756 不能完成请求
             file_size = check_header.GetHeader("Content-length")
             Content_Range = ""
@@ -1502,15 +1524,13 @@ Private Sub check_header_StateChanged(ByVal State As Integer)
                 lblProgressInfo.caption = "ERROR 文件大小未知"
                 lblProgressInfo1.caption = "ERROR 文件大小未知"
             End If
-            If m_lngDocSize < 350 And m_lngDocSize > 0 Then m_lngDocSize = 0
-            
+            If m_lngDocSize = 0 Then m_lngDocSize = 1
         End If
         check_header.Cancel
-        
-    Case icResponseReceived
-        
     End Select
 End Sub
+
+
 
 
 Private Sub count1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
@@ -1975,7 +1995,7 @@ Private Sub Form_Load()
     Inet1.RequestTimeout = sysSet.time_out
     
     If start_ox163.Com1.Visible = False Then Unload start_ox163
-    
+    process_mh_Click
     Timer3.Enabled = True
 End Sub
 
@@ -2425,44 +2445,6 @@ user_password:
     fast_down.Cancel
     download_ok = False
     form_quit = False
-    strURL = "http://photo.163.com/"
-    start_fast_method = ""
-    start_fast
-    Do While download_ok = False
-        If form_quit = True Then url_input.Enabled = True: Exit Sub
-        Sleep 10
-        DoEvents
-    Loop
-    
-    
-    
-    If InStr(LCase(Html_Temp), "<a href=""http://photo.163.com/photo/") > 0 Then
-        
-        
-        Html_Temp = Mid(Html_Temp, InStr(LCase(Html_Temp), "<a href=""http://photo.163.com/photo/") + 36)
-        Html_Temp = Mid(Html_Temp, 1, InStr(Html_Temp, "/") - 1)
-        
-        form_quit = False
-        fast_down.Cancel
-        download_ok = False
-        
-        strURL = "http://photo.163.com/photo/" & Html_Temp & "/dwr/call/plaincall/IndexBean.logout.dwr?u=" & Html_Temp
-        start_Post "", "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)" & vbCrLf & _
-        "Referer: http://photo.163.com/"
-        
-        Do While download_ok = False
-            If form_quit = True Then url_input.Enabled = True: Exit Sub
-            Sleep 10
-            DoEvents
-        Loop
-        
-        
-        Html_Temp = Html_Temp
-        
-    End If
-    
-    fast_down.Cancel
-    download_ok = False
     start_User format_username(url_temp, 1), pass
     Do While download_ok = False
         If form_quit = True Then url_input.Enabled = True: Exit Sub
@@ -3853,7 +3835,6 @@ Private Function new163pic_GetJs(ByVal input_User_Name As String, ByVal input_Al
         'dwr.engine._remoteHandleCallback('4','0',"s5.ph.126.net/18qMoKBCzMmwVobGPj8Zwg==/137922738591899540.js");
         
         Html_Temp = Mid$(Html_Temp, 1, InStrRev(Html_Temp, ".js""") + 2)
-        Debug.Print Html_Temp
         new163pic_GetJs = "http://" & Mid$(Html_Temp, InStrRev(Html_Temp, Chr(34)) + 1)
     Else
         Html_Temp = ""
@@ -5675,146 +5656,17 @@ end_sub:
     End If
 End Sub
 
-
-Private Function Referer_check() As String
-    On Error GoTo Referer_error
-    
-    Dim split_str, split_Referer
-    
-    split_Referer = Split(url_Referer, vbCrLf)
-    
-    Select Case split_Referer(0)
-    Case "me"
-        split_Referer(0) = "Referer: " & strURL
-        Referer_check = Join(split_Referer, vbCrLf)
-        
-    Case "dir"
-        split_Referer(0) = Left(strURL, InStrRev(strURL, "/"))
-        Referer_check = Join(split_Referer, vbCrLf)
-        
-    Case "root"
-        split_Referer(0) = Mid(strURL, 1, InStr(strURL, "//") + 2)
-        split_str = Mid(strURL, InStr(strURL, "//") + 2)
-        split_str = Split(split_str, "/")
-        split_Referer(0) = "Referer: " & split_Referer(0) & split_str(0) & "/"
-        Referer_check = Join(split_Referer, vbCrLf)
-        
-    Case "parent"
-        Dim Referer_num
-        Referer_num = Right(url_Referer, Len(url_Referer) - 6)
-        
-        If IsNumeric(Referer_num) Then
-            Referer_num = Int(Referer_num)
-            split_Referer(0) = Mid(strURL, 1, InStr(strURL, "//") + 2)
-            split_str = Mid(strURL, InStr(strURL, "//") + 2)
-            split_str = Split(split_str, "/")
-            
-            If Referer_num < 1 Or Referer_num > UBound(split_str) - 1 Then
-                split_Referer(0) = "Referer: " & strURL
-            Else
-                split_Referer(0) = "Referer: " & split_Referer(0) & split_str(0)
-                For i = 1 To Referer_num
-                    split_Referer(0) = split_Referer(0) & "/" & split_str(i)
-                Next
-                split_Referer(0) = split_Referer(0) & "/"
-            End If
-        Else
-            split_Referer(0) = "Referer: " & strURL
-        End If
-        
-        Referer_check = Join(split_Referer, vbCrLf)
-        
-    Case Else
-        If InStr(LCase(url_Referer), "http://") = 1 Then
-            Referer_check = "Referer: " & url_Referer
-        Else
-            Referer_check = url_Referer
-        End If
-    End Select
-    '"Referer: http://moe.imouto.org/"
-    
-    If InStr(Referer_check, "User-Agent:") <> 1 And InStr(Referer_check, vbCrLf & "User-Agent:") < 1 Then
-        Referer_check = Referer_check & vbCrLf & "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)"
-    End If
-    Exit Function
-    
-Referer_error:
-    Referer_check = "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)"
-End Function
-
-Private Function Referer_page_check() As String
-    On Error GoTo Referer_error
-    
-    Dim split_str, split_Referer
-    
-    split_Referer = Split(urlpage_Referer, vbCrLf)
-    
-    Select Case split_Referer(0)
-    Case "me"
-        split_Referer(0) = "Referer: " & strURL
-        Referer_page_check = Join(split_Referer, vbCrLf)
-        
-    Case "dir"
-        split_Referer(0) = Left(strURL, InStrRev(strURL, "/"))
-        Referer_page_check = Join(split_Referer, vbCrLf)
-        
-    Case "root"
-        split_Referer(0) = Mid(strURL, 1, InStr(strURL, "//") + 2)
-        split_str = Mid(strURL, InStr(strURL, "//") + 2)
-        split_str = Split(split_str, "/")
-        split_Referer(0) = "Referer: " & split_Referer(0) & split_str(0) & "/"
-        Referer_page_check = Join(split_Referer, vbCrLf)
-        
-    Case "parent"
-        Dim Referer_num
-        Referer_num = Right(urlpage_Referer, Len(urlpage_Referer) - 6)
-        
-        If IsNumeric(Referer_num) Then
-            Referer_num = Int(Referer_num)
-            split_Referer(0) = Mid(strURL, 1, InStr(strURL, "//") + 2)
-            split_str = Mid(strURL, InStr(strURL, "//") + 2)
-            split_str = Split(split_str, "/")
-            
-            If Referer_num < 1 Or Referer_num > UBound(split_str) - 1 Then
-                split_Referer(0) = "Referer: " & strURL
-            Else
-                split_Referer(0) = "Referer: " & split_Referer(0) & split_str(0)
-                For i = 1 To Referer_num
-                    split_Referer(0) = split_Referer(0) & "/" & split_str(i)
-                Next
-                split_Referer(0) = split_Referer(0) & "/"
-            End If
-        Else
-            split_Referer(0) = "Referer: " & strURL
-        End If
-        
-        Referer_page_check = Join(split_Referer, vbCrLf)
-        
-    Case Else
-        If InStr(LCase(urlpage_Referer), "http://") = 1 Then
-            Referer_page_check = "Referer: " & urlpage_Referer
-        Else
-            Referer_page_check = urlpage_Referer
-        End If
-    End Select
-    '"Referer: http://moe.imouto.org/"
-    Exit Function
-    
-Referer_error:
-    Referer_page_check = ""
-End Function
-
-
 Sub start()
     DoEvents
     '文件大小值复位
     Dim url_temp As String
+    Dim start_time As Date
+    
     On Error Resume Next
     Inet1.Cancel
     
     '定义ITC控件使用的协议为HTTP协议
     'Inet1.Protocol = icHTTP
-    Dim Referer_temp As String
     
     If retry_time > sysSet.retry_times + 1 Then GoTo err_end
     retry_time = retry_time + 1
@@ -5825,28 +5677,33 @@ Sub start()
         
 new_down:
         
-        lblProgressInfo.caption = "获取文件信息 请等待..."
-        lblProgressInfo1.caption = "获取文件信息 请等待..."
         check_header.Cancel
         Inet1.Cancel
         
-        Do While (check_header.StillExecuting = True Or Inet1.StillExecuting = True)
+        Do While (check_header.StillExecuting = True)
             If form_quit = True Then Exit Do
             DoEvents
+        lblProgressInfo.caption = "准备获取文件信息..."
+        lblProgressInfo1.caption = "准备获取文件信息..."
             Sleep 10
         Loop
         If form_quit = True Then GoTo err_end
         
         '调用Execute方法向Web服务器发送HTTP请求
         If url_Referer <> "" Then
-            Referer_temp = Referer_check
-            check_header.Execute Trim$(strURL), "GET", , Referer_temp & vbCrLf & "Range: bytes=0-"
+            stop_check_header = False
+            check_header.Execute Trim$(strURL), "GET", , OX_Set_Referer(url_Referer, strURL) & vbCrLf & "Range: bytes=-1"
             
+            start_time = Now
             Do
                 DoEvents
                 Sleep 10
                 If form_quit = True Then GoTo err_end
-            Loop While (check_header.StillExecuting = True Or Inet1.StillExecuting = True)
+                lblProgressInfo.caption = "获取文件信息中..."
+                lblProgressInfo1.caption = "获取文件信息中..."
+            Loop While (check_header.StillExecuting = True Or Inet1.StillExecuting = True) And m_lngDocSize = 0 And DateDiff("s", start_time, Now()) < 10
+            stop_check_header = True
+            If m_lngDocSize < 350 And m_lngDocSize > 0 Then m_lngDocSize = 0
             
             If m_lngDocSize > 0 And old_FileSize = m_lngDocSize Then
                 old_FileSize = -100
@@ -5858,16 +5715,21 @@ new_down:
                 Exit Sub
             End If
             
-            Inet1.Execute Trim$(strURL), "GET", , Referer_temp 'User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)
+            Inet1.Execute Trim$(strURL), "GET", , OX_Set_Referer(url_Referer, strURL) 'User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)
             
         Else
-            
-            check_header.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)" & vbCrLf & "Range: bytes=0-"
+            stop_check_header = False
+            check_header.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)" & vbCrLf & "Range: bytes=-1"
+            start_time = Now
             Do
                 DoEvents
                 Sleep 10
                 If form_quit = True Then GoTo err_end
-            Loop While (check_header.StillExecuting = True Or Inet1.StillExecuting = True)
+                lblProgressInfo.caption = "获取文件信息中..."
+                lblProgressInfo1.caption = "获取文件信息中..."
+            Loop While (check_header.StillExecuting = True Or Inet1.StillExecuting = True) And m_lngDocSize = 0 And DateDiff("s", start_time, Now()) < 10
+            stop_check_header = True
+            If m_lngDocSize < 350 And m_lngDocSize > 0 Then m_lngDocSize = 0
             
             If m_lngDocSize > 0 And old_FileSize = m_lngDocSize Then
                 old_FileSize = -100
@@ -5879,7 +5741,7 @@ new_down:
                 Exit Sub
             End If
             
-            Inet1.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)"
+            Inet1.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)"
             
         End If
         
@@ -5914,8 +5776,7 @@ new_down:
         Inet1.Cancel
         
         If url_Referer <> "" Then
-            Referer_temp = Referer_check
-            Inet1.Execute Trim$(strURL), "GET", , Referer_temp & vbCrLf & "Range: bytes=" & down_len & "-"
+            Inet1.Execute Trim$(strURL), "GET", , OX_Set_Referer(url_Referer, strURL) & vbCrLf & "Range: bytes=" & down_len & "-"
         Else
             Inet1.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)" & vbCrLf & "Range: bytes=" & down_len & "-"
         End If
@@ -5934,25 +5795,24 @@ End Sub
 
 Sub start_fast()
     DoEvents
-    Dim Referer_temp As String
     '文件大小值复位
     On Error GoTo err_ctrl
     '定义ITC控件使用的协议为HTTP协议
     'fast_down.Protocol = icHTTP
     '调用Execute方法向Web服务器发送HTTP请求
+    'Microsoft URL Control - 6.01.9782
+    
     If start_fast_method = "" Then
         If urlpage_Referer = "" Then
-            fast_down.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)"
+            fast_down.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 6.00; Windows 98)"
         Else
-            Referer_temp = Referer_page_check
-            fast_down.Execute Trim$(strURL), "GET", , Referer_temp
+            fast_down.Execute Trim$(strURL), "GET", , OX_Set_Referer(urlpage_Referer, strURL)
         End If
     Else
         If urlpage_Referer = "" Then
-            fast_down.Execute Trim$(strURL), "POST", start_fast_method, "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)"
+            fast_down.Execute Trim$(strURL), "POST", start_fast_method, "User-Agent: Mozilla/4.0 (compatible; MSIE 6.00; Windows 98)"
         Else
-            Referer_temp = Referer_page_check
-            fast_down.Execute Trim$(strURL), "POST", start_fast_method, Referer_temp
+            fast_down.Execute Trim$(strURL), "POST", start_fast_method, OX_Set_Referer(urlpage_Referer, strURL)
         End If
     End If
     Exit Sub
@@ -5963,7 +5823,6 @@ End Sub
 
 Sub startBrowser_fast()
     DoEvents
-    Dim Referer_temp As String
     Dim PostData() As Byte
     On Error Resume Next
     BrowserW_url = strURL
@@ -5971,16 +5830,14 @@ Sub startBrowser_fast()
         If urlpage_Referer = "" Then
             BrowserW.WebBrowser.Navigate Trim$(strURL)
         Else
-            Referer_temp = Referer_page_check
-            BrowserW.WebBrowser.Navigate Trim$(strURL), , , , Referer_temp
+            BrowserW.WebBrowser.Navigate Trim$(strURL), , , , OX_Set_Referer(urlpage_Referer, strURL)
         End If
     Else
         PostData = StrConv(start_fast_method, vbFromUnicode)
         If urlpage_Referer = "" Then
             BrowserW.WebBrowser.Navigate Trim$(strURL), , , PostData
         Else
-            Referer_temp = Referer_page_check
-            BrowserW.WebBrowser.Navigate Trim$(strURL), , , PostData, Referer_temp
+            BrowserW.WebBrowser.Navigate Trim$(strURL), , , PostData, OX_Set_Referer(urlpage_Referer, strURL)
         End If
     End If
 End Sub
@@ -7214,13 +7071,13 @@ Private Sub OLEDragDrop(Data As DataObject)
         url_input.SelLength = Len(url_input.Text)
         
     ElseIf Data.GetFormat(vbCFFiles) = True Then
-    For Each n In Data.Files
-    If LCase(n) Like "*.htm" Or LCase(n) Like "*txt" Or LCase(n) Like "*.html" Then
-    url_input.Text = n
-    Call view_command_Click
-    Exit For
-    End If
-    Next
+        For Each n In Data.Files
+            If LCase(n) Like "*.htm" Or LCase(n) Like "*txt" Or LCase(n) Like "*.html" Then
+                url_input.Text = n
+                Call view_command_Click
+                Exit For
+            End If
+        Next
     End If
     url_input.SetFocus
 End Sub
@@ -7279,29 +7136,23 @@ Private Function fix_referer_cookies(ByVal referer_cookies As String) As String
     b = ""
     
     If url_Referer <> "" Then
-        Referer_temp = Referer_check
-        If InStr(LCase(Referer_temp), "referer: ") > 0 Then
-            If InStr(LCase(Referer_temp), "referer: ") = 1 Or InStr(LCase(Referer_temp), vbCrLf & "referer: ") > 0 Then
-                a = Mid$(Referer_temp, InStr(LCase(Referer_temp), "referer: "))
-                a = Mid$(a, 1, InStr(a, vbCrLf) - 1)
-                a = Mid$(a, InStr(LCase(a), "referer: ") + 9)
-            End If
+        Referer_temp = Trim(url_Referer)
+        If InStr(LCase(Referer_temp), "cookie:") = 1 Or InStr(LCase(Referer_temp), vbCrLf & "cookie:") > 0 Then
+            b = Mid$(Referer_temp, InStr(LCase(Referer_temp), "cookie: "))
+            b = Mid$(b, 1, InStr(b, vbCrLf) - 1)
+            b = Mid$(b, InStr(LCase(b), "cookie:") + 8)
+            Referer_temp = Replace(Referer_temp, 1, InStr(LCase(b), "cookie:") - 1) & Mid$(Referer_temp, InStr(LCase(b), "cookie:") + 8)
         End If
-    End If
-    
-    If url_Referer <> "" Then
-        Referer_temp = Referer_check
-        If InStr(LCase(Referer_temp), "cookie: ") > 0 Then
-            If InStr(LCase(Referer_temp), "cookie: ") = 1 Or InStr(LCase(Referer_temp), vbCrLf & "cookie: ") > 0 Then
-                b = Mid$(Referer_temp, InStr(LCase(Referer_temp), "cookie: "))
-                b = Mid$(b, 1, InStr(b, vbCrLf) - 1)
-                b = Mid$(b, InStr(LCase(b), "cookie: ") + 8)
-            End If
+        
+        Referer_temp = OX_Set_Referer(Referer_temp, strURL)
+        If InStr(LCase(Referer_temp), "referer:") = 1 Or InStr(LCase(Referer_temp), vbCrLf & "referer:") > 0 Then
+            a = Mid$(Referer_temp, InStr(LCase(Referer_temp), "referer:"))
+            a = Mid$(a, 1, InStr(a, vbCrLf) - 1)
+            a = Mid$(a, InStr(LCase(a), "referer:") + 9)
         End If
     End If
     
     fix_referer_cookies = """" & Trim(a) & """,""" & Trim(b) & """"
-    
 End Function
 
 '------------------------------------------------------------------------------

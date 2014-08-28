@@ -20,6 +20,7 @@ Module=Parsing; Parsing.bas
 Module=OX_function; OX_function.bas
 Module=OX_FileSystem; OX_FileSystem.bas
 Module=OX_163_Module; OX_163_Module.bas
+Module=OX_CookiesCtrl; OX_CookiesCtrl.bas
 IconForm="start_ox163"
 Startup="Sub Main"
 HelpFile=""

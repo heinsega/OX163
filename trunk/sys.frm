@@ -2510,7 +2510,7 @@ Private Sub sys_apply_Click()
     
     
     '重新载入设定
-    sysSet.ver = CInt(GetIniStr("maincenter", "ver"))
+    'sysSet.ver = CInt(GetIniStr("maincenter", "ver"))
     sysSet.update_host = GetIniStr("maincenter", "update_host")
     sysSet.downloadblock = CLng(GetIniStr("maincenter", "downloadblock"))
     sysSet.include_script = GetIniStr("maincenter", "include_script")
