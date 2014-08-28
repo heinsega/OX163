@@ -81,7 +81,8 @@ Private Sub Command1_Click()
             Form1.user_list.ListItems(isDown).ListSubItems(1).Text = Text1.Text
             Combo1.Visible = True
         Else
-            'Form1.url_input.Text = Text1.Text
+            'µ«¬Ωœ‡≤·”√ªß
+            Form1.url_input.Text = Text1.Text
             Combo1.Visible = True
         End If
         C_quit = True

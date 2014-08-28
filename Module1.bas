@@ -104,9 +104,6 @@ Public Declare Function ShowWindow Lib "user32" (ByVal hWnd As Long, ByVal nCmdS
 Public Declare Function ShellExecute Lib "shell32" Alias "ShellExecuteW" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
 '-------------------------------------------------------------------------
-'InternetCookie-----------------------------------------------------------
-Public Declare Function InternetGetCookie Lib "wininet.dll" Alias "InternetGetCookieA" (ByVal lpszUrlName As String, ByVal lpszCookieName As String, ByVal lpszCookieData As String, ByRef lpdwSize As Long) As Long
-'-------------------------------------------------------------------------
 '解Gzip压缩数组-----------------------------------------------------------
 'Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (hpvDest As Any, hpvSource As Any, ByVal cbCopy As Long) '已经定义
 Private Declare Function InitDecompression Lib "gzip.dll" () As Long
@@ -318,16 +315,6 @@ Sub Main()
 End Sub
 
 '-------------XP风格--------end-------------------------------------------
-
-'-------------------------------------------------------------------------
-'get cookies--------------------------------------------------------------
-'-------------------------------------------------------------------------
-Public Function GetCookie(ByVal InternetGetCookie_url) As String
-    Dim buf_Cookies As String * 5000, cLen As Long
-    cLen = 5000
-    Call InternetGetCookie(InternetGetCookie_url, vbNullString, buf_Cookies, cLen)
-    GetCookie = Left(buf_Cookies, cLen)
-End Function
 
 '-------------------------------------------------------------------------
 '取得系统文件夹-----------------------------------------------------------
@@ -613,8 +600,8 @@ Public Function GetOSLCID() As Integer
     'eslEnglish = &H409      '1033
     'eslJapanese = &H411     '1041 Japan 932 JAPAN
     'eslKorean = &H412       '1042 Korea Unicode only KOREA
-
-
+    
+    
     If sysLCID = &H804 Or sysLCID = &H4 Or sysLCID = &H1004 Then
         GetOSLCID = 1 '中文简体
     ElseIf sysLCID = &H404 Or sysLCID = &HC04 Then

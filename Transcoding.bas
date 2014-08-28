@@ -41,17 +41,17 @@ End Function
 Public Function OX_FilterKeywords(ByVal sourceString As String, ByVal keywords As String) As String
     On Error Resume Next
     Dim script_code_replace
-    Dim i As Long
+    Dim I As Long
     If keywords <> "0" Then
         script_code_replace = Split(keywords, ",")
-        For i = 0 To UBound(script_code_replace)
+        For I = 0 To UBound(script_code_replace)
             DoEvents
-            If IsNumeric(script_code_replace(i)) Then
-                sourceString = Replace$(sourceString, ChrW(Int(script_code_replace(i))), "")
+            If IsNumeric(script_code_replace(I)) Then
+                sourceString = Replace$(sourceString, ChrW(Int(script_code_replace(I))), "")
             Else
-                sourceString = Replace$(sourceString, script_code_replace(i), "")
+                sourceString = Replace$(sourceString, script_code_replace(I), "")
             End If
-        Next i
+        Next I
     End If
     OX_FilterKeywords = sourceString
 End Function
@@ -64,34 +64,34 @@ End Function
 
 '网页JS代码中unicode转换ascii函数“\u”开头字符，163相册中用到
 Public Function unicode2asc(ByVal old_str)
-    Dim unicode_tf As Boolean, i As Long, j As Long
+    Dim unicode_tf As Boolean, I As Long, j As Long
     Dim unicode_number As Long
     Dim check_str
     old_str = Replace$(old_str, "\/", "/")
     If InStr(old_str, "\u") < 1 Then unicode2asc = old_str: Exit Function
     check_str = Split(old_str, "\u")
-    For i = 0 To UBound(check_str)
+    For I = 0 To UBound(check_str)
         DoEvents
         unicode_tf = False
-        If i = 0 And InStr(old_str, "\u") > 1 Then GoTo end_last
-        If Len(check_str(i)) > 3 Then
+        If I = 0 And InStr(old_str, "\u") > 1 Then GoTo end_last
+        If Len(check_str(I)) > 3 Then
             unicode_tf = True
             For j = 1 To 4
-                If InStr("0123456789abcdefABCDEF", Mid$(check_str(i), j, 1)) < 1 Then unicode_tf = False: GoTo end_last
+                If InStr("0123456789abcdefABCDEF", Mid$(check_str(I), j, 1)) < 1 Then unicode_tf = False: GoTo end_last
             Next j
-            old_str = Left(check_str(i), 4)
+            old_str = Left(check_str(I), 4)
             unicode_number = "&H" & old_str
-            check_str(i) = ChrW(unicode_number) & Right(check_str(i), Len(check_str(i)) - 4)
+            check_str(I) = ChrW(unicode_number) & Right(check_str(I), Len(check_str(I)) - 4)
         End If
 end_last:
         If unicode_tf = True Then
-            unicode2asc = unicode2asc & check_str(i)
-        ElseIf i = 0 Then
-            unicode2asc = check_str(i)
+            unicode2asc = unicode2asc & check_str(I)
+        ElseIf I = 0 Then
+            unicode2asc = check_str(I)
         Else
-            unicode2asc = unicode2asc & "\u" & check_str(i)
+            unicode2asc = unicode2asc & "\u" & check_str(I)
         End If
-    Next i
+    Next I
 End Function
 
 '网页字符转换为常规字符
@@ -116,7 +116,7 @@ End Function
 
 '修正文件名，去除不可用的字符
 Public Function reName_Str(ByVal old_Name As String) As String
-    Dim i As Long
+    Dim I As Long
     
     reName_Str = Replace$(old_Name, Chr(92), "_")
     reName_Str = Replace$(reName_Str, Chr(47), "_")
@@ -138,8 +138,8 @@ Public Function reName_Str(ByVal old_Name As String) As String
         reName_Str = Hex_unicode_str(reName_Str)
     End Select
     
-    For i = 1 To Len(reName_Str)
-        If Asc(Mid(reName_Str, i, 1)) = 63 Then reName_Str = Replace(reName_Str, Mid(reName_Str, i, 1), "_")
+    For I = 1 To Len(reName_Str)
+        If Asc(Mid(reName_Str, I, 1)) = 63 Then reName_Str = Replace(reName_Str, Mid(reName_Str, I, 1), "_")
     Next
     
     If Left(reName_Str, 1) = "." Then reName_Str = "_" & Mid$(reName_Str, 2)
@@ -151,14 +151,14 @@ Public Function Str_unicode_Ctrl(ByVal old_String As String) As String
     '0-替换,字符替换为网页号"&#34;"方式
     '1-不变,程序无法识别,显示为"?"
     '2-替除,字符替换为默认字符"_"
-    Dim i As Long
+    Dim I As Long
     
     Select Case sysSet.Unicode_Str
     Case 0
         old_String = Hex_unicode_str(old_String)
     Case 2
-        For i = 1 To Len(old_String)
-            If Asc(Mid(old_String, i, 1)) = 63 Then old_String = Replace(old_String, Mid(old_String, i, 1), "_")
+        For I = 1 To Len(old_String)
+            If Asc(Mid(old_String, I, 1)) = 63 Then old_String = Replace(old_String, Mid(old_String, I, 1), "_")
         Next
     End Select
     Str_unicode_Ctrl = old_String
@@ -167,15 +167,15 @@ End Function
 
 '将非ANSI字符转换为16进制代码"&HFF75",再转换为10进制网页代码"&#65397;"(该字符网页16进制代码为"&#xFF75;")
 Public Function Hex_unicode_str(ByVal old_String As String) As String
-    Dim i As Long, UnAnsi_Str As String, Hex_UnAnsi_Str As String
-    For i = 1 To Len(old_String)
-        If Asc(Mid(old_String, i, 1)) = 63 Then UnAnsi_Str = UnAnsi_Str & Mid(old_String, i, 1)
+    Dim I As Long, UnAnsi_Str As String, Hex_UnAnsi_Str As String
+    For I = 1 To Len(old_String)
+        If Asc(Mid(old_String, I, 1)) = 63 Then UnAnsi_Str = UnAnsi_Str & Mid(old_String, I, 1)
     Next
     
-    For i = 1 To Len(UnAnsi_Str)
-        Hex_UnAnsi_Str = Mid(UnAnsi_Str, i, 1)
+    For I = 1 To Len(UnAnsi_Str)
+        Hex_UnAnsi_Str = Mid(UnAnsi_Str, I, 1)
         Hex_UnAnsi_Str = "&H" & Hex(AscW(Hex_UnAnsi_Str))
-        old_String = Replace(old_String, Mid(UnAnsi_Str, i, 1), "&#" & Int(Hex_UnAnsi_Str) & ";")
+        old_String = Replace(old_String, Mid(UnAnsi_Str, I, 1), "&#" & Int(Hex_UnAnsi_Str) & ";")
     Next
     Hex_unicode_str = old_String
 End Function
@@ -183,7 +183,7 @@ End Function
 '将10进制网页代码"&#65397;"或16进制网页代码"&#xFF75;", 转换为unicode字符
 Public Function fix_Unicode_FileName(ByVal sLongFileName As String) As String
     On Error Resume Next
-    Dim i As Long, fixed_Unicode_tf As Boolean, split_str
+    Dim I As Long, fixed_Unicode_tf As Boolean, split_str
     Dim fix_Unicode As String
     
     fix_Unicode_FileName = sLongFileName
@@ -191,13 +191,13 @@ Public Function fix_Unicode_FileName(ByVal sLongFileName As String) As String
     split_str = Split(sLongFileName, "&#")
     If UBound(split_str) >= 1 Then
         
-        For i = 1 To UBound(split_str)
+        For I = 1 To UBound(split_str)
             
             fixed_Unicode_tf = False
-            If InStr(split_str(i), ";") > 1 Then
+            If InStr(split_str(I), ";") > 1 Then
                 
-                fix_Unicode = Mid(split_str(i), 1, InStr(split_str(i), ";") - 1)
-                split_str(i) = Mid(split_str(i), InStr(split_str(i), ";") + 1)
+                fix_Unicode = Mid(split_str(I), 1, InStr(split_str(I), ";") - 1)
+                split_str(I) = Mid(split_str(I), InStr(split_str(I), ";") + 1)
                 
                 '检测16进制网页代码"&#xFF75;"
                 If Left(LCase(fix_Unicode), 1) = "x" And Len(fix_Unicode) > 1 And Len(fix_Unicode) < 10 Then
@@ -215,26 +215,26 @@ Public Function fix_Unicode_FileName(ByVal sLongFileName As String) As String
                 End If
                 
                 If fixed_Unicode_tf = False Then
-                    split_str(i) = fix_Unicode & ";" & split_str(i)
+                    split_str(I) = fix_Unicode & ";" & split_str(I)
                 Else
-                    split_str(i) = fix_Unicode & split_str(i)
+                    split_str(I) = fix_Unicode & split_str(I)
                 End If
                 
             End If
-            If fixed_Unicode_tf = False Then split_str(i) = "&#" & split_str(i)
+            If fixed_Unicode_tf = False Then split_str(I) = "&#" & split_str(I)
         Next
         fix_Unicode_FileName = Join(split_str, "")
     End If
 End Function
 
 Private Function is_Hex_code(ByVal Hex_code As String) As Boolean
-    Dim i
+    Dim I
     is_Hex_code = True
     If Len(Hex_code) > 0 And Len(Hex_code) < 9 Then
-        For i = 1 To Len(Hex_code)
+        For I = 1 To Len(Hex_code)
             DoEvents
-            If InStr("ABCDEFabcdef0123456789", Mid$(Hex_code, i, 1)) < 1 Then is_Hex_code = False: Exit Function
-        Next i
+            If InStr("ABCDEFabcdef0123456789", Mid$(Hex_code, I, 1)) < 1 Then is_Hex_code = False: Exit Function
+        Next I
     Else
         is_Hex_code = False
     End If
@@ -248,9 +248,9 @@ Public Function URLEncode(ByVal vstrIn As String) As String
     Dim strReturn As String, ThisChr As String, innerCode, Hight8, Low8
     strReturn = ""
     vstrIn = Replace(vstrIn, "%", "%25")
-    Dim i
-    For i = 1 To Len(vstrIn)
-        ThisChr = Mid(vstrIn, i, 1)
+    Dim I
+    For I = 1 To Len(vstrIn)
+        ThisChr = Mid(vstrIn, I, 1)
         If Abs(Asc(ThisChr)) < &HFF Then
             strReturn = strReturn & ThisChr
         Else
@@ -394,51 +394,52 @@ Public Function UTF8EncodeURI(ByVal szInput As String) As String
     UTF8EncodeURI = szRet
 End Function
 Function UTF8DecodeURI(ByVal strIn)
-UTF8DecodeURI = ""
-Dim sl:     sl = 1
-Dim tl:     tl = 1
-Dim key:     key = "%"
-Dim kl:     kl = Len(key)
-sl = InStr(sl, strIn, key, 1)
-Do While sl > 0
-If (tl = 1 And sl <> 1) Or tl < sl Then
-UTF8DecodeURI = UTF8DecodeURI & Mid(strIn, tl, sl - tl)
-End If
-Dim hh, hi, hl
-Dim a
-Select Case UCase(Mid(strIn, sl + kl, 1))
-Case "U": 'Unicode URLEncode
-a = Mid(strIn, sl + kl + 1, 4)
-UTF8DecodeURI = UTF8DecodeURI & ChrW("&H" & a)
-sl = sl + 6
-Case "E": 'UTF-8 URLEncode
-hh = Mid(strIn, sl + kl, 2)
-a = Int("&H" & hh)          'ascii码
-If Abs(a) < 128 Then
-sl = sl + 3
-UTF8DecodeURI = UTF8DecodeURI & Chr(a)
-Else
-hi = Mid(strIn, sl + 3 + kl, 2)
-hl = Mid(strIn, sl + 6 + kl, 2)
-a = ("&H" & hh And &HF) * 2 ^ 12 Or ("&H" & hi And &H3F) * 2 ^ 6 Or ("&H" & hl And &H3F)
-If a < 0 Then a = a + 65536
-UTF8DecodeURI = UTF8DecodeURI & ChrW(a)
-sl = sl + 9
-End If
-Case Else:   'Asc   URLEncode
-hh = Mid(strIn, sl + kl, 2)       '高位
-a = Int("&H" & hh)          'ascii码
-If Abs(a) < 128 Then
-sl = sl + 3
-Else
-hi = Mid(strIn, sl + 3 + kl, 2)     '低位
-a = Int("&H" & hh & hi)              '非ascii码
-sl = sl + 6
-End If
-UTF8DecodeURI = UTF8DecodeURI & Chr(a)
-End Select
-tl = sl
-sl = InStr(sl, strIn, key, 1)
-Loop
-UTF8DecodeURI = UTF8DecodeURI & Mid(strIn, tl)
+    UTF8DecodeURI = ""
+    Dim sl: sl = 1
+    Dim tl: tl = 1
+    Dim key: key = "%"
+    Dim kl: kl = Len(key)
+    sl = InStr(sl, strIn, key)
+    Do While sl > 0
+        If (tl = 1 And sl <> 1) Or tl < sl Then
+            UTF8DecodeURI = UTF8DecodeURI & Mid(strIn, tl, sl - tl)
+        End If
+        Dim hh, hi, hl
+        Dim a
+        Select Case UCase(Mid(strIn, sl + kl, 1))
+        Case "U": 'Unicode URLEncode
+            a = Mid(strIn, sl + kl + 1, 4)
+            UTF8DecodeURI = UTF8DecodeURI & ChrW("&H" & a)
+            sl = sl + 6
+        Case "E": 'UTF-8 URLEncode
+            hh = Mid(strIn, sl + kl, 2)
+            a = Int("&H" & hh) 'ascii码
+            If Abs(a) < 128 Then
+                sl = sl + 3
+                UTF8DecodeURI = UTF8DecodeURI & Chr(a)
+            Else
+                hi = Mid(strIn, sl + 3 + kl, 2)
+                hl = Mid(strIn, sl + 6 + kl, 2)
+                a = ("&H" & hh And &HF) * 2 ^ 12 Or ("&H" & hi And &H3F) * 2 ^ 6 Or ("&H" & hl And &H3F)
+                If a < 0 Then a = a + 65536
+                UTF8DecodeURI = UTF8DecodeURI & ChrW(a)
+                sl = sl + 9
+            End If
+        Case Else: 'Asc URLEncode
+            hh = Mid(strIn, sl + kl, 2) '高位
+            a = Int("&H" & hh) 'ascii码
+            If Abs(a) < 128 Then
+                sl = sl + 3
+            Else
+                hi = Mid(strIn, sl + 3 + kl, 2) '低位
+                a = Int("&H" & hh & hi) '非ascii码
+                sl = sl + 6
+            End If
+            UTF8DecodeURI = UTF8DecodeURI & Chr(a)
+        End Select
+        tl = sl
+        sl = InStr(sl, strIn, key)
+    Loop
+    UTF8DecodeURI = UTF8DecodeURI & Mid(strIn, tl)
 End Function
+
