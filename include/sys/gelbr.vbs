@@ -1,5 +1,5 @@
-'2014-4-5 163.shanhaijing.net
-Dim page,tags,url_instr,page_retry,delay_tf,start_time,Next_page
+'2014-10-1 163.shanhaijing.net
+Dim url_parent, tags, page, Next_page, page_counter, retry_counter, delay_tf, url_instr, start_time
 
 Function return_download_url(ByVal url_str)
 'http://gelbooru.com/index.php?page=post&s=list&pid=336960
@@ -9,77 +9,84 @@ Function return_download_url(ByVal url_str)
 'http://gelbooru.com/index.php?page=post&s=list&tags=nakoruru&pid=60
 'http://www.gelbooru.com/index.php?page=post&s=list&tags=canaan
 'youhate.us www.youhate.us
+
 On Error Resume Next
-tags=""
-Dim page_tmp
-page_tmp=url_str
-page_retry=0
-page=0
+Dim XML_TF
+return_download_url=""
 delay_tf=0
 
-'-----------------pool--------------------
-If InStr(LCase(url_str), "page=pool") >1 Then
-	Next_page="pool"
-	return_download_url = "inet|10,13|" & url_str & "|http://gelbooru.com/"
-	url_instr=url_str
-End If
+url_str="http://" & mid(url_str,InStr(LCase(url_str), "http://")+7)
 
-'-----------------tags--------------------
-If InStr(LCase(url_str), "tags=") > 0 Then
-    tags = Mid(url_str, InStr(url_str, "tags=") + 5)
-    If InStr(tags, "&") > 0 Then tags = Mid(tags, 1, InStr(tags, "&") - 1)
-    If InStr(tags, " ") > 0 Then tags = Mid(tags, 1, InStr(tags, " ") - 1)
-    If LCase(tags)="all" Then tags=""
-End If
-If tags <> "" Then url_str = "http://gelbooru.com/index.php?page=post&s=list&tags=" & tags
+url_parent=mid(url_str,InStr(LCase(url_str), "http://")+7)
 
-If InStr(LCase(page_tmp),"&pid=")>len("gelbooru.com/") Or InStr(LCase(page_tmp),"?pid=")>len("gelbooru.com/") Then
-	If InStr(LCase(page_tmp),"&pid=")>len("gelbooru.com/") Then page_tmp=Mid(page_tmp,InStr(LCase(page_tmp),"&pid=")+5)
-	If InStr(LCase(page_tmp),"?pid=")>len("gelbooru.com/") Then page_tmp=Mid(page_tmp,InStr(LCase(page_tmp),"?pid=")+5)
-	If InStr(LCase(page_tmp),"&")>0 Then page_tmp=Mid(page_tmp,1,InStr(page_tmp,"&")-1)
-	If IsNumeric(page_tmp) Then
-		If Int(page_tmp)>1 Then
-			If MsgBox("本页为第" & Int(page_tmp/28)+1 & "页" & vbcrlf & "是否从第1页开始？", vbYesNo, "问题")=vbyes Then
-				page=0
-				url_str=format_page(url_str)
-			Else
-				page=Int(page_tmp)
-			End If
-		End If
-	End If
+If InStr(LCase(url_parent), "/index.php?")>0 Then
+	url_parent=mid(url_parent,1,InStr(LCase(url_parent), "/index.php?")-1)
+ElseIf InStr(LCase(url_parent), "/?")>0 Then
+	url_parent=mid(url_parent,1,InStr(LCase(url_parent), "/?")-1)
 Else
-	page=0
+	url_parent=mid(url_parent,1,InStrrev(LCase(url_parent), "/")-1)			
 End If
-If page>0 Then url_str=url_str & "&pid=" & page
-return_download_url = "inet|10,13|" & url_str & "|http://gelbooru.com/"
-url_instr=url_str
-End Function
-'--------------------------------------------------------
-Function format_page(url_str)
-format_page=url_str
-Dim temp_str(2)
-If instr(lcase(url_str),"?pid=")>0 or instr(lcase(url_str),"&pid=")>0 Then
-	If instr(lcase(url_str),"?pid=")>0 Then
-		temp_str(0)=mid(url_str,1,instr(lcase(url_str),"?pid="))
-		temp_str(1)=mid(url_str,InStr(lcase(url_str),"?pid=")+1)
-	ElseIf instr(lcase(url_str),"&pid=")>0 Then
-		temp_str(0)=mid(url_str,1,InStr(lcase(url_str),"&pid="))
-		temp_str(1)=mid(url_str,InStr(lcase(url_str),"&pid=")+1)
-	End If
-	If instr(temp_str(1),"&")>0 Then
-		temp_str(1)=mid(url_str,instr(temp_str(1),"&"))
+
+If InStr(LCase(url_str), "page=pool") >1 Then
+	page="pool"
+	url_instr=url_str
+	return_download_url = "inet|10,13|" & url_str & "|" & url_str
+Else  'If InStr(LCase(url_str), "page=post") >1 and InStr(LCase(url_str), "s=list") >1 Then
+	'tags
+	If InStr(LCase(url_str), "tags=") >1 Then
+		tags=mid(url_str,InStr(LCase(url_str), "tags=")+5)
+	  If InStr(tags, "&") >1 Then tags=mid(tags,1,InStr(tags, "&")-1)
 	Else
-		temp_str(1)=""
+		tags=""
 	End If
-	format_page=temp_str(0) & "1" & temp_str(1)
-End if
+	If Trim(tags)="" Then
+		tags=""
+		Else
+		tags="&tags=" & Trim(tags)
+	End If
+
+	'page
+	If InStr(LCase(url_str), "&pid=") >1 Then
+		page=mid(url_str,InStr(LCase(url_str), "&pid=")+5)
+	  If IsNumeric(page)=false Then page=0
+	Else
+		page=0
+	End If
+	
+	XML_TF=1
+		
+	If page>0 Then
+		If MsgBox("本页不是第1页" & vbcrlf & "是否从第1页开始？", vbYesNo, "问题")=vbyes Then
+			page=0
+		Else
+			XML_TF=0
+		End If
+	Else
+	  page=0
+	End If	
+	Next_page=0
+	retry_counter=0
+	
+	If XML_TF=1 Then
+	 	page_counter=0
+	 	Next_page=-1
+	 	url_instr="http://" & url_parent & "/index.php?page=dapi&s=post&q=index" & tags
+	 	return_download_url = "inet|10,13|" & url_instr & "|" & "http://" & url_parent & "/"
+	Else
+	 	url_instr="http://" & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & page
+		return_download_url = "inet|10,13|" & url_instr & "|" & "http://" & url_parent & "/"
+	End If
+End If
+return_download_url=return_download_url & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.00)"
+OX163_urlpage_Referer="http://" & url_parent & "/" & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.00)"
+
 End Function
+
 '--------------------------------------------------------
 Function return_download_list(ByVal html_str, ByVal url_str)
 On Error Resume Next
 
-Dim split_str,url_temp,split_i,sid,pic_type
-return_download_list = ""
+Dim split_str, sid, pic_type
 
 If delay_tf=1 and DateDiff("s", start_time, Now()) < 12 Then
 	return_download_list="1|inet|10,13|http://www.163.com/?Delay_15s-利用163页面延迟15秒"
@@ -94,10 +101,8 @@ ElseIf delay_tf>0 Then
 	Exit Function
 End If
 
-url_str=html_str
 
-If Next_page="pool" Then
-	'该部分代码复制b-sys.vbs，仅调整了文件命名方式和url格式
+If page="pool" Then
 	'pool部分仅仅复制调整tags部分的代码
 	html_str = Mid(html_str, InStr(LCase(html_str), "<span class=""thumb"" id=""") + len("<span class=""thumb"" id="""))
 	html_str = Mid(html_str, 1, InStr(LCase(html_str), "</div>"))
@@ -107,16 +112,18 @@ If Next_page="pool" Then
 		url_str=""
 		sid=""
 		pic_type=""
-		
   	'sid
 	  sid = Mid(split_str(split_i), 1, InStr(split_str(split_i), chr(34))-1)	  
-	  split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), "src=""")+len("src="""))	
-	    	  
+	  split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), "src=""")+len("src="""))	  	  
 	  'url
-	  'http://simg.gelbooru.com/thumbs/1632/thumbnail_23df55074d6d49878e9f79d5dc82ef8a.jpg?1843721
 	  url_str = Mid(split_str(split_i), 1, InStr(split_str(split_i), chr(34))-1)
-    url_str = replace(replace(url_str,"/thumbnails/","/images/"),"thumbnail_","")
-    url_str = replace(url_str,"/thumbs/","/images/")
+	  
+	  html_str = Mid(url_str,1,InStr(LCase(url_str), "/thumbnail_")-1)
+	  url_str = Mid(url_str, InStr(LCase(url_str), "/thumbnail_")+len("/thumbnail_"))
+	  'html_str获取"/17"部分
+	  html_str = Mid(html_str,InStrrev(LCase(html_str), "/")) & "/"
+	  'pic url
+		url_str="http://" & url_parent & "/images" & html_str & url_str	
 		If InStr(url_str,"?")>1 Then url_str=mid(url_str,1,InStr(url_str,"?")-1)
 		pic_type=Mid(url_str,instrrev(url_str,"."))
 		
@@ -125,63 +132,160 @@ If Next_page="pool" Then
 	  split_str(split_i) = Trim(Mid(split_str(split_i), 1, InStr(split_str(split_i), chr(34))-1))
 	  split_str(split_i) = Trim(Mid(split_str(split_i), 1, InStr(split_str(split_i), "  ")-1))
 	  If Len(split_str(split_i))>180 Then split_str(split_i)=Left(split_str(split_i),179) & "~"
-    split_str(split_i) = replace(split_str(split_i),"|"," ")
-	  split_str(split_i) = sid & "_" & split_str(split_i) & pic_type
+    split_str(split_i) = replace(split_str(split_i),"|","_")
+	  split_str(split_i) = sid & " - " & split_str(split_i) & pic_type
 		split_str(split_i) = "|" & url_str & "|" & split_str(split_i) & "|"
   Next  
   return_download_list=join(split_str,vbCrLf) & vbCrLf
-ElseIf InStr(html_str, " class=""thumb"">") > 0 Then
+
+ElseIf Next_page<0 Then
 	
-	html_str = Mid(html_str, InStr(html_str, " class=""thumb"">") + 15)
-	html_str = Mid(html_str, InStr(html_str, "<a id=""") + 7)
-
-	split_str = Split(html_str, " class=""thumb""><a id=""")
-
-    For split_i = 0 To UBound(split_str)
-    html_str=Mid(split_str(split_i),1, InStr(split_str(split_i), Chr(34)) -1) & "_" 'p371667_
-    split_str(split_i) = Mid(split_str(split_i), InStr(split_str(split_i), "<img src=""") +10)
-    
-    'url
-    url_temp = Mid(split_str(split_i), 1,InStr(split_str(split_i), "?") -1)
-    url_temp = replace(replace(url_temp,"/thumbnails/","/images/"),"thumbnail_","")
-    url_temp = replace(url_temp,"/thumbs/","/images/")
-    
-    'Tags
-    html_str =html_str & Trim(Mid(split_str(split_i), InStr(split_str(split_i), "alt=""") +5))
-    html_str =Trim(Mid(html_str,1, InStr(html_str, """")-1))
-    
-    split_str(split_i)=html_str
-    'name
-    If Len(html_str)>180 Then html_str=Left(html_str,179) & "~"
-    html_str=html_str & Mid(url_temp,instrrev(url_temp,"."))
-    'If instrrev(html_str,".")<instrrev(html_str,"?") and instrrev(html_str,".")>8 Then html_str=Mid(html_str,1,instrrev(html_str,"?")-1)
-    
-    return_download_list = return_download_list & "|" & url_temp & "|" & html_str & "|" & split_str(split_i) & vbCrLf
-    Next
-
+	If InStr(LCase(html_str), "<posts count=""") > 0 Then
+		Next_page=-2
+		retry_counter=0
+		Dim key_word
+		key_word="<posts count="""
+		url_str=Mid(html_str, InStr(LCase(html_str), key_word) + len(key_word))
+		url_str=Mid(url_str,1,InStr(url_str, chr(34))-1)
+		If IsNumeric(url_str) Then page_counter=Int(url_str)
+	
+		html_str = Mid(html_str, InStr(LCase(html_str), key_word) + len(key_word))
+		html_str = Mid(html_str, InStr(LCase(html_str), "<post ") + len("<post "))
+		html_str = Mid(html_str, 1, InStr(LCase(html_str), "</posts>")-1)
+		split_str = Split(html_str, "/><post ")
+	  For split_i = 0 To UBound(split_str)
+			html_str=""
+			url_str=""
+			sid=""
+			pic_type=""
+					
+	  	'sid
+	  	key_word=""" id="""
+		  sid = Mid(split_str(split_i), InStr(split_str(split_i), key_word) + len(key_word))
+		  sid = Mid(sid,1,InStr(sid, chr(34))-1)
+		  	  	  
+		  'file_url
+	  	key_word=""" file_url="""
+		  url_str = Mid(split_str(split_i), InStr(split_str(split_i), key_word) + len(key_word))
+		  url_str = Mid(url_str,1,InStr(url_str, chr(34))-1)	  
+		  
+			pic_type=Mid(url_str,instrrev(url_str,"."))
+			
+			'pic name
+	  	key_word=""" tags="""
+		  html_str = Mid(split_str(split_i), InStr(split_str(split_i), key_word) + len(key_word))
+		  html_str = Mid(html_str,1,InStr(html_str, chr(34))-1)
+		  
+		  If Len(html_str)>180 Then html_str=Left(html_str,179) & "~"
+		  html_str = replace(html_str,"|","_")
+		  html_str = "p" & sid & " - " & html_str & pic_type
+			split_str(split_i) = "|" & url_str & "|" & html_str & "|"
+	  Next
+	  
+	  return_download_list=join(split_str,vbCrLf) & vbCrLf
+	  If (page+1)*100<page_counter Then
+	  	page=page+1
+	  	url_instr="http://" & url_parent & "/index.php?page=dapi&s=post&q=index" & tags & "&pid=" & page
+	  	return_download_list=return_download_list & "1|inet|10,13|" & url_instr
+		End If
+		
+	ElseIf Next_page<-1 Then
+		If retry_counter<5 Then
+			retry_counter=retry_counter+1
+			delay_tf=1
+			start_time=Now()
+			return_download_list="1|inet|10,13|http://www.163.com/?Delay_15s-利用163页面延迟15秒"
+		Else
+			return_download_list="0"
+		End If
+	Else
+		Next_page=0
+		url_instr="http://" & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & page
+		return_download_list = "1|inet|10,13|" & url_instr & "|" & "http://" & url_parent & "/"
+	End If
+  
+ElseIf InStr(LCase(html_str), "class=""thumb""><a id=""") > 0 Then
+	
 	Next_page=0
-	delay_tf=0
-	
-	If InStr(LCase(url_str), "alt=""next"">") > 0 Then
-		url_str=Mid(url_str,1,InStr(LCase(url_str), "alt=""next"">")-1)
+	retry_counter=0
+	If InStr(LCase(html_str), "alt=""next"">") > 0 Then
+		url_str=Mid(html_str,1,InStr(LCase(html_str), "alt=""next"">")-1)
 		url_str=Mid(url_str, InStrrev(LCase(url_str), "pid=")+4)
 		url_str=Mid(url_str,1,InStr(url_str, chr(34))-1)
 		If IsNumeric(url_str) Then Next_page=Int(url_str)
 	End If
+	
+	html_str = Mid(html_str, InStr(LCase(html_str), "class=""thumb""><a id=""") + len("class=""thumb""><a id="""))
+	html_str = Mid(html_str, 1, InStr(LCase(html_str), "</div>"))
+	split_str = Split(html_str, "class=""thumb""><a id=""")
+	
+  For split_i = 0 To UBound(split_str)
+		html_str=""
+		url_str=""
+		sid=""
+		pic_type=""
+  	'sid
+	  sid = Mid(split_str(split_i), 1, InStr(split_str(split_i), chr(34))-1)
+	  
+	  split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), "<img src=""")+len("<img src="""))
+	  	  
+	  'url
+	  url_str = Mid(split_str(split_i), 1, InStr(split_str(split_i), chr(34))-1)
+		'http://thumbs2.booru.org/safe/638/thumbnail_d6679254289b8e22c2462b172f8347c66327e8c9.jpg?643485
+		'http://safebooru.org//images/638/d6679254289b8e22c2462b172f8347c66327e8c9.jpg
+		'http://lolibooru.com/thumbnails//106/thumbnail_7d027b47b1bfcb4cf39775332437dea8ae52a514.jpeg
+		'http://lolibooru.com/images/106/7d027b47b1bfcb4cf39775332437dea8ae52a514.jpeg
+		'html_str获取"http://thumbs2.booru.org/safe/638"部分
+		'url_str获取"/thumbnail_d6679254289b8e22c2462b172f8347c66327e8c9.jpg?643485"部分
+	  html_str = Mid(url_str,1,InStr(LCase(url_str), "/thumbnail_")-1)
+	  url_str = Mid(url_str, InStr(LCase(url_str), "/thumbnail_")+len("/thumbnail_"))
+	  'html_str获取"/638"部分
+	  html_str = Mid(html_str,InStrrev(LCase(html_str), "/")) & "/"
+	  'pic url
+		url_str="http://" & url_parent & "/images" & html_str & url_str	
+		If InStr(url_str,"?")>1 Then url_str=mid(url_str,1,InStr(url_str,"?")-1)
+		pic_type=Mid(url_str,instrrev(url_str,"."))
 		
-	If Next_page>0 Then
-		page_retry=0
-		url_instr="http://gelbooru.com/index.php?page=post&s=list&tags=" & tags & "&pid=" & Next_page
-		return_download_list = return_download_list & "1|inet|10,13|" & url_instr
-	Else
-		return_download_list = return_download_list & "0"
+		'pic name
+	  split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), "title=""")+len("title="""))
+	  split_str(split_i) = Trim(Mid(split_str(split_i), 1, InStr(split_str(split_i), chr(34))-1))
+	  split_str(split_i) = Trim(Mid(split_str(split_i), 1, InStr(split_str(split_i), "  ")-1))
+	  If Len(split_str(split_i))>180 Then split_str(split_i)=Left(split_str(split_i),179) & "~"
+	  split_str(split_i) = replace(split_str(split_i),"|","_")
+	  split_str(split_i) = sid & " - " & split_str(split_i) & pic_type
+		split_str(split_i) = "|" & url_str & "|" & split_str(split_i) & "|"
+  Next
+  return_download_list=join(split_str,vbCrLf) & vbCrLf
+  If Next_page>0 Then
+  	url_instr="http://" & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & Next_page
+  	return_download_list=return_download_list & "1|inet|10,13|" & url_instr
 	End If
-ElseIf page_retry<5 Then
-	page_retry=page_retry+1
+ElseIf retry_counter<5 Then
+	retry_counter=retry_counter+1
 	delay_tf=1
 	start_time=Now()
 	return_download_list="1|inet|10,13|http://www.163.com/?Delay_15s-利用163页面延迟15秒"
 Else
-	return_download_list = return_download_list & "0"
+return_download_list = "0"
+End If
+End Function
+
+
+'--------------------------------------------------------
+Function Specific_web_site(ByVal web_site_url)
+Specific_web_site=0
+If InStr(LCase(web_site_url),"www.allthefallen.org")=1 Then
+	XML_TF=0
+	Specific_web_site=1
+End If
+End Function
+
+Function Specific_web_name(ByVal web_site_name)
+Specific_web_name=web_site_name
+If InStr(LCase(web_site_name),"www.allthefallen.org")=1 Then
+	Specific_web_name="allthefallen.org"
+End If
+If InStr(LCase(web_site_name),"www.")=1 and len(web_site_name)>4 Then
+	web_site_name=mid(web_site_name,4)
 End If
 End Function

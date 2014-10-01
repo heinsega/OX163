@@ -1,6 +1,6 @@
-'2014-6-11 163.shanhaijing.net
+'2014-9-8 163.shanhaijing.net
 Dim deep_DL, split_str, split_c0, split_c1
-Dim tags, page, page_counter, url_instr, pool, url_head
+Dim tags, page, page_counter, url_instr, pool, url_head, url_http
 Dim retry_time, retry_url, delay_time, start_time, delay_url
 Function return_download_url(ByVal url_str)
     'idol.sankakucomplex.com
@@ -28,20 +28,29 @@ Function return_download_url(ByVal url_str)
     page_counter = 0
     page = 1
     delay_time=1
+    
     'idol.sankakucomplex.com
     'chan.sankakucomplex.com
-    If InStr(LCase(url_str), "http://idol.sankakucomplex.com") = 1 Then
-        url_head = "http://idol"
+    If InStr(LCase(url_str), "http:") = 1 Then
+        url_http = "http:"
     Else
-        url_head = "http://chan"
+        url_http = "https:"
+    End If
+     
+    'idol.sankakucomplex.com
+    'chan.sankakucomplex.com
+    If InStr(LCase(url_str), "//idol.sankakucomplex.com") > 1 Then
+        url_head = url_http & "//idol"
+    Else
+        url_head = url_http & "//chan"
     End If
     
 '---------------------------单独页面-----------------------------------------
-    If InStr(LCase(url_str), ".sankakucomplex.com/post/show/") = 12 Then
+    If InStr(LCase(url_str), ".sankakucomplex.com/post/show/") >0 Then
         pool = "post"
         return_download_url = "inet|10,13|" & url_str
         retry_url = return_download_url
-    		return_download_url = return_download_url & "|http://chan.sankakucomplex.com/post/show/1936676" & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
+    		return_download_url = return_download_url & "|User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
 				OX163_urlpage_Referer = "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
         Exit Function
     End If
@@ -87,13 +96,12 @@ Function return_download_url(ByVal url_str)
     
     return_download_url = return_download_url & "|http://chan.sankakucomplex.com/post/show/1936676" & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
 OX163_urlpage_Referer = "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
-    
+MsgBox OX163_urlpage_Cookies
     deep_DL = MsgBox("是否使用快速分析？" & vbCrLf & "(部分非JPG图片如PNG/GIF等可能无法正常获取)" & vbCrLf & vbCrLf & "[YES]快速分析" & vbCrLf & "[NO]深入分析", vbYesNo, "询问")
 End Function
 '--------------------------------------------------------
 Function return_download_list(ByVal html_str, ByVal url_str)
     On Error Resume Next
-    
     If delay_time=0 Then
     	If DateDiff("s", start_time, Now()) < 30 Then
     		return_download_list="1|inet|10,13|http://www.163.com/?Delay_30s-利用163页面延迟30秒"
@@ -135,6 +143,8 @@ Function return_download_list(ByVal html_str, ByVal url_str)
             	html_str = Mid(html_str,1,InStrrev(html_str, Chr(34)) - 1)
             	html_str = Mid(html_str,InStrrev(html_str, Chr(34)) + 1)
           	End If
+          	If left(html_str,2)="//" Then html_str=url_http & html_str
+          	
           	key_str=Mid(html_str, InStrRev(html_str, "."))
             If instr(key_str,"?")>2 Then key_str=Mid(key_str,1,InStr(key_str, "?")-1)
             url_str = Replace(url_str, " ", "-") & key_str
@@ -230,10 +240,10 @@ Function return_download_list(ByVal html_str, ByVal url_str)
                     file_type = check_gif_png(html_str)
                     If file_type = "" Then file_type = Mid(preview_url, InStrRev(preview_url, "."))
                 End If
-                If url_head = "http://idol" Then
-                		file_url = "http://is.sankakucomplex.com/data/" & Left(md5_code, 2) & "/" & Mid(md5_code, 3, 2) & "/" & md5_code & file_type
-    						ElseIf url_head = "http://chan" Then
-                		file_url = "http://cs.sankakucomplex.com/data/" & Left(md5_code, 2) & "/" & Mid(md5_code, 3, 2) & "/" & md5_code & file_type
+                If url_head = "http://idol" or url_head = "https://idol" Then
+                		file_url = url_http & "//is.sankakucomplex.com/data/" & Left(md5_code, 2) & "/" & Mid(md5_code, 3, 2) & "/" & md5_code & file_type
+    						ElseIf url_head = "http://chan" or url_head = "https://chan" Then
+                		file_url = url_http & "//cs.sankakucomplex.com/data/" & Left(md5_code, 2) & "/" & Mid(md5_code, 3, 2) & "/" & md5_code & file_type
 								End If
 								             
                 'ID
@@ -291,7 +301,7 @@ Function return_download_list(ByVal html_str, ByVal url_str)
 End Function
 '--------------------------------------------
 Function delay_time_tf(byval nextpage)
-    If delay_time<15 Then
+    If delay_time<25 Then
     	delay_time=delay_time+1
     	delay_time_tf=nextpage
     Else
