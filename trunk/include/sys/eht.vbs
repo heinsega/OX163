@@ -1,30 +1,18 @@
-'2013-12-23 163.shanhaijing.net
+'2014-9-8 163.shanhaijing.net
 Dim start_time
 Dim delay_tf
 Dim page_url,page,album_info,root_url
 Dim retry
+
 Function return_download_url(ByVal url_str)
 On Error Resume Next
-'http://g.e-hentai.org/g/48158/f8b481edf9/           =====2-m-y/   '只能1-n-n了
-'http://g.e-hentai.org/g/48158/f8b481edf9/2-m-y/3    =====page4
-'2-m-y=====1->8,2->16,3->24,4->32,5->40,6->48,7->56,8->64,9->72,10->80;n->none,m->normal,l->large;y->Description yes,n->Description no
-'http://g.e-hentai.org/g/21601/3199e9d96e/10-m-y/1   =====page2
-'code page
-'http://g.e-hentai.org/codegen.php?gid=360282&t=fb3a56c95c&s=1-m-y&type=bbcode
-'http://g.e-hentai.org/codegen.php?gid=360282&t=fb3a56c95c&s=1-m-y&type=html
-'http://g.e-hentai.org/g/360282/fb3a56c95c/
-
-'Set objFSO = CreateObject("Scripting.FileSystemObject")
-'tfolder=objFSO.GetSpecialFolder(2)
-'tfolder=tfolder & "\..\..\Cookies\*@g.e-hentai*.txt"
-'objFSO.Deletefile tfolder ,True
-'Set objFSO=nothing
 retry=0
 delay_tf=0
 page=0
 start_time=Now()
 Dim split_str
 'http://exhentai.org
+OX163_urlpage_Referer="Referer: " & url_str
 If InStr(LCase(url_str), "http://g.e-hentai.org/g/")=1 Then
 	url_str=Mid(url_str,InStr(LCase(url_str),"http://g.e-hentai.org/g/")+Len("http://g.e-hentai.org/g/"))
 	split_str=split(url_str,"/")
@@ -40,13 +28,12 @@ ElseIf InStr(LCase(url_str), "http://exhentai.org/g/")=1 Then
 	root_url="http://exhentai.org/"
 	return_download_url="inet|10,13|" & page_url
 Else
-	return_download_url="inet|10,13|http://www.163.com/?Delay_5s-利用163页面延迟3秒"' & vbcrlf & "Cookie: lastvisit=1238694351; impcookie=71b644e1b37ee8c8a6052d952804eb54df00d475cb9c72bf3e82e43384c30ab8; Apache=168296599x0.116+1240025775x1022208447; b=%3A%3Amm4l%2Cmm4e%2Cmm4s%2Cmm4p%2Cih53%2Cih56; ut=1%3Aq1YqM1SyqlYqTi1WslJKya%2FJzsxIMa8x0kkxgTINdVJMEaKZMFElHaXc1JJEkN6S4iKQbgszEwOD2tpaAA%3D%3D; __utma=11274144.128020507.1240025776.1241191778.1241714935.4; __utmz=11274144.1240025776.1.1.utmccn=(direct)&for_ox163_replace_vline&utmcsr=(direct)&for_ox163_replace_vline&utmcmd=(none); geo=1%3Aq1YqM1SyqlZKyU1UslIyUNJRSs4vBbKc%2FYDMovQ8IDPYA8gszkwHMi1M0swtjc0NUkzTjJMsExMNTNISU5JNDYwSLQyNUpPTlGprAQ%3D%3D; __utmb=11274144; x=344921-573e35987c794f547f5eeb330dde7dbbabbb0450"
-	delay_tf=1
-	OX163_urlpage_Referer=""
+	return_download_url="inet|10,13|" & url_str
 End If
-
+OX163_urlpage_Referer = OX163_urlpage_Referer & vbCrLf & "User-Agent: Dalvik/1.6.0 (Linux; U; Android 4.0.4; GT-N7000 Build/IMM76L)" & vbCrLf & "Accept-Encoding: gzip"
+return_download_url=return_download_url & "|" & OX163_urlpage_Referer
+OX163_urlpage_Referer = OX163_urlpage_Referer & vbCrLf & "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
 '突破墙，暂时无用
-'OX163_urlpage_Referer="Host: 95.211.21.16" & vbcrlf & "Referer: http://g.e-hentai.org/"' & vbcrlf & "Cookie: lastvisit=1238694351; impcookie=71b644e1b37ee8c8a6052d952804eb54df00d475cb9c72bf3e82e43384c30ab8; Apache=168296599x0.116+1240025775x1022208447; b=%3A%3Amm4l%2Cmm4e%2Cmm4s%2Cmm4p%2Cih53%2Cih56; ut=1%3Aq1YqM1SyqlYqTi1WslJKya%2FJzsxIMa8x0kkxgTINdVJMEaKZMFElHaXc1JJEkN6S4iKQbgszEwOD2tpaAA%3D%3D; __utma=11274144.128020507.1240025776.1241191778.1241714935.4; __utmz=11274144.1240025776.1.1.utmccn=(direct)&for_ox163_replace_vline&utmcsr=(direct)&for_ox163_replace_vline&utmcmd=(none); geo=1%3Aq1YqM1SyqlZKyU1UslIyUNJRSs4vBbKc%2FYDMovQ8IDPYA8gszkwHMi1M0swtjc0NUkzTjJMsExMNTNISU5JNDYwSLQyNUpPTlGprAQ%3D%3D; __utmb=11274144; x=344921-573e35987c794f547f5eeb330dde7dbbabbb0450"
 'http://g.e-hentai.org/g/  ->  http://r.e-hentai.org/g/
 End Function
 '--------------------------------------------------------------------
@@ -56,17 +43,6 @@ Function return_albums_list(ByVal html_str, ByVal url_str)
 On Error Resume Next
 return_albums_list = ""
 Dim Instr_String,counts,regex,matches
-
-If delay_tf=1 Then
-	If DateDiff("s", start_time, Now())<30 Then
-		return_albums_list="1|inet|10,13|http://www.163.com/?Delay_30s-利用163页面延迟30秒"
-	Else
-		return_albums_list="1|inet|10,13|" & page_url & "?p=" & page
-		delay_tf=0
-	End If
-	Exit Function
-End If
-
 If InStr(LCase(html_str), "<a href=""" & root_url & "s/") > 0 Then
 	retry=0
 	delay_tf=0
@@ -83,7 +59,6 @@ If InStr(LCase(html_str), "<a href=""" & root_url & "s/") > 0 Then
 	regex.Global = True
 	regex.Pattern = "<a href=""(" & root_url & "s/[0-9A-Za-z]+/" & album_info & "-[0-9]+)"">"
 	Set matches = regex.Execute(html_str)
-	
 	For Each match In matches
 		return_albums_list = return_albums_list & "0|1|" & match.SubMatches(0) & "|" & url_str & "|" & url_str & vbCrLf
 	Next
@@ -91,15 +66,7 @@ If InStr(LCase(html_str), "<a href=""" & root_url & "s/") > 0 Then
 	Instr_String="onclick=""return false"">&gt;</a>"
 	If InStr(LCase(html_str), LCase(Instr_String)) > 0 Then
 		page=page+1
-		
-		If page mod 10=0 Then
-			return_albums_list=return_albums_list & "1|inet|10,13|http://www.163.com/?Delay_30s-利用163页面延迟30秒"
-			start_time=Now()
-			delay_tf=1
-		Else
-			return_albums_list=return_albums_list & "1|inet|10,13|" & page_url & "?p=" & page
-		End If
-		
+		return_albums_list=return_albums_list & "1|inet|10,13|" & page_url & "?p=" & page
 	Else
 		return_albums_list = return_albums_list & "0"
 	End If
@@ -116,15 +83,6 @@ End Function
 '--------------------------------------------------------------------
 Function return_download_list(ByVal html_str, ByVal url_str)
 On Error Resume Next
-If DateDiff("s", start_time, Now()) < 3 Then
-	return_download_list="1|inet|10,13|http://www.163.com/?Delay_5s-利用163页面延迟3秒"
-	Exit Function
-ElseIf delay_tf=1 Then
-	'OX163_urlpage_Referer="Host: 95.211.21.16" & vbcrlf & "Referer: http://g.e-hentai.org/"
-	delay_tf=0
-	return_download_list="1|inet|10,13|" & url_str'replace(url_str,"http://g.e-hentai.org","http://r.e-hentai.org")
-	Exit Function
-End If
 
 Dim file_name,file_type,full_image
 

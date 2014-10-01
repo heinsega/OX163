@@ -12,6 +12,7 @@ konachan.vbs|vbscript|UTF-8|photo|http://konachan.com/*
 behoimi.vbs|vbscript|UTF-8|photo|http://behoimi.org/*
 behoimi.vbs|vbscript|UTF-8|photo|http://www.behoimi.org/*
 sankakucomplex.vbs|vbscript|UTF-8|photo|http://*.sankakucomplex.com*
+sankakucomplex.vbs|vbscript|UTF-8|photo|https://*.sankakucomplex.com*
 gelbr.vbs|vbscript|UTF-8|photo|http://gelbooru.com/*
 gelbr.vbs|vbscript|UTF-8|photo|http://www.gelbooru.com/*
 gelbr.vbs|vbscript|UTF-8|photo|http://youhate.us/*
