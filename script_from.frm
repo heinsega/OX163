@@ -43,19 +43,19 @@ Begin VB.Form script_from
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "script_from.frx":45C5
+            Picture         =   "script_from.frx":40E2
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "script_from.frx":4AAB
+            Picture         =   "script_from.frx":416D
             Key             =   ""
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "script_from.frx":5018
+            Picture         =   "script_from.frx":41F1
             Key             =   ""
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "script_from.frx":557C
+            Picture         =   "script_from.frx":427F
             Key             =   ""
          EndProperty
       EndProperty
@@ -73,23 +73,23 @@ Begin VB.Form script_from
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   5
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "script_from.frx":5AB5
+            Picture         =   "script_from.frx":4307
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "script_from.frx":6018
+            Picture         =   "script_from.frx":437C
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "script_from.frx":6509
+            Picture         =   "script_from.frx":4400
             Key             =   ""
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "script_from.frx":6A76
+            Picture         =   "script_from.frx":447E
             Key             =   ""
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "script_from.frx":6FE0
+            Picture         =   "script_from.frx":4502
             Key             =   ""
          EndProperty
       EndProperty
@@ -160,7 +160,7 @@ Begin VB.Form script_from
             Style           =   3
          EndProperty
          BeginProperty Button6 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Caption         =   "查看网页"
+            Caption         =   "程序主页"
             Key             =   "View_web"
             Description     =   "View Homepage"
             Object.ToolTipText     =   "View Homepage"

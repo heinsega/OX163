@@ -145,19 +145,19 @@ End Function
 '-------------------------------------------------------------------------
 'É¾³ýÎÄ¼þ-----------------------------------------------------------------
 '-------------------------------------------------------------------------
-Public Function OX_Delfile(ByVal OX_FileName As String) As Boolean
+Public Function OX_DelFile(ByVal OX_FileName As String) As Boolean
 On Error GoTo OX_DelfileErr
-OX_Delfile = False
+OX_DelFile = False
     Dim fso As Object
     Set fso = CreateObject("Scripting.FileSystemObject")
     fso.DeleteFile OX_FileName, True
     Set fso = Nothing
-    OX_Delfile = Not OX_Dirfile(OX_FileName)
+    OX_DelFile = Not OX_Dirfile(OX_FileName)
     Exit Function
     
 OX_DelfileErr:
     Err.Clear
-    OX_Delfile = False
+    OX_DelFile = False
 End Function
 
 '-------------------------------------------------------------------------

@@ -312,6 +312,51 @@ Public Function GetEncoding(ByVal fileName) As String
     If fBytes(0) = &HEF And fBytes(1) = &HBB Then GetEncoding = "UTF-8"
 Err:
 End Function
+'-------------------------------------------------------------------------
+'检察文件是否为UTF-8，有BOM/无BOM皆可，读取文件BOM头/前4Kbit判读----------
+'-------------------------------------------------------------------------
+'尚未使用-----------------------------------------------------------------
+''-------------------------------------------------------------------------
+'Function is_valid_utf8(ByVal file)
+'is_valid_utf8 = False
+''将Byte()数组转成String字符串
+'Dim ado, a(), i, n, Bin, s, re
+'Set ado = CreateObject("ADODB.Stream")
+'ado.Type = 1: ado.Open
+'ado.LoadFromFile file
+'n = ado.Size - 1
+'' 检查空文件/限制读取4Kbit
+'If n > 1024 * 4 - 1 Then n = 1024 * 4 - 1 '4Kbit
+'' 使用BOM判断
+'Bin = ado.Read(2)
+'If AscB(MidB(Bin, 1, 1)) = &HEF And AscB(MidB(Bin, 2, 1)) = &HBB Then
+'is_valid_utf8 = True: Exit Function
+'End If
+''将Byte()数组转成String字符串
+'ReDim a(n): ado.Position = 0
+'For i = 0 To n
+'a(i) = ChrW(AscB(ado.Read(1)))
+'Next
+''使用正则表达式判断
+'Set re = New Regexp
+'s = "[\xC0-\xDF]([^\x80-\xBF]|$)"
+'s = s & "|[\xE0-\xEF].{0,1}([^\x80-\xBF]|$)"
+'s = s & "|[\xF0-\xF7].{0,2}([^\x80-\xBF]|$)"
+'s = s & "|[\xF8-\xFB].{0,3}([^\x80-\xBF]|$)"
+'s = s & "|[\xFC-\xFD].{0,4}([^\x80-\xBF]|$)"
+'s = s & "|[\xFE-\xFE].{0,5}([^\x80-\xBF]|$)"
+'s = s & "|[\x00-\x7F][\x80-\xBF]"
+'s = s & "|[\xC0-\xDF].[\x80-\xBF]"
+'s = s & "|[\xE0-\xEF]..[\x80-\xBF]"
+'s = s & "|[\xF0-\xF7]...[\x80-\xBF]"
+'s = s & "|[\xF8-\xFB]....[\x80-\xBF]"
+'s = s & "|[\xFC-\xFD].....[\x80-\xBF]"
+'s = s & "|[\xFE-\xFE]......[\x80-\xBF]"
+'s = s & "|^[\x80-\xBF]"
+'re.Pattern = s
+'is_valid_utf8 = (Not re.Test(Join(a, "")))
+'End Function
+
 
 '-------------------------------------------------------------------------
 '文本转换保存为UTF-8格式（暂未使用）--------------------------------------

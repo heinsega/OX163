@@ -27,11 +27,12 @@ Begin VB.Form ShutDownWin
       Width           =   1575
    End
    Begin VB.Image Image1 
-      Height          =   480
+      Height          =   525
       Left            =   120
       Picture         =   "ShutDownWin.frx":406A
+      Stretch         =   -1  'True
       Top             =   120
-      Width           =   465
+      Width           =   525
    End
    Begin VB.Label infro 
       AutoSize        =   -1  'True
