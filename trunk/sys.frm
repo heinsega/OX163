@@ -453,35 +453,35 @@ Begin VB.Form sys
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "sys.frx":4643
+            Picture         =   "sys.frx":41CF
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "sys.frx":4B33
+            Picture         =   "sys.frx":424B
             Key             =   ""
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "sys.frx":502E
+            Picture         =   "sys.frx":42CD
             Key             =   ""
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "sys.frx":552B
+            Picture         =   "sys.frx":434A
             Key             =   ""
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "sys.frx":5A32
+            Picture         =   "sys.frx":43C1
             Key             =   ""
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "sys.frx":5F16
+            Picture         =   "sys.frx":443E
             Key             =   ""
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "sys.frx":6400
+            Picture         =   "sys.frx":44BE
             Key             =   ""
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "sys.frx":68FA
+            Picture         =   "sys.frx":453C
             Key             =   ""
          EndProperty
       EndProperty
@@ -533,7 +533,7 @@ Begin VB.Form sys
          Top             =   360
          Width           =   5895
          Begin VB.CommandButton Com3 
-            Caption         =   $"sys.frx":6DD9
+            Caption         =   $"sys.frx":45B4
             Height          =   1335
             Left            =   120
             TabIndex        =   101
@@ -812,9 +812,9 @@ Begin VB.Form sys
       Begin VB.ComboBox ProxyComb 
          Height          =   300
          Index           =   1
-         ItemData        =   "sys.frx":6E21
+         ItemData        =   "sys.frx":45FC
          Left            =   120
-         List            =   "sys.frx":6E2E
+         List            =   "sys.frx":4609
          Style           =   2  'Dropdown List
          TabIndex        =   68
          Top             =   1440
@@ -823,9 +823,9 @@ Begin VB.Form sys
       Begin VB.ComboBox ProxyComb 
          Height          =   300
          Index           =   0
-         ItemData        =   "sys.frx":6E6D
+         ItemData        =   "sys.frx":4648
          Left            =   120
-         List            =   "sys.frx":6E7A
+         List            =   "sys.frx":4655
          Style           =   2  'Dropdown List
          TabIndex        =   67
          Top             =   480
@@ -955,7 +955,7 @@ Begin VB.Form sys
       End
       Begin VB.Label Label2 
          AutoSize        =   -1  'True
-         Caption         =   $"sys.frx":6EB9
+         Caption         =   $"sys.frx":4694
          ForeColor       =   &H000000FF&
          Height          =   540
          Index           =   2
@@ -997,9 +997,9 @@ Begin VB.Form sys
       Width           =   6375
       Begin VB.ComboBox Combo_lst 
          Height          =   300
-         ItemData        =   "sys.frx":6F52
+         ItemData        =   "sys.frx":472D
          Left            =   240
-         List            =   "sys.frx":6F5F
+         List            =   "sys.frx":473A
          Style           =   2  'Dropdown List
          TabIndex        =   113
          Top             =   2760
@@ -1139,7 +1139,7 @@ Begin VB.Form sys
       End
       Begin VB.Label Combo_lst1 
          AutoSize        =   -1  'True
-         Caption         =   $"sys.frx":6F9F
+         Caption         =   $"sys.frx":477A
          ForeColor       =   &H000000FF&
          Height          =   360
          Left            =   2760
@@ -1235,9 +1235,9 @@ Begin VB.Form sys
       End
       Begin VB.ComboBox update_host_Combo 
          Height          =   300
-         ItemData        =   "sys.frx":6FDC
+         ItemData        =   "sys.frx":47B7
          Left            =   1440
-         List            =   "sys.frx":6FDE
+         List            =   "sys.frx":47B9
          TabIndex        =   178
          Text            =   "update_host_Combo"
          ToolTipText     =   "以""http://""开头, 默认""http://www.shanhaijing.net/163/"""
@@ -1509,9 +1509,9 @@ Begin VB.Form sys
       Begin VB.ComboBox Combo_unicode_ctrl 
          Height          =   300
          Index           =   1
-         ItemData        =   "sys.frx":6FE0
+         ItemData        =   "sys.frx":47BB
          Left            =   240
-         List            =   "sys.frx":6FED
+         List            =   "sys.frx":47C8
          Style           =   2  'Dropdown List
          TabIndex        =   161
          Top             =   1080
@@ -1520,9 +1520,9 @@ Begin VB.Form sys
       Begin VB.ComboBox Combo_unicode_ctrl 
          Height          =   300
          Index           =   0
-         ItemData        =   "sys.frx":704C
+         ItemData        =   "sys.frx":4827
          Left            =   240
-         List            =   "sys.frx":7059
+         List            =   "sys.frx":4834
          Style           =   2  'Dropdown List
          TabIndex        =   159
          Top             =   480
@@ -1537,9 +1537,9 @@ Begin VB.Form sys
          Width           =   5895
          Begin VB.ComboBox Combo_rar 
             Height          =   300
-            ItemData        =   "sys.frx":70C5
+            ItemData        =   "sys.frx":48A0
             Left            =   3720
-            List            =   "sys.frx":70D2
+            List            =   "sys.frx":48AD
             Style           =   2  'Dropdown List
             TabIndex        =   137
             Top             =   240
@@ -1547,9 +1547,9 @@ Begin VB.Form sys
          End
          Begin VB.ComboBox Combo_rar_name 
             Height          =   300
-            ItemData        =   "sys.frx":70F4
+            ItemData        =   "sys.frx":48CF
             Left            =   2880
-            List            =   "sys.frx":70F6
+            List            =   "sys.frx":48D1
             Style           =   2  'Dropdown List
             TabIndex        =   136
             Top             =   900
@@ -1836,7 +1836,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   1
             Left            =   3120
-            Picture         =   "sys.frx":70F8
+            Picture         =   "sys.frx":48D3
             Style           =   1  'Graphical
             TabIndex        =   186
             ToolTipText     =   "Remove Include File"
@@ -1847,7 +1847,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   0
             Left            =   3120
-            Picture         =   "sys.frx":7154
+            Picture         =   "sys.frx":492F
             Style           =   1  'Graphical
             TabIndex        =   185
             ToolTipText     =   "Add Incule File"
@@ -1855,7 +1855,7 @@ Begin VB.Form sys
             Width           =   375
          End
          Begin MSComctlLib.ListView scriptList 
-            DragIcon        =   "sys.frx":71B0
+            DragIcon        =   "sys.frx":498B
             Height          =   2820
             Left            =   120
             TabIndex        =   188
@@ -1913,7 +1913,7 @@ Begin VB.Form sys
             Height          =   180
             Index           =   8
             Left            =   3600
-            MouseIcon       =   "sys.frx":B21A
+            MouseIcon       =   "sys.frx":89F5
             MousePointer    =   99  'Custom
             TabIndex        =   183
             Top             =   240

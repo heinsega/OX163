@@ -27,53 +27,53 @@ Begin VB.Form Form1
    Begin VB.PictureBox Proxy_img 
       AutoSize        =   -1  'True
       BorderStyle     =   0  'None
-      Height          =   150
+      Height          =   180
       Index           =   2
-      Left            =   3720
+      Left            =   3480
       MouseIcon       =   "OX163_mainfrm.frx":406A
       MousePointer    =   99  'Custom
       Picture         =   "OX163_mainfrm.frx":4374
-      ScaleHeight     =   150
-      ScaleWidth      =   870
+      ScaleHeight     =   180
+      ScaleWidth      =   1020
       TabIndex        =   28
       ToolTipText     =   "代理B的设置被起用"
       Top             =   0
       Visible         =   0   'False
-      Width           =   870
+      Width           =   1020
    End
    Begin VB.PictureBox Proxy_img 
       AutoSize        =   -1  'True
       BorderStyle     =   0  'None
-      Height          =   150
+      Height          =   180
       Index           =   1
-      Left            =   2760
-      MouseIcon       =   "OX163_mainfrm.frx":4454
+      Left            =   2400
+      MouseIcon       =   "OX163_mainfrm.frx":4452
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":475E
-      ScaleHeight     =   150
-      ScaleWidth      =   870
+      Picture         =   "OX163_mainfrm.frx":475C
+      ScaleHeight     =   180
+      ScaleWidth      =   1020
       TabIndex        =   27
       ToolTipText     =   "代理A的设置被起用"
       Top             =   0
       Visible         =   0   'False
-      Width           =   870
+      Width           =   1020
    End
    Begin VB.PictureBox Proxy_img 
       AutoSize        =   -1  'True
       BorderStyle     =   0  'None
-      Height          =   150
+      Height          =   180
       Index           =   0
-      Left            =   4680
-      MouseIcon       =   "OX163_mainfrm.frx":483B
+      Left            =   4560
+      MouseIcon       =   "OX163_mainfrm.frx":483A
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":4B45
-      ScaleHeight     =   150
-      ScaleWidth      =   870
+      Picture         =   "OX163_mainfrm.frx":4B44
+      ScaleHeight     =   180
+      ScaleWidth      =   1020
       TabIndex        =   26
       ToolTipText     =   "代理A和B的设置都被起用"
       Top             =   0
       Visible         =   0   'False
-      Width           =   870
+      Width           =   1020
    End
    Begin InetCtlsObjects.Inet fast_down 
       Left            =   600
@@ -111,7 +111,7 @@ Begin VB.Form Form1
             Enabled         =   0   'False
             Object.Width           =   564
             MinWidth        =   564
-            Picture         =   "OX163_mainfrm.frx":4C2E
+            Picture         =   "OX163_mainfrm.frx":4C27
             Object.Tag             =   "ref"
             Object.ToolTipText     =   "温馨提示，点击更换"
          EndProperty
@@ -140,7 +140,7 @@ Begin VB.Form Form1
             Alignment       =   2
             Object.Width           =   441
             MinWidth        =   441
-            Picture         =   "OX163_mainfrm.frx":5010
+            Picture         =   "OX163_mainfrm.frx":5009
             Object.Tag             =   "process"
             Object.ToolTipText     =   "OX163进程优先级"
          EndProperty
@@ -155,7 +155,7 @@ Begin VB.Form Form1
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      MouseIcon       =   "OX163_mainfrm.frx":5072
+      MouseIcon       =   "OX163_mainfrm.frx":506B
    End
    Begin InetCtlsObjects.Inet check_header 
       Left            =   1800
@@ -173,12 +173,12 @@ Begin VB.Form Form1
    Begin VB.PictureBox homepage 
       AutoSize        =   -1  'True
       BorderStyle     =   0  'None
-      Height          =   150
+      Height          =   180
       Left            =   5760
-      MouseIcon       =   "OX163_mainfrm.frx":538C
+      MouseIcon       =   "OX163_mainfrm.frx":5385
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":5696
-      ScaleHeight     =   137.5
+      Picture         =   "OX163_mainfrm.frx":568F
+      ScaleHeight     =   165
       ScaleMode       =   0  'User
       ScaleWidth      =   675
       TabIndex        =   23
@@ -188,44 +188,53 @@ Begin VB.Form Form1
    End
    Begin VB.PictureBox Frame_search 
       BorderStyle     =   0  'None
-      Height          =   300
-      Left            =   9600
-      ScaleHeight     =   300
-      ScaleWidth      =   3015
+      Height          =   420
+      Left            =   9480
+      ScaleHeight     =   420
+      ScaleWidth      =   2895
       TabIndex        =   19
       ToolTipText     =   "Ctrl+F"
-      Top             =   360
+      Top             =   330
       Visible         =   0   'False
-      Width           =   3015
+      Width           =   2895
       Begin VB.TextBox find_text 
-         Height          =   270
+         BeginProperty Font 
+            Name            =   "宋体"
+            Size            =   10.5
+            Charset         =   134
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   315
          Left            =   0
          TabIndex        =   20
          TabStop         =   0   'False
-         Top             =   0
-         Width           =   2175
+         Top             =   30
+         Width           =   1935
       End
       Begin VB.Image find_next 
-         Height          =   300
-         Left            =   2280
-         MouseIcon       =   "OX163_mainfrm.frx":5826
+         Height          =   375
+         Left            =   2040
+         MouseIcon       =   "OX163_mainfrm.frx":573F
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":5B30
+         Picture         =   "OX163_mainfrm.frx":5A49
          Stretch         =   -1  'True
          ToolTipText     =   "Next(PageDown)"
          Top             =   0
-         Width           =   300
+         Width           =   375
       End
       Begin VB.Image find_prev 
-         Height          =   300
-         Left            =   2640
-         MouseIcon       =   "OX163_mainfrm.frx":5F82
+         Height          =   375
+         Left            =   2520
+         MouseIcon       =   "OX163_mainfrm.frx":5AE2
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":628C
+         Picture         =   "OX163_mainfrm.frx":5DEC
          Stretch         =   -1  'True
          ToolTipText     =   "Previous(PageUp)"
          Top             =   0
-         Width           =   300
+         Width           =   375
       End
    End
    Begin MSComctlLib.ListView List1 
@@ -292,7 +301,7 @@ Begin VB.Form Form1
       Height          =   270
       Left            =   120
       TabIndex        =   16
-      Text            =   $"OX163_mainfrm.frx":66DB
+      Text            =   $"OX163_mainfrm.frx":5E89
       Top             =   8520
       Visible         =   0   'False
       Width           =   2415
@@ -300,13 +309,13 @@ Begin VB.Form Form1
    Begin VB.PictureBox top_Picture 
       AutoSize        =   -1  'True
       BorderStyle     =   0  'None
-      Height          =   165
+      Height          =   180
       Index           =   1
       Left            =   6840
-      MouseIcon       =   "OX163_mainfrm.frx":66E4
+      MouseIcon       =   "OX163_mainfrm.frx":5E92
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":69EE
-      ScaleHeight     =   165
+      Picture         =   "OX163_mainfrm.frx":619C
+      ScaleHeight     =   180
       ScaleWidth      =   675
       TabIndex        =   15
       ToolTipText     =   "Always on top"
@@ -317,13 +326,13 @@ Begin VB.Form Form1
    Begin VB.PictureBox top_Picture 
       AutoSize        =   -1  'True
       BorderStyle     =   0  'None
-      Height          =   165
+      Height          =   180
       Index           =   0
       Left            =   7680
-      MouseIcon       =   "OX163_mainfrm.frx":6AEC
+      MouseIcon       =   "OX163_mainfrm.frx":622F
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":6DF6
-      ScaleHeight     =   165
+      Picture         =   "OX163_mainfrm.frx":6539
+      ScaleHeight     =   180
       ScaleWidth      =   675
       TabIndex        =   14
       ToolTipText     =   "Always on top"
@@ -437,9 +446,9 @@ Begin VB.Form Form1
       Begin VB.Image user_list_find 
          Height          =   375
          Left            =   2640
-         MouseIcon       =   "OX163_mainfrm.frx":6EF5
+         MouseIcon       =   "OX163_mainfrm.frx":65CC
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":71FF
+         Picture         =   "OX163_mainfrm.frx":68D6
          Stretch         =   -1  'True
          ToolTipText     =   "Find Keyword"
          Top             =   240
@@ -448,9 +457,9 @@ Begin VB.Form Form1
       Begin VB.Image user_list_save 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "OX163_mainfrm.frx":775B
+         MouseIcon       =   "OX163_mainfrm.frx":696B
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":7A65
+         Picture         =   "OX163_mainfrm.frx":6C75
          Stretch         =   -1  'True
          ToolTipText     =   "Save Checked Files"
          Top             =   240
@@ -460,9 +469,9 @@ Begin VB.Form Form1
       Begin VB.Image user_list_output 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "OX163_mainfrm.frx":7F7A
+         MouseIcon       =   "OX163_mainfrm.frx":6D12
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":8284
+         Picture         =   "OX163_mainfrm.frx":701C
          Stretch         =   -1  'True
          ToolTipText     =   "Outup Download List"
          Top             =   240
@@ -472,9 +481,9 @@ Begin VB.Form Form1
       Begin VB.Image albumslist_back 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "OX163_mainfrm.frx":879A
+         MouseIcon       =   "OX163_mainfrm.frx":70B9
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":8AA4
+         Picture         =   "OX163_mainfrm.frx":73C3
          Stretch         =   -1  'True
          ToolTipText     =   "Back"
          Top             =   240
@@ -491,9 +500,9 @@ Begin VB.Form Form1
       Begin VB.Image list_check 
          Height          =   375
          Left            =   3120
-         MouseIcon       =   "OX163_mainfrm.frx":8FF7
+         MouseIcon       =   "OX163_mainfrm.frx":744C
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":9301
+         Picture         =   "OX163_mainfrm.frx":7756
          Stretch         =   -1  'True
          ToolTipText     =   "Range Checked Albums on Top"
          Top             =   240
@@ -542,9 +551,9 @@ Begin VB.Form Form1
       Begin VB.Image list_back1 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "OX163_mainfrm.frx":97E9
+         MouseIcon       =   "OX163_mainfrm.frx":77F1
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":9AF3
+         Picture         =   "OX163_mainfrm.frx":7AFB
          Stretch         =   -1  'True
          ToolTipText     =   "Back"
          Top             =   240
@@ -553,9 +562,9 @@ Begin VB.Form Form1
       Begin VB.Image save_all 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "OX163_mainfrm.frx":A046
+         MouseIcon       =   "OX163_mainfrm.frx":7B84
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":A350
+         Picture         =   "OX163_mainfrm.frx":7E8E
          Stretch         =   -1  'True
          ToolTipText     =   "Save Checked Albums"
          Top             =   240
@@ -564,9 +573,9 @@ Begin VB.Form Form1
       Begin VB.Image out_all 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "OX163_mainfrm.frx":A865
+         MouseIcon       =   "OX163_mainfrm.frx":7F2B
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":AB6F
+         Picture         =   "OX163_mainfrm.frx":8235
          Stretch         =   -1  'True
          ToolTipText     =   "Outup Download List"
          Top             =   240
@@ -575,9 +584,9 @@ Begin VB.Form Form1
       Begin VB.Image stop2 
          Height          =   375
          Left            =   600
-         MouseIcon       =   "OX163_mainfrm.frx":B085
+         MouseIcon       =   "OX163_mainfrm.frx":874B
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":B38F
+         Picture         =   "OX163_mainfrm.frx":8A55
          Stretch         =   -1  'True
          ToolTipText     =   "Stop"
          Top             =   240
@@ -591,7 +600,7 @@ Begin VB.Form Form1
          Height          =   180
          Left            =   480
          TabIndex        =   9
-         Top             =   600
+         Top             =   610
          Visible         =   0   'False
          Width           =   540
       End
@@ -601,16 +610,16 @@ Begin VB.Form Form1
          Height          =   180
          Left            =   1200
          TabIndex        =   8
-         Top             =   600
+         Top             =   610
          Visible         =   0   'False
          Width           =   540
       End
       Begin VB.Image open_set1 
          Height          =   375
          Left            =   80
-         MouseIcon       =   "OX163_mainfrm.frx":B8E4
+         MouseIcon       =   "OX163_mainfrm.frx":8AE7
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":BBEE
+         Picture         =   "OX163_mainfrm.frx":8DF1
          Stretch         =   -1  'True
          ToolTipText     =   "Setup"
          Top             =   240
@@ -633,22 +642,31 @@ Begin VB.Form Form1
       OLEDropMode     =   1  'Manual
       TabIndex        =   0
       Top             =   70
-      Width           =   12615
+      Width           =   12735
       Begin VB.TextBox url_input 
-         Height          =   300
+         BeginProperty Font 
+            Name            =   "宋体"
+            Size            =   10.5
+            Charset         =   134
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   315
          Left            =   1080
          OLEDropMode     =   1  'Manual
          TabIndex        =   1
          Text            =   "http://"
-         Top             =   280
+         Top             =   275
          Width           =   6735
       End
       Begin VB.Image list1_find 
          Height          =   375
          Left            =   2640
-         MouseIcon       =   "OX163_mainfrm.frx":C47C
+         MouseIcon       =   "OX163_mainfrm.frx":8E89
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":C786
+         Picture         =   "OX163_mainfrm.frx":9193
          Stretch         =   -1  'True
          ToolTipText     =   "Find Keyword"
          Top             =   240
@@ -659,9 +677,9 @@ Begin VB.Form Form1
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   750
-         MouseIcon       =   "OX163_mainfrm.frx":CCE2
+         MouseIcon       =   "OX163_mainfrm.frx":9228
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":CFEC
+         Picture         =   "OX163_mainfrm.frx":9532
          Stretch         =   -1  'True
          ToolTipText     =   "Input Passwrd"
          Top             =   285
@@ -670,9 +688,9 @@ Begin VB.Form Form1
       Begin VB.Image view_command 
          Height          =   375
          Left            =   8400
-         MouseIcon       =   "OX163_mainfrm.frx":D4A0
+         MouseIcon       =   "OX163_mainfrm.frx":99E6
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":D7AA
+         Picture         =   "OX163_mainfrm.frx":9CF0
          Stretch         =   -1  'True
          ToolTipText     =   "View Web"
          Top             =   240
@@ -683,9 +701,9 @@ Begin VB.Form Form1
          BorderStyle     =   1  'Fixed Single
          Height          =   225
          Left            =   480
-         MouseIcon       =   "OX163_mainfrm.frx":DD12
+         MouseIcon       =   "OX163_mainfrm.frx":9D8B
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":E01C
+         Picture         =   "OX163_mainfrm.frx":A095
          Stretch         =   -1  'True
          ToolTipText     =   "Open Note"
          Top             =   320
@@ -715,9 +733,9 @@ Begin VB.Form Form1
       Begin VB.Image stop1 
          Height          =   375
          Left            =   8400
-         MouseIcon       =   "OX163_mainfrm.frx":E0E1
+         MouseIcon       =   "OX163_mainfrm.frx":A15A
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":E3EB
+         Picture         =   "OX163_mainfrm.frx":A464
          ToolTipText     =   "Stop"
          Top             =   240
          Visible         =   0   'False
@@ -726,9 +744,9 @@ Begin VB.Form Form1
       Begin VB.Image list_stop 
          Height          =   375
          Left            =   600
-         MouseIcon       =   "OX163_mainfrm.frx":E940
+         MouseIcon       =   "OX163_mainfrm.frx":A4F6
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":EC4A
+         Picture         =   "OX163_mainfrm.frx":A800
          ToolTipText     =   "Stop"
          Top             =   240
          Width           =   375
@@ -736,9 +754,9 @@ Begin VB.Form Form1
       Begin VB.Image list_output 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "OX163_mainfrm.frx":F19F
+         MouseIcon       =   "OX163_mainfrm.frx":A892
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":F4A9
+         Picture         =   "OX163_mainfrm.frx":AB9C
          Stretch         =   -1  'True
          ToolTipText     =   "Outup Download List"
          Top             =   240
@@ -747,9 +765,9 @@ Begin VB.Form Form1
       Begin VB.Image image_save 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "OX163_mainfrm.frx":F9BF
+         MouseIcon       =   "OX163_mainfrm.frx":AC39
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":FCC9
+         Picture         =   "OX163_mainfrm.frx":AF43
          Stretch         =   -1  'True
          ToolTipText     =   "Save Checked Files"
          Top             =   240
@@ -758,9 +776,9 @@ Begin VB.Form Form1
       Begin VB.Image list_back 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "OX163_mainfrm.frx":101DE
+         MouseIcon       =   "OX163_mainfrm.frx":AFE0
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":104E8
+         Picture         =   "OX163_mainfrm.frx":B2EA
          Stretch         =   -1  'True
          ToolTipText     =   "Back"
          Top             =   240
@@ -792,7 +810,7 @@ Begin VB.Form Form1
          Height          =   180
          Left            =   1200
          TabIndex        =   3
-         Top             =   600
+         Top             =   610
          Visible         =   0   'False
          Width           =   540
       End
@@ -804,16 +822,16 @@ Begin VB.Form Form1
          Height          =   180
          Left            =   480
          TabIndex        =   2
-         Top             =   600
+         Top             =   610
          Visible         =   0   'False
          Width           =   540
       End
       Begin VB.Image makelist_command 
          Height          =   375
          Left            =   8880
-         MouseIcon       =   "OX163_mainfrm.frx":10A3B
+         MouseIcon       =   "OX163_mainfrm.frx":B373
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":10D45
+         Picture         =   "OX163_mainfrm.frx":B67D
          Stretch         =   -1  'True
          ToolTipText     =   "Go & List"
          Top             =   260
@@ -822,9 +840,9 @@ Begin VB.Form Form1
       Begin VB.Image search163 
          Height          =   375
          Left            =   7920
-         MouseIcon       =   "OX163_mainfrm.frx":11214
+         MouseIcon       =   "OX163_mainfrm.frx":B71B
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":1151E
+         Picture         =   "OX163_mainfrm.frx":BA25
          Stretch         =   -1  'True
          ToolTipText     =   "Search Albums"
          Top             =   240
@@ -833,9 +851,9 @@ Begin VB.Form Form1
       Begin VB.Image open_set 
          Height          =   375
          Left            =   80
-         MouseIcon       =   "OX163_mainfrm.frx":11A7A
+         MouseIcon       =   "OX163_mainfrm.frx":BABF
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":11D84
+         Picture         =   "OX163_mainfrm.frx":BDC9
          Stretch         =   -1  'True
          ToolTipText     =   "Setup"
          Top             =   240
@@ -963,7 +981,7 @@ Begin VB.Form Form1
       Height          =   150
       Index           =   2
       Left            =   7200
-      Picture         =   "OX163_mainfrm.frx":12612
+      Picture         =   "OX163_mainfrm.frx":BE61
       Stretch         =   -1  'True
       Top             =   7680
       Visible         =   0   'False
@@ -973,7 +991,7 @@ Begin VB.Form Form1
       Height          =   150
       Index           =   1
       Left            =   7200
-      Picture         =   "OX163_mainfrm.frx":12661
+      Picture         =   "OX163_mainfrm.frx":BEB0
       Top             =   7560
       Visible         =   0   'False
       Width           =   225
@@ -982,7 +1000,7 @@ Begin VB.Form Form1
       Height          =   150
       Index           =   0
       Left            =   7200
-      Picture         =   "OX163_mainfrm.frx":126B3
+      Picture         =   "OX163_mainfrm.frx":BF02
       Stretch         =   -1  'True
       Top             =   7440
       Visible         =   0   'False
@@ -992,9 +1010,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   2
       Left            =   6720
-      MouseIcon       =   "OX163_mainfrm.frx":12701
+      MouseIcon       =   "OX163_mainfrm.frx":BF50
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":12A0B
+      Picture         =   "OX163_mainfrm.frx":C25A
       Stretch         =   -1  'True
       ToolTipText     =   "Outup Download List"
       Top             =   7440
@@ -1005,9 +1023,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   1
       Left            =   6360
-      MouseIcon       =   "OX163_mainfrm.frx":12ECE
+      MouseIcon       =   "OX163_mainfrm.frx":C2FF
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":131D8
+      Picture         =   "OX163_mainfrm.frx":C609
       Stretch         =   -1  'True
       ToolTipText     =   "Outup Download List"
       Top             =   7440
@@ -1018,9 +1036,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   0
       Left            =   6000
-      MouseIcon       =   "OX163_mainfrm.frx":136EE
+      MouseIcon       =   "OX163_mainfrm.frx":C6A6
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":139F8
+      Picture         =   "OX163_mainfrm.frx":C9B0
       Stretch         =   -1  'True
       ToolTipText     =   "Outup Download List"
       Top             =   7440
@@ -1031,9 +1049,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   1
       Left            =   2400
-      MouseIcon       =   "OX163_mainfrm.frx":13EE5
+      MouseIcon       =   "OX163_mainfrm.frx":CA4B
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":141EF
+      Picture         =   "OX163_mainfrm.frx":CD55
       Stretch         =   -1  'True
       ToolTipText     =   "Setup"
       Top             =   7920
@@ -1044,9 +1062,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   0
       Left            =   2400
-      MouseIcon       =   "OX163_mainfrm.frx":14C0B
+      MouseIcon       =   "OX163_mainfrm.frx":CDFA
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":14F15
+      Picture         =   "OX163_mainfrm.frx":D104
       Stretch         =   -1  'True
       ToolTipText     =   "Setup"
       Top             =   7440
@@ -1057,7 +1075,7 @@ Begin VB.Form Form1
       Height          =   1080
       Index           =   1
       Left            =   4080
-      Picture         =   "OX163_mainfrm.frx":157A3
+      Picture         =   "OX163_mainfrm.frx":D19C
       Stretch         =   -1  'True
       Top             =   7320
       Visible         =   0   'False
@@ -1067,7 +1085,7 @@ Begin VB.Form Form1
       Height          =   1080
       Index           =   0
       Left            =   2880
-      Picture         =   "OX163_mainfrm.frx":1980D
+      Picture         =   "OX163_mainfrm.frx":11206
       Stretch         =   -1  'True
       Top             =   7320
       Visible         =   0   'False
@@ -1316,7 +1334,7 @@ Begin VB.Form Form1
          Caption         =   "标准"
       End
       Begin VB.Menu process_c 
-         Caption         =   "取消"
+         Caption         =   "关闭菜单"
       End
    End
    Begin VB.Menu textboxpop_menu 
@@ -1362,7 +1380,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim mouse_dic As Byte '25
+Dim mouse_dic As Byte 'last is 25
 Public form_height As Integer
 Dim url_temp As String
 Dim down_count As Byte
@@ -1502,6 +1520,11 @@ Private Sub check_header_StateChanged(ByVal State As Integer)
             file_size = check_header.GetHeader("Content-length")
             Content_Range = ""
             Content_Range = check_header.GetHeader("Content-Range")
+            
+            If file_size = 2 And (LCase(Content_Range) Like "bytes 0-?*/?*") Then
+                file_size = Mid(Content_Range, InStrRev(Content_Range, "/") + 1)
+                If IsNumeric(file_size) = False Then file_size = ""
+            End If
             
             If LenB(file_size) > 0 Then
                 m_lngDocSize = CDbl(file_size)
@@ -2098,6 +2121,7 @@ Private Function sysTray(Show_Tray As Boolean)
         'SendMessage Form1.hwnd, CB_SHOWDROPDOWN, True, 0
         Form1.SetFocus
         'Form1.Show
+        If max_size = False Then always_on_top sysSet.always_top
         now_tray = False
     End If
     
@@ -2623,7 +2647,7 @@ Private Sub list_back1_Click()
     Frame1.Visible = True
     step_one
     search_end
-    If sysSet.bottom_StatusBar = True Then Refresh_Panel
+    'If sysSet.bottom_StatusBar = True Then Refresh_Panel
 End Sub
 
 Private Sub list_back1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
@@ -2994,7 +3018,7 @@ err_12029:
             download_ok = True
         ElseIf m_lngDocSize < down_len Then
             Close #1
-            If OX_Delfile(download_FileName) = False Then OX_Delfile download_FileName
+            If OX_DelFile(download_FileName) = False Then OX_DelFile download_FileName
             If OX_GreatFile(download_FileFullName) = False Then OX_GreatFile download_FileFullName
             Open download_FileName For Binary Access Write As #1
             down_len = 0
@@ -3063,7 +3087,7 @@ Private Sub list_back_Click()
     Web_Search.Visible = False
     step_one
     search_end
-    If sysSet.bottom_StatusBar = True Then Refresh_Panel
+    'If sysSet.bottom_StatusBar = True Then Refresh_Panel
 End Sub
 
 
@@ -3631,7 +3655,7 @@ Private Sub makelist_command_Click()
     step_two
     search_run
     buttom_enable False
-    If sysSet.bottom_StatusBar = True Then Refresh_Panel
+    'If sysSet.bottom_StatusBar = True Then Refresh_Panel
     '-----------------------------------
     Web_Browser.Visible = False
     Web_Search.Visible = False
@@ -3720,7 +3744,7 @@ Private Sub new163pic_list(ByVal input_User_Name As String, ByVal input_Album_ID
     List1.Height = Form1.Height - List1.Top - 550 - show_StatusBar
     
     buttom_enable False
-    If sysSet.bottom_StatusBar = True Then Refresh_Panel
+    'If sysSet.bottom_StatusBar = True Then Refresh_Panel
     
     List1.ListItems.Clear
     
@@ -5043,10 +5067,10 @@ Public Sub frame_resize()
     web_Picture.Width = Form1.ScaleWidth
     web_Picture.Height = Form1.ScaleHeight - 700 - show_StatusBar
     Frame_search.Left = Form1.ScaleWidth - 3120
-    top_Picture(0).Left = Frame1.Width - 625
+    top_Picture(0).Left = Frame1.Width - 650
     top_Picture(1).Left = top_Picture(0).Left
-    homepage.Left = top_Picture(0).Left - 950
-    Proxy_img(0).Left = homepage.Left - 930
+    homepage.Left = top_Picture(0).Left - 925
+    Proxy_img(0).Left = homepage.Left - 1150
     Proxy_img(1).Left = Proxy_img(0).Left
     Proxy_img(2).Left = Proxy_img(0).Left
     
@@ -5604,7 +5628,7 @@ Private Sub save_list_image(ByVal floder_path)
                 Loop
                 Close #1
                 
-                If m_lngDocSize = -100 And old_FileSize = -100 Then OX_Delfile download_FileName
+                If m_lngDocSize = -100 And old_FileSize = -100 Then OX_DelFile download_FileName
                 
             End If
             List1.ListItems(i).ForeColor = f_color
@@ -5692,7 +5716,7 @@ new_down:
         '调用Execute方法向Web服务器发送HTTP请求
         If url_Referer <> "" Then
             stop_check_header = False
-            check_header.Execute Trim$(strURL), "GET", , OX_Set_Referer(url_Referer, strURL) & vbCrLf & "Range: bytes=-1"
+            check_header.Execute Trim$(strURL), "GET", , OX_Set_Referer(url_Referer, strURL) & vbCrLf & "Range: bytes=0-1"
             
             start_time = Now
             Do
@@ -5719,7 +5743,7 @@ new_down:
             
         Else
             stop_check_header = False
-            check_header.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)" & vbCrLf & "Range: bytes=-1"
+            check_header.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)" & vbCrLf & "Range: bytes=0-1"
             start_time = Now
             Do
                 DoEvents
@@ -5980,29 +6004,6 @@ Private Sub check_FileName()
         s_filename = s_filename & end_filename
         end_filename = ""
     End If
-    '-------------------判断文件名长度--------------------------
-re_len:
-    temp_filename = ""
-    Do While LenB(s_filename) > filename_len
-        DoEvents
-        temp_filename = "~"
-        s_filename = Left$(s_filename, Len(s_filename) - 1)
-    Loop
-    If temp_filename <> "" Then s_filename = s_filename & temp_filename
-    '-----------------------------------------------------------
-    
-    temp_filename = path_filename & s_filename & end_filename '创建完整文件路径
-    
-    Err.Clear
-    dir_tf = Dir(temp_filename) 'Dir完整文件路径，如果出错，表示win不能创建该文件
-    If Err.Number <> 0 And filename_len > 2 Then
-        filename_len = filename_len - 1
-        GoTo re_len
-    ElseIf Err.Number <> 0 And filename_len <= 2 Then
-        download_FileName = ""
-        download_FileFullName = ""
-        Exit Sub
-    End If
     
     If sysSet.Unicode_File = 0 Then
         s_filename = fix_Unicode_FileName(s_filename) '修复含有unicode字符的文件名
@@ -6011,7 +6012,30 @@ re_len:
         end_filename = fix_Unicode_FileName(end_filename) '修复含有unicode字符的文件名
         If Right(end_filename, 1) = "." Then end_filename = Mid$(end_filename, 1, Len(end_filename) - 1) & "_"
     End If
+    
+    '-------------------判断文件名长度--------------------------
+re_len:
+    temp_filename = ""
+    Do While LenB(s_filename & end_filename) > filename_len
+        DoEvents
+        temp_filename = "~"
+        s_filename = Left$(s_filename, Len(s_filename) - 1)
+    Loop
+    If temp_filename <> "" Then s_filename = s_filename & temp_filename
+    
     temp_filename = path_filename & s_filename & end_filename '创建完整文件路径
+    
+    Err.Clear
+    dir_tf = Dir(path_filename & String(LenB(s_filename), "x") & end_filename) 'Dir完整文件路径，如果出错，表示win不能创建该文件
+    If Err.Number <> 0 And filename_len > 2 Then
+        filename_len = filename_len - 1
+        GoTo re_len
+    ElseIf Err.Number <> 0 And filename_len <= 2 Then
+        download_FileName = ""
+        download_FileFullName = ""
+        Exit Sub
+    End If
+    '-----------------------------------------------------------
     
     Err.Clear
     If OX_Dirfile(temp_filename) = True And sysSet.file_compare = 2 Then
@@ -6019,7 +6043,7 @@ re_len:
         download_FileName = ""
         download_FileFullName = ""
         Exit Sub
-    ElseIf OX_Dirfile(temp_filename) = True And sysSet.file_compare = 1 Then
+    ElseIf OX_Dirfile(temp_filename) = True And sysSet.file_compare = 1 Then 'file_compare已存在文件对比
         old_FileSize = FileLen(GetShortName(temp_filename))
     Else
         old_FileSize = 0
@@ -6317,7 +6341,7 @@ Private Sub start_three()
     list_check.Enabled = False
     user_list_find.Enabled = False
     stop2.Enabled = True
-    If sysSet.bottom_StatusBar = True Then Refresh_Panel
+    'If sysSet.bottom_StatusBar = True Then Refresh_Panel
 End Sub
 Private Sub end_three()
     setProgram.Enabled = True
@@ -6937,7 +6961,7 @@ new163_password_OK:
                         Loop
                         Close #1
                         
-                        If m_lngDocSize = -100 And old_FileSize = -100 Then OX_Delfile download_FileName
+                        If m_lngDocSize = -100 And old_FileSize = -100 Then OX_DelFile download_FileName
                         
                     End If
                     
@@ -7437,7 +7461,7 @@ Private Sub run_script()
         If sysSet.listshow = False Then List1.Visible = False
         List1.Enabled = False
         
-        If sysSet.bottom_StatusBar = True Then Refresh_Panel
+        'If sysSet.bottom_StatusBar = True Then Refresh_Panel
         
         list_count.Visible = True
         runtime_Label = "开始执行外部脚本"
