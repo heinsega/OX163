@@ -30,6 +30,7 @@ Public Enum OX_ntimeFormat
     OX_ntime_Hex
     OX_ntime_int
 End Enum
+
 '-------------------------------------------------------------------------
 '参数调整后重新设置代理服务器设置-----------------------------------------
 '-------------------------------------------------------------------------
@@ -297,7 +298,7 @@ End Function
 '取得文件编码格式---------------------------------------------------------
 '-------------------------------------------------------------------------
 Public Function GetEncoding(ByVal fileName) As String
-    On Error GoTo Err
+    On Error GoTo err
     
     Dim fBytes(1) As Byte, freeNum As Integer
     freeNum = FreeFile
@@ -310,7 +311,7 @@ Public Function GetEncoding(ByVal fileName) As String
     If fBytes(0) = &HFF And fBytes(1) = &HFE Then GetEncoding = "Unicode"
     If fBytes(0) = &HFE And fBytes(1) = &HFF Then GetEncoding = "UnicodeBigEndian"
     If fBytes(0) = &HEF And fBytes(1) = &HBB Then GetEncoding = "UTF-8"
-Err:
+err:
 End Function
 '-------------------------------------------------------------------------
 '检察文件是否为UTF-8，有BOM/无BOM皆可，读取文件BOM头/前4Kbit判读----------

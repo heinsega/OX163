@@ -1,4 +1,4 @@
-'2014-10-1 visceroid & hein@shanghaijing.net
+'2014-10-7 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, reg_bigmode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, php_name
 started = False
 multi_page = True
@@ -16,14 +16,6 @@ On Error Resume Next
 	regex.Global = True
 	regex.IgnoreCase = True
 	
-	'判断Cookies是否登陆了PIXIV
-	regex.Pattern = "PHPSESSID=[0-9]+_[0-9abcdef]{10,}"
-	If regex.test(OX163_urlpage_Cookies)=False Then
-			MsgBox "您还没有登陆PIXIV。" & vbCrLf & "请使用内置浏览器登陆或使用IE类浏览器登陆" & vbCrLf & "并勾选“次回から自動的にログイン”保存cookies。", vbOKOnly + vbExclamation, "提醒"
-			Exit Function
-	End If	
-	started = True
-	
 	page_number=1
 	brief_mode_rf=""
 	reg_bigmode=""
@@ -39,14 +31,16 @@ On Error Resume Next
 		Select Case LCase(match.SubMatches(0))
 			Case "member", "member_illust"
 				php_name="member_illust.php"
-				cache_index = 1
+				multi_page = (match.SubMatches(4) = "")
+				If not multi_page Then
+					cache_index = 1
+				End If
 				If LCase(match.SubMatches(4))="mode=manga" or LCase(match.SubMatches(4))="mode=manga_big" Then
 					sub_url_str = "/member_illust.php?" & match.SubMatches(1) & "&" & match.SubMatches(2) & "&mode=medium"
 				Else
 					If LCase(match.SubMatches(4))="mode=big" Then reg_bigmode = "big"		
 					sub_url_str = "/member_illust.php?" & match.SubMatches(1) & "&" & match.SubMatches(2) & "&" & match.SubMatches(4)
 				End If
-				multi_page = (match.SubMatches(4) = "")
 			Case "tags"
 				php_name="search.php"
 				'http://www.pixiv.net/tags.php?tag=%E3%80%90%E9%AD%94%E5%A5%B3%E3%81%AE%E5%A5%91%E7%B4%84%E3%80%91&tset=2
@@ -94,7 +88,11 @@ On Error Resume Next
 		End Select
 		If match.SubMatches(5) <> "" Then
 			If MsgBox("是否从第1页开始分析？", vbYesNo, "问题") = vbno Then
-				sub_url_str = sub_url_str & "&" & match.SubMatches(5)
+				If instr(sub_url_str,"?")<1 Then
+					sub_url_str = sub_url_str & "?" & match.SubMatches(5)
+				Else
+					sub_url_str = sub_url_str & "&" & match.SubMatches(5)
+				End If
 			End If
 		End If
 		regex.Pattern = "(?:(?:\?|&)+(?=$)|(\?|&)&+)"
@@ -112,7 +110,7 @@ On Error Resume Next
 		Exit For
 	Next
 	
-	return_download_url = "inet|10,13|" & root_str & sub_url_str & "|" & root_str & vbcrlf & "User-Agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/7.0)"
+	return_download_url = "inet|10,13|" & root_str & "|" & root_str & vbcrlf & "User-Agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/7.0)"
 	OX163_urlpage_Referer = "http://www.pixiv.net/member_illust.php?mode=medium&illust_id=12345" & vbcrlf & "User-Agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/7.0)"
 
 End Function
@@ -320,10 +318,11 @@ On Error Resume Next
 				next_page_str = "0"
 			End If
 		Else
-		 If cache_index < matches_cache.Count Then
-		 	next_page_str = "1|inet|10,13|" & root_str & "/" & matches_cache.Item(cache_index).SubMatches(0)
-		 	next_page_str = replace(next_page_str,"&amp;","&")
-		 	cache_index = cache_index + 1
+		  If cache_index < matches_cache.Count Then
+			 	next_page_str = "0"
+			 	next_page_str = "1|inet|10,13|" & root_str & "/" & matches_cache.Item(cache_index).SubMatches(0)
+			 	next_page_str = replace(next_page_str,"&amp;","&")
+			 	cache_index = cache_index + 1
 		 	ElseIf Len(parent_next_page_str)>2 Then
 				next_page_str = parent_next_page_str
 				Else

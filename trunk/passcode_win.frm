@@ -1,70 +1,89 @@
 VERSION 5.00
-Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "ieframe.dll"
 Begin VB.Form passcode_win 
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "填写验证码"
-   ClientHeight    =   1395
+   Caption         =   "Login 163"
+   ClientHeight    =   2025
    ClientLeft      =   45
    ClientTop       =   435
-   ClientWidth     =   3405
+   ClientWidth     =   3345
    Icon            =   "passcode_win.frx":0000
    LinkTopic       =   "passcode_win"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   1395
-   ScaleWidth      =   3405
+   ScaleHeight     =   2025
+   ScaleWidth      =   3345
    StartUpPosition =   2  '屏幕中心
-   Begin VB.TextBox Text1 
-      Height          =   270
+   Begin VB.TextBox Text2 
+      BeginProperty Font 
+         Name            =   "宋体"
+         Size            =   10.5
+         Charset         =   134
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   330
       Left            =   120
-      TabIndex        =   0
-      Top             =   120
+      TabIndex        =   4
+      Top             =   1080
       Width           =   3135
    End
-   Begin VB.CommandButton Command1 
-      Caption         =   "确定"
-      Height          =   855
-      Left            =   2400
-      TabIndex        =   1
-      Top             =   480
-      Width           =   855
+   Begin VB.TextBox Text1 
+      BeginProperty Font 
+         Name            =   "宋体"
+         Size            =   10.5
+         Charset         =   134
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   330
+      Left            =   120
+      TabIndex        =   3
+      Top             =   360
+      Width           =   3135
    End
    Begin VB.PictureBox Picture1 
       BorderStyle     =   0  'None
       Enabled         =   0   'False
-      Height          =   810
-      Left            =   120
-      ScaleHeight     =   810
-      ScaleWidth      =   2175
-      TabIndex        =   3
+      Height          =   570
+      Left            =   2040
+      ScaleHeight     =   570
+      ScaleWidth      =   1335
+      TabIndex        =   0
       TabStop         =   0   'False
-      Top             =   480
-      Width           =   2175
-      Begin SHDocVwCtl.WebBrowser WebBrowser 
-         Height          =   2775
-         Left            =   0
-         TabIndex        =   2
+      Top             =   1560
+      Width           =   1335
+      Begin VB.CommandButton Command1 
+         Caption         =   "确定"
+         Height          =   375
+         Left            =   120
+         TabIndex        =   1
          Top             =   0
-         Width           =   3855
-         ExtentX         =   6800
-         ExtentY         =   4895
-         ViewMode        =   0
-         Offline         =   0
-         Silent          =   0
-         RegisterAsBrowser=   0
-         RegisterAsDropTarget=   0
-         AutoArrange     =   0   'False
-         NoClientEdge    =   0   'False
-         AlignLeft       =   0   'False
-         NoWebView       =   0   'False
-         HideFileNames   =   0   'False
-         SingleClick     =   0   'False
-         SingleSelection =   0   'False
-         NoFolders       =   0   'False
-         Transparent     =   0   'False
-         ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   "http:///"
+         Width           =   1095
       End
+   End
+   Begin VB.Label passcode_Name_password 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "请填写163密码:"
+      Height          =   180
+      Left            =   120
+      TabIndex        =   5
+      Top             =   840
+      Width           =   1260
+   End
+   Begin VB.Label passcode_Name 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "请填写163帐号:"
+      Height          =   180
+      Left            =   120
+      TabIndex        =   2
+      Top             =   120
+      Width           =   1260
    End
 End
 Attribute VB_Name = "passcode_win"
@@ -72,8 +91,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Public isDown As Integer
-Public html_str As String
+Public passport163name As String
 
 Private Sub Command1_Click()
     On Error Resume Next
@@ -99,7 +117,7 @@ Private Sub Form_Unload(Cancel As Integer)
     If Form1.WindowState = 0 Then Form1.always_on_top sysSet.always_top
     If isDown = 0 Then alt_msg = MsgBox("是否测试验证码的正确性？", vbYesNo + vbExclamation, "询问")
     If alt_msg = vbYes Then
-        Call Form1.check_pass_code(True, isDown)
+        'Call Form1.check_pass_code(True, isDown)
     End If
     Form1.Enabled = True
 End Sub

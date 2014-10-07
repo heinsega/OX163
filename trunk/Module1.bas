@@ -13,7 +13,7 @@ End Type
 
 '-------------------------------------------------------------------------
 '程序窗口重在最前面-------------------------------------------------------
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Public Const HWND_TOPMOST = -1
 Public Const SWP_NOMOVE = &H2
 Public Const SWP_NOSIZE = &H1
@@ -46,6 +46,44 @@ Public Declare Function SetPriorityClass Lib "kernel32" (ByVal hProcess As Long,
 'Const HIGH_PRIORITY_CLASS = &H80
 'Const REALTIME_PRIORITY_CLASS = &H100
 
+
+'-------------------------------------------------------------------------
+'激活toolbar buttonMenu---------------------------------------------------
+Private Declare Function FindWindowEx Lib "user32" Alias "FindWindowExW" (ByVal hWnd1 As Long, ByVal hWnd2 As Long, ByVal lpsz1 As Long, ByVal lpsz2 As Long) As Long
+
+Private Const TBN_FIRST = -700&
+Private Const TBN_DROPDOWN = (TBN_FIRST - 10)
+
+Private Const WM_USER1 = &H400
+Private Const TB_GETBUTTON As Long = (WM_USER1 + 23)
+Private Const WM_NOTIFY As Long = &H4E&
+
+Private Type OX_ToolBar_Button
+   OTBButton_Bitmap As Long
+   OTBButton_idCommand As Long
+   OTBButton_fsState As Byte
+   OTBButton_fsStyle As Byte
+   OTBButton_bReserved1 As Byte
+   OTBButton_bReserved2 As Byte
+   OTBButton_dwData As Long
+   OTBButton_iString As Long
+End Type
+
+Private Type OX_NMHDR
+   O_NMHDR_hwndFrom As Long
+   O_NMHDR_idFrom As Long
+   O_NMHDR_Code As Long
+End Type
+
+Private Type OX_NMTOOLBAR
+    O_NMTB_hdr As OX_NMHDR
+    O_NMTB_Item As Long
+    O_NMTB_Btn As OX_ToolBar_Button
+    O_NMTB_cchText As Long
+    O_NMTB_lpszString As Long
+End Type
+
+
 '-------------------------------------------------------------------------
 'API将返回Windows的Non - Unicode设定--------------------------------------
 Private Declare Function GetSystemDefaultLCID Lib "kernel32" () As Long
@@ -56,7 +94,7 @@ Private Declare Function SHBrowseForFolder Lib "shell32" Alias "SHBrowseForFolde
 Private Declare Function SHGetPathFromIDList Lib "shell32" Alias "SHGetPathFromIDListW" (ByVal pidl As Long, ByVal pszPath As Long) As Long
 Private Declare Function GetForegroundWindow Lib "user32" () As Long
 'Private Declare Sub CoTaskMemFree Lib "ole32" (ByVal pv As Long)
-Private Declare Function SendMessage Lib "user32" Alias "SendMessageW" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Long) As Long
+Private Declare Function SendMessage Lib "user32" Alias "SendMessageW" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
 Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (pDest As Any, pSource As Any, ByVal dwLength As Long)
 Private Declare Function LocalAlloc Lib "kernel32" (ByVal uFlags As Long, ByVal uBytes As Long) As Long
 Private Declare Function LocalFree Lib "kernel32" (ByVal hMem As Long) As Long
@@ -97,11 +135,11 @@ End Type
 '-------------------------------------------------------------------------
 '最小化系统托盘-----------------------------------------------------------
 Public Declare Function Shell_NotifyIcon Lib "shell32" Alias "Shell_NotifyIconW" (ByVal dwMessage As Long, pnid As NOTIFYICONDATA) As Boolean
-Public Declare Function ShowWindow Lib "user32" (ByVal hWnd As Long, ByVal nCmdShow As Long) As Long
+Public Declare Function ShowWindow Lib "user32" (ByVal hwnd As Long, ByVal nCmdShow As Long) As Long
 
 '-------------------------------------------------------------------------
 '打开IE-------------------------------------------------------------------
-Public Declare Function ShellExecute Lib "shell32" Alias "ShellExecuteW" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Public Declare Function ShellExecute Lib "shell32" Alias "ShellExecuteW" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
 '-------------------------------------------------------------------------
 '解Gzip压缩数组-----------------------------------------------------------
@@ -267,18 +305,18 @@ Public Function GetFolder(ByVal title As String, ByVal start As String, ByVal ne
 End Function
 
 'this seems to happen before the box comes up and when a folder is clicked on within it
-Public Function BrowseCallbackProcStr(ByVal hWnd As Long, ByVal uMsg As Long, ByVal lParam As Long, ByVal lpData As Long) As Long
+Public Function BrowseCallbackProcStr(ByVal hwnd As Long, ByVal uMsg As Long, ByVal lParam As Long, ByVal lpData As Long) As Long
     Dim spath As String, bFlag As Long
     
     Select Case uMsg
     Case BFFM_INITIALIZED
         'browse has been initialized, set the start folder
-        Call SendMessage(hWnd, BFFM_SETSELECTION, 1, ByVal lpData)
+        Call SendMessage(hwnd, BFFM_SETSELECTION, 1, ByVal lpData)
     Case BFFM_SELCHANGED
         spath = Space$(MAX_PATH)
         If SHGetPathFromIDList(lParam, StrPtr(spath)) Then
             spath = Trim(spath) & vbNullChar
-            Call SendMessage(hWnd, BFFM_SETSTATUSTEXTW, 0, StrPtr(spath))
+            Call SendMessage(hwnd, BFFM_SETSTATUSTEXTW, 0, StrPtr(spath))
         End If
     End Select
     
@@ -288,6 +326,23 @@ Public Function FARPROC(pfn As Long) As Long
     FARPROC = pfn
 End Function
 '---------------------调用shell选择保存目录------end----------------------
+
+Public Sub OX_ShowButtonMenu(OX_Toolbar As MSComctlLib.Toolbar, ByVal ButtonIndex As Long) 'buttonindex从0开始
+    Dim OX_Button As OX_ToolBar_Button
+    Dim OX_Notify As OX_NMTOOLBAR
+    Dim lResult As Long
+    Dim m_hwnd As Long
+    Dim lCommandId As Long
+    m_hwnd = FindWindowEx(OX_Toolbar.hwnd, 0, StrPtr("msvb_lib_toolbar"), StrPtr(vbNullString))
+    lResult = SendMessage(m_hwnd, TB_GETBUTTON, ButtonIndex, OX_Button)
+    lCommandId = OX_Button.OTBButton_idCommand
+    With OX_Notify
+        .O_NMTB_hdr.O_NMHDR_Code = TBN_DROPDOWN
+        .O_NMTB_hdr.O_NMHDR_hwndFrom = m_hwnd
+        .O_NMTB_Item = lCommandId
+    End With
+    lResult = SendMessage(OX_Toolbar.hwnd, WM_NOTIFY, 0, OX_Notify)
+End Sub
 
 'OX163启动函数------------------------------------------------------------
 'XP风格-----start---------------------------------------------------------
@@ -300,7 +355,7 @@ Public Function InitCommonControlsVB() As Boolean
         .lngICC = &H200
     End With
     InitCommonControlsEx iccex
-    InitCommonControlsVB = (Err.Number = 0)
+    InitCommonControlsVB = (err.Number = 0)
     On Error GoTo 0
 End Function
 
@@ -408,7 +463,7 @@ Public Function GetIniTF(ByVal AppName As String, ByVal In_Key As String) As Boo
     End If
     Exit Function
 GetIniTFErr:
-    Err.Clear
+    err.Clear
     GetIniTF = False
     GetStr = ""
 End Function
@@ -431,7 +486,7 @@ Public Sub WriteIniTF(ByVal AppName As String, ByVal In_Key As String, ByVal In_
     WIS_lp = WritePrivateProfileString(StrPtr(AppName), StrPtr(In_Key), StrPtr(WriteIniTF_Cstr_tf), StrPtr(INI_path))
     Exit Sub
 WriteIniTFErr:
-    Err.Clear
+    err.Clear
 End Sub
 
 '以下两个函数,读/写ini文件,不固定节点,in_key为写入/读取的主键
@@ -458,7 +513,7 @@ Public Function GetIniStr(ByVal AppName As String, ByVal In_Key As String) As St
     End If
     Exit Function
 GetIniStrErr:
-    Err.Clear
+    err.Clear
     GetIniStr = ""
     GetStr = ""
 End Function
@@ -478,7 +533,7 @@ Public Sub WriteIniStr(ByVal AppName As String, ByVal In_Key As String, ByVal In
     End If
     Exit Sub
 WriteIniStrErr:
-    Err.Clear
+    err.Clear
 End Sub
 
 '-------------------------------------------------------------------------
@@ -505,7 +560,7 @@ Public Function GetUnicodeIniStr(ByVal AppName As String, ByVal In_Key As String
     End If
     Exit Function
 GetIniStrErr:
-    Err.Clear
+    err.Clear
     GetUnicodeIniStr = ""
     GetStr = ""
 End Function
@@ -526,7 +581,7 @@ Public Sub WriteUnicodeIni(ByVal AppName As String, ByVal In_Key As String, ByVa
     End If
     Exit Sub
 WriteIniStrErr:
-    Err.Clear
+    err.Clear
 End Sub
 
 '-------------------------------------------------------------------------

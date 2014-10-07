@@ -35,7 +35,7 @@ Public Const SC_RESTORE = &HF120&
 '窗口最前端参数----------------------------------------
 Public Type NOTIFYICONDATA
     cbSize As Long
-    hWnd As Long
+    hwnd As Long
     uId As Long
     uFlags As Long
     ucallbackMessage As Long
