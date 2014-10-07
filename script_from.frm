@@ -160,14 +160,14 @@ Begin VB.Form script_from
             Style           =   3
          EndProperty
          BeginProperty Button6 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Caption         =   "程序主页"
+            Caption         =   "脚本主页"
             Key             =   "View_web"
             Description     =   "View Homepage"
             Object.ToolTipText     =   "View Homepage"
             ImageIndex      =   4
          EndProperty
          BeginProperty Button7 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Caption         =   "浏览目录"
+            Caption         =   "脚本目录"
             Key             =   "Browse_Folder"
             Description     =   "Browse Folder"
             Object.ToolTipText     =   "Browse Folder"
@@ -463,10 +463,8 @@ Private Sub Toolbar_ButtonClick(ByVal Button As MSComctlLib.Button)
     On Error Resume Next
     
     
-    If Dir(App_path & "\include", vbDirectory) = "" Then
-        MkDir App_path & "\include"
-    End If
-    
+    If Dir(App_path & "\include", vbDirectory) = "" Then MkDir App_path & "\include"
+    If Dir(App_path & "\include\sys", vbDirectory) = "" Then MkDir App_path & "\include\sys"
     
     Select Case Button.Index
     Case 1

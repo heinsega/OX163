@@ -5,16 +5,16 @@ Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.OCX"
 Begin VB.Form Form1 
    AutoRedraw      =   -1  'True
    Caption         =   "OX163"
-   ClientHeight    =   9390
+   ClientHeight    =   10800
    ClientLeft      =   60
    ClientTop       =   450
-   ClientWidth     =   12900
+   ClientWidth     =   15660
    ForeColor       =   &H00FF0000&
    Icon            =   "OX163_mainfrm.frx":0000
    LinkTopic       =   "Form1"
    OLEDropMode     =   1  'Manual
-   ScaleHeight     =   9390
-   ScaleWidth      =   12900
+   ScaleHeight     =   10800
+   ScaleWidth      =   15660
    StartUpPosition =   2  '屏幕中心
    Begin VB.TextBox cookies_text 
       Height          =   855
@@ -98,9 +98,9 @@ Begin VB.Form Form1
       Height          =   255
       Left            =   0
       TabIndex        =   25
-      Top             =   9135
-      Width           =   12900
-      _ExtentX        =   22754
+      Top             =   10545
+      Width           =   15660
+      _ExtentX        =   27623
       _ExtentY        =   450
       _Version        =   393216
       BeginProperty Panels {8E3867A5-8586-11D1-B16A-00C0F0283628} 
@@ -118,7 +118,7 @@ Begin VB.Form Form1
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
             Bevel           =   0
-            Object.Width           =   20197
+            Object.Width           =   25065
             MinWidth        =   353
             Text            =   "信息栏，点击查看"
             TextSave        =   "信息栏，点击查看"
@@ -140,7 +140,7 @@ Begin VB.Form Form1
             Alignment       =   2
             Object.Width           =   441
             MinWidth        =   441
-            Picture         =   "OX163_mainfrm.frx":5009
+            Picture         =   "OX163_mainfrm.frx":4F81
             Object.Tag             =   "process"
             Object.ToolTipText     =   "OX163进程优先级"
          EndProperty
@@ -155,7 +155,7 @@ Begin VB.Form Form1
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      MouseIcon       =   "OX163_mainfrm.frx":506B
+      MouseIcon       =   "OX163_mainfrm.frx":4FDE
    End
    Begin InetCtlsObjects.Inet check_header 
       Left            =   1800
@@ -175,9 +175,9 @@ Begin VB.Form Form1
       BorderStyle     =   0  'None
       Height          =   180
       Left            =   5760
-      MouseIcon       =   "OX163_mainfrm.frx":5385
+      MouseIcon       =   "OX163_mainfrm.frx":52F8
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":568F
+      Picture         =   "OX163_mainfrm.frx":5602
       ScaleHeight     =   165
       ScaleMode       =   0  'User
       ScaleWidth      =   675
@@ -217,9 +217,9 @@ Begin VB.Form Form1
       Begin VB.Image find_next 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "OX163_mainfrm.frx":573F
+         MouseIcon       =   "OX163_mainfrm.frx":56B2
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":5A49
+         Picture         =   "OX163_mainfrm.frx":59BC
          Stretch         =   -1  'True
          ToolTipText     =   "Next(PageDown)"
          Top             =   0
@@ -228,9 +228,9 @@ Begin VB.Form Form1
       Begin VB.Image find_prev 
          Height          =   375
          Left            =   2520
-         MouseIcon       =   "OX163_mainfrm.frx":5AE2
+         MouseIcon       =   "OX163_mainfrm.frx":5A55
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":5DEC
+         Picture         =   "OX163_mainfrm.frx":5D5F
          Stretch         =   -1  'True
          ToolTipText     =   "Previous(PageUp)"
          Top             =   0
@@ -301,7 +301,7 @@ Begin VB.Form Form1
       Height          =   270
       Left            =   120
       TabIndex        =   16
-      Text            =   $"OX163_mainfrm.frx":5E89
+      Text            =   $"OX163_mainfrm.frx":5DFC
       Top             =   8520
       Visible         =   0   'False
       Width           =   2415
@@ -312,9 +312,9 @@ Begin VB.Form Form1
       Height          =   180
       Index           =   1
       Left            =   6840
-      MouseIcon       =   "OX163_mainfrm.frx":5E92
+      MouseIcon       =   "OX163_mainfrm.frx":5E05
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":619C
+      Picture         =   "OX163_mainfrm.frx":610F
       ScaleHeight     =   180
       ScaleWidth      =   675
       TabIndex        =   15
@@ -329,9 +329,9 @@ Begin VB.Form Form1
       Height          =   180
       Index           =   0
       Left            =   7680
-      MouseIcon       =   "OX163_mainfrm.frx":622F
+      MouseIcon       =   "OX163_mainfrm.frx":61A2
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":6539
+      Picture         =   "OX163_mainfrm.frx":64AC
       ScaleHeight     =   180
       ScaleWidth      =   675
       TabIndex        =   14
@@ -346,15 +346,15 @@ Begin VB.Form Form1
       OLEDropMode     =   1  'Manual
       TabIndex        =   7
       Top             =   2880
-      Width           =   9180
+      Width           =   7980
       Begin MSComctlLib.ListView user_list 
-         Height          =   2455
-         Left            =   50
+         Height          =   2460
+         Left            =   45
          TabIndex        =   10
          ToolTipText     =   "Shift or Ctrl to MultiSelect"
          Top             =   840
-         Width           =   9015
-         _ExtentX        =   15901
+         Width           =   7695
+         _ExtentX        =   13573
          _ExtentY        =   4339
          View            =   3
          Arrange         =   1
@@ -446,9 +446,9 @@ Begin VB.Form Form1
       Begin VB.Image user_list_find 
          Height          =   375
          Left            =   2640
-         MouseIcon       =   "OX163_mainfrm.frx":65CC
+         MouseIcon       =   "OX163_mainfrm.frx":653F
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":68D6
+         Picture         =   "OX163_mainfrm.frx":6849
          Stretch         =   -1  'True
          ToolTipText     =   "Find Keyword"
          Top             =   240
@@ -457,9 +457,9 @@ Begin VB.Form Form1
       Begin VB.Image user_list_save 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "OX163_mainfrm.frx":696B
+         MouseIcon       =   "OX163_mainfrm.frx":68DE
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":6C75
+         Picture         =   "OX163_mainfrm.frx":6BE8
          Stretch         =   -1  'True
          ToolTipText     =   "Save Checked Files"
          Top             =   240
@@ -469,9 +469,9 @@ Begin VB.Form Form1
       Begin VB.Image user_list_output 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "OX163_mainfrm.frx":6D12
+         MouseIcon       =   "OX163_mainfrm.frx":6C85
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":701C
+         Picture         =   "OX163_mainfrm.frx":6F8F
          Stretch         =   -1  'True
          ToolTipText     =   "Outup Download List"
          Top             =   240
@@ -481,9 +481,9 @@ Begin VB.Form Form1
       Begin VB.Image albumslist_back 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "OX163_mainfrm.frx":70B9
+         MouseIcon       =   "OX163_mainfrm.frx":702C
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":73C3
+         Picture         =   "OX163_mainfrm.frx":7336
          Stretch         =   -1  'True
          ToolTipText     =   "Back"
          Top             =   240
@@ -491,7 +491,7 @@ Begin VB.Form Form1
          Width           =   375
       End
       Begin VB.Line Line1 
-         BorderColor     =   &H80000015&
+         BorderColor     =   &H80000010&
          X1              =   2520
          X2              =   2520
          Y1              =   240
@@ -500,9 +500,9 @@ Begin VB.Form Form1
       Begin VB.Image list_check 
          Height          =   375
          Left            =   3120
-         MouseIcon       =   "OX163_mainfrm.frx":744C
+         MouseIcon       =   "OX163_mainfrm.frx":73BF
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":7756
+         Picture         =   "OX163_mainfrm.frx":76C9
          Stretch         =   -1  'True
          ToolTipText     =   "Range Checked Albums on Top"
          Top             =   240
@@ -551,9 +551,9 @@ Begin VB.Form Form1
       Begin VB.Image list_back1 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "OX163_mainfrm.frx":77F1
+         MouseIcon       =   "OX163_mainfrm.frx":7764
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":7AFB
+         Picture         =   "OX163_mainfrm.frx":7A6E
          Stretch         =   -1  'True
          ToolTipText     =   "Back"
          Top             =   240
@@ -562,9 +562,9 @@ Begin VB.Form Form1
       Begin VB.Image save_all 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "OX163_mainfrm.frx":7B84
+         MouseIcon       =   "OX163_mainfrm.frx":7AF7
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":7E8E
+         Picture         =   "OX163_mainfrm.frx":7E01
          Stretch         =   -1  'True
          ToolTipText     =   "Save Checked Albums"
          Top             =   240
@@ -573,9 +573,9 @@ Begin VB.Form Form1
       Begin VB.Image out_all 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "OX163_mainfrm.frx":7F2B
+         MouseIcon       =   "OX163_mainfrm.frx":7E9E
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":8235
+         Picture         =   "OX163_mainfrm.frx":81A8
          Stretch         =   -1  'True
          ToolTipText     =   "Outup Download List"
          Top             =   240
@@ -584,9 +584,9 @@ Begin VB.Form Form1
       Begin VB.Image stop2 
          Height          =   375
          Left            =   600
-         MouseIcon       =   "OX163_mainfrm.frx":874B
+         MouseIcon       =   "OX163_mainfrm.frx":86BE
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":8A55
+         Picture         =   "OX163_mainfrm.frx":89C8
          Stretch         =   -1  'True
          ToolTipText     =   "Stop"
          Top             =   240
@@ -617,9 +617,9 @@ Begin VB.Form Form1
       Begin VB.Image open_set1 
          Height          =   375
          Left            =   80
-         MouseIcon       =   "OX163_mainfrm.frx":8AE7
+         MouseIcon       =   "OX163_mainfrm.frx":8A5A
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":8DF1
+         Picture         =   "OX163_mainfrm.frx":8D64
          Stretch         =   -1  'True
          ToolTipText     =   "Setup"
          Top             =   240
@@ -658,15 +658,23 @@ Begin VB.Form Form1
          OLEDropMode     =   1  'Manual
          TabIndex        =   1
          Text            =   "http://"
-         Top             =   275
+         Top             =   280
          Width           =   6735
+      End
+      Begin VB.Line Line2 
+         BorderColor     =   &H80000010&
+         Visible         =   0   'False
+         X1              =   2520
+         X2              =   2520
+         Y1              =   240
+         Y2              =   600
       End
       Begin VB.Image list1_find 
          Height          =   375
          Left            =   2640
-         MouseIcon       =   "OX163_mainfrm.frx":8E89
+         MouseIcon       =   "OX163_mainfrm.frx":8DFC
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":9193
+         Picture         =   "OX163_mainfrm.frx":9106
          Stretch         =   -1  'True
          ToolTipText     =   "Find Keyword"
          Top             =   240
@@ -676,10 +684,10 @@ Begin VB.Form Form1
       Begin VB.Image open_lock 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   750
-         MouseIcon       =   "OX163_mainfrm.frx":9228
+         Left            =   810
+         MouseIcon       =   "OX163_mainfrm.frx":919B
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":9532
+         Picture         =   "OX163_mainfrm.frx":94A5
          Stretch         =   -1  'True
          ToolTipText     =   "Input Passwrd"
          Top             =   285
@@ -688,9 +696,9 @@ Begin VB.Form Form1
       Begin VB.Image view_command 
          Height          =   375
          Left            =   8400
-         MouseIcon       =   "OX163_mainfrm.frx":99E6
+         MouseIcon       =   "OX163_mainfrm.frx":950E
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":9CF0
+         Picture         =   "OX163_mainfrm.frx":9818
          Stretch         =   -1  'True
          ToolTipText     =   "View Web"
          Top             =   240
@@ -699,15 +707,15 @@ Begin VB.Form Form1
       Begin VB.Image text_show 
          Appearance      =   0  'Flat
          BorderStyle     =   1  'Fixed Single
-         Height          =   225
+         Height          =   285
          Left            =   480
-         MouseIcon       =   "OX163_mainfrm.frx":9D8B
+         MouseIcon       =   "OX163_mainfrm.frx":98B3
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":A095
+         Picture         =   "OX163_mainfrm.frx":9BBD
          Stretch         =   -1  'True
          ToolTipText     =   "Open Note"
-         Top             =   320
-         Width           =   225
+         Top             =   285
+         Width           =   285
       End
       Begin VB.Label list_count 
          Alignment       =   1  'Right Justify
@@ -733,9 +741,9 @@ Begin VB.Form Form1
       Begin VB.Image stop1 
          Height          =   375
          Left            =   8400
-         MouseIcon       =   "OX163_mainfrm.frx":A15A
+         MouseIcon       =   "OX163_mainfrm.frx":9C17
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":A464
+         Picture         =   "OX163_mainfrm.frx":9F21
          ToolTipText     =   "Stop"
          Top             =   240
          Visible         =   0   'False
@@ -744,9 +752,9 @@ Begin VB.Form Form1
       Begin VB.Image list_stop 
          Height          =   375
          Left            =   600
-         MouseIcon       =   "OX163_mainfrm.frx":A4F6
+         MouseIcon       =   "OX163_mainfrm.frx":9FB3
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":A800
+         Picture         =   "OX163_mainfrm.frx":A2BD
          ToolTipText     =   "Stop"
          Top             =   240
          Width           =   375
@@ -754,9 +762,9 @@ Begin VB.Form Form1
       Begin VB.Image list_output 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "OX163_mainfrm.frx":A892
+         MouseIcon       =   "OX163_mainfrm.frx":A34F
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":AB9C
+         Picture         =   "OX163_mainfrm.frx":A659
          Stretch         =   -1  'True
          ToolTipText     =   "Outup Download List"
          Top             =   240
@@ -765,9 +773,9 @@ Begin VB.Form Form1
       Begin VB.Image image_save 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "OX163_mainfrm.frx":AC39
+         MouseIcon       =   "OX163_mainfrm.frx":A6F8
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":AF43
+         Picture         =   "OX163_mainfrm.frx":AA02
          Stretch         =   -1  'True
          ToolTipText     =   "Save Checked Files"
          Top             =   240
@@ -776,9 +784,9 @@ Begin VB.Form Form1
       Begin VB.Image list_back 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "OX163_mainfrm.frx":AFE0
+         MouseIcon       =   "OX163_mainfrm.frx":AA9F
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":B2EA
+         Picture         =   "OX163_mainfrm.frx":ADA9
          Stretch         =   -1  'True
          ToolTipText     =   "Back"
          Top             =   240
@@ -829,9 +837,9 @@ Begin VB.Form Form1
       Begin VB.Image makelist_command 
          Height          =   375
          Left            =   8880
-         MouseIcon       =   "OX163_mainfrm.frx":B373
+         MouseIcon       =   "OX163_mainfrm.frx":AE32
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":B67D
+         Picture         =   "OX163_mainfrm.frx":B13C
          Stretch         =   -1  'True
          ToolTipText     =   "Go & List"
          Top             =   260
@@ -840,9 +848,9 @@ Begin VB.Form Form1
       Begin VB.Image search163 
          Height          =   375
          Left            =   7920
-         MouseIcon       =   "OX163_mainfrm.frx":B71B
+         MouseIcon       =   "OX163_mainfrm.frx":B1DA
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":BA25
+         Picture         =   "OX163_mainfrm.frx":B4E4
          Stretch         =   -1  'True
          ToolTipText     =   "Search Albums"
          Top             =   240
@@ -851,9 +859,9 @@ Begin VB.Form Form1
       Begin VB.Image open_set 
          Height          =   375
          Left            =   80
-         MouseIcon       =   "OX163_mainfrm.frx":BABF
+         MouseIcon       =   "OX163_mainfrm.frx":B57E
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":BDC9
+         Picture         =   "OX163_mainfrm.frx":B888
          Stretch         =   -1  'True
          ToolTipText     =   "Setup"
          Top             =   240
@@ -915,38 +923,158 @@ Begin VB.Form Form1
    Begin VB.PictureBox web_Picture 
       BorderStyle     =   0  'None
       Height          =   5775
-      Left            =   45
+      Left            =   8160
       ScaleHeight     =   5775
-      ScaleWidth      =   11415
+      ScaleWidth      =   7335
       TabIndex        =   21
-      Top             =   960
+      Top             =   2160
       Visible         =   0   'False
-      Width           =   11415
-      Begin MSComctlLib.Toolbar Toolbar1 
-         Height          =   330
+      Width           =   7335
+      Begin MSComctlLib.ImageList ImageList1 
+         Left            =   0
+         Top             =   5160
+         _ExtentX        =   1005
+         _ExtentY        =   1005
+         BackColor       =   -2147483643
+         ImageWidth      =   19
+         ImageHeight     =   19
+         MaskColor       =   12632256
+         _Version        =   393216
+         BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
+            NumListImages   =   7
+            BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "OX163_mainfrm.frx":B920
+               Key             =   ""
+            EndProperty
+            BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "OX163_mainfrm.frx":B98F
+               Key             =   ""
+            EndProperty
+            BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "OX163_mainfrm.frx":B9FD
+               Key             =   ""
+            EndProperty
+            BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "OX163_mainfrm.frx":BA73
+               Key             =   ""
+            EndProperty
+            BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "OX163_mainfrm.frx":BAE4
+               Key             =   ""
+            EndProperty
+            BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "OX163_mainfrm.frx":BB60
+               Key             =   ""
+            EndProperty
+            BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "OX163_mainfrm.frx":BBDD
+               Key             =   ""
+            EndProperty
+         EndProperty
+      End
+      Begin MSComctlLib.Toolbar Web_Toolbar 
+         Height          =   375
          Left            =   0
          TabIndex        =   31
          Top             =   0
-         Visible         =   0   'False
-         Width           =   11295
-         _ExtentX        =   19923
-         _ExtentY        =   582
-         ButtonWidth     =   609
-         ButtonHeight    =   582
+         Width           =   7335
+         _ExtentX        =   12938
+         _ExtentY        =   661
+         ButtonWidth     =   1429
+         ButtonHeight    =   661
          AllowCustomize  =   0   'False
          Wrappable       =   0   'False
-         Appearance      =   1
          Style           =   1
+         TextAlignment   =   1
+         ImageList       =   "ImageList1"
          _Version        =   393216
          BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-            NumButtons      =   4
+            NumButtons      =   9
             BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Caption         =   "后退"
+               Key             =   "Web_Toolbar_Back"
+               Description     =   "Back"
+               Object.ToolTipText     =   "返回上一页"
+               ImageIndex      =   1
             EndProperty
             BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Caption         =   "前进"
+               Key             =   "Web_Toolbar_Forward"
+               Description     =   "Forward"
+               Object.ToolTipText     =   "前进至下一页"
+               ImageIndex      =   2
             EndProperty
             BeginProperty Button3 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Caption         =   "刷新"
+               Key             =   "Web_Toolbar_refresh"
+               Description     =   "Refresh"
+               Object.ToolTipText     =   "刷新页面"
+               ImageIndex      =   3
             EndProperty
             BeginProperty Button4 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Caption         =   "停止"
+               Key             =   "Web_Toolbar_Stop"
+               Description     =   "Stop"
+               Object.ToolTipText     =   "停止载入页面"
+               ImageIndex      =   4
+            EndProperty
+            BeginProperty Button5 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Style           =   3
+            EndProperty
+            BeginProperty Button6 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Caption         =   "网页"
+               Key             =   "Web_Toolbar_Save"
+               Description     =   "Save As"
+               Object.ToolTipText     =   "保存网页"
+               ImageIndex      =   5
+               Style           =   5
+               BeginProperty ButtonMenus {66833FEC-8583-11D1-B16A-00C0F0283628} 
+                  NumButtonMenus  =   1
+                  BeginProperty ButtonMenu1 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+                     Key             =   "Web_Toolbar_Source"
+                     Text            =   "仅保存源代码"
+                  EndProperty
+               EndProperty
+            EndProperty
+            BeginProperty Button7 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Caption         =   "主页"
+               Key             =   "Web_Toolbar_Support"
+               Description     =   "Support"
+               Object.ToolTipText     =   "软件支持"
+               ImageIndex      =   6
+               Style           =   5
+               BeginProperty ButtonMenus {66833FEC-8583-11D1-B16A-00C0F0283628} 
+                  NumButtonMenus  =   2
+                  BeginProperty ButtonMenu1 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+                     Key             =   "shj_hp"
+                     Text            =   "软件主页"
+                  EndProperty
+                  BeginProperty ButtonMenu2 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+                     Key             =   "shj_forum"
+                     Text            =   "软件论坛"
+                  EndProperty
+               EndProperty
+            EndProperty
+            BeginProperty Button8 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Style           =   3
+            EndProperty
+            BeginProperty Button9 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Caption         =   "链接"
+               Key             =   "Web_Toolbar_Link"
+               Description     =   "Link"
+               ImageIndex      =   7
+               Style           =   5
+               BeginProperty ButtonMenus {66833FEC-8583-11D1-B16A-00C0F0283628} 
+                  NumButtonMenus  =   2
+                  BeginProperty ButtonMenu1 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+                     Key             =   "Web_Toolbar_163"
+                     Text            =   "登录163相册"
+                  EndProperty
+                  BeginProperty ButtonMenu2 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+                     Key             =   "Web_Toolbar_s163"
+                     Text            =   "搜索163相册"
+                  EndProperty
+               EndProperty
             EndProperty
          EndProperty
       End
@@ -954,10 +1082,10 @@ Begin VB.Form Form1
          Height          =   4575
          Left            =   0
          TabIndex        =   22
-         Top             =   0
+         Top             =   360
          Visible         =   0   'False
-         Width           =   10575
-         ExtentX         =   18653
+         Width           =   7335
+         ExtentX         =   12938
          ExtentY         =   8070
          ViewMode        =   0
          Offline         =   0
@@ -980,29 +1108,29 @@ Begin VB.Form Form1
    Begin VB.Image process_Image 
       Height          =   150
       Index           =   2
-      Left            =   7200
-      Picture         =   "OX163_mainfrm.frx":BE61
+      Left            =   6600
+      Picture         =   "OX163_mainfrm.frx":BC53
       Stretch         =   -1  'True
-      Top             =   7680
+      Top             =   7200
       Visible         =   0   'False
       Width           =   225
    End
    Begin VB.Image process_Image 
       Height          =   150
       Index           =   1
-      Left            =   7200
-      Picture         =   "OX163_mainfrm.frx":BEB0
-      Top             =   7560
+      Left            =   6360
+      Picture         =   "OX163_mainfrm.frx":BCA3
+      Top             =   7200
       Visible         =   0   'False
       Width           =   225
    End
    Begin VB.Image process_Image 
       Height          =   150
       Index           =   0
-      Left            =   7200
-      Picture         =   "OX163_mainfrm.frx":BF02
+      Left            =   6120
+      Picture         =   "OX163_mainfrm.frx":BCF0
       Stretch         =   -1  'True
-      Top             =   7440
+      Top             =   7200
       Visible         =   0   'False
       Width           =   225
    End
@@ -1010,9 +1138,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   2
       Left            =   6720
-      MouseIcon       =   "OX163_mainfrm.frx":BF50
+      MouseIcon       =   "OX163_mainfrm.frx":BD3B
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":C25A
+      Picture         =   "OX163_mainfrm.frx":C045
       Stretch         =   -1  'True
       ToolTipText     =   "Outup Download List"
       Top             =   7440
@@ -1023,9 +1151,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   1
       Left            =   6360
-      MouseIcon       =   "OX163_mainfrm.frx":C2FF
+      MouseIcon       =   "OX163_mainfrm.frx":C0EA
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":C609
+      Picture         =   "OX163_mainfrm.frx":C3F4
       Stretch         =   -1  'True
       ToolTipText     =   "Outup Download List"
       Top             =   7440
@@ -1036,9 +1164,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   0
       Left            =   6000
-      MouseIcon       =   "OX163_mainfrm.frx":C6A6
+      MouseIcon       =   "OX163_mainfrm.frx":C493
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":C9B0
+      Picture         =   "OX163_mainfrm.frx":C79D
       Stretch         =   -1  'True
       ToolTipText     =   "Outup Download List"
       Top             =   7440
@@ -1049,9 +1177,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   1
       Left            =   2400
-      MouseIcon       =   "OX163_mainfrm.frx":CA4B
+      MouseIcon       =   "OX163_mainfrm.frx":C838
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":CD55
+      Picture         =   "OX163_mainfrm.frx":CB42
       Stretch         =   -1  'True
       ToolTipText     =   "Setup"
       Top             =   7920
@@ -1062,9 +1190,9 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   0
       Left            =   2400
-      MouseIcon       =   "OX163_mainfrm.frx":CDFA
+      MouseIcon       =   "OX163_mainfrm.frx":CBE7
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":D104
+      Picture         =   "OX163_mainfrm.frx":CEF1
       Stretch         =   -1  'True
       ToolTipText     =   "Setup"
       Top             =   7440
@@ -1075,7 +1203,7 @@ Begin VB.Form Form1
       Height          =   1080
       Index           =   1
       Left            =   4080
-      Picture         =   "OX163_mainfrm.frx":D19C
+      Picture         =   "OX163_mainfrm.frx":CF89
       Stretch         =   -1  'True
       Top             =   7320
       Visible         =   0   'False
@@ -1085,7 +1213,7 @@ Begin VB.Form Form1
       Height          =   1080
       Index           =   0
       Left            =   2880
-      Picture         =   "OX163_mainfrm.frx":11206
+      Picture         =   "OX163_mainfrm.frx":10FF3
       Stretch         =   -1  'True
       Top             =   7320
       Visible         =   0   'False
@@ -1418,6 +1546,9 @@ Dim Content_Range As String
 Dim new_win As Boolean
 Public OX_Script_Type As String
 Dim stop_check_header As Boolean
+Dim windows_destop_Width As Long
+Dim windows_destop_Height As Long
+
 
 Private Function ScriptDownload(ByVal mode As DownloadMode) As Boolean
     On Error Resume Next
@@ -1458,9 +1589,9 @@ Private Function ScriptDownload(ByVal mode As DownloadMode) As Boolean
         Set doc = BrowserW.WebBrowser.Document
         'Set objhtml = doc.Body.createtextrange
         'Html_Temp =doc.Body.OuterHtml
-        Err.Clear
+        err.Clear
         Html_Temp = doc.All(0).outerHTML
-        If Err.Number <> 0 Or Trim(Html_Temp) = "" Then Html_Temp = doc.All(1).outerHTML
+        If err.Number <> 0 Or Trim(Html_Temp) = "" Then Html_Temp = doc.All(1).outerHTML
         BrowserW.WebBrowser.Stop
         BrowserW.Hide
         download_ok = True
@@ -1470,9 +1601,9 @@ Private Function ScriptDownload(ByVal mode As DownloadMode) As Boolean
 End Function
 
 Private Sub CheckScriptError()
-    If Err.Number <> 0 Then
-        Call MsgBox("错误：" & vbCrLf & Err.Description, vbOKOnly + vbExclamation, "执行脚本错误")
-        Err.Clear
+    If err.Number <> 0 Then
+        Call MsgBox("错误：" & vbCrLf & err.Description, vbOKOnly + vbExclamation, "执行脚本错误")
+        err.Clear
     End If
 End Sub
 
@@ -1959,7 +2090,7 @@ Private Sub Form_Load()
     Open_path = ""
     Open_path_set = ""
     
-    TrayI.hWnd = Form1.hWnd
+    TrayI.hwnd = Form1.hwnd
     TrayI.uId = 0
     TrayI.uFlags = NIF_ICON Or NIF_MESSAGE Or NIF_TIP
     TrayI.ucallbackMessage = WM_MBUTTONDOWN
@@ -1998,6 +2129,8 @@ Private Sub Form_Load()
     Web_Browser_header_tf = True
     form_height = 1500 + show_StatusBar
     htmlCharsetType = "GB2312"
+    web_Picture.Top = 960
+    web_Picture.Left = 45
     url_Referer = ""
     urlpage_Referer = ""
     pass_code = ""
@@ -2027,18 +2160,15 @@ Public Sub always_on_top(on_top As Boolean)
     Dim flags As Integer
     flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
     If on_top = True Then
-        SetWindowPos Form1.hWnd, HWND_TOPMOST, 0, 0, 0, 0, flags
+        SetWindowPos Form1.hwnd, HWND_TOPMOST, 0, 0, 0, 0, flags
         top_Picture(1).Visible = True
         top_Picture(0).Visible = False
     Else
-        SetWindowPos Form1.hWnd, -2, 0, 0, 0, 0, flags
+        SetWindowPos Form1.hwnd, -2, 0, 0, 0, 0, flags
         top_Picture(0).Visible = True
         top_Picture(1).Visible = False
     End If
 End Sub
-
-
-
 
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 0 Then
@@ -2105,7 +2235,7 @@ Private Function sysTray(Show_Tray As Boolean)
         TrayI.hIcon = Form1.Icon
         TrayI.uFlags = NIF_ICON Or NIF_MESSAGE Or NIF_TIP
         Call Shell_NotifyIcon(NIM_ADD, TrayI)
-        ShowWindow Form1.hWnd, SW_HIDE
+        ShowWindow Form1.hwnd, SW_HIDE
         '    Form1.Width = 0
         '    Form1.Height = 0
         
@@ -2116,7 +2246,7 @@ Private Function sysTray(Show_Tray As Boolean)
         
         TrayI.uFlags = NIF_ICON Or NIF_MESSAGE Or NIF_TIP
         Call Shell_NotifyIcon(NIM_DELETE, TrayI)
-        ShowWindow Form1.hWnd, SW_RESTORE
+        ShowWindow Form1.hwnd, SW_RESTORE
         'Const CB_SHOWDROPDOWN = &H14F
         'SendMessage Form1.hwnd, CB_SHOWDROPDOWN, True, 0
         Form1.SetFocus
@@ -2126,6 +2256,27 @@ Private Function sysTray(Show_Tray As Boolean)
     End If
     
 End Function
+
+Private Sub Check_Form_out_Destop(ByRef win_max As Boolean)
+    On Error GoTo exit_err
+    If Form1.Left + Form1.Width > windows_destop_Width Then
+        If Form1.Width < windows_destop_Width Then
+         Form1.Left = windows_destop_Width - Form1.Width
+         Else
+            Form1.Left = 0
+        End If
+    End If
+    
+    If Form1.Top + Form1.Height > windows_destop_Height Then
+        If Form1.Height < windows_destop_Height Then
+         Form1.Top = windows_destop_Height - Form1.Height
+         Else
+            Form1.Top = 0
+        End If
+    End If
+    
+exit_err:
+End Sub
 
 Private Sub Form_Resize()
     On Error Resume Next
@@ -2149,7 +2300,8 @@ Private Sub Form_Resize()
         
         If Form1.Width < 7100 Then Form1.Width = 7100
         If Form1.Height < form_height Then Form1.Height = form_height
-        frame_resize
+        If max_size = False Then Call Check_Form_out_Destop(max_size)
+        Call frame_resize
         
     End If
 End Sub
@@ -2632,8 +2784,8 @@ End Sub
 
 Private Sub text_show_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If mouse_dic <> 17 Then
-        Label_name = " 简易笔记: "
-        Label_text = "打开或关闭简易笔记"
+        Label_name = " 查看信息: "
+        Label_text = "查看程序运行细节信息"
         label_rebuld
         mouse_dic = 17
     End If
@@ -3403,7 +3555,7 @@ Private Sub input_lst_Click()
     If sysSet.def_path_tf = True And sysSet.def_path <> "" Then def_txtpath = sysSet.def_path
     
     txtpath = ""
-    txtpath = ShowOpenFileDialog(def_txtpath, "", "All List Files(*.htm;*.lst;*.txt)|*.htm;*.lst;*.txt|All Files (*.*)|*.*|", Me.hWnd)
+    txtpath = ShowOpenFileDialog(def_txtpath, "", "All List Files(*.htm;*.lst;*.txt)|*.htm;*.lst;*.txt|All Files (*.*)|*.*|", Me.hwnd)
     txtpath = GetShortName(txtpath)
     
     If txtpath = "" Then
@@ -3438,7 +3590,7 @@ Private Sub list_output_Click()
     End Select
     
     txtpath = ""
-    txtpath = ShowSaveFileDialog(def_txtpath, "", file_filter(0), file_filter(1), Me.hWnd)
+    txtpath = ShowSaveFileDialog(def_txtpath, "", file_filter(0), file_filter(1), Me.hwnd)
     If txtpath = "" Then
 ErrHandler:
         Exit Sub
@@ -4218,9 +4370,6 @@ Private Sub save_all_MouseMove(Button As Integer, Shift As Integer, x As Single,
     End If
 End Sub
 
-
-
-
 Private Sub stop1_Click()
     Web_Browser.Stop
     Timer1.Enabled = False
@@ -4256,6 +4405,10 @@ Private Sub Timer3_Timer()
     On Error Resume Next
     Timer3.Enabled = False
     
+    
+    windows_destop_Width = Form1.Width + Form1.Left * 2
+    windows_destop_Height = Form1.Height + Form1.Top * 2
+    
     Web_Browser.Silent = True
     Web_Browser.Document.Open
     Web_Browser.Document.Write ""
@@ -4268,18 +4421,18 @@ Private Sub Timer3_Timer()
     'Web_Search.Navigate "about:blank" '"http://163.ugschina.com/"
     
     
+    
     If sysSet.autocheck = False And Len(Command()) <= 0 Then Exit Sub
     
     
     Dim Command_str As String
     Dim Command_str_split
-    
+    '接收启动参数
     Command_str = ""
     Command_str = Command()
-    
     If Command_str <> "" Then
         Command_str_split = Split(Command_str, vbCrLf)
-        Command_str = Command_str_split(0)
+        Command_str = Trim(Command_str_split(0))
     End If
     
     If Command_str <> "" Then
@@ -4287,6 +4440,10 @@ Private Sub Timer3_Timer()
     End If
     
     If Command_str <> "" Then
+        If UBound(Command_str_split) > 1 Then
+            url_temp = "Referer: " & Command_str_split(2)
+        End If
+        
         If UBound(Command_str_split) > 0 Then
             Command_str = Command_str_split(1)
             Command_str_split = Split(Command_str, "|")
@@ -4303,6 +4460,7 @@ Private Sub Timer3_Timer()
                 End If
             End If
         End If
+        
         Call view_command_Click
         Exit Sub
     End If
@@ -4621,7 +4779,7 @@ Private Sub user_list_DblClick()
                 save_all.Visible = False
                 out_all.Visible = False
                 list_back1.Visible = False
-                Line1.Visible = False
+                'Line1.Visible = False
                 
                 stop2.Enabled = True
                 user_list_find.Enabled = False
@@ -4727,7 +4885,7 @@ script_nopass_list:
         save_all.Visible = False
         out_all.Visible = False
         list_back1.Visible = False
-        Line1.Visible = False
+        'Line1.Visible = False
         
         stop2.Enabled = True
         user_list_find.Enabled = False
@@ -4993,25 +5151,37 @@ Private Sub view_command_Click()
     If Trim(url_input.Text) = "" Or Trim(url_input.Text) = "http://" Then url_input.Text = "http://photo.163.com/"
     url_input.Text = Trim(url_input.Text)
     If is_username(url_input.Text) = True Then url_input.Text = "http://photo.163.com/photos/" & format_username(url_input.Text, 2) & "/"
-    buttom_enable False
+    'buttom_enable False
     form_height = 3000
     If Form1.WindowState = 0 Then
-        If Form1.Width < 11000 Then Form1.Width = 12000
-        If Form1.Height < 12000 Then Form1.Height = 8500
+        If Form1.Width < 11000 Then
+            'If Form1.Left > 3900 Then Form1.Left = Form1.Left - 3900 ' (15000 - 7100) / 2
+            Form1.Width = 15000
+        End If
+        If Form1.Height < 8500 Then
+            'If Form1.Top > (8500 - 1500) / 2 Then Form1.Top = Form1.Top - 3500 '(8500 - 1500) / 2
+            Form1.Height = 8500
+        End If
     End If
     newform_resize
     'path_url
-    Web_Browser.Navigate Trim(url_input.Text) ', , , , "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0)"  '//.Navigate2 http://zhidao.baidu.com/question/9685639.html
+    If InStr(url_temp, "Referer: ") = 1 Then
+        Web_Browser.Navigate Trim(url_input.Text), , , , url_temp
+    Else
+        Web_Browser.Navigate Trim(url_input.Text) ', , , , "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0)"    '//.Navigate2 http://zhidao.baidu.com/question/9685639.html
+    End If
+    url_temp = Trim(url_input.Text)
     web_Picture.Visible = True
     Web_Browser.Visible = True
     Web_Search.Visible = False
     Web_Browser.Width = Frame1.Width
-    url_temp = Trim(url_input.Text)
-    Label_url.caption = "正在打开页面"
-    view_command.Visible = False
-    stop1.Visible = True
-    Label_url.Visible = True
-    Timer1.Enabled = True
+    Web_Toolbar.Width = Web_Browser.Width
+    
+    'Label_url.caption = "正在打开页面"
+    'view_command.Visible = False
+    'stop1.Visible = True
+    'Label_url.Visible = True
+    'Timer1.Enabled = True
 End Sub
 
 Private Sub Timer1_Timer()
@@ -5087,10 +5257,12 @@ Public Sub frame_resize()
     stop1.Left = search163.Left + 430
     view_command.Left = stop1.Left
     makelist_command.Left = stop1.Left + 400
+
     If down_count = 0 Then
         Web_Browser.Width = Frame1.Width
+        Web_Toolbar.Width = Web_Browser.Width
         Web_Search.Width = Frame1.Width
-        If Web_Browser.Visible = True Then Web_Browser.Height = Form1.Height - 1510 - show_StatusBar
+        If Web_Browser.Visible = True Then Web_Browser.Height = Form1.Height - 1510 - show_StatusBar - Web_Toolbar.Height
         If Web_Search.Visible = True Then Web_Search.Height = Form1.Height - 1510 - show_StatusBar
     ElseIf down_count = 1 Then
         
@@ -5131,7 +5303,7 @@ Private Sub newform_resize()
     If Form1.WindowState = 0 Then
         If Form1.Height < 3400 Then Form1.Height = Form1.Height + 2000
     End If
-    If down_count = 0 And WindowState <> 1 Then Web_Browser.Height = Form1.Height - 1510 - show_StatusBar: Web_Search.Height = Form1.Height - 1510 - show_StatusBar
+    If down_count = 0 And WindowState <> 1 Then Web_Browser.Height = Form1.Height - 1510 - show_StatusBar - Web_Toolbar.Height: Web_Search.Height = Form1.Height - 1510 - show_StatusBar
 End Sub
 
 
@@ -5175,6 +5347,7 @@ Public Sub step_two()
     list_back.Visible = True
     list_output.Visible = True
     image_save.Visible = True
+    Line2.Visible = True
     list1_find.Visible = True
 End Sub
 
@@ -5198,6 +5371,7 @@ Public Sub step_one()
     list_back.Visible = False
     list_output.Visible = False
     image_save.Visible = False
+    Line2.Visible = False
     list1_find.Visible = False
     List1.Visible = False
     Web_Browser.Stop
@@ -5257,7 +5431,48 @@ Public Sub search_end()
     setProgram.Enabled = True
 End Sub
 
+Private Sub Web_Toolbar_ButtonClick(ByVal Button As MSComctlLib.Button)
+    On Error Resume Next
+    
+     Select Case Button.Index
+     Case 1 'back
+        err.Clear
+        Web_Browser.GoBack
+        If err.Number <> 0 Then err.Clear
+     Case 2 'Forward
+        err.Clear
+        Web_Browser.GoForward
+        If err.Number <> 0 Then err.Clear: Call view_command_Click
+     Case 3 'Refresh
+        Call Web_Browser.Refresh 'Refresh2(3)0-3
+     Case 4 'Stop
+        Call Web_Browser.ExecWB(OLECMDID_STOP, OLECMDEXECOPT_PROMPTUSER)
+     Case 6 'save
+        Call Web_Browser.ExecWB(OLECMDID_SAVEAS, OLECMDEXECOPT_PROMPTUSER)
+     Case 7 'HP
+        Call OX_ShowButtonMenu(Web_Toolbar, Button.Index - 1)
+     Case 9 'link
+        Call OX_ShowButtonMenu(Web_Toolbar, Button.Index - 1)
+     End Select
+     
+End Sub
 
+
+Private Sub Web_Toolbar_ButtonMenuClick(ByVal ButtonMenu As MSComctlLib.ButtonMenu)
+    On Error Resume Next
+    Select Case ButtonMenu.key
+    Case "Web_Toolbar_Source"
+        Call Web_Browser.ExecWB(OLECMDID_SAVEAS, OLECMDEXECOPT_DONTPROMPTUSER)
+    Case "shj_hp"
+        Web_Browser.Navigate "http://www.shanhaijing.net/163/"
+    Case "shj_forum"
+        Web_Browser.Navigate "http://www.ugschina.com/forum/"
+    Case "Web_Toolbar_163"
+        Web_Browser.Navigate "http://photo.163.com/"
+    Case "Web_Toolbar_s163"
+        Web_Browser.Navigate "http://163.ugschina.com/"
+    End Select
+End Sub
 
 Private Sub Web_Browser_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
     
@@ -5375,11 +5590,11 @@ End Sub
 Private Sub Web_Browser_DownloadBegin()
     If down_count = 0 Then
         If Web_Browser.Visible = True Then
-            buttom_enable False
-            Timer1.Enabled = True
-            Label_url.Visible = True
-            view_command.Visible = False
-            stop1.Visible = True
+            'buttom_enable False
+            'Timer1.Enabled = True
+            'Label_url.Visible = True
+            'view_command.Visible = False
+            'stop1.Visible = True
         End If
     End If
 End Sub
@@ -5707,8 +5922,8 @@ new_down:
         Do While (check_header.StillExecuting = True)
             If form_quit = True Then Exit Do
             DoEvents
-        lblProgressInfo.caption = "准备获取文件信息..."
-        lblProgressInfo1.caption = "准备获取文件信息..."
+            lblProgressInfo.caption = "准备获取文件信息..."
+            lblProgressInfo1.caption = "准备获取文件信息..."
             Sleep 10
         Loop
         If form_quit = True Then GoTo err_end
@@ -5881,53 +6096,6 @@ Function new163_check_passcode(ByVal code_type As Boolean, ByVal check_passcode_
     End If
 End Function
 
-Sub check_pass_code(ByVal code_type As Boolean, ByVal isDown As Integer)
-    
-    Form1.Enabled = True
-    
-    If code_type = False Then
-        
-        Form1.Enabled = False
-        form_quit = False
-        
-        
-        If isDown = 0 Then
-            strURL = "http://photo.163.com/photos/" & OX_Script_Type & "/" & user_list.SelectedItem.ListSubItems(2).Text & "/"
-        Else
-            strURL = "http://photo.163.com/photos/" & OX_Script_Type & "/" & user_list.ListItems(isDown).ListSubItems(2).Text & "/"
-        End If
-        
-        download_ok = False
-        
-        fast_down.Cancel
-        
-        htmlCharsetType = "GB2312"
-        start_fast_method = ""
-        start_fast
-        
-        Do While download_ok = False
-            If form_quit = True Then Form1.Enabled = True: GoTo end_check_pass
-            DoEvents
-            Sleep 10
-            DoEvents
-        Loop
-        
-        passcode_win.Show
-        passcode_win.isDown = isDown
-        passcode_win.html_str = Html_Temp
-        passcode_win.show_pass_code
-        
-        form_quit = True
-        
-end_check_pass:
-        strURL = ""
-        
-    Else
-        Call user_list_DblClick
-    End If
-    
-End Sub
-
 Sub start_Post(ByVal psw As String, Referer_str As String)
     DoEvents
     '文件大小值复位
@@ -6025,19 +6193,19 @@ re_len:
     
     temp_filename = path_filename & s_filename & end_filename '创建完整文件路径
     
-    Err.Clear
+    err.Clear
     dir_tf = Dir(path_filename & String(LenB(s_filename), "x") & end_filename) 'Dir完整文件路径，如果出错，表示win不能创建该文件
-    If Err.Number <> 0 And filename_len > 2 Then
+    If err.Number <> 0 And filename_len > 2 Then
         filename_len = filename_len - 1
         GoTo re_len
-    ElseIf Err.Number <> 0 And filename_len <= 2 Then
+    ElseIf err.Number <> 0 And filename_len <= 2 Then
         download_FileName = ""
         download_FileFullName = ""
         Exit Sub
     End If
     '-----------------------------------------------------------
     
-    Err.Clear
+    err.Clear
     If OX_Dirfile(temp_filename) = True And sysSet.file_compare = 2 Then
         old_FileSize = -1
         download_FileName = ""
@@ -7064,9 +7232,9 @@ Private Sub Web_Search_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, fl
         new_win = False
         Cancel = True
         If Form1.WindowState = 2 Then
-            Shell "OX163.exe " & URL & vbCrLf & "0|0|0|0"
+            Shell "OX163.exe " & URL & vbCrLf & "0|0|0|0" & vbCrLf & Web_Browser.LocationURL
         Else
-            Shell "OX163.exe " & URL & vbCrLf & Form1.Top & "|" & Form1.Left & "|" & Form1.Width & "|" & Form1.Height
+            Shell "OX163.exe " & URL & vbCrLf & Form1.Top & "|" & Form1.Left & "|" & Form1.Width & "|" & Form1.Height & vbCrLf & Web_Browser.LocationURL
         End If
         Exit Sub
     End If
@@ -7075,7 +7243,7 @@ End Sub
 
 Private Sub Web_Search_NewWindow2(ppDisp As Object, Cancel As Boolean)
     On Error Resume Next
-    Web_Browser.Height = Web_Search.Height
+    Web_Browser.Height = Web_Search.Height - Web_Toolbar.Height
     web_Picture.Visible = True
     Web_Browser.Visible = True
     Set ppDisp = Web_Browser.Object
@@ -7620,7 +7788,7 @@ Private Sub list_photo_script(ByVal photo_info)
     top_Picture(1).Enabled = False
     'get cookies----------------------------------------------------------------
     cookies_text = GetCookie(Script_Info.Criteria)
-    Err.Clear
+    err.Clear
     Call Script_App.Run("set_urlpagecookies", cookies_text)
     Call CheckScriptError
     '---------------------------------------------------------------------------
@@ -7658,7 +7826,7 @@ Private Sub list_photo_script(ByVal photo_info)
         top_Picture(1).Enabled = False
         'get cookies---------------------------------------------------------------------------------
         cookies_text = GetCookie(Dl_Info.downloadURL)
-        Err.Clear
+        err.Clear
         Call Script_App.Run("set_urlpagecookies", cookies_text)
         Call CheckScriptError
         'list Photo Url 取得照片链接地址等信息------------------------------------------------------
@@ -7724,7 +7892,7 @@ Private Sub list_album_script(ByVal album_info)
     top_Picture(1).Enabled = False
     'get cookies----------------------------------------------------------------
     cookies_text = GetCookie(Script_Info.Criteria)
-    Err.Clear
+    err.Clear
     Call Script_App.Run("set_urlpagecookies", cookies_text)
     Call CheckScriptError
     '---------------------------------------------------------------------------
@@ -7761,10 +7929,10 @@ Private Sub list_album_script(ByVal album_info)
         If Form1.WindowState = 0 Then always_on_top False
         top_Picture(0).Enabled = False
         top_Picture(1).Enabled = False
-        Err.Clear
+        err.Clear
         'get cookies---------------------------------------------------------------------------------
         cookies_text = GetCookie(Dl_Info.downloadURL)
-        Err.Clear
+        err.Clear
         Call Script_App.Run("set_urlpagecookies", cookies_text)
         Call CheckScriptError
         'list albums Url 取得相册链接地址等信息------------------------------------------------------
@@ -7834,7 +8002,7 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
     top_Picture(1).Enabled = False
     'get cookies----------------------------------------------------------------
     cookies_text = GetCookie(Script_Info.Criteria)
-    Err.Clear
+    err.Clear
     Call Script_App.Run("set_urlpagecookies", cookies_text)
     Call CheckScriptError
     '---------------------------------------------------------------------------
@@ -7889,7 +8057,7 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
             top_Picture(1).Enabled = False
             'get cookies---------------------------------------------------------------------------------
             cookies_text = GetCookie(Dl_Info.downloadURL)
-            Err.Clear
+            err.Clear
             Call Script_App.Run("set_urlpagecookies", cookies_text)
             Call CheckScriptError
             '--------------------------------------------------------------------------------------
@@ -7958,3 +8126,4 @@ End Function
 '------------------------------------------------------------------------------
 '------------------------------------------------------------------------------
 '-------------------------------------------------------------------------
+
