@@ -1,12 +1,12 @@
 <p><strong>关于版本号、beta版本和build数字</strong></p>
-<p><strong>版本命名实例：</strong><font color=red>0.5.8</font><font color=blue>build130519</font> <font color=pink>beta</font><br /></p>
+<p><strong>版本命名实例：</strong><font color=red>0.5.8</font><font color=blue>build130519</font> <font color=red>beta</font><br /></p>
+
 <p><strong>关于<font color=red>版本号</font></strong><br />
 　　OX163的版本号，比如：0.5.8，其实就是第58版，没有大小版本号之分。也就是说，0.5.7和0.5.8之间并非是一次小的细节修改一次小版本的更新，很可能是一次大改动。而0.4.0和0.5.0之间并非一次大版本更新，而是含有10次不同程度的更新，即：0.4.0、 0.4.1、 0.4.2……0.4.8、0.4.9、0.5.0。详细变化可以参看Changelog的内容。
-　　OX163的版本号的增加方式为：0.4.9至0.5.0至0.5.1依次类推。
-</p>
+　　OX163的版本号的增加方式为：0.4.9至0.5.0至0.5.1依次类推。</p>
+
 <p><strong>关于<font color=blue>build数字</font></strong><br />
 　　“build+数字”，表示程序创建和发布日期，日期格式为“YYMMDD”，例如：build130519，其表示的含义是：2013年5月19日创建和发布日期。
 </p>
-<p><strong>关于<font color=pink>beta</font>版本</strong><br />
-　　含有“beta”字样版本，并非该版本的测试版本，而是代表该版本含有“未完成的功能”：该功能可能不可见/不可使用，或者可能可见/不可使用，抑或是可见/可使用部分功能。含有“beta”字样的版本不会存在同版本号不含有“beta”字样的版本，即：如果存在“0.5.8beta”则不会有“0.5.8”存在。
-</p>
+<p><strong>关于<font color=red>beta</font>版本</strong><br />
+　　含有“beta”字样版本，并非该版本的测试版本，而是代表该版本含有“未完成的功能”：该功能可能不可见/不可使用，或者可能可见/不可使用，抑或是可见/可使用部分功能。含有“beta”字样的版本不会存在同版本号不含有“beta”字样的版本，即：如果存在“0.5.8beta”则不会有“0.5.8”存在。</p>
