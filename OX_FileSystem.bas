@@ -1,6 +1,6 @@
 Attribute VB_Name = "OX_FileSystem"
 '-------------------------------------------------------------------------
-'OX163文件夹、文件创建与控制----------------------------------------------
+'-----------------OX163文件夹、文件创建与控制模块-------------------------
 '-------------------------------------------------------------------------
 
 '-------------------------------------------------------------------------
@@ -87,7 +87,7 @@ OX_GreatFileRetry:
     Exit Function
     
 OX_GreatFileErr:
-    Err.Clear
+    err.Clear
     OX_GreatFile = False
 End Function
 '-------------------------------------------------------------------------
@@ -123,7 +123,7 @@ OX_GreatFileRetry:
     Exit Function
     
 OX_GreatFileErr:
-    Err.Clear
+    err.Clear
     OX_GreatTxtFile = False
 End Function
 '-------------------------------------------------------------------------
@@ -138,7 +138,7 @@ On Error GoTo OX_DirfileErr
     Exit Function
     
 OX_DirfileErr:
-    Err.Clear
+    err.Clear
     OX_Dirfile = False
 End Function
 
@@ -156,7 +156,7 @@ OX_DelFile = False
     Exit Function
     
 OX_DelfileErr:
-    Err.Clear
+    err.Clear
     OX_DelFile = False
 End Function
 
@@ -172,7 +172,7 @@ On Error GoTo OX_DirFolderErr
     Exit Function
     
 OX_DirFolderErr:
-    Err.Clear
+    err.Clear
     OX_DirFolder = False
 End Function
 
@@ -189,7 +189,7 @@ On Error GoTo OX_CreateFolderErr
     Exit Function
 
 OX_CreateFolderErr:
-    Err.Clear
+    err.Clear
     OX_CreateFolder = False
 End Function
 

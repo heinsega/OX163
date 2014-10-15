@@ -1,6 +1,10 @@
 Attribute VB_Name = "OX_variable"
+'-----------------------------------------------------------
+'-----------------OX163常用全部变量-------------------------
+'-----------------------------------------------------------
+
 Public Const title_info = "OX163 plus(0.5.8build130519 beta)"
-Public Const ver_info = "58"
+Public Const ver_info = 58
 'Public Const update_host_info = "http://www.shanhaijing.net/163/|国外默认" & vbCrLf & "http://shanhaijing.net/163/|国内默认" & vbCrLf & "http://163.shanhaijing.net/163/|国内备份" & vbCrLf & "http://www.ugschina.com/163/|国外备份"
 Public Const update_host_info1 = "http://www.shanhaijing.net/163/|https://ox163.googlecode.com/svn/trunk/include/sys/"
 Public Const update_host_info2 = "默认|google code"
@@ -35,7 +39,7 @@ Public Const SC_RESTORE = &HF120&
 '窗口最前端参数----------------------------------------
 Public Type NOTIFYICONDATA
     cbSize As Long
-    hwnd As Long
+    hWnd As Long
     uId As Long
     uFlags As Long
     ucallbackMessage As Long
@@ -46,9 +50,13 @@ End Type
 Public TrayI As NOTIFYICONDATA
 
 
-'BrowserW传递、判断参数----------------------------------------
+'BrowserW传递、判断参数----------------------------------
 Public BrowserW_url As String
 Public BrowserW_load_ok As Boolean
+
+'桌面大小------------------------------------------------
+Public windows_destop_Width As Long
+Public windows_destop_Height As Long
 
 '外部脚本脚本头（包括必要参数以及函数）-------------------
 Type include_ScriptCode
@@ -65,6 +73,12 @@ Public OX163_WebBrowser_scriptCode As String
 
 '全局程序组目录
 Public App_path As String
+
+'全局错误代码
+Public OX_Global_Err_Num As Integer
+
+'启动log
+Public OX_Start_log As String
 
 '系统参数------------------------------------------------
 Type sysSetting
@@ -130,12 +144,12 @@ Type sysSetting
     proxy_B As String
     proxy_B_user As String
     proxy_B_pw As String
-    '代理服务器使用方式
+    '代理服务器使用方式 0-icUseDefault,1-icDirect,2-icNamedProxy
     proxy_A_type As Byte
     proxy_B_type As Byte
     '代理服务器A应用于内置浏览器
     web_proxy As Byte
-    '是否建立URL文件夹
+    '下载时建立以URL为名的文件夹
     url_folder As Boolean
     '使用新163相册中文密码规则
     new163pass_rules As Boolean

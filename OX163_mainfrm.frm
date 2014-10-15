@@ -5,21 +5,237 @@ Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.OCX"
 Begin VB.Form Form1 
    AutoRedraw      =   -1  'True
    Caption         =   "OX163"
-   ClientHeight    =   10800
+   ClientHeight    =   9495
    ClientLeft      =   60
    ClientTop       =   450
-   ClientWidth     =   15660
+   ClientWidth     =   15795
    ForeColor       =   &H00FF0000&
    Icon            =   "OX163_mainfrm.frx":0000
    LinkTopic       =   "Form1"
    OLEDropMode     =   1  'Manual
-   ScaleHeight     =   10800
-   ScaleWidth      =   15660
+   ScaleHeight     =   9495
+   ScaleWidth      =   15795
    StartUpPosition =   2  '屏幕中心
+   Begin MSComctlLib.ImageList ImageLibrary_Over 
+      Left            =   8280
+      Top             =   7920
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      BackColor       =   -2147483643
+      ImageWidth      =   25
+      ImageHeight     =   25
+      MaskColor       =   12632256
+      UseMaskColor    =   0   'False
+      _Version        =   393216
+      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
+         NumListImages   =   21
+         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":406A
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":4112
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":41C7
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":4271
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":431C
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":438D
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":440B
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":44B9
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":4552
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":45F4
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":469F
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":474E
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":4803
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage14 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":48B0
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage15 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":495B
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage16 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":4A00
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage17 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":4AA9
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage18 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":4B56
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage19 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":4BEB
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage20 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":4C83
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage21 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":4D43
+            Key             =   ""
+         EndProperty
+      EndProperty
+   End
+   Begin MSComctlLib.ImageList ImageLibrary_Normal 
+      Left            =   7560
+      Top             =   7920
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      BackColor       =   -2147483643
+      ImageWidth      =   25
+      ImageHeight     =   25
+      MaskColor       =   12632256
+      UseMaskColor    =   0   'False
+      _Version        =   393216
+      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
+         NumListImages   =   21
+         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":4DA4
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":4E4C
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":4F01
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":4FAB
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":5056
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":50C7
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":514B
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":51F9
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":5292
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":5334
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":53DF
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":548E
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":5543
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage14 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":55F0
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage15 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":569B
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage16 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":5740
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage17 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":57E9
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage18 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":5896
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage19 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":592B
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage20 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":59C3
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage21 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "OX163_mainfrm.frx":5A83
+            Key             =   ""
+         EndProperty
+      EndProperty
+   End
+   Begin VB.PictureBox url_Filelist_Close 
+      Appearance      =   0  'Flat
+      AutoSize        =   -1  'True
+      BackColor       =   &H80000005&
+      ForeColor       =   &H80000008&
+      Height          =   315
+      Left            =   6840
+      MouseIcon       =   "OX163_mainfrm.frx":5AE8
+      MousePointer    =   99  'Custom
+      Picture         =   "OX163_mainfrm.frx":5DF2
+      ScaleHeight     =   285
+      ScaleWidth      =   285
+      TabIndex        =   28
+      ToolTipText     =   "Close Url List "
+      Top             =   650
+      Visible         =   0   'False
+      Width           =   315
+   End
    Begin VB.TextBox cookies_text 
       Height          =   855
       Left            =   5400
-      TabIndex        =   30
+      TabIndex        =   26
       Top             =   7920
       Visible         =   0   'False
       Width           =   1575
@@ -30,12 +246,12 @@ Begin VB.Form Form1
       Height          =   180
       Index           =   2
       Left            =   3480
-      MouseIcon       =   "OX163_mainfrm.frx":406A
+      MouseIcon       =   "OX163_mainfrm.frx":5E53
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":4374
+      Picture         =   "OX163_mainfrm.frx":615D
       ScaleHeight     =   180
       ScaleWidth      =   1020
-      TabIndex        =   28
+      TabIndex        =   24
       ToolTipText     =   "代理B的设置被起用"
       Top             =   0
       Visible         =   0   'False
@@ -47,12 +263,12 @@ Begin VB.Form Form1
       Height          =   180
       Index           =   1
       Left            =   2400
-      MouseIcon       =   "OX163_mainfrm.frx":4452
+      MouseIcon       =   "OX163_mainfrm.frx":623B
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":475C
+      Picture         =   "OX163_mainfrm.frx":6545
       ScaleHeight     =   180
       ScaleWidth      =   1020
-      TabIndex        =   27
+      TabIndex        =   23
       ToolTipText     =   "代理A的设置被起用"
       Top             =   0
       Visible         =   0   'False
@@ -64,12 +280,12 @@ Begin VB.Form Form1
       Height          =   180
       Index           =   0
       Left            =   4560
-      MouseIcon       =   "OX163_mainfrm.frx":483A
+      MouseIcon       =   "OX163_mainfrm.frx":6623
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":4B44
+      Picture         =   "OX163_mainfrm.frx":692D
       ScaleHeight     =   180
       ScaleWidth      =   1020
-      TabIndex        =   26
+      TabIndex        =   22
       ToolTipText     =   "代理A和B的设置都被起用"
       Top             =   0
       Visible         =   0   'False
@@ -86,9 +302,9 @@ Begin VB.Form Form1
    Begin VB.FileListBox url_Filelist 
       Appearance      =   0  'Flat
       Height          =   1830
-      Left            =   1130
+      Left            =   1600
       System          =   -1  'True
-      TabIndex        =   24
+      TabIndex        =   20
       Top             =   650
       Visible         =   0   'False
       Width           =   5220
@@ -97,10 +313,10 @@ Begin VB.Form Form1
       Align           =   2  'Align Bottom
       Height          =   255
       Left            =   0
-      TabIndex        =   25
-      Top             =   10545
-      Width           =   15660
-      _ExtentX        =   27623
+      TabIndex        =   21
+      Top             =   9240
+      Width           =   15795
+      _ExtentX        =   27861
       _ExtentY        =   450
       _Version        =   393216
       BeginProperty Panels {8E3867A5-8586-11D1-B16A-00C0F0283628} 
@@ -108,17 +324,16 @@ Begin VB.Form Form1
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   2
             Bevel           =   0
-            Enabled         =   0   'False
             Object.Width           =   564
             MinWidth        =   564
-            Picture         =   "OX163_mainfrm.frx":4C27
+            Picture         =   "OX163_mainfrm.frx":6A10
             Object.Tag             =   "ref"
-            Object.ToolTipText     =   "温馨提示，点击更换"
+            Object.ToolTipText     =   "详细信息"
          EndProperty
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
             Bevel           =   0
-            Object.Width           =   25065
+            Object.Width           =   25383
             MinWidth        =   353
             Text            =   "信息栏，点击查看"
             TextSave        =   "信息栏，点击查看"
@@ -127,9 +342,8 @@ Begin VB.Form Form1
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
-            AutoSize        =   2
             Bevel           =   0
-            Object.Width           =   953
+            Object.Width           =   882
             MinWidth        =   882
             Text            =   "设置"
             TextSave        =   "设置"
@@ -140,7 +354,7 @@ Begin VB.Form Form1
             Alignment       =   2
             Object.Width           =   441
             MinWidth        =   441
-            Picture         =   "OX163_mainfrm.frx":4F81
+            Picture         =   "OX163_mainfrm.frx":6A6D
             Object.Tag             =   "process"
             Object.ToolTipText     =   "OX163进程优先级"
          EndProperty
@@ -155,7 +369,7 @@ Begin VB.Form Form1
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      MouseIcon       =   "OX163_mainfrm.frx":4FDE
+      MouseIcon       =   "OX163_mainfrm.frx":6ACA
    End
    Begin InetCtlsObjects.Inet check_header 
       Left            =   1800
@@ -175,26 +389,26 @@ Begin VB.Form Form1
       BorderStyle     =   0  'None
       Height          =   180
       Left            =   5760
-      MouseIcon       =   "OX163_mainfrm.frx":52F8
+      MouseIcon       =   "OX163_mainfrm.frx":6DE4
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":5602
+      Picture         =   "OX163_mainfrm.frx":70EE
       ScaleHeight     =   165
       ScaleMode       =   0  'User
       ScaleWidth      =   675
-      TabIndex        =   23
+      TabIndex        =   19
       ToolTipText     =   "go to Homepage"
       Top             =   0
       Width           =   930
    End
    Begin VB.PictureBox Frame_search 
       BorderStyle     =   0  'None
-      Height          =   420
-      Left            =   9480
-      ScaleHeight     =   420
+      Height          =   360
+      Left            =   9360
+      ScaleHeight     =   360
       ScaleWidth      =   2895
-      TabIndex        =   19
+      TabIndex        =   15
       ToolTipText     =   "Ctrl+F"
-      Top             =   330
+      Top             =   315
       Visible         =   0   'False
       Width           =   2895
       Begin VB.TextBox find_text 
@@ -209,7 +423,7 @@ Begin VB.Form Form1
          EndProperty
          Height          =   315
          Left            =   0
-         TabIndex        =   20
+         TabIndex        =   16
          TabStop         =   0   'False
          Top             =   30
          Width           =   1935
@@ -217,9 +431,9 @@ Begin VB.Form Form1
       Begin VB.Image find_next 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "OX163_mainfrm.frx":56B2
+         MouseIcon       =   "OX163_mainfrm.frx":719E
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":59BC
+         Picture         =   "OX163_mainfrm.frx":74A8
          Stretch         =   -1  'True
          ToolTipText     =   "Next(PageDown)"
          Top             =   0
@@ -228,9 +442,9 @@ Begin VB.Form Form1
       Begin VB.Image find_prev 
          Height          =   375
          Left            =   2520
-         MouseIcon       =   "OX163_mainfrm.frx":5A55
+         MouseIcon       =   "OX163_mainfrm.frx":7541
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":5D5F
+         Picture         =   "OX163_mainfrm.frx":784B
          Stretch         =   -1  'True
          ToolTipText     =   "Previous(PageUp)"
          Top             =   0
@@ -240,7 +454,7 @@ Begin VB.Form Form1
    Begin MSComctlLib.ListView List1 
       Height          =   1095
       Left            =   45
-      TabIndex        =   18
+      TabIndex        =   14
       ToolTipText     =   "Shift or Ctrl to MultiSelect"
       Top             =   960
       Visible         =   0   'False
@@ -300,8 +514,8 @@ Begin VB.Form Form1
    Begin VB.TextBox text_sortname 
       Height          =   270
       Left            =   120
-      TabIndex        =   16
-      Text            =   $"OX163_mainfrm.frx":5DFC
+      TabIndex        =   12
+      Text            =   $"OX163_mainfrm.frx":78E8
       Top             =   8520
       Visible         =   0   'False
       Width           =   2415
@@ -312,12 +526,12 @@ Begin VB.Form Form1
       Height          =   180
       Index           =   1
       Left            =   6840
-      MouseIcon       =   "OX163_mainfrm.frx":5E05
+      MouseIcon       =   "OX163_mainfrm.frx":78F1
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":610F
+      Picture         =   "OX163_mainfrm.frx":7BFB
       ScaleHeight     =   180
       ScaleWidth      =   675
-      TabIndex        =   15
+      TabIndex        =   11
       ToolTipText     =   "Always on top"
       Top             =   0
       Visible         =   0   'False
@@ -329,12 +543,12 @@ Begin VB.Form Form1
       Height          =   180
       Index           =   0
       Left            =   7680
-      MouseIcon       =   "OX163_mainfrm.frx":61A2
+      MouseIcon       =   "OX163_mainfrm.frx":7C8D
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":64AC
+      Picture         =   "OX163_mainfrm.frx":7F97
       ScaleHeight     =   180
       ScaleWidth      =   675
-      TabIndex        =   14
+      TabIndex        =   10
       ToolTipText     =   "Always on top"
       Top             =   0
       Width           =   675
@@ -342,15 +556,15 @@ Begin VB.Form Form1
    Begin VB.Frame Frame2 
       Caption         =   "相册列表"
       Height          =   3535
-      Left            =   50
+      Left            =   60
       OLEDropMode     =   1  'Manual
-      TabIndex        =   7
+      TabIndex        =   5
       Top             =   2880
       Width           =   7980
       Begin MSComctlLib.ListView user_list 
          Height          =   2460
          Left            =   45
-         TabIndex        =   10
+         TabIndex        =   8
          ToolTipText     =   "Shift or Ctrl to MultiSelect"
          Top             =   840
          Width           =   7695
@@ -422,6 +636,16 @@ Begin VB.Form Form1
             Object.Width           =   0
          EndProperty
       End
+      Begin VB.Label lblProgressInfo2 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Height          =   180
+         Left            =   3720
+         TabIndex        =   30
+         Top             =   240
+         Visible         =   0   'False
+         Width           =   90
+      End
       Begin VB.Label count2 
          Alignment       =   1  'Right Justify
          BackStyle       =   0  'Transparent
@@ -438,7 +662,7 @@ Begin VB.Form Form1
          ForeColor       =   &H000000FF&
          Height          =   180
          Left            =   0
-         TabIndex        =   29
+         TabIndex        =   25
          Top             =   600
          Visible         =   0   'False
          Width           =   480
@@ -446,9 +670,9 @@ Begin VB.Form Form1
       Begin VB.Image user_list_find 
          Height          =   375
          Left            =   2640
-         MouseIcon       =   "OX163_mainfrm.frx":653F
+         MouseIcon       =   "OX163_mainfrm.frx":8028
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":6849
+         Picture         =   "OX163_mainfrm.frx":8332
          Stretch         =   -1  'True
          ToolTipText     =   "Find Keyword"
          Top             =   240
@@ -457,9 +681,9 @@ Begin VB.Form Form1
       Begin VB.Image user_list_save 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "OX163_mainfrm.frx":68DE
+         MouseIcon       =   "OX163_mainfrm.frx":83C7
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":6BE8
+         Picture         =   "OX163_mainfrm.frx":86D1
          Stretch         =   -1  'True
          ToolTipText     =   "Save Checked Files"
          Top             =   240
@@ -469,9 +693,9 @@ Begin VB.Form Form1
       Begin VB.Image user_list_output 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "OX163_mainfrm.frx":6C85
+         MouseIcon       =   "OX163_mainfrm.frx":876E
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":6F8F
+         Picture         =   "OX163_mainfrm.frx":8A78
          Stretch         =   -1  'True
          ToolTipText     =   "Outup Download List"
          Top             =   240
@@ -481,9 +705,9 @@ Begin VB.Form Form1
       Begin VB.Image albumslist_back 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "OX163_mainfrm.frx":702C
+         MouseIcon       =   "OX163_mainfrm.frx":8B15
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":7336
+         Picture         =   "OX163_mainfrm.frx":8E1F
          Stretch         =   -1  'True
          ToolTipText     =   "Back"
          Top             =   240
@@ -500,33 +724,13 @@ Begin VB.Form Form1
       Begin VB.Image list_check 
          Height          =   375
          Left            =   3120
-         MouseIcon       =   "OX163_mainfrm.frx":73BF
+         MouseIcon       =   "OX163_mainfrm.frx":8EA8
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":76C9
+         Picture         =   "OX163_mainfrm.frx":91B2
          Stretch         =   -1  'True
          ToolTipText     =   "Range Checked Albums on Top"
          Top             =   240
          Width           =   375
-      End
-      Begin VB.Label Label_url1 
-         AutoSize        =   -1  'True
-         BackColor       =   &H00000000&
-         BeginProperty Font 
-            Name            =   "宋体"
-            Size            =   7.5
-            Charset         =   134
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00FFFFFF&
-         Height          =   150
-         Left            =   1440
-         TabIndex        =   12
-         Top             =   120
-         Visible         =   0   'False
-         Width           =   75
       End
       Begin VB.Label count1 
          Alignment       =   1  'Right Justify
@@ -544,16 +748,16 @@ Begin VB.Form Form1
          ForeColor       =   &H000000FF&
          Height          =   180
          Left            =   0
-         TabIndex        =   11
+         TabIndex        =   9
          Top             =   600
          Width           =   480
       End
       Begin VB.Image list_back1 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "OX163_mainfrm.frx":7764
+         MouseIcon       =   "OX163_mainfrm.frx":924D
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":7A6E
+         Picture         =   "OX163_mainfrm.frx":9557
          Stretch         =   -1  'True
          ToolTipText     =   "Back"
          Top             =   240
@@ -562,9 +766,9 @@ Begin VB.Form Form1
       Begin VB.Image save_all 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "OX163_mainfrm.frx":7AF7
+         MouseIcon       =   "OX163_mainfrm.frx":95E0
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":7E01
+         Picture         =   "OX163_mainfrm.frx":98EA
          Stretch         =   -1  'True
          ToolTipText     =   "Save Checked Albums"
          Top             =   240
@@ -573,9 +777,9 @@ Begin VB.Form Form1
       Begin VB.Image out_all 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "OX163_mainfrm.frx":7E9E
+         MouseIcon       =   "OX163_mainfrm.frx":9987
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":81A8
+         Picture         =   "OX163_mainfrm.frx":9C91
          Stretch         =   -1  'True
          ToolTipText     =   "Outup Download List"
          Top             =   240
@@ -584,9 +788,9 @@ Begin VB.Form Form1
       Begin VB.Image stop2 
          Height          =   375
          Left            =   600
-         MouseIcon       =   "OX163_mainfrm.frx":86BE
+         MouseIcon       =   "OX163_mainfrm.frx":9D30
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":89C8
+         Picture         =   "OX163_mainfrm.frx":A03A
          Stretch         =   -1  'True
          ToolTipText     =   "Stop"
          Top             =   240
@@ -594,12 +798,12 @@ Begin VB.Form Form1
       End
       Begin VB.Label Label_name1 
          AutoSize        =   -1  'True
-         BackColor       =   &H80000012&
+         BackColor       =   &H000000AA&
          Caption         =   "Label1"
          ForeColor       =   &H00FFFFFF&
          Height          =   180
          Left            =   480
-         TabIndex        =   9
+         TabIndex        =   7
          Top             =   610
          Visible         =   0   'False
          Width           =   540
@@ -609,36 +813,27 @@ Begin VB.Form Form1
          Caption         =   "Label1"
          Height          =   180
          Left            =   1200
-         TabIndex        =   8
+         TabIndex        =   6
          Top             =   610
          Visible         =   0   'False
          Width           =   540
       End
       Begin VB.Image open_set1 
          Height          =   375
-         Left            =   80
-         MouseIcon       =   "OX163_mainfrm.frx":8A5A
+         Left            =   120
+         MouseIcon       =   "OX163_mainfrm.frx":A0CC
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":8D64
+         Picture         =   "OX163_mainfrm.frx":A3D6
          Stretch         =   -1  'True
          ToolTipText     =   "Setup"
          Top             =   240
          Width           =   375
       End
-      Begin VB.Label lblProgressInfo1 
-         AutoSize        =   -1  'True
-         Height          =   180
-         Left            =   3720
-         TabIndex        =   13
-         Top             =   200
-         Visible         =   0   'False
-         Width           =   90
-      End
    End
    Begin VB.Frame Frame1 
       Caption         =   "侦测用户或网址"
       Height          =   855
-      Left            =   50
+      Left            =   60
       OLEDropMode     =   1  'Manual
       TabIndex        =   0
       Top             =   70
@@ -654,12 +849,33 @@ Begin VB.Form Form1
             Strikethrough   =   0   'False
          EndProperty
          Height          =   315
-         Left            =   1080
+         Left            =   1560
          OLEDropMode     =   1  'Manual
          TabIndex        =   1
          Text            =   "http://"
-         Top             =   280
+         Top             =   275
          Width           =   6735
+      End
+      Begin VB.Label lblProgressInfo1 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Height          =   180
+         Left            =   3240
+         TabIndex        =   31
+         Top             =   240
+         Visible         =   0   'False
+         Width           =   90
+      End
+      Begin VB.Image search163 
+         Height          =   375
+         Left            =   600
+         MouseIcon       =   "OX163_mainfrm.frx":A46E
+         MousePointer    =   99  'Custom
+         Picture         =   "OX163_mainfrm.frx":A778
+         Stretch         =   -1  'True
+         ToolTipText     =   "Search Albums"
+         Top             =   240
+         Width           =   375
       End
       Begin VB.Line Line2 
          BorderColor     =   &H80000010&
@@ -672,50 +888,25 @@ Begin VB.Form Form1
       Begin VB.Image list1_find 
          Height          =   375
          Left            =   2640
-         MouseIcon       =   "OX163_mainfrm.frx":8DFC
+         MouseIcon       =   "OX163_mainfrm.frx":A812
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":9106
+         Picture         =   "OX163_mainfrm.frx":AB1C
          Stretch         =   -1  'True
          ToolTipText     =   "Find Keyword"
          Top             =   240
          Visible         =   0   'False
          Width           =   375
       End
-      Begin VB.Image open_lock 
-         Appearance      =   0  'Flat
-         Height          =   285
-         Left            =   810
-         MouseIcon       =   "OX163_mainfrm.frx":919B
-         MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":94A5
-         Stretch         =   -1  'True
-         ToolTipText     =   "Input Passwrd"
-         Top             =   285
-         Width           =   285
-      End
       Begin VB.Image view_command 
          Height          =   375
-         Left            =   8400
-         MouseIcon       =   "OX163_mainfrm.frx":950E
+         Left            =   1080
+         MouseIcon       =   "OX163_mainfrm.frx":ABB1
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":9818
+         Picture         =   "OX163_mainfrm.frx":AEBB
          Stretch         =   -1  'True
          ToolTipText     =   "View Web"
          Top             =   240
          Width           =   375
-      End
-      Begin VB.Image text_show 
-         Appearance      =   0  'Flat
-         BorderStyle     =   1  'Fixed Single
-         Height          =   285
-         Left            =   480
-         MouseIcon       =   "OX163_mainfrm.frx":98B3
-         MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":9BBD
-         Stretch         =   -1  'True
-         ToolTipText     =   "Open Note"
-         Top             =   285
-         Width           =   285
       End
       Begin VB.Label list_count 
          Alignment       =   1  'Right Justify
@@ -733,28 +924,17 @@ Begin VB.Form Form1
          ForeColor       =   &H000000FF&
          Height          =   175
          Left            =   0
-         TabIndex        =   6
+         TabIndex        =   4
          Top             =   620
          Visible         =   0   'False
          Width           =   480
       End
-      Begin VB.Image stop1 
-         Height          =   375
-         Left            =   8400
-         MouseIcon       =   "OX163_mainfrm.frx":9C17
-         MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":9F21
-         ToolTipText     =   "Stop"
-         Top             =   240
-         Visible         =   0   'False
-         Width           =   375
-      End
       Begin VB.Image list_stop 
          Height          =   375
          Left            =   600
-         MouseIcon       =   "OX163_mainfrm.frx":9FB3
+         MouseIcon       =   "OX163_mainfrm.frx":AF56
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":A2BD
+         Picture         =   "OX163_mainfrm.frx":B260
          ToolTipText     =   "Stop"
          Top             =   240
          Width           =   375
@@ -762,9 +942,9 @@ Begin VB.Form Form1
       Begin VB.Image list_output 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "OX163_mainfrm.frx":A34F
+         MouseIcon       =   "OX163_mainfrm.frx":B2F2
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":A659
+         Picture         =   "OX163_mainfrm.frx":B5FC
          Stretch         =   -1  'True
          ToolTipText     =   "Outup Download List"
          Top             =   240
@@ -773,9 +953,9 @@ Begin VB.Form Form1
       Begin VB.Image image_save 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "OX163_mainfrm.frx":A6F8
+         MouseIcon       =   "OX163_mainfrm.frx":B69B
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":AA02
+         Picture         =   "OX163_mainfrm.frx":B9A5
          Stretch         =   -1  'True
          ToolTipText     =   "Save Checked Files"
          Top             =   240
@@ -784,33 +964,13 @@ Begin VB.Form Form1
       Begin VB.Image list_back 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "OX163_mainfrm.frx":AA9F
+         MouseIcon       =   "OX163_mainfrm.frx":BA42
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":ADA9
+         Picture         =   "OX163_mainfrm.frx":BD4C
          Stretch         =   -1  'True
          ToolTipText     =   "Back"
          Top             =   240
          Width           =   375
-      End
-      Begin VB.Label Label_url 
-         AutoSize        =   -1  'True
-         BackColor       =   &H00000000&
-         BeginProperty Font 
-            Name            =   "宋体"
-            Size            =   7.5
-            Charset         =   134
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00FFFFFF&
-         Height          =   150
-         Left            =   1440
-         TabIndex        =   4
-         Top             =   120
-         Visible         =   0   'False
-         Width           =   75
       End
       Begin VB.Label Label_text 
          AutoSize        =   -1  'True
@@ -824,7 +984,7 @@ Begin VB.Form Form1
       End
       Begin VB.Label Label_name 
          AutoSize        =   -1  'True
-         BackColor       =   &H80000012&
+         BackColor       =   &H000000AA&
          Caption         =   "Label1"
          ForeColor       =   &H00FFFFFF&
          Height          =   180
@@ -835,47 +995,39 @@ Begin VB.Form Form1
          Width           =   540
       End
       Begin VB.Image makelist_command 
+         Appearance      =   0  'Flat
          Height          =   375
-         Left            =   8880
-         MouseIcon       =   "OX163_mainfrm.frx":AE32
+         Left            =   8520
+         MouseIcon       =   "OX163_mainfrm.frx":BDD5
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":B13C
+         Picture         =   "OX163_mainfrm.frx":C0DF
          Stretch         =   -1  'True
          ToolTipText     =   "Go & List"
-         Top             =   260
-         Width           =   375
-      End
-      Begin VB.Image search163 
-         Height          =   375
-         Left            =   7920
-         MouseIcon       =   "OX163_mainfrm.frx":B1DA
-         MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":B4E4
-         Stretch         =   -1  'True
-         ToolTipText     =   "Search Albums"
          Top             =   240
          Width           =   375
       End
       Begin VB.Image open_set 
          Height          =   375
-         Left            =   80
-         MouseIcon       =   "OX163_mainfrm.frx":B57E
+         Left            =   120
+         MouseIcon       =   "OX163_mainfrm.frx":C17D
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":B888
+         Picture         =   "OX163_mainfrm.frx":C487
          Stretch         =   -1  'True
          ToolTipText     =   "Setup"
          Top             =   240
          Width           =   375
       End
-      Begin VB.Label lblProgressInfo 
-         AutoSize        =   -1  'True
-         Height          =   180
-         Left            =   3600
-         TabIndex        =   5
-         ToolTipText     =   "200"
-         Top             =   200
-         Visible         =   0   'False
-         Width           =   90
+      Begin VB.Image url_list_show 
+         Appearance      =   0  'Flat
+         Height          =   285
+         Left            =   8280
+         MouseIcon       =   "OX163_mainfrm.frx":C51F
+         MousePointer    =   99  'Custom
+         Picture         =   "OX163_mainfrm.frx":C829
+         Stretch         =   -1  'True
+         ToolTipText     =   "Show Url List"
+         Top             =   270
+         Width           =   225
       End
    End
    Begin VB.Timer Timer1 
@@ -895,8 +1047,8 @@ Begin VB.Form Form1
    End
    Begin SHDocVwCtl.WebBrowser Web_Search 
       Height          =   6120
-      Left            =   45
-      TabIndex        =   17
+      Left            =   60
+      TabIndex        =   13
       TabStop         =   0   'False
       Top             =   960
       Visible         =   0   'False
@@ -922,17 +1074,32 @@ Begin VB.Form Form1
    End
    Begin VB.PictureBox web_Picture 
       BorderStyle     =   0  'None
-      Height          =   5775
+      Height          =   5535
       Left            =   8160
-      ScaleHeight     =   5775
-      ScaleWidth      =   7335
-      TabIndex        =   21
+      ScaleHeight     =   5535
+      ScaleWidth      =   7575
+      TabIndex        =   17
       Top             =   2160
       Visible         =   0   'False
-      Width           =   7335
-      Begin MSComctlLib.ImageList ImageList1 
-         Left            =   0
-         Top             =   5160
+      Width           =   7575
+      Begin VB.PictureBox Web_Browser_Close 
+         AutoSize        =   -1  'True
+         BorderStyle     =   0  'None
+         Height          =   375
+         Left            =   7200
+         MouseIcon       =   "OX163_mainfrm.frx":C87E
+         MousePointer    =   99  'Custom
+         Picture         =   "OX163_mainfrm.frx":CB88
+         ScaleHeight     =   375
+         ScaleWidth      =   375
+         TabIndex        =   29
+         ToolTipText     =   "Close Web Browser"
+         Top             =   0
+         Width           =   375
+      End
+      Begin MSComctlLib.ImageList Web_Browser_Image2 
+         Left            =   720
+         Top             =   4920
          _ExtentX        =   1005
          _ExtentY        =   1005
          BackColor       =   -2147483643
@@ -943,31 +1110,73 @@ Begin VB.Form Form1
          BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
             NumListImages   =   7
             BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":B920
+               Picture         =   "OX163_mainfrm.frx":CBFC
                Key             =   ""
             EndProperty
             BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":B98F
+               Picture         =   "OX163_mainfrm.frx":CC6B
                Key             =   ""
             EndProperty
             BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":B9FD
+               Picture         =   "OX163_mainfrm.frx":CCD9
                Key             =   ""
             EndProperty
             BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":BA73
+               Picture         =   "OX163_mainfrm.frx":CD4F
                Key             =   ""
             EndProperty
             BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":BAE4
+               Picture         =   "OX163_mainfrm.frx":CDC0
                Key             =   ""
             EndProperty
             BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":BB60
+               Picture         =   "OX163_mainfrm.frx":CE3C
                Key             =   ""
             EndProperty
             BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":BBDD
+               Picture         =   "OX163_mainfrm.frx":CEB9
+               Key             =   ""
+            EndProperty
+         EndProperty
+      End
+      Begin MSComctlLib.ImageList Web_Browser_Image1 
+         Left            =   0
+         Top             =   4920
+         _ExtentX        =   1005
+         _ExtentY        =   1005
+         BackColor       =   -2147483643
+         ImageWidth      =   19
+         ImageHeight     =   19
+         MaskColor       =   12632256
+         _Version        =   393216
+         BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
+            NumListImages   =   7
+            BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "OX163_mainfrm.frx":CF2F
+               Key             =   ""
+            EndProperty
+            BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "OX163_mainfrm.frx":CF9E
+               Key             =   ""
+            EndProperty
+            BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "OX163_mainfrm.frx":D00C
+               Key             =   ""
+            EndProperty
+            BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "OX163_mainfrm.frx":D082
+               Key             =   ""
+            EndProperty
+            BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "OX163_mainfrm.frx":D0F3
+               Key             =   ""
+            EndProperty
+            BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "OX163_mainfrm.frx":D16F
+               Key             =   ""
+            EndProperty
+            BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "OX163_mainfrm.frx":D1EC
                Key             =   ""
             EndProperty
          EndProperty
@@ -975,10 +1184,10 @@ Begin VB.Form Form1
       Begin MSComctlLib.Toolbar Web_Toolbar 
          Height          =   375
          Left            =   0
-         TabIndex        =   31
+         TabIndex        =   27
          Top             =   0
-         Width           =   7335
-         _ExtentX        =   12938
+         Width           =   7575
+         _ExtentX        =   13361
          _ExtentY        =   661
          ButtonWidth     =   1429
          ButtonHeight    =   661
@@ -986,7 +1195,8 @@ Begin VB.Form Form1
          Wrappable       =   0   'False
          Style           =   1
          TextAlignment   =   1
-         ImageList       =   "ImageList1"
+         ImageList       =   "Web_Browser_Image1"
+         HotImageList    =   "Web_Browser_Image2"
          _Version        =   393216
          BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
             NumButtons      =   9
@@ -1062,6 +1272,7 @@ Begin VB.Form Form1
                Caption         =   "链接"
                Key             =   "Web_Toolbar_Link"
                Description     =   "Link"
+               Object.ToolTipText     =   "支持的网站"
                ImageIndex      =   7
                Style           =   5
                BeginProperty ButtonMenus {66833FEC-8583-11D1-B16A-00C0F0283628} 
@@ -1081,11 +1292,11 @@ Begin VB.Form Form1
       Begin SHDocVwCtl.WebBrowser Web_Browser 
          Height          =   4575
          Left            =   0
-         TabIndex        =   22
+         TabIndex        =   18
          Top             =   360
          Visible         =   0   'False
-         Width           =   7335
-         ExtentX         =   12938
+         Width           =   7575
+         ExtentX         =   13361
          ExtentY         =   8070
          ViewMode        =   0
          Offline         =   0
@@ -1105,11 +1316,24 @@ Begin VB.Form Form1
          Location        =   "http:///"
       End
    End
+   Begin VB.Image open_lock 
+      Appearance      =   0  'Flat
+      Height          =   285
+      Left            =   9480
+      MouseIcon       =   "OX163_mainfrm.frx":D262
+      MousePointer    =   99  'Custom
+      Picture         =   "OX163_mainfrm.frx":D56C
+      Stretch         =   -1  'True
+      ToolTipText     =   "Input Passwrd"
+      Top             =   8520
+      Visible         =   0   'False
+      Width           =   285
+   End
    Begin VB.Image process_Image 
       Height          =   150
       Index           =   2
       Left            =   6600
-      Picture         =   "OX163_mainfrm.frx":BC53
+      Picture         =   "OX163_mainfrm.frx":D5D5
       Stretch         =   -1  'True
       Top             =   7200
       Visible         =   0   'False
@@ -1119,7 +1343,7 @@ Begin VB.Form Form1
       Height          =   150
       Index           =   1
       Left            =   6360
-      Picture         =   "OX163_mainfrm.frx":BCA3
+      Picture         =   "OX163_mainfrm.frx":D625
       Top             =   7200
       Visible         =   0   'False
       Width           =   225
@@ -1128,82 +1352,17 @@ Begin VB.Form Form1
       Height          =   150
       Index           =   0
       Left            =   6120
-      Picture         =   "OX163_mainfrm.frx":BCF0
+      Picture         =   "OX163_mainfrm.frx":D672
       Stretch         =   -1  'True
       Top             =   7200
       Visible         =   0   'False
       Width           =   225
    End
-   Begin VB.Image output_img 
-      Height          =   375
-      Index           =   2
-      Left            =   6720
-      MouseIcon       =   "OX163_mainfrm.frx":BD3B
-      MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":C045
-      Stretch         =   -1  'True
-      ToolTipText     =   "Outup Download List"
-      Top             =   7440
-      Visible         =   0   'False
-      Width           =   375
-   End
-   Begin VB.Image output_img 
-      Height          =   375
-      Index           =   1
-      Left            =   6360
-      MouseIcon       =   "OX163_mainfrm.frx":C0EA
-      MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":C3F4
-      Stretch         =   -1  'True
-      ToolTipText     =   "Outup Download List"
-      Top             =   7440
-      Visible         =   0   'False
-      Width           =   375
-   End
-   Begin VB.Image output_img 
-      Height          =   375
-      Index           =   0
-      Left            =   6000
-      MouseIcon       =   "OX163_mainfrm.frx":C493
-      MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":C79D
-      Stretch         =   -1  'True
-      ToolTipText     =   "Outup Download List"
-      Top             =   7440
-      Visible         =   0   'False
-      Width           =   375
-   End
-   Begin VB.Image set_ico 
-      Height          =   375
-      Index           =   1
-      Left            =   2400
-      MouseIcon       =   "OX163_mainfrm.frx":C838
-      MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":CB42
-      Stretch         =   -1  'True
-      ToolTipText     =   "Setup"
-      Top             =   7920
-      Visible         =   0   'False
-      Width           =   375
-   End
-   Begin VB.Image set_ico 
-      Height          =   375
-      Index           =   0
-      Left            =   2400
-      MouseIcon       =   "OX163_mainfrm.frx":CBE7
-      MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":CEF1
-      Stretch         =   -1  'True
-      ToolTipText     =   "Setup"
-      Top             =   7440
-      Visible         =   0   'False
-      Width           =   375
-   End
    Begin VB.Image ico 
       Height          =   1080
       Index           =   1
       Left            =   4080
-      Picture         =   "OX163_mainfrm.frx":CF89
+      Picture         =   "OX163_mainfrm.frx":D6BD
       Stretch         =   -1  'True
       Top             =   7320
       Visible         =   0   'False
@@ -1213,7 +1372,7 @@ Begin VB.Form Form1
       Height          =   1080
       Index           =   0
       Left            =   2880
-      Picture         =   "OX163_mainfrm.frx":10FF3
+      Picture         =   "OX163_mainfrm.frx":11727
       Stretch         =   -1  'True
       Top             =   7320
       Visible         =   0   'False
@@ -1521,14 +1680,12 @@ Dim strURL As String
 Dim download_ok As Boolean
 Dim psw_v As String
 Dim Html_Temp As String
-'Dim newwindow_temp As String
 Dim retry_time As Integer
 Dim down_len As Long
 Dim now_tray As Boolean
 Dim Open_path As String
 Dim Open_path_set As String
 Dim auto_shutdown_tf As Boolean
-Dim runtime_Label As String
 Dim htmlCharsetType As String
 Dim url_Referer As String
 Dim urlpage_Referer As String
@@ -1546,9 +1703,512 @@ Dim Content_Range As String
 Dim new_win As Boolean
 Public OX_Script_Type As String
 Dim stop_check_header As Boolean
-Dim windows_destop_Width As Long
-Dim windows_destop_Height As Long
 
+'---------------------------------------------------------------------------------------------------------
+'开始-----------------------------------鼠标经过空间判断--------------------------------------------------
+
+Private Sub Change_Main_Image(Image_ID As Byte)
+On Error Resume Next
+Dim ImageLibrary_obj As Object
+Dim LI_ID As Byte
+For i = 1 To 2
+    If i = 1 Then Set ImageLibrary_obj = ImageLibrary_Normal: LI_ID = mouse_dic
+    If i = 2 Then Set ImageLibrary_obj = ImageLibrary_Over: LI_ID = Image_ID
+    Select Case LI_ID
+    Case 0
+    Case 1
+        If auto_shutdown_tf Then
+            open_set.Picture = ImageLibrary_obj.ListImages(2).Picture
+            open_set1.Picture = ImageLibrary_obj.ListImages(2).Picture
+        Else
+            open_set.Picture = ImageLibrary_obj.ListImages(1).Picture
+            open_set1.Picture = ImageLibrary_obj.ListImages(1).Picture
+        End If
+    Case 2
+        
+    Case 3
+        search163.Picture = ImageLibrary_obj.ListImages(3).Picture
+    Case 4
+        view_command.Picture = ImageLibrary_obj.ListImages(4).Picture
+    Case 5
+        url_Filelist_Close.Picture = ImageLibrary_obj.ListImages(5).Picture
+    Case 6
+        Web_Browser_Close.Picture = ImageLibrary_obj.ListImages(6).Picture
+    Case 7
+        makelist_command.Picture = ImageLibrary_obj.ListImages(7).Picture
+    Case 8
+        albumslist_back.Picture = ImageLibrary_obj.ListImages(8).Picture
+        list_back.Picture = ImageLibrary_obj.ListImages(8).Picture
+        list_back1.Picture = ImageLibrary_obj.ListImages(8).Picture
+    Case 9
+        list_stop.Picture = ImageLibrary_obj.ListImages(9).Picture
+        stop2.Picture = ImageLibrary_obj.ListImages(9).Picture
+    Case 10
+        list_output.Picture = ImageLibrary_obj.ListImages(10 + sysSet.list_type).Picture
+        out_all.Picture = ImageLibrary_obj.ListImages(10 + sysSet.list_type).Picture
+        user_list_output.Picture = ImageLibrary_obj.ListImages(10 + sysSet.list_type).Picture
+    Case 11
+    
+    Case 12
+    
+    Case 13
+        save_all.Picture = ImageLibrary_obj.ListImages(13).Picture
+        user_list_save.Picture = ImageLibrary_obj.ListImages(13).Picture
+        image_save.Picture = ImageLibrary_obj.ListImages(13).Picture
+    Case 14
+        list_check.Picture = ImageLibrary_obj.ListImages(14).Picture
+    Case 15
+        user_list_find.Picture = ImageLibrary_obj.ListImages(15).Picture
+        list1_find.Picture = ImageLibrary_obj.ListImages(15).Picture
+    Case 16
+        find_next.Picture = ImageLibrary_obj.ListImages(16).Picture
+    Case 17
+        find_prev.Picture = ImageLibrary_obj.ListImages(17).Picture
+    Case 18
+        top_Picture(0).Picture = ImageLibrary_obj.ListImages(18).Picture
+        top_Picture(1).Picture = ImageLibrary_obj.ListImages(19).Picture
+    Case 19
+    
+    Case 20
+        homepage.Picture = ImageLibrary_obj.ListImages(20).Picture
+    Case 21
+        url_list_show.Picture = ImageLibrary_obj.ListImages(21).Picture
+    End Select
+Next
+    mouse_dic = Image_ID
+End Sub
+
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 0 Then
+        Label_text.Visible = False
+        Label_name.Visible = False
+        Label_text1.Visible = False
+        Label_name1.Visible = False
+        Change_Main_Image 0
+    End If
+End Sub
+
+Private Sub Web_Toolbar_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 0 Then
+        Label_text.Visible = False
+        Label_name.Visible = False
+        Change_Main_Image 0
+    End If
+End Sub
+
+Private Sub StatusBar_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 0 Then
+        Label_text.Visible = False
+        Label_name.Visible = False
+        Change_Main_Image 0
+    End If
+End Sub
+
+Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 0 Then
+        Label_text.Visible = False
+        Label_name.Visible = False
+        Change_Main_Image 0
+    End If
+End Sub
+
+Private Sub Frame2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 0 Then
+        Label_text1.Visible = False
+        Label_name1.Visible = False
+        Change_Main_Image 0
+    End If
+End Sub
+
+Private Sub Label_name_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 0 Then
+        Label_text.Visible = False
+        Label_name.Visible = False
+        Change_Main_Image 0
+    End If
+End Sub
+
+Private Sub Label_name1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 0 Then
+        Label_text1.Visible = False
+        Label_name1.Visible = False
+        Change_Main_Image 0
+    End If
+End Sub
+
+Private Sub Label_text_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 0 Then
+        Label_text.Visible = False
+        Label_name.Visible = False
+        Change_Main_Image 0
+    End If
+End Sub
+
+Private Sub Label_text1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 0 Then
+        Label_text1.Visible = False
+        Label_name1.Visible = False
+        Change_Main_Image 0
+    End If
+End Sub
+
+Private Sub url_Filelist_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 0 Then
+        Label_text.Visible = False
+        Label_name.Visible = False
+        Change_Main_Image 0
+    End If
+End Sub
+'1
+Private Sub open_set_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 1 Then
+        Label_name = " 程序菜单: "
+        Label_text = "程序设置-脚本更新-自动关机-路径查看"
+        label_rebuld
+        Change_Main_Image 1
+    End If
+End Sub
+
+Private Sub open_set1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 1 Then
+        Label_name1 = " 程序菜单: "
+        Label_text1 = "程序设置-脚本更新-自动关机-路径查看"
+        label_rebuld1
+        Change_Main_Image 1
+    End If
+End Sub
+'2
+Private Sub url_input_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 2 Then
+        Label_name = " 填写链接: "
+        Label_text = "填写163相册用户名或其它链接(Ctrl+回车浏览网页)"
+        label_rebuld
+        Change_Main_Image 2
+    End If
+End Sub
+'3
+Private Sub search163_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 3 Then
+        Label_name = " 搜索相册: "
+        Label_text = "开启或关闭163相册搜索"
+        label_rebuld
+        Change_Main_Image 3
+    End If
+End Sub
+'4
+Private Sub view_command_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 4 Then
+        Label_name = " 查看网页: "
+        Label_text = "打开当前地址栏链接"
+        label_rebuld
+        Change_Main_Image 4
+    End If
+End Sub
+'5
+Private Sub url_Filelist_Close_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 5 Then
+        Label_text.Visible = False
+        Label_name.Visible = False
+        Change_Main_Image 5
+    End If
+End Sub
+'6
+Private Sub Web_Browser_Close_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 6 Then
+        Label_name = " 关闭网页: "
+        Label_text = "关闭网页浏览器"
+        label_rebuld
+        Change_Main_Image 6
+    End If
+End Sub
+'7
+Private Sub makelist_command_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 7 Then
+        Label_name = " 下载链接: "
+        Label_text = "生成该链接下载列表"
+        label_rebuld
+        Change_Main_Image 7
+    End If
+End Sub
+'8
+Private Sub albumslist_back_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 8 Then
+        Label_name1 = " 返回列表: "
+        Label_text1 = "返回相册列表"
+        label_rebuld1
+        Change_Main_Image 8
+    End If
+End Sub
+
+Private Sub list_back_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 8 Then
+        Label_name = " 返回首页: "
+        Label_text = "返回初始界面"
+        label_rebuld
+        Change_Main_Image 8
+    End If
+End Sub
+
+Private Sub list_back1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 8 Then
+        Label_name1 = " 返回首页: "
+        Label_text1 = "返回初始界面"
+        label_rebuld1
+        Change_Main_Image 8
+    End If
+End Sub
+'9
+Private Sub list_stop_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 9 Then
+        Label_name = " 全部停止: "
+        Label_text = "结束当前下载列表活动"
+        label_rebuld
+        Change_Main_Image 9
+    End If
+End Sub
+
+Private Sub stop1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 9 Then
+        Label_name = " 全部停止: "
+        Label_text = "结束当前下载列表活动"
+        label_rebuld
+        Change_Main_Image 9
+    End If
+End Sub
+
+Private Sub stop2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 9 Then
+        Label_name1 = " 全部停止:"
+        Label_text1 = "结束当前下载列表活动"
+        label_rebuld1
+        Change_Main_Image 9
+    End If
+End Sub
+'10
+Private Sub list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 10 Then
+        Label_name = " 导出列表: "
+        If sysSet.list_type = 1 Then
+            Label_text = "导出HTM格式下载列表 (程序设置>下载栏中可更改和查看说明)"
+        ElseIf sysSet.list_type = 2 Then
+            Label_text = "导出TXT+BAT格式下载列表 (程序设置>下载栏中可更改和查看说明)"
+        Else
+            Label_text = "导出LST格式下载列表 (程序设置>下载栏中可更改和查看说明)"
+        End If
+        label_rebuld
+        Change_Main_Image 10
+    End If
+End Sub
+
+Private Sub out_all_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 10 Then
+        Label_name1 = " 导出列表: "
+        If sysSet.list_type = 1 Then
+            Label_text1 = "导出HTM格式下载列表 (程序设置>下载栏中可更改和查看说明)"
+        ElseIf sysSet.list_type = 2 Then
+            Label_text1 = "导出TXT+BAT格式下载列表 (程序设置>下载栏中可更改和查看说明)"
+        Else
+            Label_text1 = "导出LST格式下载列表 (程序设置>下载栏中可更改和查看说明)"
+        End If
+        label_rebuld1
+        Change_Main_Image 10
+    End If
+End Sub
+
+Private Sub user_list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 10 Then
+        Label_name1 = " 导出列表:"
+        If sysSet.list_type = 1 Then
+            Label_text1 = "导出HTM格式下载列表 (程序设置>下载栏中可更改和查看说明)"
+        ElseIf sysSet.list_type = 2 Then
+            Label_text1 = "导出TXT+BAT格式下载列表 (程序设置>下载栏中可更改和查看说明)"
+        Else
+            Label_text1 = "导出LST格式下载列表 (程序设置>下载栏中可更改和查看说明)"
+        End If
+        label_rebuld1
+        Change_Main_Image 10
+    End If
+End Sub
+'11
+Private Sub find_text_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 11 Then
+        Label_name1 = " 查找内容: "
+        Label_text1 = "填写需要查找的文本"
+        label_rebuld1
+        Label_name = " 查找内容: "
+        Label_text = "查找上一个匹配字符"
+        label_rebuld
+        Change_Main_Image 11
+    End If
+End Sub
+'12
+Private Sub user_list_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 12 Then
+        Label_name1 = " 相册列表: "
+        Label_text1 = "在列表中标记复选框确定下载相册（右键列出详细菜单）"
+        label_rebuld1
+        Change_Main_Image 12
+    End If
+End Sub
+
+
+Private Sub List1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 12 Then
+        Label_name = " 列表清单: "
+        Label_text = "在当前列表删除或选择需要的文件"
+        label_rebuld
+        Change_Main_Image 12
+    End If
+End Sub
+'13
+Private Sub save_all_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 13 Then
+        Label_name1 = " 保存相册: "
+        Label_text1 = "保存列表中的全部文件"
+        label_rebuld1
+        Change_Main_Image 13
+    End If
+End Sub
+
+Private Sub user_list_save_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 13 Then
+        Label_name1 = " 保存图片: "
+        Label_text1 = "保存列表中被勾选的文件"
+        label_rebuld1
+        Change_Main_Image 13
+    End If
+End Sub
+
+Private Sub image_save_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 13 Then
+        Label_name = " 保存图片: "
+        Label_text = "保存列表中被勾选的文件"
+        label_rebuld
+        Change_Main_Image 13
+    End If
+End Sub
+'14
+Private Sub list_check_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 14 Then
+        Label_name1 = " 排列标记: "
+        Label_text1 = "将已标记选择的相册排列在最上方"
+        label_rebuld1
+        Change_Main_Image 14
+    End If
+End Sub
+'15
+Private Sub user_list_find_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 15 Then
+        Label_name1 = " 查找内容: "
+        Label_text1 = "查找列表中的文本内容（Ctrl+F）"
+        label_rebuld1
+        Change_Main_Image 15
+    End If
+End Sub
+
+Private Sub list1_find_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 15 Then
+        Label_name1 = " 查找内容: "
+        Label_text1 = "查找列表中的文本内容（Ctrl+F）"
+        label_rebuld1
+        Change_Main_Image 15
+    End If
+End Sub
+'16
+Private Sub find_next_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 16 Then
+        Label_name1 = " 查找内容: "
+        Label_text1 = "查找下一个匹配字符（PageDown）"
+        label_rebuld1
+        Label_name = " 查找内容: "
+        Label_text = "查找下一个匹配字符（PageDown）"
+        label_rebuld
+        Change_Main_Image 16
+    End If
+End Sub
+'17
+Private Sub find_prev_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 17 Then
+        Label_name1 = " 查找内容: "
+        Label_text1 = "查找上一个匹配字符（PageUp）"
+        label_rebuld1
+        Label_name = " 查找内容: "
+        Label_text = "查找上一个匹配字符（PageUp）"
+        label_rebuld
+        Change_Main_Image 17
+    End If
+End Sub
+'18
+Private Sub top_Picture_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 18 Then
+        Label_text.Visible = False
+        Label_name.Visible = False
+        Label_text1.Visible = False
+        Label_name1.Visible = False
+        Change_Main_Image 18
+    End If
+End Sub
+'19
+Private Sub list_count_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 19 Then
+        Label_name = " 列表统计: "
+        Label_text = "列表中共有 " & list_count.caption & " 条记录"
+        label_rebuld
+        Change_Main_Image 19
+    End If
+End Sub
+
+Private Sub count1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 19 Then
+        Label_name1 = " 列表统计: "
+        Label_text1 = "列表中共有 " & count1.caption & " 条记录"
+        label_rebuld1
+        Change_Main_Image 19
+    End If
+End Sub
+
+Private Sub count2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 19 Then
+        Label_name1 = " 列表统计: "
+        Label_text1 = "列表中共有 " & count2.caption & " 条记录"
+        label_rebuld1
+        Change_Main_Image 19
+    End If
+End Sub
+'20
+Private Sub homepage_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 20 Then
+        Label_text.Visible = False
+        Label_name.Visible = False
+        Label_text1.Visible = False
+        Label_name1.Visible = False
+        Change_Main_Image 20
+    End If
+End Sub
+'21
+Private Sub url_list_show_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If mouse_dic <> 21 Then
+        url_list_show.Picture = ImageLibrary_Over.ListImages(21).Picture
+        Label_name = " 历史链接: "
+        Label_text = "查看成功分析的历史链接"
+        label_rebuld
+        Change_Main_Image 21
+    End If
+End Sub
+
+'结束-----------------------------------鼠标经过空间判断--------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+
+Private Sub Timer_Open_Floder()
+    OX_Finish_Download.Show
+    OX_Finish_Download.Floders = url_temp
+    url_temp = ""
+End Sub
+
+
+Private Sub Timer1_Timer()
+    Timer1.Enabled = False
+End Sub
 
 Private Function ScriptDownload(ByVal mode As DownloadMode) As Boolean
     On Error Resume Next
@@ -1608,8 +2268,7 @@ Private Sub CheckScriptError()
 End Sub
 
 Private Sub DisplayCaption(caption As String)
-    Label_url.caption = caption
-    Label_url1.caption = caption
+    OX_RunningInformation_Setting caption
 End Sub
 
 
@@ -1625,8 +2284,7 @@ Private Sub auto_shutdown_Click()
         auto_shutdown.Checked = False
         auto_shutdown1.Checked = False
     End If
-    open_set.Picture = set_ico(-Int(auto_shutdown_tf)).Picture
-    open_set1.Picture = open_set.Picture
+    Change_Main_Image 0
 End Sub
 
 Private Sub auto_shutdown1_Click()
@@ -1644,8 +2302,7 @@ Private Sub check_header_StateChanged(ByVal State As Integer)
     Select Case State
     Case icResponseCompleted
         '读取页面文件大小
-        lblProgressInfo.caption = "读取页面文件大小"
-        lblProgressInfo1.caption = "读取页面文件大小"
+        OX_RunningInformation_Setting "读取页面文件大小"
         If m_lngDocSize = 0 And stop_check_header = False Then
             '35756 不能完成请求
             file_size = check_header.GetHeader("Content-length")
@@ -1661,49 +2318,24 @@ Private Sub check_header_StateChanged(ByVal State As Integer)
                 m_lngDocSize = CDbl(file_size)
                 If IsNumeric(m_lngDocSize) = False Then
                     m_lngDocSize = 0
-                    lblProgressInfo.caption = "ERROR 文件大小未知"
-                    lblProgressInfo1.caption = "ERROR 文件大小未知"
+                    OX_RunningInformation_Setting "ERROR 文件大小未知"
                     
                 ElseIf m_lngDocSize < 1 Then
                     '读取远程数据出错
                     m_lngDocSize = 0
-                    lblProgressInfo.caption = "ERROR 文件大小未知"
-                    lblProgressInfo1.caption = "ERROR 文件大小未知"
+                    OX_RunningInformation_Setting "ERROR 文件大小未知"
                     
                 End If
                 
             Else   'NOT LEN(INET1.GETHEADER("CONTENT-LENGTH"))...
                 'ERROR
                 m_lngDocSize = 0
-                lblProgressInfo.caption = "ERROR 文件大小未知"
-                lblProgressInfo1.caption = "ERROR 文件大小未知"
+                OX_RunningInformation_Setting "ERROR 文件大小未知"
             End If
             If m_lngDocSize = 0 Then m_lngDocSize = 1
         End If
         check_header.Cancel
     End Select
-End Sub
-
-
-
-
-Private Sub count1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 12 Then
-        Label_name1 = " 列表统计: "
-        Label_text1 = "列表中共有 " & count1.caption & " 条记录"
-        label_rebuld1
-        mouse_dic = 12
-    End If
-End Sub
-
-
-Private Sub count2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 12 Then
-        Label_name1 = " 列表统计: "
-        Label_text1 = "列表中共有 " & count2.caption & " 条记录"
-        label_rebuld1
-        mouse_dic = 12
-    End If
 End Sub
 
 Public Sub fast_down_StateChanged(ByVal State As Integer)
@@ -1763,10 +2395,7 @@ Public Sub fast_down_StateChanged(ByVal State As Integer)
                 
                 file_size_tmp = file_size_tmp + 25600
                 
-                lblProgressInfo.caption = "正在下载(" & Int(file_size_tmp / 1024) & "/" & at_all_long & "KB)" & strURL
-                lblProgressInfo1.caption = lblProgressInfo.caption
-                Label_url.caption = lblProgressInfo.caption
-                Label_url1.caption = lblProgressInfo.caption
+                OX_RunningInformation_Setting "正在下载(" & Int(file_size_tmp / 1024) & "/" & at_all_long & "KB)" & strURL
                 
                 If form_quit = True Then fast_down.Cancel: download_ok = True
             Loop Until (LenB(vtData) = 0)
@@ -1788,10 +2417,7 @@ Public Sub fast_down_StateChanged(ByVal State As Integer)
                     buff = UniteByteArray(buff, binBuffer)
                 End If
                 
-                lblProgressInfo.caption = "正在下载(" & Int(UBound(buff) / 1024) & "KB)" & strURL
-                lblProgressInfo1.caption = lblProgressInfo.caption
-                Label_url.caption = lblProgressInfo.caption
-                Label_url1.caption = lblProgressInfo.caption
+                OX_RunningInformation_Setting "正在下载(" & Int(UBound(buff) / 1024) & "KB)" & strURL
                 
                 If form_quit = True Then fast_down.Cancel: download_ok = True
             Loop Until (LenB(vtData) = 0)
@@ -1823,10 +2449,7 @@ Public Sub fast_down_StateChanged(ByVal State As Integer)
                 DoEvents
                 Do While DateDiff("s", start_GFW_time, Now()) < 180
                     If form_quit = True Then Exit Do
-                    lblProgressInfo.caption = "该页面可能非法，等待" & (179 - DateDiff("s", start_GFW_time, Now())) & "秒后恢复网络连接"
-                    lblProgressInfo1.caption = lblProgressInfo.caption
-                    Label_url.caption = lblProgressInfo.caption
-                    Label_url1.caption = lblProgressInfo.caption
+                    OX_RunningInformation_Setting "该页面可能非法，等待" & (179 - DateDiff("s", start_GFW_time, Now())) & "秒后恢复网络连接"
                     DoEvents
                     Sleep 100
                     DoEvents
@@ -1846,13 +2469,10 @@ Private Function bin2str(ByVal binstr)
     
     file_long = UBound(binstr)
     If file_long > 2048000 Then
-        lblProgressInfo.caption = "正在转换页面文本(该文本过大，可能造成程序假死，请耐心等待)"
+        OX_RunningInformation_Setting "正在转换页面文本(该文本过大，可能造成程序假死，请耐心等待)"
     Else
-        lblProgressInfo.caption = "正在转换页面文本"
+        OX_RunningInformation_Setting "正在转换页面文本"
     End If
-    lblProgressInfo1.caption = lblProgressInfo.caption
-    Label_url.caption = lblProgressInfo.caption
-    Label_url1.caption = lblProgressInfo.caption
     
     Const adTypeBinary = 1
     Const adTypeText = 2
@@ -1950,18 +2570,6 @@ Private Sub find_next_Click()
     End If
 End Sub
 
-Private Sub find_next_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 23 Then
-        Label_name1 = " 查找内容: "
-        Label_text1 = "查找下一个匹配字符（PageDown）"
-        label_rebuld1
-        Label_name = " 查找内容: "
-        Label_text = "查找下一个匹配字符（PageDown）"
-        label_rebuld
-        mouse_dic = 23
-    End If
-End Sub
-
 Private Sub find_prev_Click()
     On Error Resume Next
     Dim check_i As Integer
@@ -2015,18 +2623,6 @@ Private Sub find_unselect_Click()
     End If
 End Sub
 
-Private Sub find_prev_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 24 Then
-        Label_name1 = " 查找内容: "
-        Label_text1 = "查找上一个匹配字符（PageUp）"
-        label_rebuld1
-        Label_name = " 查找内容: "
-        Label_text = "查找上一个匹配字符（PageUp）"
-        label_rebuld
-        mouse_dic = 24
-    End If
-End Sub
-
 Private Sub find_text_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 65 And Shift = vbCtrlMask Then
         find_text.SelStart = 0
@@ -2042,18 +2638,6 @@ Private Sub find_text_KeyDown(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub find_text_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 25 Then
-        Label_name1 = " 查找内容: "
-        Label_text1 = "填写需要查找的文本"
-        label_rebuld1
-        Label_name = " 查找内容: "
-        Label_text = "查找上一个匹配字符"
-        label_rebuld
-        mouse_dic = 25
-    End If
-End Sub
-
 'Private Sub find_text_KeyPress(KeyAscii As Integer)
 'If KeyAscii = 13 Then
 'find_text.Text = Trim$(find_text.Text)
@@ -2064,6 +2648,7 @@ End Sub
 'End Sub
 
 Private Sub Form_Click()
+    url_Filelist_Close.Visible = False
     url_Filelist.Visible = False
 End Sub
 
@@ -2075,9 +2660,9 @@ Private Sub Form_Load()
     
     '------------------导出列表图标-------------------
     If sysSet.list_type >= 0 And sysSet.list_type <= 2 Then
-        list_output.Picture = output_img(sysSet.list_type).Picture
-        user_list_output.Picture = output_img(sysSet.list_type).Picture
-        out_all.Picture = output_img(sysSet.list_type).Picture
+        Form1.list_output.Picture = Form1.ImageLibrary_Normal.ListImages(10 + sysSet.list_type).Picture
+        Form1.out_all.Picture = Form1.ImageLibrary_Normal.ListImages(10 + sysSet.list_type).Picture
+        Form1.user_list_output.Picture = Form1.ImageLibrary_Normal.ListImages(10 + sysSet.list_type).Picture
     End If
     '-------------------------------------------------
     auto_shutdown_tf = False
@@ -2090,7 +2675,7 @@ Private Sub Form_Load()
     Open_path = ""
     Open_path_set = ""
     
-    TrayI.hwnd = Form1.hwnd
+    TrayI.hWnd = Form1.hWnd
     TrayI.uId = 0
     TrayI.uFlags = NIF_ICON Or NIF_MESSAGE Or NIF_TIP
     TrayI.ucallbackMessage = WM_MBUTTONDOWN
@@ -2130,7 +2715,7 @@ Private Sub Form_Load()
     form_height = 1500 + show_StatusBar
     htmlCharsetType = "GB2312"
     web_Picture.Top = 960
-    web_Picture.Left = 45
+    web_Picture.Left = 60
     url_Referer = ""
     urlpage_Referer = ""
     pass_code = ""
@@ -2160,25 +2745,15 @@ Public Sub always_on_top(on_top As Boolean)
     Dim flags As Integer
     flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
     If on_top = True Then
-        SetWindowPos Form1.hwnd, HWND_TOPMOST, 0, 0, 0, 0, flags
+        SetWindowPos Form1.hWnd, HWND_TOPMOST, 0, 0, 0, 0, flags
         top_Picture(1).Visible = True
         top_Picture(0).Visible = False
     Else
-        SetWindowPos Form1.hwnd, -2, 0, 0, 0, 0, flags
+        SetWindowPos Form1.hWnd, -2, 0, 0, 0, 0, flags
         top_Picture(0).Visible = True
         top_Picture(1).Visible = False
     End If
 End Sub
-
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 0 Then
-        Label_text.Visible = False
-        Label_name.Visible = False
-        mouse_dic = 0
-    End If
-End Sub
-
-
 
 Private Sub Form_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
     If down_count = 0 Then
@@ -2235,7 +2810,7 @@ Private Function sysTray(Show_Tray As Boolean)
         TrayI.hIcon = Form1.Icon
         TrayI.uFlags = NIF_ICON Or NIF_MESSAGE Or NIF_TIP
         Call Shell_NotifyIcon(NIM_ADD, TrayI)
-        ShowWindow Form1.hwnd, SW_HIDE
+        ShowWindow Form1.hWnd, SW_HIDE
         '    Form1.Width = 0
         '    Form1.Height = 0
         
@@ -2246,7 +2821,7 @@ Private Function sysTray(Show_Tray As Boolean)
         
         TrayI.uFlags = NIF_ICON Or NIF_MESSAGE Or NIF_TIP
         Call Shell_NotifyIcon(NIM_DELETE, TrayI)
-        ShowWindow Form1.hwnd, SW_RESTORE
+        ShowWindow Form1.hWnd, SW_RESTORE
         'Const CB_SHOWDROPDOWN = &H14F
         'SendMessage Form1.hwnd, CB_SHOWDROPDOWN, True, 0
         Form1.SetFocus
@@ -2261,16 +2836,16 @@ Private Sub Check_Form_out_Destop(ByRef win_max As Boolean)
     On Error GoTo exit_err
     If Form1.Left + Form1.Width > windows_destop_Width Then
         If Form1.Width < windows_destop_Width Then
-         Form1.Left = windows_destop_Width - Form1.Width
-         Else
+            Form1.Left = windows_destop_Width - Form1.Width
+        Else
             Form1.Left = 0
         End If
     End If
     
     If Form1.Top + Form1.Height > windows_destop_Height Then
         If Form1.Height < windows_destop_Height Then
-         Form1.Top = windows_destop_Height - Form1.Height
-         Else
+            Form1.Top = windows_destop_Height - Form1.Height
+        Else
             Form1.Top = 0
         End If
     End If
@@ -2317,15 +2892,8 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Private Sub Frame1_Click()
+    url_Filelist_Close.Visible = False
     url_Filelist.Visible = False
-End Sub
-
-Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 0 Then
-        Label_text.Visible = False
-        Label_name.Visible = False
-        mouse_dic = 0
-    End If
 End Sub
 
 Private Sub Frame1_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
@@ -2337,14 +2905,6 @@ Private Sub Frame1_OLEDragDrop(Data As DataObject, Effect As Long, Button As Int
         End If
         step_one
         OLEDragDrop Data
-    End If
-End Sub
-
-Private Sub Frame2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 15 Then
-        Label_text1.Visible = False
-        Label_name1.Visible = False
-        mouse_dic = 15
     End If
 End Sub
 
@@ -2370,17 +2930,6 @@ Private Sub homepage_Click()
     If InStr(homepage_str, "ox163.googlecode.com") > 0 Then homepage_str = "https://code.google.com/p/ox163/"
     ShellExecute 0&, vbNullString, StrConv(homepage_str, vbUnicode), vbNullString, vbNullString, vbNormalFocus
 End Sub
-
-Private Sub homepage_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 22 Then
-        Label_name = " 软件主页: "
-        Label_text = "前往更新页"
-        label_rebuld
-        mouse_dic = 22
-    End If
-End Sub
-
-
 
 Private Sub image_save_Click()
     On Error Resume Next
@@ -2423,35 +2972,8 @@ start:
     
 End Sub
 
-Private Sub image_save_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 7 Then
-        Label_name = " 保存图片: "
-        Label_text = "保存列表中被勾选的文件"
-        label_rebuld
-        mouse_dic = 7
-    End If
-End Sub
-
-
-Private Sub lblProgressInfo1_Change()
-    lblProgressInfo1.ToolTipText = lblProgressInfo1.caption
-End Sub
-
-Private Sub lblProgressInfo_Change()
-    lblProgressInfo.ToolTipText = lblProgressInfo.caption
-End Sub
-
 Private Sub list1_find_Click()
     user_list_find_Click
-End Sub
-
-Private Sub list1_find_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 21 Then
-        Label_name1 = " 查找内容: "
-        Label_text1 = "查找列表中的文本内容（Ctrl+F）"
-        label_rebuld1
-        mouse_dic = 21
-    End If
 End Sub
 
 Private Sub List1_ItemCheck(ByVal Item As MSComctlLib.ListItem)
@@ -2630,18 +3152,7 @@ user_password:
     url_input.Enabled = True
     form_quit = True
     view_command_Click
-    
 End Sub
-
-Private Sub open_lock_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 20 Then
-        Label_name = " 填写密码: "
-        Label_text = "填写用户名密码，或者填写相册密码"
-        label_rebuld
-        mouse_dic = 20
-    End If
-End Sub
-
 
 
 '------------------------------进程设置------------------------------------------------------------------------------
@@ -2697,14 +3208,14 @@ Private Sub search_internt_Click()
         If Form1.Height < 12000 Then Form1.Height = 8500
     End If
     newform_resize
-    stop1_Click
-    Web_Search.Visible = True
     Web_Browser.Visible = False
     web_Picture.Visible = False
     Web_Search.Width = Frame1.Width
+    Web_Search.Visible = True
     If InStr(LCase$(Web_Search.LocationURL), LCase$("Search163")) < 1 Then
         Web_Search.Navigate "http://163.ugschina.com/"
     End If
+    Call Web_Search_StatusTextChange("打开163相册搜索...")
 End Sub
 
 Private Sub search_local_Click()
@@ -2714,23 +3225,13 @@ End Sub
 
 Private Sub search163_Click()
     On Error Resume Next
+    If Web_Search.Visible = True Then Web_Search.Visible = False: step_one: Form1.Width = 7100: Exit Sub
     If Dir(App_path & "\search163.exe") = "" Then
         search_internt_Click
     Else
         PopupMenu searchMenu
     End If
 End Sub
-
-Private Sub search163_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 18 Then
-        Label_name = " 搜索相册: "
-        Label_text = "OX163支持163相册和博客相册的搜索"
-        label_rebuld
-        mouse_dic = 18
-    End If
-End Sub
-
-
 
 Private Sub setProgram_Click()
     sys.Top = Form1.Top
@@ -2741,7 +3242,7 @@ End Sub
 Private Sub StatusBar_PanelClick(ByVal Panel As MSComctlLib.Panel)
     On Error Resume Next
     If Panel.Tag = "ref" Then
-        Refresh_Panel
+        'OX_History_Logs.Show
     ElseIf Panel.Tag = "process" Then
         PopupMenu process_set
     ElseIf Panel.Tag = "mode" Then
@@ -2769,28 +3270,6 @@ Private Sub top_Picture_Click(Index As Integer)
     always_on_top sysSet.always_top
 End Sub
 
-Private Sub top_Picture_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 18 Then
-        Label_name = " 窗体置前: "
-        Label_text = "总是在最前面/Always on top"
-        label_rebuld
-        mouse_dic = 18
-    End If
-End Sub
-
-Private Sub text_show_Click()
-    On Error Resume Next
-End Sub
-
-Private Sub text_show_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 17 Then
-        Label_name = " 查看信息: "
-        Label_text = "查看程序运行细节信息"
-        label_rebuld
-        mouse_dic = 17
-    End If
-End Sub
-
 Private Sub list_back1_Click()
     pw_163 = ""
     url_temp = ""
@@ -2801,17 +3280,6 @@ Private Sub list_back1_Click()
     search_end
     'If sysSet.bottom_StatusBar = True Then Refresh_Panel
 End Sub
-
-Private Sub list_back1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 16 Then
-        Label_name1 = " 返回首页: "
-        Label_text1 = "返回初始界面"
-        label_rebuld1
-        mouse_dic = 16
-    End If
-End Sub
-
-
 
 Private Sub list_check_Click()
     If user_list.ListItems.count < 1 Then Exit Sub
@@ -2865,14 +3333,6 @@ retry_next:
     user_list.Enabled = True
 End Sub
 
-Private Sub list_check_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 16 Then
-        Label_name1 = " 排列标记: "
-        Label_text1 = "将已标记选择的相册排列在最上方"
-        label_rebuld1
-        mouse_dic = 16
-    End If
-End Sub
 
 Private Sub menu_all_Click()
     user_list.Enabled = False
@@ -3104,15 +3564,6 @@ Private Sub open_set_Click()
     PopupMenu setMenu
 End Sub
 
-Private Sub open_set_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 13 Then
-        Label_name = " 程序菜单: "
-        Label_text = "程序设置-脚本更新-自动关机-路径查看"
-        label_rebuld
-        mouse_dic = 13
-    End If
-End Sub
-
 Private Sub Inet1_StateChanged(ByVal State As Integer)
     
     If form_quit = True Then
@@ -3142,6 +3593,7 @@ Private Sub Inet1_StateChanged(ByVal State As Integer)
     
     Select Case State
     Case icResponseCompleted
+        OX_RunningInformation_Setting "文件大小" & IIf(m_lngDocSize > 0, Int(m_lngDocSize / 1024) & "KB", "未知") & " - 文件位置" & download_FileName
         Do   '从缓冲区读取数据
             ''''''''start_time = Now
             vbyte = Inet1.GetChunk(getblock, icByteArray)
@@ -3150,11 +3602,9 @@ Private Sub Inet1_StateChanged(ByVal State As Integer)
                 '获得进度百分比值
                 sngProgerssValue = Int((down_len / m_lngDocSize) * 100)
                 '更新进度标签显示内容
-                lblProgressInfo.caption = download_FileName & Chr(13) & "已下载 " & CStr(down_len) & " 字节 (" & CStr(sngProgerssValue) & "%)"
-                lblProgressInfo1.caption = lblProgressInfo.caption
+                OX_RunningInformation_Setting download_FileName & vbCrLf & CStr(down_len) & " Byte(" & CStr(sngProgerssValue) & "%)", 3
             Else
-                lblProgressInfo.caption = download_FileName & Chr(13) & "已下载 " & CStr(down_len) & " 字节 (文件大小未知)"
-                lblProgressInfo1.caption = lblProgressInfo.caption
+                OX_RunningInformation_Setting download_FileName & vbCrLf & CStr(down_len) & " Byte(文件大小未知)", 3
             End If
             '写入文件
             Put #1, down_len + 1, binBuffer()
@@ -3164,8 +3614,9 @@ Private Sub Inet1_StateChanged(ByVal State As Integer)
         Loop Until (LenB(vbyte) = 0 Or (0 < m_lngDocSize And m_lngDocSize < down_len))
         
         If m_lngDocSize < 1 Or (m_lngDocSize = down_len) Then
-            lblProgressInfo.caption = download_FileName & vbCrLf & "下载完毕"
-            lblProgressInfo1.caption = lblProgressInfo.caption
+            OX_RunningInformation_Setting download_FileName & vbCrLf & "下载完毕"
+            lblProgressInfo1.Visible = False
+            lblProgressInfo2.Visible = False
 err_12029:
             download_ok = True
         ElseIf m_lngDocSize < down_len Then
@@ -3184,13 +3635,11 @@ err_12029:
     Case icError
         '与主机通信出错
         '''''''''''''call_icError:
-        lblProgressInfo.caption = "与主机通信出错: " & Inet1.ResponseCode
-        lblProgressInfo1.caption = lblProgressInfo.caption
+        OX_RunningInformation_Setting "与主机通信出错: " & Inet1.ResponseCode
         If Inet1.ResponseCode = 12029 Then error_12029 = error_12029 + 1
         If error_12029 > 3 Then
             error_12029 = 0
-            lblProgressInfo.caption = "3次以上12029错误,不能建立与服务器的连接"
-            lblProgressInfo1.caption = "3次以上12029错误,不能建立与服务器的连接"
+            OX_RunningInformation_Setting "3次以上12029错误,不能建立与服务器的连接"
             m_lngDocSize = 0
             GoTo err_12029
         End If
@@ -3198,36 +3647,28 @@ err_12029:
         If download_ok = False And form_quit = False And m_lngDocSize <> -100 Then Call start
         
     Case icResolvingHost
-        lblProgressInfo.caption = "正在查找主机..."
-        lblProgressInfo1.caption = "正在查找主机..."
+        OX_RunningInformation_Setting "正在查找主机"
         
     Case icHostResolved
-        lblProgressInfo.caption = "已经找到主机"
-        lblProgressInfo1.caption = "已经找到主机"
+        OX_RunningInformation_Setting "已经找到主机"
         
     Case icConnecting
-        lblProgressInfo.caption = "正在连接主机"
-        lblProgressInfo1.caption = "正在连接主机"
+        OX_RunningInformation_Setting "正在连接主机"
         
     Case icConnected
-        lblProgressInfo.caption = "已经连接到主机"
-        lblProgressInfo1.caption = "已经连接到主机"
+        OX_RunningInformation_Setting "已经连接到主机"
         
     Case icRequesting
-        lblProgressInfo.caption = "正在发送请求..."
-        lblProgressInfo1.caption = "正在发送请求..."
+        OX_RunningInformation_Setting "正在发送请求"
         
     Case icRequestSent
-        lblProgressInfo.caption = "成功发送请求"
-        lblProgressInfo1.caption = "成功发送请求"
+        OX_RunningInformation_Setting "成功发送请求"
         
     Case icDisconnecting
-        lblProgressInfo.caption = "正在断开连接..."
-        lblProgressInfo1.caption = "正在断开连接..."
+        OX_RunningInformation_Setting "正在断开连接"
         
     Case icDisconnected
-        lblProgressInfo.caption = "已经断开连接"
-        lblProgressInfo1.caption = "已经断开连接"
+        OX_RunningInformation_Setting "已经断开连接"
         
     End Select
 End Sub
@@ -3241,28 +3682,6 @@ Private Sub list_back_Click()
     search_end
     'If sysSet.bottom_StatusBar = True Then Refresh_Panel
 End Sub
-
-
-Private Sub list_back_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 5 Then
-        Label_name = " 返回首页: "
-        Label_text = "返回初始界面"
-        label_rebuld
-        mouse_dic = 5
-    End If
-End Sub
-
-
-Private Sub list_count_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 12 Then
-        Label_name = " 列表统计: "
-        Label_text = "列表中共有 " & list_count.caption & " 条记录"
-        label_rebuld
-        mouse_dic = 12
-    End If
-    
-End Sub
-
 
 Private Sub input_lst_sub(ByVal LstFileName)
     On Error Resume Next
@@ -3518,7 +3937,7 @@ Private Sub input_lst_sub(ByVal LstFileName)
     End Select
     '----------------------------------------------------------------------
     
-    Label_url.Visible = False
+    OX_RunningInformation_Setting ""
     list_count.caption = List1.ListItems.count
     search_end
     buttom_enable True
@@ -3555,7 +3974,7 @@ Private Sub input_lst_Click()
     If sysSet.def_path_tf = True And sysSet.def_path <> "" Then def_txtpath = sysSet.def_path
     
     txtpath = ""
-    txtpath = ShowOpenFileDialog(def_txtpath, "", "All List Files(*.htm;*.lst;*.txt)|*.htm;*.lst;*.txt|All Files (*.*)|*.*|", Me.hwnd)
+    txtpath = ShowOpenFileDialog(def_txtpath, "", "All List Files(*.htm;*.lst;*.txt)|*.htm;*.lst;*.txt|All Files (*.*)|*.*|", Me.hWnd)
     txtpath = GetShortName(txtpath)
     
     If txtpath = "" Then
@@ -3590,7 +4009,7 @@ Private Sub list_output_Click()
     End Select
     
     txtpath = ""
-    txtpath = ShowSaveFileDialog(def_txtpath, "", file_filter(0), file_filter(1), Me.hwnd)
+    txtpath = ShowSaveFileDialog(def_txtpath, "", file_filter(0), file_filter(1), Me.hWnd)
     If txtpath = "" Then
 ErrHandler:
         Exit Sub
@@ -3613,32 +4032,8 @@ ErrHandler:
     
 End Sub
 
-Private Sub list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 6 Then
-        Label_name = " 导出列表: "
-        If sysSet.list_type = 1 Then
-            Label_text = "导出HTM格式下载列表 (程序设置>下载栏中可更改和查看说明)"
-        ElseIf sysSet.list_type = 2 Then
-            Label_text = "导出TXT+BAT格式下载列表 (程序设置>下载栏中可更改和查看说明)"
-        Else
-            Label_text = "导出LST格式下载列表 (程序设置>下载栏中可更改和查看说明)"
-        End If
-        label_rebuld
-        mouse_dic = 6
-    End If
-End Sub
-
 Private Sub list_stop_Click()
     form_quit = True
-End Sub
-
-Private Sub list_stop_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 4 Then
-        Label_name = " 全部停止: "
-        Label_text = "结束当前下载列表活动"
-        label_rebuld
-        mouse_dic = 4
-    End If
 End Sub
 
 Private Sub List1_KeyUp(KeyCode As Integer, Shift As Integer)
@@ -3659,14 +4054,6 @@ Private Sub List1_KeyUp(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub List1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 10 Then
-        Label_name = " 列表清单: "
-        Label_text = "在当前列表删除或选择需要的文件"
-        label_rebuld
-        mouse_dic = 10
-    End If
-End Sub
 
 Private Sub makelist_command_Click()
     On Error Resume Next
@@ -3820,10 +4207,7 @@ Private Sub makelist_command_Click()
     If sysSet.listshow = False Then List1.Visible = False
     List1.Enabled = False
     list_count.Visible = True
-    runtime_Label = "正在分析链接"
-    Label_url.caption = runtime_Label
-    Label_url.Visible = True
-    'Timer2.Enabled = True
+    OX_RunningInformation_Setting "正在分析链接"
     Form1.Icon = ico(1).Picture
     
     url_temp = Trim$(url_input.Text)
@@ -3834,8 +4218,7 @@ Private Sub makelist_command_Click()
     '----------------------------------------------------------
     
     
-    Label_url.Visible = False
-    'Timer2.Enabled = False
+    OX_RunningInformation_Setting ""
     Form1.Icon = ico(0).Picture
     If now_tray = True Then
         TrayI.hIcon = ico(0).Picture
@@ -3904,10 +4287,7 @@ Private Sub new163pic_list(ByVal input_User_Name As String, ByVal input_Album_ID
     If sysSet.listshow = False Then List1.Visible = False
     List1.Enabled = False
     list_count.Visible = True
-    runtime_Label = "正在分析链接"
-    Label_url.caption = runtime_Label
-    Label_url.Visible = True
-    'Timer2.Enabled = True
+    OX_RunningInformation_Setting "正在分析链接"
     
     Form1.Icon = ico(1).Picture
     form_quit = False
@@ -3922,8 +4302,7 @@ Private Sub new163pic_list(ByVal input_User_Name As String, ByVal input_Album_ID
     '--------------------------------------------------------
     
     
-    Label_url.Visible = False
-    'Timer2.Enabled = False
+    OX_RunningInformation_Setting ""
     Form1.Icon = ico(0).Picture
     
     If now_tray = True Then
@@ -3987,9 +4366,7 @@ Private Function new163pic_GetJs(ByVal input_User_Name As String, ByVal input_Al
         
     End If
     
-    runtime_Label = "正在分析链接表"
-    Label_url.caption = runtime_Label
-    Label_url1.caption = runtime_Label
+    OX_RunningInformation_Setting "正在分析链接表"
     form_quit = False
     fast_down.Cancel
     download_ok = False
@@ -4023,9 +4400,7 @@ End Function
 Private Sub new163pic_listPhotoUrl()
     On Error Resume Next
     Dim ourl As String
-    runtime_Label = "正在下载" & strURL
-    Label_url.caption = runtime_Label
-    Label_url1.caption = runtime_Label
+    OX_RunningInformation_Setting "正在下载" & strURL
     
 check_2nd:
     
@@ -4041,10 +4416,7 @@ check_2nd:
         Sleep 10
     Loop
     
-    runtime_Label = "正在分析" & strURL
-    Label_url.caption = runtime_Label
-    Label_url1.caption = runtime_Label
-    
+    OX_RunningInformation_Setting "正在分析" & strURL
     
     If InStr(Html_Temp, "=[{id:") > 0 Then
         
@@ -4108,9 +4480,7 @@ check_2nd:
             
             '当获取图片地址失败,如果为相册主人,则进入单张列表模式------------------------------------------
             If new163_isAlbumOwner_TF = True And ourl = "" Then
-                runtime_Label = "正在分析原始图片：第" & (i + 1) & "张/共" & (UBound(new163pic_str_split) + 1) & "张，耗时较长"
-                Label_url.caption = runtime_Label
-                Label_url1.caption = runtime_Label
+                OX_RunningInformation_Setting "正在分析原始图片：第" & (i + 1) & "张/共" & (UBound(new163pic_str_split) + 1) & "张，耗时较长"
                 fast_down.Cancel
                 download_ok = False
                 htmlCharsetType = "GB2312"
@@ -4136,9 +4506,7 @@ check_2nd:
                 'dwr.engine._remoteHandleException('5_w_h_8_Pp_43','0',{javaClassName:"java.lang.Throwable",message:"Error"});
                 If InStr(LCase(Html_Temp), LCase("dwr.engine._remoteHandleCallback")) < 1 And InStr(LCase(Html_Temp), "http://") < 1 Then
                     
-                    runtime_Label = "您不是相册主人或者没有登陆相册，下载中等尺寸图片"
-                    Label_url.caption = runtime_Label
-                    Label_url1.caption = runtime_Label
+                    OX_RunningInformation_Setting "您不是相册主人或者没有登陆相册，下载中等尺寸图片"
                     new163_isAlbumOwner_TF = False
                     ourl = ""
                 ElseIf InStr(LCase(Html_Temp), "http://") > 1 Then
@@ -4224,15 +4592,6 @@ check_2nd:
 End Sub
 
 
-Private Sub makelist_command_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 2 Then
-        Label_name = " 下载链接: "
-        Label_text = "确定下载该链接，生成下载列表"
-        label_rebuld
-        mouse_dic = 2
-    End If
-End Sub
-
 
 Private Sub open_set1_Click()
     If down_count = 0 Then
@@ -4241,15 +4600,6 @@ Private Sub open_set1_Click()
         input_file.Enabled = False
     End If
     PopupMenu setMenu
-End Sub
-
-Private Sub open_set1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 14 Then
-        Label_name1 = " 程序菜单: "
-        Label_text1 = "程序设置-脚本更新-自动关机-路径查看"
-        label_rebuld1
-        mouse_dic = 14
-    End If
 End Sub
 
 Private Sub out_all_Click()
@@ -4311,21 +4661,6 @@ start:
     
 End Sub
 
-Private Sub out_all_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 6 Then
-        Label_name1 = " 导出列表: "
-        If sysSet.list_type = 1 Then
-            Label_text1 = "导出HTM格式下载列表 (程序设置>下载栏中可更改和查看说明)"
-        ElseIf sysSet.list_type = 2 Then
-            Label_text1 = "导出TXT+BAT格式下载列表 (程序设置>下载栏中可更改和查看说明)"
-        Else
-            Label_text1 = "导出LST格式下载列表 (程序设置>下载栏中可更改和查看说明)"
-        End If
-        label_rebuld1
-        mouse_dic = 6
-    End If
-End Sub
-
 Private Sub save_all_Click()
     On Error Resume Next
     
@@ -4361,53 +4696,13 @@ start:
     End If
 End Sub
 
-Private Sub save_all_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 7 Then
-        Label_name1 = " 保存相册: "
-        Label_text1 = "保存列表中的全部文件"
-        label_rebuld1
-        mouse_dic = 7
-    End If
-End Sub
-
-Private Sub stop1_Click()
-    Web_Browser.Stop
-    Timer1.Enabled = False
-    Label_url.Visible = False
-    stop1.Visible = False
-    view_command.Visible = True
-    buttom_enable True
-End Sub
-
-Private Sub stop1_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 11 Then
-        Label_name = " 全部停止: "
-        Label_text = "结束当前下载列表活动"
-        label_rebuld
-        mouse_dic = 11
-    End If
-End Sub
-
 Private Sub stop2_Click()
     form_quit = True
-End Sub
-
-Private Sub stop2_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 4 Then
-        Label_name1 = " 全部停止:"
-        Label_text1 = "结束当前下载列表活动"
-        label_rebuld1
-        mouse_dic = 4
-    End If
 End Sub
 
 Private Sub Timer3_Timer()
     On Error Resume Next
     Timer3.Enabled = False
-    
-    
-    windows_destop_Width = Form1.Width + Form1.Left * 2
-    windows_destop_Height = Form1.Height + Form1.Top * 2
     
     Web_Browser.Silent = True
     Web_Browser.Document.Open
@@ -4568,8 +4863,6 @@ Private Sub url_input_KeyDown(KeyCode As Integer, Shift As Integer)
         url_input_SelectAll
     ElseIf KeyCode = 13 And Shift = vbCtrlMask Then
         view_command_Click
-    ElseIf KeyCode = 13 And Shift = vbShiftMask Then
-        open_lock_Click
     ElseIf KeyCode = 13 Then
         url_input.Text = Trim(url_input.Text)
         makelist_command_Click
@@ -4581,6 +4874,7 @@ Private Sub url_input_KeyUp(KeyCode As Integer, Shift As Integer)
     If Shift <> vbCtrlMask And Shift <> vbAltMask And url_Filelist.Visible = False Then
         
         url_Filelist.Visible = True
+        url_Filelist_Close.Visible = True
         
     ElseIf Shift <> vbCtrlMask And Shift <> vbAltMask And url_text_keyupdown = False Then
         
@@ -4607,8 +4901,22 @@ Private Sub url_input_KeyUp(KeyCode As Integer, Shift As Integer)
             url_Filelist.ListIndex = 0
         End If
         
+    ElseIf KeyCode = 67 And Shift = vbCtrlMask Then
+        'Call SetClipboardText(url_input.SelText)
+        
     End If
     
+End Sub
+
+Private Sub url_list_show_Click()
+    If url_Filelist.Visible = False Then
+        url_Filelist.Pattern = "*"
+        url_Filelist.Visible = True
+        url_Filelist_Close.Visible = True
+    Else
+        url_Filelist_Close.Visible = False
+        url_Filelist.Visible = False
+    End If
 End Sub
 
 Private Sub url_Filelist_Click()
@@ -4621,16 +4929,8 @@ Private Sub url_Filelist_Click()
 End Sub
 
 Private Sub url_input_LostFocus()
+    url_Filelist_Close.Visible = False
     url_Filelist.Visible = False
-End Sub
-
-Private Sub url_input_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 3 Then
-        Label_name = " 填写链接: "
-        Label_text = "填写用户名或链接(Ctrl+回车浏览网页,Shift+回车填写密码)"
-        label_rebuld
-        mouse_dic = 3
-    End If
 End Sub
 
 Private Sub url_input_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
@@ -4720,15 +5020,6 @@ Private Sub albumslist_back_Click()
     
 End Sub
 
-Private Sub albumslist_back_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 5 Then
-        Label_name1 = " 返回列表: "
-        Label_text1 = "返回相册列表"
-        label_rebuld1
-        mouse_dic = 5
-    End If
-End Sub
-
 Private Sub albums_checked_pic(ByVal undown_str)
     undown_str = Split(undown_str, "|")
     For i = 0 To UBound(undown_str)
@@ -4792,9 +5083,7 @@ Private Sub user_list_DblClick()
                 List1.Visible = True
                 count2.Visible = True
                 List1.Enabled = False
-                runtime_Label = "正在分析链接"
-                Label_url1.caption = runtime_Label
-                Label_url1.Visible = True
+                OX_RunningInformation_Setting "正在分析链接"
                 'Timer2.Enabled = True
                 Form1.Icon = ico(1).Picture
                 If sysSet.listshow = False Then List1.Visible = False
@@ -4802,10 +5091,9 @@ Private Sub user_list_DblClick()
                 count2.caption = 0
                 
                 strURL = list_albums_ID
-                new163pic_listPhotoUrl
+                Call new163pic_listPhotoUrl
                 
-                Label_url1.Visible = False
-                'Timer2.Enabled = False
+                OX_RunningInformation_Setting ""
                 Form1.Icon = ico(0).Picture
                 
                 If now_tray = True Then
@@ -4857,11 +5145,9 @@ Private Sub user_list_DblClick()
         
         form_quit = False
         
-        runtime_Label = "开始执行外部脚本"
-        Label_url1.caption = runtime_Label
-        Label_url1.Visible = True
+        OX_RunningInformation_Setting "开始执行外部脚本"
         pass_accept = check_album_password(url_temp, user_list.SelectedItem.ListSubItems(1).Text)
-        Label_url1.Visible = False
+        OX_RunningInformation_Setting ""
         
         If pass_accept = False Then
             download_ok = True
@@ -4898,10 +5184,7 @@ script_nopass_list:
         List1.Visible = True
         count2.Visible = True
         List1.Enabled = False
-        runtime_Label = "正在分析链接"
-        Label_url1.caption = runtime_Label
-        Label_url1.Visible = True
-        'Timer2.Enabled = True
+        OX_RunningInformation_Setting "正在分析链接"
         Form1.Icon = ico(1).Picture
         If sysSet.listshow = False Then List1.Visible = False
         
@@ -4911,7 +5194,7 @@ script_nopass_list:
         If url_temp <> "" Then list_photo_script url_temp
         If List1.ListItems.count > 0 And sysSet.fix_rar > 0 Then fix_rar
         
-        Label_url1.Visible = False
+        OX_RunningInformation_Setting ""
         'Timer2.Enabled = False
         Form1.Icon = ico(0).Picture
         
@@ -4956,15 +5239,6 @@ Private Sub user_list_find_Click()
         Else
             List1.SetFocus
         End If
-    End If
-End Sub
-
-Private Sub user_list_find_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 21 Then
-        Label_name1 = " 查找内容: "
-        Label_text1 = "查找列表中的文本内容（Ctrl+F）"
-        label_rebuld1
-        mouse_dic = 21
     End If
 End Sub
 
@@ -5079,15 +5353,6 @@ Private Sub user_list_KeyUp(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub user_list_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 3 Then
-        Label_name1 = " 相册列表: "
-        Label_text1 = "在列表中标记复选框确定下载相册（右键列出详细菜单）"
-        label_rebuld1
-        mouse_dic = 3
-    End If
-End Sub
-
 Private Sub user_list_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
     On Error Resume Next
     If Button = 2 And user_list.ListItems.count > 0 Then
@@ -5119,32 +5384,8 @@ Private Sub user_list_output_Click()
     list_output_Click
 End Sub
 
-Private Sub user_list_output_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 6 Then
-        Label_name1 = " 导出列表:"
-        If sysSet.list_type = 1 Then
-            Label_text1 = "导出HTM格式下载列表 (程序设置>下载栏中可更改和查看说明)"
-        ElseIf sysSet.list_type = 2 Then
-            Label_text1 = "导出TXT+BAT格式下载列表 (程序设置>下载栏中可更改和查看说明)"
-        Else
-            Label_text1 = "导出LST格式下载列表 (程序设置>下载栏中可更改和查看说明)"
-        End If
-        label_rebuld1
-        mouse_dic = 6
-    End If
-End Sub
-
 Private Sub user_list_save_Click()
     image_save_Click
-End Sub
-
-Private Sub user_list_save_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 7 Then
-        Label_name1 = " 保存相册: "
-        Label_text1 = "保存列表中被勾选的文件"
-        label_rebuld1
-        mouse_dic = 7
-    End If
 End Sub
 
 Private Sub view_command_Click()
@@ -5164,6 +5405,14 @@ Private Sub view_command_Click()
         End If
     End If
     newform_resize
+    web_Picture.Visible = True
+    Web_Browser.Visible = True
+    Web_Search.Visible = False
+    Web_Browser.Width = Frame1.Width
+    Web_Toolbar.Width = Web_Browser.Width
+    Web_Browser_Close.Left = Web_Browser.Width
+    Web_Browser_Close.Left = Web_Browser.Width - 350
+    Call Web_Browser_StatusTextChange("前往 " & Trim(url_input.Text))
     'path_url
     If InStr(url_temp, "Referer: ") = 1 Then
         Web_Browser.Navigate Trim(url_input.Text), , , , url_temp
@@ -5171,57 +5420,9 @@ Private Sub view_command_Click()
         Web_Browser.Navigate Trim(url_input.Text) ', , , , "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0)"    '//.Navigate2 http://zhidao.baidu.com/question/9685639.html
     End If
     url_temp = Trim(url_input.Text)
-    web_Picture.Visible = True
-    Web_Browser.Visible = True
-    Web_Search.Visible = False
-    Web_Browser.Width = Frame1.Width
-    Web_Toolbar.Width = Web_Browser.Width
-    
-    'Label_url.caption = "正在打开页面"
-    'view_command.Visible = False
-    'stop1.Visible = True
-    'Label_url.Visible = True
-    'Timer1.Enabled = True
-End Sub
-
-Private Sub Timer1_Timer()
-    Static open_web_count As Byte
-    
-    If down_count <> 0 Then
-        Timer1.Enabled = False
-        buttom_enable True
-        Exit Sub
-    End If
-    
-    If Not Web_Browser.Busy Or Web_Browser.Visible = False Then
-        Label_url.Visible = False
-        stop1.Visible = False
-        view_command.Visible = True
-        Timer1.Enabled = False
-        buttom_enable True
-    End If
-    Select Case open_web_count
-    Case 1
-        Label_url.caption = "正在打开页面.."
-        open_web_count = 2
-    Case 2
-        Label_url.caption = "正在打开页面..."
-        open_web_count = 3
-    Case 3
-        Label_url.caption = "正在打开页面...."
-        open_web_count = 4
-    Case 4
-        Label_url.caption = "正在打开页面....."
-        open_web_count = 0
-    Case Else
-        Label_url.caption = "正在打开页面."
-        open_web_count = 1
-    End Select
-    
 End Sub
 
 Private Function buttom_enable(buttom_ckick As Boolean)
-    open_lock.Enabled = buttom_ckick
     url_input.Enabled = buttom_ckick
     view_command.Enabled = buttom_ckick
     makelist_command.Enabled = buttom_ckick
@@ -5237,7 +5438,7 @@ Public Sub frame_resize()
     web_Picture.Width = Form1.ScaleWidth
     web_Picture.Height = Form1.ScaleHeight - 700 - show_StatusBar
     Frame_search.Left = Form1.ScaleWidth - 3120
-    top_Picture(0).Left = Frame1.Width - 650
+    top_Picture(0).Left = Frame1.Width - 635
     top_Picture(1).Left = top_Picture(0).Left
     homepage.Left = top_Picture(0).Left - 925
     Proxy_img(0).Left = homepage.Left - 1150
@@ -5245,22 +5446,21 @@ Public Sub frame_resize()
     Proxy_img(2).Left = Proxy_img(0).Left
     
     '长度判断关键
-    url_input.Width = Frame1.Width - 2400
-    url_Filelist.Width = url_input.Width
+    url_input.Width = Frame1.Width - 2350
+    url_Filelist.Width = url_input.Width - 315
+    url_Filelist_Close.Left = url_Filelist.Left + url_Filelist.Width - 15
     If Form1.ScaleHeight - 650 < 3000 Then '1830
         url_Filelist.Height = Form1.ScaleHeight - 650
     Else
         url_Filelist.Height = 3000
     End If
+    url_list_show.Left = url_input.Left + url_input.Width
+    makelist_command.Left = url_input.Left + url_input.Width + 270
     
-    search163.Left = url_input.Left + url_input.Width + 50
-    stop1.Left = search163.Left + 430
-    view_command.Left = stop1.Left
-    makelist_command.Left = stop1.Left + 400
-
     If down_count = 0 Then
         Web_Browser.Width = Frame1.Width
         Web_Toolbar.Width = Web_Browser.Width
+        Web_Browser_Close.Left = Web_Browser.Width - 350
         Web_Search.Width = Frame1.Width
         If Web_Browser.Visible = True Then Web_Browser.Height = Form1.Height - 1510 - show_StatusBar - Web_Toolbar.Height
         If Web_Search.Visible = True Then Web_Search.Height = Form1.Height - 1510 - show_StatusBar
@@ -5306,16 +5506,6 @@ Private Sub newform_resize()
     If down_count = 0 And WindowState <> 1 Then Web_Browser.Height = Form1.Height - 1510 - show_StatusBar - Web_Toolbar.Height: Web_Search.Height = Form1.Height - 1510 - show_StatusBar
 End Sub
 
-
-Private Sub view_command_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    If mouse_dic <> 1 Then
-        Label_name = " 查看网页: "
-        Label_text = "如果该相册为加密相册或者不能确定内容，请点击"
-        label_rebuld
-        mouse_dic = 1
-    End If
-End Sub
-
 Public Sub label_rebuld()
     Label_text.Left = Label_name.Left + Label_name.Width + 50
     Label_text.Visible = True
@@ -5338,10 +5528,8 @@ Public Sub step_two()
     Frame1.caption = "列表与下载相册"
     view_command.Visible = False
     makelist_command.Visible = False
-    stop1.Visible = False
+    url_list_show.Visible = False
     search163.Visible = False
-    text_show.Visible = False
-    open_lock.Visible = False
     
     list_stop.Visible = True
     list_back.Visible = True
@@ -5349,24 +5537,23 @@ Public Sub step_two()
     image_save.Visible = True
     Line2.Visible = True
     list1_find.Visible = True
+    OX_RunningInformation_Setting ""
 End Sub
 
 Public Sub step_one()
     On Error Resume Next
     down_count = 0
-    Label_url.Visible = False
+    OX_RunningInformation_Setting ""
     rename_rules_val = 0
     pass_code = ""
     OX_Script_Type = ""
     Frame1.caption = "侦测用户名或网址"
     Frame2.Visible = False
     Frame_search.Visible = False
-    stop1.Visible = False
     search163.Visible = True
     view_command.Visible = True
     makelist_command.Visible = True
-    text_show.Visible = True
-    open_lock.Visible = True
+    url_list_show.Visible = True
     list_stop.Visible = False
     list_back.Visible = False
     list_output.Visible = False
@@ -5399,7 +5586,7 @@ Public Sub step_one()
     user_list.ColumnHeaders.Item(3).Text = "序号/链接"
     user_list.ColumnHeaders.Item(4).Text = "图片数量"
     user_list.ColumnHeaders.Item(5).Text = "相册描述"
-    
+    OX_RunningInformation_Setting ""
 End Sub
 
 Public Sub step_three()
@@ -5411,6 +5598,7 @@ Public Sub step_three()
     url_input.Enabled = False
     Frame1.Visible = False
     Frame2.Visible = True
+    OX_RunningInformation_Setting ""
 End Sub
 
 Public Sub search_run()
@@ -5431,30 +5619,35 @@ Public Sub search_end()
     setProgram.Enabled = True
 End Sub
 
+Private Sub Web_Browser_Close_Click()
+    step_one
+    Form1.Width = 7100
+End Sub
+
 Private Sub Web_Toolbar_ButtonClick(ByVal Button As MSComctlLib.Button)
     On Error Resume Next
     
-     Select Case Button.Index
-     Case 1 'back
+    Select Case Button.Index
+    Case 1 'back
         err.Clear
         Web_Browser.GoBack
         If err.Number <> 0 Then err.Clear
-     Case 2 'Forward
+    Case 2 'Forward
         err.Clear
         Web_Browser.GoForward
         If err.Number <> 0 Then err.Clear: Call view_command_Click
-     Case 3 'Refresh
+    Case 3 'Refresh
         Call Web_Browser.Refresh 'Refresh2(3)0-3
-     Case 4 'Stop
+    Case 4 'Stop
         Call Web_Browser.ExecWB(OLECMDID_STOP, OLECMDEXECOPT_PROMPTUSER)
-     Case 6 'save
+    Case 6 'save
         Call Web_Browser.ExecWB(OLECMDID_SAVEAS, OLECMDEXECOPT_PROMPTUSER)
-     Case 7 'HP
+    Case 7 'HP
         Call OX_ShowButtonMenu(Web_Toolbar, Button.Index - 1)
-     Case 9 'link
+    Case 9 'link
         Call OX_ShowButtonMenu(Web_Toolbar, Button.Index - 1)
-     End Select
-     
+    End Select
+    
 End Sub
 
 
@@ -5591,10 +5784,7 @@ Private Sub Web_Browser_DownloadBegin()
     If down_count = 0 Then
         If Web_Browser.Visible = True Then
             'buttom_enable False
-            'Timer1.Enabled = True
-            'Label_url.Visible = True
             'view_command.Visible = False
-            'stop1.Visible = True
         End If
     End If
 End Sub
@@ -5741,15 +5931,10 @@ Private Sub list_save(ByVal list_name)
         Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
     End If
     
-    new_name = ""
-    
-    Do
-        new_name = new_name & Mid(list_name, 1, InStr(list_name, "\"))
-        list_name = Mid(list_name, InStr(list_name, "\") + 1)
-    Loop While InStr(list_name, "\") > 0
-    
     If (sysSet.openfloder = True) And (auto_shutdown_tf = False) Then
-        If MsgBox("保存完成,是否打开文件夹？", vbYesNo + vbQuestion, "提醒") = vbYes Then Shell "explorer.exe " & new_name, vbNormalFocus
+        url_temp = Mid(list_name, 1, InStrRev(list_name, "\"))
+        Call Timer_Open_Floder
+        'If MsgBox("保存完成,是否打开文件夹？", vbYesNo + vbQuestion, "提醒") = vbYes Then Shell "explorer.exe " & new_name, vbNormalFocus
     ElseIf auto_shutdown_tf = True Then
         ShutDownWin.Show
     End If
@@ -5777,20 +5962,14 @@ Private Sub save_list_image(ByVal floder_path)
         user_list_output.Enabled = False
         user_list_save.Enabled = False
         
-        runtime_Label = "正在下载图片"
-        Label_url1.caption = runtime_Label
-        Label_url1.Visible = True
-        'Timer2.Enabled = True
+        OX_RunningInformation_Setting "正在下载图片"
         
         user_list_find.Enabled = False
         Frame_search.Visible = False
         stop2.Enabled = True
-        lblProgressInfo1.Visible = True
     End If
     '------------------------------
     
-    
-    lblProgressInfo.Visible = True
     form_quit = False
     Form1.Icon = ico(1).Picture
     
@@ -5856,7 +6035,7 @@ end_sub:
     List1.ListItems(i).ForeColor = f_color
     List1.ListItems(i).Bold = False
     Inet1.Cancel
-    lblProgressInfo.Visible = False
+    OX_RunningInformation_Setting ""
     search_end
     
     'user_list---------------------
@@ -5865,12 +6044,11 @@ end_sub:
         user_list_output.Enabled = True
         user_list_save.Enabled = True
         
-        Label_url1.Visible = False
-        'Timer2.Enabled = False
+        OX_RunningInformation_Setting ""
         
         user_list_find.Enabled = True
         stop2.Enabled = False
-        lblProgressInfo1.Visible = False
+        OX_RunningInformation_Setting ""
     End If
     '------------------------------
     
@@ -5889,7 +6067,8 @@ end_sub:
     List1.Enabled = True
     
     If (sysSet.openfloder = True) And (auto_shutdown_tf = False) Then
-        If MsgBox("保存完成,是否打开文件夹？", vbYesNo + vbQuestion, "提醒") = vbYes Then Shell "explorer.exe " & floder_path, vbNormalFocus
+        url_temp = floder_path
+        Call Timer_Open_Floder
     ElseIf auto_shutdown_tf = True Then
         ShutDownWin.Show
     End If
@@ -5922,8 +6101,7 @@ new_down:
         Do While (check_header.StillExecuting = True)
             If form_quit = True Then Exit Do
             DoEvents
-            lblProgressInfo.caption = "准备获取文件信息..."
-            lblProgressInfo1.caption = "准备获取文件信息..."
+            OX_RunningInformation_Setting "准备获取文件信息"
             Sleep 10
         Loop
         If form_quit = True Then GoTo err_end
@@ -5938,8 +6116,7 @@ new_down:
                 DoEvents
                 Sleep 10
                 If form_quit = True Then GoTo err_end
-                lblProgressInfo.caption = "获取文件信息中..."
-                lblProgressInfo1.caption = "获取文件信息中..."
+                OX_RunningInformation_Setting "获取文件信息中"
             Loop While (check_header.StillExecuting = True Or Inet1.StillExecuting = True) And m_lngDocSize = 0 And DateDiff("s", start_time, Now()) < 10
             stop_check_header = True
             If m_lngDocSize < 350 And m_lngDocSize > 0 Then m_lngDocSize = 0
@@ -5964,8 +6141,7 @@ new_down:
                 DoEvents
                 Sleep 10
                 If form_quit = True Then GoTo err_end
-                lblProgressInfo.caption = "获取文件信息中..."
-                lblProgressInfo1.caption = "获取文件信息中..."
+                OX_RunningInformation_Setting "获取文件信息中"
             Loop While (check_header.StillExecuting = True Or Inet1.StillExecuting = True) And m_lngDocSize = 0 And DateDiff("s", start_time, Now()) < 10
             stop_check_header = True
             If m_lngDocSize < 350 And m_lngDocSize > 0 Then m_lngDocSize = 0
@@ -5988,12 +6164,10 @@ new_down:
         download_ok = False
         
         If (5 * retry_time - 5) < sysSet.time_out Then
-            lblProgressInfo.caption = "等待" & (5 * retry_time - 5) & "秒后第" & (retry_time - 1) & "次重试..."
-            lblProgressInfo1.caption = lblProgressInfo.caption
+            OX_RunningInformation_Setting "等待" & (5 * retry_time - 5) & "秒后第" & (retry_time - 1) & "次重试"
             delay (5 * retry_time - 5)
         Else
-            lblProgressInfo.caption = "等待" & (sysSet.time_out) & "秒后第" & (retry_time - 1) & "次重试..."
-            lblProgressInfo1.caption = lblProgressInfo.caption
+            OX_RunningInformation_Setting "等待" & (sysSet.time_out) & "秒后第" & (retry_time - 1) & "次重试"
             delay sysSet.time_out
         End If
         
@@ -6025,8 +6199,7 @@ new_down:
     
 err_end:
     
-    lblProgressInfo.caption = strURL & "下载失败"
-    lblProgressInfo1.caption = strURL & "下载失败"
+    OX_RunningInformation_Setting strURL & "下载失败"
     Inet1.Cancel
     download_ok = True
     
@@ -6274,10 +6447,7 @@ Private Sub user_open()
     
     fast_down.Cancel
     
-    runtime_Label = "正在下载" & url_input.Text & "相册列表"
-    Label_url1.caption = runtime_Label
-    Label_url1.Visible = True
-    'Timer2.Enabled = True
+    OX_RunningInformation_Setting "正在下载" & url_input.Text & "相册列表"
     Form1.Icon = ico(1).Picture
     
     '判断163相册是否改版
@@ -6343,8 +6513,7 @@ Private Sub user_open()
         '----------------列表相册----------------------------------------------------
         
         If InStr(Html_Temp, "=[{id:") > 0 Then
-            runtime_Label = "正在分析" & url_input.Text & "相册列表"
-            Label_url1.caption = runtime_Label
+            OX_RunningInformation_Setting "正在分析" & url_input.Text & "相册列表"
             
             'var g_a$514028s='1187485;1187484;1187472;1187470;1187468;1187464;1187460;1187457;1187456;1187453;1530930;';
             'var g_a$514028d=[{id:
@@ -6474,7 +6643,7 @@ end_user_open:
     End If
     
     count1.caption = user_list.ListItems.count
-    Label_url1.Visible = False
+    OX_RunningInformation_Setting ""
     
     If Form1.WindowState = 0 Then
         Select Case user_list.ListItems.count
@@ -6539,10 +6708,7 @@ Private Sub save_all_list(ByVal floder_path)
     
     form_quit = False
     user_list.Enabled = False
-    runtime_Label = "正在分析相册列表"
-    Label_url1.caption = runtime_Label
-    Label_url1.Visible = True
-    'Timer2.Enabled = True
+    OX_RunningInformation_Setting "正在分析相册列表"
     Form1.Icon = ico(1).Picture
     setProgram.Enabled = False
     user_list_find.Enabled = False
@@ -6552,7 +6718,6 @@ Private Sub save_all_list(ByVal floder_path)
     out_all.Enabled = False
     save_all.Enabled = False
     list_check.Enabled = False
-    lblProgressInfo1.Visible = True
     
     floder_path = floder_path & "\" & reName_Str(OX_Script_Type)
     MkDir floder_path
@@ -6695,7 +6860,7 @@ new163_password_OK:
             '-----------------------------------------------------------------------------------------------------
             '开始下载文件列表-------------------------------------------------------------------------------------
             '-----------------------------------------------------------------------------------------------------
-            lblProgressInfo1.caption = "正在分析相册"
+            OX_RunningInformation_Setting "正在分析相册"
             List1.ListItems.Clear
             
             'old 163-----------------------------------------------------------------------------------------------------
@@ -6766,7 +6931,7 @@ new163_password_OK:
             '----------------------------------------------------------------
             '----------------------------------------------------------------
             
-            lblProgressInfo1.caption = "正在下载" & Chr(13) & download_FileName
+            OX_RunningInformation_Setting "正在下载" & Chr(13) & download_FileName
             
             For list_save_i = 1 To List1.ListItems.count
                 DoEvents
@@ -6834,8 +6999,7 @@ end_sub:
     Close #1
     If sysSet.list_type = 2 Then Close #2
     
-    lblProgressInfo1.caption = ""
-    lblProgressInfo1.Visible = False
+    OX_RunningInformation_Setting ""
     user_list.ListItems(i).Bold = False
     form_quit = True
     
@@ -6847,7 +7011,7 @@ end_sub:
     save_all.Enabled = True
     list_check.Enabled = True
     user_list.Enabled = True
-    Label_url1.Visible = False
+    OX_RunningInformation_Setting ""
     'Timer2.Enabled = False
     Form1.caption = title_info
     TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
@@ -6864,7 +7028,8 @@ end_sub:
     Html_Temp = ""
     
     If (sysSet.openfloder = True) And (auto_shutdown_tf = False) Then
-        If MsgBox("保存完成,是否打开文件夹？", vbYesNo + vbQuestion, "提醒") = vbYes Then Shell "explorer.exe " & floder_path, vbNormalFocus
+        url_temp = floder_path
+        Call Timer_Open_Floder
     ElseIf auto_shutdown_tf = True Then
         ShutDownWin.Show
     End If
@@ -6885,10 +7050,7 @@ Private Sub save_all_pic(ByVal floder_path)
     
     form_quit = False
     user_list.Enabled = False
-    runtime_Label = "正在分析相册列表"
-    Label_url1.caption = runtime_Label
-    Label_url1.Visible = True
-    'Timer2.Enabled = True
+    OX_RunningInformation_Setting "正在分析相册列表"
     Form1.Icon = ico(1).Picture
     setProgram.Enabled = False
     stop2.Enabled = True
@@ -6898,8 +7060,6 @@ Private Sub save_all_pic(ByVal floder_path)
     out_all.Enabled = False
     save_all.Enabled = False
     list_check.Enabled = False
-    lblProgressInfo1.Visible = True
-    
     
     floder_path = floder_path & "\" & reName_Str(OX_Script_Type)
     MkDir floder_path
@@ -7042,7 +7202,7 @@ new163_password_OK:
             '-----------------------------------------------------------------------------------------------------
             '开始下载文件列表-------------------------------------------------------------------------------------
             '-----------------------------------------------------------------------------------------------------
-            lblProgressInfo1.caption = "正在分析相册"
+            OX_RunningInformation_Setting "正在分析相册"
             List1.ListItems.Clear
             
             'old 163-----------------------------------------------------------------------------------------------------
@@ -7072,8 +7232,7 @@ new163_password_OK:
             
             '保存列表中的图片------------------------------------
             
-            runtime_Label = "正在保存图片"
-            Label_url1.caption = runtime_Label
+            OX_RunningInformation_Setting "正在保存图片"
             user_list.ListItems(i).ListSubItems(3).Text = Format$(List1.ListItems.count, "00000") & "张"
             user_list.ListItems(i).ListSubItems(3).ForeColor = vbRed
             user_list.ListItems(i).ListSubItems(3).Bold = True
@@ -7153,8 +7312,7 @@ end_sub:
     user_list.ListItems(i).ListSubItems(3).Bold = False
     user_list.ListItems(i).Bold = False
     
-    lblProgressInfo1.caption = ""
-    lblProgressInfo1.Visible = False
+    OX_RunningInformation_Setting ""
     user_list.ListItems(i).Bold = False
     form_quit = True
     
@@ -7166,8 +7324,7 @@ end_sub:
     save_all.Enabled = True
     list_check.Enabled = True
     user_list.Enabled = True
-    Label_url1.Visible = False
-    'Timer2.Enabled = False
+    OX_RunningInformation_Setting ""
     Form1.caption = title_info
     TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
     If now_tray = True Then TrayI.uFlags = NIF_TIP: Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
@@ -7182,7 +7339,8 @@ end_sub:
     Html_Temp = ""
     
     If (sysSet.openfloder = True) And (auto_shutdown_tf = False) Then
-        If MsgBox("保存完成,是否打开文件夹？", vbYesNo + vbQuestion, "提醒") = vbYes Then Shell "explorer.exe " & floder_path, vbNormalFocus
+        url_temp = floder_path
+        Call Timer_Open_Floder
     ElseIf auto_shutdown_tf = True Then
         ShutDownWin.Show
     End If
@@ -7204,12 +7362,38 @@ End Sub
 'If top_Picture(0).Visible = False Then always_on_top False
 'End Sub
 
+
 Private Sub Web_Browser_StatusTextChange(ByVal Text As String)
     On Error Resume Next
-    If Text = "" Or Text = "完成" Or Text = LCase("completed") Then
-        StatusBar.Panels(2) = show_inform(0)
+    'Web_Browser.ReadyState
+    '0：READYSTATE_COMPLETE 请求未初始化（还没有调用 open()）。
+    '1：READYSTATE_INTERACTIVE 请求已经建立，但是还没有发送（还没有调用 send()）。
+    '2：READYSTATE_LOADED 请求已发送，正在处理中（通常现在可以从响应中获取内容头）。
+    '3：READYSTATE_LOADING 请求在处理中；通常响应中已有部分数据可用了，但是服务器还没有完成响应的生成。
+    '4：READYSTATE_UNINITIALIZED 响应已完成；您可以获取并使用服务器的响应了。
+    If Text Like "?*://?*" Then
+        OX_RunningInformation_Setting Text, 2
+    ElseIf Web_Browser.ReadyState = 4 Then '
+        OX_RunningInformation_Setting ""
     Else
+        OX_RunningInformation_Setting "Web Browser - Busy=" & Web_Browser.Busy & " - ReadyState: loading...", 2
+    End If
+    
+    If Web_Browser.ReadyState = 4 Then
+        Web_Toolbar.Buttons(4).Enabled = False
+    Else
+        Web_Toolbar.Buttons(4).Enabled = True
+    End If
+End Sub
+
+Private Sub Web_Search_StatusTextChange(ByVal Text As String)
+    On Error Resume Next
+    If Text Like "?*://?*" Then
         StatusBar.Panels(2) = Text
+    ElseIf Web_Search.ReadyState = 4 Or Web_Search.Busy = False Then 'If Text = "" Or Text = "完成" Or Text = LCase("completed") Then
+        OX_RunningInformation_Setting ""
+    Else
+        OX_RunningInformation_Setting "正在打开163相册搜索", 2
     End If
 End Sub
 
@@ -7255,6 +7439,29 @@ End Sub
 '------------------------------------------------------------------------------
 '------------------------------------------------------------------------------
 
+Sub OX_RunningInformation_Setting(ByRef inform_text, Optional ByRef Obj_Type As Byte)
+    If inform_text = "" Then
+        StatusBar.Panels(2).Text = show_inform(0)
+    Else
+        Select Case Obj_Type
+        Case 0 '程序运行状态文字描述
+            StatusBar.Panels(2).Text = inform_text
+        Case 1
+            StatusBar.Panels(2).Text = inform_text
+        Case 2 'Web_Browser_StatusTextChange
+            StatusBar.Panels(2).Text = inform_text
+        Case 3 'Inet Download Change
+            If lblProgressInfo1.Visible = False Then lblProgressInfo1.Visible = True
+            If lblProgressInfo2.Visible = False Then lblProgressInfo2.Visible = True
+            lblProgressInfo1.caption = inform_text
+            lblProgressInfo2.caption = inform_text
+        End Select
+    End If
+End Sub
+
+'------------------------------------------------------------------------------
+'------------------------------------------------------------------------------
+
 Private Sub OLEDragDrop(Data As DataObject)
     On Error Resume Next
     If Data.GetFormat(vbCFText) = True Then
@@ -7277,9 +7484,7 @@ End Sub
 Public Sub fix_rar()
     On Error Resume Next
     
-    runtime_Label = "正在进行伪图检查..."
-    Label_url.caption = runtime_Label
-    Label_url1.caption = runtime_Label
+    OX_RunningInformation_Setting "正在进行伪图检查..."
     
     If sysSet.fix_rar_name = "" Or sysSet.fix_rar_name = "-1" Then Exit Sub
     name_list = Split(sysSet.fix_rar_name, "|")
@@ -7360,9 +7565,7 @@ Private Sub list_163pic(ByVal user_ID, ByVal albums_ID, ByVal password)
     
     strURL = Trim$("http://photo.163.com/js/photosinfo.php?user=" & user_ID & "&aid=" & albums_ID & password)
     
-    runtime_Label = "正在下载" & user_ID & "相册" & albums_ID & "列表"
-    Label_url.caption = runtime_Label
-    Label_url1.caption = runtime_Label
+    OX_RunningInformation_Setting "正在下载" & user_ID & "相册" & albums_ID & "列表"
     
 check_2nd:
     
@@ -7378,9 +7581,7 @@ check_2nd:
         DoEvents
     Loop
     
-    runtime_Label = "正在分析" & user_ID & "相册" & albums_ID & "列表"
-    Label_url.caption = runtime_Label
-    Label_url1.caption = runtime_Label
+    OX_RunningInformation_Setting "正在分析" & user_ID & "相册" & albums_ID & "列表"
     
     If (InStr(Html_Temp, "gPhotosIds[") < 1) And check_2 = False Then strURL = strURL & "&from=guest": check_2 = True: GoTo check_2nd
     
@@ -7632,10 +7833,7 @@ Private Sub run_script()
         'If sysSet.bottom_StatusBar = True Then Refresh_Panel
         
         list_count.Visible = True
-        runtime_Label = "开始执行外部脚本"
-        Label_url.caption = runtime_Label
-        Label_url.Visible = True
-        'Timer2.Enabled = True
+        OX_RunningInformation_Setting "开始执行外部脚本"
         
         Form1.Icon = ico(1).Picture
         form_quit = False
@@ -7649,8 +7847,7 @@ Private Sub run_script()
         '--------------------------------------------------------
         
         
-        Label_url.Visible = False
-        'Timer2.Enabled = False
+        OX_RunningInformation_Setting ""
         Form1.Icon = ico(0).Picture
         If now_tray = True Then
             TrayI.hIcon = ico(0).Picture
@@ -7709,11 +7906,7 @@ Private Sub run_script()
         download_ok = False
         form_quit = False
         
-        runtime_Label = "开始执行外部脚本"
-        Label_url1.caption = runtime_Label
-        Label_url1.Visible = True
-        'Timer2.Enabled = True
-        
+        OX_RunningInformation_Setting "开始执行外部脚本"
         Form1.Icon = ico(1).Picture
         
         'Frame2.caption = run_script_str(0) & "|" & run_script_str(1) & "|" & run_script_str(2)
@@ -7741,7 +7934,7 @@ Private Sub run_script()
         End If
         
         count1.caption = user_list.ListItems.count
-        Label_url1.Visible = False
+        OX_RunningInformation_Setting ""
         
         If Form1.WindowState = 0 Then
             Select Case user_list.ListItems.count

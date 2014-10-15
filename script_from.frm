@@ -27,7 +27,7 @@ Begin VB.Form script_from
       RequestTimeout  =   30
    End
    Begin MSComctlLib.ImageList Image_over 
-      Left            =   0
+      Left            =   600
       Top             =   1080
       _ExtentX        =   1005
       _ExtentY        =   1005
@@ -61,7 +61,7 @@ Begin VB.Form script_from
       EndProperty
    End
    Begin MSComctlLib.ImageList Image_normal 
-      Left            =   600
+      Left            =   0
       Top             =   1080
       _ExtentX        =   1005
       _ExtentY        =   1005

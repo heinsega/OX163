@@ -1,5 +1,10 @@
 Attribute VB_Name = "Declare_Function"
 '-------------------------------------------------------------------------
+'-----------------OX163调用API操作、控制、传递模块------------------------
+'-------------------------------------------------------------------------
+
+
+'-------------------------------------------------------------------------
 'Sleep方式让程序循环使释放CPU占用-----------------------------------------
 Public Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
 
@@ -13,7 +18,7 @@ End Type
 
 '-------------------------------------------------------------------------
 '程序窗口重在最前面-------------------------------------------------------
-Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Public Const HWND_TOPMOST = -1
 Public Const SWP_NOMOVE = &H2
 Public Const SWP_NOSIZE = &H1
@@ -94,7 +99,7 @@ Private Declare Function SHBrowseForFolder Lib "shell32" Alias "SHBrowseForFolde
 Private Declare Function SHGetPathFromIDList Lib "shell32" Alias "SHGetPathFromIDListW" (ByVal pidl As Long, ByVal pszPath As Long) As Long
 Private Declare Function GetForegroundWindow Lib "user32" () As Long
 'Private Declare Sub CoTaskMemFree Lib "ole32" (ByVal pv As Long)
-Private Declare Function SendMessage Lib "user32" Alias "SendMessageW" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
+Private Declare Function SendMessage Lib "user32" Alias "SendMessageW" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
 Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (pDest As Any, pSource As Any, ByVal dwLength As Long)
 Private Declare Function LocalAlloc Lib "kernel32" (ByVal uFlags As Long, ByVal uBytes As Long) As Long
 Private Declare Function LocalFree Lib "kernel32" (ByVal hMem As Long) As Long
@@ -135,11 +140,11 @@ End Type
 '-------------------------------------------------------------------------
 '最小化系统托盘-----------------------------------------------------------
 Public Declare Function Shell_NotifyIcon Lib "shell32" Alias "Shell_NotifyIconW" (ByVal dwMessage As Long, pnid As NOTIFYICONDATA) As Boolean
-Public Declare Function ShowWindow Lib "user32" (ByVal hwnd As Long, ByVal nCmdShow As Long) As Long
+Public Declare Function ShowWindow Lib "user32" (ByVal hWnd As Long, ByVal nCmdShow As Long) As Long
 
 '-------------------------------------------------------------------------
 '打开IE-------------------------------------------------------------------
-Public Declare Function ShellExecute Lib "shell32" Alias "ShellExecuteW" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Public Declare Function ShellExecute Lib "shell32" Alias "ShellExecuteW" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
 '-------------------------------------------------------------------------
 '解Gzip压缩数组-----------------------------------------------------------
@@ -305,18 +310,18 @@ Public Function GetFolder(ByVal title As String, ByVal start As String, ByVal ne
 End Function
 
 'this seems to happen before the box comes up and when a folder is clicked on within it
-Public Function BrowseCallbackProcStr(ByVal hwnd As Long, ByVal uMsg As Long, ByVal lParam As Long, ByVal lpData As Long) As Long
+Public Function BrowseCallbackProcStr(ByVal hWnd As Long, ByVal uMsg As Long, ByVal lParam As Long, ByVal lpData As Long) As Long
     Dim spath As String, bFlag As Long
     
     Select Case uMsg
     Case BFFM_INITIALIZED
         'browse has been initialized, set the start folder
-        Call SendMessage(hwnd, BFFM_SETSELECTION, 1, ByVal lpData)
+        Call SendMessage(hWnd, BFFM_SETSELECTION, 1, ByVal lpData)
     Case BFFM_SELCHANGED
         spath = Space$(MAX_PATH)
         If SHGetPathFromIDList(lParam, StrPtr(spath)) Then
             spath = Trim(spath) & vbNullChar
-            Call SendMessage(hwnd, BFFM_SETSTATUSTEXTW, 0, StrPtr(spath))
+            Call SendMessage(hWnd, BFFM_SETSTATUSTEXTW, 0, StrPtr(spath))
         End If
     End Select
     
@@ -333,7 +338,7 @@ Public Sub OX_ShowButtonMenu(OX_Toolbar As MSComctlLib.Toolbar, ByVal ButtonInde
     Dim lResult As Long
     Dim m_hwnd As Long
     Dim lCommandId As Long
-    m_hwnd = FindWindowEx(OX_Toolbar.hwnd, 0, StrPtr("msvb_lib_toolbar"), StrPtr(vbNullString))
+    m_hwnd = FindWindowEx(OX_Toolbar.hWnd, 0, StrPtr("msvb_lib_toolbar"), StrPtr(vbNullString))
     lResult = SendMessage(m_hwnd, TB_GETBUTTON, ButtonIndex, OX_Button)
     lCommandId = OX_Button.OTBButton_idCommand
     With OX_Notify
@@ -341,7 +346,7 @@ Public Sub OX_ShowButtonMenu(OX_Toolbar As MSComctlLib.Toolbar, ByVal ButtonInde
         .O_NMTB_hdr.O_NMHDR_hwndFrom = m_hwnd
         .O_NMTB_Item = lCommandId
     End With
-    lResult = SendMessage(OX_Toolbar.hwnd, WM_NOTIFY, 0, OX_Notify)
+    lResult = SendMessage(OX_Toolbar.hWnd, WM_NOTIFY, 0, OX_Notify)
 End Sub
 
 'OX163启动函数------------------------------------------------------------
@@ -442,7 +447,7 @@ End Function
 '以下两个函数,读/写ini文件,固定节点setting,in_key为写入/读取的主键
 '仅仅针对是非值
 'Y：yes,N：no,E：error
-Public Function GetIniTF(ByVal AppName As String, ByVal In_Key As String) As Boolean
+Public Function GetIniTF(ByVal AppName As String, ByVal In_Key As String) As Integer
     'GetIniTF("maincenter", "openfloder")
     On Error GoTo GetIniTFErr
     GetIniTF = True
@@ -459,12 +464,13 @@ Public Function GetIniTF(ByVal AppName As String, ByVal In_Key As String) As Boo
         GetIniTF = True
         GetStr = ""
     Else
-        GoTo GetIniTFErr
+         GetIniTF = False
     End If
     Exit Function
 GetIniTFErr:
+    OX_Global_Err_Num = err.Number
     err.Clear
-    GetIniTF = False
+    GetIniTF = "error"
     GetStr = ""
 End Function
 
@@ -486,6 +492,7 @@ Public Sub WriteIniTF(ByVal AppName As String, ByVal In_Key As String, ByVal In_
     WIS_lp = WritePrivateProfileString(StrPtr(AppName), StrPtr(In_Key), StrPtr(WriteIniTF_Cstr_tf), StrPtr(INI_path))
     Exit Sub
 WriteIniTFErr:
+    OX_Global_Err_Num = err.Number
     err.Clear
 End Sub
 
@@ -513,6 +520,7 @@ Public Function GetIniStr(ByVal AppName As String, ByVal In_Key As String) As St
     End If
     Exit Function
 GetIniStrErr:
+    OX_Global_Err_Num = err.Number
     err.Clear
     GetIniStr = ""
     GetStr = ""
@@ -533,12 +541,13 @@ Public Sub WriteIniStr(ByVal AppName As String, ByVal In_Key As String, ByVal In
     End If
     Exit Sub
 WriteIniStrErr:
+    OX_Global_Err_Num = err.Number
     err.Clear
 End Sub
 
 '-------------------------------------------------------------------------
 '保存和读取url历史记录配置文件--------------------------------------------
-'-------------------------------------------------------------------------
+
 Public Function GetUnicodeIniStr(ByVal AppName As String, ByVal In_Key As String, ByVal url_str_path As String) As String
     On Error GoTo GetIniStrErr
     If Trim(In_Key) = "" Then
@@ -585,8 +594,8 @@ WriteIniStrErr:
 End Sub
 
 '-------------------------------------------------------------------------
-'-------------------------------------------------------------------------
 '-------------------------------解Gzip压缩数组----------------------------
+
 Public Function UnCompressGzipByte(ByteArray() As Byte) As Variant
     Dim BufferSize  As Long
     Dim buffer()    As Byte
