@@ -1,4 +1,8 @@
 Attribute VB_Name = "OX_function"
+'-------------------------------------------------------------------------
+'--------------------------------OX163常用函数----------------------------
+'-------------------------------------------------------------------------
+
 Public Declare Function InternetSetOption Lib "wininet.dll" Alias "InternetSetOptionA" (ByVal hInternet As Long, ByVal dwOption As Long, ByRef lpBuffer As Any, ByVal dwBufferLength As Long) As Long
 
 Public Type INTERNET_PROXY_INFO
@@ -33,7 +37,6 @@ End Enum
 
 '-------------------------------------------------------------------------
 '参数调整后重新设置代理服务器设置-----------------------------------------
-'-------------------------------------------------------------------------
 Public Sub Proxy_set()
     '程序第一次启动判断
     Static star_up_count As Boolean
@@ -151,9 +154,9 @@ Public Sub Proxy_set()
     If star_up_count = False Then star_up_count = True
 End Sub
 
-
 '-------------------------------------------------------------------------
 'debug调试用函数----------------------------------------------------------
+
 Public Sub OX_Debug_File(ByVal Debug_file_String As String)
     If Dir(App_path & "\debug", vbDirectory) = "" Then
         MkDir App_path & "\debug"
@@ -166,10 +169,301 @@ Public Sub OX_Debug_File(ByVal Debug_file_String As String)
 End Sub
 
 '-------------------------------------------------------------------------
+'程序默认设置-------------------------------------------------------------
+Public Function OX_Default_Setting() As sysSetting
+    '版本
+    OX_Default_Setting.ver = ver_info
+    '更新服务器
+    OX_Default_Setting.update_host = "http://www.shanhaijing.net/163/" '默认参数
+    '下载区块
+    OX_Default_Setting.downloadblock = 10240
+    '检查更新
+    OX_Default_Setting.autocheck = True
+    '执行时退出询问
+    OX_Default_Setting.askquit = True
+    '执行时显示列表
+    OX_Default_Setting.listshow = False
+    '保存到默认文件夹
+    OX_Default_Setting.savedef = True
+    '下载后打开文件夹
+    OX_Default_Setting.openfloder = True
+    '密码错误时，再次询问密码
+    OX_Default_Setting.change_psw = True
+    '窗口总在最前面
+    OX_Default_Setting.always_top = True
+    '阻止弹出窗口
+    OX_Default_Setting.new_ie_win = True
+    '弹出窗口用OX163打开
+    OX_Default_Setting.ox163_ie_win = True
+    '链接超时
+    OX_Default_Setting.time_out = 30
+    '重试次数
+    OX_Default_Setting.retry_times = 5
+    '输出下载列表方式
+    OX_Default_Setting.list_type = 1
+    '自动校正伪图
+    OX_Default_Setting.fix_rar = 1
+    '伪图文件名列表
+    OX_Default_Setting.fix_rar_name = "RAR|ZIP|7Z|PNG|BMP"
+    '系统托盘
+    OX_Default_Setting.sysTray = True
+    '是否开启默认路径
+    OX_Default_Setting.def_path_tf = False
+    '默认路径
+    OX_Default_Setting.def_path = ""
+    '外部脚本执行方式
+    OX_Default_Setting.include_script = "delay"
+    '脚本列表
+    OX_Default_Setting.include_scriptlist = "sys_163,1|sys_include,1"
+    'ctrl+c等操作设定
+    OX_Default_Setting.list_copy = True
+    '已下载文件比较
+    OX_Default_Setting.file_compare = 1
+    '底部信息栏
+    OX_Default_Setting.bottom_StatusBar = True
+    '新163相册验证码测试
+    OX_Default_Setting.new163passcode_def(0) = "wehi"
+    OX_Default_Setting.new163passcode_def(1) = "1530930"
+    OX_Default_Setting.new163passcode_def(2) = "asd"
+    '列表后是否全选
+    OX_Default_Setting.check_all = True
+    '代理服务器A for start fast
+    OX_Default_Setting.proxy_A = ""
+    OX_Default_Setting.proxy_A_user = ""
+    OX_Default_Setting.proxy_A_pw = ""
+    '代理服务器B for inet1 and header ckeck
+    OX_Default_Setting.proxy_B = ""
+    OX_Default_Setting.proxy_B_user = ""
+    OX_Default_Setting.proxy_B_pw = ""
+    '代理服务器使用方式 0-icUseDefault,1-icDirect,2-icNamedProxy
+    OX_Default_Setting.proxy_A_type = 0
+    OX_Default_Setting.proxy_B_type = 0
+    '代理服务器A应用于内置浏览器
+    OX_Default_Setting.web_proxy = 1
+    '下载时建立以URL为名的文件夹
+    OX_Default_Setting.url_folder = False
+    '使用新163相册中文密码规则
+    OX_Default_Setting.new163pass_rules = True
+    'Unicode文件/文件夹字符操作
+    OX_Default_Setting.Unicode_File = 0
+    OX_Default_Setting.Unicode_Str = 0
+End Function
+
+
 '-------------------------------------------------------------------------
-'--------------------------------OX163常用函数----------------------------
+'程序设置写入INI----------------------------------------------------------
+Public Function OX_WriteIni_Setting(ByRef OX_SysSet As sysSetting)
+    On Error Resume Next
+    OX_Global_Err_Num = 0
+    '-----[maincenter]-----
+    '版本
+    WriteIniStr "maincenter", "ver", ver_info
+    '更新服务器
+    WriteIniStr "maincenter", "update_host", OX_SysSet.update_host
+    '下载区块
+    WriteIniStr "maincenter", "downloadblock", OX_SysSet.downloadblock
+    '检查更新
+    WriteIniTF "maincenter", "autocheck", OX_SysSet.autocheck
+    '执行时退出询问
+    WriteIniTF "maincenter", "askquit", OX_SysSet.askquit
+    '执行时显示列表
+    WriteIniTF "maincenter", "listshow", OX_SysSet.listshow
+    '保存到默认文件夹
+    WriteIniTF "maincenter", "savedef", OX_SysSet.savedef
+    '下载后打开文件夹
+    WriteIniTF "maincenter", "openfloder", OX_SysSet.openfloder
+    '密码错误时，再次询问密码
+    WriteIniTF "maincenter", "change_psw", OX_SysSet.change_psw
+    '窗口总在最前面
+    WriteIniTF "maincenter", "always_top", OX_SysSet.always_top
+    '阻止弹出窗口
+    WriteIniTF "maincenter", "new_ie_win", OX_SysSet.new_ie_win
+    '弹出窗口用OX163打开
+    WriteIniTF "maincenter", "ox163_ie_win", OX_SysSet.ox163_ie_win
+    '链接超时
+    WriteIniStr "maincenter", "time_out", OX_SysSet.time_out
+    '重试次数
+    WriteIniStr "maincenter", "retry_times", OX_SysSet.retry_times
+    '输出下载列表方式
+    WriteIniStr "maincenter", "list_type", OX_SysSet.list_type
+    '自动校正伪图
+    WriteIniStr "maincenter", "fix_rar", OX_SysSet.fix_rar
+    '伪图文件名列表
+    WriteIniStr "maincenter", "fix_rar_name", OX_SysSet.fix_rar_name
+    '系统托盘
+    WriteIniTF "maincenter", "sysTray", OX_SysSet.sysTray
+    '是否开启默认路径
+    WriteIniTF "maincenter", "def_path_tf", OX_SysSet.def_path_tf
+    '默认路径
+    WriteIniStr "maincenter", "def_path", OX_SysSet.def_path
+    '外部脚本执行方式
+    WriteIniStr "maincenter", "include_script", OX_SysSet.include_script
+    '脚本列表
+    WriteIniStr "maincenter", "include_scriptList", OX_SysSet.include_scriptlist
+    'ctrl+c等操作设定
+    WriteIniTF "maincenter", "list_copy", OX_SysSet.list_copy
+    '已下载文件比较
+    WriteIniStr "maincenter", "file_compare", OX_SysSet.file_compare
+    '底部信息栏
+    WriteIniTF "maincenter", "bottom_StatusBar", OX_SysSet.bottom_StatusBar
+    '新163相册验证码测试
+    WriteIniStr "maincenter", "new163passcode_user", OX_SysSet.new163passcode_def(0)
+    WriteIniStr "maincenter", "new163passcode_album", OX_SysSet.new163passcode_def(1)
+    WriteIniStr "maincenter", "new163passcode_pw", OX_SysSet.new163passcode_def(2)
+    '列表后是否全选
+    WriteIniTF "maincenter", "check_all", OX_SysSet.check_all
+    '下载时建立以URL为名的文件夹
+    WriteIniTF "maincenter", "url_folder", OX_SysSet.url_folder
+    '使用新163相册中文密码规则
+    WriteIniTF "maincenter", "new163pass_rules", OX_SysSet.new163pass_rules
+    'Unicode文件/文件夹字符操作
+    WriteIniStr "maincenter", "Unicode_File", OX_SysSet.Unicode_File
+    WriteIniStr "maincenter", "Unicode_Str", OX_SysSet.Unicode_Str
+
+    '-----[proxyset]-----
+    '代理服务器使用方式 0-icUseDefault,1-icDirect,2-icNamedProxy
+    Select Case OX_SysSet.proxy_A_type
+    Case 1
+        WriteIniStr "proxyset", "proxy_A_type", "icDirect"
+    Case 2
+        WriteIniStr "proxyset", "proxy_A_type", "icNamedProxy"
+    Case Else
+        WriteIniStr "proxyset", "proxy_A_type", "icUseDefault"
+    End Select
+    
+    Select Case OX_SysSet.proxy_B_type
+    Case 1
+        WriteIniStr "proxyset", "proxy_B_type", "icDirect"
+    Case 2
+        WriteIniStr "proxyset", "proxy_B_type", "icNamedProxy"
+    Case Else
+        WriteIniStr "proxyset", "proxy_B_type", "icUseDefault"
+    End Select
+    '代理服务器A for start fast
+    WriteIniStr "proxyset", "proxy_A", OX_SysSet.proxy_A
+    WriteIniStr "proxyset", "proxy_A_user", OX_SysSet.proxy_A_user
+    WriteIniStr "proxyset", "proxy_A_pw", OX_SysSet.proxy_A_pw
+    '代理服务器B for inet1 and header ckeck
+    WriteIniStr "proxyset", "proxy_B", OX_SysSet.proxy_B
+    WriteIniStr "proxyset", "proxy_B_user", OX_SysSet.proxy_B_user
+    WriteIniStr "proxyset", "proxy_B_pw", OX_SysSet.proxy_B_pw
+    '代理服务器A应用于内置浏览器
+    WriteIniStr "proxyset", "web_proxy", OX_SysSet.web_proxy
+    
+    '-----end-----
+    If OX_Global_Err_Num <> 0 Then
+        OX_WriteIni_Setting = OX_Global_Err_Num
+    Else
+        OX_WriteIni_Setting = 0
+    End If
+End Function
+
+Public Function OX_GetIni_Setting(ByRef OX_SysSet As sysSetting)
+    On Error Resume Next
+    OX_Global_Err_Num = 0
+
+    OX_SysSet.update_host = GetIniStr("maincenter", "update_host")
+    If OX_SysSet.update_host = "" Then OX_SysSet.update_host = "http://www.shanhaijing.net/163/"
+    
+    OX_SysSet.downloadblock = CLng(GetIniStr("maincenter", "downloadblock"))
+    OX_SysSet.time_out = CInt(GetIniStr("maincenter", "time_out"))
+    OX_SysSet.retry_times = CInt(GetIniStr("maincenter", "retry_times"))
+    
+    OX_SysSet.list_type = CByte(GetIniStr("maincenter", "list_type"))
+    OX_SysSet.fix_rar = CByte(GetIniStr("maincenter", "fix_rar"))
+    OX_SysSet.fix_rar_name = Trim(GetIniStr("maincenter", "fix_rar_name"))
+    
+    OX_SysSet.Unicode_File = CByte(GetIniStr("maincenter", "Unicode_File"))
+    OX_SysSet.Unicode_Str = CByte(GetIniStr("maincenter", "Unicode_Str"))
+    
+    OX_SysSet.include_script = GetIniStr("maincenter", "include_script")
+    OX_SysSet.include_scriptlist = OX_Check_include_scriptlist(GetIniStr("maincenter", "include_scriptList"), False)
+    
+    OX_SysSet.new163passcode_def(0) = GetIniStr("maincenter", "new163passcode_user")
+    OX_SysSet.new163passcode_def(1) = GetIniStr("maincenter", "new163passcode_album")
+    OX_SysSet.new163passcode_def(2) = GetIniStr("maincenter", "new163passcode_pw")
+    
+    If OX_SysSet.new163passcode_def(0) = "" Or OX_SysSet.new163passcode_def(1) = "" Or OX_SysSet.new163passcode_def(2) = "" Then
+        OX_SysSet.new163passcode_def(0) = "wehi"
+        OX_SysSet.new163passcode_def(1) = "1530930"
+        OX_SysSet.new163passcode_def(2) = "asd"
+    End If
+    
+    OX_SysSet.autocheck = GetIniTF("maincenter", "autocheck")
+    OX_SysSet.askquit = GetIniTF("maincenter", "askquit")
+    OX_SysSet.listshow = GetIniTF("maincenter", "listshow")
+    OX_SysSet.savedef = GetIniTF("maincenter", "savedef")
+    OX_SysSet.openfloder = GetIniTF("maincenter", "openfloder")
+    OX_SysSet.change_psw = GetIniTF("maincenter", "change_psw")
+    OX_SysSet.always_top = GetIniTF("maincenter", "always_top")
+    OX_SysSet.new_ie_win = GetIniTF("maincenter", "new_ie_win")
+    OX_SysSet.ox163_ie_win = GetIniTF("maincenter", "ox163_ie_win")
+    OX_SysSet.sysTray = GetIniTF("maincenter", "sysTray")
+    
+    OX_SysSet.new163pass_rules = GetIniTF("maincenter", "new163pass_rules")
+    
+    OX_SysSet.list_copy = GetIniTF("maincenter", "list_copy")
+    
+    OX_SysSet.file_compare = CInt(GetIniStr("maincenter", "file_compare"))
+    
+    OX_SysSet.def_path_tf = GetIniTF("maincenter", "def_path_tf")
+
+    OX_SysSet.bottom_StatusBar = GetIniTF("maincenter", "bottom_StatusBar")
+    
+    OX_SysSet.check_all = GetIniTF("maincenter", "check_all")
+    
+    OX_SysSet.url_folder = GetIniTF("maincenter", "url_folder")
+    
+    OX_SysSet.proxy_A = GetIniStr("proxyset", "proxy_A_type")
+    Select Case OX_SysSet.proxy_A
+    Case "icDirect"
+        OX_SysSet.proxy_A_type = 1
+    Case "icNamedProxy"
+        OX_SysSet.proxy_A_type = 2
+    Case Else
+        OX_SysSet.proxy_A_type = 0
+    End Select
+    
+    OX_SysSet.proxy_A = GetIniStr("proxyset", "proxy_B_type")
+    Select Case OX_SysSet.proxy_A
+    Case "icDirect"
+        OX_SysSet.proxy_B_type = 1
+    Case "icNamedProxy"
+        OX_SysSet.proxy_B_type = 2
+    Case Else
+        OX_SysSet.proxy_B_type = 0
+    End Select
+    
+    OX_SysSet.web_proxy = GetIniStr("proxyset", "web_proxy")
+    Select Case OX_SysSet.web_proxy
+    Case "0"
+        OX_SysSet.web_proxy = 0
+    Case Else
+        OX_SysSet.web_proxy = 1
+    End Select
+    
+    OX_SysSet.proxy_A = Trim(GetIniStr("proxyset", "proxy_A"))
+    OX_SysSet.proxy_A_user = Trim(GetIniStr("proxyset", "proxy_A_user"))
+    OX_SysSet.proxy_A_pw = GetIniStr("proxyset", "proxy_A_pw")
+    OX_SysSet.proxy_B = Trim(GetIniStr("proxyset", "proxy_B"))
+    OX_SysSet.proxy_B_user = Trim(GetIniStr("proxyset", "proxy_B_user"))
+    OX_SysSet.proxy_B_pw = GetIniStr("proxyset", "proxy_B_pw")
+    OX_SysSet.ver = ver_info
+    
+    If CInt(GetIniStr("maincenter", "ver")) <> ver_info Then
+     OX_GetIni_Setting = OX_WriteIni_Setting(OX_SysSet)
+    End If
+    
+    If OX_Global_Err_Num <> 0 Then
+        OX_GetIni_Setting = OX_Global_Err_Num
+    Else
+        OX_GetIni_Setting = 0
+    End If
+End Function
+
 '-------------------------------------------------------------------------
 '加载文本文件（可自定义字符集）-------------------------------------------
+
 Public Function load_normal_file(file_name, unicode_charset) As String
     On Error Resume Next
     Dim fileline As String
@@ -183,7 +477,7 @@ End Function
 
 '-------------------------------------------------------------------------
 '加载ANSI脚本（现在默认使用）---------------------------------------------
-'-------------------------------------------------------------------------
+
 Public Function load_Script(file_name) As String
     On Error Resume Next
     
@@ -220,7 +514,7 @@ End Function
 
 '-------------------------------------------------------------------------
 '格式化图片尺寸文本（1920*1080）------------------------------------------
-'-------------------------------------------------------------------------
+
 Public Function fix_Pix(ByVal pix_str) As String
     fix_Pix = ""
     pix_str = Split(pix_str, "x")
@@ -233,7 +527,7 @@ End Function
 
 '-------------------------------------------------------------------------
 '将检查是否为文件名-------------------------------------------------------
-'-------------------------------------------------------------------------
+
 Public Function is_fileName(ByVal file_name As String) As Boolean
     is_fileName = True
     If InStr(file_name, Chr(92)) > 0 Then is_fileName = False: Exit Function
@@ -252,7 +546,7 @@ End Function
 
 '-------------------------------------------------------------------------
 '将url格式化为可保存的文件名格式------------------------------------------
-'-------------------------------------------------------------------------
+
 Public Function rename_URL(ByVal old_url)
     '＼／＂？：＊＜＞｜
     '\/"?:*<>|
@@ -275,7 +569,7 @@ End Function
 
 '-------------------------------------------------------------------------
 '将url文件名格式格式化为正常url-------------------------------------------
-'-------------------------------------------------------------------------
+
 Public Function rename_URLfile(ByVal old_url)
     If IsNull(old_url) Or IsEmpty(old_url) Then
         rename_URLfile = ""
@@ -296,7 +590,7 @@ End Function
 
 '-------------------------------------------------------------------------
 '取得文件编码格式---------------------------------------------------------
-'-------------------------------------------------------------------------
+
 Public Function GetEncoding(ByVal fileName) As String
     On Error GoTo err
     
@@ -361,7 +655,7 @@ End Function
 
 '-------------------------------------------------------------------------
 '文本转换保存为UTF-8格式（暂未使用）--------------------------------------
-'-------------------------------------------------------------------------
+
 Public Sub FileTo_UTF8File(fileName As String)
     Dim fBytes() As Byte, uniString As String, freeNum As Integer
     Dim ADO_Stream As Object
@@ -389,7 +683,7 @@ Public Sub FileTo_UTF8File(fileName As String)
 End Sub
 '-------------------------------------------------------------------------
 '设定随机参数-------------------------------------------------------------
-'-------------------------------------------------------------------------
+
 Public Function OX_ntime(OX_ntime_T As OX_ntimeTypes, OX_ntime_F As OX_ntimeFormat)
     Dim OX_ntime_D As Double
     Select Case OX_ntime_T
@@ -416,7 +710,6 @@ Public Function OX_ntime(OX_ntime_T As OX_ntimeTypes, OX_ntime_F As OX_ntimeForm
     OX_ntime = Trim(OX_ntime)
 End Function
 
-'-------------------------------------------------------------------------
 '-------------------------------------------------------------------------
 '加载OX163脚本顺序函数----------------------------------------------------
 Public Function OX_Check_include_scriptlist(ByVal OX_sCIS As String, OX_CIS_tf As Boolean) As String 'CIS is "Check Include Scriptlist"
@@ -510,6 +803,7 @@ Public Function OX_Check_include_scriptlist(ByVal OX_sCIS As String, OX_CIS_tf A
     End If
 End Function
 
+'-------------------------------------------------------------------------
 '加载OX163脚本默认函数----------------------------------------------------
 Public Sub OX_load_Script_Code(sourceScriptInfo As ScriptInfo, sourceScriptApp As ScriptControl)
     On Error Resume Next

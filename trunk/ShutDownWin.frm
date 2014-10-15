@@ -233,18 +233,18 @@ Private Function NTEnableShutDown(ByRef sMsg As String) As Boolean
                 If (lR <> 0) Then
                     NTEnableShutDown = True
                 Else
-                    Err.Raise eeSSDErrorBase + 6, App.EXEName & ".mShutDown", "Can't enable shutdown: You do not have the privileges to shutdown this system. [" & WinError(Err.LastDllError) & "]"
+                    err.Raise eeSSDErrorBase + 6, App.EXEName & ".mShutDown", "Can't enable shutdown: You do not have the privileges to shutdown this system. [" & WinError(err.LastDllError) & "]"
                 End If
                 '别忘了这一步:
                 CloseHandle hToken
             Else
-                Err.Raise eeSSDErrorBase + 6, App.EXEName & ".mShutDown", "Can't enable shutdown: You do not have the privileges to shutdown this system. [" & WinError(Err.LastDllError) & "]"
+                err.Raise eeSSDErrorBase + 6, App.EXEName & ".mShutDown", "Can't enable shutdown: You do not have the privileges to shutdown this system. [" & WinError(err.LastDllError) & "]"
             End If
         Else
-            Err.Raise eeSSDErrorBase + 5, App.EXEName & ".mShutDown", "Can't enable shutdown: Can't determine the current process. [" & WinError(Err.LastDllError) & "]"
+            err.Raise eeSSDErrorBase + 5, App.EXEName & ".mShutDown", "Can't enable shutdown: Can't determine the current process. [" & WinError(err.LastDllError) & "]"
         End If
     Else
-        Err.Raise eeSSDErrorBase + 4, App.EXEName & ".mShutDown", "Can't enable shutdown: Can't find the SE_SHUTDOWN_NAME privilege value. [" & WinError(Err.LastDllError) & "]"
+        err.Raise eeSSDErrorBase + 4, App.EXEName & ".mShutDown", "Can't enable shutdown: Can't find the SE_SHUTDOWN_NAME privilege value. [" & WinError(err.LastDllError) & "]"
     End If
 End Function
 
@@ -253,7 +253,7 @@ Private Function ShutdownSystem(Optional ByVal eType As EShutDownTypes = REBOOT)
     Dim sMsg As String
     '验证shutdown类型:
     If (eType < EShutDownTypes.[_First] And eType > EShutDownTypes.[_Last]) Then
-        Err.Raise eeSSDErrorBase + 7, App.EXEName & ".mShutDown", "Invalid parameter to ShutdownSystem: " & eType, vbInformation
+        err.Raise eeSSDErrorBase + 7, App.EXEName & ".mShutDown", "Invalid parameter to ShutdownSystem: " & eType, vbInformation
         Exit Function
     End If
     '如果在NT下，确认本程序据有关机的权限
@@ -265,7 +265,7 @@ Private Function ShutdownSystem(Optional ByVal eType As EShutDownTypes = REBOOT)
     '这就是用于关机的代码，简单吧？
     lR = ExitWindowsEx(eType, &HFFFFFFFF)
     If (lR = 0) Then
-        Err.Raise eeSSDErrorBase + 3, App.EXEName & ".mShutDown", "ShutdownSystem failed: " & WinError(Err.LastDllError)
+        err.Raise eeSSDErrorBase + 3, App.EXEName & ".mShutDown", "ShutdownSystem failed: " & WinError(err.LastDllError)
     Else
         ShutdownSystem = True
     End If
@@ -305,7 +305,7 @@ End Sub
 Private Sub shutdown_timer_Timer()
     If count_times < 60 Then
         count_times = count_times + 1
-        infro.caption = "程序将在 " & (60 - count_times) & " 秒后自动关机" & Chr(13) & "请保存您的重要数据" & Chr(13) & Chr(13) & "点击下面按钮取消自动关机"
+        infro.caption = "程序将在 " & (60 - count_times) & " 秒后自动关机" & Chr(13) & "请保存您的重要数据"
     Else
         shutdown_timer.Enabled = False
         If (IsNT) Then

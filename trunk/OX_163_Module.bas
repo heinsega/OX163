@@ -1,4 +1,8 @@
 Attribute VB_Name = "OX_163_Module"
+'-------------------------------------------------------------------------
+'-----------------------OX163网易相册函数模块-----------------------------
+'-------------------------------------------------------------------------
+
 Public Function is_username(ByVal username As String) As Boolean
     is_username = True
     If Len(username) > 2 And Len(username) < 50 Then

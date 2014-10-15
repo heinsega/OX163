@@ -1,5 +1,9 @@
 Attribute VB_Name = "OX_CookiesCtrl"
 '-------------------------------------------------------------------------
+'-----------------------------OX163 IE¿ØÖÆÄ£¿é----------------------------
+'-------------------------------------------------------------------------
+
+'-------------------------------------------------------------------------
 'InternetCookie-----------------------------------------------------------
 Public Declare Function InternetGetCookie Lib "wininet.dll" Alias "InternetGetCookieA" (ByVal lpszUrlName As String, ByVal lpszCookieName As String, ByVal lpszCookieData As String, ByRef lpdwSize As Long) As Boolean
 Public Declare Function InternetSetCookie Lib "wininet.dll" Alias "InternetSetCookieA" (ByVal lpszUrlName As String, ByVal lpszCookieName As String, ByVal lpszCookieData As String) As Boolean

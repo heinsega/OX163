@@ -3,7 +3,7 @@ Begin VB.Form start_ox163
    BackColor       =   &H00FFFFFF&
    BorderStyle     =   0  'None
    Caption         =   "OX163 starting page"
-   ClientHeight    =   3375
+   ClientHeight    =   3390
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   6000
@@ -12,67 +12,62 @@ Begin VB.Form start_ox163
    MaxButton       =   0   'False
    MinButton       =   0   'False
    Picture         =   "start.frx":406A
-   ScaleHeight     =   3375
+   ScaleHeight     =   3390
    ScaleWidth      =   6000
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '屏幕中心
-   Begin VB.CommandButton Com5 
-      Caption         =   "仅关闭本窗口"
-      Height          =   420
-      Left            =   2160
-      TabIndex        =   4
-      Top             =   0
-      Visible         =   0   'False
-      Width           =   1695
-   End
-   Begin VB.CommandButton Com3 
-      Caption         =   $"start.frx":91F1
-      Height          =   1095
-      Left            =   2760
-      TabIndex        =   3
-      Top             =   960
-      Visible         =   0   'False
-      Width           =   3135
-   End
-   Begin VB.Timer Timer2 
-      Enabled         =   0   'False
-      Left            =   120
-      Top             =   960
-   End
-   Begin VB.CommandButton Com2 
-      Caption         =   "关闭错误提示"
-      Height          =   420
-      Left            =   120
-      TabIndex        =   2
-      Top             =   0
-      Visible         =   0   'False
-      Width           =   1695
-   End
-   Begin VB.CommandButton Com1 
-      Caption         =   "退出程序(QUIT)"
-      Height          =   420
-      Left            =   4200
-      TabIndex        =   1
-      Top             =   0
-      Visible         =   0   'False
-      Width           =   1695
-   End
-   Begin VB.TextBox start_text 
-      Appearance      =   0  'Flat
+   Begin VB.PictureBox Picture1 
+      AutoRedraw      =   -1  'True
+      AutoSize        =   -1  'True
       BorderStyle     =   0  'None
-      Enabled         =   0   'False
-      ForeColor       =   &H000000FF&
-      Height          =   1215
-      Left            =   2760
-      MultiLine       =   -1  'True
-      ScrollBars      =   2  'Vertical
+      Height          =   3390
+      Left            =   0
+      Picture         =   "start.frx":91F1
+      ScaleHeight     =   3390
+      ScaleWidth      =   6000
       TabIndex        =   0
-      Top             =   2160
-      Width           =   3135
-   End
-   Begin VB.Timer Timer1 
-      Left            =   120
-      Top             =   360
+      Top             =   0
+      Width           =   6000
+      Begin VB.Timer Timer2 
+         Enabled         =   0   'False
+         Left            =   0
+         Top             =   1080
+      End
+      Begin VB.Timer Timer1 
+         Left            =   0
+         Top             =   720
+      End
+      Begin VB.TextBox start_text 
+         Appearance      =   0  'Flat
+         BorderStyle     =   0  'None
+         Enabled         =   0   'False
+         ForeColor       =   &H000000FF&
+         Height          =   1335
+         Left            =   2760
+         MultiLine       =   -1  'True
+         ScrollBars      =   2  'Vertical
+         TabIndex        =   3
+         Top             =   2040
+         Width           =   3135
+      End
+      Begin VB.CommandButton Com1 
+         Caption         =   "退出程序(QUIT)"
+         Height          =   420
+         Left            =   4200
+         TabIndex        =   2
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   1695
+      End
+      Begin VB.CommandButton Com5 
+         Caption         =   "仅关闭本窗口"
+         Height          =   420
+         Left            =   2160
+         TabIndex        =   1
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   1695
+      End
    End
 End
 Attribute VB_Name = "start_ox163"
@@ -99,25 +94,11 @@ Private Sub Com1_Click()
     End
 End Sub
 
-Private Sub Com2_Click()
-    'WriteIniTF "maincenter", "err_report", False
-    Unload start_ox163
-End Sub
-
-Private Sub Com3_Click()
-    On Error Resume Next
-    Shell "OX163_SystemRecovery.exe"
-    End
-End Sub
-
 Private Sub Com5_Click()
     Unload start_ox163
 End Sub
 
 Private Sub Form_Load()
-Dim rtn As Long
-
-    
     Timer1.Interval = 100
     Timer1.Enabled = True
 End Sub
@@ -125,6 +106,13 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
     Timer1.Enabled = False
     Timer1.Interval = 0
+End Sub
+
+Private Sub start_text_KeyDown(KeyCode As Integer, Shift As Integer)
+    If KeyCode = 65 And Shift = vbCtrlMask Then
+        start_text.SelStart = 0
+        start_text.SelLength = Len(start_text.Text)
+    End If
 End Sub
 
 Private Sub Timer1_Timer()
@@ -149,390 +137,299 @@ Private Sub Timer1_Timer()
     'App.StartLogging App.Path & logfile, vbLogAuto
     'App.LogEvent "engilsh", 4
     
-    Dim err_report As Boolean, test_Object As Object, check_path
+    Dim test_Object As Object
+    Dim start_check1, start_check2
+    Dim step_counter As Integer
     
+    '判断Non Unicode程序设置,并提示
     If GetOSLCID <> 1 Then MsgBox "Your System Lanuages for Non Unicode Program is not Simplified Chinese." _
-        & vbCrLf & "If you want to make a better use.(No distortion No unknow Error etc.)" _
+        & vbCrLf & "If you want to get a better experience.(No distortion No unknow Error & etc.)" _
         & vbCrLf & "You should open" _
         & vbCrLf & "'Control Panel'->'Region and Language'->'Administrative'" _
         & vbCrLf & "Change 'language for non-Unicode programs' to 'Chinese(Simplified, PRC)'." _
-        & vbCrLf & "When done selecting the language, you need to restart your computer.", vbOKOnly
-        
-        start_text.Text = ""
-        '------------------------------------------------------------------------------------------
-        start_text.Text = start_text.Text & vbCrLf & "检查scrrun.dll" & vbCrLf & "创建FileSystemObject"
-        Set test_Object = CreateObject("Scripting.FileSystemObject")
-        If Err.Number <> 0 Then
-            start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-            
-            start_text.Text = start_text.Text & vbCrLf & "无法创建创建FileSystemObject：程序操作含有unicode字符文件将失效" & vbCrLf & "建议修复windows系统文件：scrrun.dll"
-            MsgBox "无法创建创建FileSystemObject" & vbCrLf & "程序操作含有unicode字符d的文件将失效" & vbCrLf & vbCrLf & "建议修复windows系统文件：scrrun.dll", vbOKOnly + vbCritical, "Warning!"
-            App_path = App.Path
-        Else
-            start_text.Text = start_text.Text & "...OK"
-            
-            check_path = IIf(Right(App.Path, 1) = "\", App.Path, App.Path & "\")
-            App_path = test_Object.GetAbsolutePathName("")
-            App_path = IIf(Right(App_path, 1) = "\", App_path, App_path & "\")
-            App_path = IIf((InStr(check_path, Chr(63)) < 1 And App_path <> check_path), check_path, App_path)
-            App_path = GetShortName(App_path)
-            start_text.Text = start_text.Text & vbCrLf & "确认程序主目录短路径:" & App_path
-            
-        End If
-        Set test_Object = Nothing
-        check_path = ""
-        Err.Clear
-        
-        start_text.SelStart = Len(start_text.Text)
-        '------------------------------------------------------------------------------------------
-        
-        start_text.Text = start_text.Text & vbCrLf & "检查msvbvm60.dll"
-        
-        If Dir(GetSysDir & "\msvbvm60.dll") = "" Then
-            start_text.Text = start_text.Text & "msvbvm60.dll不存在"
-            FileCopy App_path & "\msvbvm60.dll", GetSysDir & "\msvbvm60.dll"
-        ElseIf FileDateTime(GetSysDir & "\msvbvm60.dll") < FileDateTime(App_path & "\msvbvm60.dll") Then
-            start_text.Text = start_text.Text & "msvbvm60.dll版本低"
-            FileCopy App_path & "\msvbvm60.dll", GetSysDir & "\msvbvm60.dll"
-        End If
-        If Err.Number <> 0 Then
-            start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-            Err.Clear
-        Else
-            start_text.Text = start_text.Text & "...OK"
-        End If
-        
-        start_text.SelStart = Len(start_text.Text)
-        '------------------------------------------------------------------------------------------
-        
-        start_text.Text = start_text.Text & vbCrLf & "检查MSINET.OCX" & vbCrLf & "创建Inet"
-        Set test_Object = CreateObject("InetCtls.Inet")
-        If Err.Number <> 0 Then
-            start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-        Else
-            start_text.Text = start_text.Text & "...OK"
-        End If
-        
-        Set test_Object = Nothing
-        Err.Clear
-        
-        start_text.SelStart = Len(start_text.Text)
-        
-        '------------------------------------------------------------------------------------------
-        start_text.Text = start_text.Text & vbCrLf & "检查comdlg32.dll" & vbCrLf & "创建CommonDialog"
-        Set test_Object = CreateObject("MSComDlg.CommonDialog.1")
-        If Err.Number <> 0 Then
-            start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-        Else
-            start_text.Text = start_text.Text & "...OK"
-        End If
-        
-        Set test_Object = Nothing
-        Err.Clear
-        
-        start_text.SelStart = Len(start_text.Text)
-        
-        '------------------------------------------------------------------------------------------
-        '
-        'start_text.Text = start_text.Text &   vbCrLf & "检查shdocvw.dll" & vbCrLf & "创建WebBrowser"
-        'Set test_Object = CreateObject("SHDocVwCtl.WebBrowser_V1")
-        '
-        'If Err.Number <> 0 Then
-        'start_text.Text = start_text.Text &   vbCrLf & "错误" & Err.Number & "：" & Err.Description
-        'Else
-        'start_text.Text = start_text.Text & "...OK"
-        'End If
-        '
-        'Set test_Object = Nothing
-        'Err.Clear
-        '
-        'start_text.SelStart = Len(start_text.Text)
-        '------------------------------------------------------------------------------------------
-        start_text.Text = start_text.Text & vbCrLf & "检查MSCOMCTL.OCX" & vbCrLf & "创建ListView"
-        Set test_Object = CreateObject("MSComctlLib.ListViewctrl")
-        If Err.Number <> 0 Then
-            start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-        Else
-            start_text.Text = start_text.Text & "...OK"
-        End If
-        
-        Set test_Object = Nothing
-        Err.Clear
-        
-        start_text.SelStart = Len(start_text.Text)
-        
-        '------------------------------------------------------------------------------------------
-        start_text.Text = start_text.Text & vbCrLf & "检查wininet.dll" & vbCrLf & "创建InternetGetCookie"
-        
-        GetCookie "http://www.163.com"
-        If Err.Number <> 0 Then
-            start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-        Else
-            start_text.Text = start_text.Text & "...OK"
-        End If
-        
-        Err.Clear
-        
-        start_text.SelStart = Len(start_text.Text)
-        
-        '------------------------------------------------------------------------------------------
-        start_text.Text = start_text.Text & vbCrLf & "检查msscript.ocx" & vbCrLf & "创建ScriptControl"
-        Set test_Object = CreateObject("MSScriptControl.ScriptControl")
-        If Err.Number <> 0 Then
-            start_text.Text = start_text.Text & vbCrLf & "错误" & Err.Number & "：" & Err.Description
-        Else
-            start_text.Text = start_text.Text & "...OK"
-        End If
-        
-        Set test_Object = Nothing
-        Err.Clear
-        
-        start_text.SelStart = Len(start_text.Text)
-        '------------------------------------------------------------------------------------------
-        start_text.Text = start_text.Text & vbCrLf & "检查文件夹"
-        If Dir(App_path & "\download", vbDirectory) = "" Then
-            MkDir App_path & "\download"
-        End If
-        
-        If Dir(App_path & "\url", vbDirectory) = "" Then
-            MkDir App_path & "\url"
-        End If
-        
-        If Err.Number <> 0 Then
-            start_text.Text = start_text.Text & vbCrLf & "错误：" & Err.Description
-            Err.Clear
-        Else
-            start_text.Text = start_text.Text & "...OK"
-        End If
-        
-        start_text.SelStart = Len(start_text.Text)
-        
-        '------------------------------------------------------------------------------------------
-        start_text.Text = start_text.Text & vbCrLf & "检查设定文档"
-        
-        If Dir(App_path & "\OX163setup.ini") = "" Then
-            
-            '默认参数
-            WriteIniStr "maincenter", "update_host", "http://www.shanhaijing.net/163/" '默认参数
-            
-            WriteIniStr "maincenter", "downloadblock", "5120"
-            WriteIniStr "maincenter", "time_out", "30"
-            WriteIniStr "maincenter", "retry_times", "5"
-            WriteIniStr "maincenter", "list_type", "1"
-            WriteIniStr "maincenter", "fix_rar", "1"
-            WriteIniStr "maincenter", "fix_rar_name", "RAR|ZIP|7Z|PNG|BMP"
-            WriteIniTF "maincenter", "def_path_tf", False
-            WriteIniStr "maincenter", "def_path", ""
-            WriteIniStr "maincenter", "include_script", "delay"
-            WriteIniStr "maincenter", "include_scriptList", "sys_163,1|sys_include,1"
-            
-            WriteIniStr "maincenter", "new163passcode_user", "wehi"
-            WriteIniStr "maincenter", "new163passcode_album", "1530930"
-            WriteIniStr "maincenter", "new163passcode_pw", "asd"
-            
-            WriteIniTF "maincenter", "autocheck", True
-            WriteIniTF "maincenter", "askquit", True
-            WriteIniTF "maincenter", "listshow", False
-            WriteIniTF "maincenter", "savedef", True
-            WriteIniTF "maincenter", "openfloder", True
-            WriteIniTF "maincenter", "change_psw", True
-            WriteIniTF "maincenter", "always_top", True
-            WriteIniTF "maincenter", "new_ie_win", True
-            WriteIniTF "maincenter", "ox163_ie_win", True
-            WriteIniTF "maincenter", "sysTray", True
-            
-            WriteIniTF "maincenter", "new163pass_rules", True
-            
-            WriteIniTF "maincenter", "list_copy", True
-            
-            WriteIniStr "maincenter", "file_compare", "1"
-            
-            WriteIniTF "maincenter", "err_report", True
-            
-            WriteIniTF "maincenter", "bottom_StatusBar", True
-            
-            WriteIniTF "maincenter", "check_all", True
-            
-            WriteIniTF "maincenter", "url_folder", False
-            
-            
-            WriteIniStr "proxyset", "proxy_A", ""
-            WriteIniStr "proxyset", "proxy_A_user", ""
-            WriteIniStr "proxyset", "proxy_A_pw", ""
-            WriteIniStr "proxyset", "proxy_B", ""
-            WriteIniStr "proxyset", "proxy_B_user", ""
-            WriteIniStr "proxyset", "proxy_B_pw", ""
-            WriteIniStr "proxyset", "proxy_A_type", "icUseDefault"
-            WriteIniStr "proxyset", "proxy_B_type", "icUseDefault"
-            WriteIniStr "proxyset", "web_proxy", "1"
-            
-            
-            WriteIniStr "maincenter", "Unicode_File", "0"
-            WriteIniStr "maincenter", "Unicode_Str", "0"
-            
-            
-        End If
-        
-        
-        If Err.Number <> 0 Then
-            start_text.Text = start_text.Text & vbCrLf & "错误：" & Err.Description
-            Err.Clear
-        Else
-            start_text.Text = start_text.Text & "...OK"
-        End If
-        
-        start_text.SelStart = Len(start_text.Text)
-        
-        '------------------------------------------------------------------------------------------
-        
-        start_text.Text = start_text.Text & vbCrLf & "读取参数"
-        
-        'sysSet.ver = CInt(GetIniStr("maincenter", "ver"))
-        sysSet.ver = ver_info
-        sysSet.update_host = GetIniStr("maincenter", "update_host")
-        If sysSet.update_host = "" Then sysSet.update_host = "http://www.shanhaijing.net/163/"
-        
-        sysSet.downloadblock = CLng(GetIniStr("maincenter", "downloadblock"))
-        sysSet.time_out = CInt(GetIniStr("maincenter", "time_out"))
-        sysSet.retry_times = CInt(GetIniStr("maincenter", "retry_times"))
-        
-        sysSet.list_type = CByte(GetIniStr("maincenter", "list_type"))
-        sysSet.fix_rar = CByte(GetIniStr("maincenter", "fix_rar"))
-        sysSet.fix_rar_name = Trim(GetIniStr("maincenter", "fix_rar_name"))
-        
-        sysSet.Unicode_File = CByte(GetIniStr("maincenter", "Unicode_File"))
-        sysSet.Unicode_Str = CByte(GetIniStr("maincenter", "Unicode_Str"))
-        
-        sysSet.include_script = GetIniStr("maincenter", "include_script")
-        sysSet.include_scriptlist = OX_Check_include_scriptlist(GetIniStr("maincenter", "include_scriptList"), False)
-        
-        sysSet.new163passcode_def(0) = GetIniStr("maincenter", "new163passcode_user")
-        sysSet.new163passcode_def(1) = GetIniStr("maincenter", "new163passcode_album")
-        sysSet.new163passcode_def(2) = GetIniStr("maincenter", "new163passcode_pw")
-        
-        If sysSet.new163passcode_def(0) = "" Or sysSet.new163passcode_def(1) = "" Or sysSet.new163passcode_def(2) = "" Then
-            sysSet.new163passcode_def(0) = "wehi"
-            sysSet.new163passcode_def(1) = "1530930"
-            sysSet.new163passcode_def(2) = "asd"
-        End If
-        
-        sysSet.autocheck = GetIniTF("maincenter", "autocheck")
-        sysSet.askquit = GetIniTF("maincenter", "askquit")
-        sysSet.listshow = GetIniTF("maincenter", "listshow")
-        sysSet.savedef = GetIniTF("maincenter", "savedef")
-        sysSet.openfloder = GetIniTF("maincenter", "openfloder")
-        sysSet.change_psw = GetIniTF("maincenter", "change_psw")
-        sysSet.always_top = GetIniTF("maincenter", "always_top")
-        sysSet.new_ie_win = GetIniTF("maincenter", "new_ie_win")
-        sysSet.ox163_ie_win = GetIniTF("maincenter", "ox163_ie_win")
-        sysSet.sysTray = GetIniTF("maincenter", "sysTray")
-        
-        sysSet.new163pass_rules = GetIniTF("maincenter", "new163pass_rules")
-        
-        sysSet.list_copy = GetIniTF("maincenter", "list_copy")
-        
-        sysSet.file_compare = CInt(GetIniStr("maincenter", "file_compare"))
-        
-        err_report = GetIniTF("maincenter", "err_report")
-        
-        sysSet.def_path_tf = GetIniTF("maincenter", "def_path_tf")
-        
-        sysSet.bottom_StatusBar = GetIniTF("maincenter", "bottom_StatusBar")
-        
-        sysSet.check_all = GetIniTF("maincenter", "check_all")
-        
-        sysSet.url_folder = GetIniTF("maincenter", "url_folder")
-        
-        sysSet.proxy_A = GetIniStr("proxyset", "proxy_A_type")
-        Select Case sysSet.proxy_A
-        Case "icDirect"
-            sysSet.proxy_A_type = 1
-        Case "icNamedProxy"
-            sysSet.proxy_A_type = 2
-        Case Else
-            sysSet.proxy_A_type = 0
-        End Select
-        
-        sysSet.proxy_A = GetIniStr("proxyset", "proxy_B_type")
-        Select Case sysSet.proxy_A
-        Case "icDirect"
-            sysSet.proxy_B_type = 1
-        Case "icNamedProxy"
-            sysSet.proxy_B_type = 2
-        Case Else
-            sysSet.proxy_B_type = 0
-        End Select
-        
-        sysSet.web_proxy = GetIniStr("proxyset", "web_proxy")
-        Select Case sysSet.web_proxy
-        Case "0"
-            sysSet.web_proxy = 0
-        Case Else
-            sysSet.web_proxy = 1
-        End Select
-        
-        sysSet.proxy_A = Trim(GetIniStr("proxyset", "proxy_A"))
-        sysSet.proxy_A_user = Trim(GetIniStr("proxyset", "proxy_A_user"))
-        sysSet.proxy_A_pw = GetIniStr("proxyset", "proxy_A_pw")
-        sysSet.proxy_B = Trim(GetIniStr("proxyset", "proxy_B"))
-        sysSet.proxy_B_user = Trim(GetIniStr("proxyset", "proxy_B_user"))
-        sysSet.proxy_B_pw = GetIniStr("proxyset", "proxy_B_pw")
-        
-        
-        '------------------------------------------------------------------------------------------
-        If Err.Number <> 0 Then
-            start_text.Text = start_text.Text & vbCrLf & "错误：" & Err.Description
-            Err.Clear
-        Else
-            start_text.Text = start_text.Text & "...OK"
-        End If
-        
-        start_text.SelStart = Len(start_text.Text)
-        
-        start_text.Text = start_text.Text & vbCrLf & "检查下载路径"
-        If sysSet.def_path_tf = True Then
-            sysSet.def_path = GetIniStr("maincenter", "def_path")
-            If Mid$(sysSet.def_path, 2, 2) <> ":\" And Len(sysSet.def_path) > 2 Then GoTo reset_path
-            If Right(sysSet.def_path, 1) = "\" Then sysSet.def_path = Mid$(sysSet.def_path, 1, Len(sysSet.def_path) - 1): WriteIniStr "maincenter", "def_path", sysSet.def_path
-            If (GetFileAttributes(sysSet.def_path) = -1) Then GoTo reset_path
-        Else
-reset_path:
-            If sysSet.def_path <> "" Then sysSet.def_path = "": WriteIniStr "maincenter", "def_path", ""
-        End If
-        
-        '------------------------------------------------------------------------------------------
-        If Err.Number <> 0 Then
-            start_text.Text = start_text.Text & vbCrLf & "错误：" & Err.Description
-            Err.Clear
-        Else
-            start_text.Text = start_text.Text & "...OK"
-        End If
-        
-        start_text.SelStart = Len(start_text.Text)
-        
-        If InStr(start_text.Text, "错误：") > 0 And err_report = True Then
-            start_text.Text = start_text.Text & vbCrLf & vbCrLf & "有错误发生，可以点击上方'X (QUIT)'按钮关闭"
-            Com1.Visible = True
-            'Com2.Visible = True
-            Com3.Visible = True
-            Com5.Visible = True
-        Else
-            start_text.Text = start_text.Text & vbCrLf & vbCrLf & "一切就绪,启动主程序,请确认网络已连接,修复按钮15秒后启动" & vbCrLf & vbCrLf & "Vista Win7 Win8下无法启动,可对程序进行如下操作:" & vbCrLf & "右键 -> 以管理员身份运行程序"
-        End If
-        start_text.SelStart = Len(start_text.Text)
-        start_text.Enabled = True
-        Timer2.Interval = 15000
-        Timer2.Enabled = True
-        BrowserW_url = ""
-        BrowserW_load_ok = True
-        Form1.Show
-    End Sub
+        & vbCrLf & "When you have finished setting, you need to restart your computer.", vbOKOnly
+    '--------------------------------------------------------
+    start_text.Text = "启动程序:"
+    step_counter = 0
+    err.Clear
+    '-----------------------------------------------------------------------------------------
     
-    Private Sub Timer2_Timer()
-        Timer2.Interval = 0
-        Timer2.Enabled = False
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "检查msvbvm60.dll"
+    start_check1 = ""
+    start_check2 = ""
+    start_check1 = FileDateTime(GetSysDir & "\..\system32\msvbvm60.dll")
+    start_check2 = FileDateTime(GetSysDir & "\..\sysWOW64\msvbvm60.dll")
+    If start_check1 = "" And start_check2 = "" Then
+        start_text.Text = start_text.Text & "系统文件夹中msvbvm60.dll可能不存在(一般情况不影响程序使用)"
+    End If
+    If err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & "error" & err.Number & "：" & err.Description
+        err.Clear
+    Else
+        start_text.Text = start_text.Text & "...OK"
+    End If
+    
+    start_text.SelStart = Len(start_text.Text)
+    '------------------------------------------------------------------------------------------
+    
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "检查scrrun.dll" & vbCrLf & "创建FileSystemObject"
+    err.Clear
+    Set test_Object = CreateObject("Scripting.FileSystemObject")
+    If err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & "Error-" & err.Number & ": " & err.Description
+        start_text.Text = start_text.Text & vbCrLf & "无法创建FileSystemObject：程序可能无法操作特殊unicode字符" & vbCrLf & "您可能需要修复windows系统文件：scrrun.dll，并重新设定FileSystemObject权限"
+        MsgBox "关键性错误: 无法创建创建FileSystemObject" & vbCrLf & "程序可能无法操作特殊unicode字符" & vbCrLf & "您可能需要修复windows系统文件：scrrun.dll，并重新这是FileSystemObject权限", vbOKOnly + vbCritical, "警告"
+        App_path = App.Path
+    Else
+        start_text.Text = start_text.Text & "...OK"
+        '规格化程序所在路径的短路径名
+        start_check1 = IIf(Right(App.Path, 1) = "\", App.Path, App.Path & "\")
+        App_path = test_Object.GetAbsolutePathName("")
+        App_path = IIf(Right(App_path, 1) = "\", App_path, App_path & "\")
+        App_path = IIf((InStr(start_check1, Chr(63)) < 1 And App_path <> start_check1), start_check1, App_path)
+        App_path = GetShortName(App_path)
+        start_text.Text = start_text.Text & vbCrLf & "程序主目录短路径-> " & App_path
+    End If
+    
+    Set test_Object = Nothing
+    
+    start_text.SelStart = Len(start_text.Text)
+    '------------------------------------------------------------------------------------------
+    
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "检查msinet.ocx" & vbCrLf & "创建Inet控件"
+    err.Clear
+    Set test_Object = CreateObject("InetCtls.Inet")
+    If err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & "Error-" & err.Number & ": " & err.Description
+        start_text.Text = start_text.Text & vbCrLf & "无法创建创建Inet控件：程序可能无法下载网页与图片" & vbCrLf & "您可能需要修复windows系统文件：msinet.ocx (32位)"
+        MsgBox "关键性错误: 无法创建创建Inet控件" & vbCrLf & "程序可能无法下载网页与图片" & vbCrLf & "您可能需要修复windows系统文件：msinet.ocx (32位)", vbOKOnly + vbCritical, "警告"
+    Else
+        start_text.Text = start_text.Text & "...OK"
+    End If
+    
+    Set test_Object = Nothing
+    
+    start_text.SelStart = Len(start_text.Text)
+    
+    '------------------------------------------------------------------------------------------
+    
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "检查wininet.dll" & vbCrLf & "创建InternetGetCookie"
+    
+    err.Clear
+    GetCookie "http://www.163.com"
+    If err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & "Error-" & err.Number & ": " & err.Description
+        start_text.Text = start_text.Text & vbCrLf & "无法创建创建wininet应用：程序可能无法获取页面cookies甚至Inet控件将失效" & vbCrLf & "您可能需要修复windows系统文件：wininet.dll"
+        MsgBox "关键性错误: 无法创建创建wininet应用" & vbCrLf & "程序可能无法获取页面cookies甚至Inet控件将失效" & vbCrLf & "您可能需要修复windows系统文件：wininet.dll", vbOKOnly + vbCritical, "警告"
+    Else
+        start_text.Text = start_text.Text & "...OK"
+    End If
+    
+    start_text.SelStart = Len(start_text.Text)
+    
+    '------------------------------------------------------------------------------------------
+    
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "检查comdlg32.dll" & vbCrLf & "创建CommonDialog"
+    err.Clear
+    Set test_Object = CreateObject("MSComDlg.CommonDialog.1")
+    If err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & "Error-" & err.Number & ": " & err.Description
+        start_text.Text = start_text.Text & vbCrLf & "无法创建创建CommonDialog对话框：程序可能无法创建文件保存或选择窗口" & vbCrLf & "您可能需要修复windows系统文件：comdlg32.dll"
+    Else
+        start_text.Text = start_text.Text & "...OK"
+    End If
+    
+    Set test_Object = Nothing
+    
+    start_text.SelStart = Len(start_text.Text)
+    
+    '------------------------------------------------------------------------------------------
+    
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "检查mscomctl.ocx" & vbCrLf & "创建ListView"
+    err.Clear
+    Set test_Object = CreateObject("MSComctlLib.ListViewctrl")
+    If err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & "Error-" & err.Number & ": " & err.Description
+        start_text.Text = start_text.Text & vbCrLf & "无法创建创建ListView列表：程序可能无法创建下载列表" & vbCrLf & "您可能需要修复windows系统文件：mscomctl.ocx (32位)"
+    Else
+        start_text.Text = start_text.Text & "...OK"
+    End If
+    
+    Set test_Object = Nothing
+    
+    start_text.SelStart = Len(start_text.Text)
+    
+    '------------------------------------------------------------------------------------------
+    
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "检查msscript.ocx" & vbCrLf & "创建ScriptControl"
+    err.Clear
+    Set test_Object = CreateObject("MSScriptControl.ScriptControl")
+    If err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & "Error-" & err.Number & ": " & err.Description
+        start_text.Text = start_text.Text & vbCrLf & "无法创建创建ScriptControl：程序可能无法调用外部脚本" & vbCrLf & "您可能需要修复windows系统文件：msscript.ocx (32位)"
+    Else
+        start_text.Text = start_text.Text & "...OK"
+    End If
+    
+    Set test_Object = Nothing
+    
+    start_text.SelStart = Len(start_text.Text)
+    
+    '------------------------------------------------------------------------------------------
+    
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "检查msado15.dll" & vbCrLf & "创建ADODB.Stream"
+    err.Clear
+    Set test_Object = CreateObject("ADODB.Stream")
+    If err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & "Error-" & err.Number & ": " & err.Description
+        start_text.Text = start_text.Text & vbCrLf & "无法创建创建ADODB.Stream：程序可能无法正确识别文本字符集和加载外部脚本" & vbCrLf & "您可能需要修复Program Files\Common Files\System\ado\中的msado15.dll"
+    Else
+        start_text.Text = start_text.Text & "...OK"
+    End If
+    
+    Set test_Object = Nothing
+    
+    start_text.SelStart = Len(start_text.Text)
+    '------------------------------------------------------------------------------------------
+    
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "检查文件夹"
+    err.Clear
+    If Dir(App_path & "\download", vbDirectory) = "" Then
+        MkDir App_path & "\download"
+    End If
+    
+    If Dir(App_path & "\url", vbDirectory) = "" Then
+        MkDir App_path & "\url"
+    End If
+    
+    If Dir(App_path & "\include", vbDirectory) = "" Then
+        MkDir App_path & "\include"
+    End If
+    
+    If Dir(App_path & "\include\sys", vbDirectory) = "" Then
+        MkDir App_path & "\include\sys"
+    End If
+    
+    If Dir(App_path & "\include\custom", vbDirectory) = "" Then
+        MkDir App_path & "\include\custom"
+    End If
+    
+    If err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & "Error-" & err.Number & ": " & err.Description
+        start_text.Text = start_text.Text & vbCrLf & "默认文件夹错误：程序检测或创建默认文件夹失败" & vbCrLf & "请手动检测程序目录下以下文件夹是否存在:"
+        start_text.Text = start_text.Text & vbCrLf & "\url" & vbCrLf & "\download" & vbCrLf & "\include" & vbCrLf & "\include\sys" & vbCrLf & "\include\custom"
+    Else
+        start_text.Text = start_text.Text & "...OK"
+    End If
+    
+    start_text.SelStart = Len(start_text.Text)
+    
+    '------------------------------------------------------------------------------------------
+    
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "初始化程序默认设置"
+    err.Clear
+    sysSet = OX_Default_Setting
+    If err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & "Error-" & err.Number & ": " & err.Description
+        start_text.Text = start_text.Text & vbCrLf & "初始化程序默认设置错误"
+    Else
+        start_text.Text = start_text.Text & "...OK"
+    End If
+    '------------------------------------------------------------------------------------------
+    
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "检查OX163setup.ini"
+    err.Clear
+    If Dir(App_path & "\OX163setup.ini") = "" Then
+        start_text.Text = start_text.Text & vbCrLf & "OX163setup.ini不存在"
+        start_text.Text = start_text.Text & vbCrLf & "重新建立OX163setup.ini"
+        '默认参数
+        start_check1 = 0
+        start_check1 = OX_WriteIni_Setting(sysSet)
+        If Int(start_check1) <> 0 Then
+            start_text.Text = start_text.Text & vbCrLf & "Error-" & start_check1 & ": " & err.Description
+            start_text.Text = start_text.Text & vbCrLf & "建立OX163setup.ini发生错误，可能建立失败"
+        Else
+            start_text.Text = start_text.Text & "...OK"
+        End If
+    End If
+    
+    If err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & "Error-" & err.Number & ": " & err.Description
+        start_text.Text = start_text.Text & vbCrLf & "检查或建立OX163setup.ini文件失败" & vbCrLf & "程序可能无法调用或保存用户个人设置"
+        err.Clear
+    Else
+        start_text.Text = start_text.Text & "...OK"
+    End If
+    
+    start_text.SelStart = Len(start_text.Text)
+    '------------------------------------------------------------------------------------------
+    
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "读取OX163setup.ini"
+    err.Clear
+        start_check1 = 0
+        start_check1 = OX_GetIni_Setting(sysSet)
+        If Int(start_check1) <> 0 Then
+            start_text.Text = start_text.Text & vbCrLf & "Error-" & start_check1 & ": " & err.Description
+            start_text.Text = start_text.Text & vbCrLf & "读取OX163setup.ini发生错误,可能需要开启程序设置重新写入ini"
+        Else
+            start_text.Text = start_text.Text & "...OK"
+        End If
+    
+    start_text.SelStart = Len(start_text.Text)
+    '------------------------------------------------------------------------------------------
+
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "检查自定义下载路径"
+    If sysSet.def_path_tf = True Then
+        sysSet.def_path = GetIniStr("maincenter", "def_path")
+        If Mid$(sysSet.def_path, 2, 2) <> ":\" And Len(sysSet.def_path) > 2 Then GoTo reset_path
+        If Right(sysSet.def_path, 1) = "\" Then sysSet.def_path = Mid$(sysSet.def_path, 1, Len(sysSet.def_path) - 1): WriteIniStr "maincenter", "def_path", sysSet.def_path
+        If (GetFileAttributes(sysSet.def_path) = -1) Then GoTo reset_path
+    Else
+reset_path:
+        If sysSet.def_path <> "" Then start_text.Text = start_text.Text & vbCrLf & sysSet.def_path & "文件夹不存在或不可写": sysSet.def_path = "": WriteIniStr "maincenter", "def_path", ""
+    End If
+    
+    start_text.SelStart = Len(start_text.Text)
+    '------------------------------------------------------------------------------------------
+    
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//启动结束//"
+    If InStr(start_text.Text, "Error-") > 0 Then
+        start_text.Text = start_text.Text & vbCrLf & vbCrLf & "有错误发生，可以点击上方'X (QUIT)'按钮关闭"
         Com1.Visible = True
-        'Com2.Visible = True
-        Com3.Visible = True
         Com5.Visible = True
-    End Sub
+    Else
+        start_text.Text = start_text.Text & vbCrLf & vbCrLf & "一切就绪,启动主程序,请确认网络已连接,修复按钮15秒后启动" & vbCrLf & vbCrLf & "Vista Win7 Win8下无法启动,可对程序进行如下操作:" & vbCrLf & "右键 -> 以管理员身份运行程序"
+    End If
+    start_text.SelStart = Len(start_text.Text)
+    start_text.Enabled = True
+    Timer2.Interval = 15000
+    Timer2.Enabled = True
+    BrowserW_url = ""
+    BrowserW_load_ok = True
+    windows_destop_Width = start_ox163.Width + start_ox163.Left * 2
+    windows_destop_Height = start_ox163.Height + start_ox163.Top * 2
+    OX_Start_log = start_text
+    Load History_Logs
+    'History_Logs.Hide
+    Form1.Show
+End Sub
+
+Private Sub Timer2_Timer()
+    Timer2.Interval = 0
+    Timer2.Enabled = False
+    Com1.Visible = True
+    Com5.Visible = True
+End Sub
