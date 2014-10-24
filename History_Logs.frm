@@ -47,11 +47,11 @@ Begin VB.Form OX_History_Logs
       End
       Begin MSComctlLib.ListView ListView1 
          Height          =   5415
-         Left            =   240
+         Left            =   120
          TabIndex        =   2
          Top             =   600
-         Width           =   7215
-         _ExtentX        =   12726
+         Width           =   7335
+         _ExtentX        =   12938
          _ExtentY        =   9551
          LabelWrap       =   -1  'True
          HideSelection   =   -1  'True

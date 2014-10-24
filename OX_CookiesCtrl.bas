@@ -150,7 +150,7 @@ Public Function OX_Set_Referer(ByVal Referer_info, ByVal Referer_URL) As String
             split_Referer(i) = Trim(Mid(split_Referer(i), 8))
             Call SetCookie(Referer_URL, split_Referer(i))
             split_Referer(i) = ""
-        ElseIf split_Referer(i) = "" Or InStr(split_Referer(i), ":") < 2 Then
+        ElseIf split_Referer(i) = "" Or InStr(split_Referer(i), ":") < 2 Or Trim(Mid(split_Referer(i), InStr(split_Referer(i), ":") + 1)) = "" Then
             split_Referer(i) = ""
         Else
             split_Referer(i) = split_Referer(i) & vbCrLf
@@ -162,11 +162,11 @@ Public Function OX_Set_Referer(ByVal Referer_info, ByVal Referer_URL) As String
         OX_Set_Referer = Left(OX_Set_Referer, Len(OX_Set_Referer) - 2)
     Loop
     
-    If InStr(LCase(OX_Set_Referer), "user-agent:") <> 1 And InStr(LCase(OX_Set_Referer), vbCrLf & "user-agent:") < 1 Then
-        OX_Set_Referer = OX_Set_Referer & vbCrLf & "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)"
-    End If
+    If InStr(LCase(OX_Set_Referer), "user-agent:") <> 1 And InStr(LCase(OX_Set_Referer), vbCrLf & "user-agent:") < 1 Then OX_Set_Referer = OX_Set_Referer & vbCrLf & "User-Agent: " & sysSet.Customize_UA
+    If sysSet.Cache_no_cache = 1 Then OX_Set_Referer = OX_Set_Referer & vbCrLf & "Pragma: no-cache"
+    If sysSet.Cache_no_store = 1 Then OX_Set_Referer = OX_Set_Referer & vbCrLf & "Cache-Control: no-store"
     Exit Function
     
 Referer_error:
-    OX_Set_Referer = "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)"
+    OX_Set_Referer = sysSet.OX_HTTP_Head
 End Function

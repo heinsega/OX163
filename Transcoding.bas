@@ -20,24 +20,45 @@ Public Function OX_CInternal(ByVal sourceString As String, ByVal sourceType As S
     OX_CInternal = sourceString
 End Function
 '2进制数据转换对应的字符集文本------------------------------------------------------------------------------------------
-Public Function Bin2CharsetTypeStr(ByVal binstr, ByVal CharsetType)
+Public Function OX_Bin2CharsetTypeStr(ByVal binstr, ByRef CharsetType) As String
     On Error Resume Next
     Const adTypeBinary = 1
     Const adTypeText = 2
     Dim BytesStream, StringReturn
     Set BytesStream = CreateObject("ADODB.Stream") '建立一个流对象
     With BytesStream
-        .Type = adTypeText
+        .Type = adTypeBinary
         .Open
-        .WriteText binstr
+        .Write binstr
         .Position = 0
+        .Type = adTypeText
         .Charset = CharsetType
-        .Position = 2
         StringReturn = .ReadText
         .Close
     End With
     Set BytesStream = Nothing
-    Bin2CharsetTypeStr = StringReturn
+    OX_Bin2CharsetTypeStr = StringReturn
+End Function
+
+Public Function OX_CharsetTypeStr2Bin(ByVal binstr, ByRef CharsetType) As Variant
+    On Error Resume Next
+    Const adTypeBinary = 1
+    Const adTypeText = 2
+    Dim BytesStream
+    Dim StringReturn As Variant
+    Set BytesStream = CreateObject("ADODB.Stream") '建立一个流对象
+    With BytesStream
+        .Type = adTypeText
+        .Charset = CharsetType
+        .Open
+        .WriteText binstr
+        .Position = 0
+        .Type = adTypeBinary
+        StringReturn = .Read
+        .Close
+    End With
+    Set BytesStream = Nothing
+    OX_CharsetTypeStr2Bin = StringReturn
 End Function
 
 '过滤指定关键字集------------------------------------------------------------------------------------------

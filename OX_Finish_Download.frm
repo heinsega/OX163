@@ -15,7 +15,7 @@ Begin VB.Form OX_Finish_Download
    ScaleWidth      =   6255
    Begin VB.Timer Timer2 
       Enabled         =   0   'False
-      Interval        =   10000
+      Interval        =   2000
       Left            =   3360
       Top             =   120
    End
@@ -73,14 +73,6 @@ Begin VB.Form OX_Finish_Download
          Top             =   0
          Width           =   2160
       End
-      Begin VB.Image Image2 
-         Height          =   525
-         Left            =   0
-         Picture         =   "OX_Finish_Download.frx":4108
-         Stretch         =   -1  'True
-         Top             =   0
-         Width           =   525
-      End
    End
 End
 Attribute VB_Name = "OX_Finish_Download"
@@ -88,6 +80,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Private Declare Function FlashWindow Lib "user32" (ByVal hwnd As Long, ByVal bInvert As Long) As Long
 Public Floders As String
 Dim time_step As Byte
 
@@ -109,6 +102,11 @@ Private Sub Form_Load()
     time_step = 0
 End Sub
 
+Private Sub Form_Unload(Cancel As Integer)
+On Error Resume Next
+    Call FlashWindow(Me.hwnd, 0)
+End Sub
+
 Private Sub Timer1_Timer()
     '3090 1140
     time_step = time_step + 1
@@ -121,9 +119,10 @@ End Sub
 Private Sub Finish_Download_on_top()
     Dim flags As Integer
     flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
-    SetWindowPos Me.hWnd, HWND_TOPMOST, 0, 0, 0, 0, flags
+    SetWindowPos Me.hwnd, HWND_TOPMOST, 0, 0, 0, 0, flags
 End Sub
 
 Private Sub Timer2_Timer()
-    Image1.Visible = Not Image1.Visible
+On Error Resume Next
+    Call FlashWindow(Me.hwnd, 1)
 End Sub

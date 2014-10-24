@@ -180,7 +180,6 @@ Private Sub Timer1_Timer()
     If err.Number <> 0 Then
         start_text.Text = start_text.Text & vbCrLf & "Error-" & err.Number & ": " & err.Description
         start_text.Text = start_text.Text & vbCrLf & "无法创建FileSystemObject：程序可能无法操作特殊unicode字符" & vbCrLf & "您可能需要修复windows系统文件：scrrun.dll，并重新设定FileSystemObject权限"
-        MsgBox "关键性错误: 无法创建创建FileSystemObject" & vbCrLf & "程序可能无法操作特殊unicode字符" & vbCrLf & "您可能需要修复windows系统文件：scrrun.dll，并重新这是FileSystemObject权限", vbOKOnly + vbCritical, "警告"
         App_path = App.Path
     Else
         start_text.Text = start_text.Text & "...OK"
@@ -201,11 +200,10 @@ Private Sub Timer1_Timer()
     step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
     start_text.Text = start_text.Text & vbCrLf & "检查msinet.ocx" & vbCrLf & "创建Inet控件"
     err.Clear
-    Set test_Object = CreateObject("InetCtls.Inet")
+    Set test_Object = CreateObject("InetCtls.Inet.1")
     If err.Number <> 0 Then
         start_text.Text = start_text.Text & vbCrLf & "Error-" & err.Number & ": " & err.Description
         start_text.Text = start_text.Text & vbCrLf & "无法创建创建Inet控件：程序可能无法下载网页与图片" & vbCrLf & "您可能需要修复windows系统文件：msinet.ocx (32位)"
-        MsgBox "关键性错误: 无法创建创建Inet控件" & vbCrLf & "程序可能无法下载网页与图片" & vbCrLf & "您可能需要修复windows系统文件：msinet.ocx (32位)", vbOKOnly + vbCritical, "警告"
     Else
         start_text.Text = start_text.Text & "...OK"
     End If
@@ -224,7 +222,6 @@ Private Sub Timer1_Timer()
     If err.Number <> 0 Then
         start_text.Text = start_text.Text & vbCrLf & "Error-" & err.Number & ": " & err.Description
         start_text.Text = start_text.Text & vbCrLf & "无法创建创建wininet应用：程序可能无法获取页面cookies甚至Inet控件将失效" & vbCrLf & "您可能需要修复windows系统文件：wininet.dll"
-        MsgBox "关键性错误: 无法创建创建wininet应用" & vbCrLf & "程序可能无法获取页面cookies甚至Inet控件将失效" & vbCrLf & "您可能需要修复windows系统文件：wininet.dll", vbOKOnly + vbCritical, "警告"
     Else
         start_text.Text = start_text.Text & "...OK"
     End If
@@ -304,22 +301,27 @@ Private Sub Timer1_Timer()
     start_text.Text = start_text.Text & vbCrLf & "检查文件夹"
     err.Clear
     If Dir(App_path & "\download", vbDirectory) = "" Then
+    start_text.Text = start_text.Text & vbCrLf & "建立download文件夹"
         MkDir App_path & "\download"
     End If
     
     If Dir(App_path & "\url", vbDirectory) = "" Then
+    start_text.Text = start_text.Text & vbCrLf & "建立url文件夹"
         MkDir App_path & "\url"
     End If
     
     If Dir(App_path & "\include", vbDirectory) = "" Then
+    start_text.Text = start_text.Text & vbCrLf & "建立include文件夹"
         MkDir App_path & "\include"
     End If
     
     If Dir(App_path & "\include\sys", vbDirectory) = "" Then
+    start_text.Text = start_text.Text & vbCrLf & "建立include\sys文件夹"
         MkDir App_path & "\include\sys"
     End If
     
     If Dir(App_path & "\include\custom", vbDirectory) = "" Then
+    start_text.Text = start_text.Text & vbCrLf & "建立include\custom文件夹"
         MkDir App_path & "\include\custom"
     End If
     
@@ -389,30 +391,14 @@ Private Sub Timer1_Timer()
     
     start_text.SelStart = Len(start_text.Text)
     '------------------------------------------------------------------------------------------
-
-    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
-    start_text.Text = start_text.Text & vbCrLf & "检查自定义下载路径"
-    If sysSet.def_path_tf = True Then
-        sysSet.def_path = GetIniStr("maincenter", "def_path")
-        If Mid$(sysSet.def_path, 2, 2) <> ":\" And Len(sysSet.def_path) > 2 Then GoTo reset_path
-        If Right(sysSet.def_path, 1) = "\" Then sysSet.def_path = Mid$(sysSet.def_path, 1, Len(sysSet.def_path) - 1): WriteIniStr "maincenter", "def_path", sysSet.def_path
-        If (GetFileAttributes(sysSet.def_path) = -1) Then GoTo reset_path
-    Else
-reset_path:
-        If sysSet.def_path <> "" Then start_text.Text = start_text.Text & vbCrLf & sysSet.def_path & "文件夹不存在或不可写": sysSet.def_path = "": WriteIniStr "maincenter", "def_path", ""
-    End If
-    
-    start_text.SelStart = Len(start_text.Text)
-    '------------------------------------------------------------------------------------------
     
     step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//启动结束//"
     If InStr(start_text.Text, "Error-") > 0 Then
         start_text.Text = start_text.Text & vbCrLf & vbCrLf & "有错误发生，可以点击上方'X (QUIT)'按钮关闭"
-        Com1.Visible = True
-        Com5.Visible = True
     Else
-        start_text.Text = start_text.Text & vbCrLf & vbCrLf & "一切就绪,启动主程序,请确认网络已连接,修复按钮15秒后启动" & vbCrLf & vbCrLf & "Vista Win7 Win8下无法启动,可对程序进行如下操作:" & vbCrLf & "右键 -> 以管理员身份运行程序"
+        start_text.Text = start_text.Text & vbCrLf & vbCrLf & "一切就绪,启动主程序,请确认网络已连接,修复按钮15秒后启动"
     End If
+    start_text.Text = start_text.Text & vbCrLf & vbCrLf & "Vista Win7 Win8下无法启动,可对程序进行如下操作:" & vbCrLf & "右键 -> 以管理员身份运行程序"
     start_text.SelStart = Len(start_text.Text)
     start_text.Enabled = True
     Timer2.Interval = 15000

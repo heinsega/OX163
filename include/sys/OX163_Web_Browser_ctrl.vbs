@@ -1,4 +1,4 @@
-'2013-12-29 163.shanhaijing.net
+'2014-10-23 163.shanhaijing.net
 
 Function OX163_Web_Browser_ctrl(ByVal URL,ByVal Flags,ByVal TargetFrameName,ByVal PostData,ByVal Headers)
 On Error Resume Next
@@ -14,8 +14,8 @@ ElseIf InStr(LCase(URL),"b https://")=1 or InStr(LCase(URL),"b%20https://")=1 Th
   URL=Mid(URL,InStrrev(LCase(URL),"https://"))
 	OX163_Web_Browser_ctrl=URL & vbCrLf & vbCrLf & "" & vbCrLf & vbCrLf & "" & vbCrLf & vbCrLf & "" & vbCrLf & vbCrLf & ""
 ElseIf InStr(LCase(URL),"http://b%20http//")=1 or InStr(LCase(URL),"http://b%20https//")=1 Then
-  If InStr(LCase(URL),"http://b%20http//")=1 Then URL="http://" & Mid(URL,17)
-  If InStr(LCase(URL),"http://b%20https//")=1 Then URL="https://" & Mid(URL,18)
+  If InStr(LCase(URL),"http://b%20http//")=1 Then URL="http://" & Mid(URL,18)
+  If InStr(LCase(URL),"http://b%20https//")=1 Then URL="https://" & Mid(URL,19)
 	OX163_Web_Browser_ctrl=URL & vbCrLf & vbCrLf & "" & vbCrLf & vbCrLf & "" & vbCrLf & vbCrLf & "" & vbCrLf & vbCrLf & ""
 
 ElseIf InStr(LCase(URL),"http://picasaweb.google.")=1 or InStr(LCase(URL),"picasaweb.google.")=1 Then

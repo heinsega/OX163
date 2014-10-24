@@ -173,7 +173,7 @@ Public Function ParseAlbum(ByVal sourceString As String) As AlbumInfo()
             ParseAlbumInfo(i).URL = ParseAlbumInfoSplit(2)
             'list_album_photo_numbers
             If IsNumeric(ParseAlbumInfoSplit(1)) Then
-                ParseAlbumInfo(i).picCount = IIf(ParseAlbumInfoSplit(1) > 0, Format$(ParseAlbumInfoSplit(1), "00000") & "уе", "")
+                ParseAlbumInfo(i).picCount = IIf(ParseAlbumInfoSplit(1) > 0, Format$(ParseAlbumInfoSplit(1), "00000"), "")
             Else
                 ParseAlbumInfo(i).picCount = ""
             End If

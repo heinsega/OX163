@@ -3,9 +3,11 @@ Attribute VB_Name = "OX_function"
 '--------------------------------OX163常用函数----------------------------
 '-------------------------------------------------------------------------
 
-Public Declare Function InternetSetOption Lib "wininet.dll" Alias "InternetSetOptionA" (ByVal hInternet As Long, ByVal dwOption As Long, ByRef lpBuffer As Any, ByVal dwBufferLength As Long) As Long
+Private Declare Function InternetSetOption Lib "wininet.dll" Alias "InternetSetOptionA" (ByVal hInternet As Long, ByVal dwOption As Long, ByRef lpBuffer As Any, ByVal dwBufferLength As Long) As Long
+Private Declare Function DeleteUrlCacheEntry Lib "wininet.dll" Alias "DeleteUrlCacheEntryA" (ByVal lpszUrlName As String) As Long '删除链接缓存,unicode字符建议使用UTF8EncodeURI编码
+Private Declare Function GetUrlCacheEntryInfo Lib "wininet.dll" Alias "GetUrlCacheEntryInfoA" (ByVal lpszUrlName As String, lpCacheEntryInfo As Any, lpdwCacheEntryInfoBufferSize As Long) As Long
 
-Public Type INTERNET_PROXY_INFO
+Private Type INTERNET_PROXY_INFO
     dwAccessType    As Long
     lpszProxy      As String
     lpszProxyBypass As String
@@ -35,6 +37,16 @@ Public Enum OX_ntimeFormat
     OX_ntime_int
 End Enum
 
+Public Function OX_DeleteUrlCacheEntryW(ByRef DUCE_Url_String As String) As Long
+    '1=delete OK; 0=else status
+    OX_DeleteUrlCacheEntryW = DeleteUrlCacheEntry(UTF8EncodeURI(DUCE_Url_String))
+End Function
+
+Public Function OX_Url_InCacheW(ByVal DUCE_Url_String As String) As Boolean
+     If GetUrlCacheEntryInfo(UTF8EncodeURI(DUCE_Url_String), ByVal 0&, 0) = 0 Then
+         OX_Url_InCacheW = (err.LastDllError = 122)
+     End If
+End Function
 '-------------------------------------------------------------------------
 '参数调整后重新设置代理服务器设置-----------------------------------------
 Public Sub Proxy_set()
@@ -53,16 +65,13 @@ Public Sub Proxy_set()
     Select Case sysSet.proxy_A_type
     Case 1
         
-        If sysSet.web_proxy = 1 Then
-            inf.dwAccessType = INTERNET_OPEN_TYPE_DIRECT
-            inf.lpszProxy = ""
-            inf.lpszProxyBypass = ""
-            
-            Call InternetSetOption(0, INTERNET_OPTION_PROXY, inf, LenB(inf))
-            Call InternetSetOption(0, INTERNET_OPTION_SETTINGS_CHANGED, "", 0)
-        End If
-        
         Form1.fast_down.AccessType = icDirect
+        
+        inf.dwAccessType = INTERNET_OPEN_TYPE_DIRECT
+        inf.lpszProxy = ""
+        inf.lpszProxyBypass = ""
+        Call InternetSetOption(0, INTERNET_OPTION_PROXY, inf, LenB(inf))
+        Call InternetSetOption(0, INTERNET_OPTION_SETTINGS_CHANGED, "", 0)
         
     Case 2
         sysSet.proxy_A = Trim(Replace(Replace(sysSet.proxy_A, Chr(10), ""), Chr(13), ""))
@@ -111,6 +120,15 @@ Public Sub Proxy_set()
         Form1.fast_down.AccessType = icUseDefault
         
     End Select
+    
+    If sysSet.web_proxy = 0 And star_up_count = True Then
+        inf.dwAccessType = INTERNET_OPEN_TYPE_DIRECT
+        inf.lpszProxy = ""
+        inf.lpszProxyBypass = ""
+        
+        Call InternetSetOption(0, INTERNET_OPTION_PROXY, inf, LenB(inf))
+        Call InternetSetOption(0, INTERNET_OPTION_SETTINGS_CHANGED, "", 0)
+    End If
     
     '-------------------------------------------------------------------------
     Form1.Inet1.Proxy = ""
@@ -247,6 +265,17 @@ Public Function OX_Default_Setting() As sysSetting
     'Unicode文件/文件夹字符操作
     OX_Default_Setting.Unicode_File = 0
     OX_Default_Setting.Unicode_Str = 0
+    'IE历史缓存设置
+    OX_Default_Setting.DelCache_BefDL = 0
+    OX_Default_Setting.DelCache_AftDL = 0
+    'http头强制发送no-cache
+    Cache_no_cache = 0
+    'http头强制发送no-store
+    Cache_no_store = 0
+    '用户代理(User-Agent)
+    Customize_UA = OX_UA_Const(0)
+    '整合Cache_no_cache Cache_no_store Customize_UA后的HTTP头信息
+    OX_Default_Setting.OX_HTTP_Head = "User-Agent: " & OX_Default_Setting.Customize_UA & IIf(OX_Default_Setting.Cache_no_cache = 1, vbCrLf & "Pragma: no-cache", "") & IIf(OX_Default_Setting.Cache_no_store = 1, vbCrLf & "Cache-Control: no-store", "")
 End Function
 
 
@@ -319,7 +348,16 @@ Public Function OX_WriteIni_Setting(ByRef OX_SysSet As sysSetting)
     'Unicode文件/文件夹字符操作
     WriteIniStr "maincenter", "Unicode_File", OX_SysSet.Unicode_File
     WriteIniStr "maincenter", "Unicode_Str", OX_SysSet.Unicode_Str
-
+    'IE历史缓存设置
+    WriteIniStr "maincenter", "DelCache_BefDL", OX_SysSet.DelCache_BefDL
+    WriteIniStr "maincenter", "DelCache_AftDL", OX_SysSet.DelCache_AftDL
+    'http头强制发送no-cache
+    WriteIniStr "maincenter", "Cache_no_cache", OX_SysSet.Cache_no_cache
+    'http头强制发送no-cstore
+    WriteIniStr "maincenter", "Cache_no_store", OX_SysSet.Cache_no_store
+    '用户代理(User-Agent)
+    WriteIniStr "maincenter", "Customize_UA", OX_SysSet.Customize_UA
+    
     '-----[proxyset]-----
     '代理服务器使用方式 0-icUseDefault,1-icDirect,2-icNamedProxy
     Select Case OX_SysSet.proxy_A_type
@@ -361,7 +399,7 @@ End Function
 Public Function OX_GetIni_Setting(ByRef OX_SysSet As sysSetting)
     On Error Resume Next
     OX_Global_Err_Num = 0
-
+    
     OX_SysSet.update_host = GetIniStr("maincenter", "update_host")
     If OX_SysSet.update_host = "" Then OX_SysSet.update_host = "http://www.shanhaijing.net/163/"
     
@@ -375,6 +413,12 @@ Public Function OX_GetIni_Setting(ByRef OX_SysSet As sysSetting)
     
     OX_SysSet.Unicode_File = CByte(GetIniStr("maincenter", "Unicode_File"))
     OX_SysSet.Unicode_Str = CByte(GetIniStr("maincenter", "Unicode_Str"))
+    
+    OX_SysSet.DelCache_BefDL = CByte(GetIniStr("maincenter", "DelCache_BefDL"))
+    OX_SysSet.DelCache_AftDL = CByte(GetIniStr("maincenter", "DelCache_AftDL"))
+    
+    OX_SysSet.Cache_no_cache = CByte(GetIniStr("maincenter", "Cache_no_cache"))
+    OX_SysSet.Cache_no_store = CByte(GetIniStr("maincenter", "Cache_no_store"))
     
     OX_SysSet.include_script = GetIniStr("maincenter", "include_script")
     OX_SysSet.include_scriptlist = OX_Check_include_scriptlist(GetIniStr("maincenter", "include_scriptList"), False)
@@ -408,11 +452,25 @@ Public Function OX_GetIni_Setting(ByRef OX_SysSet As sysSetting)
     
     OX_SysSet.def_path_tf = GetIniTF("maincenter", "def_path_tf")
 
+    If sysSet.def_path_tf = True Then
+        OX_SysSet.def_path = GetIniStr("maincenter", "def_path")
+        If Mid$(sysSet.def_path, 2, 2) <> ":\" And Len(sysSet.def_path) > 2 Then GoTo reset_path
+        If Right(sysSet.def_path, 1) = "\" Then sysSet.def_path = Mid$(sysSet.def_path, 1, Len(sysSet.def_path) - 1): WriteIniStr "maincenter", "def_path", sysSet.def_path
+        If (GetFileAttributes(sysSet.def_path) = -1) Then GoTo reset_path
+    Else
+reset_path:
+        sysSet.def_path_tf = False
+        OX_SysSet.def_path = ""
+    End If
+    
     OX_SysSet.bottom_StatusBar = GetIniTF("maincenter", "bottom_StatusBar")
     
     OX_SysSet.check_all = GetIniTF("maincenter", "check_all")
     
     OX_SysSet.url_folder = GetIniTF("maincenter", "url_folder")
+    
+    OX_SysSet.Customize_UA = Trim(GetIniStr("maincenter", "Customize_UA"))
+    If OX_SysSet.Customize_UA = "" Then OX_SysSet.Customize_UA = OX_UA_Const(0)
     
     OX_SysSet.proxy_A = GetIniStr("proxyset", "proxy_A_type")
     Select Case OX_SysSet.proxy_A
@@ -424,8 +482,8 @@ Public Function OX_GetIni_Setting(ByRef OX_SysSet As sysSetting)
         OX_SysSet.proxy_A_type = 0
     End Select
     
-    OX_SysSet.proxy_A = GetIniStr("proxyset", "proxy_B_type")
-    Select Case OX_SysSet.proxy_A
+    OX_SysSet.proxy_B = GetIniStr("proxyset", "proxy_B_type")
+    Select Case OX_SysSet.proxy_B
     Case "icDirect"
         OX_SysSet.proxy_B_type = 1
     Case "icNamedProxy"
@@ -451,14 +509,18 @@ Public Function OX_GetIni_Setting(ByRef OX_SysSet As sysSetting)
     OX_SysSet.ver = ver_info
     
     If CInt(GetIniStr("maincenter", "ver")) <> ver_info Then
-     OX_GetIni_Setting = OX_WriteIni_Setting(OX_SysSet)
+        OX_GetIni_Setting = OX_WriteIni_Setting(OX_SysSet)
     End If
     
     If OX_Global_Err_Num <> 0 Then
         OX_GetIni_Setting = OX_Global_Err_Num
+        OX_Global_Err_Num = 0
     Else
         OX_GetIni_Setting = 0
     End If
+    
+    '整合Cache_no_cache Cache_no_store Customize_UA后的HTTP头信息
+    OX_SysSet.OX_HTTP_Head = "User-Agent: " & OX_SysSet.Customize_UA & IIf(OX_SysSet.Cache_no_cache = 1, vbCrLf & "Pragma: no-cache", "") & IIf(OX_SysSet.Cache_no_store = 1, vbCrLf & "Cache-Control: no-store", "")
 End Function
 
 '-------------------------------------------------------------------------
@@ -712,7 +774,7 @@ End Function
 
 '-------------------------------------------------------------------------
 '加载OX163脚本顺序函数----------------------------------------------------
-Public Function OX_Check_include_scriptlist(ByVal OX_sCIS As String, OX_CIS_tf As Boolean) As String 'CIS is "Check Include Scriptlist"
+Public Function OX_Check_include_scriptlist(ByVal OX_sCIS As String, OX_CIS_tf As Boolean) As String '"CIS" means "Check Include Scriptlist"
     Dim spilt_string1
     Dim split_i As Integer
     Dim Check_CIS As String

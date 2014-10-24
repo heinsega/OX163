@@ -643,15 +643,10 @@ Private Sub script_load_StateChanged(ByVal State As Integer)
 End Sub
 
 Public Sub script_download()
-    DoEvents
-    '文件大小值复位
     On Error GoTo err_ctrl
-    
-    '定义ITC控件使用的协议为HTTP协议
-    'script_load.Protocol = icHTTP
-    
+    If sysSet.DelCache_BefDL = 1 Or sysSet.DelCache_BefDL > 2 Then OX_DeleteUrlCacheEntryW strURL
     '调用Execute方法向Web服务器发送HTTP请求
-    script_load.Execute Trim$(strURL), "GET"
+    script_load.Execute Trim$(strURL), "GET", , sysSet.OX_HTTP_Head
     Exit Sub
     
 err_ctrl:

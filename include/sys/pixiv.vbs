@@ -1,4 +1,4 @@
-'2014-10-7 visceroid & hein@shanghaijing.net
+'2014-10-24 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, reg_bigmode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, php_name
 started = False
 multi_page = True
@@ -229,11 +229,16 @@ On Error Resume Next
 								For page_index = 0 To page_count - 1
 									add_download_list_entry match, return_download_list, page_index
 								Next
+
+								If multi_page=false and reg_bigmode<>"multiple" and InStr(lcase(match.SubMatches(3)),"/img-master/img/")>1 and lcase(match.SubMatches(4))="jpg" Then reg_bigmode="multiple"
+
 								'新的漫画页
 								If reg_bigmode="multiple" Then
 									reg_bigmode=return_download_list
 									If reg_bigmode <>"" Then
-										next_page_str=replace(next_page_str,"?mode=medium&","?mode=manga_big&") & "&page=0"
+										next_page_str=replace(next_page_str,"?mode=medium&","?mode=manga_big&")
+										next_page_str=replace(next_page_str,"&mode=medium","&mode=manga_big")
+										next_page_str=next_page_str&"&page=0"
 										return_download_list = next_page_str
 										Exit Function
 									End If
@@ -394,6 +399,7 @@ On Error Resume Next
 		file_description=mid(ugoira_str,InStr(LCase(ugoira_str),LCase("pixiv.context.illustTitle")))
 		file_description=mid(file_description,InStr(file_description,"""")+1)
 		file_description=mid(file_description,1,InStr(file_description,"""")-1)
+		file_description=fix_Unicode_Name(file_description)
 		file_name=file_description
 		
 		If Len(file_name)>200 Then file_name=left(file_name,200)
@@ -602,6 +608,7 @@ On Error Resume Next
             End If
         Next
         fix_Unicode_Name = Join(split_str, "")
+        fix_Unicode_Name = replace(fix_Unicode_Name,"\/","/") 
     End If
 End Function
 
@@ -616,7 +623,35 @@ Function is_Hex_code(ByVal Hex_code)
         is_Hex_code = False
     End If
 End Function
+'----------------------------------------------------------------------
+Function rename_utf8(ByVal utf8_str)
+	rename_utf8 = ""	
+	If Len(utf8_str) = 0 Then
+		Exit Function
+	End If	
+	utf8_str=Hex_unicode_str(utf8_str)
+	
+	For i = 1 to Len(utf8_str)
+		If Asc(Mid(utf8_str, i, 1)) = 63 Then
+			utf8_str = replace(utf8_str, Mid(utf8_str, i, 1), "_")
+		End If
+	Next
+	rename_utf8 = replace(utf8_str, "|", "｜")
+End Function
 
+Function Hex_unicode_str(ByVal old_String)
+    Dim i, UnAnsi_Str, Hex_UnAnsi_Str
+    For i = 1 To Len(old_String)
+        If Asc(Mid(old_String, i, 1)) = 63 Then UnAnsi_Str = UnAnsi_Str & Mid(old_String, i, 1)
+    Next
+        
+    For i = 1 To Len(UnAnsi_Str)
+        Hex_UnAnsi_Str = Mid(UnAnsi_Str, i, 1)
+        Hex_UnAnsi_Str = "&H" & Hex(AscW(Hex_UnAnsi_Str))
+        old_String = Replace(old_String, Mid(UnAnsi_Str, i, 1), "&#" & Int(Hex_UnAnsi_Str) & ";")
+    Next
+    Hex_unicode_str = old_String
+End Function
 '----------------------------------------------------------------------
 ' 保存文本文件
 Function SaveEncodedTextFile(sFilePath, sCharset, s)
@@ -647,31 +682,3 @@ Function SaveEncodedTextFile(sFilePath, sCharset, s)
     Set oStream = Nothing
 End Function
     
-Function rename_utf8(ByVal utf8_str)
-	rename_utf8 = ""	
-	If Len(utf8_str) = 0 Then
-		Exit Function
-	End If	
-	utf8_str=Hex_unicode_str(utf8_str)
-	
-	For i = 1 to Len(utf8_str)
-		If Asc(Mid(utf8_str, i, 1)) = 63 Then
-			utf8_str = replace(utf8_str, Mid(utf8_str, i, 1), "_")
-		End If
-	Next
-	rename_utf8 = replace(utf8_str, "|", "｜")
-End Function
-
-Function Hex_unicode_str(ByVal old_String)
-    Dim i, UnAnsi_Str, Hex_UnAnsi_Str
-    For i = 1 To Len(old_String)
-        If Asc(Mid(old_String, i, 1)) = 63 Then UnAnsi_Str = UnAnsi_Str & Mid(old_String, i, 1)
-    Next
-        
-    For i = 1 To Len(UnAnsi_Str)
-        Hex_UnAnsi_Str = Mid(UnAnsi_Str, i, 1)
-        Hex_UnAnsi_Str = "&H" & Hex(AscW(Hex_UnAnsi_Str))
-        old_String = Replace(old_String, Mid(UnAnsi_Str, i, 1), "&#" & Int(Hex_UnAnsi_Str) & ";")
-    Next
-    Hex_unicode_str = old_String
-End Function

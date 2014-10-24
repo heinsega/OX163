@@ -95,8 +95,7 @@ Function return_download_url(ByVal url_str)
     retry_url = return_download_url
     
     return_download_url = return_download_url & "|http://chan.sankakucomplex.com/post/show/1936676" & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
-OX163_urlpage_Referer = "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
-MsgBox OX163_urlpage_Cookies
+		OX163_urlpage_Referer = "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
     deep_DL = MsgBox("是否使用快速分析？" & vbCrLf & "(部分非JPG图片如PNG/GIF等可能无法正常获取)" & vbCrLf & vbCrLf & "[YES]快速分析" & vbCrLf & "[NO]深入分析", vbYesNo, "询问")
 End Function
 '--------------------------------------------------------
