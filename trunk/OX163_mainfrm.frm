@@ -247,7 +247,7 @@ Begin VB.Form Form1
       Index           =   2
       Left            =   3480
       MouseIcon       =   "OX163_mainfrm.frx":5E53
-      MousePointer    =   99  'Custom
+      MousePointer    =   14  'Arrow and Question
       Picture         =   "OX163_mainfrm.frx":615D
       ScaleHeight     =   180
       ScaleWidth      =   1020
@@ -264,7 +264,7 @@ Begin VB.Form Form1
       Index           =   1
       Left            =   2400
       MouseIcon       =   "OX163_mainfrm.frx":623B
-      MousePointer    =   99  'Custom
+      MousePointer    =   14  'Arrow and Question
       Picture         =   "OX163_mainfrm.frx":6545
       ScaleHeight     =   180
       ScaleWidth      =   1020
@@ -281,7 +281,7 @@ Begin VB.Form Form1
       Index           =   0
       Left            =   4560
       MouseIcon       =   "OX163_mainfrm.frx":6623
-      MousePointer    =   99  'Custom
+      MousePointer    =   14  'Arrow and Question
       Picture         =   "OX163_mainfrm.frx":692D
       ScaleHeight     =   180
       ScaleWidth      =   1020
@@ -1026,7 +1026,7 @@ Begin VB.Form Form1
          Picture         =   "OX163_mainfrm.frx":C829
          Stretch         =   -1  'True
          ToolTipText     =   "Show Url List"
-         Top             =   270
+         Top             =   290
          Width           =   225
       End
    End
@@ -1276,14 +1276,10 @@ Begin VB.Form Form1
                ImageIndex      =   7
                Style           =   5
                BeginProperty ButtonMenus {66833FEC-8583-11D1-B16A-00C0F0283628} 
-                  NumButtonMenus  =   2
+                  NumButtonMenus  =   1
                   BeginProperty ButtonMenu1 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                      Key             =   "Web_Toolbar_163"
                      Text            =   "登录163相册"
-                  EndProperty
-                  BeginProperty ButtonMenu2 {66833FEE-8583-11D1-B16A-00C0F0283628} 
-                     Key             =   "Web_Toolbar_s163"
-                     Text            =   "搜索163相册"
                   EndProperty
                EndProperty
             EndProperty
@@ -1708,73 +1704,73 @@ Dim stop_check_header As Boolean
 '开始-----------------------------------鼠标经过空间判断--------------------------------------------------
 
 Private Sub Change_Main_Image(Image_ID As Byte)
-On Error Resume Next
-Dim ImageLibrary_obj As Object
-Dim LI_ID As Byte
-For i = 1 To 2
-    If i = 1 Then Set ImageLibrary_obj = ImageLibrary_Normal: LI_ID = mouse_dic
-    If i = 2 Then Set ImageLibrary_obj = ImageLibrary_Over: LI_ID = Image_ID
-    Select Case LI_ID
-    Case 0
-    Case 1
-        If auto_shutdown_tf Then
-            open_set.Picture = ImageLibrary_obj.ListImages(2).Picture
-            open_set1.Picture = ImageLibrary_obj.ListImages(2).Picture
-        Else
-            open_set.Picture = ImageLibrary_obj.ListImages(1).Picture
-            open_set1.Picture = ImageLibrary_obj.ListImages(1).Picture
-        End If
-    Case 2
-        
-    Case 3
-        search163.Picture = ImageLibrary_obj.ListImages(3).Picture
-    Case 4
-        view_command.Picture = ImageLibrary_obj.ListImages(4).Picture
-    Case 5
-        url_Filelist_Close.Picture = ImageLibrary_obj.ListImages(5).Picture
-    Case 6
-        Web_Browser_Close.Picture = ImageLibrary_obj.ListImages(6).Picture
-    Case 7
-        makelist_command.Picture = ImageLibrary_obj.ListImages(7).Picture
-    Case 8
-        albumslist_back.Picture = ImageLibrary_obj.ListImages(8).Picture
-        list_back.Picture = ImageLibrary_obj.ListImages(8).Picture
-        list_back1.Picture = ImageLibrary_obj.ListImages(8).Picture
-    Case 9
-        list_stop.Picture = ImageLibrary_obj.ListImages(9).Picture
-        stop2.Picture = ImageLibrary_obj.ListImages(9).Picture
-    Case 10
-        list_output.Picture = ImageLibrary_obj.ListImages(10 + sysSet.list_type).Picture
-        out_all.Picture = ImageLibrary_obj.ListImages(10 + sysSet.list_type).Picture
-        user_list_output.Picture = ImageLibrary_obj.ListImages(10 + sysSet.list_type).Picture
-    Case 11
-    
-    Case 12
-    
-    Case 13
-        save_all.Picture = ImageLibrary_obj.ListImages(13).Picture
-        user_list_save.Picture = ImageLibrary_obj.ListImages(13).Picture
-        image_save.Picture = ImageLibrary_obj.ListImages(13).Picture
-    Case 14
-        list_check.Picture = ImageLibrary_obj.ListImages(14).Picture
-    Case 15
-        user_list_find.Picture = ImageLibrary_obj.ListImages(15).Picture
-        list1_find.Picture = ImageLibrary_obj.ListImages(15).Picture
-    Case 16
-        find_next.Picture = ImageLibrary_obj.ListImages(16).Picture
-    Case 17
-        find_prev.Picture = ImageLibrary_obj.ListImages(17).Picture
-    Case 18
-        top_Picture(0).Picture = ImageLibrary_obj.ListImages(18).Picture
-        top_Picture(1).Picture = ImageLibrary_obj.ListImages(19).Picture
-    Case 19
-    
-    Case 20
-        homepage.Picture = ImageLibrary_obj.ListImages(20).Picture
-    Case 21
-        url_list_show.Picture = ImageLibrary_obj.ListImages(21).Picture
-    End Select
-Next
+    On Error Resume Next
+    Dim ImageLibrary_obj As Object
+    Dim LI_ID As Byte
+    For i = 1 To 2
+        If i = 1 Then Set ImageLibrary_obj = ImageLibrary_Normal: LI_ID = mouse_dic
+        If i = 2 Then Set ImageLibrary_obj = ImageLibrary_Over: LI_ID = Image_ID
+        Select Case LI_ID
+        Case 0
+        Case 1
+            If auto_shutdown_tf Then
+                open_set.Picture = ImageLibrary_obj.ListImages(2).Picture
+                open_set1.Picture = ImageLibrary_obj.ListImages(2).Picture
+            Else
+                open_set.Picture = ImageLibrary_obj.ListImages(1).Picture
+                open_set1.Picture = ImageLibrary_obj.ListImages(1).Picture
+            End If
+        Case 2
+            
+        Case 3
+            search163.Picture = ImageLibrary_obj.ListImages(3).Picture
+        Case 4
+            view_command.Picture = ImageLibrary_obj.ListImages(4).Picture
+        Case 5
+            url_Filelist_Close.Picture = ImageLibrary_obj.ListImages(5).Picture
+        Case 6
+            Web_Browser_Close.Picture = ImageLibrary_obj.ListImages(6).Picture
+        Case 7
+            makelist_command.Picture = ImageLibrary_obj.ListImages(7).Picture
+        Case 8
+            albumslist_back.Picture = ImageLibrary_obj.ListImages(8).Picture
+            list_back.Picture = ImageLibrary_obj.ListImages(8).Picture
+            list_back1.Picture = ImageLibrary_obj.ListImages(8).Picture
+        Case 9
+            list_stop.Picture = ImageLibrary_obj.ListImages(9).Picture
+            stop2.Picture = ImageLibrary_obj.ListImages(9).Picture
+        Case 10
+            list_output.Picture = ImageLibrary_obj.ListImages(10 + sysSet.list_type).Picture
+            out_all.Picture = ImageLibrary_obj.ListImages(10 + sysSet.list_type).Picture
+            user_list_output.Picture = ImageLibrary_obj.ListImages(10 + sysSet.list_type).Picture
+        Case 11
+            
+        Case 12
+            
+        Case 13
+            save_all.Picture = ImageLibrary_obj.ListImages(13).Picture
+            user_list_save.Picture = ImageLibrary_obj.ListImages(13).Picture
+            image_save.Picture = ImageLibrary_obj.ListImages(13).Picture
+        Case 14
+            list_check.Picture = ImageLibrary_obj.ListImages(14).Picture
+        Case 15
+            user_list_find.Picture = ImageLibrary_obj.ListImages(15).Picture
+            list1_find.Picture = ImageLibrary_obj.ListImages(15).Picture
+        Case 16
+            find_next.Picture = ImageLibrary_obj.ListImages(16).Picture
+        Case 17
+            find_prev.Picture = ImageLibrary_obj.ListImages(17).Picture
+        Case 18
+            top_Picture(0).Picture = ImageLibrary_obj.ListImages(18).Picture
+            top_Picture(1).Picture = ImageLibrary_obj.ListImages(19).Picture
+        Case 19
+            
+        Case 20
+            homepage.Picture = ImageLibrary_obj.ListImages(20).Picture
+        Case 21
+            url_list_show.Picture = ImageLibrary_obj.ListImages(21).Picture
+        End Select
+    Next
     mouse_dic = Image_ID
 End Sub
 
@@ -1989,7 +1985,7 @@ Private Sub list_output_MouseMove(Button As Integer, Shift As Integer, x As Sing
     If mouse_dic <> 10 Then
         Label_name = " 导出列表: "
         If sysSet.list_type = 1 Then
-            Label_text = "导出HTM格式下载列表 (程序设置>下载栏中可更改和查看说明)"
+            Label_text = "导出HTML格式下载列表 (程序设置>下载栏中可更改和查看说明)"
         ElseIf sysSet.list_type = 2 Then
             Label_text = "导出TXT+BAT格式下载列表 (程序设置>下载栏中可更改和查看说明)"
         Else
@@ -2004,7 +2000,7 @@ Private Sub out_all_MouseMove(Button As Integer, Shift As Integer, x As Single, 
     If mouse_dic <> 10 Then
         Label_name1 = " 导出列表: "
         If sysSet.list_type = 1 Then
-            Label_text1 = "导出HTM格式下载列表 (程序设置>下载栏中可更改和查看说明)"
+            Label_text1 = "导出HTML格式下载列表 (程序设置>下载栏中可更改和查看说明)"
         ElseIf sysSet.list_type = 2 Then
             Label_text1 = "导出TXT+BAT格式下载列表 (程序设置>下载栏中可更改和查看说明)"
         Else
@@ -2019,7 +2015,7 @@ Private Sub user_list_output_MouseMove(Button As Integer, Shift As Integer, x As
     If mouse_dic <> 10 Then
         Label_name1 = " 导出列表:"
         If sysSet.list_type = 1 Then
-            Label_text1 = "导出HTM格式下载列表 (程序设置>下载栏中可更改和查看说明)"
+            Label_text1 = "导出HTML格式下载列表 (程序设置>下载栏中可更改和查看说明)"
         ElseIf sysSet.list_type = 2 Then
             Label_text1 = "导出TXT+BAT格式下载列表 (程序设置>下载栏中可更改和查看说明)"
         Else
@@ -2222,20 +2218,17 @@ Private Function ScriptDownload(ByVal mode As DownloadMode) As Boolean
             If form_quit = True Then Download = True: Exit Function
             DoEvents
             Sleep 10
-            DoEvents
         Loop
     Case OX_WEB
         BrowserW.Show
         Do While BrowserW_load_ok = False
             DoEvents
             Sleep 10
-            DoEvents
         Loop
         Do While BrowserW.WebBrowser.Busy
             If form_quit = True Then BrowserW.WebBrowser.Stop: BrowserW.Hide: Download = True: Exit Function
             DoEvents
             Sleep 10
-            DoEvents
         Loop
         download_ok = False
         Call startBrowser_fast
@@ -2434,7 +2427,7 @@ Public Sub fast_down_StateChanged(ByVal State As Integer)
         End If
         
         ic_error_time = 0
-        
+        If sysSet.DelCache_AftDL = 1 Or sysSet.DelCache_AftDL = 3 Then OX_DeleteUrlCacheEntryW strURL
         download_ok = True
     Case icError
         '与主机通信出错
@@ -2675,7 +2668,7 @@ Private Sub Form_Load()
     Open_path = ""
     Open_path_set = ""
     
-    TrayI.hWnd = Form1.hWnd
+    TrayI.hwnd = Form1.hwnd
     TrayI.uId = 0
     TrayI.uFlags = NIF_ICON Or NIF_MESSAGE Or NIF_TIP
     TrayI.ucallbackMessage = WM_MBUTTONDOWN
@@ -2709,7 +2702,7 @@ Private Sub Form_Load()
     
     download_ok = True
     Width = 7100
-    Height = 1470 + show_StatusBar
+    Height = 1500 + show_StatusBar
     form_quit = True
     Web_Browser_header_tf = True
     form_height = 1500 + show_StatusBar
@@ -2745,11 +2738,11 @@ Public Sub always_on_top(on_top As Boolean)
     Dim flags As Integer
     flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
     If on_top = True Then
-        SetWindowPos Form1.hWnd, HWND_TOPMOST, 0, 0, 0, 0, flags
+        SetWindowPos Form1.hwnd, HWND_TOPMOST, 0, 0, 0, 0, flags
         top_Picture(1).Visible = True
         top_Picture(0).Visible = False
     Else
-        SetWindowPos Form1.hWnd, -2, 0, 0, 0, 0, flags
+        SetWindowPos Form1.hwnd, -2, 0, 0, 0, 0, flags
         top_Picture(0).Visible = True
         top_Picture(1).Visible = False
     End If
@@ -2810,7 +2803,7 @@ Private Function sysTray(Show_Tray As Boolean)
         TrayI.hIcon = Form1.Icon
         TrayI.uFlags = NIF_ICON Or NIF_MESSAGE Or NIF_TIP
         Call Shell_NotifyIcon(NIM_ADD, TrayI)
-        ShowWindow Form1.hWnd, SW_HIDE
+        ShowWindow Form1.hwnd, SW_HIDE
         '    Form1.Width = 0
         '    Form1.Height = 0
         
@@ -2821,7 +2814,7 @@ Private Function sysTray(Show_Tray As Boolean)
         
         TrayI.uFlags = NIF_ICON Or NIF_MESSAGE Or NIF_TIP
         Call Shell_NotifyIcon(NIM_DELETE, TrayI)
-        ShowWindow Form1.hWnd, SW_RESTORE
+        ShowWindow Form1.hwnd, SW_RESTORE
         'Const CB_SHOWDROPDOWN = &H14F
         'SendMessage Form1.hwnd, CB_SHOWDROPDOWN, True, 0
         Form1.SetFocus
@@ -3618,6 +3611,8 @@ Private Sub Inet1_StateChanged(ByVal State As Integer)
             lblProgressInfo1.Visible = False
             lblProgressInfo2.Visible = False
 err_12029:
+            If sysSet.DelCache_AftDL = 2 Or sysSet.DelCache_AftDL = 3 Then OX_DeleteUrlCacheEntryW strURL
+            If sysSet.DelCache_AftDL = 4 And m_lngDocSize > 10240000 Then OX_DeleteUrlCacheEntryW strURL
             download_ok = True
         ElseIf m_lngDocSize < down_len Then
             Close #1
@@ -3643,8 +3638,10 @@ err_12029:
             m_lngDocSize = 0
             GoTo err_12029
         End If
-        download_ok = False
-        If download_ok = False And form_quit = False And m_lngDocSize <> -100 Then Call start
+        If Inet1.ResponseCode <> 12038 And Inet1.ResponseCode <> 12037 Then
+            download_ok = False
+            If download_ok = False And form_quit = False And m_lngDocSize <> -100 Then Call start
+        End If
         
     Case icResolvingHost
         OX_RunningInformation_Setting "正在查找主机"
@@ -3842,7 +3839,7 @@ Private Sub input_lst_sub(ByVal LstFileName)
     Case ".txt"
         url_Referer = InputBox("请填写引用页信息", "询问", "http://")
         url_Referer = Trim(Replace(Replace(url_Referer, Chr(10), ""), Chr(13), ""))
-        If LCase(url_Referer) = "http://" Then
+        If LCase(url_Referer) = "http://" Or url_Referer = "" Then
             url_Referer = ""
         Else
             url_Referer = "Referer: " & url_Referer
@@ -3899,7 +3896,7 @@ Private Sub input_lst_sub(ByVal LstFileName)
     Case Else
         url_Referer = InputBox("请填写引用页信息", "询问", "http://")
         url_Referer = Trim(Replace(Replace(url_Referer, Chr(10), ""), Chr(13), ""))
-        If LCase(url_Referer) = "http://" Then
+        If LCase(url_Referer) = "http://" Or url_Referer = "" Then
             url_Referer = ""
         Else
             url_Referer = "Referer: " & url_Referer
@@ -3974,7 +3971,7 @@ Private Sub input_lst_Click()
     If sysSet.def_path_tf = True And sysSet.def_path <> "" Then def_txtpath = sysSet.def_path
     
     txtpath = ""
-    txtpath = ShowOpenFileDialog(def_txtpath, "", "All List Files(*.htm;*.lst;*.txt)|*.htm;*.lst;*.txt|All Files (*.*)|*.*|", Me.hWnd)
+    txtpath = ShowOpenFileDialog(def_txtpath, "", "All List Files(*.htm;*.lst;*.txt)|*.htm;*.lst;*.txt|All Files (*.*)|*.*|", Me.hwnd)
     txtpath = GetShortName(txtpath)
     
     If txtpath = "" Then
@@ -4009,7 +4006,7 @@ Private Sub list_output_Click()
     End Select
     
     txtpath = ""
-    txtpath = ShowSaveFileDialog(def_txtpath, "", file_filter(0), file_filter(1), Me.hWnd)
+    txtpath = ShowSaveFileDialog(def_txtpath, "", file_filter(0), file_filter(1), Me.hwnd)
     If txtpath = "" Then
 ErrHandler:
         Exit Sub
@@ -4486,7 +4483,7 @@ check_2nd:
                 htmlCharsetType = "GB2312"
                 a = strURL
                 strURL = "http://photo.163.com/photo/" & OX_Script_Type & "/dwr/call/plaincall/PhotoBean.getUrl.dwr?u=" & OX_Script_Type
-                start_Post new163post_pic_ourl & new163_pic_ID, "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)"
+                start_Post new163post_pic_ourl & new163_pic_ID, sysSet.OX_HTTP_Head
                 
                 Do While download_ok = False
                     If form_quit = True Then Exit Sub
@@ -5415,9 +5412,9 @@ Private Sub view_command_Click()
     Call Web_Browser_StatusTextChange("前往 " & Trim(url_input.Text))
     'path_url
     If InStr(url_temp, "Referer: ") = 1 Then
-        Web_Browser.Navigate Trim(url_input.Text), , , , url_temp
+        Web_Browser.Navigate Trim(url_input.Text), , , , url_temp & vbCrLf & sysSet.OX_HTTP_Head
     Else
-        Web_Browser.Navigate Trim(url_input.Text) ', , , , "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0)"    '//.Navigate2 http://zhidao.baidu.com/question/9685639.html
+        Web_Browser.Navigate Trim(url_input.Text), , , , sysSet.OX_HTTP_Head
     End If
     url_temp = Trim(url_input.Text)
 End Sub
@@ -5563,10 +5560,11 @@ Public Sub step_one()
     List1.Visible = False
     Web_Browser.Stop
     Web_Browser.Visible = False
+    web_Picture.Visible = False
     Web_Search.Visible = False
     list_count.Visible = False
     form_height = 1500 + show_StatusBar
-    If Form1.WindowState = 0 Then Form1.Height = 1470 + show_StatusBar
+    If Form1.WindowState = 0 Then Form1.Height = form_height: Form1.Width = 7100
     list_count = ""
     url_temp = ""
     url_Referer = ""
@@ -5621,7 +5619,6 @@ End Sub
 
 Private Sub Web_Browser_Close_Click()
     step_one
-    Form1.Width = 7100
 End Sub
 
 Private Sub Web_Toolbar_ButtonClick(ByVal Button As MSComctlLib.Button)
@@ -5668,32 +5665,29 @@ Private Sub Web_Toolbar_ButtonMenuClick(ByVal ButtonMenu As MSComctlLib.ButtonMe
 End Sub
 
 Private Sub Web_Browser_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
-    
     On Error GoTo Web_Browser_BeforeNavigate_error
-    
     Static web_load_times As Boolean
-    
     DoEvents
-    
-    If OX163_WebBrowser_scriptCode = "" Or web_load_times = False Then web_load_times = True: Exit Sub 'URL = Replace$(App_path & "\start.htm", "\\start.htm", "\start.htm") Or
-    
-    'Web_Browser_header_tf = False
-    
+    If web_load_times = False Then Cancel = True: web_load_times = True: Exit Sub
+    If OX163_WebBrowser_scriptCode = "" Then Exit Sub 'URL = Replace$(App_path & "\start.htm", "\\start.htm", "\start.htm") Or
     '--------------------------------------------------------------------------------------------------
     If Web_Browser_header_tf = True Then GoTo Web_Browser_BeforeNavigate_error
-    
     
     Dim Script_App As New ScriptControl
     Dim script_retrun_code As String
     Dim run_script_str
-    
+    Dim web_postdata As String
     Set Script_App = Nothing
+    
     Script_App.Language = "vbscript"
     'Script_App.Reset
     Script_App.AddCode (OX163_WebBrowser_scriptCode)
-    
-    script_retrun_code = Script_App.Eval("OX163_Web_Browser_ctrl(" & Chr(34) & URL & Chr(34) & "," & Chr(34) & flags & Chr(34) & "," & Chr(34) & TargetFrameName & Chr(34) & "," & Chr(34) & PostData & Chr(34) & "," & Chr(34) & Headers & Chr(34) & ")")
-    
+    web_postdata = ""
+    If LenB(PostData) > 0 Then
+        web_postdata = OX_Bin2CharsetTypeStr(PostData, Web_Browser.Document.Charset)
+    End If
+    script_retrun_code = Script_App.Run("OX163_Web_Browser_ctrl", URL, flags, TargetFrameName, web_postdata, Headers)
+
     '0-URL, 1-Flags, 2-TargetFrameName, 3-PostData, 4-Headers
     run_script_str = Split(script_retrun_code, vbCrLf & vbCrLf)
     
@@ -5701,7 +5695,7 @@ Private Sub Web_Browser_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, f
         If run_script_str(0) <> "" Then URL = run_script_str(0)
         If run_script_str(1) <> "" Then flags = run_script_str(1)
         If run_script_str(2) <> "" Then TargetFrameName = run_script_str(2)
-        If run_script_str(3) <> "" Then PostData = run_script_str(3)
+        If run_script_str(3) <> "" Then PostData = OX_CharsetTypeStr2Bin(run_script_str(3), Web_Browser.Document.Charset)
         If run_script_str(4) <> "" Then Headers = run_script_str(4) ': MsgBox URL & vbCrLf & flags & vbCrLf & TargetFrameName & vbCrLf & PostData & vbCrLf & Headers
         Web_Browser_header_tf = True
         Cancel = True
@@ -6086,7 +6080,6 @@ Sub start()
     '定义ITC控件使用的协议为HTTP协议
     'Inet1.Protocol = icHTTP
     
-    If retry_time > sysSet.retry_times + 1 Then GoTo err_end
     retry_time = retry_time + 1
     
     If retry_time = 1 Then
@@ -6098,13 +6091,18 @@ new_down:
         check_header.Cancel
         Inet1.Cancel
         
-        Do While (check_header.StillExecuting = True)
-            If form_quit = True Then Exit Do
+        start_time = Now
+        Do
             DoEvents
-            OX_RunningInformation_Setting "准备获取文件信息"
             Sleep 10
-        Loop
+            check_header.Cancel
+            If form_quit = True Then Exit Do
+            OX_RunningInformation_Setting "准备获取文件信息"
+        Loop While check_header.StillExecuting = True And DateDiff("s", start_time, Now()) < 10
+        
         If form_quit = True Then GoTo err_end
+        
+        If sysSet.DelCache_BefDL >= 2 Then OX_DeleteUrlCacheEntryW strURL
         
         '调用Execute方法向Web服务器发送HTTP请求
         If url_Referer <> "" Then
@@ -6131,11 +6129,12 @@ new_down:
                 Exit Sub
             End If
             
-            Inet1.Execute Trim$(strURL), "GET", , OX_Set_Referer(url_Referer, strURL) 'User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)
+            If sysSet.DelCache_BefDL >= 2 Then OX_DeleteUrlCacheEntryW strURL
+            Inet1.Execute Trim$(strURL), "GET", , OX_Set_Referer(url_Referer, strURL)
             
         Else
             stop_check_header = False
-            check_header.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)" & vbCrLf & "Range: bytes=0-1"
+            check_header.Execute Trim$(strURL), "GET", , sysSet.OX_HTTP_Head & vbCrLf & "Range: bytes=0-1"
             start_time = Now
             Do
                 DoEvents
@@ -6156,12 +6155,15 @@ new_down:
                 Exit Sub
             End If
             
-            Inet1.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)"
+            If sysSet.DelCache_BefDL >= 2 Then OX_DeleteUrlCacheEntryW strURL
+            Inet1.Execute Trim$(strURL), "GET", , sysSet.OX_HTTP_Head
             
         End If
         
     Else
         download_ok = False
+
+        If retry_time > sysSet.retry_times + 1 And sysSet.retry_times > 0 Then GoTo err_end
         
         If (5 * retry_time - 5) < sysSet.time_out Then
             OX_RunningInformation_Setting "等待" & (5 * retry_time - 5) & "秒后第" & (retry_time - 1) & "次重试"
@@ -6188,10 +6190,12 @@ new_down:
         
         Inet1.Cancel
         
+        If sysSet.DelCache_BefDL >= 2 Then OX_DeleteUrlCacheEntryW strURL
+        
         If url_Referer <> "" Then
             Inet1.Execute Trim$(strURL), "GET", , OX_Set_Referer(url_Referer, strURL) & vbCrLf & "Range: bytes=" & down_len & "-"
         Else
-            Inet1.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)" & vbCrLf & "Range: bytes=" & down_len & "-"
+            Inet1.Execute Trim$(strURL), "GET", , sysSet.OX_HTTP_Head & vbCrLf & "Range: bytes=" & down_len & "-"
         End If
     End If
     
@@ -6214,15 +6218,17 @@ Sub start_fast()
     '调用Execute方法向Web服务器发送HTTP请求
     'Microsoft URL Control - 6.01.9782
     
+    If sysSet.DelCache_BefDL = 1 Or sysSet.DelCache_BefDL > 2 Then OX_DeleteUrlCacheEntryW strURL
+    
     If start_fast_method = "" Then
         If urlpage_Referer = "" Then
-            fast_down.Execute Trim$(strURL), "GET", , "User-Agent: Mozilla/4.0 (compatible; MSIE 6.00; Windows 98)"
+            fast_down.Execute Trim$(strURL), "GET", , sysSet.OX_HTTP_Head
         Else
             fast_down.Execute Trim$(strURL), "GET", , OX_Set_Referer(urlpage_Referer, strURL)
         End If
     Else
         If urlpage_Referer = "" Then
-            fast_down.Execute Trim$(strURL), "POST", start_fast_method, "User-Agent: Mozilla/4.0 (compatible; MSIE 6.00; Windows 98)"
+            fast_down.Execute Trim$(strURL), "POST", start_fast_method, sysSet.OX_HTTP_Head
         Else
             fast_down.Execute Trim$(strURL), "POST", start_fast_method, OX_Set_Referer(urlpage_Referer, strURL)
         End If
@@ -6235,21 +6241,21 @@ End Sub
 
 Sub startBrowser_fast()
     DoEvents
-    Dim PostData() As Byte
+    Dim PostData As Variant
     On Error Resume Next
     BrowserW_url = strURL
     If start_fast_method = "" Then
         If urlpage_Referer = "" Then
-            BrowserW.WebBrowser.Navigate Trim$(strURL)
+            BrowserW.WebBrowser.Navigate Trim$(strURL), , , , sysSet.OX_HTTP_Head
         Else
             BrowserW.WebBrowser.Navigate Trim$(strURL), , , , OX_Set_Referer(urlpage_Referer, strURL)
         End If
     Else
-        PostData = StrConv(start_fast_method, vbFromUnicode)
+        PostData = OX_CharsetTypeStr2Bin(start_fast_method, htmlCharsetType)
         If urlpage_Referer = "" Then
-            BrowserW.WebBrowser.Navigate Trim$(strURL), , , PostData
+            BrowserW.WebBrowser.Navigate Trim$(strURL), , , PostData, sysSet.OX_HTTP_Head & vbCrLf & "Content-Type: application/x-www-form-urlencoded"
         Else
-            BrowserW.WebBrowser.Navigate Trim$(strURL), , , PostData, OX_Set_Referer(urlpage_Referer, strURL)
+            BrowserW.WebBrowser.Navigate Trim$(strURL), , , PostData, OX_Set_Referer(urlpage_Referer, strURL) & vbCrLf & "Content-Type: application/x-www-form-urlencoded"
         End If
     End If
 End Sub
@@ -6270,37 +6276,26 @@ Function new163_check_passcode(ByVal code_type As Boolean, ByVal check_passcode_
 End Function
 
 Sub start_Post(ByVal psw As String, Referer_str As String)
-    DoEvents
-    '文件大小值复位
     On Error GoTo err_ctrl
-    '定义ITC控件使用的协议为HTTP协议
-    'fast_down.Protocol = icHTTP
+    If sysSet.DelCache_BefDL = 1 Or sysSet.DelCache_BefDL > 2 Then OX_DeleteUrlCacheEntryW strURL
     '调用Execute方法向Web服务器发送HTTP请求
-    fast_down.Execute Trim(strURL), "POST", psw, Referer_str 'Content-Type: application/x-www-form-urlencoded
+    fast_down.Execute Trim(strURL), "POST", psw, Referer_str
     Exit Sub
     
 err_ctrl:
-    
     fast_down.Cancel
-    
     download_ok = True
 End Sub
 
 Sub start_User(ByVal username, ByVal psw As String)
-    DoEvents
-    '文件大小值复位
     On Error GoTo err_ctrl
-    
-    '定义ITC控件使用的协议为HTTP协议
-    'fast_down.Protocol = icHTTP
+    If sysSet.DelCache_BefDL = 1 Or sysSet.DelCache_BefDL > 2 Then OX_DeleteUrlCacheEntryW strURL
     '调用Execute方法向Web服务器发送HTTP请求
     fast_down.Execute "https://reg.163.com/in.jsp?url=http://photo.163.com/myalbum.php", "Post", "username=" & username & "&password=" & psw, "Content-Type: application/x-www-form-urlencoded"
     Exit Sub
     
 err_ctrl:
-    
     fast_down.Cancel
-    
     download_ok = True
 End Sub
 
@@ -6568,7 +6563,7 @@ Private Sub user_open()
                 temp(2) = Mid$(temp(2), InStr(temp(2), "count:") + 6)
                 temp(2) = Trim(Mid$(temp(2), 1, InStr(temp(2), ",") - 1))
                 If IsNumeric(temp(2)) Then
-                    temp(2) = Format$(temp(2), "00000") & "张"
+                    temp(2) = Format$(temp(2), "00000")
                 Else
                     temp(2) = ""
                 End If
@@ -7233,7 +7228,7 @@ new163_password_OK:
             '保存列表中的图片------------------------------------
             
             OX_RunningInformation_Setting "正在保存图片"
-            user_list.ListItems(i).ListSubItems(3).Text = Format$(List1.ListItems.count, "00000") & "张"
+            user_list.ListItems(i).ListSubItems(3).Text = Format$(List1.ListItems.count, "00000")
             user_list.ListItems(i).ListSubItems(3).ForeColor = vbRed
             user_list.ListItems(i).ListSubItems(3).Bold = True
             user_list.ListItems(i).ListSubItems(3).Text = "0/" & user_list.ListItems(i).ListSubItems(3).Text
@@ -7524,11 +7519,10 @@ End Sub
 
 Private Function fix_referer_cookies(ByVal referer_cookies As String) As String
     On Error Resume Next
-    fix_referer_cookies = """"","""""
-    
     Dim Referer_temp As String
     Dim a As String
     Dim b As String
+    fix_referer_cookies = """"","""""
     a = ""
     b = ""
     

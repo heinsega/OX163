@@ -157,6 +157,65 @@ Type sysSetting
     Unicode_File As Byte
     'Unicode文本操作
     Unicode_Str As Byte
+    'IE历史缓存设置
+    DelCache_BefDL As Byte
+    DelCache_AftDL As Byte
+    'http头强制发送no-cache
+    Cache_no_cache As Byte
+    'http头强制发送no-store
+    Cache_no_store As Byte
+    '用户代理(User-Agent)
+    Customize_UA As String
+    '整合Cache_no_cache Cache_no_store Customize_UA后的HTTP头信息
+    OX_HTTP_Head As String
 End Type
 
 Public sysSet As sysSetting
+
+Public Function OX_UA_Const(Const_Type As Byte) As String
+
+'Internet Explorer 5(Windows 98)
+'Internet Explorer 8(Windows XP)
+'Internet Explorer 9(Window 7)
+'Internet Explorer 10(Windows 8)
+'Internet Explorer 11(Windows 8.1)
+'Internet Explorer 11(Windows 10)
+'Google Chrome 24((Windows 7)
+'Mozilla Firefox 31((Windows 7)
+'Opera 12.16((Windows 7)
+'自定义
+
+Select Case Const_Type
+Case 1
+OX_UA_Const = "Mozilla/4.0 (compatible; MSIE 5.00; Windows 98)"
+
+Case 2
+OX_UA_Const = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0)"
+
+Case 3
+OX_UA_Const = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)"
+
+Case 4
+OX_UA_Const = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0; Touch)"
+
+Case 5
+OX_UA_Const = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko"
+
+Case 6
+OX_UA_Const = "Mozilla/5.0 (Windows NT 6.4; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko"
+
+Case 7
+OX_UA_Const = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17"
+
+Case 8
+OX_UA_Const = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0"
+
+Case 9
+OX_UA_Const = "Opera/9.80 (Windows NT 6.1; WOW64) Presto/2.12.388 Version/12.16"
+
+Case Else
+OX_UA_Const = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/7.0)"
+
+End Select
+
+End Function
