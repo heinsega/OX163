@@ -387,7 +387,7 @@ End Function
 Public Function UTF8EncodeURI(ByVal szInput As String) As String
     On Error Resume Next
     Dim wch, uch, szRet
-    Dim x
+    Dim X
     Dim nAsc, nAsc2, nAsc3
     
     If szInput = "" Then
@@ -395,8 +395,8 @@ Public Function UTF8EncodeURI(ByVal szInput As String) As String
         Exit Function
     End If
     
-    For x = 1 To Len(szInput)
-        wch = Mid(szInput, x, 1)
+    For X = 1 To Len(szInput)
+        wch = Mid(szInput, X, 1)
         nAsc = AscW(wch)
         
         If nAsc < 0 Then nAsc = nAsc + 65536 'AscW的返回值的子类型是Integer，Integer的取值范围是-32768到32767。超出 32767，造成了溢出，返回负数

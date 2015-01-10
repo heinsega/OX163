@@ -1,10 +1,12 @@
-'2014-10-24 visceroid & hein@shanghaijing.net
+'2014-1-10 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, reg_bigmode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, php_name
+Dim manga_count
 started = False
 multi_page = True
 retries_count = 0
 cache_index = 0
 ranking_page=0
+manga_count=0
 ranking_url=""
 root_str = "http://www.pixiv.net"
 
@@ -33,12 +35,10 @@ On Error Resume Next
 				php_name="member_illust.php"
 				multi_page = (match.SubMatches(4) = "")
 				If not multi_page Then
-					cache_index = 1
-				End If
-				If LCase(match.SubMatches(4))="mode=manga" or LCase(match.SubMatches(4))="mode=manga_big" Then
-					sub_url_str = "/member_illust.php?" & match.SubMatches(1) & "&" & match.SubMatches(2) & "&mode=medium"
+					'match.SubMatches(1)=illust_id=48061189
+					reg_bigmode="json"
+					sub_url_str = "/rpc/illust_list.php?illust_ids=" & replace(match.SubMatches(1),"illust_id=","") & "&verbosity="
 				Else
-					If LCase(match.SubMatches(4))="mode=big" Then reg_bigmode = "big"		
 					sub_url_str = "/member_illust.php?" & match.SubMatches(1) & "&" & match.SubMatches(2) & "&" & match.SubMatches(4)
 				End If
 			Case "tags"
@@ -77,7 +77,9 @@ On Error Resume Next
 				If match.SubMatches(5)<> "" Then sub_url_str=replace(sub_url_str,"&" & match.SubMatches(5),"")
 				sub_url_str = "/" & php_name & "?" & sub_url_str & "&format=json"
 				ranking_url = sub_url_str
-				ranking_page=1
+				reg_bigmode="json"
+				ranking_page=2
+			  parent_next_page_str = "1|inet|10,13|" & root_str & "/" & ranking_url & "&p=2"
 			Case "ranking_area"
 				php_name=LCase(match.SubMatches(0)) & ".php"
 				sub_url_str=Mid(url_str,instr(url_str,".php?")+5)
@@ -105,13 +107,12 @@ On Error Resume Next
 		
 		brief_mode=0
 		'	brief_mode = (MsgBox("是否忽略漫画（采用简略分析方式）？" & vbcrlf & vbcrlf & "2013年4月之后的作品必须选“否”才能正确分析", vbYesNo, "问题") = vbYes)
-
 		
 		Exit For
 	Next
 	
 	return_download_url = "inet|10,13|" & root_str & "|" & root_str & vbcrlf & "User-Agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/7.0)"
-	OX163_urlpage_Referer = "http://www.pixiv.net/member_illust.php?mode=medium&illust_id=12345" & vbcrlf & "User-Agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/7.0)"
+	OX163_urlpage_Referer = "http://www.pixiv.net/member_illust.php?mode=medium&illust_id=12345" & vbCrLf & "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko"
 
 End Function
 
@@ -130,7 +131,7 @@ On Error Resume Next
 		regex.Pattern = "<div[^>]*class=""userdata""[^>]*>\s*<a[^>]*href=""member\.php\?id=(\d+)[^""]*""[^>]*>\s*([^<" & name_filter_str & "]+)[^<]*</a>([\s\S^]*?)<br>"
 		Set matches = regex.Execute(html_str)
 		If matches.Count = 0 Then
-			process_retry
+			If process_retry=ture Then	return_albums_list = next_page_str
 		Else
 			retries_count = 0
 			For Each match In matches
@@ -156,24 +157,24 @@ End Function
 Function return_download_list(ByVal html_str, ByVal url_str)
 On Error Resume Next
 	return_download_list = ""
-	Dim page_count, regex, matches, ugoira_zip
+	Dim page_count, regex, matches, ids
 	Set regex = new RegExp
 	regex.Global = True
 	regex.IgnoreCase = True
-	ugoira_zip=0
 
-	If started Then
-		'清楚搜索页showcase内容
+	'检测是否登陆
+	If not started Then
+		check_login html_str 
+		return_download_list = next_page_str
+		Exit Function
+	End If
+	
+		'清除搜索页showcase内容
 		If InStr(LCase(html_str), "<section class=""showcase"">")>0 Then
 			Dim html_str_temp
 			html_str_temp=mid(html_str,1,InStr(LCase(html_str), "<section class=""showcase"">")-1)
 			html_str=mid(html_str,InStr(LCase(html_str), "<section class=""showcase"">")+len("<section class=""showcase"">"))
 			html_str=html_str_temp & mid(html_str,InStr(LCase(html_str), "</section>")+len("</section>"))
-		End If
-		
-		'转换ranking.php页面json数据
-		If php_name="ranking.php" and cache_index = 0 Then
-			html_str=format_ranking_html(html_str)
 		End If
 			
 		'清除付费会员特殊格式
@@ -181,204 +182,243 @@ On Error Resume Next
 				html_str=format_transparent_html(html_str)
 		End If
 
-		If instr(LCase(html_str),LCase("_ugoira1920x1080.zip"))>0 Then
-			'{"src":"http:\/\/i2.pixiv.net\/img-zip-ugoira\/img\/2014\/06\/29\/14\/08\/25\/44387029_ugoira1920x1080.zip"
-			regex.Pattern = "\{""src"":""(http)[^""]*(_ugoira1920x1080)\.zip"""'+\s*/?  --->  [^>]*
-			ugoira_zip=1
-		ElseIf cache_index=0 Then
-			regex.Pattern ="<a(?:\s*href=""/?(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))(?:(?!ref=)[^""])*""\s*class=""(work[^""]*)"")[^>]*?>[\s\S]*?""_layout-thumbnail""[\s\S]*?<img(?:\s*(?:src=""([^""]+)(?:_(?:s|m|(?:master\d+))\.)(\w+)[^""]*""|\w+=""[^""]*""))[^>]*?>" 
-		ElseIf reg_bigmode="big" Then
-			html_str=replace(html_str,"?mode=medium&","?mode=big&")
-			html_str=mid(html_str,instr(LCase(html_str),"</title>")) & mid(html_str,1,instr(LCase(html_str),"</title>"))
-			regex.Pattern = "<link[^>]*href=""[^""]*(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>[\s\S]*?<img(?:\s*(?:src=""([^""]+)\.)(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*"")+[^>]*?>[\s\S]*?<title>「([^」]*)」"
-		ElseIf InStr(reg_bigmode,vbcrlf)>0 Then
-			html_str=mid(html_str,instr(LCase(html_str),"</title>")) & mid(html_str,1,instr(LCase(html_str),"</title>"))
-			html_str="<link href=""http://www.pixiv.net/member_illust.php?mode=manga&amp;illust_id=46288703"">" & html_str
-			regex.Pattern = "<link[^>]*href=""[^""]*(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""]*""[^>]*>[\s\S]*?<img(?:\s*(?:src=""([^""]+)\.)(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*"")+[^>]*?>[\s\S]*?<title>「([^」]*)」"
-		Else
-			regex.Pattern = "<a[^>]*href=""(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))[^""(?:ref=work-paging)]*""[^>]*>[\s\S]*?<img(?:\s*(?:src=""([^""]+)(?:_(?:s|m|(?:master\d+))\.)(\w+)[^""]*""|alt=""([^""]+)""|\w+=""[^""]*""))+\s*/?>((?:(?!</a>).)*)</a>"
+		'判断页面类型使用对应正则
+		'setp3,获取动图
+		
+		'部分单图页面其实是manga，需要判断
+		If manga_count=0 and reg_bigmode="big" Then
+			regex.Pattern = "<li>(?:複数枚投稿|一次性投稿多張作品|一次性投稿多张作品) (\d+)P</li>"
+			Set matches = regex.Execute(html_str)
+			If matches.count>0 Then
+				reg_bigmode="manga"
+			End If
 		End If
-
-		Set matches = regex.Execute(html_str)
-		If matches.Count = 0 and php_name<>"illust_id" and instr(html_str,"<i class=""_icon sprites-mypixiv-badge""></i>")<1 and ugoira_zip=0 Then
-			process_retry
-		Else
-			If ugoira_zip>0 Then
+		
+		If reg_bigmode="ugoira" Then
+			If InStr(LCase(html_str),LCase("_ugoira1920x1080.zip"))>0 Then
 				add_download_list_ugoira html_str, return_download_list
+				Call Set_next_json_url
 			Else
+				If process_retry=false Then	Call Set_next_json_url
+			End If
+			
+		ElseIf reg_bigmode="big" Then
+			If InStr(LCase(html_str),LCase("class=""original-image"""))>0 Then
+				add_download_list_big html_str, return_download_list
+				Call Set_next_json_url
+			Else
+				If process_retry=false Then	Call Set_next_json_url
+			End If
+					
+		ElseIf reg_bigmode="manga" Then
+			If manga_count=0 Then
+				'<span class="total">5</span>
+				regex.Pattern = "<li>(?:複数枚投稿|一次性投稿多張作品|一次性投稿多张作品) (\d+)P</li>"				
+				page_count = regex.Execute(html_str).Item(0).SubMatches(0)
+				If IsNumeric(page_count) Then manga_count=int(page_count)
+				If manga_count>0 Then
+					next_page_str="1|inet|10,13|" & root_str & "/member_illust.php?mode=manga_big&illust_id=" & matches_cache.Item(cache_index-1).SubMatches(0) & "&page=0"
+				Else
+					manga_count=1
+					next_page_str="1|inet|10,13|" & root_str & "/member_illust.php?mode=big&illust_id=" & matches_cache.Item(cache_index-1).SubMatches(0)
+				End If
+			ElseIf manga_count>0 and InStr(LCase(html_str),LCase("<img src="""))>0 Then
+				add_download_list_manga html_str, return_download_list
+				Call Set_next_json_url
+			Else
+				If process_retry=false Then	Call Set_next_json_url
+			End If
+			
+		'setp2,分析json数据
+		ElseIf reg_bigmode="json" Then
+			'转换ranking.php页面json数据
+			If php_name="ranking.php" and cache_index = 0 Then html_str=format_ranking_html(html_str)
+			regex.Pattern = """illust_id"":""([0-9]{1,})"",[\s\S]*?""(?:illust_title)"":""([^""]*)"",[\s\S]*?""illust_type"":""([012])"""
+			Set matches = regex.Execute(html_str)
+			
+			If matches.Count = 0 Then
+				If process_retry=false Then reg_bigmode="":cache_index=0:next_page_str=parent_next_page_str:parent_next_page_str=""
+			Else
+				Set matches_cache = matches
+				Call Set_next_json_url				
+			End If
+			
+		'setp1图片列表获取ids
+		ElseIf cache_index=0 and reg_bigmode="" Then
+			regex.Pattern ="<a(?:\s*href=""/?(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))(?:(?!ref=)[^""])*""\s*class=""(work[^""]*)"")[^>]*?>[\s\S]*?""_layout-thumbnail""[\s\S]*?<img(?:\s*(?:src=""([^""]+)(?:_(?:s|m|(?:master\d+))\.)(\w+)[^""]*""|\w+=""[^""]*""))[^>]*?>" 
+			Set matches = regex.Execute(html_str)
+			If matches.Count = 0 Then
+				If process_retry=false Then next_page_str=parent_next_page_str:parent_next_page_str=""
+			Else
+				ids=""
 				For Each match In matches
 					Select Case match.SubMatches(1)
 						Case "medium"
-							If InStr(next_page_str, match.SubMatches(2)) = 0 and cache_index=0 Then
-									Set matches_cache = matches
-									Exit For '跳转
-							End If
-						Case "big"
-							If InStr(next_page_str, match.SubMatches(2)) > 0 Then
-								add_download_list_entry match, return_download_list, 0
-								Exit For
-							End If
-						Case "manga"
-							If InStr(reg_bigmode,vbcrlf)>0 Then
-								add_download_list_multiple match, return_download_list
-							ElseIf InStr(next_page_str, match.SubMatches(2)) > 0 Then
-								'regex.Pattern = "<div[^>]*class=""works_data""[^>]*>\s*<p[^>]*>(?:(?!</p>).)*(?:漫画|漫畫|Manga) (\d+)P(?:(?!</p>).)*</p>"
-								regex.Pattern = "<li>(?:複数枚投稿|複数枚投稿) (\d+)P</li>"
-								page_count = regex.Execute(html_str).Item(0).SubMatches(0)
-								'旧的漫画页
-								For page_index = 0 To page_count - 1
-									add_download_list_entry match, return_download_list, page_index
-								Next
-
-								If multi_page=false and reg_bigmode<>"multiple" and InStr(lcase(match.SubMatches(3)),"/img-master/img/")>1 and lcase(match.SubMatches(4))="jpg" Then reg_bigmode="multiple"
-
-								'新的漫画页
-								If reg_bigmode="multiple" Then
-									reg_bigmode=return_download_list
-									If reg_bigmode <>"" Then
-										next_page_str=replace(next_page_str,"?mode=medium&","?mode=manga_big&")
-										next_page_str=replace(next_page_str,"&mode=medium","&mode=manga_big")
-										next_page_str=next_page_str&"&page=0"
-										return_download_list = next_page_str
-										Exit Function
-									End If
-									Exit For
-								End If
-							End If
-						Case Else
-							process_retry()
-							return_download_list = return_download_list & next_page_str
-							Exit Function
+							If IsNumeric(match.SubMatches(2)) Then ids=ids & match.SubMatches(2) & ","
 					End Select
 				Next
-			End If
-			
-			retries_count = 0
-			next_page_str = "0"
-			reg_bigmode=""
-			If multi_page Then
+				If Right(ids,1)="," Then ids=Left(ids,Len(ids)-1)
+				retries_count = 0
+				next_page_str = "0"
+				reg_bigmode="json"
+				'获取下一版面地址
 				If cache_index = 0 Then
 					next_page_str = get_next_page(html_str)
 					parent_next_page_str = next_page_str
 				End If
-				If Not brief_mode Then
-					If cache_index < matches_cache.Count Then
-						'跳过私有或者删除的图片
-						'http://source.pixiv.net/source/images/limit_mypixiv_s.png?20110520
-						'http://source.pixiv.net/source/images/limit_unknown_s.png?20110520
-						Do While (instr(lcase(matches_cache.Item(cache_index).SubMatches(4)),".pixiv.net/img")<1) and (instr(lcase(matches_cache.Item(cache_index).SubMatches(4)),".pixiv.net/c/")<1)
-							If cache_index < matches_cache.Count Then
-							cache_index = cache_index + 1
-							Else
-							Exit Do
-							End If
-						loop
-						
-						If cache_index < matches_cache.Count Then
-							'work 
-							'work  _work 
-							'work  _work ugoku-illust 
-							'work  _work manga multiple 
-							If InStr(lcase(matches_cache.Item(cache_index).SubMatches(3)),"multiple")>0 Then
-								next_page_str = "1|inet|10,13|" & root_str & "/member_illust.php?mode=medium&illust_id=" & matches_cache.Item(cache_index).SubMatches(2)
-								reg_bigmode="multiple"
-							ElseIf InStr(lcase(matches_cache.Item(cache_index).SubMatches(3)),"ugoku-illust")>0 Then
-								next_page_str = "1|inet|10,13|" & root_str & "/member_illust.php?mode=medium&illust_id=" & matches_cache.Item(cache_index).SubMatches(2)
-							ElseIf InStr(lcase(matches_cache.Item(cache_index).SubMatches(3)),"_work")>0 Then
-								next_page_str = "1|inet|10,13|" & root_str & "/member_illust.php?mode=big&illust_id=" & matches_cache.Item(cache_index).SubMatches(2)
-								reg_bigmode="big"
-							Else
-								next_page_str = "1|inet|10,13|" & root_str & "/member_illust.php?mode=medium&illust_id=" & matches_cache.Item(cache_index).SubMatches(2)
-							End If
-							cache_index = cache_index + 1
-						Else
-						next_page_str = parent_next_page_str
-						cache_index = 0						
-						End If
-					Else
-						next_page_str = parent_next_page_str
-						cache_index = 0
-					End If
-					If next_page_str = "0" and brief_mode_rf="" Then
-						MsgBox "分析已完成。", vbOKOnly, "提醒"
-					End If
-				End If
+				'获取json
+				next_page_str = "1|inet|10,13|" & root_str & "/rpc/illust_list.php?illust_ids=" & Replace(ids,",","%2C") & "&verbosity="
 			End If
-		End If
-	Else
-		check_login html_str
-	End If
+		End If		
+	If next_page_str = "0" and brief_mode_rf="" Then	MsgBox "分析已完成。", vbOKOnly, "提醒"
+		
 	return_download_list = return_download_list & next_page_str
+
 End Function
 '----------------------------------------------------------------------------------------------------
+
 Function process_retry()
 On Error Resume Next
+	process_retry=True
 	retries_count = retries_count + 1
 	If retries_count > 3 Then
 		retries_count=0
-		If brief_mode Then
-			If Len(parent_next_page_str)>2 Then
-				next_page_str = parent_next_page_str
-			Else
-				next_page_str = "0"
-			End If
-		Else
-		  If cache_index < matches_cache.Count Then
-			 	next_page_str = "0"
-			 	next_page_str = "1|inet|10,13|" & root_str & "/" & matches_cache.Item(cache_index).SubMatches(0)
-			 	next_page_str = replace(next_page_str,"&amp;","&")
-			 	cache_index = cache_index + 1
-		 	ElseIf Len(parent_next_page_str)>2 Then
-				next_page_str = parent_next_page_str
-				Else
-				next_page_str = "0"
-			End If
-		End If
+		process_retry=False
 	End If
 End Function
 '----------------------------------------------------------------------------------------------------
-Function add_download_list_entry(ByRef match, ByRef download_list, ByVal page_index)
-On Error Resume Next
-	Dim format_str, link_str, rename_str, description_str, manga_big_str
-	If match.SubMatches(3)="" Then Exit Function
-	format_str = match.SubMatches(4)
-	link_str = match.SubMatches(3)
-	If instr(LCase(link_str),"/img-master/")>0 Then
-		'http://i2.pixiv.net/c/150x150/img-master/img/2014/09/24/19/54/45/46161469_p0_master1200.jpg
-		'http://i2.pixiv.net/img-original/img/2014/09/24/19/54/45/46161469_p0.png?419070140162037
-		'http://www.pixiv.net/member_illust.php?mode=medium&illust_id=46161469
-		link_str=mid(link_str,1,instr(LCase(link_str),".pixiv.net/")+10) & "img-original" & mid(link_str,InStr(LCase(link_str),"/img/"))
-	End If
-	If match.SubMatches(6) <> "" and instr(match.SubMatches(6),"<")<1 and instr(match.SubMatches(6),">")<1 Then
-		rename_str = "(pid-" & match.SubMatches(2) & ")" & rename_utf8(match.SubMatches(6))
-	Else
-		rename_str = "(pid-" & match.SubMatches(2) & ")" & rename_utf8(match.SubMatches(5))
-	End If
-	description_str = rename_utf8(match.SubMatches(5))
-	
-		
-	Select Case match.SubMatches(1)
-		Case "medium", "big"
-			link_str = link_str & "." & format_str
-		Case "manga" '11319936_big_p0.jpg 06/16/2010 20:43--------------11319930_p0.jpg 06/16/2010 20:43
-			'去除新漫画的_p0尾巴
-			If instr(LCase(link_str),"img-original")>0 Then link_str=mid(link_str,1,instrrev(link_str,"_p")-1)
-				
-			If match.SubMatches(2)<11319931 or instr(LCase(link_str),"img-original")>0 Then '图片命名规则变化分界ID
-				manga_big_str="_p"
-			Else
-				manga_big_str="_big_p"
-			End If
-			link_str = link_str & manga_big_str & page_index & "." & format_str
-			rename_str = rename_str & manga_big_str & page_index
-			description_str = description_str & " - " & (page_index + 1)
+'step2
+Function Set_next_json_url()
+	Set_next_json_url=""
+	retries_count=0
+	manga_count=0
+	If cache_index<matches_cache.count Then
+		Select Case matches_cache.Item(cache_index).SubMatches(2)
+		Case "1"
+			reg_bigmode="manga"
+			next_page_str="1|inet|10,13|" & root_str & "/member_illust.php?mode=medium&illust_id=" & matches_cache.Item(cache_index).SubMatches(0)
+		Case "2"
+			reg_bigmode="ugoira"
+			next_page_str="1|inet|10,13|" & root_str & "/member_illust.php?mode=medium&illust_id=" & matches_cache.Item(cache_index).SubMatches(0)
 		Case Else
-			Exit Function
-	End Select
-	download_list = download_list & format_str & "|" & link_str & "?" & (CDbl(Now()) * 10000000000) & "|" & rename_str & "|" & description_str & vbCrLf
+			reg_bigmode="big"
+			next_page_str="1|inet|10,13|" & root_str & "/member_illust.php?mode=medium&illust_id=" & matches_cache.Item(cache_index).SubMatches(0)
+		End Select
+		cache_index=cache_index+1
+	Else
+		reg_bigmode=""
+		cache_index=0
+		next_page_str = parent_next_page_str
+		parent_next_page_str=""
+		If php_name="ranking.php" and ranking_page>0 and ranking_page<10 Then
+			reg_bigmode="json"
+			ranking_page=ranking_page+1
+			parent_next_page_str = "1|inet|10,13|" & root_str & "/" & ranking_url & "&p=" & ranking_page
+		End If
+	End If
 End Function
-'---------------------------------------------------------------------------------------------
+'---------------------------------------------
+Function format_ranking_html(ByVal html_str)
+On Error Resume Next
+    format_ranking_html = html_str
+		'{
+		'"illust_id":48053861,
+		'"title":"\u30aa\u30ec\u3093\u3061\u306e\u30aa\u30e0\u30ec\u30c4\u304c\u30b1\u30c1\u30e3\u30c3\u30d7\u3092\u62d2\u5426\u308b\u3093\u3060\u304c",
+		'"width":755,"height":900,"date":"2015\u5e7401\u670808\u65e5 00:32",
+		'"tags":["\u30dd\u30b1\u30e2\u30f3","\u30d4\u30ab\u30c1\u30e5\u30a6","\u30b1\u30c1\u30e3\u30c1\u30e5\u30a6","\u306a\u306b\u3053\u308c\u304b\u308f\u3044\u3044","\u3053\u308c\u304c\u666e\u901a\u3067\u3059","\u3080\u3057\u308d\u53d7\u3051\u5165\u308c\u4f53\u52e2","\u30b1\u30c1\u30e3\u30c3\u30d7\u30db\u30fc\u30eb","\u30aa\u30e0\u30c1\u30e5\u30a6","ATARU"],
+		'"url":"http:\/\/i2.pixiv.net\/c\/240x480\/img-master\/img\/2015\/01\/08\/00\/32\/26\/48053861_p0_master1200.jpg",
+		'"illust_type":"0",
+		'"illust_book_style":"0",
+		'"illust_page_count":"1",
+		'"illust_upload_timestamp":1420644746,
+		'"user_id":771029,
+		'"user_name":"\u6771\u307f\u306a\u3064\uff20\u6b215\u6708",
+		'"profile_img":"http:\/\/i2.pixiv.net\/img30\/profile\/sdv2032\/8186269_s.gif","rank":1,"yes_rank":10,"total_score":11147,"view_count":40028,"illust_content_type":{"sexual":0,"lo":false,"grotesque":false,"violent":false,"homosexual":false,"drug":false,"thoughts":false,"antisocial":false,"religion":false,"original":false,"furry":false,"bl":false,"yuri":false},"attr":""
+		'}
+    '转换为
+		'{
+		'"tags":[],
+		'"url":"http:\/\/i1.pixiv.net\/img-inf\/img\/2015\/01\/08\/00\/31\/35\/48053836_s.jpg",
+		'"user_name":"\u3042\u3065\u306a",
+		'"illust_id":"48053836",
+		'"illust_title":"Happy new year\u3010\u30ea\u30f4\u30a1\u30a4\u73ed\u3011",
+		'"illust_user_id":"8500710",
+		'"illust_restrict":"0",
+		'"illust_x_restrict":"0",
+		'"illust_type":"2"
+		'}
 
+		Dim split_str, matches(5)
+    If InStr(html_str, "{""illust_id"":") > 0 Then
+        html_str = Mid(html_str, InStr(LCase(html_str), "{""illust_id"":") + Len("{""illust_id"":"))
+    Else
+        format_ranking_html = ""
+        Exit Function
+    End If
+    split_str = Split(html_str, "{""illust_id"":")
+    For i = 0 To UBound(split_str)
+    		matches(0) = ""
+    		matches(1) = ""
+    		matches(2) = ""
+    		matches(3) = ""
+    		matches(4) = ""
+    		matches(5) = ""
+    		'illust_id
+    		matches(0)=Mid(split_str(i),1,InStr(split_str(i),",")-1)
+    		'url
+    		matches(1)=Mid(split_str(i), InStr(LCase(split_str(i)), """url"":""") + Len("""url"":"""))
+    		matches(1)=Mid(matches(1),1,InStr(matches(1),"""")-1)
+    		'title
+    		matches(2)=Mid(split_str(i), InStr(LCase(split_str(i)), """title"":""") + Len("""title"":"""))
+    		matches(2)=Mid(matches(2),1,InStr(matches(2),"""")-1)
+    		'user_id
+    		matches(3)=Mid(split_str(i), InStr(LCase(split_str(i)), """user_id"":") + Len("""user_id"":"))
+    		matches(3)=Mid(matches(3),1,InStr(matches(3),",")-1)
+    		'user_name
+    		matches(4)=Mid(split_str(i), InStr(LCase(split_str(i)), """user_name"":""") + Len("""user_name"":"""))
+    		matches(4)=Mid(matches(4),1,InStr(matches(4),"""")-1)
+    		'illust_type
+    		matches(5)=Mid(split_str(i), InStr(LCase(split_str(i)), """illust_type"":""") + Len("""illust_type"":"""))
+    		matches(5)=Mid(matches(5),1,InStr(matches(5),"""")-1)
+    		split_str(i)="{""tags"":[],""url"":""" & matches(1) & """,""user_name"":""" & matches(4) & """,""illust_id"":""" & matches(0) & """,""illust_title"":""" & matches(2) & """,""illust_user_id"":""" & matches(3) & """,""illust_type"":""" & matches(5) & """}"
+    Next
+    format_ranking_html ="[" & Join(split_str, ",") & "]"
+End Function
+'----------------------------------------------------------------------------------------------------
+Function add_download_list_big(byval big_str, ByRef download_list)
+On Error Resume Next
+	Dim file_ID,file_name,file_Url
+	'data-src="http://i2.pixiv.net/img-original/img/2015/01/09/00/04/21/48069269_p0.jpg" class="original-image">
+	big_str=mid(big_str,1,InStr(LCase(big_str),"class=""original-image"""))
+	big_str=mid(big_str,InStrrev(LCase(big_str),"data-src=""")+10)
+	file_Url=mid(big_str,1,instr(big_str,"""")-1)
+	big_str=mid(file_Url,InStrrev(file_Url,"."))
+	
+	file_ID=matches_cache.Item(cache_index-1).SubMatches(0)
+	file_name=fix_Unicode_Name(matches_cache.Item(cache_index-1).SubMatches(1))
+	file_name="(pid-" & file_ID & ")" & rename_utf8(file_name) & big_str
+	download_list = "|" & file_Url & "?" & (CDbl(Now()) * 10000000000) & "|" & file_name & "|" & vbCrLf
+End Function
+'----------------------------------------------------------------
+Function add_download_list_manga(byval manga_str, ByRef download_list)
+On Error Resume Next
+	Dim file_ID,file_name,file_Url,manga_i
+	
+	'<img src="http://i1.pixiv.net/img-original/img/2015/01/08/02/13/17/48055260_p0.jpg" onclick="(window.open('', '_self')).close()">
+	manga_str=mid(manga_str,InStr(LCase(manga_str),"<img src=""")+10)
+	file_Url=mid(manga_str,1,instr(manga_str,"""")-1)
+	manga_str=mid(file_Url,InStrrev(file_Url,"."))
+	file_Url=mid(file_Url,1,InStrrev(file_Url,"_p")+1)
+	'原漫画改版前后分界线为ID=11319931（最新改版带img-original无big）
+	'11319936_big_p0.jpg 06/16/2010 20:43--------------11319930_p0.jpg 06/16/2010 20:43
+	file_ID=matches_cache.Item(cache_index-1).SubMatches(0)
+	file_name=fix_Unicode_Name(matches_cache.Item(cache_index-1).SubMatches(1))
+	file_name="(pid-" & file_ID & ")" & rename_utf8(file_name)
+	For manga_i=0 to 0'manga_count-1
+		download_list =download_list & "|" & file_Url & manga_i & manga_str & "?" & (CDbl(Now()) * 10000000000) & "|" & file_name & "_p" & manga_i & manga_str & "|" & vbCrLf
+	Next
+End Function
+'----------------------------------------------------------------
 Function add_download_list_ugoira(byval ugoira_str, ByRef download_list)
 On Error Resume Next
 		'pixiv.context.illustId         = "44387029";
@@ -408,30 +448,6 @@ On Error Resume Next
 		download_list = "zip|" & file_Url & "?" & (CDbl(Now()) * 10000000000) & "|" & file_name & "|" & file_description & vbCrLf
 End Function
 '---------------------------------------------------------------------------------------------
-
-Function add_download_list_multiple(ByRef match, ByRef download_list)
-	'multiple_str=reg_bigmode
-	Dim split_str,split_i,file_type
-	file_type=match.SubMatches(4)
-	If len(file_type)=0 Then
-		download_list=reg_bigmode
-	Else
-		split_str=split(reg_bigmode,vbcrlf)
-		For split_i=0 to ubound(split_str)
-			If InStr(split_str(split_i),"|")>0 Then
-				split_str(split_i)=Mid(split_str(split_i),instr(split_str(split_i),"|")+1)
-				reg_bigmode=Mid(split_str(split_i),1,instr(split_str(split_i),"|")-1)
-				split_str(split_i)=Mid(split_str(split_i),InStr(split_str(split_i),"|"))
-				reg_bigmode=Mid(reg_bigmode,1,instrrev(reg_bigmode,".")) & file_type & "?" & (CDbl(Now()) * 10000000000)
-				split_str(split_i)=file_type & "|" & reg_bigmode & split_str(split_i)
-				reg_bigmode=""
-			End If
-		Next
-		download_list=join(split_str,vbcrlf)
-	End If
-End Function
-'---------------------------------------------------------------------------------------------
-
 Function check_login(ByVal html_str)
 On Error Resume Next
 	Dim regex, matches
@@ -496,88 +512,6 @@ On Error Resume Next
 	format_transparent_html=html_str
 End Function
 
-Function format_ranking_html(ByVal html_str)
-On Error Resume Next
-    format_ranking_html = html_str
-    '{"illust_id":40019442,
-    '"title":"\u305d\u3063\u3068 \u308f\u305f\u3057\u306f \u5927\u4eba\u306b\u306a\u3063\u305f","width":1000,"height":1000,"date":"2013\u5e7411\u670830\u65e5 15:35","tags":["\u30aa\u30ea\u30b8\u30ca\u30eb","\u3075\u3064\u304f\u3057\u3044",    "\u306a\u306b\u3053\u308c\u7d20\u6575","\u9ed2\u30bb\u30fc\u30e9\u30fc","\u30aa\u30ea\u30b8\u30ca\u30eb500users\u5165\u308a"],
-    '"url":"http:\/\/i1.pixiv.net\/img77\/img\/fff365\/mobile\/40019442_240mw.jpg",
-    '"user_id":3118206,
-    '"user_name":"\u53e4\u753a","profile_img":"http:\/\/i1.pixiv.net\/img77\/profile\/fff365\/6437486_s.png","rank":53,"yes_rank":0,"total_score":3959,"view_count":3560},
-		'转换为
-		'<li class="image"><a href="/member_illust.php?mode=medium&amp;illust_id=33484357">
-		'<img src="http://i2.pixiv.net/img72/img/ttt0106/33484357_s.jpg"><h1>一人旅</h1></a>
-		'<p class="user"><a href="/member.php?id=2876335">たいそす</a></li>
-
-		Dim split_str, matches(5)
-    If InStr(html_str, "{""illust_id"":") > 0 Then
-        html_str = Mid(html_str, InStr(LCase(html_str), "{""illust_id"":") + Len("{""illust_id"":"))
-    Else
-        format_ranking_html = ""
-        Exit Function
-    End If
-		html_str=replace(html_str,"\/","/")
-    split_str = Split(html_str, "{""illust_id"":")
-    For i = 0 To UBound(split_str)
-    		matches(0) = ""
-    		matches(1) = ""
-    		matches(2) = ""
-    		matches(3) = ""
-    		matches(4) = ""
-    		matches(5) = ""
-    		'illust_id
-    		matches(0)=Mid(split_str(i),1,InStr(split_str(i),",")-1)
-    		'url
-    		'http://i1.pixiv.net/img35/img/snika5800/mobile/44331825_240mw.jpg
-    		'--->http://i1.pixiv.net/img35/img/snika5800/44331825_s.jpg
-    		'http://i1.pixiv.net/c/240x480/img-master/img/2014/06/27/14/45/03/44340318_master1200.jpg
-    		'"illust_type":"2" 2=animation
-    		'--->http://i1.pixiv.net/img-inf/img/2014/06/27/14/45/03/44340318_s.jpg
-    		'http://i1.pixiv.net/c/240x480/img-master/img/2014/09/24/22/55/24/46167536_p0_master1200.jpg
-    		'"illust_type":"0" 1=manga
-    		matches(1)=Mid(split_str(i), InStr(LCase(split_str(i)), """url"":""") + Len("""url"":"""))
-    		matches(1)=Mid(matches(1),1,InStr(matches(1),"""")-1)
-    		If InStr(matches(1),"/mobile/")>0 Then
-    			matches(1)=replace(matches(1),"/mobile/","/")
-    		matches(1)=Mid(matches(1),1,InStrrev(matches(1),"_")-1) & "_s" & Mid(matches(1),InStrrev(matches(1),"."))
-    		ElseIf InStr(matches(1),"/img-master/")>0 and InStr(split_str(i),"""illust_type"":""2""")>0 Then
-    			matches(1)=Mid(matches(1),1,instr(matches(1),".pixiv.net/")+9) & "/img-inf/" & Mid(matches(1),InStr(matches(1),"/img-master/")+12)
-    			matches(1)=Mid(matches(1),1,InStrrev(matches(1),"_")-1) & "_s" & Mid(matches(1),InStrrev(matches(1),"."))
-    		End if
-    		'title
-    		matches(2)=Mid(split_str(i), InStr(LCase(split_str(i)), """title"":""") + Len("""title"":"""))
-    		matches(2)=Mid(matches(2),1,InStr(matches(2),"""")-1)
-    		matches(2)=fix_Unicode_Name(matches(2))
-    		matches(2)=replace(matches(2),">","&gt;")
-    		matches(2)=replace(matches(2),"<","&lt;")
-    		'user_id
-    		matches(3)=Mid(split_str(i), InStr(LCase(split_str(i)), """user_id"":") + Len("""user_id"":"))
-    		matches(3)=Mid(matches(3),1,InStr(matches(3),",")-1)
-    		'user_name
-    		matches(4)=Mid(split_str(i), InStr(LCase(split_str(i)), """user_name"":""") + Len("""user_name"":"""))
-    		matches(4)=Mid(matches(4),1,InStr(matches(4),"""")-1)
-    		matches(4)=fix_Unicode_Name(matches(4))
-    		matches(4)=replace(matches(4),">","&gt;")
-    		matches(4)=replace(matches(4),"<","&lt;")
-    		'illust_type
-    		matches(5)=Mid(split_str(i), InStr(LCase(split_str(i)), """illust_type"":""") + Len("""illust_type"":"""))
-    		matches(5)=Mid(matches(5),1,InStr(matches(5),"""")-1)
-							'work 
-							'work  _work 
-							'work  _work ugoku-illust 
-							'work  _work manga multiple 
-    		Select Case matches(5)
-    		Case "1"
-    		matches(5)="work  _work manga multiple "
-    		Case "2"
-    		matches(5)="work  _work ugoku-illust "
-    		Case Else
-    		matches(5)="work  _work "
-    		End Select
-    		split_str(i)="<li class=""image""><a href=""/member_illust.php?mode=medium&amp;illust_id=" & matches(0) & """class=""" & matches(5) & """>><div class=""_layout-thumbnail""><img src=""" & matches(1) & """><h1 class=""title"" title=""" & matches(2) & """>aaa</a><p class=""user""><a href=""/member.php?id=" & matches(3) & """>" & matches(4) & "</a></li>"
-    Next
-    format_ranking_html =Join(split_str, "")
-End Function
 '---------------------------------------------------------------------------------------------
 Function fix_Unicode_Name(ByVal sLongFileName)
 On Error Resume Next

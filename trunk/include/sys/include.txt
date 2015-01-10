@@ -42,7 +42,7 @@ pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/bookmark_new_illust*.php*
 pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/response.php?*
 pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/mypage.php
 pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/index.php
-pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/ranking.php?*
+pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/ranking.php*
 pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/ranking_area.php?*
 eht.vbs|vbscript|UTF-8|album|http://g.e-hentai.org/g/?*/?*/*
 eht.vbs|vbscript|UTF-8|photo|http://g.e-hentai.org/s/?*/?*-?*

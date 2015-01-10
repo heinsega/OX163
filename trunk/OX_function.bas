@@ -54,13 +54,17 @@ Public Sub Proxy_set()
     Static star_up_count As Boolean
     
     Dim inf As INTERNET_PROXY_INFO
-    
+    Dim fast_lab As String
     Form1.fast_down.Proxy = ""
     Form1.fast_down.username = ""
     Form1.fast_down.password = ""
     Form1.Proxy_img(0).Visible = False
     Form1.Proxy_img(1).Visible = False
     Form1.Proxy_img(2).Visible = False
+    Form1.fast_set_PA.Checked = False
+    Form1.fast_set_PB.Checked = False
+    fast_lab = ""
+    Form1.StatusBar.Panels(4).Text = "快速设置"
     
     Select Case sysSet.proxy_A_type
     Case 1
@@ -87,7 +91,6 @@ Public Sub Proxy_set()
             
             Form1.fast_down.AccessType = icNamedProxy
             Form1.fast_down.Proxy = sysSet.proxy_A
-            Form1.Proxy_img(1).Visible = True
             
             sysSet.proxy_A_user = Trim(Replace(Replace(sysSet.proxy_A_user, Chr(10), ""), Chr(13), ""))
             sysSet.proxy_A_pw = Trim(Replace(Replace(sysSet.proxy_A_pw, Chr(10), ""), Chr(13), ""))
@@ -149,7 +152,6 @@ Public Sub Proxy_set()
             Form1.Inet1.Proxy = sysSet.proxy_B
             Form1.check_header.AccessType = icNamedProxy
             Form1.check_header.Proxy = sysSet.proxy_B
-            Form1.Proxy_img(2).Visible = True
             sysSet.proxy_B_user = Trim(Replace(Replace(sysSet.proxy_B_user, Chr(10), ""), Chr(13), ""))
             sysSet.proxy_B_pw = Trim(Replace(Replace(sysSet.proxy_B_pw, Chr(10), ""), Chr(13), ""))
             If Len(sysSet.proxy_B_user) > 0 Then Form1.Inet1.username = sysSet.proxy_B_user: Form1.check_header.username = sysSet.proxy_B_user
@@ -164,11 +166,9 @@ Public Sub Proxy_set()
         Form1.check_header.AccessType = icUseDefault
     End Select
     
-    If sysSet.proxy_A_type = 2 And sysSet.proxy_B_type = 2 Then
-        Form1.Proxy_img(0).Visible = True
-        Form1.Proxy_img(1).Visible = False
-        Form1.Proxy_img(2).Visible = False
-    End If
+    If sysSet.proxy_A_type = 2 Then Form1.fast_set_PA.Checked = True: fast_lab = "A"
+    If sysSet.proxy_B_type = 2 Then Form1.fast_set_PB.Checked = True: fast_lab = fast_lab & "B"
+    If fast_lab <> "" Then Form1.StatusBar.Panels(4).Text = "设置/代理" & fast_lab
     If star_up_count = False Then star_up_count = True
 End Sub
 
@@ -470,7 +470,7 @@ reset_path:
     OX_SysSet.url_folder = GetIniTF("maincenter", "url_folder")
     
     OX_SysSet.Customize_UA = Trim(GetIniStr("maincenter", "Customize_UA"))
-    If OX_SysSet.Customize_UA = "" Then OX_SysSet.Customize_UA = OX_UA_Const(0)
+    'If OX_SysSet.Customize_UA = "" Then OX_SysSet.Customize_UA = OX_UA_Const(0)
     
     OX_SysSet.proxy_A = GetIniStr("proxyset", "proxy_A_type")
     Select Case OX_SysSet.proxy_A
@@ -520,7 +520,7 @@ reset_path:
     End If
     
     '整合Cache_no_cache Cache_no_store Customize_UA后的HTTP头信息
-    OX_SysSet.OX_HTTP_Head = "User-Agent: " & OX_SysSet.Customize_UA & IIf(OX_SysSet.Cache_no_cache = 1, vbCrLf & "Pragma: no-cache", "") & IIf(OX_SysSet.Cache_no_store = 1, vbCrLf & "Cache-Control: no-store", "")
+    OX_SysSet.OX_HTTP_Head = IIf(Trim(OX_SysSet.Customize_UA) <> "", "User-Agent: " & OX_SysSet.Customize_UA, "") & IIf(OX_SysSet.Cache_no_cache = 1, vbCrLf & "Pragma: no-cache", "") & IIf(OX_SysSet.Cache_no_store = 1, vbCrLf & "Cache-Control: no-store", "")
 End Function
 
 '-------------------------------------------------------------------------
@@ -774,7 +774,7 @@ End Function
 
 '-------------------------------------------------------------------------
 '加载OX163脚本顺序函数----------------------------------------------------
-Public Function OX_Check_include_scriptlist(ByVal OX_sCIS As String, OX_CIS_tf As Boolean) As String '"CIS" means "Check Include Scriptlist"
+Public Function OX_Check_include_scriptlist(ByVal OX_sCIS As String, OX_CIS_tf As Boolean) As String '"CIS" means "Check Include Scriptlist",当OX_CIS_tf=false的时候,为读取写入配置,OX_CIS_tf=True时为检测排列启动脚本顺序
     Dim spilt_string1
     Dim split_i As Integer
     Dim Check_CIS As String
@@ -921,3 +921,78 @@ Public Sub load_in_Script_Code()
     End If
 End Sub
 
+Public Sub OX_SetIE_Ver(ByRef IE_ver As Byte)
+On Error Resume Next
+err.Clear
+Select Case IE_ver
+Case 0
+ Shell "regedit " & App_path & "\regfile\clear_OX163.reg", vbNormalFocus
+Case 8
+ Shell "regedit " & App_path & "\regfile\use_IE8.reg", vbNormalFocus
+Case 9
+ Shell "regedit " & App_path & "\regfile\use_IE9.reg", vbNormalFocus
+Case 10
+ Shell "regedit " & App_path & "\regfile\use_IE10.reg", vbNormalFocus
+Case 11
+ Shell "regedit " & App_path & "\regfile\use_IE11.reg", vbNormalFocus
+Case Else
+ Shell "regedit " & App_path & "\regfile\use_OS_IE_ver.reg", vbNormalFocus
+End Select
+If err.Number <> 0 Then MsgBox "错误:" & err.Number & vbCrLf & err.Descriptionr & vbCrLf & "您可以打开regfile目录直接操作", vbOKOnly, "提醒"
+err.Clear
+End Sub
+
+'添加内置浏览器链接菜单内容
+Public Sub OX_Get_urllist()
+On Error Resume Next
+Dim list_str As String, file_path As String, i As Integer
+Dim split_str
+file_path = App_path & "\include\sys\urllist.vbs"
+If OX_Dirfile(file_path) = True Then
+    list_str = load_normal_file(file_path, -1)
+    split_str = Split(list_str, vbCrLf)
+    For i = 0 To UBound(split_str)
+        If InStr(split_str(i), "|") > 1 Then
+            Form1.Web_Toolbar.Buttons(9).ButtonMenus.Add , "shj_urllist_" & i, Mid(split_str(i), 1, InStr(split_str(i), "|") - 1)
+            Form1.Web_Toolbar.Buttons(9).ButtonMenus(Form1.Web_Toolbar.Buttons(9).ButtonMenus.count).Tag = Mid(split_str(i), InStr(split_str(i), "|") + 1)
+        ElseIf split_str(i) = "-" Then
+            Form1.Web_Toolbar.Buttons(9).ButtonMenus.Add , , "-"
+        End If
+    Next
+End If
+End Sub
+'
+'Public Function OX_Destop_DPI() As Integer
+'On Error Resume Next
+'Dim wss As Object, LogPixels
+'    Set wss = CreateObject("WScript.Shell")
+'    LogPixels = ""
+'    OX_Destop_DPI = 100
+'    LogPixels = wss.RegRead("HKEY_CURRENT_USER\ControlPanel\Desktop\LogPixels")
+'    '读取注册信息
+'    If IsNumeric(LogPixels) Then
+'        OX_Destop_DPI = CInt(LogPixels) * 100 / 96
+'    End If
+'    If OX_Destop_DPI < 0 Then OX_Destop_DPI = 100
+'    OX_DPI_Zoom = OX_Destop_DPI / 100
+'End Function
+
+'Private Sub Form_Set_DPI()
+'MsgBox Screen.TwipsPerPixelX
+'If Screen.TwipsPerPixelX <> 15 Then
+'MsgBox top_Picture(0).Width
+'    For i = 0 To 1
+'        top_Picture(i).Width = top_Picture(i).Width * 15 / Screen.TwipsPerPixelX
+'        top_Picture(i).Height = top_Picture(i).Height * 15 / Screen.TwipsPerPixelX
+'    Next
+'MsgBox top_Picture(0).Width
+'    For i = 0 To 2
+'        Proxy_img(i).Width = Proxy_img(i).Width * 15 / Screen.TwipsPerPixelX
+'        Proxy_img(i).Height = Proxy_img(i).Height * 15 / Screen.TwipsPerPixelX
+'    Next
+'    homepage.Width = homepage.Width * OX_DPI_Zoom
+'    homepage.Height = homepage.Height * OX_DPI_Zoom
+'    Web_Browser_Close.Width = Web_Browser_Close.Width * 15 / Screen.TwipsPerPixelX
+'    Web_Browser_Close.Height = Web_Browser_Close.Height * 15 / Screen.TwipsPerPixelX
+'End If
+'End Sub
