@@ -7,7 +7,6 @@ Public Function is_username(ByVal username As String) As Boolean
     is_username = True
     If Len(username) > 2 And Len(username) < 50 Then
         For i = 1 To Len(username)
-            DoEvents
             If InStr("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@", Mid$(username, i, 1)) < 1 Then is_username = False: Exit Function
         Next i
     Else

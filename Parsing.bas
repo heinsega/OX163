@@ -166,7 +166,7 @@ Public Function ParseAlbum(ByVal sourceString As String) As AlbumInfo()
         '判断部位最后一行
         If i < UBound(ParseAlbumStrSplit) Then
             'list_album_name
-            ParseAlbumInfo(i).AlbumName = fix_Code(ParseAlbumInfoSplit(3))
+            ParseAlbumInfo(i).AlbumName = reName_Str(fix_Code(ParseAlbumInfoSplit(3)))
             'list_album_password
             ParseAlbumInfo(i).hasPassword = IIf(ParseAlbumInfoSplit(0) <> "0", True, False)
             'list_album_url

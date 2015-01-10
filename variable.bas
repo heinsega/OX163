@@ -3,14 +3,17 @@ Attribute VB_Name = "OX_variable"
 '-----------------OX163常用全部变量-------------------------
 '-----------------------------------------------------------
 
-Public Const title_info = "OX163 plus(0.5.8build130519 beta)"
+Public Const title_info = "OX163 plus(0.5.8build141031 beta)"
 Public Const ver_info = 58
 'Public Const update_host_info = "http://www.shanhaijing.net/163/|国外默认" & vbCrLf & "http://shanhaijing.net/163/|国内默认" & vbCrLf & "http://163.shanhaijing.net/163/|国内备份" & vbCrLf & "http://www.ugschina.com/163/|国外备份"
 Public Const update_host_info1 = "http://www.shanhaijing.net/163/|https://ox163.googlecode.com/svn/trunk/include/sys/"
 Public Const update_host_info2 = "默认|google code"
 
-'------------------------------------------------------------------------------------
+'POPMENU菜单XY位置偏移量-------------------------------------------------------------
+Public Const OX_POPMENU_X = 75
+Public Const OX_POPMENU_Y = 75
 
+'------------------------------------------------------------------------------------
 Public Const NIM_ADD = &H0
 Public Const NIM_MODIFY = &H1
 Public Const NIM_DELETE = &H2
@@ -39,7 +42,7 @@ Public Const SC_RESTORE = &HF120&
 '窗口最前端参数----------------------------------------
 Public Type NOTIFYICONDATA
     cbSize As Long
-    hWnd As Long
+    hwnd As Long
     uId As Long
     uFlags As Long
     ucallbackMessage As Long
@@ -212,6 +215,12 @@ OX_UA_Const = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firef
 
 Case 9
 OX_UA_Const = "Opera/9.80 (Windows NT 6.1; WOW64) Presto/2.12.388 Version/12.16"
+
+Case 10
+OX_UA_Const = "Mozilla/5.0 (Linux; U; Android 4.0.3; zh-cn) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30"
+
+Case 11
+OX_UA_Const = "Mozilla/5.0 (iPhone; CPU OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Mobile/11A465"
 
 Case Else
 OX_UA_Const = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/7.0)"

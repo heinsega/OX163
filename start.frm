@@ -18,7 +18,6 @@ Begin VB.Form start_ox163
    StartUpPosition =   2  '屏幕中心
    Begin VB.PictureBox Picture1 
       AutoRedraw      =   -1  'True
-      AutoSize        =   -1  'True
       BorderStyle     =   0  'None
       Height          =   3390
       Left            =   0
@@ -39,6 +38,7 @@ Begin VB.Form start_ox163
       End
       Begin VB.TextBox start_text 
          Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
          BorderStyle     =   0  'None
          Enabled         =   0   'False
          ForeColor       =   &H000000FF&
@@ -99,7 +99,8 @@ Private Sub Com5_Click()
 End Sub
 
 Private Sub Form_Load()
-    Timer1.Interval = 100
+    Picture1.PaintPicture Me.Picture, 0, 0, Picture1.Width, Picture1.Height
+    Timer1.Interval = 280
     Timer1.Enabled = True
 End Sub
 
@@ -325,14 +326,71 @@ Private Sub Timer1_Timer()
         MkDir App_path & "\include\custom"
     End If
     
+    If Dir(App_path & "\regfile", vbDirectory) = "" Then
+    start_text.Text = start_text.Text & vbCrLf & "建立regfile文件夹"
+        MkDir App_path & "\regfile"
+    End If
+    
     If err.Number <> 0 Then
         start_text.Text = start_text.Text & vbCrLf & "Error-" & err.Number & ": " & err.Description
         start_text.Text = start_text.Text & vbCrLf & "默认文件夹错误：程序检测或创建默认文件夹失败" & vbCrLf & "请手动检测程序目录下以下文件夹是否存在:"
-        start_text.Text = start_text.Text & vbCrLf & "\url" & vbCrLf & "\download" & vbCrLf & "\include" & vbCrLf & "\include\sys" & vbCrLf & "\include\custom"
+        start_text.Text = start_text.Text & vbCrLf & "\url" & vbCrLf & "\download" & vbCrLf & "\include" & vbCrLf & "\include\sys" & vbCrLf & "\include\custom" & vbCrLf & "\regfile"
     Else
         start_text.Text = start_text.Text & "...OK"
     End If
     
+    start_text.SelStart = Len(start_text.Text)
+    '------------------------------------------------------------------------------------------
+    
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "检查reg文件"
+    err.Clear
+    start_check1 = ""
+    start_check2 = ""
+    start_check1 = "Windows Registry Editor Version 5.00" & vbCrLf & _
+                   "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION]" & vbCrLf & _
+                   "#dword#" & vbCrLf & vbCrLf & _
+                   "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION]" & vbCrLf & _
+                   "#dword#"
+
+    If Dir(App_path & "\regfile\use_OS_IE_ver.reg") = "" Then
+    start_text.Text = start_text.Text & vbCrLf & "建立\regfile\use_OS_IE_ver.reg文件"
+        start_check2 = OX_GreatTxtFile(App_path & "\regfile\use_OS_IE_ver.reg", Replace(start_check1, "#dword#", """OX163.exe""=dword:000003E8"), "unicode")
+    End If
+    
+    If Dir(App_path & "\regfile\use_IE8.reg") = "" Then
+    start_text.Text = start_text.Text & vbCrLf & "建立\regfile\use_IE8.reg文件"
+        start_check2 = OX_GreatTxtFile(App_path & "\regfile\use_IE8.reg", Replace(start_check1, "#dword#", """OX163.exe""=dword:00001F40"), "unicode")
+    End If
+    
+    If Dir(App_path & "\regfile\use_IE9.reg") = "" Then
+    start_text.Text = start_text.Text & vbCrLf & "建立\regfile\use_IE9.reg文件"
+        start_check2 = OX_GreatTxtFile(App_path & "\regfile\use_IE9.reg", Replace(start_check1, "#dword#", """OX163.exe""=dword:00002328"), "unicode")
+    End If
+    
+    If Dir(App_path & "\regfile\use_IE10.reg") = "" Then
+    start_text.Text = start_text.Text & vbCrLf & "建立\regfile\use_IE10.reg文件"
+        start_check2 = OX_GreatTxtFile(App_path & "\regfile\use_IE10.reg", Replace(start_check1, "#dword#", """OX163.exe""=dword:00002710"), "unicode")
+    End If
+    
+    If Dir(App_path & "\regfile\use_IE11.reg") = "" Then
+    start_text.Text = start_text.Text & vbCrLf & "建立\regfile\use_IE11.reg文件"
+        start_check2 = OX_GreatTxtFile(App_path & "\regfile\use_IE11.reg", Replace(start_check1, "#dword#", """OX163.exe""=dword:00002AF8"), "unicode")
+    End If
+    
+    If Dir(App_path & "\regfile\clear_OX163.reg") = "" Then
+    start_text.Text = start_text.Text & vbCrLf & "建立\regfile\clear_OX163.reg文件"
+        start_check2 = OX_GreatTxtFile(App_path & "\regfile\clear_OX163.reg", Replace(start_check1, "#dword#", """OX163.exe""=-"), "unicode")
+    End If
+    
+    If err.Number <> 0 Or LCase(start_check2) = "false" Then
+        start_text.Text = start_text.Text & vbCrLf & "Error-" & err.Number & ": " & err.Description
+    Else
+        start_text.Text = start_text.Text & "...OK"
+    End If
+    
+    start_check1 = ""
+    start_check2 = ""
     start_text.SelStart = Len(start_text.Text)
     
     '------------------------------------------------------------------------------------------
@@ -410,6 +468,7 @@ Private Sub Timer1_Timer()
     OX_Start_log = start_text
     Load History_Logs
     'History_Logs.Hide
+    'MsgBox "Screen.TwipsPerPixelX" & Screen.TwipsPerPixelX & vbCrLf & "Screen.TwipsPerPixelY" & Screen.TwipsPerPixelY
     Form1.Show
 End Sub
 

@@ -6,12 +6,15 @@ Attribute VB_Name = "OX_FileSystem"
 '-------------------------------------------------------------------------
 '剪贴板控制API------------------------------------------------------------
 '-------------------------------------------------------------------------
-Private Declare Function OpenClipboard Lib "user32" (ByVal hWnd As Long) As Long
+Private Declare Function OpenClipboard Lib "user32" (ByVal hwnd As Long) As Long
 Private Declare Function SetClipboardData Lib "user32" (ByVal Format As Long, ByVal hMem As Long) As Long
+Private Declare Function GetClipboardData Lib "user32" (ByVal wFormat As Long) As Long
+Private Declare Function IsClipboardFormatAvailable Lib "user32" (ByVal wFormat As Long) As Long
 Private Declare Function CloseClipboard Lib "user32" () As Long
 Private Declare Function EmptyClipboard Lib "user32" () As Long
 Private Declare Function GlobalAlloc Lib "kernel32" (ByVal flags As Long, ByVal lent As Long) As Long
 Private Declare Function GlobalLock Lib "kernel32" (ByVal hMem As Long) As Long
+Private Declare Function GlobalSize Lib "kernel32" (ByVal hMem As Long) As Long
 Private Declare Function GlobalUnlock Lib "kernel32" (ByVal hMem As Long) As Long
 Private Declare Sub RtlMoveMemory Lib "kernel32" (ByVal pDest As Long, ByVal pSource As Long, ByVal lent As Long)
 
@@ -28,44 +31,44 @@ Private Declare Function GetShortPathNameW Lib "Kernel32.dll" (ByVal sLongPath A
 '-------------------------------------------------------------------------
 Public Function GetShortName(ByVal sLongFileName As String) As String
     On Error Resume Next
-'Unicode API mode-----------------------------------------------------------------
+    'Unicode API mode-----------------------------------------------------------------
     GetShortName = Space(255)
     Dim GetShortName_slength As Integer
-
+    
     GetShortName_slength = GetShortPathNameW(StrPtr(sLongFileName), StrPtr(GetShortName), 255)
     GetShortName = Left(GetShortName, GetShortName_slength)
     If Right(GetShortName, 1) = "\" Or Right(GetShortName, 1) = "/" Then GetShortName = Left(GetShortName, GetShortName_slength - 1)
-
+    
     If GetShortName = "" Then GetShortName = sLongFileName
     
-'Scripting.FileSystemObject mode---------------------------------------
-'    GetShortName = ""
-'    Dim GetShortName_Fso
-'
-'    Set GetShortName_Fso = CreateObject("Scripting.FileSystemObject")
-'
-'    Err.Clear
-'    GetShortName = GetShortName_Fso.GetFile(sLongFileName).ShortPath
-'
-'    If Err.Number <> 0 Then
-'        Err.Clear
-'        GetShortName = GetShortName_Fso.GetFolder(sLongFileName).ShortPath
-'    End If
-'
-'    Set GetShortName_Fso = Nothing
-'
-'    If GetShortName = "" Then GetShortName = sLongFileName
+    'Scripting.FileSystemObject mode---------------------------------------
+    '    GetShortName = ""
+    '    Dim GetShortName_Fso
+    '
+    '    Set GetShortName_Fso = CreateObject("Scripting.FileSystemObject")
+    '
+    '    Err.Clear
+    '    GetShortName = GetShortName_Fso.GetFile(sLongFileName).ShortPath
+    '
+    '    If Err.Number <> 0 Then
+    '        Err.Clear
+    '        GetShortName = GetShortName_Fso.GetFolder(sLongFileName).ShortPath
+    '    End If
+    '
+    '    Set GetShortName_Fso = Nothing
+    '
+    '    If GetShortName = "" Then GetShortName = sLongFileName
 End Function
 '-------------------------------------------------------------------------
 '创建文件（含有Unicode字符亦可）------------------------------------------
 '-------------------------------------------------------------------------
 Public Function OX_GreatFile(ByVal OX_GreatFileName As String) As Boolean
-On Error GoTo OX_GreatFileErr
+    On Error GoTo OX_GreatFileErr
     Dim ADO_Stream As Object
     
     Dim OX_GreatFile_retry As Boolean
     OX_GreatFile_retry = False
-
+    
 OX_GreatFileRetry:
     Set ADO_Stream = CreateObject("ADODB.Stream")
     With ADO_Stream
@@ -94,12 +97,12 @@ End Function
 '创建自定义字符集的文本文件-----------------------------------------------
 '-------------------------------------------------------------------------
 Public Function OX_GreatTxtFile(OX_GreatTxtFileName As String, TxtFile_Char As String, TxtFileCharset As String) As Boolean
-On Error GoTo OX_GreatFileErr
-
+    On Error GoTo OX_GreatFileErr
+    
     Dim ADO_Stream As Object
     Dim OX_GreatTxtFile_retry As Boolean
     OX_GreatTxtFile_retry = False
-
+    
 OX_GreatFileRetry:
     Set ADO_Stream = CreateObject("ADODB.Stream")
     With ADO_Stream
@@ -130,7 +133,7 @@ End Function
 '判断文件是否存在---------------------------------------------------------
 '-------------------------------------------------------------------------
 Public Function OX_Dirfile(ByVal OX_FileName As String) As Boolean
-On Error GoTo OX_DirfileErr
+    On Error GoTo OX_DirfileErr
     Dim fso As Object
     Set fso = CreateObject("Scripting.FileSystemObject")
     OX_Dirfile = fso.FileExists(OX_FileName)
@@ -146,8 +149,8 @@ End Function
 '删除文件-----------------------------------------------------------------
 '-------------------------------------------------------------------------
 Public Function OX_DelFile(ByVal OX_FileName As String) As Boolean
-On Error GoTo OX_DelfileErr
-OX_DelFile = False
+    On Error GoTo OX_DelfileErr
+    OX_DelFile = False
     Dim fso As Object
     Set fso = CreateObject("Scripting.FileSystemObject")
     fso.DeleteFile OX_FileName, True
@@ -164,7 +167,7 @@ End Function
 '判断文件夹是否存在-------------------------------------------------------
 '-------------------------------------------------------------------------
 Public Function OX_DirFolder(ByVal OX_FolderName As String) As Boolean
-On Error GoTo OX_DirFolderErr
+    On Error GoTo OX_DirFolderErr
     Dim fso As Object
     Set fso = CreateObject("Scripting.FileSystemObject")
     OX_DirFolder = fso.FolderExists(OX_FolderName)
@@ -180,14 +183,14 @@ End Function
 '创建文件夹---------------------------------------------------------------
 '-------------------------------------------------------------------------
 Public Function OX_CreateFolder(ByVal OX_FolderName As String) As Boolean
-On Error GoTo OX_CreateFolderErr
-
+    On Error GoTo OX_CreateFolderErr
+    
     Dim fso As Object
     Set fso = CreateObject("Scripting.FileSystemObject")
     OX_CreateFolder = fso.CreateFolder(OX_FolderName)
     Set fso = Nothing
     Exit Function
-
+    
 OX_CreateFolderErr:
     err.Clear
     OX_CreateFolder = False
@@ -207,12 +210,12 @@ End Sub
 '复制unicode字符到剪贴板--------------------------------------------------
 '-------------------------------------------------------------------------
 Sub SetClipboardText(ClipboardText)
-On Error GoTo OX_SetClipboardTextErr
+    On Error GoTo OX_SetClipboardTextErr
     If sysSet.Unicode_File = 0 Then
         Dim hMem As Long, pMem As Long, StringToCopy As String
         StringToCopy = fix_Unicode_FileName(ClipboardText) & vbNullChar
         Clipboard.Clear
-        Call OpenClipboard(Form1.hWnd)
+        Call OpenClipboard(Form1.hwnd)
         Call EmptyClipboard
         hMem = GlobalAlloc(GMEM_MOVEABLE Or GMEM_ZEROINIT, LenB(StringToCopy))
         pMem = GlobalLock(hMem)
@@ -223,10 +226,28 @@ On Error GoTo OX_SetClipboardTextErr
         Exit Sub
     End If
 OX_SetClipboardTextErr:
-        Clipboard.Clear
-        Clipboard.SetText ClipboardText
+    Clipboard.Clear
+    Clipboard.SetText ClipboardText
 End Sub
 
+Function GetClipboardText() As String
+    On Error GoTo OX_GetClipboardTextErr
+    If sysSet.Unicode_File = 0 And IsClipboardFormatAvailable(CF_UNICODETEXT) Then
+        Dim hMem As Long, pMem As Long, StringToCopy As String, nSize As Long
+        Call OpenClipboard(Form1.hwnd)
+        hMem = GetClipboardData(CF_UNICODETEXT)
+        pMem = GlobalLock(hMem)
+        nSize = GlobalSize(hMem)
+        StringToCopy = String(nSize, 0)
+        RtlMoveMemory ByVal StrPtr(StringToCopy), ByVal pMem, ByVal nSize
+        Call GlobalUnlock(hMem)
+        GetClipboardText = Left(StringToCopy, InStr(StringToCopy, Chr(0)) - 1)
+        Call CloseClipboard
+        Exit Function
+    End If
+OX_GetClipboardTextErr:
+    GetClipboardText = Clipboard.GetText
+End Function
 
 
 
