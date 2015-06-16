@@ -275,7 +275,7 @@ Public Function OX_Default_Setting() As sysSetting
     '用户代理(User-Agent)
     Customize_UA = OX_UA_Const(0)
     '整合Cache_no_cache Cache_no_store Customize_UA后的HTTP头信息
-    OX_Default_Setting.OX_HTTP_Head = "User-Agent: " & OX_Default_Setting.Customize_UA & IIf(OX_Default_Setting.Cache_no_cache = 1, vbCrLf & "Pragma: no-cache", "") & IIf(OX_Default_Setting.Cache_no_store = 1, vbCrLf & "Cache-Control: no-store", "")
+    OX_Default_Setting.OX_HTTP_Head = "User-Agent: " & OX_UA_Const(0)
 End Function
 
 
@@ -470,7 +470,7 @@ reset_path:
     OX_SysSet.url_folder = GetIniTF("maincenter", "url_folder")
     
     OX_SysSet.Customize_UA = Trim(GetIniStr("maincenter", "Customize_UA"))
-    'If OX_SysSet.Customize_UA = "" Then OX_SysSet.Customize_UA = OX_UA_Const(0)
+    If OX_SysSet.Customize_UA = "" Then OX_SysSet.Customize_UA = OX_UA_Const(0)
     
     OX_SysSet.proxy_A = GetIniStr("proxyset", "proxy_A_type")
     Select Case OX_SysSet.proxy_A
@@ -520,7 +520,7 @@ reset_path:
     End If
     
     '整合Cache_no_cache Cache_no_store Customize_UA后的HTTP头信息
-    OX_SysSet.OX_HTTP_Head = IIf(Trim(OX_SysSet.Customize_UA) <> "", "User-Agent: " & OX_SysSet.Customize_UA, "") & IIf(OX_SysSet.Cache_no_cache = 1, vbCrLf & "Pragma: no-cache", "") & IIf(OX_SysSet.Cache_no_store = 1, vbCrLf & "Cache-Control: no-store", "")
+    OX_SysSet.OX_HTTP_Head = IIf(Trim(OX_SysSet.Customize_UA) <> "", "User-Agent: " & OX_SysSet.Customize_UA, OX_UA_Const(0)) & IIf(OX_SysSet.Cache_no_cache = 1, vbCrLf & "Pragma: no-cache", "") & IIf(OX_SysSet.Cache_no_store = 1, vbCrLf & "Cache-Control: no-store", "")
 End Function
 
 '-------------------------------------------------------------------------
@@ -947,16 +947,19 @@ Public Sub OX_Get_urllist()
 On Error Resume Next
 Dim list_str As String, file_path As String, i As Integer
 Dim split_str
-file_path = App_path & "\include\sys\urllist.vbs"
+file_path = App_path & "\include\sys\urllist.txt"
 If OX_Dirfile(file_path) = True Then
     list_str = load_normal_file(file_path, -1)
     split_str = Split(list_str, vbCrLf)
     For i = 0 To UBound(split_str)
-        If InStr(split_str(i), "|") > 1 Then
-            Form1.Web_Toolbar.Buttons(9).ButtonMenus.Add , "shj_urllist_" & i, Mid(split_str(i), 1, InStr(split_str(i), "|") - 1)
-            Form1.Web_Toolbar.Buttons(9).ButtonMenus(Form1.Web_Toolbar.Buttons(9).ButtonMenus.count).Tag = Mid(split_str(i), InStr(split_str(i), "|") + 1)
-        ElseIf split_str(i) = "-" Then
+        If split_str(i) = "-" Then
             Form1.Web_Toolbar.Buttons(9).ButtonMenus.Add , , "-"
+        ElseIf InStr(split_str(i), "|") > 1 Then
+            Form1.Web_Toolbar.Buttons(9).ButtonMenus.Add , "shj_urllist_" & i, Trim(Mid(split_str(i), 1, InStr(split_str(i), "|") - 1))
+            Form1.Web_Toolbar.Buttons(9).ButtonMenus(Form1.Web_Toolbar.Buttons(9).ButtonMenus.count).Tag = Trim(Mid(split_str(i), InStr(split_str(i), "|") + 1))
+        ElseIf InStr(split_str(i), ":") > 1 Then
+            Form1.Web_Toolbar.Buttons(9).ButtonMenus.Add , "shj_urllist_" & i, Trim(split_str(i))
+            Form1.Web_Toolbar.Buttons(9).ButtonMenus(Form1.Web_Toolbar.Buttons(9).ButtonMenus.count).Tag = Trim(split_str(i))
         End If
     Next
 End If

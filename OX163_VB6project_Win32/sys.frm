@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Begin VB.Form sys 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "OX163程序设置"
@@ -14,6 +14,11 @@ Begin VB.Form sys
    ScaleHeight     =   14565
    ScaleWidth      =   22080
    StartUpPosition =   2  '屏幕中心
+   Begin VB.Timer on_top_Timer 
+      Interval        =   10
+      Left            =   360
+      Top             =   6960
+   End
    Begin VB.CommandButton frame_rec 
       Caption         =   "调用INI恢复本栏设置"
       Height          =   495
@@ -74,7 +79,7 @@ Begin VB.Form sys
          BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   3855
-         Left            =   -6360
+         Left            =   -6240
          ScaleHeight     =   3855
          ScaleWidth      =   6735
          TabIndex        =   12
@@ -622,7 +627,7 @@ Begin VB.Form sys
       EndProperty
    End
    Begin VB.Frame FrameL 
-      Caption         =   "系统检测结果"
+      Caption         =   "启动与维护"
       ForeColor       =   &H00C00000&
       Height          =   5295
       Index           =   9
@@ -631,15 +636,90 @@ Begin VB.Form sys
       Top             =   9000
       Visible         =   0   'False
       Width           =   6375
+      Begin VB.Frame Frame4 
+         Height          =   1815
+         Left            =   240
+         TabIndex        =   216
+         Top             =   240
+         Width           =   5895
+         Begin VB.CommandButton manifest_Com 
+            Caption         =   "应用(需重启程序)"
+            BeginProperty Font 
+               Name            =   "宋体"
+               Size            =   9
+               Charset         =   134
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   375
+            Left            =   120
+            TabIndex        =   221
+            Top             =   1400
+            Width           =   5655
+         End
+         Begin VB.CheckBox manifest_check 
+            Caption         =   "以管理员身份运行(可解决大部分运行问题)"
+            ForeColor       =   &H000000FF&
+            Height          =   255
+            Index           =   2
+            Left            =   120
+            TabIndex        =   220
+            Top             =   1080
+            Width           =   5655
+         End
+         Begin VB.CheckBox manifest_check 
+            Caption         =   "高DPI设置时禁用显示缩放(解决字体模糊问题)"
+            ForeColor       =   &H000000FF&
+            Height          =   255
+            Index           =   1
+            Left            =   120
+            TabIndex        =   219
+            Top             =   720
+            Width           =   5655
+         End
+         Begin VB.CheckBox manifest_check 
+            Caption         =   "使用Windows窗口样式"
+            ForeColor       =   &H000000FF&
+            Height          =   255
+            Index           =   0
+            Left            =   120
+            TabIndex        =   218
+            Top             =   360
+            Value           =   1  'Checked
+            Width           =   5535
+         End
+         Begin VB.Label FrameL9_lab 
+            AutoSize        =   -1  'True
+            Caption         =   "启动模式选择(修改OX163.exe.manifest文件)"
+            ForeColor       =   &H00C00000&
+            Height          =   180
+            Index           =   0
+            Left            =   120
+            TabIndex        =   217
+            Top             =   0
+            Width           =   3600
+         End
+      End
       Begin VB.TextBox OX_Start_log_Text 
-         Height          =   3375
+         Height          =   2175
          Left            =   240
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   134
          Text            =   "sys.frx":4A5A
-         Top             =   360
+         Top             =   2400
          Width           =   5895
+      End
+      Begin VB.Label manifest_Lab 
+         AutoSize        =   -1  'True
+         Caption         =   "程序启动检测结果:"
+         Height          =   180
+         Left            =   240
+         TabIndex        =   215
+         Top             =   2160
+         Width           =   1530
       End
    End
    Begin VB.Frame FrameL 
@@ -1066,7 +1146,7 @@ Begin VB.Form sys
       End
       Begin VB.Label Label2 
          AutoSize        =   -1  'True
-         Caption         =   "代理设置B: 下载图片内容"
+         Caption         =   "代理B设置: 下载图片内容"
          ForeColor       =   &H00C00000&
          Height          =   180
          Index           =   1
@@ -1077,7 +1157,7 @@ Begin VB.Form sys
       End
       Begin VB.Label Label2 
          AutoSize        =   -1  'True
-         Caption         =   "代理设置A: 下载页面内容"
+         Caption         =   "代理A设置: 下载页面内容"
          ForeColor       =   &H00C00000&
          Height          =   180
          Index           =   0
@@ -1107,6 +1187,7 @@ Begin VB.Form sys
          Top             =   240
          Width           =   6135
          Begin VB.PictureBox FrameL1_bgs 
+            AutoSize        =   -1  'True
             BorderStyle     =   0  'None
             Height          =   6735
             Left            =   0
@@ -2421,11 +2502,26 @@ End Sub
 
 
 Private Sub Combo_UA_List_Click()
+
     Customize_UA_txt = OX_UA_Const(Combo_UA_List.ListIndex)
 End Sub
 
 Private Sub Combo_UA_List_KeyPress(KeyAscii As Integer)
     Customize_UA_txt = OX_UA_Const(Combo_UA_List.ListIndex)
+End Sub
+
+Private Sub manifest_Com_Click()
+Dim manifest_str As String
+manifest_str = Set_OX_manifest(manifest_check(0).Value, manifest_check(1).Value, manifest_check(2).Value)
+If manifest_str = "-1" Then
+MsgBox "设置完成,您需要重启程序才能应用设置", vbOKOnly, "提醒"
+ElseIf manifest_str = "0" Then
+MsgBox "删除" & App.EXEName & ".exe.manifest文件失败!", vbOKOnly, "提醒"
+Else
+manifest_Lab.caption = App.EXEName & ".exe.manifest文件内容如下:"
+OX_Start_log_Text = manifest_str
+MsgBox "设置失败,请复制文本框中的内容,请用记事本手动在OX163所在目录创建" & App.EXEName & ".exe.manifest文件", vbOKOnly, "提醒"
+End If
 End Sub
 
 Private Sub Customize_UA_txt_Change()
@@ -2668,7 +2764,6 @@ End Sub
 
 Private Sub Form_Load()
     On Error Resume Next
-    OX_SetWheelStart FrameL1_bgs.hwnd
     sys.Width = 9105
     sys.Height = 6510
     Dim i As Byte
@@ -2681,7 +2776,6 @@ Private Sub Form_Load()
     FrameL1_bgvs.Max = Int((FrameL1_bgs.Height - FrameL1_bg.Height) / VS_int)
     Call Build_TVW_Menu
     Call SysTreeView_NodeClick(SysTreeView.Nodes(1))
-    Sys_on_top
     'Form1.always_on_top False
     'Dim flags As Integer
     'flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
@@ -2694,6 +2788,7 @@ Private Sub Form_Load()
     OX_Start_log_Text = OX_Start_log_Text & vbCrLf & vbCrLf & OX_Start_log
     Call sys_def(0)
     Call load_ini(0)
+    OX_SetWheelStart FrameL1_bgs.hwnd
     FrameL1_bgs.SetFocus
     OX_SetWheelArea FrameL1_bgs.hwnd & "," & FrameL1_bgvs.hwnd & "," & FrameL1_Frame1.hwnd & "," & FrameL1_Picture(0).hwnd & "," & FrameL1_Picture(1).hwnd & "," & FrameL1_Picture(2).hwnd
 End Sub
@@ -2713,7 +2808,7 @@ Private Sub Build_TVW_Menu()
     Call SysTreeView.Nodes.Add(, 4, "TVW6", "热键与警告框", 6)
     Call SysTreeView.Nodes.Add(, 4, "TVW7", "网易相册设置", 7)
     Call SysTreeView.Nodes.Add(, 4, "TVW8", "内置浏览器", 8)
-    Call SysTreeView.Nodes.Add(, 4, "TVW9", "维护与工具", 9)
+    Call SysTreeView.Nodes.Add(, 4, "TVW9", "启动与维护", 9)
     Dim nodx As Node
     For Each nodx In SysTreeView.Nodes
         nodx.Expanded = True
@@ -2756,9 +2851,10 @@ Private Sub SysTreeView_NodeClick(ByVal Node As MSComctlLib.Node)
     If Node.Index = 1 Then FrameL1_bgs.SetFocus
 End Sub
 
-Private Sub Timer1_Timer()
-    Timer1.Enabled = False
-    End
+Private Sub on_top_Timer_Timer()
+    Sys_on_top
+    on_top_Timer.Enabled = False
+    FrameL1_bgs.SetFocus
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
