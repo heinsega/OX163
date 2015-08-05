@@ -17,7 +17,7 @@ End Type
 
 '-------------------------------------------------------------------------
 '程序窗口重在最前面-------------------------------------------------------
-Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Public Const HWND_TOPMOST = -1
 Public Const SWP_NOMOVE = &H2
 Public Const SWP_NOSIZE = &H1
@@ -37,7 +37,7 @@ Private Declare Function WritePrivateProfileString Lib "kernel32" Alias "WritePr
 
 '-------------------------------------------------------------------------
 '得到路径是否可写---------------------------------------------------------
-Public Declare Function GetFileAttributes Lib "kernel32" Alias "GetFileAttributesA" (ByVal lpFileName As String) As Long
+Public Declare Function GetFileAttributesAPI Lib "kernel32" Alias "GetFileAttributesA" (ByVal lpFileName As String) As Long
 
 '-------------------------------------------------------------------------
 '进程优先级---------------------------------------------------------------
@@ -216,7 +216,7 @@ Public Function ShowOpenFileDialog(InitialDir As String, DialogTitle As String, 
         
         lReturn_str = byte_temp
         lReturn_str = Trim(lReturn_str)
-        If InStr(lReturn_str, vbNullChar) > 0 Then lReturn_str = Left$(lReturn_str, InStr(lReturn_str, vbNullChar) - 1)
+        If InStr(lReturn_str, vbNullChar) > 0 Then lReturn_str = Left(lReturn_str, InStr(lReturn_str, vbNullChar) - 1)
         ShowOpenFileDialog = lReturn_str
     End If
     
@@ -253,7 +253,7 @@ Public Function ShowSaveFileDialog(InitialDir As String, DialogTitle As String, 
         
         lReturn_str = byte_temp
         lReturn_str = Trim(lReturn_str)
-        If InStr(lReturn_str, vbNullChar) > 0 Then lReturn_str = Left$(lReturn_str, InStr(lReturn_str, vbNullChar) - 1)
+        If InStr(lReturn_str, vbNullChar) > 0 Then lReturn_str = Left(lReturn_str, InStr(lReturn_str, vbNullChar) - 1)
         
         '检查文件后缀名
         file_type_split = Split(file_type, "|")
@@ -296,7 +296,7 @@ Public Function GetFolder(ByVal title As String, ByVal start As String, ByVal ne
         spath = Space(MAX_PATH)
         If SHGetPathFromIDList(pidl, StrPtr(spath)) Then
             'next line is the returned folder
-            If InStr(spath, vbNullChar) > 0 Then spath = Left$(spath, InStr(spath, vbNullChar) - 1)
+            If InStr(spath, vbNullChar) > 0 Then spath = Left(spath, InStr(spath, vbNullChar) - 1)
             GetFolder = GetShortName(spath)
         End If
         'Call CoTaskMemFree(pidl)
@@ -365,11 +365,6 @@ End Function
 
 Sub Main()
     InitCommonControlsVB
-    
-    Dim CurrentProcesshWnd As Long
-    CurrentProcesshWnd = cess
-    Call SetPriorityClass(CurrentProcesshWnd, &H8000)
-    
     start_ox163.Show
 End Sub
 
@@ -387,8 +382,8 @@ Public Function GetSysDir() As String
     
     lngBuf = GetSystemDirectory(StrPtr(strBuf), lngBuf)
     strBuf = Trim(strBuf)
-    'If InStr(strBuf, vbNullChar) > 0 Then strBuf = Left$(strBuf, InStr(strBuf, vbNullChar) - 1)
-    strBuf = Left$(strBuf, lngBuf)
+    'If InStr(strBuf, vbNullChar) > 0 Then strBuf = left(strBuf, InStr(strBuf, vbNullChar) - 1)
+    strBuf = Left(strBuf, lngBuf)
     GetSysDir = GetShortName(strBuf)
 End Function
 

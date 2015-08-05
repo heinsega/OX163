@@ -101,7 +101,7 @@ Public Function unicode2asc(ByVal old_str)
         If Len(check_str(i)) > 3 Then
             unicode_tf = True
             For j = 1 To 4
-                If InStr("0123456789abcdefABCDEF", Mid$(check_str(i), j, 1)) < 1 Then unicode_tf = False: GoTo end_last
+                If InStr("0123456789abcdefABCDEF", Mid(check_str(i), j, 1)) < 1 Then unicode_tf = False: GoTo end_last
             Next j
             old_str = Left(check_str(i), 4)
             unicode_number = "&H" & old_str
@@ -166,8 +166,8 @@ Public Function reName_Str(ByVal old_Name As String) As String
         If Asc(Mid(reName_Str, i, 1)) = 63 Then reName_Str = Replace(reName_Str, Mid(reName_Str, i, 1), "_")
     Next
     
-    If Left(reName_Str, 1) = "." Then reName_Str = "_" & Mid$(reName_Str, 2)
-    If Right(reName_Str, 1) = "." Then reName_Str = Mid$(reName_Str, 1, Len(reName_Str) - 1) & "_"
+    If Left(reName_Str, 1) = "." Then reName_Str = "_" & Mid(reName_Str, 2)
+    If Right(reName_Str, 1) = "." Then reName_Str = Mid(reName_Str, 1, Len(reName_Str) - 1) & "_"
     
 End Function
 'Unicode字符操作函数
@@ -258,7 +258,7 @@ Private Function is_Hex_code(ByVal Hex_code As String) As Boolean
     If Len(Hex_code) > 0 And Len(Hex_code) < 9 Then
         For i = 1 To Len(Hex_code)
             DoEvents
-            If InStr("ABCDEFabcdef0123456789", Mid$(Hex_code, i, 1)) < 1 Then is_Hex_code = False: Exit Function
+            If InStr("ABCDEFabcdef0123456789", Mid(Hex_code, i, 1)) < 1 Then is_Hex_code = False: Exit Function
         Next i
     Else
         is_Hex_code = False
@@ -387,7 +387,7 @@ End Function
 Public Function UTF8EncodeURI(ByVal szInput As String) As String
     On Error Resume Next
     Dim wch, uch, szRet
-    Dim X
+    Dim x
     Dim nAsc, nAsc2, nAsc3
     
     If szInput = "" Then
@@ -395,8 +395,8 @@ Public Function UTF8EncodeURI(ByVal szInput As String) As String
         Exit Function
     End If
     
-    For X = 1 To Len(szInput)
-        wch = Mid(szInput, X, 1)
+    For x = 1 To Len(szInput)
+        wch = Mid(szInput, x, 1)
         nAsc = AscW(wch)
         
         If nAsc < 0 Then nAsc = nAsc + 65536 'AscW的返回值的子类型是Integer，Integer的取值范围是-32768到32767。超出 32767，造成了溢出，返回负数

@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.OCX"
 Begin VB.Form script_from 
    Caption         =   "OX163 Script Setting"
@@ -286,9 +286,9 @@ Public Sub on_top(on_top As Boolean)
     Dim flags As Integer
     flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
     If on_top = True Then
-        SetWindowPos script_from.hWnd, HWND_TOPMOST, 0, 0, 0, 0, flags
+        SetWindowPos script_from.hwnd, HWND_TOPMOST, 0, 0, 0, 0, flags
     Else
-        SetWindowPos script_from.hWnd, -2, 0, 0, 0, 0, flags
+        SetWindowPos script_from.hwnd, -2, 0, 0, 0, 0, flags
     End If
 End Sub
 
@@ -334,7 +334,7 @@ Private Sub Check_script()
     StatusBar.Panels(2) = "Now Checking"
     script_load.Cancel
     script_down_ok = False
-    strURL = Trim$(sysSet.update_host & "script_update.vbs?ntime=" & OX_ntime(OX_ntime_Now, OX_ntime_Hex))
+    strURL = Trim(sysSet.update_host & "script_update.vbs?ntime=" & OX_ntime(OX_ntime_Now, OX_ntime_Hex))
     
     script_download
     
@@ -564,7 +564,7 @@ Public Sub Update_script(update_type As String)
             
             script_load.Cancel
             script_down_ok = False
-            strURL = Trim$(sysSet.update_host & script_list.ListItems(i).ListSubItems(1).Text & "?ntime=" & OX_ntime(OX_ntime_Now, OX_ntime_Hex))
+            strURL = Trim(sysSet.update_host & script_list.ListItems(i).ListSubItems(1).Text & "?ntime=" & OX_ntime(OX_ntime_Now, OX_ntime_Hex))
             
             script_download
             
@@ -637,6 +637,7 @@ Private Sub script_load_StateChanged(ByVal State As Integer)
         script_down_ok = True
     Case icError
         '与主机通信出错
+        StatusBar.Panels(2) = "icError/与主机通信出错"
         Call script_download
     End Select
     
@@ -646,7 +647,7 @@ Public Sub script_download()
     On Error GoTo err_ctrl
     If sysSet.DelCache_BefDL = 1 Or sysSet.DelCache_BefDL > 2 Then OX_DeleteUrlCacheEntryW strURL
     '调用Execute方法向Web服务器发送HTTP请求
-    script_load.Execute Trim$(strURL), "GET", , sysSet.OX_HTTP_Head
+    script_load.Execute Trim(strURL), "GET", , sysSet.OX_HTTP_Head
     Exit Sub
     
 err_ctrl:

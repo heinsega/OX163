@@ -208,7 +208,7 @@ Public Function OX_Default_Setting() As sysSetting
     '密码错误时，再次询问密码
     OX_Default_Setting.change_psw = True
     '窗口总在最前面
-    OX_Default_Setting.always_top = True
+    OX_Default_Setting.always_top = False
     '阻止弹出窗口
     OX_Default_Setting.new_ie_win = True
     '弹出窗口用OX163打开
@@ -224,7 +224,7 @@ Public Function OX_Default_Setting() As sysSetting
     '伪图文件名列表
     OX_Default_Setting.fix_rar_name = "RAR|ZIP|7Z|PNG|BMP"
     '系统托盘
-    OX_Default_Setting.sysTray = True
+    OX_Default_Setting.sysTray = False
     '是否开启默认路径
     OX_Default_Setting.def_path_tf = False
     '默认路径
@@ -454,9 +454,9 @@ Public Function OX_GetIni_Setting(ByRef OX_SysSet As sysSetting)
 
     If sysSet.def_path_tf = True Then
         OX_SysSet.def_path = GetIniStr("maincenter", "def_path")
-        If Mid$(sysSet.def_path, 2, 2) <> ":\" And Len(sysSet.def_path) > 2 Then GoTo reset_path
-        If Right(sysSet.def_path, 1) = "\" Then sysSet.def_path = Mid$(sysSet.def_path, 1, Len(sysSet.def_path) - 1): WriteIniStr "maincenter", "def_path", sysSet.def_path
-        If (GetFileAttributes(sysSet.def_path) = -1) Then GoTo reset_path
+        If Mid(sysSet.def_path, 2, 2) <> ":\" And Len(sysSet.def_path) > 2 Then GoTo reset_path
+        If Right(sysSet.def_path, 1) = "\" Then sysSet.def_path = Mid(sysSet.def_path, 1, Len(sysSet.def_path) - 1): WriteIniStr "maincenter", "def_path", sysSet.def_path
+        If (GetFileAttributesAPI(sysSet.def_path) = -1) Then GoTo reset_path
     Else
 reset_path:
         sysSet.def_path_tf = False
@@ -571,7 +571,7 @@ Public Function load_Script(file_name) As String
     '    DoEvents
     '    Loop
     '    Close #5
-    '    load_Script = Left$(load_Script, Len(load_Script) - 2)
+    '    load_Script = Left(load_Script, Len(load_Script) - 2)
 End Function
 
 '-------------------------------------------------------------------------
@@ -584,7 +584,7 @@ Public Function fix_Pix(ByVal pix_str) As String
         DoEvents
         fix_Pix = fix_Pix & Format$(Int(pix_str(i)), "0000") & "x"
     Next i
-    fix_Pix = Mid$(fix_Pix, 1, Len(fix_Pix) - 1)
+    fix_Pix = Mid(fix_Pix, 1, Len(fix_Pix) - 1)
 End Function
 
 '-------------------------------------------------------------------------
@@ -616,7 +616,7 @@ Public Function rename_URL(ByVal old_url)
         rename_URL = ""
         Exit Function
     End If
-    If Left(old_url, 1) = "." Then old_url = Mid$(old_url, 2)
+    If Left(old_url, 1) = "." Then old_url = Mid(old_url, 2)
     
     code_E = Array("＼", "／", Chr(-23646), "？", "：", "＊", "＜", "＞", "｜")
     code_F = Array(Chr(92), Chr(47), Chr(34), Chr(63), Chr(58), Chr(42), Chr(60), Chr(62), Chr(124))
@@ -637,7 +637,7 @@ Public Function rename_URLfile(ByVal old_url)
         rename_URLfile = ""
         Exit Function
     End If
-    If Left(old_url, 1) = "." Then old_url = Mid$(old_url, 2)
+    If Left(old_url, 1) = "." Then old_url = Mid(old_url, 2)
     
     code_E = Array("＼", "／", Chr(-23646), "？", "：", "＊", "＜", "＞", "｜")
     code_F = Array(Chr(92), Chr(47), Chr(34), Chr(63), Chr(58), Chr(42), Chr(60), Chr(62), Chr(124))
@@ -925,8 +925,6 @@ Public Sub OX_SetIE_Ver(ByRef IE_ver As Byte)
 On Error Resume Next
 err.Clear
 Select Case IE_ver
-Case 0
- Shell "regedit " & App_path & "\regfile\clear_OX163.reg", vbNormalFocus
 Case 8
  Shell "regedit " & App_path & "\regfile\use_IE8.reg", vbNormalFocus
 Case 9
@@ -936,7 +934,7 @@ Case 10
 Case 11
  Shell "regedit " & App_path & "\regfile\use_IE11.reg", vbNormalFocus
 Case Else
- Shell "regedit " & App_path & "\regfile\use_OS_IE_ver.reg", vbNormalFocus
+ Shell "regedit " & App_path & "\regfile\clear_OX163.reg", vbNormalFocus
 End Select
 If err.Number <> 0 Then MsgBox "错误:" & err.Number & vbCrLf & err.Descriptionr & vbCrLf & "您可以打开regfile目录直接操作", vbOKOnly, "提醒"
 err.Clear

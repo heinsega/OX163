@@ -198,7 +198,7 @@ Function return_download_list(ByVal html_str, ByVal url_str)
         retry_time = 0
         html_str = Mid(html_str, InStr(LCase(html_str), LCase(key_str)) + Len(key_str))
         split_str = Split(html_str, key_str, -1, 1)
-
+				MsgBox UBound(split_str)
         For split_i = 0 To UBound(split_str)
             If deep_DL = vbNo Then
                 split_str(split_i) = Mid(split_str(split_i), InStr(split_str(split_i), ",""id"":") + len(",""id"":"))

@@ -60,7 +60,7 @@ Public Function check_Include(ByVal url_str As String) As String
     include_str = load_Script(App_path & "\include\sys\include.txt")
     If include_str = "" Then Exit Function
     
-    include_str = Split(Trim$(include_str), vbCrLf)
+    include_str = Split(Trim(include_str), vbCrLf)
     
     Dim i As Long
     For i = 0 To UBound(include_str)
@@ -70,9 +70,9 @@ Public Function check_Include(ByVal url_str As String) As String
             
             If UBound(include_str1) < 4 Then GoTo next_i
             If Dir(App_path & "\include\sys\" & include_str1(0)) = "" Then GoTo next_i
-            If LCase$(include_str1(1)) <> "vbscript" And LCase$(include_str1(1)) <> "javascript" Then GoTo next_i
+            If LCase(include_str1(1)) <> "vbscript" And LCase(include_str1(1)) <> "javascript" Then GoTo next_i
             If include_str1(2) = "" Then GoTo next_i
-            If LCase$(include_str1(3)) <> "photo" And LCase$(include_str1(3)) <> "album" Then GoTo next_i
+            If LCase(include_str1(3)) <> "photo" And LCase(include_str1(3)) <> "album" Then GoTo next_i
             If include_str1(4) = "" Then GoTo next_i
             
             'url_str(输入的网址)
@@ -104,9 +104,9 @@ Public Function ParseInclude(ByVal sourceString As String) As ScriptInfo
     ParseInclude.Criteria = ""
     script_ParseStr = Split(sourceString, "|")
     If UBound(script_ParseStr) >= 0 Then ParseInclude.fileName = script_ParseStr(0)
-    If UBound(script_ParseStr) >= 1 Then ParseInclude.Language = LCase$(script_ParseStr(1))
+    If UBound(script_ParseStr) >= 1 Then ParseInclude.Language = LCase(script_ParseStr(1))
     If UBound(script_ParseStr) >= 2 Then ParseInclude.Encoding = script_ParseStr(2)
-    If UBound(script_ParseStr) >= 3 Then ParseInclude.HandleType = LCase$(script_ParseStr(3))
+    If UBound(script_ParseStr) >= 3 Then ParseInclude.HandleType = LCase(script_ParseStr(3))
     If UBound(script_ParseStr) >= 4 Then ParseInclude.Criteria = script_ParseStr(4)
 End Function
 
@@ -134,11 +134,11 @@ Public Function ParseDownloadURL(ByVal sourceString As String) As downloadInfo
     
     '0|1|2|3|4 <-> inet|10,13|url|url_Referer|POST method
     '0
-    If LCase$(script_ParseStr(0 + script_ParseStr_counts)) = "web" Then ParseDownloadURL.mode = OX_WEB
+    If LCase(script_ParseStr(0 + script_ParseStr_counts)) = "web" Then ParseDownloadURL.mode = OX_WEB
     '1
     ParseDownloadURL.excludeChar = script_ParseStr(1 + script_ParseStr_counts)
     '2
-    ParseDownloadURL.downloadURL = Trim$(script_ParseStr(2 + script_ParseStr_counts))
+    ParseDownloadURL.downloadURL = Trim(script_ParseStr(2 + script_ParseStr_counts))
     '3
     If UBound(script_ParseStr) > (2 + script_ParseStr_counts) Then ParseDownloadURL.refererINFO = OX_PrivateChr(script_ParseStr(3 + script_ParseStr_counts))
     '4
@@ -181,10 +181,10 @@ Public Function ParseAlbum(ByVal sourceString As String) As AlbumInfo()
             For j = 4 To UBound(ParseAlbumInfoSplit)
                 ParseAlbumInfo(i).Description = ParseAlbumInfo(i).Description & ParseAlbumInfoSplit(j)
             Next j
-            ParseAlbumInfo(i).Description = Str_unicode_Ctrl(fix_Code(Trim$(ParseAlbumInfo(i).Description)))
+            ParseAlbumInfo(i).Description = Str_unicode_Ctrl(fix_Code(Trim(ParseAlbumInfo(i).Description)))
             '最后一行为下一页下载信息
         Else
-            ParseAlbumInfo(i).URL = Trim$(ParseAlbumStrSplit(i))
+            ParseAlbumInfo(i).URL = Trim(ParseAlbumStrSplit(i))
         End If
     Next i
     ParseAlbum = ParseAlbumInfo
@@ -211,12 +211,12 @@ Public Function ParsePhoto(ByVal sourceString As String) As PhotoInfo()
         '判断部位最后一行
         If i < UBound(ParsePhotoStrSplit) Then
             'list_picName
-            ParsePhotoInfoSplit(2) = Trim$(ParsePhotoInfoSplit(2)) '文件名，去掉首尾空格
-            ParsePhotoInfoSplit(0) = Trim$(ParsePhotoInfoSplit(0)) '文件后缀，去掉首尾空格，文件后缀在这里和文件名进行判断合并
+            ParsePhotoInfoSplit(2) = Trim(ParsePhotoInfoSplit(2)) '文件名，去掉首尾空格
+            ParsePhotoInfoSplit(0) = Trim(ParsePhotoInfoSplit(0)) '文件后缀，去掉首尾空格，文件后缀在这里和文件名进行判断合并
             If ParsePhotoInfoSplit(0) <> "" Then
                 If Not (LCase(ParsePhotoInfoSplit(2)) Like LCase("*?." & ParsePhotoInfoSplit(0))) Then ParsePhotoInfoSplit(2) = ParsePhotoInfoSplit(2) & "." & ParsePhotoInfoSplit(0)
             ElseIf ParsePhotoInfoSplit(2) = "" Then
-                ParsePhotoInfoSplit(2) = Trim$(Mid$(ParsePhotoInfoSplit(1), InStrRev(ParsePhotoInfoSplit(1), "/") + 1)) '获取url中的文件名
+                ParsePhotoInfoSplit(2) = Trim(Mid(ParsePhotoInfoSplit(1), InStrRev(ParsePhotoInfoSplit(1), "/") + 1)) '获取url中的文件名
                 If ParsePhotoInfoSplit(2) = "" Then ParsePhotoInfoSplit(2) = "NoName_File"
             End If
             ParsePhotoInfo(i).fileName = reName_Str(fix_Code(ParsePhotoInfoSplit(2)))
@@ -226,10 +226,10 @@ Public Function ParsePhoto(ByVal sourceString As String) As PhotoInfo()
             For j = 3 To UBound(ParsePhotoInfoSplit)
                 ParsePhotoInfo(i).Description = ParsePhotoInfo(i).Description & ParsePhotoInfoSplit(j)
             Next j
-            ParsePhotoInfo(i).Description = Str_unicode_Ctrl(fix_Code(Trim$(ParsePhotoInfo(i).Description)))
+            ParsePhotoInfo(i).Description = Str_unicode_Ctrl(fix_Code(Trim(ParsePhotoInfo(i).Description)))
             '最后一行为下一页下载信息
         Else
-            ParsePhotoInfo(i).picURL = Trim$(ParsePhotoStrSplit(i))
+            ParsePhotoInfo(i).picURL = Trim(ParsePhotoStrSplit(i))
         End If
     Next i
     ParsePhoto = ParsePhotoInfo

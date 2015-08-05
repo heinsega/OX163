@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form start_ox163 
    BackColor       =   &H00FFFFFF&
    BorderStyle     =   0  'None
-   Caption         =   "OX163 starting page"
+   Caption         =   "starting OX163"
    ClientHeight    =   3390
    ClientLeft      =   0
    ClientTop       =   0
@@ -14,7 +14,6 @@ Begin VB.Form start_ox163
    Picture         =   "start.frx":406A
    ScaleHeight     =   3390
    ScaleWidth      =   6000
-   ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '屏幕中心
    Begin VB.PictureBox Picture1 
       AutoRedraw      =   -1  'True
@@ -85,9 +84,10 @@ Attribute VB_Exposed = False
 'Private Sub Start_Form_alph()
 '    BorderStyler = 0
 '    rtn = GetWindowLong(hwnd, GWL_EXSTYLE)
+'    a = Me.hwnd
 '    rtn = rtn Or WS_EX_LAYERED
 '    SetWindowLong hwnd, GWL_EXSTYLE, rtn
-'    SetLayeredWindowAttributes hwnd, &HFFFFFF, 0, LWA_COLORKEY
+'    SetLayeredWindowAttributes hwnd, &HFFFFFF, 100, LWA_COLORKEY
 'End Sub
 
 Private Sub Com1_Click()
@@ -102,6 +102,7 @@ Private Sub Form_Load()
     Picture1.PaintPicture Me.Picture, 0, 0, Picture1.Width, Picture1.Height
     Timer1.Interval = 280
     Timer1.Enabled = True
+    OX_G_Disable8dot3 = ""
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -141,6 +142,8 @@ Private Sub Timer1_Timer()
     Dim test_Object As Object
     Dim start_check1, start_check2
     Dim step_counter As Integer
+    Dim first_sart_up As Boolean
+    
     
     '判断Non Unicode程序设置,并提示
     If GetOSLCID <> 1 Then MsgBox "Your System Lanuages for Non Unicode Program is not Simplified Chinese." _
@@ -150,7 +153,7 @@ Private Sub Timer1_Timer()
         & vbCrLf & "Change 'language for non-Unicode programs' to 'Chinese(Simplified, PRC)'." _
         & vbCrLf & "When you have finished setting, you need to restart your computer.", vbOKOnly
     '--------------------------------------------------------
-    start_text.Text = "启动程序:"
+    start_text.Text = "启动程序:" & vbCrLf & "0.5.9以上版本默认以管理员身份启动,以应对win8.1以上系统的诸多问题"
     step_counter = 0
     err.Clear
     '-----------------------------------------------------------------------------------------
@@ -159,17 +162,32 @@ Private Sub Timer1_Timer()
     start_text.Text = start_text.Text & vbCrLf & "检查msvbvm60.dll"
     start_check1 = ""
     start_check2 = ""
+    
     start_check1 = FileDateTime(GetSysDir & "\..\system32\msvbvm60.dll")
-    start_check2 = FileDateTime(GetSysDir & "\..\sysWOW64\msvbvm60.dll")
-    If start_check1 = "" And start_check2 = "" Then
-        start_text.Text = start_text.Text & "系统文件夹中msvbvm60.dll可能不存在(一般情况不影响程序使用)"
-    End If
     If err.Number <> 0 Then
-        start_text.Text = start_text.Text & vbCrLf & "error" & err.Number & "：" & err.Description
+        start_text.Text = start_text.Text & vbCrLf & GetSysDir & "\..\system32\msvbvm60.dll" & "：" & err.Description
         err.Clear
     Else
         start_text.Text = start_text.Text & "...OK"
     End If
+    
+    start_check2 = FileDateTime(GetSysDir & "\..\sysWOW64\msvbvm60.dll")
+    If err.Number <> 0 Then
+        start_text.Text = start_text.Text & vbCrLf & GetSysDir & "\..\sysWOW64\msvbvm60.dll" & "：" & err.Description
+        err.Clear
+    Else
+        start_text.Text = start_text.Text & "...OK"
+    End If
+    
+    If start_check1 = "" And start_check2 = "" Then
+        start_text.Text = start_text.Text & "系统文件夹中msvbvm60.dll可能不存在(一般情况不影响程序使用)"
+    End If
+    
+    start_text.SelStart = Len(start_text.Text)
+    '------------------------------------------------------------------------------------------
+    
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "%delay_NtfsDisable8dot3Name_Checking%"
     
     start_text.SelStart = Len(start_text.Text)
     '------------------------------------------------------------------------------------------
@@ -190,12 +208,18 @@ Private Sub Timer1_Timer()
         App_path = IIf(Right(App_path, 1) = "\", App_path, App_path & "\")
         App_path = IIf((InStr(start_check1, Chr(63)) < 1 And App_path <> start_check1), start_check1, App_path)
         App_path = GetShortName(App_path)
-        start_text.Text = start_text.Text & vbCrLf & "程序主目录短路径-> " & App_path
+        start_text.Text = start_text.Text & vbCrLf & "程序主目录-> " & App.Path
+        start_text.Text = start_text.Text & vbCrLf & "主目录启用值-> " & App_path
     End If
     
     Set test_Object = Nothing
     
     start_text.SelStart = Len(start_text.Text)
+    '------------------------------------------------------------------------------------------
+    
+    first_sart_up = False
+    If OX_Dirfile(App_path & "\" & App.EXEName & ".exe.manifest") = False Or OX_Dirfile(App_path & "\OX163setup.ini") = False Then first_sart_up = True
+    
     '------------------------------------------------------------------------------------------
     
     step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
@@ -352,11 +376,6 @@ Private Sub Timer1_Timer()
                    "#dword#" & vbCrLf & vbCrLf & _
                    "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION]" & vbCrLf & _
                    "#dword#"
-
-    If Dir(App_path & "\regfile\use_OS_IE_ver.reg") = "" Then
-    start_text.Text = start_text.Text & vbCrLf & "建立\regfile\use_OS_IE_ver.reg文件"
-        start_check2 = OX_GreatTxtFile(App_path & "\regfile\use_OS_IE_ver.reg", Replace(start_check1, "#dword#", """OX163.exe""=dword:000003E8"), "unicode")
-    End If
     
     If Dir(App_path & "\regfile\use_IE8.reg") = "" Then
     start_text.Text = start_text.Text & vbCrLf & "建立\regfile\use_IE8.reg文件"
@@ -381,6 +400,20 @@ Private Sub Timer1_Timer()
     If Dir(App_path & "\regfile\clear_OX163.reg") = "" Then
     start_text.Text = start_text.Text & vbCrLf & "建立\regfile\clear_OX163.reg文件"
         start_check2 = OX_GreatTxtFile(App_path & "\regfile\clear_OX163.reg", Replace(start_check1, "#dword#", """OX163.exe""=-"), "unicode")
+    End If
+    
+    start_check1 = "Windows Registry Editor Version 5.00" & vbCrLf & _
+                   "[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem]" & vbCrLf & _
+                   "#dword#"
+                   
+    If Dir(App_path & "\regfile\OX163_Unicode_Support(ForceOpen_ShortPathName_on_Win8aboveOS).reg") = "" Then
+    start_text.Text = start_text.Text & vbCrLf & "建立\regfile\OX163_Unicode_Support(ForceOpen_ShortPathName_on_Win8aboveOS).reg文件"
+        start_check2 = OX_GreatTxtFile(App_path & "\regfile\OX163_Unicode_Support(ForceOpen_ShortPathName_on_Win8aboveOS).reg", Replace(start_check1, "#dword#", """NtfsDisable8dot3NameCreation""=dword:0"), "unicode")
+    End If
+                   
+    If Dir(App_path & "\regfile\OX163_Unicode_Support(Default_ShortPathName_on_Win8aboveOS).reg") = "" Then
+    start_text.Text = start_text.Text & vbCrLf & "建立\regfile\OX163_Unicode_Support(Default_ShortPathName_on_Win8aboveOS).reg文件"
+        start_check2 = OX_GreatTxtFile(App_path & "\regfile\OX163_Unicode_Support(Default_ShortPathName_on_Win8aboveOS).reg", Replace(start_check1, "#dword#", """NtfsDisable8dot3NameCreation""=dword:2"), "unicode")
     End If
     
     If err.Number <> 0 Or LCase(start_check2) = "false" Then
@@ -450,21 +483,39 @@ Private Sub Timer1_Timer()
     start_text.SelStart = Len(start_text.Text)
     '------------------------------------------------------------------------------------------
     
+    step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//step." & step_counter & "//"
+    start_text.Text = start_text.Text & vbCrLf & "检测OX163.exe.manifest"
+    err.Clear
+        start_check1 = 1
+        If OX_Dirfile(App_path & "\" & App.EXEName & ".exe.manifest") = False Then start_check1 = 0: start_check1 = Set_OX_manifest: Shell App_path & "\" & App.EXEName & ".exe", vbNormalFocus: End
+        
+        If Int(start_check1) = 0 Then
+            start_text.Text = start_text.Text & vbCrLf & "创建" & App.EXEName & ".exe.manifest文件失败!"
+        Else
+            start_text.Text = start_text.Text & "...OK"
+        End If
+    
+    start_text.SelStart = Len(start_text.Text)
+    '------------------------------------------------------------------------------------------
+    
     step_counter = step_counter + 1: start_text.Text = start_text.Text & vbCrLf & vbCrLf & "//启动结束//"
+    
+    
+    
     If InStr(start_text.Text, "Error-") > 0 Then
         start_text.Text = start_text.Text & vbCrLf & vbCrLf & "有错误发生，可以点击上方'X (QUIT)'按钮关闭"
     Else
         start_text.Text = start_text.Text & vbCrLf & vbCrLf & "一切就绪,启动主程序,请确认网络已连接,修复按钮15秒后启动"
     End If
-    start_text.Text = start_text.Text & vbCrLf & vbCrLf & "Vista Win7 Win8下无法启动,可对程序进行如下操作:" & vbCrLf & "右键 -> 以管理员身份运行程序"
+    start_text.Text = start_text.Text & vbCrLf & vbCrLf & "Vista Win7 Win8 Win10下无法启动,可对程序进行如下操作:" & vbCrLf & "右键 -> 以管理员身份运行程序"
     start_text.SelStart = Len(start_text.Text)
     start_text.Enabled = True
     Timer2.Interval = 15000
     Timer2.Enabled = True
     BrowserW_url = ""
     BrowserW_load_ok = True
-    windows_destop_Width = start_ox163.Width + start_ox163.Left * 2
-    windows_destop_Height = start_ox163.Height + start_ox163.Top * 2
+    windows_destop_Width = Screen.Width 'start_ox163.Width + start_ox163.Left * 2
+    windows_destop_Height = Screen.Height 'start_ox163.Height + start_ox163.Top * 2
     OX_Start_log = start_text
     Load History_Logs
     'History_Logs.Hide

@@ -3,8 +3,8 @@ Attribute VB_Name = "OX_variable"
 '-----------------OX163常用全部变量-------------------------
 '-----------------------------------------------------------
 
-Public Const title_info = "OX163 plus(0.5.8build150224 beta)"
-Public Const ver_info = 58
+Public Const title_info = "OX163 plus(0.5.9build150805 beta)"
+Public Const ver_info = 59
 'Public Const update_host_info = "http://www.shanhaijing.net/163/|国外默认" & vbCrLf & "http://shanhaijing.net/163/|国内默认" & vbCrLf & "http://163.shanhaijing.net/163/|国内备份" & vbCrLf & "http://www.ugschina.com/163/|国外备份"
 Public Const update_host_info1 = "http://www.shanhaijing.net/163/"
 Public Const update_host_info2 = "默认"
@@ -60,6 +60,9 @@ Public BrowserW_load_ok As Boolean
 '桌面大小------------------------------------------------
 Public windows_destop_Width As Long
 Public windows_destop_Height As Long
+
+'短路径判断------------------------------------------------
+Public OX_G_Disable8dot3 As String
 
 '外部脚本脚本头（包括必要参数以及函数）-------------------
 Type include_ScriptCode

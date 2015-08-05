@@ -1,8 +1,9 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Begin VB.Form sys 
+   AutoRedraw      =   -1  'True
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "OX163程序设置"
+   Caption         =   "OX163程序设置(按下文本标题查看""功能说明"")"
    ClientHeight    =   14565
    ClientLeft      =   270
    ClientTop       =   720
@@ -10,7 +11,6 @@ Begin VB.Form sys
    Icon            =   "sys.frx":0000
    LinkTopic       =   "sys"
    MaxButton       =   0   'False
-   MinButton       =   0   'False
    ScaleHeight     =   14565
    ScaleWidth      =   22080
    StartUpPosition =   2  '屏幕中心
@@ -667,6 +667,7 @@ Begin VB.Form sys
             Left            =   120
             TabIndex        =   220
             Top             =   1080
+            Value           =   1  'Checked
             Width           =   5655
          End
          Begin VB.CheckBox manifest_check 
@@ -677,6 +678,7 @@ Begin VB.Form sys
             Left            =   120
             TabIndex        =   219
             Top             =   720
+            Value           =   1  'Checked
             Width           =   5655
          End
          Begin VB.CheckBox manifest_check 
@@ -703,6 +705,8 @@ Begin VB.Form sys
          End
       End
       Begin VB.TextBox OX_Start_log_Text 
+         BackColor       =   &H00404040&
+         ForeColor       =   &H00FFFFFF&
          Height          =   2175
          Left            =   240
          MultiLine       =   -1  'True
@@ -1867,7 +1871,7 @@ Begin VB.Form sys
       Caption         =   "恢复全部默认设置"
       Height          =   465
       Index           =   0
-      Left            =   2160
+      Left            =   2280
       TabIndex        =   9
       Top             =   5520
       Width           =   1815
@@ -1887,7 +1891,7 @@ Begin VB.Form sys
       Left            =   120
       TabIndex        =   3
       Top             =   5520
-      Width           =   1935
+      Width           =   2055
    End
    Begin VB.CommandButton sys_yes 
       Caption         =   "确定(&A)"
@@ -2574,6 +2578,7 @@ End Sub
 
 Private Sub FrameL1_bgvs_Change()
 If move_tf <> 1 Then FrameL1_bgs.Top = 0 - FrameL1_bgvs.Value * VS_int
+FrameL1_bgs.SetFocus
 End Sub
 
 Private Sub FrameL1_bgvs_Scroll()
@@ -2686,11 +2691,27 @@ Private Sub OX_IE_Ver_Com_Click(Index As Integer)
 Select Case Index
 Case 0
     If MsgBox("此方法会调用\regfile\文件夹下的相应reg文件" & vbCrLf & "调用后会出现添加注册表信息的对话框,请自己阅读并选择" & vbCrLf & vbCrLf & "执行后需要重启程序才能生效", vbOKCancel, "提醒") = vbCancel Then Exit Sub
-    sys.WindowState = 1
-    Form1.WindowState = 1
+    
+    If Form1.top_Picture(0).Visible = False Then sys.WindowState = 1: Form1.WindowState = 1
     Select Case OX_IE_Ver_combo.ListIndex
     Case 0
-        OX_SetIE_Ver 1
+        Dim OX_IE_Ver_reg, OX_IE_Ver_reg1
+        Set OX_IE_Ver_reg = CreateObject("WScript.Shell")
+        OX_IE_Ver_reg1 = OX_IE_Ver_reg.RegRead("HKLM\Software\Microsoft\Internet Explorer\Version")
+        If OX_IE_Ver_reg1 Like "9.11.*" Then
+            OX_SetIE_Ver 11
+        ElseIf OX_IE_Ver_reg1 Like "10.*" Then
+            OX_SetIE_Ver 10
+        ElseIf OX_IE_Ver_reg1 Like "9.*" Then
+            OX_SetIE_Ver 9
+        ElseIf OX_IE_Ver_reg1 Like "8.*" Then
+            OX_SetIE_Ver 8
+        ElseIf OX_IE_Ver_reg1 Like "?.?*.?*" Then
+            OX_SetIE_Ver 0
+        Else
+            MsgBox "读取IE版本失败,请手动选择IE版本!", vbOKOnly, "提醒"
+        End If
+    
     Case 1
         OX_SetIE_Ver 8
     Case 2
@@ -2742,8 +2763,8 @@ retry:
     If Right(def_path_txt, 1) <> "\" Then def_path_txt = def_path_txt & "\"
     Folder_path = GetFolder("请选择默认文件夹", def_path_txt, True)
     
-    If Mid$(Folder_path, 2, 2) = ":\" Then
-        If (GetFileAttributes(Folder_path) = -1) Then MsgBox "该路径不能保存文件", vbOKOnly + vbExclamation, "警告": GoTo retry
+    If Mid(Folder_path, 2, 2) = ":\" Or (Len(Folder_path) = 2 And Right(Folder_path, 1) = ":") Then
+        If OX_ChkDiskStatus(Folder_path) = False Then Exit Sub
         def_path_txt = Folder_path
     End If
 End Sub
@@ -2800,15 +2821,15 @@ Private Sub Sys_on_top()
 End Sub
 
 Private Sub Build_TVW_Menu()
-    Call SysTreeView.Nodes.Add(, 4, "TVW1", "网络下载设置", 1)
-    Call SysTreeView.Nodes.Add(, 4, "TVW2", "文件目录操作", 2)
-    Call SysTreeView.Nodes.Add(, 4, "TVW3", "脚本控制", 3)
-    Call SysTreeView.Nodes.Add(, 4, "TVW4", "代理服务器", 4)
-    Call SysTreeView.Nodes.Add(, 4, "TVW5", "常规参数设置", 5)
-    Call SysTreeView.Nodes.Add(, 4, "TVW6", "热键与警告框", 6)
-    Call SysTreeView.Nodes.Add(, 4, "TVW7", "网易相册设置", 7)
-    Call SysTreeView.Nodes.Add(, 4, "TVW8", "内置浏览器", 8)
-    Call SysTreeView.Nodes.Add(, 4, "TVW9", "启动与维护", 9)
+    Call SysTreeView.Nodes.Add(, 4, "TVW1", "网络下载设置", 1, 1 + 9)
+    Call SysTreeView.Nodes.Add(, 4, "TVW2", "文件目录操作", 2, 2 + 9)
+    Call SysTreeView.Nodes.Add(, 4, "TVW3", "脚本控制", 3, 3 + 9)
+    Call SysTreeView.Nodes.Add(, 4, "TVW4", "代理服务器", 4, 4 + 9)
+    Call SysTreeView.Nodes.Add(, 4, "TVW5", "常规参数设置", 5, 5 + 9)
+    Call SysTreeView.Nodes.Add(, 4, "TVW6", "热键与警告框", 6, 6 + 9)
+    Call SysTreeView.Nodes.Add(, 4, "TVW7", "网易相册设置", 7, 7 + 9)
+    Call SysTreeView.Nodes.Add(, 4, "TVW8", "内置浏览器", 8, 8 + 9)
+    Call SysTreeView.Nodes.Add(, 4, "TVW9", "启动与维护", 9, 9 + 9)
     Dim nodx As Node
     For Each nodx In SysTreeView.Nodes
         nodx.Expanded = True
@@ -2843,17 +2864,19 @@ End Sub
 Private Sub SysTreeView_NodeClick(ByVal Node As MSComctlLib.Node)
     Dim i As Byte
     For i = 1 To 9
-        If SysTreeView.Nodes(i).Image <> i Then SysTreeView.Nodes(i).Image = i
+        'If SysTreeView.Nodes(i).Image <> i Then SysTreeView.Nodes(i).Image = i
         FrameL(i).Visible = False
     Next i
-    Node.Image = 9 + Node.Index
+    'Node.Image = 9 + Node.Index
     FrameL(Node.Index).Visible = True
     If Node.Index = 1 Then FrameL1_bgs.SetFocus
 End Sub
 
 Private Sub on_top_Timer_Timer()
-    Sys_on_top
+    If sysSet.always_top = True Then Sys_on_top
     on_top_Timer.Enabled = False
+    sys.Visible = False
+    sys.Visible = True
     FrameL1_bgs.SetFocus
 End Sub
 
@@ -2990,7 +3013,7 @@ Private Sub sys_apply_Click()
             fix_rar_name = fix_rar_name & Combo_rar_name.List(i) & "|"
         Next i
     End If
-    If Right$(fix_rar_name, 1) = "|" Then fix_rar_name = Left$(fix_rar_name, Len(fix_rar_name) - 1)
+    If Right(fix_rar_name, 1) = "|" Then fix_rar_name = Left(fix_rar_name, Len(fix_rar_name) - 1)
     WriteIniStr "maincenter", "fix_rar_name", fix_rar_name
     
     '脚本控制----------------------------------------
@@ -3120,8 +3143,8 @@ Private Sub sys_apply_Click()
     
     If sysSet.def_path_tf = True Then
         sysSet.def_path = GetIniStr("maincenter", "def_path")
-        If Mid$(sysSet.def_path, 2, 2) <> ":\" And Len(sysSet.def_path) > 2 Then GoTo reset_path
-        If Right(sysSet.def_path, 1) = "\" Then sysSet.def_path = Mid$(sysSet.def_path, 1, Len(sysSet.def_path) - 1): WriteIniStr "maincenter", "def_path", sysSet.def_path
+        If Mid(sysSet.def_path, 2, 2) <> ":\" And Len(sysSet.def_path) > 2 Then GoTo reset_path
+        If Right(sysSet.def_path, 1) = "\" Then sysSet.def_path = Mid(sysSet.def_path, 1, Len(sysSet.def_path) - 1): WriteIniStr "maincenter", "def_path", sysSet.def_path
         If (GetFileAttributes(sysSet.def_path) = -1) Then GoTo reset_path
     Else
 reset_path:
@@ -3234,7 +3257,7 @@ Private Sub sys_def(ByVal frameID As Byte)
         '列表时显示列表
         listOp(0).Value = True
         '是否最小化到系统托盘
-        set_tray(1).Value = True
+        set_tray(0).Value = True
         '是否显示信息栏
         set_sbar(1).Value = True
         '是否自动全部标记多选框
@@ -3552,12 +3575,12 @@ End Sub
 
 Private Sub update_host_Combo_Click()
     update_host_Text = update_host_Combo.List(update_host_Combo.ListIndex)
-    update_host_Text = Mid$(update_host_Text, InStr(update_host_Text, "|") + 1)
+    update_host_Text = Mid(update_host_Text, InStr(update_host_Text, "|") + 1)
 End Sub
 
 Private Sub update_host_Combo_KeyUp(KeyCode As Integer, Shift As Integer)
     update_host_Text = update_host_Combo.List(update_host_Combo.ListIndex)
-    update_host_Text = Mid$(update_host_Text, InStr(update_host_Text, "|") + 1)
+    update_host_Text = Mid(update_host_Text, InStr(update_host_Text, "|") + 1)
 End Sub
 
 Private Sub VS_retry_Change()
@@ -3585,12 +3608,14 @@ End Sub
 Private Sub scriptList_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     If Button = 1 Then
         Set m_dragItem = scriptList.HitTest(x, y)
+        'scriptList.MousePointer = 7
     End If
 End Sub
 Private Sub scriptList_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If Button = 1 Then
         If Not m_dragItem Is Nothing Then
-            'scriptList.DragIcon = m_dragItem.CreateDragImage
+            'scriptList.DragIcon = ToolTip_Frame.MouseIcon
+            scriptList.DragIcon = m_dragItem.CreateDragImage
             scriptList.Drag vbBeginDrag
         End If
     End If
@@ -3626,6 +3651,7 @@ Private Sub scriptList_DragDrop(Source As Control, x As Single, y As Single)
     scriptList.DropHighlight = Nothing
     Set m_dragItem = Nothing
     scriptList.Refresh
+    'scriptList.MousePointer = 0
 End Sub
 
 '------------------------------------------------------------------------------------------

@@ -181,7 +181,7 @@ Private Function WinError(ByVal lLastDLLError As Long) As String
     lCount = FormatMessage( _
     FORMAT_MESSAGE_FROM_SYSTEM Or FORMAT_MESSAGE_IGNORE_INSERTS, 0, lLastDLLError, 0&, sBuff, Len(sBuff), ByVal 0)
     If lCount Then
-        WinError = Left$(sBuff, lCount)
+        WinError = Left(sBuff, lCount)
     End If
 End Function
 
@@ -283,9 +283,9 @@ Private Sub always_on_top(on_top As Boolean)
     Dim flags As Integer
     flags = SWP_NOSIZE Or SWP_NOMOVE Or SWP_SHOWWINDOW
     If on_top = True Then
-        SetWindowPos Me.hWnd, HWND_TOPMOST, 0, 0, 0, 0, flags
+        SetWindowPos Me.hwnd, HWND_TOPMOST, 0, 0, 0, 0, flags
     Else
-        SetWindowPos Me.hWnd, -2, 0, 0, 0, 0, flags
+        SetWindowPos Me.hwnd, -2, 0, 0, 0, 0, flags
     End If
 End Sub
 

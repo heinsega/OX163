@@ -23,8 +23,16 @@ Private Const GMEM_MOVEABLE = &O2&
 Private Const GMEM_ZEROINIT = &O40&
 
 '取得文件夹短路径（支持unnicode字符）-------------------------------------
-Private Declare Function GetShortPathNameW Lib "Kernel32.dll" (ByVal sLongPath As Long, ByVal sShortPath As Long, ByVal maxLen As Integer) As Integer
+Private Declare Function GetShortPathNameW Lib "kernel32" (ByVal sLongPath As Long, ByVal sShortPath As Long, ByVal maxLen As Integer) As Integer
 '-------------------------------------------------------------------------
+
+'-------------------------------------------------------------------------
+'文件路径只读判断---------------------------------------------------------
+'-------------------------------------------------------------------------
+Public Function GetFileAttributes(ByVal sLongFileName As String) As Long
+GetFileAttributes = GetFileAttributesAPI(sLongFileName)
+If GetFileAttributes = -1 Then MsgBox "路径: " & sLongFileName & vbCrLf & "不能保存文件!", vbOKOnly + vbExclamation, "警告"
+End Function
 
 '-------------------------------------------------------------------------
 '取得文件夹短路径（支持unnicode字符）-------------------------------------
@@ -249,17 +257,20 @@ OX_GetClipboardTextErr:
     GetClipboardText = Clipboard.GetText
 End Function
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+'-------------------------------------------------------------------------
+'检测磁盘状态-------------------------------------------------------------
+'-------------------------------------------------------------------------
+Public Function OX_ChkDiskStatus(ByVal OX_ChkDiskPath As String) As Boolean
+On Error Resume Next
+OX_ChkDiskStatus = False
+If (GetFileAttributes(OX_ChkDiskPath) = -1) Then Exit Function
+Dim temp_str As String, temp_str1 As String
+    temp_str = OX_8dot3Name_Dir(OX_ChkDiskPath)
+    temp_str = Mid(temp_str, 1, InStr(temp_str, vbCrLf) - 1)
+    temp_str1 = OX_8dot3Name_Sys
+    If temp_str1 = 1 Or (temp_str = 1 And temp_str1 = 2) Or (temp_str1 = 3 And Left(App.Path, 2) <> Left(GetSysDir, 2)) Then
+        If MsgBox("该磁盘未启用系统功能8dot3name短路径,程序无法保存特殊Unicode字符" & vbCrLf & "是否终止当前操作,并打开8dot3name设置面板?", vbYesNo, "警告") = vbYes Then Ctrl8dot3name.Show: Exit Function
+    End If
+OX_ChkDiskStatus = True
+End Function
 

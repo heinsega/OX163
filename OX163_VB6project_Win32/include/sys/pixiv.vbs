@@ -1,4 +1,4 @@
-'2014-1-10 visceroid & hein@shanghaijing.net
+'2015-5-3 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, reg_bigmode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, php_name
 Dim manga_count
 started = False
@@ -26,7 +26,7 @@ On Error Resume Next
 	ElseIf Right(url_str,Len("&brief_mode=f"))="&brief_mode=f" Then
 		brief_mode_rf="&brief_mode=f"
 	End If
-	
+	If instr(url_str,"#")>0 Then url_str=mid(url_str,1,instr(url_str,"#")-1)
 	regex.Pattern = root_str & "/(\w+)\.php(?:\?(?:(?:((?:id|illust_id)=\d+)|((?:tag|word)=(?:[%\w\-]+\+?)+)|(type=(?:illust|user|reg_user))|(mode=(?:medium|big|manga|manga_big|all)|rest=(?:show|hide)|s_mode=(?:s_tc|s_tag))|(p=\d+)|[^&]+)(?:&|$))*)?"
 	Set matches = regex.Execute(url_str)
 	For Each match In matches
@@ -85,6 +85,10 @@ On Error Resume Next
 				sub_url_str=Mid(url_str,instr(url_str,".php?")+5)
 				If match.SubMatches(5)<> "" Then sub_url_str=replace(sub_url_str,"&" & match.SubMatches(5),"")
 				sub_url_str = "/" & php_name & "?" & sub_url_str
+			Case "bookmark_detail"
+				'http://www.pixiv.net/bookmark_detail.php?illust_id=49734016
+				'http://www.pixiv.net/rpc/recommender.php?type=illust&sample_illusts=49734016&num_recommendations=1000&tt=e75f2fba47c534cb303d889d383cacb1
+				sub_url_str = "/rpc/recommender.php?type=illust&sample_illusts=" & replace(match.SubMatches(1),"illust_id=","") & "&num_recommendations=200"
 			Case Else
 				Exit Function
 		End Select
@@ -247,16 +251,23 @@ On Error Resume Next
 		ElseIf cache_index=0 and reg_bigmode="" Then
 			regex.Pattern ="<a(?:\s*href=""/?(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))(?:(?!ref=)[^""])*""\s*class=""(work[^""]*)"")[^>]*?>[\s\S]*?""_layout-thumbnail""[\s\S]*?<img(?:\s*(?:src=""([^""]+)(?:_(?:s|m|(?:master\d+))\.)(\w+)[^""]*""|\w+=""[^""]*""))[^>]*?>" 
 			Set matches = regex.Execute(html_str)
-			If matches.Count = 0 Then
+			'{"recommendations":[49730141,49844639,49762616,50011024]}
+			If matches.Count = 0 and Left(LCase(html_str),len("{""recommendations"":["))<>"{""recommendations"":[" Then
 				If process_retry=false Then next_page_str=parent_next_page_str:parent_next_page_str=""
 			Else
 				ids=""
-				For Each match In matches
-					Select Case match.SubMatches(1)
-						Case "medium"
-							If IsNumeric(match.SubMatches(2)) Then ids=ids & match.SubMatches(2) & ","
-					End Select
-				Next
+				If Left(LCase(html_str),len("{""recommendations"":["))="{""recommendations"":[" Then
+					ids=Mid(html_str,21)
+					ids=Left(ids,len(ids)-2)
+				Else
+					For Each match In matches
+						Select Case match.SubMatches(1)
+							Case "medium"
+								If IsNumeric(match.SubMatches(2)) Then ids=ids & match.SubMatches(2) & ","
+						End Select
+					Next
+				End If
+				
 				If Right(ids,1)="," Then ids=Left(ids,Len(ids)-1)
 				retries_count = 0
 				next_page_str = "0"
@@ -267,10 +278,11 @@ On Error Resume Next
 					parent_next_page_str = next_page_str
 				End If
 				'获取json
-				next_page_str = "1|inet|10,13|" & root_str & "/rpc/illust_list.php?illust_ids=" & Replace(ids,",","%2C") & "&verbosity="
+				next_page_str = "1|inet|10,13|" & root_str & "/rpc/illust_list.php?illust_ids=" & ids & "&verbosity=" 'Replace(ids,",","%2C")
 			End If
-		End If		
-	If next_page_str = "0" and brief_mode_rf="" Then	MsgBox "分析已完成。", vbOKOnly, "提醒"
+		End If
+		
+	If (next_page_str = "0" or next_page_str="") and brief_mode_rf="" Then	MsgBox "分析已完成。", vbOKOnly, "提醒"
 		
 	return_download_list = return_download_list & next_page_str
 
@@ -310,10 +322,10 @@ Function Set_next_json_url()
 		cache_index=0
 		next_page_str = parent_next_page_str
 		parent_next_page_str=""
-		If php_name="ranking.php" and ranking_page>0 and ranking_page<10 Then
+		If php_name="ranking.php" and ranking_page>0 and ranking_page<11 Then
 			reg_bigmode="json"
 			ranking_page=ranking_page+1
-			parent_next_page_str = "1|inet|10,13|" & root_str & "/" & ranking_url & "&p=" & ranking_page
+			If ranking_page<11 then parent_next_page_str = "1|inet|10,13|" & root_str & "/" & ranking_url & "&p=" & ranking_page
 		End If
 	End If
 End Function
@@ -392,6 +404,7 @@ On Error Resume Next
 	big_str=mid(big_str,1,InStr(LCase(big_str),"class=""original-image"""))
 	big_str=mid(big_str,InStrrev(LCase(big_str),"data-src=""")+10)
 	file_Url=mid(big_str,1,instr(big_str,"""")-1)
+	file_Url=Cls_Chr63(file_Url)
 	big_str=mid(file_Url,InStrrev(file_Url,"."))
 	
 	file_ID=matches_cache.Item(cache_index-1).SubMatches(0)
@@ -407,15 +420,22 @@ On Error Resume Next
 	'<img src="http://i1.pixiv.net/img-original/img/2015/01/08/02/13/17/48055260_p0.jpg" onclick="(window.open('', '_self')).close()">
 	manga_str=mid(manga_str,InStr(LCase(manga_str),"<img src=""")+10)
 	file_Url=mid(manga_str,1,instr(manga_str,"""")-1)
+	file_Url=Cls_Chr63(file_Url)
 	manga_str=mid(file_Url,InStrrev(file_Url,"."))
 	file_Url=mid(file_Url,1,InStrrev(file_Url,"_p")+1)
+	
 	'原漫画改版前后分界线为ID=11319931（最新改版带img-original无big）
 	'11319936_big_p0.jpg 06/16/2010 20:43--------------11319930_p0.jpg 06/16/2010 20:43
 	file_ID=matches_cache.Item(cache_index-1).SubMatches(0)
 	file_name=fix_Unicode_Name(matches_cache.Item(cache_index-1).SubMatches(1))
 	file_name="(pid-" & file_ID & ")" & rename_utf8(file_name)
-	For manga_i=0 to 0'manga_count-1
-		download_list =download_list & "|" & file_Url & manga_i & manga_str & "?" & (CDbl(Now()) * 10000000000) & "|" & file_name & "_p" & manga_i & manga_str & "|" & vbCrLf
+	If right(LCase(file_Url),6)<>"_big_p" Then
+		file_name=file_name & "_p"
+	Else
+		file_name=file_name & "_big_p"
+	End If
+	For manga_i=0 to manga_count-1
+		download_list =download_list & "|" & file_Url & manga_i & manga_str & "?" & (CDbl(Now()) * 10000000000) & "|" & file_name & manga_i & manga_str & "|" & vbCrLf
 	Next
 End Function
 '----------------------------------------------------------------
@@ -446,6 +466,15 @@ On Error Resume Next
 		file_name="(pid-" & file_ID & ")" & rename_utf8(file_name) & "_ugoira1920x1080.zip"
 		
 		download_list = "zip|" & file_Url & "?" & (CDbl(Now()) * 10000000000) & "|" & file_name & "|" & file_description & vbCrLf
+End Function
+
+Function Cls_Chr63(ByVal file_url)
+On Error Resume Next
+Dim file_type
+	file_type=""
+	file_type=mid(file_Url,InStrrev(file_Url,"."))
+	If InStrrev(file_type,"?")>2 Then file_url=mid(file_Url,1,InStrrev(file_Url,"?")-1)
+	Cls_Chr63 = file_url
 End Function
 '---------------------------------------------------------------------------------------------
 Function check_login(ByVal html_str)

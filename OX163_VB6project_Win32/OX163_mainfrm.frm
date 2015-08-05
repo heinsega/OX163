@@ -16,6 +16,12 @@ Begin VB.Form Form1
    ScaleHeight     =   9495
    ScaleWidth      =   16215
    StartUpPosition =   2  '屏幕中心
+   Begin VB.Timer view_command_Click_timer 
+      Enabled         =   0   'False
+      Interval        =   500
+      Left            =   960
+      Top             =   8040
+   End
    Begin VB.PictureBox Form_Laoding 
       AutoRedraw      =   -1  'True
       BackColor       =   &H00400000&
@@ -178,87 +184,87 @@ Begin VB.Form Form1
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   21
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":52B3
+            Picture         =   "OX163_mainfrm.frx":572D
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":535B
+            Picture         =   "OX163_mainfrm.frx":57D5
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":5410
+            Picture         =   "OX163_mainfrm.frx":588A
             Key             =   ""
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":54BA
+            Picture         =   "OX163_mainfrm.frx":5934
             Key             =   ""
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":5565
+            Picture         =   "OX163_mainfrm.frx":59DF
             Key             =   ""
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":55D6
+            Picture         =   "OX163_mainfrm.frx":5A50
             Key             =   ""
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":565B
+            Picture         =   "OX163_mainfrm.frx":5AD5
             Key             =   ""
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":5709
+            Picture         =   "OX163_mainfrm.frx":5B83
             Key             =   ""
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":57A2
+            Picture         =   "OX163_mainfrm.frx":5C1C
             Key             =   ""
          EndProperty
          BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":5844
+            Picture         =   "OX163_mainfrm.frx":5CBE
             Key             =   ""
          EndProperty
          BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":58EF
+            Picture         =   "OX163_mainfrm.frx":5D69
             Key             =   ""
          EndProperty
          BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":599E
+            Picture         =   "OX163_mainfrm.frx":5E18
             Key             =   ""
          EndProperty
          BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":5A53
+            Picture         =   "OX163_mainfrm.frx":5ECD
             Key             =   ""
          EndProperty
          BeginProperty ListImage14 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":5B00
+            Picture         =   "OX163_mainfrm.frx":5F7A
             Key             =   ""
          EndProperty
          BeginProperty ListImage15 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":5BAB
+            Picture         =   "OX163_mainfrm.frx":6025
             Key             =   ""
          EndProperty
          BeginProperty ListImage16 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":5C50
+            Picture         =   "OX163_mainfrm.frx":60CA
             Key             =   ""
          EndProperty
          BeginProperty ListImage17 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":5CF9
+            Picture         =   "OX163_mainfrm.frx":6173
             Key             =   ""
          EndProperty
          BeginProperty ListImage18 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":5DA6
+            Picture         =   "OX163_mainfrm.frx":6220
             Key             =   ""
          EndProperty
          BeginProperty ListImage19 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":5E3B
+            Picture         =   "OX163_mainfrm.frx":62B5
             Key             =   ""
          EndProperty
          BeginProperty ListImage20 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":5ED3
+            Picture         =   "OX163_mainfrm.frx":634D
             Key             =   ""
          EndProperty
          BeginProperty ListImage21 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "OX163_mainfrm.frx":5F93
+            Picture         =   "OX163_mainfrm.frx":640D
             Key             =   ""
          EndProperty
       EndProperty
@@ -270,9 +276,9 @@ Begin VB.Form Form1
       ForeColor       =   &H80000008&
       Height          =   315
       Left            =   6840
-      MouseIcon       =   "OX163_mainfrm.frx":5FF8
+      MouseIcon       =   "OX163_mainfrm.frx":68E8
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":6302
+      Picture         =   "OX163_mainfrm.frx":6BF2
       ScaleHeight     =   285
       ScaleWidth      =   285
       TabIndex        =   28
@@ -295,9 +301,9 @@ Begin VB.Form Form1
       Height          =   180
       Index           =   2
       Left            =   3480
-      MouseIcon       =   "OX163_mainfrm.frx":6363
+      MouseIcon       =   "OX163_mainfrm.frx":6C53
       MousePointer    =   14  'Arrow and Question
-      Picture         =   "OX163_mainfrm.frx":666D
+      Picture         =   "OX163_mainfrm.frx":6F5D
       ScaleHeight     =   180
       ScaleWidth      =   1020
       TabIndex        =   24
@@ -312,9 +318,9 @@ Begin VB.Form Form1
       Height          =   180
       Index           =   1
       Left            =   2400
-      MouseIcon       =   "OX163_mainfrm.frx":674B
+      MouseIcon       =   "OX163_mainfrm.frx":703B
       MousePointer    =   14  'Arrow and Question
-      Picture         =   "OX163_mainfrm.frx":6A55
+      Picture         =   "OX163_mainfrm.frx":7345
       ScaleHeight     =   180
       ScaleWidth      =   1020
       TabIndex        =   23
@@ -329,9 +335,9 @@ Begin VB.Form Form1
       Height          =   180
       Index           =   0
       Left            =   4560
-      MouseIcon       =   "OX163_mainfrm.frx":6B33
+      MouseIcon       =   "OX163_mainfrm.frx":7423
       MousePointer    =   14  'Arrow and Question
-      Picture         =   "OX163_mainfrm.frx":6E3D
+      Picture         =   "OX163_mainfrm.frx":772D
       ScaleHeight     =   180
       ScaleWidth      =   1020
       TabIndex        =   22
@@ -419,7 +425,7 @@ Begin VB.Form Form1
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      MouseIcon       =   "OX163_mainfrm.frx":6F20
+      MouseIcon       =   "OX163_mainfrm.frx":7810
    End
    Begin InetCtlsObjects.Inet check_header 
       Left            =   1800
@@ -438,9 +444,9 @@ Begin VB.Form Form1
       BorderStyle     =   0  'None
       Height          =   180
       Left            =   5760
-      MouseIcon       =   "OX163_mainfrm.frx":723A
+      MouseIcon       =   "OX163_mainfrm.frx":7B2A
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":7544
+      Picture         =   "OX163_mainfrm.frx":7E34
       ScaleHeight     =   165
       ScaleMode       =   0  'User
       ScaleWidth      =   675
@@ -480,9 +486,9 @@ Begin VB.Form Form1
       Begin VB.Image find_next 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "OX163_mainfrm.frx":75F4
+         MouseIcon       =   "OX163_mainfrm.frx":7EE4
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":78FE
+         Picture         =   "OX163_mainfrm.frx":81EE
          Stretch         =   -1  'True
          ToolTipText     =   "Next(PageDown)"
          Top             =   0
@@ -491,9 +497,9 @@ Begin VB.Form Form1
       Begin VB.Image find_prev 
          Height          =   375
          Left            =   2520
-         MouseIcon       =   "OX163_mainfrm.frx":7997
+         MouseIcon       =   "OX163_mainfrm.frx":8287
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":7CA1
+         Picture         =   "OX163_mainfrm.frx":8591
          Stretch         =   -1  'True
          ToolTipText     =   "Previous(PageUp)"
          Top             =   0
@@ -564,7 +570,7 @@ Begin VB.Form Form1
       Height          =   270
       Left            =   120
       TabIndex        =   12
-      Text            =   $"OX163_mainfrm.frx":7D3E
+      Text            =   $"OX163_mainfrm.frx":862E
       Top             =   8520
       Visible         =   0   'False
       Width           =   2415
@@ -574,9 +580,9 @@ Begin VB.Form Form1
       Height          =   180
       Index           =   1
       Left            =   6840
-      MouseIcon       =   "OX163_mainfrm.frx":7D47
+      MouseIcon       =   "OX163_mainfrm.frx":8637
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":8051
+      Picture         =   "OX163_mainfrm.frx":8941
       ScaleHeight     =   180
       ScaleWidth      =   675
       TabIndex        =   11
@@ -590,9 +596,9 @@ Begin VB.Form Form1
       Height          =   180
       Index           =   0
       Left            =   7680
-      MouseIcon       =   "OX163_mainfrm.frx":80E3
+      MouseIcon       =   "OX163_mainfrm.frx":89D3
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":83ED
+      Picture         =   "OX163_mainfrm.frx":8CDD
       ScaleHeight     =   180
       ScaleWidth      =   675
       TabIndex        =   10
@@ -717,9 +723,9 @@ Begin VB.Form Form1
       Begin VB.Image user_list_find 
          Height          =   375
          Left            =   2640
-         MouseIcon       =   "OX163_mainfrm.frx":847E
+         MouseIcon       =   "OX163_mainfrm.frx":8D6E
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":8788
+         Picture         =   "OX163_mainfrm.frx":9078
          Stretch         =   -1  'True
          ToolTipText     =   "Find Keyword"
          Top             =   240
@@ -728,9 +734,9 @@ Begin VB.Form Form1
       Begin VB.Image user_list_save 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "OX163_mainfrm.frx":881D
+         MouseIcon       =   "OX163_mainfrm.frx":910D
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":8B27
+         Picture         =   "OX163_mainfrm.frx":9417
          Stretch         =   -1  'True
          ToolTipText     =   "Save Checked Files"
          Top             =   240
@@ -740,9 +746,9 @@ Begin VB.Form Form1
       Begin VB.Image user_list_output 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "OX163_mainfrm.frx":8BC4
+         MouseIcon       =   "OX163_mainfrm.frx":94B4
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":8ECE
+         Picture         =   "OX163_mainfrm.frx":97BE
          Stretch         =   -1  'True
          ToolTipText     =   "Outup Download List"
          Top             =   240
@@ -752,9 +758,9 @@ Begin VB.Form Form1
       Begin VB.Image albumslist_back 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "OX163_mainfrm.frx":8F6B
+         MouseIcon       =   "OX163_mainfrm.frx":985B
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":9275
+         Picture         =   "OX163_mainfrm.frx":9B65
          Stretch         =   -1  'True
          ToolTipText     =   "Back"
          Top             =   240
@@ -771,9 +777,9 @@ Begin VB.Form Form1
       Begin VB.Image list_check 
          Height          =   375
          Left            =   3120
-         MouseIcon       =   "OX163_mainfrm.frx":92FE
+         MouseIcon       =   "OX163_mainfrm.frx":9BEE
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":9608
+         Picture         =   "OX163_mainfrm.frx":9EF8
          Stretch         =   -1  'True
          ToolTipText     =   "Range Checked Albums on Top"
          Top             =   240
@@ -802,9 +808,9 @@ Begin VB.Form Form1
       Begin VB.Image list_back1 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "OX163_mainfrm.frx":96A3
+         MouseIcon       =   "OX163_mainfrm.frx":9F93
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":99AD
+         Picture         =   "OX163_mainfrm.frx":A29D
          Stretch         =   -1  'True
          ToolTipText     =   "Back"
          Top             =   240
@@ -813,9 +819,9 @@ Begin VB.Form Form1
       Begin VB.Image save_all 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "OX163_mainfrm.frx":9A36
+         MouseIcon       =   "OX163_mainfrm.frx":A326
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":9D40
+         Picture         =   "OX163_mainfrm.frx":A630
          Stretch         =   -1  'True
          ToolTipText     =   "Save Checked Albums"
          Top             =   240
@@ -824,9 +830,9 @@ Begin VB.Form Form1
       Begin VB.Image out_all 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "OX163_mainfrm.frx":9DDD
+         MouseIcon       =   "OX163_mainfrm.frx":A6CD
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":A0E7
+         Picture         =   "OX163_mainfrm.frx":A9D7
          Stretch         =   -1  'True
          ToolTipText     =   "Outup Download List"
          Top             =   240
@@ -835,9 +841,9 @@ Begin VB.Form Form1
       Begin VB.Image stop2 
          Height          =   375
          Left            =   600
-         MouseIcon       =   "OX163_mainfrm.frx":A186
+         MouseIcon       =   "OX163_mainfrm.frx":AA76
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":A490
+         Picture         =   "OX163_mainfrm.frx":AD80
          Stretch         =   -1  'True
          ToolTipText     =   "Stop"
          Top             =   240
@@ -868,9 +874,9 @@ Begin VB.Form Form1
       Begin VB.Image open_set1 
          Height          =   375
          Left            =   120
-         MouseIcon       =   "OX163_mainfrm.frx":A522
+         MouseIcon       =   "OX163_mainfrm.frx":AE12
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":A82C
+         Picture         =   "OX163_mainfrm.frx":B11C
          Stretch         =   -1  'True
          ToolTipText     =   "Setup"
          Top             =   240
@@ -942,9 +948,9 @@ Begin VB.Form Form1
       Begin VB.Image search163 
          Height          =   375
          Left            =   600
-         MouseIcon       =   "OX163_mainfrm.frx":A8C4
+         MouseIcon       =   "OX163_mainfrm.frx":B1B4
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":ABCE
+         Picture         =   "OX163_mainfrm.frx":B4BE
          Stretch         =   -1  'True
          ToolTipText     =   "Search Albums"
          Top             =   240
@@ -961,9 +967,9 @@ Begin VB.Form Form1
       Begin VB.Image list1_find 
          Height          =   375
          Left            =   2640
-         MouseIcon       =   "OX163_mainfrm.frx":AC68
+         MouseIcon       =   "OX163_mainfrm.frx":B558
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":AF72
+         Picture         =   "OX163_mainfrm.frx":B862
          Stretch         =   -1  'True
          ToolTipText     =   "Find Keyword"
          Top             =   240
@@ -973,9 +979,9 @@ Begin VB.Form Form1
       Begin VB.Image view_command 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "OX163_mainfrm.frx":B007
+         MouseIcon       =   "OX163_mainfrm.frx":B8F7
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":B311
+         Picture         =   "OX163_mainfrm.frx":BC01
          Stretch         =   -1  'True
          ToolTipText     =   "View Web"
          Top             =   240
@@ -1005,9 +1011,9 @@ Begin VB.Form Form1
       Begin VB.Image list_stop 
          Height          =   375
          Left            =   600
-         MouseIcon       =   "OX163_mainfrm.frx":B3AC
+         MouseIcon       =   "OX163_mainfrm.frx":BC9C
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":B6B6
+         Picture         =   "OX163_mainfrm.frx":BFA6
          Stretch         =   -1  'True
          ToolTipText     =   "Stop"
          Top             =   240
@@ -1016,9 +1022,9 @@ Begin VB.Form Form1
       Begin VB.Image list_output 
          Height          =   375
          Left            =   1560
-         MouseIcon       =   "OX163_mainfrm.frx":B748
+         MouseIcon       =   "OX163_mainfrm.frx":C038
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":BA52
+         Picture         =   "OX163_mainfrm.frx":C342
          Stretch         =   -1  'True
          ToolTipText     =   "Outup Download List"
          Top             =   240
@@ -1027,9 +1033,9 @@ Begin VB.Form Form1
       Begin VB.Image image_save 
          Height          =   375
          Left            =   2040
-         MouseIcon       =   "OX163_mainfrm.frx":BAF1
+         MouseIcon       =   "OX163_mainfrm.frx":C3E1
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":BDFB
+         Picture         =   "OX163_mainfrm.frx":C6EB
          Stretch         =   -1  'True
          ToolTipText     =   "Save Checked Files"
          Top             =   240
@@ -1038,9 +1044,9 @@ Begin VB.Form Form1
       Begin VB.Image list_back 
          Height          =   375
          Left            =   1080
-         MouseIcon       =   "OX163_mainfrm.frx":BE98
+         MouseIcon       =   "OX163_mainfrm.frx":C788
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":C1A2
+         Picture         =   "OX163_mainfrm.frx":CA92
          Stretch         =   -1  'True
          ToolTipText     =   "Back"
          Top             =   240
@@ -1072,9 +1078,9 @@ Begin VB.Form Form1
          Appearance      =   0  'Flat
          Height          =   375
          Left            =   8520
-         MouseIcon       =   "OX163_mainfrm.frx":C22B
+         MouseIcon       =   "OX163_mainfrm.frx":CB1B
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":C535
+         Picture         =   "OX163_mainfrm.frx":CE25
          Stretch         =   -1  'True
          ToolTipText     =   "Go & List"
          Top             =   240
@@ -1083,9 +1089,9 @@ Begin VB.Form Form1
       Begin VB.Image open_set 
          Height          =   375
          Left            =   120
-         MouseIcon       =   "OX163_mainfrm.frx":C5D3
+         MouseIcon       =   "OX163_mainfrm.frx":CEC3
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":C8DD
+         Picture         =   "OX163_mainfrm.frx":D1CD
          Stretch         =   -1  'True
          ToolTipText     =   "Setup"
          Top             =   240
@@ -1095,13 +1101,13 @@ Begin VB.Form Form1
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   8280
-         MouseIcon       =   "OX163_mainfrm.frx":C975
+         MouseIcon       =   "OX163_mainfrm.frx":D265
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":CC7F
+         Picture         =   "OX163_mainfrm.frx":D56F
          Stretch         =   -1  'True
          ToolTipText     =   "Show Url List"
-         Top             =   290
-         Width           =   225
+         Top             =   285
+         Width           =   240
       End
    End
    Begin VB.Timer Inet1_Timer 
@@ -1160,9 +1166,9 @@ Begin VB.Form Form1
          BorderStyle     =   0  'None
          Height          =   375
          Left            =   7200
-         MouseIcon       =   "OX163_mainfrm.frx":CCD4
+         MouseIcon       =   "OX163_mainfrm.frx":DA3A
          MousePointer    =   99  'Custom
-         Picture         =   "OX163_mainfrm.frx":CFDE
+         Picture         =   "OX163_mainfrm.frx":DD44
          ScaleHeight     =   375
          ScaleWidth      =   450
          TabIndex        =   29
@@ -1201,31 +1207,31 @@ Begin VB.Form Form1
          BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
             NumListImages   =   7
             BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":D053
+               Picture         =   "OX163_mainfrm.frx":DDB9
                Key             =   ""
             EndProperty
             BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":D0C2
+               Picture         =   "OX163_mainfrm.frx":DE28
                Key             =   ""
             EndProperty
             BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":D130
+               Picture         =   "OX163_mainfrm.frx":DE96
                Key             =   ""
             EndProperty
             BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":D1A6
+               Picture         =   "OX163_mainfrm.frx":DF0C
                Key             =   ""
             EndProperty
             BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":D217
+               Picture         =   "OX163_mainfrm.frx":DF7D
                Key             =   ""
             EndProperty
             BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":D293
+               Picture         =   "OX163_mainfrm.frx":DFF9
                Key             =   ""
             EndProperty
             BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":D304
+               Picture         =   "OX163_mainfrm.frx":E06A
                Key             =   ""
             EndProperty
          EndProperty
@@ -1243,31 +1249,31 @@ Begin VB.Form Form1
          BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
             NumListImages   =   7
             BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":D37A
+               Picture         =   "OX163_mainfrm.frx":E0E0
                Key             =   ""
             EndProperty
             BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":D3E9
+               Picture         =   "OX163_mainfrm.frx":E14F
                Key             =   ""
             EndProperty
             BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":D457
+               Picture         =   "OX163_mainfrm.frx":E1BD
                Key             =   ""
             EndProperty
             BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":D4CD
+               Picture         =   "OX163_mainfrm.frx":E233
                Key             =   ""
             EndProperty
             BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":D53E
+               Picture         =   "OX163_mainfrm.frx":E2A4
                Key             =   ""
             EndProperty
             BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":D5BA
+               Picture         =   "OX163_mainfrm.frx":E320
                Key             =   ""
             EndProperty
             BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "OX163_mainfrm.frx":D62B
+               Picture         =   "OX163_mainfrm.frx":E391
                Key             =   ""
             EndProperty
          EndProperty
@@ -1445,9 +1451,9 @@ Begin VB.Form Form1
       Appearance      =   0  'Flat
       Height          =   285
       Left            =   7080
-      MouseIcon       =   "OX163_mainfrm.frx":D6A1
+      MouseIcon       =   "OX163_mainfrm.frx":E407
       MousePointer    =   99  'Custom
-      Picture         =   "OX163_mainfrm.frx":D9AB
+      Picture         =   "OX163_mainfrm.frx":E711
       Stretch         =   -1  'True
       ToolTipText     =   "Input Passwrd"
       Top             =   8040
@@ -1458,7 +1464,7 @@ Begin VB.Form Form1
       Height          =   150
       Index           =   2
       Left            =   6600
-      Picture         =   "OX163_mainfrm.frx":DA14
+      Picture         =   "OX163_mainfrm.frx":E77A
       Stretch         =   -1  'True
       Top             =   7200
       Visible         =   0   'False
@@ -1468,7 +1474,7 @@ Begin VB.Form Form1
       Height          =   150
       Index           =   1
       Left            =   6360
-      Picture         =   "OX163_mainfrm.frx":DA64
+      Picture         =   "OX163_mainfrm.frx":E7CA
       Top             =   7200
       Visible         =   0   'False
       Width           =   225
@@ -1477,7 +1483,7 @@ Begin VB.Form Form1
       Height          =   150
       Index           =   0
       Left            =   6120
-      Picture         =   "OX163_mainfrm.frx":DAB1
+      Picture         =   "OX163_mainfrm.frx":E817
       Stretch         =   -1  'True
       Top             =   7200
       Visible         =   0   'False
@@ -1487,7 +1493,7 @@ Begin VB.Form Form1
       Height          =   1080
       Index           =   1
       Left            =   4080
-      Picture         =   "OX163_mainfrm.frx":DAFC
+      Picture         =   "OX163_mainfrm.frx":E862
       Stretch         =   -1  'True
       Top             =   7320
       Visible         =   0   'False
@@ -1497,7 +1503,7 @@ Begin VB.Form Form1
       Height          =   1080
       Index           =   0
       Left            =   2880
-      Picture         =   "OX163_mainfrm.frx":11B66
+      Picture         =   "OX163_mainfrm.frx":128CC
       Stretch         =   -1  'True
       Top             =   7320
       Visible         =   0   'False
@@ -1620,6 +1626,9 @@ Begin VB.Form Form1
             Caption         =   "自定脚本路径"
          End
       End
+      Begin VB.Menu tray_8to31 
+         Caption         =   "短路径设置"
+      End
       Begin VB.Menu menu_6 
          Caption         =   "-"
       End
@@ -1685,6 +1694,9 @@ Begin VB.Form Form1
          Begin VB.Menu tray_dircustom1 
             Caption         =   "自定脚本路径"
          End
+      End
+      Begin VB.Menu tray_8to3 
+         Caption         =   "短路径设置"
       End
       Begin VB.Menu menu_8 
          Caption         =   "-"
@@ -2641,7 +2653,7 @@ End Function
 Private Sub find_next_Click()
     On Error Resume Next
     Dim check_i As Integer
-    If Trim$(find_text.Text = "") Then Exit Sub
+    If Trim(find_text.Text = "") Then Exit Sub
     find_unselect_Click
     If user_list.Visible = True And List1.Visible = False Then
         
@@ -2683,7 +2695,7 @@ End Sub
 Private Sub find_prev_Click()
     On Error Resume Next
     Dim check_i As Integer
-    If Trim$(find_text.Text = "") Then Exit Sub
+    If Trim(find_text.Text = "") Then Exit Sub
     find_unselect_Click
     If user_list.Visible = True And List1.Visible = False Then
         check_i = user_list.ListItems.count
@@ -2740,17 +2752,17 @@ Private Sub find_text_KeyDown(KeyCode As Integer, Shift As Integer)
     ElseIf (KeyCode = 70 And Shift = vbCtrlMask) Or KeyCode = 27 Then
         user_list_find_Click
     ElseIf KeyCode = 13 Or KeyCode = 34 Then
-        find_text.Text = Trim$(find_text.Text)
+        find_text.Text = Trim(find_text.Text)
         find_next_Click
     ElseIf KeyCode = 33 Then
-        find_text.Text = Trim$(find_text.Text)
+        find_text.Text = Trim(find_text.Text)
         find_prev_Click
     End If
 End Sub
 
 'Private Sub find_text_KeyPress(KeyAscii As Integer)
 'If KeyAscii = 13 Then
-'find_text.Text = Trim$(find_text.Text)
+'find_text.Text = Trim(find_text.Text)
 'find_next_Click
 'ElseIf KeyAscii = 27 Then
 'user_list_find_Click
@@ -3009,14 +3021,16 @@ Private Sub Check_Form_out_Destop(ByRef win_max As Boolean)
     If Form1.Left + Form1.Width > windows_destop_Width Then
         If Form1.Width < windows_destop_Width Then
             Form1.Left = windows_destop_Width - Form1.Width
+            If Form1.Left < 0 Then Form1.Left = 0
         Else
             Form1.Left = 0
         End If
     End If
     
-    If Form1.Top + Form1.Height > windows_destop_Height Then
+    If Form1.Top + Form1.Height > windows_destop_Height - 500 Then
         If Form1.Height < windows_destop_Height Then
-            Form1.Top = windows_destop_Height - Form1.Height
+            Form1.Top = windows_destop_Height - 500 - Form1.Height
+            If Form1.Top < 0 Then Form1.Top = 0
         Else
             Form1.Top = 0
         End If
@@ -3196,12 +3210,12 @@ Private Sub image_save_Click()
     
     
     
-    If Mid$(Folder_path, 2, 2) = ":\" Then
-        If (GetFileAttributes(Folder_path) = -1) Then MsgBox "该路径不能保存文件", vbOKOnly + vbExclamation, "警告": Exit Sub
+    If Mid(Folder_path, 2, 2) = ":\" Or (Len(Folder_path) = 2 And Right(Folder_path, 1) = ":") Then
 start:
+        If OX_ChkDiskStatus(Folder_path) = False Then Exit Sub
         '打开路径菜单
         text_sortname = GetShortName(Folder_path)
-        If Right(text_sortname, 1) = "\" Then text_sortname = Mid$(text_sortname, 1, Len(text_sortname) - 1)
+        If Right(text_sortname, 1) = "\" Then text_sortname = Mid(text_sortname, 1, Len(text_sortname) - 1)
         Open_path = text_sortname
         Open_path_set = text_sortname
         
@@ -3286,7 +3300,7 @@ List1_url_copy:
     copy_txt = ""
     For i = 1 To List1.ListItems.count
         DoEvents
-        If List1.ListItems(i).Selected = True Then copy_txt = copy_txt & Trim$(List1.ListItems(i).ListSubItems(3).Text) & vbCrLf
+        If List1.ListItems(i).Selected = True Then copy_txt = copy_txt & Trim(List1.ListItems(i).ListSubItems(3).Text) & vbCrLf
     Next
     If copy_txt <> "" Then
         Call SetClipboardText(copy_txt)
@@ -3302,7 +3316,7 @@ List1_name_copy:
     copy_txt = ""
     For i = 1 To List1.ListItems.count
         DoEvents
-        If List1.ListItems(i).Selected = True Then copy_txt = copy_txt & Trim$(List1.ListItems(i).ListSubItems(1).Text) & vbCrLf
+        If List1.ListItems(i).Selected = True Then copy_txt = copy_txt & Trim(List1.ListItems(i).ListSubItems(1).Text) & vbCrLf
     Next
     If copy_txt <> "" Then
         Call SetClipboardText(copy_txt)
@@ -3318,7 +3332,7 @@ List1_lst_copy:
     copy_txt = ""
     For i = 1 To List1.ListItems.count
         DoEvents
-        If List1.ListItems(i).Selected = True Then copy_txt = copy_txt & Trim$(List1.ListItems(i).ListSubItems(3).Text) & "?/" & Trim$(List1.ListItems(i).ListSubItems(1).Text) & vbCrLf
+        If List1.ListItems(i).Selected = True Then copy_txt = copy_txt & Trim(List1.ListItems(i).ListSubItems(3).Text) & "?/" & Trim(List1.ListItems(i).ListSubItems(1).Text) & vbCrLf
     Next
     If copy_txt <> "" Then
         Call SetClipboardText(copy_txt)
@@ -3334,7 +3348,7 @@ List1_ubb_copy:
     copy_txt = ""
     For i = 1 To List1.ListItems.count
         DoEvents
-        If List1.ListItems(i).Selected = True Then copy_txt = copy_txt & "[url=" & Trim$(List1.ListItems(i).ListSubItems(3).Text) & "]" & Trim$(List1.ListItems(i).ListSubItems(1).Text) & "[/url]" & vbCrLf
+        If List1.ListItems(i).Selected = True Then copy_txt = copy_txt & "[url=" & Trim(List1.ListItems(i).ListSubItems(3).Text) & "]" & Trim(List1.ListItems(i).ListSubItems(1).Text) & "[/url]" & vbCrLf
     Next
     If copy_txt <> "" Then
         Call SetClipboardText(copy_txt)
@@ -3398,7 +3412,7 @@ Private Sub search_internt_Click()
     web_Picture.Visible = False
     Web_Search.Width = Frame1.Width
     Web_Search.Visible = True
-    If InStr(LCase$(Web_Search.LocationURL), LCase$("Search163")) < 1 Then
+    If InStr(LCase(Web_Search.LocationURL), LCase("Search163")) < 1 Then
         Web_Search.Navigate "http://163.ugschina.com/"
     End If
     Call Web_Search_StatusTextChange("打开163相册搜索...")
@@ -3434,8 +3448,8 @@ Private Sub Refresh_Panel()
     On Error Resume Next
     Dim Panel_info
     Panel_info = Trim(update.OpenURL(sysSet.update_host & "Panel_info.asp?key=" & down_count & "&ntime=" & CDbl(Now())))
-    show_inform(0) = Mid$(Panel_info, 1, InStr(Panel_info, "|") - 1)
-    show_inform(1) = Mid$(Panel_info, InStr(Panel_info, "|") + 1)
+    show_inform(0) = Mid(Panel_info, 1, InStr(Panel_info, "|") - 1)
+    show_inform(1) = Mid(Panel_info, InStr(Panel_info, "|") + 1)
     StatusBar.Panels(3) = show_inform(0)
 End Sub
 
@@ -4019,13 +4033,13 @@ Private Sub input_lst_sub(ByVal LstFileName)
     list_count.Visible = True
     
     '----------------------------正式列表----------------------------------
-    lstfile_type = LCase(Mid$(LstFileName, InStrRev(LstFileName, ".")))
+    lstfile_type = LCase(Mid(LstFileName, InStrRev(LstFileName, ".")))
     
     Dim BytesStream, StringReturn
     
     '----------------------------bat重命名----------------------------------
     If lstfile_type = ".txt" Then
-        bat_txt = Mid$(LstFileName, 1, InStrRev(LstFileName, ".")) & "bat"
+        bat_txt = Mid(LstFileName, 1, InStrRev(LstFileName, ".")) & "bat"
         If Dir(bat_txt) <> "" Then
             ReturnEncoding = GetEncoding(bat_txt)
             If ReturnEncoding = "UTF-8" Then
@@ -4094,13 +4108,13 @@ Private Sub input_lst_sub(ByVal LstFileName)
     Case ".htm"
         If InStr(LstFileName, "<script language='javascript'>var gPhotoInfo = {};var gPhotoID = [];</script>") = 1 Then
             
-            LstFileName = Mid$(LstFileName, InStr(LstFileName, "<script language='javascript'>gPhotoID[") + Len("<script language='javascript'>gPhotoID["))
+            LstFileName = Mid(LstFileName, InStr(LstFileName, "<script language='javascript'>gPhotoID[") + Len("<script language='javascript'>gPhotoID["))
             
             split_url = Split(LstFileName, "<script language='javascript'>gPhotoID[")
             
-            url_Referer = Mid$(split_url(0), InStr(split_url(0), """,""") + 3)
-            url_Referer = Mid$(url_Referer, InStr(url_Referer, """,""") + 3)
-            url_Referer = Trim(Mid$(url_Referer, 1, InStr(url_Referer, """") - 1))
+            url_Referer = Mid(split_url(0), InStr(split_url(0), """,""") + 3)
+            url_Referer = Mid(url_Referer, InStr(url_Referer, """,""") + 3)
+            url_Referer = Trim(Mid(url_Referer, 1, InStr(url_Referer, """") - 1))
             bat_txt = ""
             
             For i = 0 To UBound(split_url)
@@ -4108,18 +4122,18 @@ Private Sub input_lst_sub(ByVal LstFileName)
                 url_i = ""
                 name_i = ""
                 
-                split_url(i) = Mid$(split_url(i), InStr(split_url(i), "<a href=""") + 9)
-                url_i = Mid$(split_url(i), 1, InStr(split_url(i), """") - 1)
+                split_url(i) = Mid(split_url(i), InStr(split_url(i), "<a href=""") + 9)
+                url_i = Mid(split_url(i), 1, InStr(split_url(i), """") - 1)
                 
-                name_i = Mid$(split_url(i), InStr(split_url(i), ">") + 1)
-                name_i = Mid$(name_i, 1, InStr(name_i, "</a>") - 1)
+                name_i = Mid(split_url(i), InStr(split_url(i), ">") + 1)
+                name_i = Mid(name_i, 1, InStr(name_i, "</a>") - 1)
                 
-                If name_i = "" Then name_i = Mid$(url_i, InStrRev(url_i, "/") + 1)
+                If name_i = "" Then name_i = Mid(url_i, InStrRev(url_i, "/") + 1)
                 If name_i = "" Then name_i = "no_name_pic.jpg"
                 
                 If url_i <> "" Then
                     
-                    If name_i = "" Then name_i = Mid$(url_i, InStrRev(url_i, "/") + 1)
+                    If name_i = "" Then name_i = Mid(url_i, InStrRev(url_i, "/") + 1)
                     If name_i = "" Then name_i = "no_name_pic.jpg"
                     
                     'list_picID
@@ -4159,26 +4173,26 @@ Private Sub input_lst_sub(ByVal LstFileName)
             
             If bat_txt <> "" Then
                 If UBound(split_name) >= UBound(split_url) Then
-                    If Trim(Mid$(split_name(i), 1, InStr(split_name(i), Chr(34)) - 1)) = "rename" Then
-                        split_name(i) = Mid$(split_name(i), InStr(split_name(i), Chr(34)) + 1)
-                        split_name(i) = Mid$(split_name(i), InStr(split_name(i), Chr(34)) + 1)
-                        split_name(i) = Mid$(split_name(i), InStr(split_name(i), Chr(34)) + 1)
-                        split_name(i) = Trim(Mid$(split_name(i), 1, InStrRev(split_name(i), Chr(34)) - 1))
+                    If Trim(Mid(split_name(i), 1, InStr(split_name(i), Chr(34)) - 1)) = "rename" Then
+                        split_name(i) = Mid(split_name(i), InStr(split_name(i), Chr(34)) + 1)
+                        split_name(i) = Mid(split_name(i), InStr(split_name(i), Chr(34)) + 1)
+                        split_name(i) = Mid(split_name(i), InStr(split_name(i), Chr(34)) + 1)
+                        split_name(i) = Trim(Mid(split_name(i), 1, InStrRev(split_name(i), Chr(34)) - 1))
                         name_i = split_name(i)
-                    ElseIf Trim(Mid$(split_name(i), 1, InStr(split_name(i), " ") - 1)) = "rename" Then
-                        split_name(i) = Trim(Mid$(split_name(i), InStr(split_name(i), " ") + 1))
-                        split_name(i) = Trim(Mid$(split_name(i), InStr(split_name(i), " ") + 1))
+                    ElseIf Trim(Mid(split_name(i), 1, InStr(split_name(i), " ") - 1)) = "rename" Then
+                        split_name(i) = Trim(Mid(split_name(i), InStr(split_name(i), " ") + 1))
+                        split_name(i) = Trim(Mid(split_name(i), InStr(split_name(i), " ") + 1))
                         name_i = split_name(i)
                     End If
                 End If
             End If
             
-            If name_i = "" Then name_i = Mid$(url_i, InStrRev(url_i, "/") + 1)
+            If name_i = "" Then name_i = Mid(url_i, InStrRev(url_i, "/") + 1)
             If name_i = "" Then name_i = "no_name_pic.jpg"
             
             If url_i <> "" Then
                 
-                If name_i = "" Then name_i = Mid$(url_i, InStrRev(url_i, "/") + 1)
+                If name_i = "" Then name_i = Mid(url_i, InStrRev(url_i, "/") + 1)
                 If name_i = "" Then name_i = "no_name_pic.jpg"
                 
                 'list_picID
@@ -4212,18 +4226,18 @@ Private Sub input_lst_sub(ByVal LstFileName)
             name_i = ""
             If InStr(split_url(i), "?/") > 0 Then
                 'url
-                url_i = Trim(Mid$(split_url(i), 1, InStr(split_url(i), "?/") - 1))
+                url_i = Trim(Mid(split_url(i), 1, InStr(split_url(i), "?/") - 1))
                 'name
-                name_i = Trim(Mid$(split_url(i), InStr(split_url(i), "?/") + 2))
+                name_i = Trim(Mid(split_url(i), InStr(split_url(i), "?/") + 2))
             Else
                 url_i = Trim(split_url(i))
                 name_i = url_i
-                name_i = Trim(Mid$(name_i, InStrRev(name_i, "/") + 1))
+                name_i = Trim(Mid(name_i, InStrRev(name_i, "/") + 1))
             End If
             
             If url_i <> "" Then
                 
-                If name_i = "" Then name_i = Mid$(url_i, InStrRev(url_i, "/") + 1)
+                If name_i = "" Then name_i = Mid(url_i, InStrRev(url_i, "/") + 1)
                 If name_i = "" Then name_i = "no_name_pic.jpg"
                 
                 'list_picID
@@ -4411,14 +4425,14 @@ Private Sub makelist_command_Click()
     
     If LCase(url_input.Text) Like "http://?*.photo.163.com*" Then
         '老相册地址，格式化为163用户名
-        url_input.Text = Mid$(url_input.Text, 8)
-        url_input.Text = Mid$(url_input.Text, 1, InStr(url_input.Text, ".photo.163.com") - 1)
+        url_input.Text = Mid(url_input.Text, 8)
+        url_input.Text = Mid(url_input.Text, 1, InStr(url_input.Text, ".photo.163.com") - 1)
         
     ElseIf LCase(url_input.Text) Like "?*photo.163.com/?*" And InStr(LCase(url_input.Text), "#aid=") < 1 And InStr(LCase(url_input.Text), "&aid=") < 1 Then
         If InStr(LCase(url_input.Text), "/list/#aid=") < 1 Or InStr(LCase(url_input.Text), "/list#aid=") < 1 Then
-            url_input.Text = Mid$(url_input.Text, InStr(LCase(url_input.Text), "photo.163.com/") + Len("photo.163.com/"))
-            url_input.Text = Mid$(url_input.Text, 1, InStr(url_input.Text, "/") - 1)
-            url_input.Text = Mid$(url_input.Text, 1, InStr(url_input.Text, "#") - 1)
+            url_input.Text = Mid(url_input.Text, InStr(LCase(url_input.Text), "photo.163.com/") + Len("photo.163.com/"))
+            url_input.Text = Mid(url_input.Text, 1, InStr(url_input.Text, "/") - 1)
+            url_input.Text = Mid(url_input.Text, 1, InStr(url_input.Text, "#") - 1)
         End If
     End If
     
@@ -4441,8 +4455,8 @@ Private Sub makelist_command_Click()
     '---------------------------------------------------------------------------------------
     'http://photo.163.com/wehi/list/#m=1&aid=63181790&p=1
     If InStr(LCase(url_input.Text), "&aid=") > 1 Then
-        url_temp = "#" & Mid$(url_input.Text, InStr(LCase(url_input.Text), "&aid=") + 1)
-        url_input.Text = Mid$(url_input.Text, 1, InStr(LCase(url_input.Text), "#") - 1) & url_temp
+        url_temp = "#" & Mid(url_input.Text, InStr(LCase(url_input.Text), "&aid=") + 1)
+        url_input.Text = Mid(url_input.Text, 1, InStr(LCase(url_input.Text), "#") - 1) & url_temp
         url_temp = ""
     End If
     'http://photo.163.com/wehi/list/#aid=63181790&p=1
@@ -4454,31 +4468,31 @@ Private Sub makelist_command_Click()
     'http://photo.163.com/wehi/list/#aid=63181820&m=0&page=1
     Dim url_check
     If InStr(url_input.Text, "photo.163.com/photos/") > 0 Then
-        url_temp = Mid$(url_input.Text, InStr(url_input.Text, "photo.163.com/photos/") + 21)
+        url_temp = Mid(url_input.Text, InStr(url_input.Text, "photo.163.com/photos/") + 21)
         url_check = Split(url_temp, "/")
         url_temp = url_check(0)
     ElseIf InStr(url_input.Text, "photo.163.com/photo/") > 0 Then
-        url_temp = Mid$(url_input.Text, InStr(url_input.Text, "photo.163.com/photo/") + 20)
+        url_temp = Mid(url_input.Text, InStr(url_input.Text, "photo.163.com/photo/") + 20)
         url_check = Split(url_temp, "/")
         url_temp = url_check(0)
         If UBound(url_check) > 0 Then
             url_check(1) = LCase(url_check(1))
-            url_check(1) = Mid$(url_check(1), InStr(url_check(1), "&ai=") + 4)
-            url_check(1) = Mid$(url_check(1), 1, InStr(url_check(1), "&") - 1)
+            url_check(1) = Mid(url_check(1), InStr(url_check(1), "&ai=") + 4)
+            url_check(1) = Mid(url_check(1), 1, InStr(url_check(1), "&") - 1)
             If IsNumeric(url_check(1)) Then
                 Call new163pic_list(url_check(0), url_check(1))
                 Exit Sub
             End If
         End If
     ElseIf InStr(url_input.Text, "list/#aid=") > 0 Or InStr(url_input.Text, "list#aid=") > 0 Then
-        url_temp = Mid$(url_input.Text, InStr(url_input.Text, "photo.163.com/") + Len("photo.163.com/"))
+        url_temp = Mid(url_input.Text, InStr(url_input.Text, "photo.163.com/") + Len("photo.163.com/"))
         url_temp = Replace(url_temp, "list#aid=", "list/#aid=")
         url_check = Split(url_temp, "/")
         url_temp = url_check(0)
         If UBound(url_check) > 1 Then
             url_check(2) = LCase(url_check(2))
-            url_check(2) = Mid$(url_check(2), InStr(url_check(2), "#aid=") + 5)
-            url_check(2) = Mid$(url_check(2), 1, InStr(url_check(2), "&") - 1)
+            url_check(2) = Mid(url_check(2), InStr(url_check(2), "#aid=") + 5)
+            url_check(2) = Mid(url_check(2), 1, InStr(url_check(2), "&") - 1)
             If IsNumeric(url_check(2)) Then
                 Call new163pic_list(url_check(0), url_check(2))
                 Exit Sub
@@ -4522,7 +4536,7 @@ Private Sub makelist_command_Click()
     OX_RunningInformation_Setting "正在分析链接"
     Form1.Icon = ico(1).Picture
     
-    url_temp = Trim$(url_input.Text)
+    url_temp = Trim(url_input.Text)
     
     '163pic Url------------------------------------------------
     url_temp = url_input.Text
@@ -4699,8 +4713,8 @@ Private Function new163pic_GetJs(ByVal input_User_Name As String, ByVal input_Al
         '//#DWR-REPLY
         'dwr.engine._remoteHandleCallback('4','0',"s5.ph.126.net/18qMoKBCzMmwVobGPj8Zwg==/137922738591899540.js");
         
-        Html_Temp = Mid$(Html_Temp, 1, InStrRev(Html_Temp, ".js""") + 2)
-        new163pic_GetJs = "http://" & Mid$(Html_Temp, InStrRev(Html_Temp, Chr(34)) + 1)
+        Html_Temp = Mid(Html_Temp, 1, InStrRev(Html_Temp, ".js""") + 2)
+        new163pic_GetJs = "http://" & Mid(Html_Temp, InStrRev(Html_Temp, Chr(34)) + 1)
     Else
         Html_Temp = ""
         new163pic_GetJs = ""
@@ -4734,9 +4748,9 @@ check_2nd:
         
         Html_Temp = Replace$(Replace$(Html_Temp, Chr(13), ""), Chr(10), "")
         '定位到第一张图片的文本头
-        Html_Temp = Mid$(Html_Temp, InStr(Html_Temp, "=[{id:") + 6)
+        Html_Temp = Mid(Html_Temp, InStr(Html_Temp, "=[{id:") + 6)
         '定位到最后一张图片
-        Html_Temp = Mid$(Html_Temp, 1, InStr(Html_Temp, "}];") - 3)
+        Html_Temp = Mid(Html_Temp, 1, InStr(Html_Temp, "}];") - 3)
         
         Dim a, b As String
         Dim new163pic_str_split
@@ -4784,10 +4798,10 @@ check_2nd:
             '},{id:
             
             If InStr(LCase(new163pic_str_split(i)), ",ourl:'") > 1 Then
-                ourl = Mid$(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), ",ourl:'") + 7)
-                ourl = Trim(Mid$(ourl, 1, InStr(ourl, "'") - 1))
+                ourl = Mid(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), ",ourl:'") + 7)
+                ourl = Trim(Mid(ourl, 1, InStr(ourl, "'") - 1))
             End If
-            new163_pic_ID = Mid$(new163pic_str_split(i), 1, InStr(new163pic_str_split(i), ",") - 1)
+            new163_pic_ID = Mid(new163pic_str_split(i), 1, InStr(new163pic_str_split(i), ",") - 1)
             
             
             '当获取图片地址失败,如果为相册主人,则进入单张列表模式------------------------------------------
@@ -4822,8 +4836,8 @@ check_2nd:
                     new163_isAlbumOwner_TF = False
                     ourl = ""
                 ElseIf InStr(LCase(Html_Temp), "http://") > 1 Then
-                    ourl = Mid$(Html_Temp, InStr(Html_Temp, "http://"))
-                    ourl = Mid$(ourl, 1, InStr(ourl, Chr(34)) - 1)
+                    ourl = Mid(Html_Temp, InStr(Html_Temp, "http://"))
+                    ourl = Mid(ourl, 1, InStr(ourl, Chr(34)) - 1)
                 Else
                     ourl = ""
                 End If
@@ -4831,8 +4845,8 @@ check_2nd:
             '----------------------------------------------------------------------------------------------
             
             If ourl = "" Then
-                new163pic_str_split(i) = Mid$(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), ",murl:'") + 7)
-                a = Mid$(new163pic_str_split(i), 1, InStr(LCase(new163pic_str_split(i)), "'") - 1)
+                new163pic_str_split(i) = Mid(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), ",murl:'") + 7)
+                a = Mid(new163pic_str_split(i), 1, InStr(LCase(new163pic_str_split(i)), "'") - 1)
                 ourl = a
             Else
                 a = ourl
@@ -4844,8 +4858,8 @@ check_2nd:
             '第二种
             '/photo/nzovvldOrJcsKJ2iLjW8rA==/2845149064591786998.jpg
             'http://img.bimg.126.net/photo/nzovvldOrJcsKJ2iLjW8rA==/2845149064591786998.jpg
-            b = Mid$(a, 1, InStr(a, "/") - 1)
-            a = Mid$(a, InStr(a, "/"))
+            b = Mid(a, 1, InStr(a, "/") - 1)
+            a = Mid(a, InStr(a, "/"))
             
             If ourl <> "" Then
                 'M pic url or Ourl
@@ -4861,18 +4875,18 @@ check_2nd:
             End If
             
             If a <> "" Then
-                new163pic_str_split(i) = Mid$(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), "',desc:'") + 8)
+                new163pic_str_split(i) = Mid(new163pic_str_split(i), InStr(LCase(new163pic_str_split(i)), "',desc:'") + 8)
                 
                 '描述
                 new163_pic_ID = "PID:" & new163_pic_ID & ",UID:" & OX_Script_Type
                 
-                b = reName_Str(Trim(Mid$(new163pic_str_split(i), 1, InStr(new163pic_str_split(i), "'") - 1)))
-                If b = "" Then b = reName_Str(Mid$(a, InStrRev(a, "/") + 1))
+                b = reName_Str(Trim(Mid(new163pic_str_split(i), 1, InStr(new163pic_str_split(i), "'") - 1)))
+                If b = "" Then b = reName_Str(Mid(a, InStrRev(a, "/") + 1))
                 new163pic_str_split(i) = ""
-                new163pic_str_split(i) = LCase(Mid$(b, InStrRev(b, ".")))
+                new163pic_str_split(i) = LCase(Mid(b, InStrRev(b, ".")))
                 
-                If new163pic_str_split(i) <> LCase(Mid$(a, InStrRev(a, "."))) Then
-                    b = b & Mid$(a, InStrRev(a, "."))
+                If new163pic_str_split(i) <> LCase(Mid(a, InStrRev(a, "."))) Then
+                    b = b & Mid(a, InStrRev(a, "."))
                 End If
             Else
                 new163_pic_ID = "Error Link, No Photo!"
@@ -4948,11 +4962,11 @@ Private Sub out_all_lst_Click()
     End If
     
     
-    If Mid$(Folder_path, 2, 2) = ":\" Then
-        If (GetFileAttributes(Folder_path) = -1) Then MsgBox "该路径不能保存文件", vbOKOnly + vbExclamation, "警告": Exit Sub
+    If Mid(Folder_path, 2, 2) = ":\" Or (Len(Folder_path) = 2 And Right(Folder_path, 1) = ":") Then
 start:
+        If OX_ChkDiskStatus(Folder_path) = False Then Exit Sub
         text_sortname = GetShortName(Folder_path)
-        If Right(text_sortname, 1) = "\" Then text_sortname = Mid$(text_sortname, 1, Len(text_sortname) - 1)
+        If Right(text_sortname, 1) = "\" Then text_sortname = Mid(text_sortname, 1, Len(text_sortname) - 1)
         '菜单打开下载路径
         Open_path = text_sortname
         Open_path_set = text_sortname
@@ -4988,11 +5002,11 @@ Private Sub save_all_Click()
     End If
     
     
-    If Mid$(Folder_path, 2, 2) = ":\" Then
-        If (GetFileAttributes(Folder_path) = -1) Then MsgBox "该路径不能保存文件", vbOKOnly + vbExclamation, "警告": Exit Sub
+    If Mid(Folder_path, 2, 2) = ":\" Or (Len(Folder_path) = 2 And Right(Folder_path, 1) = ":") Then
 start:
+        If OX_ChkDiskStatus(Folder_path) = False Then Exit Sub
         text_sortname = GetShortName(Folder_path)
-        If Right(text_sortname, 1) = "\" Then text_sortname = Mid$(text_sortname, 1, Len(text_sortname) - 1)
+        If Right(text_sortname, 1) = "\" Then text_sortname = Mid(text_sortname, 1, Len(text_sortname) - 1)
         '打开路径菜单
         Open_path = text_sortname
         Open_path_set = text_sortname
@@ -5043,6 +5057,11 @@ End If
 err_ctrl:
 End Sub
 
+Private Sub view_command_Click_timer_Timer()
+    view_command_Click_timer.Enabled = False
+    view_command_Click
+End Sub
+
 Private Sub Form_Start_Timer_Timer()
     On Error Resume Next
     Form_Start_Timer.Enabled = False
@@ -5058,10 +5077,6 @@ Private Sub Form_Start_Timer_Timer()
     Web_Search.Document.Open
     Web_Search.Document.Write ""
     Web_Search.Document.Close
-    
-    
-    
-    If sysSet.autocheck = False And Len(Command()) <= 0 Then Exit Sub
     
     
     Dim Command_str As String
@@ -5099,12 +5114,39 @@ Private Sub Form_Start_Timer_Timer()
                 End If
             End If
         End If
-        
-        Call view_command_Click
+        view_command_Click_timer.Enabled = True
         Exit Sub
     End If
     
-    Dim ver As String, temp_str As String
+    Dim ver As String, temp_str As String, temp_str1 As String
+'NtfsDisable8dot3Name checking----------------------------------------------------------------------
+    If sysSet.bottom_StatusBar = True Then
+        StatusBar.Panels(3) = "检查NtfsDisable8dot3Name"
+    End If
+    
+    ver = "检查NtfsDisable8dot3Name(需要以管理员身份运行)" & vbCrLf & "创建fsutil 8dot3name query"
+    err.Clear
+    temp_str = OX_8dot3Name_Dir(App.Path)
+    ver = ver & vbCrLf & Mid(temp_str, InStr(temp_str, vbCrLf) + Len(vbCrLf))
+    temp_str = Mid(temp_str, 1, InStr(temp_str, vbCrLf) - 1)
+    temp_str1 = OX_8dot3Name_Sys
+    
+    If temp_str1 = 1 Or (temp_str = 1 And temp_str1 = 2) Or (temp_str1 = 3 And Left(App.Path, 2) <> Left(GetSysDir, 2)) Then
+        ver = ver & vbCrLf & "磁盘未启用8dot3name短路径功能：程序无法在该磁盘操作特殊unicode字符" & vbCrLf & "您可以使用""fsutil 8dot3name set 0""命令启用全局用8dot3name短路径"
+        OX_G_Disable8dot3 = temp_str & temp_str1
+        If MsgBox("磁盘未启用系统功能8dot3name短路径" & vbCrLf & "是否打开8dot3name设置面板?", vbYesNo, "警告") = vbYes Then Ctrl8dot3name.Show
+    Else
+        ver = ver & "...OK"
+    End If
+    
+    OX_Start_log = Replace(OX_Start_log, "%delay_NtfsDisable8dot3Name_Checking%", ver)
+    
+'autocheck new version---------------------------------------------------------------------------
+
+    If sysSet.autocheck = False Then Exit Sub
+    
+    ver = ""
+    temp_str = ""
     temp_str = show_inform(0)
     If sysSet.bottom_StatusBar = True Then
         show_inform(0) = "正在自动检查最新版本..."
@@ -5112,10 +5154,10 @@ Private Sub Form_Start_Timer_Timer()
     End If
     ver = update.OpenURL(sysSet.update_host & "ox163_update.htm?ntime=" & CDbl(Now()))
     If IsNumeric(ver) Then
-        ver = Mid$(ver, 1, InStr(ver, ".") - 1)
+        ver = Mid(ver, 1, InStr(ver, ".") - 1)
         If CInt(ver) > sysSet.ver And Len(ver) < 5 Then
             ver = update.OpenURL(sysSet.update_host & "ox163_update_info.htm?ntime=" & CDbl(Now()))
-            ver = Left$(Replace(Replace(ver, Chr(10), ""), Chr(13), ""), 100)
+            ver = Left(Replace(Replace(ver, Chr(10), ""), Chr(13), ""), 100)
             
             If download_ok = True Then
                 If MsgBox("发现新版本:" & vbCrLf & ver & vbCrLf & "是否前往主页下载？", vbYesNo + vbQuestion, "OX163版本检查") = vbYes Then
@@ -5166,6 +5208,14 @@ End Sub
 Private Sub tray_path_Click()
     If Open_path = "" Then Open_path = App_path & "\download"
     Shell "explorer.exe " & Open_path, vbNormalFocus
+End Sub
+
+Private Sub tray_8to3_Click()
+    Ctrl8dot3name.Show
+End Sub
+
+Private Sub tray_8to31_Click()
+    Call tray_8to3_Click
 End Sub
 
 Private Sub tray_path1_Click()
@@ -5400,7 +5450,7 @@ Private Sub albumslist_back_Click()
             DoEvents
             If List1.ListItems(i).Checked = False Then undown_str = undown_str & List1.ListItems(i).Text & "|"
         Next i
-        If undown_str <> "" Then undown_str = Mid$(undown_str, 1, Len(undown_str) - 1)
+        If undown_str <> "" Then undown_str = Mid(undown_str, 1, Len(undown_str) - 1)
         user_list.SelectedItem.ListSubItems(5).Text = undown_str
         
     End If
@@ -5819,10 +5869,13 @@ url_input_LostFocus
     Web_Toolbar.Width = Web_Browser.Width
     Web_Browser_Close.Left = Web_Browser.Width - 21 * Screen.TwipsPerPixelX
     Call Web_Browser_StatusTextChange("前往 " & Trim(url_input.Text))
-    If InStr(url_temp, "Referer: ") = 1 Then
-        Web_Browser.Navigate Trim(url_input.Text), , , , url_temp & vbCrLf & sysSet.OX_HTTP_Head
+    
+    If Trim(url_input.Text) = "http://www.shanhaijing.net/163/ua.asp" Then
+        Web_Browser.Navigate2 "http://www.shanhaijing.net/163/ua.asp"
+    ElseIf InStr(url_temp, "Referer: ") = 1 Then
+        Web_Browser.Navigate2 Trim(url_input.Text), , , , url_temp & vbCrLf & sysSet.OX_HTTP_Head
     Else
-        Web_Browser.Navigate Trim(url_input.Text), , , , sysSet.OX_HTTP_Head
+        Web_Browser.Navigate2 Trim(url_input.Text), , , , sysSet.OX_HTTP_Head
     End If
     url_temp = Trim(url_input.Text)
 End Sub
@@ -6126,19 +6179,21 @@ Private Sub Web_Browser_NavigateComplete2(ByVal pDisp As Object, URL As Variant)
     On Error Resume Next
     
     If down_count = 0 Then
-        Dim Script_App As New ScriptControl
-        Dim script_retrun_code As String
-        
-        Set Script_App = Nothing
-        Script_App.Language = "vbscript"
-        'Script_App.Reset
-        Script_App.AddCode (OX163_WebBrowser_scriptCode)
+            Dim Script_App As New ScriptControl
+            Dim script_retrun_code As String
         
         If Web_Browser.Visible = True And script_retrun_code <> Replace$(App_path & "\start.htm", "\\start.htm", "\start.htm") Then
+            Set Script_App = Nothing
+            Script_App.Language = "vbscript"
+            'Script_App.Reset
+            Script_App.AddCode (OX163_WebBrowser_scriptCode)
             script_retrun_code = Web_Browser.LocationURL
             script_retrun_code = Script_App.Eval("OX163_Web_Browser_url(" & Chr(34) & script_retrun_code & Chr(34) & ")")
             url_temp = script_retrun_code
             url_input.Text = script_retrun_code
+            If LCase(url_input.Text) = "http://www.shanhaijing.net/163/ua.asp" Then
+            Web_Browser.Document.parentWindow.execScript "var OX163UA=""" & Replace(sysSet.Customize_UA, """", "") & """", "JavaScript"
+            End If
             buttom_enable True
         End If
     End If
@@ -6213,7 +6268,7 @@ Private Sub list_save(ByVal list_name)
         Print #1, script_code
     Case 2
         Open list_name For Output As #1
-        Open Left$(list_name, Len(list_name) - 4) & ".bat" For Output As #2
+        Open Left(list_name, Len(list_name) - 4) & ".bat" For Output As #2
     Case Else
         Open list_name For Output As #1
     End Select
@@ -6241,17 +6296,17 @@ Private Sub list_save(ByVal list_name)
             Select Case sysSet.list_type
             Case 1
                 list_pic_cout = list_pic_cout + 1
-                Print #1, "<script language='javascript'>gPhotoID[" & list_pic_cout & "]=" & list_pic_cout & ";gPhotoInfo[" & list_pic_cout & "]=[""" & Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & """,""" & name_rules_add & Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text) & """," & fix_referer_cookies(Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text)) & "]</script>" & _
-                "<a href=" & Chr(34) & Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & Chr(34) & "title=" & Chr(34) & name_rules_add & Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text) & Chr(34) & " target=_blank>" & name_rules_add & Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text) & "</a><br />" & Trim$(List1.ListItems(list_save_i).ListSubItems(2).Text) & "<br /><br />"
+                Print #1, "<script language='javascript'>gPhotoID[" & list_pic_cout & "]=" & list_pic_cout & ";gPhotoInfo[" & list_pic_cout & "]=[""" & Trim(List1.ListItems(list_save_i).ListSubItems(3).Text) & """,""" & name_rules_add & Trim(List1.ListItems(list_save_i).ListSubItems(1).Text) & """," & fix_referer_cookies(Trim(List1.ListItems(list_save_i).ListSubItems(3).Text)) & "]</script>" & _
+                "<a href=" & Chr(34) & Trim(List1.ListItems(list_save_i).ListSubItems(3).Text) & Chr(34) & "title=" & Chr(34) & name_rules_add & Trim(List1.ListItems(list_save_i).ListSubItems(1).Text) & Chr(34) & " target=_blank>" & name_rules_add & Trim(List1.ListItems(list_save_i).ListSubItems(1).Text) & "</a><br />" & Trim(List1.ListItems(list_save_i).ListSubItems(2).Text) & "<br /><br />"
                 
             Case 2
                 old_Name = ""
-                Print #1, Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & vbCrLf
-                old_Name = Split(Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text), "/")
-                Print #2, "rename " & Chr(34) & old_Name(UBound(old_Name)) & Chr(34) & " " & Chr(34) & name_rules_add & fix_Unicode_FileName(Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text)) & Chr(34)
+                Print #1, Trim(List1.ListItems(list_save_i).ListSubItems(3).Text) & vbCrLf
+                old_Name = Split(Trim(List1.ListItems(list_save_i).ListSubItems(3).Text), "/")
+                Print #2, "rename " & Chr(34) & old_Name(UBound(old_Name)) & Chr(34) & " " & Chr(34) & name_rules_add & fix_Unicode_FileName(Trim(List1.ListItems(list_save_i).ListSubItems(1).Text)) & Chr(34)
                 
             Case Else
-                Print #1, Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & "?/" & name_rules_add & fix_Unicode_FileName(Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text))
+                Print #1, Trim(List1.ListItems(list_save_i).ListSubItems(3).Text) & "?/" & name_rules_add & fix_Unicode_FileName(Trim(List1.ListItems(list_save_i).ListSubItems(1).Text))
             End Select
             
             DoEvents
@@ -6334,7 +6389,7 @@ Private Sub save_list_image(ByVal floder_path)
         If List1.ListItems(i).Selected = True Then List1.ListItems(i).Selected = False
         
         
-        If List1.ListItems(i).Checked = True And Trim$(List1.ListItems(i).ListSubItems(3).Text) <> "" Then
+        If List1.ListItems(i).Checked = True And Trim(List1.ListItems(i).ListSubItems(3).Text) <> "" Then
             
             '----------------------------命名规则---------------------------------
             Select Case rename_rules_val
@@ -6354,7 +6409,7 @@ Private Sub save_list_image(ByVal floder_path)
             
             
             download_FileName = floder_path & "\" & name_rules_add & List1.ListItems(i).ListSubItems(1).Text
-            strURL = Trim$(List1.ListItems(i).ListSubItems(3).Text)
+            strURL = Trim(List1.ListItems(i).ListSubItems(3).Text)
             
             If form_quit = True Then GoTo end_sub
             m_lngDocSize = 0
@@ -6468,7 +6523,7 @@ new_down:
         If url_Referer <> "" Then
             stop_check_header = False
             OX_RunningInformation_Setting "获取文件信息中"
-            check_header.Execute Trim$(strURL), "GET", , OX_Set_Referer(url_Referer, strURL) & vbCrLf & "Range: bytes=0-1"
+            check_header.Execute Trim(strURL), "GET", , OX_Set_Referer(url_Referer, strURL) & vbCrLf & "Range: bytes=0-1"
             start_time = Now
             Do
                 DoEvents
@@ -6489,12 +6544,12 @@ new_down:
             End If
             
             If sysSet.DelCache_BefDL >= 2 Then OX_DeleteUrlCacheEntryW strURL
-            Inet1.Execute Trim$(strURL), "GET", , OX_Set_Referer(url_Referer, strURL)
+            Inet1.Execute Trim(strURL), "GET", , OX_Set_Referer(url_Referer, strURL)
             
         Else
             stop_check_header = False
             OX_RunningInformation_Setting "获取文件信息中"
-            check_header.Execute Trim$(strURL), "GET", , sysSet.OX_HTTP_Head & vbCrLf & "Range: bytes=0-1"
+            check_header.Execute Trim(strURL), "GET", , sysSet.OX_HTTP_Head & vbCrLf & "Range: bytes=0-1"
             start_time = Now
             Do
                 DoEvents
@@ -6515,7 +6570,7 @@ new_down:
             End If
             
             If sysSet.DelCache_BefDL >= 2 Then OX_DeleteUrlCacheEntryW strURL
-            Inet1.Execute Trim$(strURL), "GET", , sysSet.OX_HTTP_Head
+            Inet1.Execute Trim(strURL), "GET", , sysSet.OX_HTTP_Head
             
         End If
         
@@ -6552,9 +6607,9 @@ new_down:
         If sysSet.DelCache_BefDL >= 2 Then OX_DeleteUrlCacheEntryW strURL
         
         If url_Referer <> "" Then
-            Inet1.Execute Trim$(strURL), "GET", , OX_Set_Referer(url_Referer, strURL) & vbCrLf & "Range: bytes=" & down_len & "-"
+            Inet1.Execute Trim(strURL), "GET", , OX_Set_Referer(url_Referer, strURL) & vbCrLf & "Range: bytes=" & down_len & "-"
         Else
-            Inet1.Execute Trim$(strURL), "GET", , sysSet.OX_HTTP_Head & vbCrLf & "Range: bytes=" & down_len & "-"
+            Inet1.Execute Trim(strURL), "GET", , sysSet.OX_HTTP_Head & vbCrLf & "Range: bytes=" & down_len & "-"
         End If
     End If
     Exit Sub
@@ -6581,15 +6636,15 @@ Sub start_fast()
     
     If start_fast_method = "" Then
         If urlpage_Referer = "" Then
-            fast_down.Execute Trim$(strURL), "GET", , sysSet.OX_HTTP_Head
+            fast_down.Execute Trim(strURL), "GET", , sysSet.OX_HTTP_Head
         Else
-            fast_down.Execute Trim$(strURL), "GET", , OX_Set_Referer(urlpage_Referer, strURL)
+            fast_down.Execute Trim(strURL), "GET", , OX_Set_Referer(urlpage_Referer, strURL)
         End If
     Else
         If urlpage_Referer = "" Then
-            fast_down.Execute Trim$(strURL), "POST", start_fast_method, sysSet.OX_HTTP_Head
+            fast_down.Execute Trim(strURL), "POST", start_fast_method, sysSet.OX_HTTP_Head
         Else
-            fast_down.Execute Trim$(strURL), "POST", start_fast_method, OX_Set_Referer(urlpage_Referer, strURL)
+            fast_down.Execute Trim(strURL), "POST", start_fast_method, OX_Set_Referer(urlpage_Referer, strURL)
         End If
     End If
     Exit Sub
@@ -6605,16 +6660,16 @@ Sub startBrowser_fast()
     BrowserW_url = strURL
     If start_fast_method = "" Then
         If urlpage_Referer = "" Then
-            BrowserW.WebBrowser.Navigate Trim$(strURL), , , , sysSet.OX_HTTP_Head
+            BrowserW.WebBrowser.Navigate Trim(strURL), , , , sysSet.OX_HTTP_Head
         Else
-            BrowserW.WebBrowser.Navigate Trim$(strURL), , , , OX_Set_Referer(urlpage_Referer, strURL)
+            BrowserW.WebBrowser.Navigate Trim(strURL), , , , OX_Set_Referer(urlpage_Referer, strURL)
         End If
     Else
         PostData = OX_CharsetTypeStr2Bin(start_fast_method, htmlCharsetType)
         If urlpage_Referer = "" Then
-            BrowserW.WebBrowser.Navigate Trim$(strURL), , , PostData, sysSet.OX_HTTP_Head & vbCrLf & "Content-Type: application/x-www-form-urlencoded"
+            BrowserW.WebBrowser.Navigate Trim(strURL), , , PostData, sysSet.OX_HTTP_Head & vbCrLf & "Content-Type: application/x-www-form-urlencoded"
         Else
-            BrowserW.WebBrowser.Navigate Trim$(strURL), , , PostData, OX_Set_Referer(urlpage_Referer, strURL) & vbCrLf & "Content-Type: application/x-www-form-urlencoded"
+            BrowserW.WebBrowser.Navigate Trim(strURL), , , PostData, OX_Set_Referer(urlpage_Referer, strURL) & vbCrLf & "Content-Type: application/x-www-form-urlencoded"
         End If
     End If
 End Sub
@@ -6688,9 +6743,9 @@ Private Sub check_FileName()
     '检查过长文件名
     If InStrRev(temp_filename, ".") > 1 Then
         '单独文件名(无后缀)
-        s_filename = Mid$(temp_filename, 1, InStrRev(temp_filename, ".") - 1)
+        s_filename = Mid(temp_filename, 1, InStrRev(temp_filename, ".") - 1)
         '文件后缀
-        end_filename = Mid$(temp_filename, InStrRev(temp_filename, "."))
+        end_filename = Mid(temp_filename, InStrRev(temp_filename, "."))
     Else
         s_filename = temp_filename
         end_filename = ""
@@ -6703,10 +6758,10 @@ Private Sub check_FileName()
     
     If sysSet.Unicode_File = 0 Then
         s_filename = fix_Unicode_FileName(s_filename) '修复含有unicode字符的文件名
-        If Left(s_filename, 1) = "." Then s_filename = "_" & Mid$(s_filename, 2)
+        If Left(s_filename, 1) = "." Then s_filename = "_" & Mid(s_filename, 2)
         
         end_filename = fix_Unicode_FileName(end_filename) '修复含有unicode字符的文件名
-        If Right(end_filename, 1) = "." Then end_filename = Mid$(end_filename, 1, Len(end_filename) - 1) & "_"
+        If Right(end_filename, 1) = "." Then end_filename = Mid(end_filename, 1, Len(end_filename) - 1) & "_"
     End If
     
     '-------------------判断文件名长度--------------------------
@@ -6715,7 +6770,7 @@ re_len:
     Do While LenB(s_filename & end_filename) > filename_len
         DoEvents
         temp_filename = "~"
-        s_filename = Left$(s_filename, Len(s_filename) - 1)
+        s_filename = Left(s_filename, Len(s_filename) - 1)
     Loop
     If temp_filename <> "" Then s_filename = s_filename & temp_filename
     
@@ -6843,8 +6898,8 @@ Private Sub user_open()
         ', albumUrl : 'http://s1.photo.163.com/xu47UZNLlyzc91_-vcTcRw==/139048638495096616.js',
         fast_down.Cancel
         
-        Html_Temp = Mid$(Html_Temp, InStr(Html_Temp, "albumUrl:'") + Len("albumUrl:'"))
-        strURL = Mid$(Html_Temp, 1, InStr(Html_Temp, "'") - 1) & "?" & Int(Timer() * 100000)
+        Html_Temp = Mid(Html_Temp, InStr(Html_Temp, "albumUrl:'") + Len("albumUrl:'"))
+        strURL = Mid(Html_Temp, 1, InStr(Html_Temp, "'") - 1) & "?" & Int(Timer() * 100000)
         Html_Temp = ""
         
         download_ok = False
@@ -6881,8 +6936,8 @@ Private Sub user_open()
             Html_Temp = Replace$(Replace$(Html_Temp, Chr(13), ""), Chr(10), "")
             
             
-            Html_Temp = Mid$(Html_Temp, InStr(Html_Temp, "=[{id:") + 6) '定位到第一个相册的ID头
-            Html_Temp = Mid$(Html_Temp, 1, InStr(Html_Temp, "'}];") - 1) '定位最后一个相册
+            Html_Temp = Mid(Html_Temp, InStr(Html_Temp, "=[{id:") + 6) '定位到第一个相册的ID头
+            Html_Temp = Mid(Html_Temp, 1, InStr(Html_Temp, "'}];") - 1) '定位最后一个相册
             
             albumsINFO = Split(Html_Temp, "'},{id:")
             
@@ -6901,28 +6956,28 @@ Private Sub user_open()
                 
                 '2012/9/12
                 '1530930,name:'没&东西了',s:0,desc:'没东西了',st:1,au:1,count:0,t:1221048756165,ut:0,cvid:0,curl:'',surl:'',lurl:'',dmt:0,alc:true,kw:'',purl:'
-                temp(0) = Mid$(albumsINFO(cout_num), InStr(albumsINFO(cout_num), ",name:'") + 7)
+                temp(0) = Mid(albumsINFO(cout_num), InStr(albumsINFO(cout_num), ",name:'") + 7)
                 temp(3) = temp(0)
                 
-                temp(0) = Trim(Mid$(temp(0), 1, InStr(temp(0), "'") - 1))
+                temp(0) = Trim(Mid(temp(0), 1, InStr(temp(0), "'") - 1))
                 If temp(0) = "" Then temp(0) = url_input.Text & "[Noname_Albums]"
                 
                 
-                temp(3) = Mid$(temp(3), InStr(temp(3), "'") + 1)
-                temp(3) = Mid$(temp(3), InStr(temp(3), ",desc:'") + 7)
+                temp(3) = Mid(temp(3), InStr(temp(3), "'") + 1)
+                temp(3) = Mid(temp(3), InStr(temp(3), ",desc:'") + 7)
                 temp(2) = temp(3)
                 temp(1) = temp(3)
                 
-                temp(3) = Trim(Mid$(temp(3), 1, InStr(temp(3), "'") - 1))
+                temp(3) = Trim(Mid(temp(3), 1, InStr(temp(3), "'") - 1))
                 
-                temp(1) = Mid$(temp(1), InStr(temp(1), "'") + 1)
-                temp(1) = Mid$(temp(1), InStr(temp(1), "au:") + 3)
+                temp(1) = Mid(temp(1), InStr(temp(1), "'") + 1)
+                temp(1) = Mid(temp(1), InStr(temp(1), "au:") + 3)
                 temp(4) = temp(1)
-                temp(1) = Trim(Mid$(temp(1), 1, InStr(temp(1), ",") - 1))
+                temp(1) = Trim(Mid(temp(1), 1, InStr(temp(1), ",") - 1))
                 
-                temp(2) = Mid$(temp(2), InStr(temp(2), "'") + 1)
-                temp(2) = Mid$(temp(2), InStr(temp(2), "count:") + 6)
-                temp(2) = Trim(Mid$(temp(2), 1, InStr(temp(2), ",") - 1))
+                temp(2) = Mid(temp(2), InStr(temp(2), "'") + 1)
+                temp(2) = Mid(temp(2), InStr(temp(2), "count:") + 6)
+                temp(2) = Trim(Mid(temp(2), 1, InStr(temp(2), ",") - 1))
                 If IsNumeric(temp(2)) Then
                     temp(2) = Format$(temp(2), "00000")
                 Else
@@ -6930,10 +6985,10 @@ Private Sub user_open()
                 End If
                 
                 albumsID = ""
-                albumsID = "new163_ID_" & Mid$(albumsINFO(cout_num), 1, InStr(albumsINFO(cout_num), ",") - 1)
-                '                albumsID = Trim(Mid$(albumsINFO(cout_num), InStrRev(albumsINFO(cout_num), "'") + 1))
+                albumsID = "new163_ID_" & Mid(albumsINFO(cout_num), 1, InStr(albumsINFO(cout_num), ",") - 1)
+                '                albumsID = Trim(Mid(albumsINFO(cout_num), InStrRev(albumsINFO(cout_num), "'") + 1))
                 '                If albumsID = "" Then
-                '                    albumsID = "new163_ID_" & Mid$(albumsINFO(cout_num), 1, InStr(albumsINFO(cout_num), ",") - 1)
+                '                    albumsID = "new163_ID_" & Mid(albumsINFO(cout_num), 1, InStr(albumsINFO(cout_num), ",") - 1)
                 '                Else
                 '                    albumsID = "http://" & albumsID
                 '                End If
@@ -7086,7 +7141,7 @@ Private Sub save_all_list(ByVal floder_path)
         End If
         MkDir floder_path
         text_sortname = GetShortName(floder_path)
-        If Right(text_sortname, 1) = "\" Then text_sortname = Mid$(text_sortname, 1, Len(text_sortname) - 1)
+        If Right(text_sortname, 1) = "\" Then text_sortname = Mid(text_sortname, 1, Len(text_sortname) - 1)
         floder_path = text_sortname
     End If
     
@@ -7313,19 +7368,19 @@ new163_password_OK:
                     Select Case sysSet.list_type
                     Case 1
                         list_pic_cout = list_pic_cout + 1
-                        Print #1, "<script language='javascript'>gPhotoID[" & list_pic_cout & "]=" & list_pic_cout & ";gPhotoInfo[" & list_pic_cout & "]=[""" & Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & """,""" & name_rules_add & Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text) & """," & fix_referer_cookies(Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text)) & "]</script>" & _
-                        "<a href=" & Chr(34) & Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & Chr(34) & "title=" & Chr(34) & name_rules_add & Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text) & Chr(34) & " target=_blank>" & name_rules_add & Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text) & "</a><br />" & Trim$(List1.ListItems(list_save_i).ListSubItems(2).Text) & "<br /><br />"
+                        Print #1, "<script language='javascript'>gPhotoID[" & list_pic_cout & "]=" & list_pic_cout & ";gPhotoInfo[" & list_pic_cout & "]=[""" & Trim(List1.ListItems(list_save_i).ListSubItems(3).Text) & """,""" & name_rules_add & Trim(List1.ListItems(list_save_i).ListSubItems(1).Text) & """," & fix_referer_cookies(Trim(List1.ListItems(list_save_i).ListSubItems(3).Text)) & "]</script>" & _
+                        "<a href=" & Chr(34) & Trim(List1.ListItems(list_save_i).ListSubItems(3).Text) & Chr(34) & "title=" & Chr(34) & name_rules_add & Trim(List1.ListItems(list_save_i).ListSubItems(1).Text) & Chr(34) & " target=_blank>" & name_rules_add & Trim(List1.ListItems(list_save_i).ListSubItems(1).Text) & "</a><br />" & Trim(List1.ListItems(list_save_i).ListSubItems(2).Text) & "<br /><br />"
                         
                     Case 2
                         old_Name = ""
                         list_pic_cout = list_pic_cout + 1
-                        Print #1, Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & vbCrLf
-                        old_Name = Split(Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text), "/")
-                        Print #2, "rename " & Chr(34) & old_Name(UBound(old_Name)) & Chr(34) & " " & Chr(34) & name_rules_add & fix_Unicode_FileName(Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text)) & Chr(34)
+                        Print #1, Trim(List1.ListItems(list_save_i).ListSubItems(3).Text) & vbCrLf
+                        old_Name = Split(Trim(List1.ListItems(list_save_i).ListSubItems(3).Text), "/")
+                        Print #2, "rename " & Chr(34) & old_Name(UBound(old_Name)) & Chr(34) & " " & Chr(34) & name_rules_add & fix_Unicode_FileName(Trim(List1.ListItems(list_save_i).ListSubItems(1).Text)) & Chr(34)
                         
                     Case Else
                         list_pic_cout = list_pic_cout + 1
-                        Print #1, Trim$(List1.ListItems(list_save_i).ListSubItems(3).Text) & "?/" & name_rules_add & fix_Unicode_FileName(Trim$(List1.ListItems(list_save_i).ListSubItems(1).Text))
+                        Print #1, Trim(List1.ListItems(list_save_i).ListSubItems(3).Text) & "?/" & name_rules_add & fix_Unicode_FileName(Trim(List1.ListItems(list_save_i).ListSubItems(1).Text))
                     End Select
                     
                     DoEvents
@@ -7432,7 +7487,7 @@ Private Sub save_all_pic(ByVal floder_path)
         End If
         MkDir floder_path
         text_sortname = GetShortName(floder_path)
-        If Right(text_sortname, 1) = "\" Then text_sortname = Mid$(text_sortname, 1, Len(text_sortname) - 1)
+        If Right(text_sortname, 1) = "\" Then text_sortname = Mid(text_sortname, 1, Len(text_sortname) - 1)
         floder_path = text_sortname
     End If
     
@@ -7609,9 +7664,9 @@ new163_password_OK:
                 TrayI.szTip = StrConv(Form1.caption & vbNullChar, vbUnicode)
                 If now_tray = True Then TrayI.uFlags = NIF_TIP: Call Shell_NotifyIcon(NIM_MODIFY, TrayI)
                 
-                user_list.ListItems(i).ListSubItems(3).Text = save_img_i & Mid$(user_list.ListItems(i).ListSubItems(3).Text, InStr(user_list.ListItems(i).ListSubItems(3).Text, "/"))
+                user_list.ListItems(i).ListSubItems(3).Text = save_img_i & Mid(user_list.ListItems(i).ListSubItems(3).Text, InStr(user_list.ListItems(i).ListSubItems(3).Text, "/"))
                 
-                If List1.ListItems(save_img_i).Checked = True And Trim$(List1.ListItems(i).ListSubItems(3).Text) <> "" Then
+                If List1.ListItems(save_img_i).Checked = True And Trim(List1.ListItems(i).ListSubItems(3).Text) <> "" Then
                     
                     '----------------------------命名规则---------------------------------
                     Select Case rename_rules_val
@@ -7638,7 +7693,7 @@ new163_password_OK:
                     
                     If old_FileSize <> -1 Then
                         
-                        strURL = Trim$(List1.ListItems(save_img_i).ListSubItems(3).Text)
+                        strURL = Trim(List1.ListItems(save_img_i).ListSubItems(3).Text)
                         
                         download_ok = False
                         Open download_FileName For Binary Access Write As #1
@@ -7663,7 +7718,7 @@ new163_password_OK:
             '----------------------------------------------------
             
 end_one:
-            user_list.ListItems(i).ListSubItems(3).Text = Mid$(user_list.ListItems(i).ListSubItems(3).Text, InStr(user_list.ListItems(i).ListSubItems(3).Text, "/") + 1)
+            user_list.ListItems(i).ListSubItems(3).Text = Mid(user_list.ListItems(i).ListSubItems(3).Text, InStr(user_list.ListItems(i).ListSubItems(3).Text, "/") + 1)
             user_list.ListItems(i).ListSubItems(3).ForeColor = f_color
             user_list.ListItems(i).ListSubItems(3).Bold = False
             user_list.ListItems(i).Bold = False
@@ -7672,7 +7727,7 @@ end_one:
     Next i
     
 end_sub:
-    user_list.ListItems(i).ListSubItems(3).Text = Mid$(user_list.ListItems(i).ListSubItems(3).Text, InStr(user_list.ListItems(i).ListSubItems(3).Text, "/") + 1)
+    user_list.ListItems(i).ListSubItems(3).Text = Mid(user_list.ListItems(i).ListSubItems(3).Text, InStr(user_list.ListItems(i).ListSubItems(3).Text, "/") + 1)
     user_list.ListItems(i).ListSubItems(3).ForeColor = f_color
     user_list.ListItems(i).ListSubItems(3).Bold = False
     user_list.ListItems(i).Bold = False
@@ -7872,7 +7927,7 @@ Public Sub fix_rar()
         
         For j = 0 To UBound(name_list)
             name_list(j) = Trim(name_list(j))
-            If InStr(LCase$(List1.ListItems(i).ListSubItems(1).Text), LCase$("." & name_list(j))) > 1 And is_fileName(name_list(j)) Then
+            If InStr(LCase(List1.ListItems(i).ListSubItems(1).Text), LCase("." & name_list(j))) > 1 And is_fileName(name_list(j)) Then
                 rar_type = "." & name_list(j)
                 Exit For
             End If
@@ -7881,14 +7936,14 @@ Public Sub fix_rar()
         If rar_type <> "" Then
             
             If a = False And sysSet.fix_rar = 2 Then
-                If MsgBox("图片可能为" & Mid$(rar_type, 2) & "伪图，是否进行重命名？", vbYesNo, "询问") = vbNo Then List1.ListItems(1).EnsureVisible: Exit Sub
+                If MsgBox("图片可能为" & Mid(rar_type, 2) & "伪图，是否进行重命名？", vbYesNo, "询问") = vbNo Then List1.ListItems(1).EnsureVisible: Exit Sub
             End If
             
             a = True
             
-            file_type = Mid$(List1.ListItems(i).ListSubItems(1).Text, InStr(LCase$(List1.ListItems(i).ListSubItems(1).Text), LCase$(rar_type)) + Len(rar_type))
-            If LCase$(file_type) = ".jpg" Or LCase$(file_type) = ".gif" Or LCase$(file_type) = ".jpeg" Or LCase$(file_type) = ".bmp" Then
-                List1.ListItems(i).ListSubItems(1).Text = Left$(List1.ListItems(i).ListSubItems(1).Text, InStr(LCase$(List1.ListItems(i).ListSubItems(1).Text), LCase$(rar_type)) + Len(rar_type) - 1)
+            file_type = Mid(List1.ListItems(i).ListSubItems(1).Text, InStr(LCase(List1.ListItems(i).ListSubItems(1).Text), LCase(rar_type)) + Len(rar_type))
+            If LCase(file_type) = ".jpg" Or LCase(file_type) = ".gif" Or LCase(file_type) = ".jpeg" Or LCase(file_type) = ".bmp" Then
+                List1.ListItems(i).ListSubItems(1).Text = Left(List1.ListItems(i).ListSubItems(1).Text, InStr(LCase(List1.ListItems(i).ListSubItems(1).Text), LCase(rar_type)) + Len(rar_type) - 1)
             End If
         End If
     Next i
@@ -7907,17 +7962,17 @@ Private Function fix_referer_cookies(ByVal referer_cookies As String) As String
     If url_Referer <> "" Then
         Referer_temp = Trim(url_Referer)
         If InStr(LCase(Referer_temp), "cookie:") = 1 Or InStr(LCase(Referer_temp), vbCrLf & "cookie:") > 0 Then
-            b = Mid$(Referer_temp, InStr(LCase(Referer_temp), "cookie: "))
-            b = Mid$(b, 1, InStr(b, vbCrLf) - 1)
-            b = Mid$(b, InStr(LCase(b), "cookie:") + 8)
-            Referer_temp = Replace(Referer_temp, 1, InStr(LCase(b), "cookie:") - 1) & Mid$(Referer_temp, InStr(LCase(b), "cookie:") + 8)
+            b = Mid(Referer_temp, InStr(LCase(Referer_temp), "cookie: "))
+            b = Mid(b, 1, InStr(b, vbCrLf) - 1)
+            b = Mid(b, InStr(LCase(b), "cookie:") + 8)
+            Referer_temp = Replace(Referer_temp, 1, InStr(LCase(b), "cookie:") - 1) & Mid(Referer_temp, InStr(LCase(b), "cookie:") + 8)
         End If
         
         Referer_temp = OX_Set_Referer(Referer_temp, strURL)
         If InStr(LCase(Referer_temp), "referer:") = 1 Or InStr(LCase(Referer_temp), vbCrLf & "referer:") > 0 Then
-            a = Mid$(Referer_temp, InStr(LCase(Referer_temp), "referer:"))
-            a = Mid$(a, 1, InStr(a, vbCrLf) - 1)
-            a = Mid$(a, InStr(LCase(a), "referer:") + 9)
+            a = Mid(Referer_temp, InStr(LCase(Referer_temp), "referer:"))
+            a = Mid(a, 1, InStr(a, vbCrLf) - 1)
+            a = Mid(a, InStr(LCase(a), "referer:") + 9)
         End If
     End If
     
@@ -7935,7 +7990,7 @@ Private Sub list_163pic(ByVal user_ID, ByVal albums_ID, ByVal password)
     Dim check_2 As Boolean
     check_2 = False
     
-    strURL = Trim$("http://photo.163.com/js/photosinfo.php?user=" & user_ID & "&aid=" & albums_ID & password)
+    strURL = Trim("http://photo.163.com/js/photosinfo.php?user=" & user_ID & "&aid=" & albums_ID & password)
     
     OX_RunningInformation_Setting "准备下载" & user_ID & "相册" & albums_ID & "列表"
     
@@ -7961,9 +8016,9 @@ check_2nd:
         
         Html_Temp = Replace$(Replace$(Html_Temp, Chr(13), ""), Chr(10), "")
         '定位到第一张图片的文本头
-        Html_Temp = Mid$(Html_Temp, InStr(Html_Temp, "gPhotosIds[") + 11)
+        Html_Temp = Mid(Html_Temp, InStr(Html_Temp, "gPhotosIds[") + 11)
         '定位到最后一张图片
-        Html_Temp = Mid$(Html_Temp, 1, Len(Html_Temp) - 3)
+        Html_Temp = Mid(Html_Temp, 1, Len(Html_Temp) - 3)
         
         If Html_Temp = "" Then Exit Sub
         
@@ -8000,12 +8055,12 @@ check_2nd:
         For cout_num = 0 To iCount
             
             DoEvents
-            picINFO(cout_num) = Mid$(picINFO(cout_num), InStr(picINFO(cout_num), ";gPhotosInfo[") + 13)
+            picINFO(cout_num) = Mid(picINFO(cout_num), InStr(picINFO(cout_num), ";gPhotosInfo[") + 13)
             '------>1720686103] = [536,1,"475x474","frar.rar.jpg
             
-            picID = Mid$(picINFO(cout_num), 1, InStr(picINFO(cout_num), "] = [") - 1)
+            picID = Mid(picINFO(cout_num), 1, InStr(picINFO(cout_num), "] = [") - 1)
             
-            picINFO(cout_num) = Mid$(picINFO(cout_num), InStr(picINFO(cout_num), "] = [") + 5)
+            picINFO(cout_num) = Mid(picINFO(cout_num), InStr(picINFO(cout_num), "] = [") + 5)
             html_sort = Split(picINFO(cout_num), Chr(34) & "," & Chr(34))
             
             If UBound(html_sort) > 2 Then
@@ -8013,22 +8068,22 @@ check_2nd:
                 '840,2,"620x877","图片描述","http://img.photo.163.com/AyDZ553hZ6C1o9m8XWYS0g==/166914661191212341.jpg","http://img.photo.163.com/g3KiC-wAzGHManz4VXul-A==/166914661191212393.jpg
                 
                 '图片类型
-                If LCase(Mid$(html_sort(3), Len(html_sort(3)) - 3)) = ".jpg" Then
+                If LCase(Mid(html_sort(3), Len(html_sort(3)) - 3)) = ".jpg" Then
                     c = "1"
                 Else
-                    c = Mid$(html_sort(0), InStr(html_sort(0), ",") + 1, 1)
+                    c = Mid(html_sort(0), InStr(html_sort(0), ",") + 1, 1)
                 End If
                 '----------------
                 '图片名称
-                a = reName_Str(fix_Code(unicode2asc(Trim$(html_sort(1)))))
+                a = reName_Str(fix_Code(unicode2asc(Trim(html_sort(1)))))
                 '----------------
                 '图片链接
-                b = Trim$(html_sort(3))
+                b = Trim(html_sort(3))
                 '----------------
                 Select Case c
                 Case "1"
                     If Len(a) > 4 Then
-                        If Right$(LCase$(a), 4) <> ".jpg" Then
+                        If Right(LCase(a), 4) <> ".jpg" Then
                             a = a & ".jpg"
                         End If
                     ElseIf Len(a) = 0 Then
@@ -8039,7 +8094,7 @@ check_2nd:
                     
                 Case "2"
                     If Len(a) > 4 Then
-                        If Right$(LCase$(a), 4) <> ".gif" Then
+                        If Right(LCase(a), 4) <> ".gif" Then
                             a = a & ".gif"
                         End If
                     ElseIf Len(a) = 0 Then
@@ -8050,7 +8105,7 @@ check_2nd:
                     
                 Case Else
                     If Len(a) > 5 Then
-                        If Right$(LCase$(a), 5) <> ".jpeg" Then
+                        If Right(LCase(a), 5) <> ".jpeg" Then
                             a = a & ".jpeg"
                         End If
                     ElseIf Len(a) = 0 Then
@@ -8065,7 +8120,7 @@ check_2nd:
                 'list_picName a
                 List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , a
                 'list_picDisc
-                List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , fix_Pix(Mid(html_sort(0), InStr(html_sort(0), Chr(34)) + 1)) & " - " & Str_unicode_Ctrl(fix_Code(unicode2asc(Trim$(html_sort(1)))))
+                List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , fix_Pix(Mid(html_sort(0), InStr(html_sort(0), Chr(34)) + 1)) & " - " & Str_unicode_Ctrl(fix_Code(unicode2asc(Trim(html_sort(1)))))
                 'list_picUrl temp(2)
                 List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , b
                 
@@ -8083,11 +8138,11 @@ check_2nd:
                 '----------------
                 
                 '图片类型
-                c = Mid$(html_sort(0), InStr(html_sort(0), ",") + 1, 1)
+                c = Mid(html_sort(0), InStr(html_sort(0), ",") + 1, 1)
                 '----------------
                 
                 '相册img序号
-                a = Left$(html_sort(0), InStr(html_sort(0), ",") - 1)
+                a = Left(html_sort(0), InStr(html_sort(0), ",") - 1)
                 '----------------
                 
                 '图片链接
@@ -8100,13 +8155,13 @@ check_2nd:
                 End If
                 
                 '图片名称
-                a = reName_Str(fix_Code(unicode2asc(Trim$(html_sort(1)))))
+                a = reName_Str(fix_Code(unicode2asc(Trim(html_sort(1)))))
                 
                 Select Case c
                     
                 Case "1"
                     If Len(a) > 4 Then
-                        If Right$(LCase$(a), 4) <> ".jpg" Then
+                        If Right(LCase(a), 4) <> ".jpg" Then
                             a = a & ".jpg"
                         End If
                     ElseIf Len(a) = 0 Then
@@ -8117,7 +8172,7 @@ check_2nd:
                     
                 Case "2"
                     If Len(a) > 4 Then
-                        If Right$(LCase$(a), 4) <> ".gif" Then
+                        If Right(LCase(a), 4) <> ".gif" Then
                             a = a & ".gif"
                         End If
                     ElseIf Len(a) = 0 Then
@@ -8128,7 +8183,7 @@ check_2nd:
                     
                 Case Else
                     If Len(a) > 5 Then
-                        If Right$(LCase$(a), 5) <> ".jpeg" Then
+                        If Right(LCase(a), 5) <> ".jpeg" Then
                             a = a & ".jpeg"
                         End If
                     ElseIf Len(a) = 0 Then
@@ -8143,7 +8198,7 @@ check_2nd:
                 'list_picName a
                 List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , a
                 'list_picDisc
-                List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , fix_Pix(Mid(html_sort(0), InStr(html_sort(0), Chr(34)) + 1)) & " - " & Str_unicode_Ctrl(fix_Code(unicode2asc(Trim$(html_sort(1)))))
+                List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , fix_Pix(Mid(html_sort(0), InStr(html_sort(0), Chr(34)) + 1)) & " - " & Str_unicode_Ctrl(fix_Code(unicode2asc(Trim(html_sort(1)))))
                 'list_picUrl temp(2)
                 List1.ListItems.Item(cout_num + 1).ListSubItems.Add , , b
                 
@@ -8180,7 +8235,7 @@ Private Sub run_script()
     run_script_str = Split(url_temp, "|")
     'url_temp不能清空，还有用
     '-------------------------------------------------------------------------------------------------------------
-    If LCase$(run_script_str(3)) = "photo" Then
+    If LCase(run_script_str(3)) = "photo" Then
         '-------------------------------------------------------------------------------------------------------------
 
         form_height = 3000
@@ -8260,7 +8315,7 @@ Private Sub run_script()
         
         
         '-------------------------------------------------------------------------------------------------------------
-    ElseIf LCase$(run_script_str(3)) = "album" Then
+    ElseIf LCase(run_script_str(3)) = "album" Then
         '-------------------------------------------------------------------------------------------------------------
         
         Call user_list_Clear
@@ -8360,7 +8415,7 @@ Private Sub list_photo_script(ByVal photo_info)
     Script_Retrun_Temp = Script_App.Run("return_download_url", Script_Info.Criteria)
     Call CheckScriptError
     '取得格式化后的该页面的引用页、头信息等
-    urlpage_Referer = Trim$(Script_App.Eval("OX163_urlpage_Referer"))
+    urlpage_Referer = Trim(Script_App.Eval("OX163_urlpage_Referer"))
     Call CheckScriptError
     '---------------------------------------------------------------------------
     If Form1.WindowState = 0 Then always_on_top sysSet.always_top
@@ -8397,7 +8452,7 @@ Private Sub list_photo_script(ByVal photo_info)
         Script_Retrun_Temp = Script_App.Run("return_download_list", Html_Temp, Script_Info.Criteria)
         Call CheckScriptError
         '取得格式化后的该页面的引用页、头信息等
-        urlpage_Referer = Trim$(Script_App.Eval("OX163_urlpage_Referer"))
+        urlpage_Referer = Trim(Script_App.Eval("OX163_urlpage_Referer"))
         Call CheckScriptError
         If Form1.WindowState = 0 Then always_on_top sysSet.always_top
         top_Picture(0).Enabled = True
@@ -8464,7 +8519,7 @@ Private Sub list_album_script(ByVal album_info)
     Script_Retrun_Temp = Script_App.Run("return_download_url", Script_Info.Criteria)
     Call CheckScriptError
     '取得格式化后的该页面的引用页、头信息等
-    urlpage_Referer = Trim$(Script_App.Eval("OX163_urlpage_Referer"))
+    urlpage_Referer = Trim(Script_App.Eval("OX163_urlpage_Referer"))
     Call CheckScriptError
     '---------------------------------------------------------------------------
     If Form1.WindowState = 0 Then always_on_top sysSet.always_top
@@ -8503,7 +8558,7 @@ Private Sub list_album_script(ByVal album_info)
         Script_Retrun_Temp = Script_App.Run("return_albums_list", Html_Temp, Script_Info.Criteria)
         Call CheckScriptError
         '取得格式化后的改业面的引用页、头信息等
-        urlpage_Referer = Trim$(Script_App.Eval("OX163_urlpage_Referer"))
+        urlpage_Referer = Trim(Script_App.Eval("OX163_urlpage_Referer"))
         Call CheckScriptError
         If Form1.WindowState = 0 Then always_on_top sysSet.always_top
         top_Picture(0).Enabled = True
@@ -8574,7 +8629,7 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
     Script_Retrun_Temp = Script_App.Run("return_download_url", Script_Info.Criteria)
     '取得格式化后的该页面的引用页、头信息等
     Call CheckScriptError
-    urlpage_Referer = Trim$(Script_App.Eval("OX163_urlpage_Referer"))
+    urlpage_Referer = Trim(Script_App.Eval("OX163_urlpage_Referer"))
     Call CheckScriptError
     '---------------------------------------------------------------------------
     If Form1.WindowState = 0 Then always_on_top sysSet.always_top
@@ -8595,11 +8650,11 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
     top_Picture(0).Enabled = True
     top_Picture(1).Enabled = True
     '判断密码传输的模式
-    If InStr(LCase$(Script_Retrun_Temp), "return_ad_password_rules|") = 1 Then
+    If InStr(LCase(Script_Retrun_Temp), "return_ad_password_rules|") = 1 Then
         '高级密码传输模式返回的首字符为“return_ad_password_rules|”，该模式下运行模式类似return_download_list和return_albums_list
         '返回文本格式"return_ad_password_rules|inet|10,13|http://www.spymac.com/?u=24(|referce_url|post_method)"注意大小写
         '高级密码传输模式开始----------------------------------------------------------------------------------
-        Script_Retrun_Temp = Mid$(Script_Retrun_Temp, InStr(Script_Retrun_Temp, "|") + 1)
+        Script_Retrun_Temp = Mid(Script_Retrun_Temp, InStr(Script_Retrun_Temp, "|") + 1)
         Dim Dl_Info As downloadInfo
         Dl_Info = ParseDownloadURL(Script_Retrun_Temp)
         Do
@@ -8635,7 +8690,7 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
             top_Picture(0).Enabled = True
             top_Picture(1).Enabled = True
             
-            If InStr(LCase$(Script_Retrun_Temp), "password_correct") = 1 Then
+            If InStr(LCase(Script_Retrun_Temp), "password_correct") = 1 Then
                 check_album_password = True
             Else
                 '1|inet|10,13|http://www.spymac.com/?u=24(|referce_url|post_method)
@@ -8657,7 +8712,7 @@ Private Function check_album_password(ByVal album_info, ByVal pass_word) As Bool
                 Dim Post_Referce As String, Psot_Data As String
                 Post_Referce = OX_PrivateChr(Post_Pass_Url(2))
                 Psot_Data = OX_PrivateChr(Post_Pass_Url(1))
-                strURL = Trim$(Post_Pass_Url(0))
+                strURL = Trim(Post_Pass_Url(0))
                 start_Post Psot_Data, Post_Referce
                 Do While download_ok = False
                     If form_quit = True Then Exit Function
