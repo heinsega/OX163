@@ -365,6 +365,8 @@ End Function
 
 Sub Main()
     InitCommonControlsVB
+    OX_POPMENU_X = 5 * Screen.TwipsPerPixelX
+    OX_POPMENU_Y = 5 * Screen.TwipsPerPixelY
     start_ox163.Show
 End Sub
 

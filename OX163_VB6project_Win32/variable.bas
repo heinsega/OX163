@@ -10,8 +10,8 @@ Public Const update_host_info1 = "http://www.shanhaijing.net/163/"
 Public Const update_host_info2 = "默认"
 
 'POPMENU菜单XY位置偏移量-------------------------------------------------------------
-Public Const OX_POPMENU_X = 75
-Public Const OX_POPMENU_Y = 75
+Public OX_POPMENU_X As Long ' 5 * Screen.TwipsPerPixelX
+Public OX_POPMENU_Y As Long ' 5 * Screen.TwipsPerPixelY
 
 '------------------------------------------------------------------------------------
 Public Const NIM_ADD = &H0
