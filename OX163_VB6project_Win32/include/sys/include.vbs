@@ -44,6 +44,7 @@ pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/mypage.php
 pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/index.php
 pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/ranking.php*
 pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/ranking_area.php?*
+pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/bookmark_detail.php?*
 eht.vbs|vbscript|UTF-8|album|http://g.e-hentai.org/g/?*/?*/*
 eht.vbs|vbscript|UTF-8|photo|http://g.e-hentai.org/s/?*/?*-?*
 eht.vbs|vbscript|UTF-8|album|http://exhentai.org/g/?*/?*/*
@@ -93,3 +94,5 @@ moeyo.vbs|vbscript|UTF-8|photo|http://www.moeyo.com/article/?*
 3dm.vbs|vbscript|UTF-8|photo|http://bbs.3dmgame.com/home.php?mod=space&uid=*&id=*
 3dm.vbs|vbscript|UTF-8|album|http://bbs.3dmgame.com/home.php?mod=space&uid=*
 3dm.vbs|vbscript|UTF-8|album|http://bbs.3dmgame.com/space-uid-*
+zerochan.vbs|vbscript|UTF-8|photo|http://www.zerochan.net/*
+zerochan.vbs|vbscript|UTF-8|photo|http://kpop.asiachan.com/*

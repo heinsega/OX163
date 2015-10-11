@@ -94,3 +94,5 @@ moeyo.vbs|vbscript|UTF-8|photo|http://www.moeyo.com/article/?*
 3dm.vbs|vbscript|UTF-8|photo|http://bbs.3dmgame.com/home.php?mod=space&uid=*&id=*
 3dm.vbs|vbscript|UTF-8|album|http://bbs.3dmgame.com/home.php?mod=space&uid=*
 3dm.vbs|vbscript|UTF-8|album|http://bbs.3dmgame.com/space-uid-*
+zerochan.vbs|vbscript|UTF-8|photo|http://www.zerochan.net/*
+zerochan.vbs|vbscript|UTF-8|photo|http://kpop.asiachan.com/*
