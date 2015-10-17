@@ -1388,7 +1388,7 @@ Begin VB.Form Form1
                   EndProperty
                   BeginProperty ButtonMenu6 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                      Key             =   "shj_eht"
-                     Text            =   "去处EHT熊猫"
+                     Text            =   "去除EHT熊猫"
                   EndProperty
                EndProperty
             EndProperty
@@ -1843,6 +1843,8 @@ Dim new_win As Boolean
 Public OX_Script_Type As String
 Dim stop_check_header As Boolean
 Dim mouse_button_flag As Integer
+Dim list_scoll_id As Double
+Dim list_scoll_idm As Double
 'Dim form_IsDelay_TF As Boolean '是否正在延时等待
 
 '---------------------------------------------------------------------------------------------------------
@@ -1852,6 +1854,8 @@ Private Sub Change_Main_Image(Image_ID As Byte)
     On Error Resume Next
     Dim ImageLibrary_obj As Object
     Dim LI_ID As Byte
+    list_scoll_id = 0
+    list_scoll_idm = 0
     For i = 1 To 2
         If i = 1 Then Set ImageLibrary_obj = ImageLibrary_Normal: LI_ID = mouse_dic
         If i = 2 Then Set ImageLibrary_obj = ImageLibrary_Over: LI_ID = Image_ID
@@ -1922,6 +1926,11 @@ Private Sub Change_Main_Image(Image_ID As Byte)
         End Select
     Next
     mouse_dic = Image_ID
+End Sub
+
+Private Sub Form_LostFocus()
+    list_scoll_id = 0
+    list_scoll_idm = 0
 End Sub
 
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
@@ -2181,21 +2190,78 @@ End Sub
 '12
 
 Private Sub user_list_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    On Error GoTo ErrorHandle
     If mouse_dic <> 12 Then
         Label_name1 = " 相册列表: "
         Label_text1 = "在列表中标记复选框确定下载相册（右键列出详细菜单）"
         label_rebuld1
         Change_Main_Image 12
     End If
+    
+    If list_scoll_id > 0 Then
+        Dim ids As Double
+        ids = user_list.HitTest(x, y).Index - list_scoll_id
+        '鼠标下移,屏幕上滚
+        If ids > 0 Then
+            Do While user_list.HitTest(x, y).Index - list_scoll_id > 0
+                list_scoll_idm = list_scoll_idm + 1
+                user_list.ListItems(list_scoll_id - list_scoll_idm).EnsureVisible
+                DoEvents
+            Loop
+            list_scoll_idm = 0
+            list_scoll_id = user_list.HitTest(x, y).Index
+        ElseIf ids < 0 Then
+            Do While user_list.HitTest(x, y).Index - list_scoll_id < -0
+                list_scoll_idm = list_scoll_idm + 1
+                user_list.ListItems(list_scoll_id + list_scoll_idm).EnsureVisible
+                DoEvents
+            Loop
+            list_scoll_idm = 0
+            list_scoll_id = user_list.HitTest(x, y).Index
+        End If
+    End If
+    Exit Sub
+ErrorHandle:
+    list_scoll_idm = 0
+    
 End Sub
 
 Private Sub List1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    On Error GoTo ErrorHandle
     If mouse_dic <> 12 Then
         Label_name = " 列表清单: "
         Label_text = "在当前列表删除或选择需要的文件"
         label_rebuld
+        label_rebuld1
         Change_Main_Image 12
     End If
+    
+    If list_scoll_id > 0 Then
+        Dim ids As Double
+        ids = List1.HitTest(x, y).Index - list_scoll_id
+        '鼠标下移,屏幕上滚
+        If ids > 0 Then
+            Do While List1.HitTest(x, y).Index - list_scoll_id > 0
+                list_scoll_idm = list_scoll_idm + 1
+                List1.ListItems(list_scoll_id - list_scoll_idm).EnsureVisible
+                DoEvents
+            Loop
+            list_scoll_idm = 0
+            list_scoll_id = List1.HitTest(x, y).Index
+        ElseIf ids < 0 Then
+            Do While List1.HitTest(x, y).Index - list_scoll_id < -0
+                list_scoll_idm = list_scoll_idm + 1
+                List1.ListItems(list_scoll_id + list_scoll_idm).EnsureVisible
+                DoEvents
+            Loop
+            list_scoll_idm = 0
+            list_scoll_id = List1.HitTest(x, y).Index
+        End If
+    End If
+    Exit Sub
+ErrorHandle:
+    list_scoll_idm = 0
+    
 End Sub
 '13
 Private Sub save_all_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
@@ -2553,7 +2619,7 @@ Public Sub fast_down_StateChanged(ByVal State As Integer)
             Loop Until (LenB(vtData) = 0)
             '-------------------------------------------------
         End If
-
+        
         OX_RunningInformation_Setting download_FileName & vbCrLf & "下载完毕(" & Int(UBound(buff) / 1024) & "KB)" & strURL
         lblProgressInfo1.Visible = False
         lblProgressInfo2.Visible = False
@@ -2608,32 +2674,32 @@ Private Function bin2str(ByVal binstr)
         OX_RunningInformation_Setting "正在转换页面文本"
     End If
     
-'    Const adTypeBinary = 1
-'    Const adTypeText = 2
-'    Dim BytesStream, StringReturn
-'    Set BytesStream = CreateObject("ADODB.Stream") '建立一个流对象
-'    With BytesStream
-'
-'        '不规范
-'        '.Type = adTypeText
-'        '.Open
-'        '.WriteText binstr
-'        '.Position = 0
-'        '.Charset = htmlCharsetType
-'        '.Position = 2
-'        'StringReturn = .ReadText
-'        '.Close
-'
-'        .Type = adTypeBinary
-'        .Open
-'        .Write binstr
-'        .Position = 0
-'        .Type = adTypeText
-'        .Charset = htmlCharsetType
-'        StringReturn = .ReadText
-'        .Close
-'    End With
-'    Set BytesStream = Nothing
+    '    Const adTypeBinary = 1
+    '    Const adTypeText = 2
+    '    Dim BytesStream, StringReturn
+    '    Set BytesStream = CreateObject("ADODB.Stream") '建立一个流对象
+    '    With BytesStream
+    '
+    '        '不规范
+    '        '.Type = adTypeText
+    '        '.Open
+    '        '.WriteText binstr
+    '        '.Position = 0
+    '        '.Charset = htmlCharsetType
+    '        '.Position = 2
+    '        'StringReturn = .ReadText
+    '        '.Close
+    '
+    '        .Type = adTypeBinary
+    '        .Open
+    '        .Write binstr
+    '        .Position = 0
+    '        .Type = adTypeText
+    '        .Charset = htmlCharsetType
+    '        StringReturn = .ReadText
+    '        .Close
+    '    End With
+    '    Set BytesStream = Nothing
     bin2str = OX_Bin2CharsetTypeStr(binstr, htmlCharsetType)
 End Function
 
@@ -2674,7 +2740,7 @@ Private Sub find_next_Click()
         user_list.SelectedItem.Selected = False
         For i = check_i + 1 To user_list.ListItems.count
             DoEvents
-            If InStr(1, user_list.ListItems(i).Text & user_list.ListItems(i).ListSubItems(4).Text, find_text.Text, vbTextCompare) > 0 Then
+            If InStr(LCase(user_list.ListItems(i).Text & user_list.ListItems(i).ListSubItems(4).Text), find_text.Text) > 0 Then
                 user_list.SelectedItem.Selected = False
                 user_list.ListItems(i).EnsureVisible
                 user_list.ListItems(i).Selected = True
@@ -2691,7 +2757,7 @@ Private Sub find_next_Click()
         List1.SelectedItem.Selected = False
         For i = check_i + 1 To List1.ListItems.count
             DoEvents
-            If InStr(1, List1.ListItems(i).ListSubItems(1).Text & List1.ListItems(i).ListSubItems(2).Text, find_text.Text, vbTextCompare) > 0 Then
+            If InStr(LCase(List1.ListItems(i).ListSubItems(1).Text & List1.ListItems(i).ListSubItems(2).Text), LCase(find_text.Text)) > 0 Then
                 List1.SelectedItem.Selected = False
                 List1.ListItems(i).EnsureVisible
                 List1.ListItems(i).Selected = True
@@ -2821,26 +2887,26 @@ End Sub
 
 Private Sub Load_Form()
     On Error Resume Next
-
+    
     DoEvents
     step_one
     
-'    Label_name.Font.Name = "PMingLiU"
-'    Label_name.Font.Charset = 136
-'    Label_text.Font.Name = "PMingLiU"
-'    Label_text.Font.Charset = 136
-'    Label_name1.Font.Name = "PMingLiU"
-'    Label_name1.Font.Charset = 136
-'    Label_text1.Font.Name = "PMingLiU"
-'    Label_text1.Font.Charset = 136
-'    url_input.Font.Name = "MingLiu"
-'    url_input.Font.Charset = 136
-'    Me.Font.Name = "MingLiu"
-'    Me.Font.Charset = 136
-'    user_list.Font.Name = "MingLiu"
-'    user_list.Font.Charset = 136
-'    user_list.Font.Name = "MingLiu"
-'    user_list.Font.Charset = 136
+    '    Label_name.Font.Name = "PMingLiU"
+    '    Label_name.Font.Charset = 136
+    '    Label_text.Font.Name = "PMingLiU"
+    '    Label_text.Font.Charset = 136
+    '    Label_name1.Font.Name = "PMingLiU"
+    '    Label_name1.Font.Charset = 136
+    '    Label_text1.Font.Name = "PMingLiU"
+    '    Label_text1.Font.Charset = 136
+    '    url_input.Font.Name = "MingLiu"
+    '    url_input.Font.Charset = 136
+    '    Me.Font.Name = "MingLiu"
+    '    Me.Font.Charset = 136
+    '    user_list.Font.Name = "MingLiu"
+    '    user_list.Font.Charset = 136
+    '    user_list.Font.Name = "MingLiu"
+    '    user_list.Font.Charset = 136
     'text_sortname.Font = "新細明體"
     
     
@@ -2860,7 +2926,9 @@ Private Sub Load_Form()
     Open_path_set = ""
     download_ok = True
     new_win = False
-
+    list_scoll_id = 0
+    list_scoll_idm = 0
+    
     LaodingBar_step "初始化脚本变量"  '信息提示
     url_Referer = ""
     urlpage_Referer = ""
@@ -2882,15 +2950,15 @@ Private Sub Load_Form()
     show_inform(1) = sysSet.update_host & "?key=5"
     StatusBar.Panels(3) = show_inform(0)
     '-----------------------------------------------------------------
-
-
+    
+    
     LaodingBar_step "初始浏览器"  '信息提示
     '调整浏览器界面--------------------------------------------------
     web_Picture.Top = 960
     web_Picture.Left = 60
     Web_Toolbar_W = 0
     For i = 1 To Web_Toolbar.Buttons.count
-    Web_Toolbar_W = Web_Toolbar_W + Web_Toolbar.Buttons(i).Width
+        Web_Toolbar_W = Web_Toolbar_W + Web_Toolbar.Buttons(i).Width
     Next
     web_Title_Picture.Left = Web_Toolbar_W + 8 * Screen.TwipsPerPixelX
     Web_Browser_Close.Height = Web_Toolbar.Height
@@ -2920,10 +2988,10 @@ Private Sub Load_Form()
     Proxy_set
     
     'process_mh_Click '进程级别
-
+    
     LaodingBar_step "启动完成"  '信息提示
-
-
+    
+    
     Frame1.Enabled = True
     StatusBar.Enabled = True
     url_input.SetFocus
@@ -2940,8 +3008,8 @@ Private Sub Load_Form()
 End Sub
 
 Private Sub LaodingBar_step(OX_LBS_title As String)
-Form_LaodingLab.caption = OX_LBS_title
-Form_LaodingLab.Move (Form_Laoding.Width - Form_LaodingLab.Width) / 2, (Form_Laoding.Height - Form_LaodingLab.Height) / 2
+    Form_LaodingLab.caption = OX_LBS_title
+    Form_LaodingLab.Move (Form_Laoding.Width - Form_LaodingLab.Width) / 2, (Form_Laoding.Height - Form_LaodingLab.Height) / 2
 End Sub
 
 Public Sub always_on_top(on_top As Boolean)
@@ -3087,8 +3155,8 @@ End Sub
 Public Sub frame_resize()
     On Error Resume Next
     
-'    StatusBar.Width = Form1.ScaleWidth - StatusBar.Height
-'    StatusBar.Top = Form1.ScaleHeight - StatusBar.Height
+    '    StatusBar.Width = Form1.ScaleWidth - StatusBar.Height
+    '    StatusBar.Top = Form1.ScaleHeight - StatusBar.Height
     If Form_Laoding.Visible = True Then
         Form_Laoding.Move 0, 0, Form1.ScaleWidth, Form1.ScaleHeight
         Form_LaodingLab.Top = (Form_Laoding.Height - Form_LaodingLab.Height) / 2
@@ -3212,7 +3280,7 @@ Private Sub homepage_Click()
 End Sub
 
 Private Sub image_save_Click()
-'保存列表图片
+    '保存列表图片
     On Error Resume Next
     rename_rules_val = 255
     PopupMenu rename_rules, , image_save.Left + OX_POPMENU_X, image_save.Top + image_save.Height + OX_POPMENU_Y
@@ -3377,11 +3445,24 @@ List1_ubb_copy:
     List1.SetFocus
 End Sub
 
+
+Private Sub List1_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+    On Error GoTo ErrorHandle
+    If sysSet.OX_List_Drag = True Then list_scoll_id = List1.HitTest(x, y).Index
+    Exit Sub
+ErrorHandle:
+    list_scoll_id = 0
+    list_scoll_idm = 0
+End Sub
+
 Private Sub List1_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     On Error Resume Next
+    list_scoll_id = 0
+    list_scoll_idm = 0
     If Button = 2 And List1.ListItems.count > 0 Then
         PopupMenu menu_pic
     End If
+    
 End Sub
 
 Private Sub open_lock_Click()
@@ -3393,17 +3474,17 @@ Private Sub open_lock_Click()
     pass = InputBox("请输入""" & pass_user & """帐号密码", "提醒")
     If pass = "" Then MsgBox "密码不能为空", vbOKOnly, "提醒": Exit Sub
     
-'    url_temp = url_input.Text
-'    Form1.Enabled = False
-'    password_win.isDown = -1
-'    password_win.Combo1.Visible = False
-'    password_win.Show
-'
-'    Do While Form1.Enabled = False
-'        Sleep 10
-'        DoEvents
-'    Loop
-'    If url_input.Text = "" Then url_input.Text = url_temp: Exit Sub
+    '    url_temp = url_input.Text
+    '    Form1.Enabled = False
+    '    password_win.isDown = -1
+    '    password_win.Combo1.Visible = False
+    '    password_win.Show
+    '
+    '    Do While Form1.Enabled = False
+    '        Sleep 10
+    '        DoEvents
+    '    Loop
+    '    If url_input.Text = "" Then url_input.Text = url_temp: Exit Sub
     
     fast_down.Cancel
     download_ok = False
@@ -3511,26 +3592,26 @@ End Sub
 'fast_set_PA
 Private Sub fast_set_PA_Click()
     If sysSet.proxy_A_type = 2 Then
-    sysSet.proxy_A_type = 0
+        sysSet.proxy_A_type = 0
     Else
-    sysSet.proxy_A_type = 2
+        sysSet.proxy_A_type = 2
     End If
     Proxy_set
 End Sub
 
 Private Sub fast_set_PB_Click()
     If sysSet.proxy_B_type = 2 Then
-    sysSet.proxy_B_type = 0
+        sysSet.proxy_B_type = 0
     Else
-    sysSet.proxy_B_type = 2
+        sysSet.proxy_B_type = 2
     End If
     Proxy_set
 End Sub
 
 Private Sub fast_set_web_Click()
-On Error Resume Next
-Dim temp_str As String
-If down_count = 1 Then Exit Sub
+    On Error Resume Next
+    Dim temp_str As String
+    If down_count = 1 Then Exit Sub
     If fast_set_web.Checked = False Then
         fast_set_web.Checked = True
         url_input_web.Visible = True
@@ -3548,18 +3629,18 @@ If down_count = 1 Then Exit Sub
 End Sub
 
 Private Sub show_web_input()
-On Error Resume Next
+    On Error Resume Next
     '启用web输入框---------------------------------
-If url_input_web.Visible = True And first_show = False Then
-    url_input_web.Silent = True
-    url_input_web.Navigate "about:blank"
-    url_input_web.Stop
-    url_input_web.Document.Open
-    url_input_web.Document.Write url_web_html.Text
-    url_input_web.Document.Close
-    url_Filelist.Visible = False
-    url_Filelist_Close.Visible = False
-End If
+    If url_input_web.Visible = True And first_show = False Then
+        url_input_web.Silent = True
+        url_input_web.Navigate "about:blank"
+        url_input_web.Stop
+        url_input_web.Document.Open
+        url_input_web.Document.Write url_web_html.Text
+        url_input_web.Document.Close
+        url_Filelist.Visible = False
+        url_Filelist_Close.Visible = False
+    End If
     '---------------------------------------------
 End Sub
 
@@ -3605,7 +3686,7 @@ Private Sub list_back1_Click()
 End Sub
 
 Private Sub list_check_Click()
-Dim a, i, j
+    Dim a, i, j
     If user_list.ListItems.count < 1 Then Exit Sub
     setProgram.Enabled = False
     list_back1.Enabled = False
@@ -4137,7 +4218,7 @@ Private Sub input_lst_sub(ByVal LstFileName)
             bat_txt = ""
             
             For i = 0 To UBound(split_url)
-            DoEvents
+                DoEvents
                 url_i = ""
                 name_i = ""
                 
@@ -4371,14 +4452,14 @@ ErrHandler:
         If OX_GreatTxtFile(def_txtpath & txtpath, "", "Unicode") = False Then MsgBox "文件创建失败！", vbOKOnly, "警告": Exit Sub
         If Right(LCase(txtpath), 4) = ".txt" Then
             If OX_GreatTxtFile(def_txtpath & Left(txtpath, Len(txtpath) - 4) & ".bat", "", "Unicode") = False Then MsgBox "文件创建失败！", vbOKOnly, "警告": Exit Sub
-
+            
         End If
-
+        
     End If
-'                Open GetShortName(def_txtpath & txtpath) For Binary Access Write As #1
-'                Put #1, 1, &HFF
-'                Put #1, 2, &HFE
-'                Close #1
+    '                Open GetShortName(def_txtpath & txtpath) For Binary Access Write As #1
+    '                Put #1, 1, &HFF
+    '                Put #1, 2, &HFE
+    '                Close #1
     list_save def_txtpath & txtpath
     
 End Sub
@@ -4945,7 +5026,7 @@ check_2nd:
 End Sub
 
 Private Sub out_all_Click()
-'导出所有相册列表
+    '导出所有相册列表
     rename_rules_val = 255
     PopupMenu rename_rules, , user_list_output.Left + OX_POPMENU_X, user_list_output.Top + user_list_output.Height + OX_POPMENU_Y
     If rename_rules_val <> 255 Then
@@ -5009,7 +5090,7 @@ start:
 End Sub
 
 Private Sub save_all_Click()
-'保存全部相册图片
+    '保存全部相册图片
     On Error Resume Next
     
     rename_rules_val = 255
@@ -5053,7 +5134,7 @@ Private Sub stop2_Click()
 End Sub
 
 Private Sub url_Filelist_Close_Click()
-Form_Click
+    Form_Click
 End Sub
 
 Private Sub Form_Click()
@@ -5062,22 +5143,22 @@ Private Sub Form_Click()
 End Sub
 
 Private Sub url_input_web_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, flags As Variant, TargetFrameName As Variant, PostData As Variant, Headers As Variant, Cancel As Boolean)
-If URL <> "about:blank" And InStr(URL, "javascript:") <> 1 Then Cancel = True
+    If URL <> "about:blank" And InStr(URL, "javascript:") <> 1 Then Cancel = True
 End Sub
 
 Private Sub url_input_web_NewWindow2(ppDisp As Object, Cancel As Boolean)
-Cancel = True
+    Cancel = True
 End Sub
 
 Private Sub url_input_web_TitleChange(ByVal Text As String)
-On errorr GoTo err_ctrl
-If url_input_web.Visible = False Then Exit Sub
-If InStr(Text, "url_input:") = 1 Then
-If url_input <> Mid(Text, 11) Then url_input_KeyUp 17, 0: url_input = Mid(Text, 11)
-ElseIf InStr(Text, "vbcrlf:") = 1 Then
-url_input = Mid(Text, 8)
-makelist_command_Click
-End If
+    On errorr GoTo err_ctrl
+    If url_input_web.Visible = False Then Exit Sub
+    If InStr(Text, "url_input:") = 1 Then
+        If url_input <> Mid(Text, 11) Then url_input_KeyUp 17, 0: url_input = Mid(Text, 11)
+    ElseIf InStr(Text, "vbcrlf:") = 1 Then
+        url_input = Mid(Text, 8)
+        makelist_command_Click
+    End If
 err_ctrl:
 End Sub
 
@@ -5091,7 +5172,7 @@ Private Sub Form_Start_Timer_Timer()
     Form_Start_Timer.Enabled = False
     If start_ox163.Visible = True Then Unload start_ox163
     Load_Form
-        
+    
     If GetOSLCID <> 1 Then fast_set_web_Click
     Web_Browser.Silent = True
     Web_Browser.Document.Open
@@ -5143,7 +5224,7 @@ Private Sub Form_Start_Timer_Timer()
     End If
     
     Dim ver As String, temp_str As String, temp_str1 As String
-'NtfsDisable8dot3Name checking----------------------------------------------------------------------
+    'NtfsDisable8dot3Name checking----------------------------------------------------------------------
     If sysSet.bottom_StatusBar = True Then
         StatusBar.Panels(3) = "检查NtfsDisable8dot3Name"
     End If
@@ -5165,8 +5246,8 @@ Private Sub Form_Start_Timer_Timer()
     
     OX_Start_log = Replace(OX_Start_log, "%delay_NtfsDisable8dot3Name_Checking%", ver)
     
-'autocheck new version---------------------------------------------------------------------------
-
+    'autocheck new version---------------------------------------------------------------------------
+    
     If sysSet.autocheck = False Then Exit Sub
     
     ver = ""
@@ -5277,8 +5358,8 @@ Private Sub url_input_DblClick()
 End Sub
 
 Private Sub url_input_Change()
-On Error Resume Next
-If url_input_web.Visible = True Then url_input_web.Document.getElementById("url_input").Value = url_input
+    On Error Resume Next
+    If url_input_web.Visible = True Then url_input_web.Document.getElementById("url_input").Value = url_input
 End Sub
 
 
@@ -5839,8 +5920,19 @@ Private Sub user_list_KeyUp(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
+Private Sub user_list_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+    On Error GoTo ErrorHandle
+    If sysSet.OX_List_Drag = True Then list_scoll_id = user_list.HitTest(x, y).Index
+    Exit Sub
+ErrorHandle:
+    list_scoll_id = 0
+    list_scoll_idm = 0
+End Sub
+
 Private Sub user_list_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     On Error Resume Next
+        list_scoll_id = 0
+        list_scoll_idm = 0
     If Button = 2 And user_list.ListItems.count > 0 Then
         If user_list.SelectedItem.ListSubItems(1).Text = "" Then
             menu_psw.Visible = False
@@ -5874,7 +5966,7 @@ Private Sub user_list_save_Click()
 End Sub
 
 Private Sub view_command_Click()
-url_input_LostFocus
+    url_input_LostFocus
     If Trim(url_input.Text) = "" Or Trim(url_input.Text) = "http://" Then url_input.Text = "http://photo.163.com/"
     url_input.Text = Trim(url_input.Text)
     If is_username(url_input.Text) = True Then url_input.Text = "http://photo.163.com/photos/" & format_username(url_input.Text, 2) & "/"
@@ -6091,8 +6183,8 @@ Private Sub Web_Toolbar_ButtonMenuClick(ByVal ButtonMenu As MSComctlLib.ButtonMe
     Case "shj_ua"
         Web_Browser.Navigate "http://www.shanhaijing.net/163/ua.asp"
     Case "shj_eht"
-         Call InternetSetCookie("http://exhentai.org/", vbNullString, "igneous=")
-         InputBox "设置完成" & vbCrLf & "如果依然看到熊猫，在浏览器打开熊猫的页面时，复制下列代码到地址栏上运行", "提醒", "javascript:document.cookie=""yay=;lv=;igneous="";alert(""OK"");"
+        Call InternetSetCookie("http://exhentai.org/", vbNullString, "igneous=")
+        InputBox "设置完成" & vbCrLf & "如果依然看到熊猫，在浏览器打开熊猫的页面时，复制下列代码到地址栏上运行", "提醒", "javascript:document.cookie=""yay=;lv=;igneous="";alert(""OK"");"
     Case "shj_hp"
         Web_Browser.Navigate ButtonMenu.Tag
     Case "shj_forum"
@@ -6128,7 +6220,7 @@ Private Sub Web_Browser_BeforeNavigate2(ByVal pDisp As Object, URL As Variant, f
         web_postdata = OX_Bin2CharsetTypeStr(PostData, Web_Browser.Document.Charset)
     End If
     script_retrun_code = Script_App.Run("OX163_Web_Browser_ctrl", URL, flags, TargetFrameName, web_postdata, Headers)
-
+    
     '0-URL, 1-Flags, 2-TargetFrameName, 3-PostData, 4-Headers
     run_script_str = Split(script_retrun_code, vbCrLf & vbCrLf)
     
@@ -6155,10 +6247,10 @@ Web_Browser_BeforeNavigate_error:
 End Sub
 
 Private Sub Web_Browser_TitleChange(ByVal Text As String)
-On Error Resume Next
-web_Title_Lab.caption = Text
-web_Title_Lab.ToolTipText = Text
-web_Title_Picture.Width = web_Title_Lab.Width + 45
+    On Error Resume Next
+    web_Title_Lab.caption = Text
+    web_Title_Lab.ToolTipText = Text
+    web_Title_Picture.Width = web_Title_Lab.Width + 45
 End Sub
 
 'Private Sub Web_Browser_DocumentComplete(ByVal pDisp As Object, URL As Variant)
@@ -6203,8 +6295,8 @@ Private Sub Web_Browser_NavigateComplete2(ByVal pDisp As Object, URL As Variant)
     On Error Resume Next
     
     If down_count = 0 Then
-            Dim Script_App As New ScriptControl
-            Dim script_retrun_code As String
+        Dim Script_App As New ScriptControl
+        Dim script_retrun_code As String
         
         If Web_Browser.Visible = True And script_retrun_code <> Replace$(App_path & "\start.htm", "\\start.htm", "\start.htm") Then
             Set Script_App = Nothing
@@ -6216,7 +6308,7 @@ Private Sub Web_Browser_NavigateComplete2(ByVal pDisp As Object, URL As Variant)
             url_temp = script_retrun_code
             url_input.Text = script_retrun_code
             If LCase(url_input.Text) = "http://www.shanhaijing.net/163/ua.asp" Then
-            Web_Browser.Document.parentWindow.execScript "var OX163UA=""" & Replace(sysSet.Customize_UA, """", "") & """", "JavaScript"
+                Web_Browser.Document.parentWindow.execScript "var OX163UA=""" & Replace(sysSet.Customize_UA, """", "") & """", "JavaScript"
             End If
             buttom_enable True
         End If
@@ -6298,20 +6390,20 @@ Private Sub list_save(ByVal list_name)
     
     Select Case list_save_type
     Case 1
-'        Open list_name For Binary Access Write As #1
-'        Put #1, 3, byte_temp
+        '        Open list_name For Binary Access Write As #1
+        '        Put #1, 3, byte_temp
         Open GetShortName(list_name) For Output As #1
         Print #1, script_code
     Case 2
-'        Open GetShortName(list_name) For Binary Access Write As #1
-'        Put #1, 3, byte_temp
-'        Open GetShortName(Left(list_name, Len(list_name) - 4) & ".bat") For Binary Access Write As #2
-'        Put #2, 3, byte_temp
+        '        Open GetShortName(list_name) For Binary Access Write As #1
+        '        Put #1, 3, byte_temp
+        '        Open GetShortName(Left(list_name, Len(list_name) - 4) & ".bat") For Binary Access Write As #2
+        '        Put #2, 3, byte_temp
         Open GetShortName(list_name) For Output As #1
         Open GetShortName(Left(list_name, Len(list_name) - 4) & ".bat") For Output As #2
     Case Else
-'        Open GetShortName(list_name) For Binary Access Write As #1
-'        Put #1, 3, byte_temp
+        '        Open GetShortName(list_name) For Binary Access Write As #1
+        '        Put #1, 3, byte_temp
         Open GetShortName(list_name) For Output As #1
     End Select
     
@@ -6347,20 +6439,20 @@ Private Sub list_save(ByVal list_name)
                 script_code_str = ""
                 script_code_str = Trim(List1.ListItems(list_save_i).ListSubItems(3).Text)
                 Print #1, script_code_str
-'                Put #1, , byte_temp
+                '                Put #1, , byte_temp
                 
                 old_Name = ""
                 script_code_str = ""
                 old_Name = Split(Trim(List1.ListItems(list_save_i).ListSubItems(3).Text), "/")
                 script_code_str = "rename " & Chr(34) & old_Name(UBound(old_Name)) & Chr(34) & " " & Chr(34) & name_rules_add & Trim(List1.ListItems(list_save_i).ListSubItems(1).Text) & Chr(34)
                 Print #2, script_code_str
-'                Put #2, , byte_temp
+                '                Put #2, , byte_temp
                 
             Case Else
                 script_code_str = ""
                 script_code_str = Trim(List1.ListItems(list_save_i).ListSubItems(3).Text) & "?/" & name_rules_add & Trim(List1.ListItems(list_save_i).ListSubItems(1).Text)
                 Print #1, script_code_str
-'                Put #1, , byte_temp
+                '                Put #1, , byte_temp
             End Select
             
             DoEvents
@@ -6540,16 +6632,16 @@ end_sub:
 End Sub
 
 Sub strURL_error()
-If LenB(strURL) > 2048 Then OX_RunningInformation_Setting "下载地址过长可能导致程序卡死"
+    If LenB(strURL) > 2048 Then OX_RunningInformation_Setting "下载地址过长可能导致程序卡死"
 End Sub
 
 Sub start()
     On Error Resume Next
     Dim url_temp As String
     Dim start_time As Date
-
+    
     If download_ok = True Or form_quit = True Then GoTo err_end
-
+    
     '定义ITC控件使用的协议为HTTP协议
     'Inet1.Protocol = icHTTP
     
@@ -6630,7 +6722,7 @@ new_down:
         
     Else
         download_ok = False
-
+        
         If retry_time > sysSet.retry_times + 1 And sysSet.retry_times > 0 Then GoTo err_end
         
         If (5 * retry_time - 5) < sysSet.time_out Then
@@ -8281,7 +8373,7 @@ End Sub
 
 Private Sub run_script()
     On Error Resume Next
-
+    
     Dim run_script_str
     Dim url_file_name As String
     url_file_name = rename_URL(url_input.Text)
@@ -8291,7 +8383,7 @@ Private Sub run_script()
     '-------------------------------------------------------------------------------------------------------------
     If LCase(run_script_str(3)) = "photo" Then
         '-------------------------------------------------------------------------------------------------------------
-
+        
         form_height = 3000
         step_two
         search_run

@@ -174,6 +174,8 @@ Type sysSetting
     Customize_UA As String
     '整合Cache_no_cache Cache_no_store Customize_UA后的HTTP头信息
     OX_HTTP_Head As String
+    '列表拖拽滚动
+    OX_List_Drag As Boolean
 End Type
 
 Public sysSet As sysSetting

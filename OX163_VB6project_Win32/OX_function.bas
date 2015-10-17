@@ -276,6 +276,8 @@ Public Function OX_Default_Setting() As sysSetting
     Customize_UA = OX_UA_Const(0)
     '整合Cache_no_cache Cache_no_store Customize_UA后的HTTP头信息
     OX_Default_Setting.OX_HTTP_Head = "User-Agent: " & OX_UA_Const(0)
+    '列表拖拽滚动
+    OX_Default_Setting.OX_List_Drag = True
 End Function
 
 
@@ -357,6 +359,8 @@ Public Function OX_WriteIni_Setting(ByRef OX_SysSet As sysSetting)
     WriteIniStr "maincenter", "Cache_no_store", OX_SysSet.Cache_no_store
     '用户代理(User-Agent)
     WriteIniStr "maincenter", "Customize_UA", OX_SysSet.Customize_UA
+    '列表拖拽滚动
+    WriteIniTF "maincenter", "OX_List_Drag", OX_SysSet.OX_List_Drag
     
     '-----[proxyset]-----
     '代理服务器使用方式 0-icUseDefault,1-icDirect,2-icNamedProxy
