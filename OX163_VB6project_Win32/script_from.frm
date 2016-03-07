@@ -435,6 +435,7 @@ Private Sub Form_Unload(Cancel As Integer)
     End If
     Call load_in_Script_Code
     script_quit = True
+    Form1.Show
 End Sub
 
 Private Sub Timer1_Timer()

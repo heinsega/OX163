@@ -1,12 +1,38 @@
-'2014-6-15 163.shanhaijing.net
-Dim retry_time, page, album_ID, html_type, nav_item, nav_str
+'2016-3-8 163.shanhaijing.net
+Dim retry_time, page, album_ID, html_type, nav_item, nav_str, site_type
 
 Function return_download_url(ByVal url_str)
     On Error Resume Next
     return_download_url = ""
     retry_time = 0
-    
-    If InStr(LCase(url_str), "http://www.douban.com/photos/") = 1 Then
+    site_type=""
+    Dim url_head
+    If InStr(LCase(url_str), "://movie.douban.com/celebrity/")>0 Then
+    	'https://movie.douban.com/celebrity/1009405/photos/
+    	url_head= Mid(url_str,1,InStr(LCase(url_str), "://movie.douban.com/celebrity/") + Len("://movie.douban.com/celebrity/")-1)
+    	url_str = Mid(url_str, InStr(LCase(url_str), "://movie.douban.com/celebrity/") + Len("://movie.douban.com/celebrity/"))
+    	url_str = Mid(url_str,1,InStr(LCase(url_str), "/"))    	
+      return_download_url = "inet|10,13|" & url_head & url_str & "photos|Referer: https://movie.douban.com/" & vbcrlf & "Pragma: no-cache" & vbcrlf & "Cache-Control: no-cache" & vbcrlf & "Accept: */*"
+      album_ID = url_head & url_str & "photos"
+      site_type="celebrity"
+      
+    ElseIf InStr(LCase(url_str), "://movie.douban.com/subject/")>0 Then
+    	If InStr(LCase(url_str), "?type=")>0 Then
+    		'https://movie.douban.com/subject/1291571/photos?type=W&start=40&sortby=vote&size=a&subtype=a
+    		If InStr(url_str, "&") > 1 Then url_str = Mid(url_str, 1, InStr(url_str, "&") - 1)
+	      return_download_url = "inet|10,13|" & url_str & "|Referer: https://movie.douban.com/" & vbcrlf & "Pragma: no-cache" & vbcrlf & "Cache-Control: no-cache" & vbcrlf & "Accept: */*"
+	      album_ID = url_str
+    	Else
+    		'https://movie.douban.com/subject/1291571/all_photos
+	    	url_head= Mid(url_str,1,InStr(LCase(url_str), "://movie.douban.com/subject/") + Len("://movie.douban.com/subject/")-1)
+	    	url_str = Mid(url_str, InStr(LCase(url_str), "://movie.douban.com/subject/") + Len("://movie.douban.com/subject/"))
+	    	url_str = Mid(url_str,1,InStr(LCase(url_str), "/"))    	
+	      return_download_url = "inet|10,13|" & url_head & url_str & "|Referer: https://movie.douban.com/" & vbcrlf & "Pragma: no-cache" & vbcrlf & "Cache-Control: no-cache" & vbcrlf & "Accept: */*"
+	      album_ID = url_head & url_str
+    	End If
+      site_type="subject"
+      
+    ElseIf InStr(LCase(url_str), "http://www.douban.com/photos/") = 1 Then
         'http://www.douban.com/photos/album/11028188/?start=18
         If InStr(LCase(url_str), "http://www.douban.com/photos/album/") = 1 Then
             url_str = Mid(url_str, InStr(LCase(url_str), "http://www.douban.com/photos/album/") + Len("http://www.douban.com/photos/album/"))
@@ -101,6 +127,19 @@ Function return_albums_list(ByVal html_str, ByVal url_str)
     On Error Resume Next
     return_albums_list = ""
     Dim key_word, split_str, album_title(3)
+    
+    If site_type="subject" Then
+    	return_albums_list=""
+    	key_word="<title>"
+    	html_str=Mid(html_str, InStr(LCase(html_str), LCase(key_word)) + Len(key_word))
+    	html_str=Mid(html_str,1,InStr(LCase(html_str), "</title>") - 1)
+    	html_str=Trim(replace(html_str,"(豆瓣)",""))
+    	html_str=repalce(html_str,"|","-")
+      return_albums_list =return_albums_list & "0||" & album_ID & "photos?type=S|" & html_str & "的剧照|" & vbCrLf
+      return_albums_list =return_albums_list & "0||" & album_ID & "photos?type=R|" & html_str & "的海报|" & vbCrLf
+      return_albums_list =return_albums_list & "0||" & album_ID & "photos?type=W|" & html_str & "的壁纸|" & vbCrLf
+    Exit Function
+  	End If
     
     If page=-1 Then
     	url_str=html_str
@@ -254,7 +293,44 @@ Function return_download_list(ByVal html_str, ByVal url_str)
     'http://img3.douban.com/view/photo/photo/public/p1159718333.jpg
     return_download_list = ""
     Dim key_word, split_str, pic_title
-    If page > 0 And html_type = "site_album" And InStr(LCase(html_str), "<div class=""photo-item"">") > 0 Then
+    If (site_type="celebrity" or site_type="subject") and InStr(html_str,"<div class=""cover"">")>0 Then
+    	
+    		retry_time = 0
+        url_str = html_str
+    		key_word = "<div class=""cover"">"
+        html_str = Mid(html_str, InStr(LCase(html_str), LCase(key_word)) + Len(key_word))
+        split_str = Split(html_str, key_word)
+        For i = 0 To UBound(split_str)
+            key_word = ""
+            pic_title = ""
+            'title
+            pic_title = Mid(split_str(i), InStr(split_str(i), "<div class=""name"">") + Len("<div class=""name"">"))
+            pic_title = Mid(pic_title, 1, InStr(pic_title, "<") - 1)
+            'url
+            key_word = Mid(split_str(i), InStr(split_str(i), "<img src=""") + Len("<img src="""))
+            key_word = Mid(key_word, 1, InStr(key_word, """") - 1)
+            'https://img1.doubanio.com/view/photo/thumb/public/p1385151449.jpg
+            '=>https://img1.doubanio.com/view/photo/raw/public/p1385151449.jpg
+            key_word = Replace(key_word, "/thumb/", "/raw/")
+            key_word = "https" & mid(key_word,instr(key_word,"://"))
+            If Left(key_word, Len("https://img1.")) <> "https://img1." Then key_word = "https://img1." & Mid(key_word, InStr(key_word, ".") + 1)
+            If Len(key_word) > 0 Then
+                'file name
+                split_str(i) = Mid(key_word, InStrRev(key_word, "/") + 1)
+                return_download_list = return_download_list & "|" & key_word & "|" & split_str(i) & "|" & pic_title & vbCrLf
+            End If    				
+    		Next  
+    		      
+        key_word = "<link rel=""next"" href="""
+        If InStr(LCase(url_str), LCase(key_word)) > 0 Then
+            url_str = Mid(url_str, InStr(LCase(url_str), LCase(key_word)) + Len(key_word))
+            url_str = Mid(url_str, 1, InStr(LCase(url_str), """") - 1)
+            album_ID = url_str
+            return_download_list = return_download_list & "1|inet|10,13|" & url_str
+        End If
+    		
+    		
+    ElseIf page > 0 And html_type = "site_album" And InStr(LCase(html_str), "<div class=""photo-item"">") > 0 Then
         retry_time = 0
         url_str = html_str
         key_word = "<div class=""photo-item"">"

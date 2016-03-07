@@ -277,7 +277,9 @@ Public Function OX_Default_Setting() As sysSetting
     '整合Cache_no_cache Cache_no_store Customize_UA后的HTTP头信息
     OX_Default_Setting.OX_HTTP_Head = "User-Agent: " & OX_UA_Const(0)
     '列表拖拽滚动
-    OX_Default_Setting.OX_List_Drag = True
+    OX_Default_Setting.OX_List_Drag = False
+    '截断过长文件名
+    OX_Default_Setting.OX_Cut_Filelen = True
 End Function
 
 
@@ -361,6 +363,8 @@ Public Function OX_WriteIni_Setting(ByRef OX_SysSet As sysSetting)
     WriteIniStr "maincenter", "Customize_UA", OX_SysSet.Customize_UA
     '列表拖拽滚动
     WriteIniTF "maincenter", "OX_List_Drag", OX_SysSet.OX_List_Drag
+    '截断过长文件名
+    WriteIniTF "maincenter", "OX_Cut_Filelen", OX_SysSet.OX_Cut_Filelen
     
     '-----[proxyset]-----
     '代理服务器使用方式 0-icUseDefault,1-icDirect,2-icNamedProxy
@@ -447,6 +451,8 @@ Public Function OX_GetIni_Setting(ByRef OX_SysSet As sysSetting)
     OX_SysSet.new_ie_win = GetIniTF("maincenter", "new_ie_win")
     OX_SysSet.ox163_ie_win = GetIniTF("maincenter", "ox163_ie_win")
     OX_SysSet.sysTray = GetIniTF("maincenter", "sysTray")
+    OX_SysSet.OX_List_Drag = GetIniTF("maincenter", "OX_List_Drag")
+    OX_SysSet.OX_Cut_Filelen = GetIniTF("maincenter", "OX_Cut_Filelen")
     
     OX_SysSet.new163pass_rules = GetIniTF("maincenter", "new163pass_rules")
     

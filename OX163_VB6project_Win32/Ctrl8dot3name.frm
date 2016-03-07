@@ -285,6 +285,10 @@ Private Sub Sys_on_top()
     SetWindowPos Me.hwnd, HWND_TOPMOST, 0, 0, 0, 0, flags
 End Sub
 
+Private Sub Form_Unload(Cancel As Integer)
+    Form1.Show
+End Sub
+
 Private Sub Set_all_Click()
     On Error Resume Next
     If MsgBox("此方法会调用\regfile\文件夹下的OX163_Unicode_Support(ForceOpen_ShortPathName_on_Win8aboveOS).reg文件" & vbCrLf & "调用后会出现添加注册表信息的对话框,请自己阅读并选择", vbOKCancel, "提醒") = vbCancel Then Exit Sub

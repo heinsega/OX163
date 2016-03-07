@@ -1,4 +1,4 @@
-'2014-10-1 163.shanhaijing.net
+'2015-10-19 163.shanhaijing.net
 Dim url_parent, tags, page, Next_page, page_counter, retry_counter, delay_tf, url_instr, start_time
 
 Function return_download_url(ByVal url_str)
@@ -117,13 +117,24 @@ If page="pool" Then
 	  split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), "src=""")+len("src="""))	  	  
 	  'url
 	  url_str = Mid(split_str(split_i), 1, InStr(split_str(split_i), chr(34))-1)
-	  
+		'http://gelbooru.com/thumbnails/97/b1/thumbnail_97b1d4c93ed8c45ba3e1415f985faea0.jpg?2808368
+		'http://simg4.gelbooru.com//images/97/b1/97b1d4c93ed8c45ba3e1415f985faea0.png?280836
+		'html_str获取"http://gelbooru.com/thumbnails/97/b1"部分
+		'url_str获取"/thumbnail_97b1d4c93ed8c45ba3e1415f985faea0.jpg?2808368"部分
 	  html_str = Mid(url_str,1,InStr(LCase(url_str), "/thumbnail_")-1)
 	  url_str = Mid(url_str, InStr(LCase(url_str), "/thumbnail_")+len("/thumbnail_"))
-	  'html_str获取"/17"部分
-	  html_str = Mid(html_str,InStrrev(LCase(html_str), "/")) & "/"
+	  'html_str获取"/97/b1"部分
+	  If InStr(html_str,"://")>0 Then html_str=Mid(html_str, InStr(html_str, "://")+3)
+	  Do While InStr(html_str,"//")>0
+	  	html_str=replace(html_str,"//","/")
+	  loop
+	  Do While Right(html_str,1)="/"
+	  	html_str=Left(html_str,len(html_str)-1)
+	  loop
+	  html_str = Mid(html_str,InStr(html_str, "/")+1)
+	  html_str = Mid(html_str,InStr(html_str, "/")+1)
 	  'pic url
-		url_str="http://" & url_parent & "/images" & html_str & url_str	
+		url_str="http://" & url_parent & "/images/" & html_str & "/" & url_str
 		If InStr(url_str,"?")>1 Then url_str=mid(url_str,1,InStr(url_str,"?")-1)
 		pic_type=Mid(url_str,instrrev(url_str,"."))
 		
@@ -231,18 +242,24 @@ ElseIf InStr(LCase(html_str), "class=""thumb""><a id=""") > 0 Then
 	  	  
 	  'url
 	  url_str = Mid(split_str(split_i), 1, InStr(split_str(split_i), chr(34))-1)
-		'http://thumbs2.booru.org/safe/638/thumbnail_d6679254289b8e22c2462b172f8347c66327e8c9.jpg?643485
-		'http://safebooru.org//images/638/d6679254289b8e22c2462b172f8347c66327e8c9.jpg
-		'http://lolibooru.com/thumbnails//106/thumbnail_7d027b47b1bfcb4cf39775332437dea8ae52a514.jpeg
-		'http://lolibooru.com/images/106/7d027b47b1bfcb4cf39775332437dea8ae52a514.jpeg
-		'html_str获取"http://thumbs2.booru.org/safe/638"部分
-		'url_str获取"/thumbnail_d6679254289b8e22c2462b172f8347c66327e8c9.jpg?643485"部分
+		'http://gelbooru.com/thumbnails/97/b1/thumbnail_97b1d4c93ed8c45ba3e1415f985faea0.jpg?2808368
+		'http://simg4.gelbooru.com//images/97/b1/97b1d4c93ed8c45ba3e1415f985faea0.png?280836
+		'html_str获取"http://gelbooru.com/thumbnails/97/b1"部分
+		'url_str获取"/thumbnail_97b1d4c93ed8c45ba3e1415f985faea0.jpg?2808368"部分
 	  html_str = Mid(url_str,1,InStr(LCase(url_str), "/thumbnail_")-1)
 	  url_str = Mid(url_str, InStr(LCase(url_str), "/thumbnail_")+len("/thumbnail_"))
-	  'html_str获取"/638"部分
-	  html_str = Mid(html_str,InStrrev(LCase(html_str), "/")) & "/"
+	  'html_str获取"/97/b1"部分
+	  If InStr(html_str,"://")>0 Then html_str=Mid(html_str, InStr(html_str, "://")+3)
+	  Do While InStr(html_str,"//")>0
+	  	html_str=replace(html_str,"//","/")
+	  loop
+	  Do While Right(html_str,1)="/"
+	  	html_str=Left(html_str,len(html_str)-1)
+	  loop
+	  html_str = Mid(html_str,InStr(html_str, "/")+1)
+	  html_str = Mid(html_str,InStr(html_str, "/")+1)
 	  'pic url
-		url_str="http://" & url_parent & "/images" & html_str & url_str	
+		url_str="http://" & url_parent & "/images/" & html_str & "/" & url_str	
 		If InStr(url_str,"?")>1 Then url_str=mid(url_str,1,InStr(url_str,"?")-1)
 		pic_type=Mid(url_str,instrrev(url_str,"."))
 		

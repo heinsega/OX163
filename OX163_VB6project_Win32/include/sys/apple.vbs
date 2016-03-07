@@ -1,5 +1,5 @@
-'2013-5-25 163.shanhaijing.net
-Dim new_trailer_page, new_trailer_large, new_trailer_extralarge, includes_html, trailer_url_split, trailer_url_i, trailer_url_ubound
+'2016-2-18 163.shanhaijing.net
+Dim first_DL, new_trailer_page, new_trailer_large, new_trailer_extralarge, includes_html, trailer_url_split, trailer_url_i, trailer_url_ubound
 Function return_download_url(ByVal url_str)
 'http://www.apple.com/trailers/wb/wherethewildthingsare/
 'http://trailers.apple.com/trailers/paramount/wtc/
@@ -8,8 +8,10 @@ new_trailer_page=0
 new_trailer_large=0
 new_trailer_extralarge=0
 includes_html=""
-return_download_url = "inet|10,13|" & url_str & "/includes/playlists/web.inc|User-Agent: QuickTime/7.6.2 (qtver=7.6.2;os=Windows NT 5.1Service Pack 2)"
-OX163_urlpage_Referer = "User-Agent: QuickTime/7.6.2 (qtver=7.6.2;os=Windows NT 5.1Service Pack 2)"
+return_download_url = "inet|10,13|" & url_str & "|User-Agent: QuickTime/7.7.5 (qtver=7.7.5;os=Windows NT 6.1Service Pack 1)"
+first_DL=0
+OX163_urlpage_Referer = "User-Agent: QuickTime/7.7.5 (qtver=7.7.5;os=Windows NT 6.1Service Pack 1)"
+
 End Function
 
 '--------------------------------------------------------
@@ -19,6 +21,47 @@ On Error Resume Next
 
 Dim split_str, end_i, split_i
 return_download_list = ""
+
+If first_DL=0 Then
+'>16881-->http://trailers.apple.com/trailers/feeds/data/16882.json
+'<16882-->url_str & "/includes/playlists/web.inc"
+	If InStr(LCase(html_str), LCase("movietrailers://movie/detail/")) > 0 Then
+		html_str=mid(html_str,InStr(LCase(html_str), LCase("movietrailers://movie/detail/"))+len("movietrailers://movie/detail/"))
+		html_str=mid(html_str,1,InStr(html_str,"""")-1)
+		If IsNumeric(html_str) Then first_DL=1
+	End If
+	If first_DL=1 Then
+		return_download_list = "1|inet|10,13|http://trailers.apple.com/trailers/feeds/data/" & int(html_str) & ".json"
+	Else
+		first_DL=2
+		return_download_list = "1|inet|10,13|" & url_str & "/includes/playlists/web.inc"
+	End If
+	Exit Function
+End If
+
+If first_DL=1 Then
+	If InStr(LCase(html_str), LCase(".mov""")) > 0 Then
+		split_str = Split(html_str, ".mov""", -1, 1)
+				end_i=UBound(split_str)-1
+		    For split_i = 0 To end_i
+		    'url
+		    split_str(split_i) = Mid(split_str(split_i), InStrrev(LCase(split_str(split_i)), chr(34))+1)
+		    split_str(split_i) = split_str(split_i) & ".mov"
+		    split_str(split_i) = replace(split_str(split_i),"_480p.mov","_h480p.mov")
+		    split_str(split_i) = replace(split_str(split_i),"_720p.mov","_h720p.mov")
+		    split_str(split_i) = replace(split_str(split_i),"_1080p.mov","_h1080p.mov")
+		    'name
+		    html_str=Mid(split_str(split_i),InStrrev(split_str(split_i), "/")+1)
+		    
+		    return_download_list = return_download_list & "|" & split_str(split_i) & "|" & html_str & "|" & vbCrLf
+		    Next
+		 return_download_list =return_download_list & "0"
+	Else
+		first_DL=2
+		return_download_list =return_download_list & "1|inet|10,13|" & url_str & "/includes/playlists/web.inc"
+	End If
+	Exit Function
+End If
 
 If InStr(LCase(html_str), LCase(".mov""")) > 0 and new_trailer_page=0 Then
 	

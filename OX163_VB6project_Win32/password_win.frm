@@ -78,7 +78,7 @@ Private Sub Command1_Click()
         If isDown = 0 Then
             Form1.edit_psw Combo1.ListIndex, Text1.Text
         ElseIf isDown > 0 Then
-            Form1.user_list.ListItems(isDown).ListSubItems(1).Text = Text1.Text
+            Form1.user_list.ListItems(isDown).ListSubItems(2).Text = Text1.Text
             Combo1.Visible = True
         Else
             'µ«¬Ωœ‡≤·”√ªß

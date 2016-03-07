@@ -1,5 +1,5 @@
-'2013-12-28 163.shanhaijing.net
-Dim url_parent, tags, page, page_counter, Next_page, retry_counter
+'2016-3-6 163.shanhaijing.net
+Dim http_type, url_parent, tags, page, page_counter, Next_page, retry_counter
 
 Function return_download_url(ByVal url_str)
 'http://rule34.booru.org/index.php?page=post&s=view&id=44
@@ -9,8 +9,11 @@ Function return_download_url(ByVal url_str)
 On Error Resume Next
 return_download_url=""
 
-url_parent=mid(url_str,InStr(LCase(url_str), "http://")+7)
-url_parent=mid(url_parent,1,InStr(LCase(url_parent), "/")-1)
+http_type="http://"
+If InStr(LCase(url_str), "https://")>0 Then http_type="https://"
+
+url_parent=mid(url_str,InStr(url_str, "://")+3)
+url_parent=mid(url_parent,1,InStr(url_parent, "/")-1)
 	
 If InStr(LCase(url_str), "page=pool") >1 Then
 	page="pool"
@@ -107,7 +110,8 @@ ElseIf InStr(LCase(html_str), "<posts count=""") > 0 Then
 	  'file_url
   	key_word=""" file_url="""
 	  url_str = Mid(split_str(split_i), InStr(split_str(split_i), key_word) + len(key_word))
-	  url_str = Mid(url_str,1,InStr(url_str, chr(34))-1)	  
+	  url_str = Mid(url_str,1,InStr(url_str, chr(34))-1)	
+		If left(url_str,2)="//" Then url_str=http_type & Mid(url_str,3)  
 	  
 		pic_type=Mid(url_str,instrrev(url_str,"."))
 		

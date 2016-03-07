@@ -1,4 +1,4 @@
-'2015-5-3 visceroid & hein@shanghaijing.net
+'2016-2-12 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, reg_bigmode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, php_name
 Dim manga_count
 started = False
@@ -56,7 +56,7 @@ On Error Resume Next
 				sub_url_str = "/search.php?" & sub_url_str
 			Case "bookmark"
 				php_name="bookmark.php"
-				sub_url_str = "/bookmark.php?" & match.SubMatches(1) & "&" & match.SubMatches(3) & "&" & match.SubMatches(4)
+				sub_url_str = "/bookmark.php?" & match.SubMatches(1) & "&" & match.SubMatches(2) & "&" & match.SubMatches(3) & "&" & match.SubMatches(4)
 				multi_page = (InStr(match.SubMatches(3), "user") = 0)
 			Case "response"
 				php_name="response.php"

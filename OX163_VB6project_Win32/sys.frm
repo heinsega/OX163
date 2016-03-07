@@ -207,6 +207,7 @@ Begin VB.Form sys
          ScaleWidth      =   1395
          TabIndex        =   192
          Top             =   600
+         Visible         =   0   'False
          Width           =   1395
          Begin VB.OptionButton ie_local_window 
             Caption         =   "是"
@@ -270,6 +271,7 @@ Begin VB.Form sys
             Left            =   2760
             TabIndex        =   210
             Top             =   0
+            Visible         =   0   'False
             Width           =   1335
          End
          Begin VB.CommandButton Comm_edit_black 
@@ -278,6 +280,7 @@ Begin VB.Form sys
             Left            =   0
             TabIndex        =   122
             Top             =   0
+            Visible         =   0   'False
             Width           =   1335
          End
          Begin VB.Label Label9 
@@ -300,6 +303,7 @@ Begin VB.Form sys
          ScaleWidth      =   1395
          TabIndex        =   118
          Top             =   2040
+         Visible         =   0   'False
          Width           =   1395
          Begin VB.OptionButton ie_black_list 
             Caption         =   "是"
@@ -328,6 +332,7 @@ Begin VB.Form sys
          ScaleWidth      =   1395
          TabIndex        =   115
          Top             =   2040
+         Visible         =   0   'False
          Width           =   1395
          Begin VB.OptionButton ie_white_list 
             Caption         =   "否"
@@ -356,6 +361,7 @@ Begin VB.Form sys
          ScaleWidth      =   1395
          TabIndex        =   110
          Top             =   1320
+         Visible         =   0   'False
          Width           =   1395
          Begin VB.OptionButton ie_local_window 
             Caption         =   "否"
@@ -442,6 +448,7 @@ Begin VB.Form sys
          TabIndex        =   191
          ToolTipText     =   "非特定需求建议选择(是)"
          Top             =   360
+         Visible         =   0   'False
          Width           =   2880
       End
       Begin VB.Label Label9 
@@ -454,6 +461,7 @@ Begin VB.Form sys
          TabIndex        =   114
          ToolTipText     =   "非特定需求建议选择(是)"
          Top             =   1800
+         Visible         =   0   'False
          Width           =   1080
       End
       Begin VB.Label Label9 
@@ -466,6 +474,7 @@ Begin VB.Form sys
          TabIndex        =   113
          ToolTipText     =   "非特定需求建议选择(是)"
          Top             =   1800
+         Visible         =   0   'False
          Width           =   1080
       End
       Begin VB.Label Label9 
@@ -478,6 +487,7 @@ Begin VB.Form sys
          TabIndex        =   109
          ToolTipText     =   "非特定需求建议选择(是)"
          Top             =   1080
+         Visible         =   0   'False
          Width           =   1980
       End
       Begin VB.Label Label9 
@@ -1610,11 +1620,67 @@ Begin VB.Form sys
       Visible         =   0   'False
       Width           =   6375
       Begin VB.Frame FrameL5_Frame1 
-         Height          =   1575
+         Height          =   2295
          Left            =   120
          TabIndex        =   136
          Top             =   1680
          Width           =   6015
+         Begin VB.PictureBox Picture15 
+            BorderStyle     =   0  'None
+            Height          =   255
+            Left            =   3240
+            ScaleHeight     =   255
+            ScaleWidth      =   1635
+            TabIndex        =   227
+            Top             =   1920
+            Width           =   1635
+            Begin VB.OptionButton Op_Cut_Filelen 
+               Caption         =   "否"
+               Height          =   255
+               Index           =   0
+               Left            =   840
+               TabIndex        =   229
+               Top             =   0
+               Width           =   495
+            End
+            Begin VB.OptionButton Op_Cut_Filelen 
+               Caption         =   "是"
+               Height          =   255
+               Index           =   1
+               Left            =   0
+               TabIndex        =   228
+               Top             =   0
+               Width           =   495
+            End
+         End
+         Begin VB.PictureBox Picture4 
+            BorderStyle     =   0  'None
+            Height          =   255
+            Left            =   240
+            ScaleHeight     =   255
+            ScaleWidth      =   1635
+            TabIndex        =   223
+            Top             =   1920
+            Width           =   1635
+            Begin VB.OptionButton Op_List_Drag 
+               Caption         =   "是"
+               Height          =   255
+               Index           =   1
+               Left            =   0
+               TabIndex        =   225
+               Top             =   0
+               Width           =   495
+            End
+            Begin VB.OptionButton Op_List_Drag 
+               Caption         =   "否"
+               Height          =   255
+               Index           =   0
+               Left            =   840
+               TabIndex        =   224
+               Top             =   0
+               Width           =   495
+            End
+         End
          Begin VB.PictureBox Picture6 
             BorderStyle     =   0  'None
             Height          =   255
@@ -1726,6 +1792,28 @@ Begin VB.Form sys
                Top             =   0
                Width           =   495
             End
+         End
+         Begin VB.Label Label11 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "截断过长文件名(超250字符)？"
+            Height          =   180
+            Left            =   3240
+            TabIndex        =   226
+            ToolTipText     =   "默认设置为是"
+            Top             =   1680
+            Width           =   2430
+         End
+         Begin VB.Label Label10 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "是否启用拖拽上下滚动列表？"
+            Height          =   180
+            Left            =   240
+            TabIndex        =   222
+            ToolTipText     =   "默认设置为否"
+            Top             =   1680
+            Width           =   2340
          End
          Begin VB.Label Label5 
             AutoSize        =   -1  'True
@@ -2005,7 +2093,7 @@ Begin VB.Form sys
                MousePointer    =   14  'Arrow and Question
                TabIndex        =   208
                ToolTipText     =   $"sys.frx":5330
-               Top             =   60
+               Top             =   0
                Width           =   810
             End
          End
@@ -2059,7 +2147,7 @@ Begin VB.Form sys
                Left            =   0
                MousePointer    =   14  'Arrow and Question
                TabIndex        =   209
-               ToolTipText     =   "使用“跳过同名同尺寸文件”方式时，程序会进行一次网络连接，以得到图片文件大小"
+               ToolTipText     =   "使用""跳过同名同尺寸文件""方式时，程序会进行一次网络连接，以得到图片文件大小"
                Top             =   0
                Width           =   1530
             End
@@ -2189,7 +2277,7 @@ Begin VB.Form sys
             Left            =   120
             MousePointer    =   14  'Arrow and Question
             TabIndex        =   83
-            ToolTipText     =   $"sys.frx":538E
+            ToolTipText     =   $"sys.frx":538A
             Top             =   960
             Width           =   2790
          End
@@ -2203,7 +2291,7 @@ Begin VB.Form sys
             Left            =   120
             MousePointer    =   14  'Arrow and Question
             TabIndex        =   79
-            ToolTipText     =   $"sys.frx":540F
+            ToolTipText     =   $"sys.frx":540B
             Top             =   270
             Width           =   1170
          End
@@ -2218,7 +2306,7 @@ Begin VB.Form sys
          Left            =   240
          MousePointer    =   14  'Arrow and Question
          TabIndex        =   107
-         ToolTipText     =   $"sys.frx":547D
+         ToolTipText     =   $"sys.frx":5479
          Top             =   840
          Width           =   2160
       End
@@ -2232,7 +2320,7 @@ Begin VB.Form sys
          Left            =   240
          MousePointer    =   14  'Arrow and Question
          TabIndex        =   105
-         ToolTipText     =   $"sys.frx":54F9
+         ToolTipText     =   $"sys.frx":54F5
          Top             =   240
          Width           =   2610
       End
@@ -2265,7 +2353,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   1
             Left            =   3120
-            Picture         =   "sys.frx":5552
+            Picture         =   "sys.frx":554E
             Style           =   1  'Graphical
             TabIndex        =   131
             ToolTipText     =   "Remove Include File"
@@ -2276,7 +2364,7 @@ Begin VB.Form sys
             Height          =   255
             Index           =   0
             Left            =   3120
-            Picture         =   "sys.frx":55AE
+            Picture         =   "sys.frx":55AA
             Style           =   1  'Graphical
             TabIndex        =   130
             ToolTipText     =   "Add Incule File"
@@ -2284,7 +2372,7 @@ Begin VB.Form sys
             Width           =   375
          End
          Begin MSComctlLib.ListView scriptList 
-            DragIcon        =   "sys.frx":560A
+            DragIcon        =   "sys.frx":5606
             Height          =   2820
             Left            =   120
             TabIndex        =   133
@@ -2342,7 +2430,7 @@ Begin VB.Form sys
             Height          =   180
             Index           =   8
             Left            =   3600
-            MouseIcon       =   "sys.frx":9674
+            MouseIcon       =   "sys.frx":9670
             MousePointer    =   99  'Custom
             TabIndex        =   128
             Top             =   240
@@ -2513,6 +2601,7 @@ End Sub
 Private Sub Combo_UA_List_KeyPress(KeyAscii As Integer)
     Customize_UA_txt = OX_UA_Const(Combo_UA_List.ListIndex)
 End Sub
+
 
 Private Sub manifest_Com_Click()
 Dim manifest_str As String
@@ -2686,6 +2775,7 @@ Private Function sys_CheckIncLst_NoThisfile(scriptFileName As String) As Boolean
         End If
     Next
 End Function
+
 
 Private Sub OX_IE_Ver_Com_Click(Index As Integer)
 Select Case Index
@@ -2883,6 +2973,7 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
     'If Form1.WindowState = 0 Then Form1.always_on_top sysSet.always_top
     Form1.Enabled = True
+    Form1.Show
 End Sub
 
 Private Sub frame_def_Click()
@@ -3074,6 +3165,7 @@ Private Sub sys_apply_Click()
     WriteIniStr "proxyset", "proxy_B_pw", proxy_txt2(2)
     '对内置浏览器启用代理A
     WriteIniStr "proxyset", "web_proxy", web_proxy_box.Value
+    
     '常规参数设置------------------------------------
     '自动更新
         WriteIniTF "maincenter", "autocheck", autoOp(1).Value
@@ -3091,6 +3183,11 @@ Private Sub sys_apply_Click()
         WriteIniTF "maincenter", "bottom_StatusBar", set_sbar(1).Value
     '是否自动全部标记多选框
         WriteIniTF "maincenter", "check_all", set_checkall(1).Value
+    '是否启用拖拽上下滚动列表？
+        WriteIniTF "maincenter", "OX_List_Drag", Op_List_Drag(1).Value
+    '截断过长文件名(超250字符)？
+        WriteIniTF "maincenter", "OX_Cut_Filelen", Op_Cut_Filelen(1).Value
+        
     '热键与警告框------------------------------------
     '复制链接(url && Lst)到剪贴板
         WriteIniTF "maincenter", "list_copy", list_copy(1).Value
@@ -3102,6 +3199,7 @@ Private Sub sys_apply_Click()
         WriteIniTF "maincenter", "change_psw", changepsw(1).Value
     '下载完成后，是否出现提示框？
         WriteIniTF "maincenter", "openfloder", askfloder(1).Value
+        
     '网易相册设置------------------------------------
     '163相册验证码
     passcode_text(0) = Replace(Replace(passcode_text(0), Chr(10), ""), Chr(13), "")
@@ -3117,6 +3215,7 @@ Private Sub sys_apply_Click()
     WriteIniStr "maincenter", "new163passcode_pw", passcode_text(2)
     '是否修正163相册中文密码问题
         WriteIniTF "maincenter", "new163pass_rules", new163passrule(1).Value
+        
     '内置浏览器设置------------------------------------
     '是否阻止浏览器弹出新开窗口
         WriteIniTF "maincenter", "new_ie_win", ie_window(1).Value
@@ -3160,6 +3259,9 @@ reset_path:
         Form1.out_all.Picture = Form1.ImageLibrary_Normal.ListImages(10 + sysSet.list_type).Picture
         Form1.user_list_output.Picture = Form1.ImageLibrary_Normal.ListImages(10 + sysSet.list_type).Picture
     End If
+    
+    Form1.fast_set_ListDrag.Checked = False
+    If sysSet.OX_List_Drag = True Then Form1.fast_set_ListDrag.Checked = True
     
     sys.Enabled = True
 End Sub
@@ -3262,7 +3364,10 @@ Private Sub sys_def(ByVal frameID As Byte)
         set_sbar(1).Value = True
         '是否自动全部标记多选框
         set_checkall(1).Value = True
-        
+        '是否启用拖拽上下滚动列表？
+        Op_List_Drag(0).Value = True
+        '截断过长文件名(超250字符)？
+        Op_Cut_Filelen(1).Value = True
     End If
     
     '热键与警告框------------------------------------
@@ -3475,11 +3580,15 @@ Private Sub load_ini(ByVal frameID As Byte)
         '列表时显示列表
         If load_ini_sysSetting.listshow = True Then listOp(1).Value = True
         '是否最小化到系统托盘
-        If load_ini_sysSetting.sysTray = False Then set_tray(0).Value = True
+        If load_ini_sysSetting.sysTray = True Then set_tray(1).Value = True
         '是否显示信息栏
         If load_ini_sysSetting.bottom_StatusBar = False Then set_sbar(0).Value = True
         '是否自动全部标记多选框
         If load_ini_sysSetting.check_all = False Then set_checkall(0).Value = True
+        '是否启用拖拽上下滚动列表？
+        If load_ini_sysSetting.OX_List_Drag = True Then Op_List_Drag(1).Value = True
+        '截断过长文件名(超250字符)？
+        If load_ini_sysSetting.OX_Cut_Filelen = False Then Op_Cut_Filelen(0).Value = True
     End If
     '热键与警告框------------------------------------
     If frameID = 0 Or frameID = 6 Then
@@ -3492,7 +3601,7 @@ Private Sub load_ini(ByVal frameID As Byte)
         '密码错误时，询问是否重填密码？
         If load_ini_sysSetting.change_psw = False Then changepsw(0).Value = True
         '下载完成后，是否出现提示框？
-        If load_ini_sysSetting.openfloder = False Then askfloder(0).Value = True
+        If load_ini_sysSetting.openfloder = True Then askfloder(1).Value = True
     End If
     '网易相册设置------------------------------------
     If frameID = 0 Or frameID = 7 Then
@@ -3571,6 +3680,7 @@ End Sub
 Private Sub sys_yes_Click()
     Call sys_apply_Click
     Unload sys
+    Form1.Show
 End Sub
 
 Private Sub update_host_Combo_Click()

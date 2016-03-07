@@ -188,6 +188,24 @@ Public Function Str_unicode_Ctrl(ByVal old_String As String) As String
     Str_unicode_Ctrl = old_String
 End Function
 
+'判断中日英文混合字符ansi字符长度
+Public Function OX_CharacterLen(ByVal CL_str As String) As Integer
+On Error Resume Next
+Dim CL_bytes() As Byte
+OX_CharacterLen = LenB(CL_str)
+CL_bytes = StrConv(Repalce_unicode_str(CL_str, "aa"), vbFromUnicode)
+OX_CharacterLen = UBound(CL_bytes) + 1
+End Function
+
+'替换unicode字符为特定字符
+Public Function Repalce_unicode_str(ByVal old_String As String, replace_str As String) As String
+    Dim i As Long
+    For i = 1 To Len(old_String)
+        If Asc(Mid(old_String, i, 1)) = 63 Then old_String = Replace(old_String, Mid(old_String, i, 1), replace_str)
+    Next
+    Repalce_unicode_str = old_String
+End Function
+
 
 '将非ANSI字符转换为16进制代码"&HFF75",再转换为10进制网页代码"&#65397;"(该字符网页16进制代码为"&#xFF75;")
 Public Function Hex_unicode_str(ByVal old_String As String) As String
