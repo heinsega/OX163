@@ -972,6 +972,17 @@ If OX_Dirfile(file_path) = True Then
     Next
 End If
 End Sub
+
+'获取指定网页单个cookie
+Public Function OX_Get_Cookie_Str(url As String, Cookie_Name As String) As String
+    Dim ex_split
+    ex_split = Split(GetCookie(url), ";")
+    OX_Get_Cookie_Str = ""
+    For i = 0 To UBound(ex_split)
+        ex_split(i) = Trim(ex_split(i))
+        If InStr(LCase(ex_split(i)), LCase(Cookie_Name & "=")) = 1 Then If Mid(ex_split(i), Len(Cookie_Name) + 2) <> "" Then OX_Get_Cookie_Str = Mid(ex_split(i), Len(Cookie_Name) + 2): Exit For
+    Next
+End Function
 '
 'Public Function OX_Destop_DPI() As Integer
 'On Error Resume Next

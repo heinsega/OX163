@@ -1,6 +1,6 @@
-'2011-8-11 163.shanhaijing.net
+'2016-3-17
 Dim page_counter
-Dim tags, page, url_instr, pool
+Dim tags, page, url_instr, pool, konachan_url
 Function return_download_url(ByVal url_str)
 'http://konachan.com/post?tags=emma
 'http://konachan.com/post?page=5&tags=miko
@@ -14,14 +14,18 @@ On Error Resume Next
 tags=""
 Dim page_tmp
 page_tmp=url_str
-If InStr(LCase(url_str), "http://konachan.com/pool/show/") =1 Then
+konachan_url="konachan.com"
+If instr(lcase(url_str),"konachan.com")>0 Then konachan_url="konachan.com"
+If instr(lcase(url_str),"konachan.net")>0 Then konachan_url="konachan.net"
+
+If InStr(LCase(url_str), "http://" & konachan_url & "/pool/show/") =1 Then
 		'http://konachan.com/pool/show/2218
 		'http://konachan.com/post?tags=pool%3A2218
-    url_str=Mid(url_str, len("http://konachan.com/pool/show/")+1)
+    url_str=Mid(url_str, len("http://" & konachan_url & "/pool/show/")+1)
     If InStr(LCase(url_str), "/") > 0 Then url_str = Mid(url_str, 1, InStr(LCase(url_str), "/") - 1)
     If InStr(LCase(url_str), "?") > 0 Then url_str = Mid(url_str, 1, InStr(LCase(url_str), "?") - 1)
     If InStr(LCase(url_str), "#") > 0 Then url_str = Mid(url_str, 1, InStr(LCase(url_str), "#") - 1)
-    url_str="http://konachan.com/post?tags=pool%3A" & url_str
+    url_str="http://" & konachan_url & "/post?tags=pool%3A" & url_str
 End If
 If InStr(LCase(url_str), "tags=") > 0 Then
     tags = Mid(url_str, InStr(LCase(url_str), "tags=") + 5)
@@ -32,7 +36,7 @@ If InStr(LCase(url_str), "tags=") > 0 Then
 End If
 If tags <> "" Then url_str = url_instr & "?tags=" & tags
 pool=""
-If InStr(LCase(url_str), "http://konachan.com/wiki/show?") =1 Then
+If InStr(LCase(url_str), "http://" & konachan_url & "/wiki/show?") =1 Then
     pool="wiki"
     url_instr=Mid(url_str, InStr(url_str, "?") - 1)
     If InStr(LCase(url_instr), "?title=") > 0 Then
@@ -42,12 +46,12 @@ If InStr(LCase(url_str), "http://konachan.com/wiki/show?") =1 Then
     	url_instr = "?" & Mid(url_instr, InStr(LCase(url_instr), "&title=")+1)
     	If InStr(url_instr, "&")>0 Then url_instr = Mid(url_instr,1,InStr(url_instr, "&")-1)
     End If
-    url_str="http://konachan.com/wiki/show" & url_instr
+    url_str="http://" & konachan_url & "/wiki/show" & url_instr
     url_instr=url_str
 End If
 page_counter=0
 page=1
-If InStr(LCase(page_tmp),"&page=")>len("http://konachan.com/post") Or InStr(LCase(page_tmp),"?page=")>len("http://konachan.com/post") Then
+If InStr(LCase(page_tmp),"&page=")>len("http://" & konachan_url & "/post") Or InStr(LCase(page_tmp),"?page=")>len("http://" & konachan_url & "/post") Then
 	If InStr(LCase(page_tmp),"&page=") Then page_tmp=Mid(page_tmp,InStr(LCase(page_tmp),"&page=")+6)
 	If InStr(LCase(page_tmp),"?page=") Then page_tmp=Mid(page_tmp,InStr(LCase(page_tmp),"?page=")+6)
 	If InStr(page_tmp,"&") Then page_tmp=Mid(page_tmp,1,InStr(page_tmp,"&")-1)
@@ -69,7 +73,7 @@ If InStr(LCase(page_tmp),"&page=")>len("http://konachan.com/post") Or InStr(LCas
 Else
 	page=1
 End If
-return_download_url = "inet|10,13|" & url_str & "|http://konachan.com/"
+return_download_url = "inet|10,13|" & url_str & "|http://" & konachan_url & "/"
 
 End Function
 '--------------------------------------------------------------
@@ -103,7 +107,6 @@ html_str = Mid(html_str, InStr(LCase(html_str), "<a class=""thumb") + Len("<a cl
 
 Dim split_str,url_temp
 split_str = Split(html_str, "<a class=""thumb")
-
     For split_i = 0 To UBound(split_str)
     split_str(split_i) = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), "tags:") +5)
 
@@ -154,7 +157,7 @@ If InStr(LCase(url_str), "<div id=""paginator"">") > 0 Then
 		return_download_list = return_download_list & page_counter & "|inet|10,13|" & url_instr & "&page=" & page
 	ElseIf page<page_counter Then
 		page=page+1
-		return_download_list = return_download_list & page_counter & "|inet|10,13|" & url_instr & "http://konachan.com/post?page=" & page
+		return_download_list = return_download_list & page_counter & "|inet|10,13|" & url_instr & "http://" & konachan_url & "/post?page=" & page
 	Else
 	return_download_list = return_download_list & "0"	
 	End If

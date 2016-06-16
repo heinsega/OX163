@@ -410,20 +410,14 @@ Private Function static_str(ByVal str_temp)
     '101,该文件需要更新/include.txt不需要更新
     '110,该文件存在/include.txt需要更新
     '111,该文件存在/include.txt不需要更新
-    If Len(str_temp) = 2 Then str_temp = str_temp & "0"
+    'If Len(str_temp) = 2 Then str_temp = str_temp & "0"
     Select Case str_temp
-    Case "000"
-        static_str = "000,该文件不存在/include.txt需要更新"
-    Case "001"
-        static_str = "001,该文件不存在/include.txt不需要更新"
-    Case "100"
-        static_str = "100,该文件需要更新/include.txt需要更新"
-    Case "101"
-        static_str = "101,该文件需要更新/include.txt不需要更新"
-    Case "110"
-        static_str = "110,该文件存在/include.txt需要更新"
-    Case "111"
-        static_str = "111,该文件存在/include.txt不需要更新"
+    Case "00"
+        static_str = "00,文件不存在"
+    Case "10"
+        static_str = "10,文件需要更新"
+    Case "11"
+        static_str = "11,文件已更新"
     Case Else
         static_str = "情况不明"
     End Select

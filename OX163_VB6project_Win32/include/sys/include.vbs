@@ -9,6 +9,7 @@ imouto.vbs|vbscript|UTF-8|photo|http://yande.re/*
 imouto.vbs|vbscript|UTF-8|photo|https://yande.re/*
 donmai_us.vbs|vbscript|UTF-8|photo|http://?*.donmai.us/*
 konachan.vbs|vbscript|UTF-8|photo|http://konachan.com/*
+konachan.vbs|vbscript|UTF-8|photo|http://konachan.net/*
 behoimi.vbs|vbscript|UTF-8|photo|http://behoimi.org/*
 behoimi.vbs|vbscript|UTF-8|photo|http://www.behoimi.org/*
 sankakucomplex.vbs|vbscript|UTF-8|photo|http://*.sankakucomplex.com*
@@ -67,11 +68,14 @@ yahoo.vbs|vbscript|UTF-8|photo|http://photos.i.cn.yahoo.com/?*/?*/*
 yahoo.vbs|vbscript|UTF-8|album|http://photos.i.cn.yahoo.com/?*/*
 yxnpc.vbs|vbscript|GB2312|photo|http://www.yxnpc.com/?*-?*-?*/?*/?*.html*
 yxnpc.vbs|vbscript|GB2312|album|http://www.yxnpc.com/manhua/?*
-douban.vbs|vbscript|UTF-8|photo|http://www.douban.com/photos/?*
-douban.vbs|vbscript|UTF-8|photo|http://site.douban.com/?*/widget/photos/?*
-douban.vbs|vbscript|UTF-8|photo|http://site.douban.com/?*/widget/public_album/?*
-douban.vbs|vbscript|UTF-8|album|http://www.douban.com/people/?*
-douban.vbs|vbscript|UTF-8|album|http://site.douban.com/?*
+douban.vbs|vbscript|UTF-8|photo|http*://movie.douban.com/celebrity/?*/*
+douban.vbs|vbscript|UTF-8|photo|http*://movie.douban.com/subject/?*/?*?type=?
+douban.vbs|vbscript|UTF-8|album|http*://movie.douban.com/subject/?*/*
+douban.vbs|vbscript|UTF-8|photo|http*://www.douban.com/photos/?*
+douban.vbs|vbscript|UTF-8|photo|http*://site.douban.com/?*/widget/photos/?*
+douban.vbs|vbscript|UTF-8|photo|http*://site.douban.com/?*/widget/public_album/?*
+douban.vbs|vbscript|UTF-8|album|http*://www.douban.com/people/?*
+douban.vbs|vbscript|UTF-8|album|http*://site.douban.com/?*
 facebook.vbs|vbscript|UTF-8|photo|?*/www.facebook.com/media/set/?*
 facebook.vbs|vbscript|UTF-8|album|?*/www.facebook.com/?*/photos_albums
 facebook.vbs|vbscript|UTF-8|album|?*/www.facebook.com/?*

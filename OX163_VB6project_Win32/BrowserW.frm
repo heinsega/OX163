@@ -107,6 +107,11 @@ Private Sub WebBrowser_DownloadComplete()
 End Sub
 
 
+Private Sub WebBrowser_FileDownload(ByVal ActiveDocument As Boolean, Cancel As Boolean)
+    On Error Resume Next
+    Cancel = True
+End Sub
+
 Private Sub WebBrowser_NewWindow2(ppDisp As Object, Cancel As Boolean)
     On Error Resume Next
     Cancel = True

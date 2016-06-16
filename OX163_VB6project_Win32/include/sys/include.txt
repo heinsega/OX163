@@ -9,6 +9,7 @@ imouto.vbs|vbscript|UTF-8|photo|http://yande.re/*
 imouto.vbs|vbscript|UTF-8|photo|https://yande.re/*
 donmai_us.vbs|vbscript|UTF-8|photo|http://?*.donmai.us/*
 konachan.vbs|vbscript|UTF-8|photo|http://konachan.com/*
+konachan.vbs|vbscript|UTF-8|photo|http://konachan.net/*
 behoimi.vbs|vbscript|UTF-8|photo|http://behoimi.org/*
 behoimi.vbs|vbscript|UTF-8|photo|http://www.behoimi.org/*
 sankakucomplex.vbs|vbscript|UTF-8|photo|http://*.sankakucomplex.com*
