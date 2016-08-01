@@ -50,6 +50,10 @@ eht.vbs|vbscript|UTF-8|album|http://g.e-hentai.org/g/?*/?*/*
 eht.vbs|vbscript|UTF-8|photo|http://g.e-hentai.org/s/?*/?*-?*
 eht.vbs|vbscript|UTF-8|album|http://exhentai.org/g/?*/?*/*
 eht.vbs|vbscript|UTF-8|photo|http://exhentai.org/s/?*/?*-?*
+eht.vbs|vbscript|UTF-8|album|https://g.e-hentai.org/g/?*/?*/*
+eht.vbs|vbscript|UTF-8|photo|https://g.e-hentai.org/s/?*/?*-?*
+eht.vbs|vbscript|UTF-8|album|https://exhentai.org/g/?*/?*/*
+eht.vbs|vbscript|UTF-8|photo|https://exhentai.org/s/?*/?*-?*
 picasa.vbs|vbscript|UTF-8|photo|http://picasaweb.google.*/?*/?*
 picasa.vbs|vbscript|UTF-8|photo|https://picasaweb.google.*/?*/?*
 picasa.vbs|vbscript|UTF-8|album|http://picasaweb.google.*/?*

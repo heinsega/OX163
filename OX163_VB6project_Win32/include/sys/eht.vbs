@@ -1,7 +1,7 @@
-'2014-9-8 163.shanhaijing.net
+'2016-8-1 163.shanhaijing.net
 Dim start_time
 Dim delay_tf
-Dim page_url,page,album_info,root_url
+Dim page_url,page,album_info,root_url,url_head
 Dim retry
 
 Function return_download_url(ByVal url_str)
@@ -12,20 +12,25 @@ page=0
 start_time=Now()
 Dim split_str
 'http://exhentai.org
+If InStr(LCase(url_str), "https://")=1 Then
+	url_head="https://"
+Else
+	url_head="http://"
+End If
 OX163_urlpage_Referer="Referer: " & url_str
-If InStr(LCase(url_str), "http://g.e-hentai.org/g/")=1 Then
-	url_str=Mid(url_str,InStr(LCase(url_str),"http://g.e-hentai.org/g/")+Len("http://g.e-hentai.org/g/"))
+If InStr(LCase(url_str), url_head&"g.e-hentai.org/g/")=1 Then
+	url_str=Mid(url_str,InStr(LCase(url_str),url_head&"g.e-hentai.org/g/")+Len(url_head&"g.e-hentai.org/g/"))
 	split_str=split(url_str,"/")
-	page_url="http://g.e-hentai.org/g/" & split_str(0) & "/" & split_str(1) & "/"
+	page_url=url_head&"g.e-hentai.org/g/" & split_str(0) & "/" & split_str(1) & "/"
 	album_info=split_str(0)
-	root_url="http://g.e-hentai.org/"
+	root_url=url_head&"g.e-hentai.org/"
 	return_download_url="inet|10,13|" & page_url
-ElseIf InStr(LCase(url_str), "http://exhentai.org/g/")=1 Then
-	url_str=Mid(url_str,InStr(LCase(url_str),"http://exhentai.org/g/")+Len("http://exhentai.org/g/"))
+ElseIf InStr(LCase(url_str), url_head&"exhentai.org/g/")=1 Then
+	url_str=Mid(url_str,InStr(LCase(url_str),url_head&"exhentai.org/g/")+Len(url_head&"exhentai.org/g/"))
 	split_str=split(url_str,"/")
-	page_url="http://exhentai.org/g/" & split_str(0) & "/" & split_str(1) & "/"
+	page_url=url_head&"exhentai.org/g/" & split_str(0) & "/" & split_str(1) & "/"
 	album_info=split_str(0)
-	root_url="http://exhentai.org/"
+	root_url=url_head&"exhentai.org/"
 	return_download_url="inet|10,13|" & page_url
 Else
 	return_download_url="inet|10,13|" & url_str
