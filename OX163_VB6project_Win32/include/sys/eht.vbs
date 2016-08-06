@@ -1,4 +1,4 @@
-'2016-8-1 163.shanhaijing.net
+'2016-8-6 163.shanhaijing.net
 Dim start_time
 Dim delay_tf
 Dim page_url,page,album_info,root_url,url_head
@@ -12,7 +12,7 @@ page=0
 start_time=Now()
 Dim split_str
 'http://exhentai.org
-If InStr(LCase(url_str), "https://")=1 Then
+If InStr(LCase(url_str), "https://")=1 or InStr(LCase(url_str), "https://")>0 Then
 	url_head="https://"
 Else
 	url_head="http://"
@@ -23,14 +23,14 @@ If InStr(LCase(url_str), url_head&"g.e-hentai.org/g/")=1 Then
 	split_str=split(url_str,"/")
 	page_url=url_head&"g.e-hentai.org/g/" & split_str(0) & "/" & split_str(1) & "/"
 	album_info=split_str(0)
-	root_url=url_head&"g.e-hentai.org/"
+	root_url="g.e-hentai.org/"
 	return_download_url="inet|10,13|" & page_url
 ElseIf InStr(LCase(url_str), url_head&"exhentai.org/g/")=1 Then
 	url_str=Mid(url_str,InStr(LCase(url_str),url_head&"exhentai.org/g/")+Len(url_head&"exhentai.org/g/"))
 	split_str=split(url_str,"/")
 	page_url=url_head&"exhentai.org/g/" & split_str(0) & "/" & split_str(1) & "/"
 	album_info=split_str(0)
-	root_url=url_head&"exhentai.org/"
+	root_url="exhentai.org/"
 	return_download_url="inet|10,13|" & page_url
 Else
 	return_download_url="inet|10,13|" & url_str
@@ -48,7 +48,7 @@ Function return_albums_list(ByVal html_str, ByVal url_str)
 On Error Resume Next
 return_albums_list = ""
 Dim Instr_String,counts,regex,matches
-If InStr(LCase(html_str), "<a href=""" & root_url & "s/") > 0 Then
+If InStr(LCase(html_str), "<a href=""http://" & root_url & "s/") > 0 or InStr(LCase(html_str), "<a href=""https://" & root_url & "s/") > 0 Then
 	retry=0
 	delay_tf=0
 	Instr_String="<h1 id=""gn"">"
@@ -62,7 +62,7 @@ If InStr(LCase(html_str), "<a href=""" & root_url & "s/") > 0 Then
 
 	Set regex = new RegExp
 	regex.Global = True
-	regex.Pattern = "<a href=""(" & root_url & "s/[0-9A-Za-z]+/" & album_info & "-[0-9]+)"">"
+	regex.Pattern = "<a href=""(http[s]{0,1}://" & root_url & "s/[0-9A-Za-z]+/" & album_info & "-[0-9]+)"">"
 	Set matches = regex.Execute(html_str)
 	For Each match In matches
 		return_albums_list = return_albums_list & "0|1|" & match.SubMatches(0) & "|" & url_str & "|" & url_str & vbCrLf
