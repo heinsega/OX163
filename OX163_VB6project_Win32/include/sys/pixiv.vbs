@@ -1,12 +1,15 @@
-'2016-2-12 visceroid & hein@shanghaijing.net
+'2017-2-1 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, reg_bigmode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, php_name
-Dim manga_count
+Dim manga_count, ids_count, ids_max, ids_split, limit_ids_max, ids_string
 started = False
 multi_page = True
 retries_count = 0
 cache_index = 0
 ranking_page=0
 manga_count=0
+ids_count=0
+ids_max=0
+limit_ids_max=200
 ranking_url=""
 root_str = "http://www.pixiv.net"
 
@@ -88,7 +91,7 @@ On Error Resume Next
 			Case "bookmark_detail"
 				'http://www.pixiv.net/bookmark_detail.php?illust_id=49734016
 				'http://www.pixiv.net/rpc/recommender.php?type=illust&sample_illusts=49734016&num_recommendations=1000&tt=e75f2fba47c534cb303d889d383cacb1
-				sub_url_str = "/rpc/recommender.php?type=illust&sample_illusts=" & replace(match.SubMatches(1),"illust_id=","") & "&num_recommendations=200"
+				sub_url_str = "/rpc/recommender.php?type=illust&sample_illusts=" & replace(match.SubMatches(1),"illust_id=","") & "&num_recommendations=1000"
 			Case Else
 				Exit Function
 		End Select
@@ -274,21 +277,54 @@ On Error Resume Next
 				reg_bigmode="json"
 				'获取下一版面地址
 				If cache_index = 0 Then
-					next_page_str = get_next_page(html_str)
-					parent_next_page_str = next_page_str
+				
+				'bookmark_detail 超过200分段进行
+					If ids_count>0 Then
+						ids_count=ids_count+1
+						ids=limit_ids
+						If ids_count=ids_max Then ids_count=0
+					Else
+						ids_string=ids
+						ids_max=ubound(split(ids,","))
+						ids_max=-1 * Int(-1*(ids_max+1)/limit_ids_max)
+						ids_count=1
+						ids=limit_ids()
+						If ids_count=ids_max Then ids_count=0:ids=ids_string
+						next_page_str = get_next_page(html_str)
+						parent_next_page_str = next_page_str
+					End If
 				End If
 				'获取json
 				next_page_str = "1|inet|10,13|" & root_str & "/rpc/illust_list.php?illust_ids=" & ids & "&verbosity=" 'Replace(ids,",","%2C")
 			End If
 		End If
-		
-	If (next_page_str = "0" or next_page_str="") and brief_mode_rf="" Then	MsgBox "分析已完成。", vbOKOnly, "提醒"
+	If (next_page_str = "0" or next_page_str="") and brief_mode_rf="" Then
+		'bookmark_detail 超过200分段进行
+		If ids_count>0 Then
+			next_page_str="1|inet|10,13|" & root_str
+		Else
+			MsgBox "分析已完成。", vbOKOnly, "提醒"
+		End If
+	End If
 		
 	return_download_list = return_download_list & next_page_str
 
 End Function
 '----------------------------------------------------------------------------------------------------
-
+Function limit_ids()
+Dim ids_split
+ids_split=split(ids_string,",")
+For i=0 to ubound(ids_split) 
+	If i>=((ids_count-1)*limit_ids_max) and i<(ids_count*limit_ids_max) Then
+		ids_split(i)= ids_split(i) & ","
+	Else
+		ids_split(i)= ""
+	End If
+Next
+limit_ids=join(ids_split,"")
+If Right(limit_ids,1)="," Then limit_ids=Left(limit_ids,Len(limit_ids)-1)
+End Function
+'----------------------------------------------------------------------------------------------------
 Function process_retry()
 On Error Resume Next
 	process_retry=True
@@ -325,7 +361,7 @@ Function Set_next_json_url()
 		If php_name="ranking.php" and ranking_page>0 and ranking_page<11 Then
 			reg_bigmode="json"
 			ranking_page=ranking_page+1
-			If ranking_page<11 then parent_next_page_str = "1|inet|10,13|" & root_str & "/" & ranking_url & "&p=" & ranking_page
+			If ranking_page<11 then parent_next_page_str = "1|inet|10,13|" & root_str & "/" & ranking_url & "&p=" & ranking_page	
 		End If
 	End If
 End Function
@@ -333,20 +369,27 @@ End Function
 Function format_ranking_html(ByVal html_str)
 On Error Resume Next
     format_ranking_html = html_str
-		'{
-		'"illust_id":48053861,
-		'"title":"\u30aa\u30ec\u3093\u3061\u306e\u30aa\u30e0\u30ec\u30c4\u304c\u30b1\u30c1\u30e3\u30c3\u30d7\u3092\u62d2\u5426\u308b\u3093\u3060\u304c",
-		'"width":755,"height":900,"date":"2015\u5e7401\u670808\u65e5 00:32",
-		'"tags":["\u30dd\u30b1\u30e2\u30f3","\u30d4\u30ab\u30c1\u30e5\u30a6","\u30b1\u30c1\u30e3\u30c1\u30e5\u30a6","\u306a\u306b\u3053\u308c\u304b\u308f\u3044\u3044","\u3053\u308c\u304c\u666e\u901a\u3067\u3059","\u3080\u3057\u308d\u53d7\u3051\u5165\u308c\u4f53\u52e2","\u30b1\u30c1\u30e3\u30c3\u30d7\u30db\u30fc\u30eb","\u30aa\u30e0\u30c1\u30e5\u30a6","ATARU"],
-		'"url":"http:\/\/i2.pixiv.net\/c\/240x480\/img-master\/img\/2015\/01\/08\/00\/32\/26\/48053861_p0_master1200.jpg",
+		'{"contents":[{"title":"\u9759\u8b10\u3061\u3083\u3093",
+		'"date":"2017\u5e7401\u670830\u65e5 00:10",
+		'"tags":["Fate\/GrandOrder"],
+		'"url":"http:\/\/i3.pixiv.net\/c\/240x480\/img-master\/img\/2017\/01\/30\/00\/10\/10\/61183086_p0_master1200.jpg",
 		'"illust_type":"0",
 		'"illust_book_style":"0",
 		'"illust_page_count":"1",
-		'"illust_upload_timestamp":1420644746,
-		'"user_id":771029,
-		'"user_name":"\u6771\u307f\u306a\u3064\uff20\u6b215\u6708",
-		'"profile_img":"http:\/\/i2.pixiv.net\/img30\/profile\/sdv2032\/8186269_s.gif","rank":1,"yes_rank":10,"total_score":11147,"view_count":40028,"illust_content_type":{"sexual":0,"lo":false,"grotesque":false,"violent":false,"homosexual":false,"drug":false,"thoughts":false,"antisocial":false,"religion":false,"original":false,"furry":false,"bl":false,"yuri":false},"attr":""
-		'}
+		'"user_name":"\u3057\u3089\u3073",
+		'"profile_img":"http:\/\/i2.pixiv.net\/user-profile\/img\/2016\/11\/04\/06\/07\/50\/11706125_fcc9cf69109f56fe4dd6faaaafc8b9c7_50.jpg",
+		'"illust_content_type":{"sexual":0,"lo":false,"grotesque":false,"violent":false,"homosexual":false,"drug":false,"thoughts":false,"antisocial":false,"religion":false,"original":false,"furry":false,"bl":false,"yuri":false},
+		'"illust_id":61183086,
+		'"width":855,
+		'"height":960,
+		'"user_id":216403,
+		'"rank":1,
+		'"yes_rank":3,
+		'"total_score":41373,
+		'"view_count":89096,
+		'"illust_upload_timestamp":1485702610,
+		'"attr":""
+		'},{
     '转换为
 		'{
 		'"tags":[],
@@ -361,13 +404,13 @@ On Error Resume Next
 		'}
 
 		Dim split_str, matches(5)
-    If InStr(html_str, "{""illust_id"":") > 0 Then
-        html_str = Mid(html_str, InStr(LCase(html_str), "{""illust_id"":") + Len("{""illust_id"":"))
+    If InStr(html_str, ":[{") > 0 Then
+        html_str = Mid(html_str, InStr(LCase(html_str), ":[{") + Len(":[{"))
     Else
         format_ranking_html = ""
         Exit Function
     End If
-    split_str = Split(html_str, "{""illust_id"":")
+    split_str = Split(html_str, "},{")
     For i = 0 To UBound(split_str)
     		matches(0) = ""
     		matches(1) = ""
@@ -376,7 +419,8 @@ On Error Resume Next
     		matches(4) = ""
     		matches(5) = ""
     		'illust_id
-    		matches(0)=Mid(split_str(i),1,InStr(split_str(i),",")-1)
+    		matches(0)=Mid(split_str(i), InStr(LCase(split_str(i)), """illust_id"":") + Len("""illust_id"":"))
+    		matches(0)=Mid(matches(0),1,InStr(matches(0),",")-1)
     		'url
     		matches(1)=Mid(split_str(i), InStr(LCase(split_str(i)), """url"":""") + Len("""url"":"""))
     		matches(1)=Mid(matches(1),1,InStr(matches(1),"""")-1)

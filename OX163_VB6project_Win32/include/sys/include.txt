@@ -8,6 +8,7 @@ b-sys.vbs|vbscript|UTF-8|photo|http://www.allthefallen.org/gallery/?*
 imouto.vbs|vbscript|UTF-8|photo|http://yande.re/*
 imouto.vbs|vbscript|UTF-8|photo|https://yande.re/*
 donmai_us.vbs|vbscript|UTF-8|photo|http://?*.donmai.us/*
+donmai_us.vbs|vbscript|UTF-8|photo|https://?*.donmai.us/*
 konachan.vbs|vbscript|UTF-8|photo|http://konachan.com/*
 konachan.vbs|vbscript|UTF-8|photo|http://konachan.net/*
 behoimi.vbs|vbscript|UTF-8|photo|http://behoimi.org/*
@@ -48,10 +49,14 @@ pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/ranking_area.php?*
 pixiv.vbs|vbscript|UTF-8|photo|http://www.pixiv.net/bookmark_detail.php?*
 eht.vbs|vbscript|UTF-8|album|http://g.e-hentai.org/g/?*/?*/*
 eht.vbs|vbscript|UTF-8|photo|http://g.e-hentai.org/s/?*/?*-?*
+eht.vbs|vbscript|UTF-8|album|http://e-hentai.org/g/?*/?*/*
+eht.vbs|vbscript|UTF-8|photo|http://e-hentai.org/s/?*/?*-?*
 eht.vbs|vbscript|UTF-8|album|http://exhentai.org/g/?*/?*/*
 eht.vbs|vbscript|UTF-8|photo|http://exhentai.org/s/?*/?*-?*
 eht.vbs|vbscript|UTF-8|album|https://g.e-hentai.org/g/?*/?*/*
 eht.vbs|vbscript|UTF-8|photo|https://g.e-hentai.org/s/?*/?*-?*
+eht.vbs|vbscript|UTF-8|album|https://e-hentai.org/g/?*/?*/*
+eht.vbs|vbscript|UTF-8|photo|https://e-hentai.org/s/?*/?*-?*
 eht.vbs|vbscript|UTF-8|album|https://exhentai.org/g/?*/?*/*
 eht.vbs|vbscript|UTF-8|photo|https://exhentai.org/s/?*/?*-?*
 picasa.vbs|vbscript|UTF-8|photo|http://picasaweb.google.*/?*/?*

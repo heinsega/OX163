@@ -1,4 +1,4 @@
-'2016-8-6 163.shanhaijing.net
+'2017-2-1 163.shanhaijing.net
 Dim start_time
 Dim delay_tf
 Dim page_url,page,album_info,root_url,url_head
@@ -24,6 +24,13 @@ If InStr(LCase(url_str), url_head&"g.e-hentai.org/g/")=1 Then
 	page_url=url_head&"g.e-hentai.org/g/" & split_str(0) & "/" & split_str(1) & "/"
 	album_info=split_str(0)
 	root_url="g.e-hentai.org/"
+	return_download_url="inet|10,13|" & page_url
+ElseIf InStr(LCase(url_str), url_head&"e-hentai.org/g/")=1 Then
+	url_str=Mid(url_str,InStr(LCase(url_str),url_head&"e-hentai.org/g/")+Len(url_head&"e-hentai.org/g/"))
+	split_str=split(url_str,"/")
+	page_url=url_head&"e-hentai.org/g/" & split_str(0) & "/" & split_str(1) & "/"
+	album_info=split_str(0)
+	root_url="e-hentai.org/"
 	return_download_url="inet|10,13|" & page_url
 ElseIf InStr(LCase(url_str), url_head&"exhentai.org/g/")=1 Then
 	url_str=Mid(url_str,InStr(LCase(url_str),url_head&"exhentai.org/g/")+Len(url_head&"exhentai.org/g/"))

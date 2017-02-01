@@ -1,4 +1,4 @@
-'2013-2-25 163.shanhaijing.net
+'2017-1-18 163.shanhaijing.net
 Dim url_parent, tags, page, pic_counter, url_instr, retry_time, login_TF
 
 Function return_download_url(ByVal url_str)
@@ -69,8 +69,8 @@ End If
 If len(page)>0 Then page="&page=" & page
 pic_counter=-1
 
-return_download_url = "inet|10,13|" & url_parent & "/post/index.xml?tags=" & tags & page & "&limit=100|" & url_parent
-url_instr="1|inet|10,13|" & url_parent & "/post/index.xml?tags=" & tags & page & "&limit=100"
+return_download_url = "inet|10,13|" & url_parent & "/posts.xml?tags=" & tags & page & "&limit=100|" & url_parent
+url_instr="1|inet|10,13|" & url_parent & "/posts.xml?tags=" & tags & page & "&limit=100"
 
 End Function
 
@@ -80,8 +80,7 @@ On Error Resume Next
 Dim key_str, split_str, add_temp, file_tag, file_url, file_id, split_counter
 return_image_list = ""
 
-page=""
-key_str="<post preview_url="""
+key_str="<post>"
 split_counter=-1
 
 If InStr(LCase(html_str), LCase(key_str)) > 0 Then
@@ -96,22 +95,30 @@ If InStr(LCase(html_str), LCase(key_str)) > 0 Then
 			file_id=""
 			html_str=""
 			'tag
-			key_str=""" tags="""
-	    file_tag=Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase(key_str)) + len(key_str))
-	    file_tag=Mid(file_tag,1,InStr(file_tag,chr(34))-1)
+			key_str="<tag-string>"
+	    file_tag=Mid(split_str(split_i),InStr(LCase(split_str(split_i)), LCase(key_str)) + len(key_str))
+			key_str="</tag-string>"
+	    file_tag=Mid(file_tag,1, InStr(LCase(file_tag), LCase(key_str))-1)
 	    file_tag=replace(file_tag,"|","&#124;")
 	    file_tag=replace(file_tag,"\\","\")
 	    
 			'file_url
-			key_str=""" file_url="""
-	    file_url=Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase(key_str)) + len(key_str))
-	    file_url=Mid(file_url,1,InStr(file_url,chr(34))-1)
-	    file_url=url_parent & file_url
+			key_str="<file-url>"
+			If InStr(LCase(split_str(split_i)), LCase(key_str)) > 0 Then
+		    file_url=Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase(key_str)) + len(key_str))
+				key_str="</file-url>"
+		    file_url=Mid(file_url,1,InStr(LCase(file_url), LCase(key_str))-1)
+		    file_url=url_parent & file_url
+		  Else
+		  	file_url=""
+		 	End If
 	    
 			'ID
-			key_str=""" id="""
+			key_str="<id type="""
 	    file_id=Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase(key_str)) + len(key_str))
-	    file_id=Mid(file_id,1,InStr(file_id,chr(34))-1)
+	    file_id=Mid(file_id, InStr(file_id, ">") + 1)
+			key_str="</id>"
+	    file_id=Mid(file_id,1,InStr(LCase(file_id), LCase(key_str))-1)
 			If IsNumeric(file_id)=false Then file_id=""
 			
 			If len(file_id)>0 and len(file_url)>0 Then
@@ -133,7 +140,7 @@ End If
 
 If split_counter>99 and len(page)>0 Then
 		page="&page=" & page
-	  url_instr="1|inet|10,13|" & url_parent & "/post/index.xml?tags=" & tags & page & "&limit=100"
+	  url_instr="1|inet|10,13|" & url_parent & "/posts.xml?tags=" & tags & page & "&limit=100"
 	  return_image_list = return_image_list & url_instr
 	  pic_counter=split_counter
 	  retry_time=0
