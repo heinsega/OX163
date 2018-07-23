@@ -1,4 +1,4 @@
-'2017-2-1 visceroid & hein@shanghaijing.net
+'2017-4-19 visceroid & hein@shanghaijing.net
 Dim started, multi_page, brief_mode, reg_bigmode, brief_mode_rf, retries_count, cache_index, root_str, next_page_str, parent_next_page_str, matches_cache, php_name
 Dim manga_count, ids_count, ids_max, ids_split, limit_ids_max, ids_string
 started = False
@@ -20,6 +20,10 @@ On Error Resume Next
 	Set regex = New RegExp
 	regex.Global = True
 	regex.IgnoreCase = True
+
+	'json没开https，只能http
+	If left(LCase(url_str),8)="https://" Then url_str = "http://" & mid(url_str,9)
+	'If left(LCase(url_str),8)="https://" Then root_str = "https://www.pixiv.net"
 	
 	page_number=1
 	brief_mode_rf=""
@@ -30,7 +34,7 @@ On Error Resume Next
 		brief_mode_rf="&brief_mode=f"
 	End If
 	If instr(url_str,"#")>0 Then url_str=mid(url_str,1,instr(url_str,"#")-1)
-	regex.Pattern = root_str & "/(\w+)\.php(?:\?(?:(?:((?:id|illust_id)=\d+)|((?:tag|word)=(?:[%\w\-]+\+?)+)|(type=(?:illust|user|reg_user))|(mode=(?:medium|big|manga|manga_big|all)|rest=(?:show|hide)|s_mode=(?:s_tc|s_tag))|(p=\d+)|[^&]+)(?:&|$))*)?"
+	regex.Pattern = root_str & "/(\w+)\.php(?:\?(?:(?:((?:id|illust_id)=\d+)|((?:tag|word)=(?:[%\w\-\!]+\+?)+)|(type=(?:illust|user|reg_user))|(mode=(?:medium|big|manga|manga_big|all)|rest=(?:show|hide)|s_mode=(?:s_tc|s_tag))|(p=\d+)|[^&]+)(?:&|$))*)?"
 	Set matches = regex.Execute(url_str)
 	For Each match In matches
 		Select Case LCase(match.SubMatches(0))
@@ -82,7 +86,8 @@ On Error Resume Next
 				ranking_url = sub_url_str
 				reg_bigmode="json"
 				ranking_page=2
-			  parent_next_page_str = "1|inet|10,13|" & root_str & "/" & ranking_url & "&p=2"
+				'ly:ranking页面读不出来是因为多加了一个"/"
+			  	parent_next_page_str = "1|inet|10,13|" & root_str & ranking_url & "&p=2"
 			Case "ranking_area"
 				php_name=LCase(match.SubMatches(0)) & ".php"
 				sub_url_str=Mid(url_str,instr(url_str,".php?")+5)
@@ -119,7 +124,7 @@ On Error Resume Next
 	Next
 	
 	return_download_url = "inet|10,13|" & root_str & "|" & root_str & vbcrlf & "User-Agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/7.0)"
-	OX163_urlpage_Referer = "http://www.pixiv.net/member_illust.php?mode=medium&illust_id=12345" & vbCrLf & "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko"
+	OX163_urlpage_Referer = root_str & "/member_illust.php?mode=medium&illust_id=12345" & vbCrLf & "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko"
 
 End Function
 
@@ -132,7 +137,7 @@ On Error Resume Next
 	Set regex = New RegExp
 	regex.Global = True
 	regex.IgnoreCase = True
-	
+
 	If started Then
 		'<li><input name="id[]" value="1593522" type="checkbox" /><div class="usericon"><a href="member.php?id=1593522"><img src="http://img46.pixiv.net/profile/kasetsu_03/mobile/3399441_80.jpg" alt="霞雪"/></a></div><div class="userdata"><a href="member.php?id=1593522">霞雪</a>はじめまして、“カセツ”と読みます。<br><span>&nbsp;</span></div></li>
 		regex.Pattern = "<div[^>]*class=""userdata""[^>]*>\s*<a[^>]*href=""member\.php\?id=(\d+)[^""]*""[^>]*>\s*([^<" & name_filter_str & "]+)[^<]*</a>([\s\S^]*?)<br>"
@@ -194,15 +199,19 @@ On Error Resume Next
 		
 		'部分单图页面其实是manga，需要判断
 		If manga_count=0 and reg_bigmode="big" Then
-			regex.Pattern = "<li>(?:複数枚投稿|一次性投稿多張作品|一次性投稿多张作品) (\d+)P</li>"
+			'ly:2018年5月改版后，关键词没了，改用当前图片页面下userIllusts列表中当前图片的pageCount属性来判断
+			'"69233846":{"illustId":"69233846","illustTitle":"\u30ea\u30e7\u30ca\u30d5\u30ea\u30fc\u4f01\u753b\uff12","id":"69233846","title":"\u30ea\u30e7\u30ca\u30d5\u30ea\u30fc\u4f01\u753b\uff12","illustType":0,"xRestrict":1,"url":"https:\/\/i.pximg.net\/c\/240x240\/img-master\/img\/2018\/06\/15\/01\/00\/19\/69233846_p0_master1200.jpg","tags":["R-18","\u30ea\u30e7\u30ca","\u8179\u30d1\u30f3","\u8179\u30d1\u30f3\u30c1","\u8179\u8cac\u3081","\u62d8\u675f","\u767e\u5408","\u30ec\u30ba\u30ec\u30a4\u30d7"],"userId":"119791","width":1600,"height":958,"pageCount":4,"isBookmarkable":true,"bookmarkData":null}
+			regex.Pattern = """" & matches_cache.Item(cache_index-1).SubMatches(0) & """:{" & "(?:[\s\S]*?)" & """pageCount"":(\d+)"
 			Set matches = regex.Execute(html_str)
 			If matches.count>0 Then
-				reg_bigmode="manga"
+				page_count = matches.Item(0).SubMatches(0)
+				If IsNumeric(page_count) and int(page_count) > 1 Then reg_bigmode="manga"
 			End If
 		End If
-		
+
 		If reg_bigmode="ugoira" Then
-			If InStr(LCase(html_str),LCase("_ugoira1920x1080.zip"))>0 Then
+			'ly:2018年5月改版后，关键词有改动，稍作调整
+			If InStr(LCase(html_str),LCase("""original"":"))>0 Then
 				add_download_list_ugoira html_str, return_download_list
 				Call Set_next_json_url
 			Else
@@ -210,7 +219,8 @@ On Error Resume Next
 			End If
 			
 		ElseIf reg_bigmode="big" Then
-			If InStr(LCase(html_str),LCase("class=""original-image"""))>0 Then
+			'ly:2018年5月改版后，关键词有改动，稍作调整
+			If InStr(LCase(html_str),LCase("""original"":"))>0 Then
 				add_download_list_big html_str, return_download_list
 				Call Set_next_json_url
 			Else
@@ -219,11 +229,19 @@ On Error Resume Next
 					
 		ElseIf reg_bigmode="manga" Then
 			If manga_count=0 Then
-				'<span class="total">5</span>
-				regex.Pattern = "<li>(?:複数枚投稿|一次性投稿多張作品|一次性投稿多张作品) (\d+)P</li>"				
-				page_count = regex.Execute(html_str).Item(0).SubMatches(0)
-				If IsNumeric(page_count) Then manga_count=int(page_count)
-				If manga_count>0 Then
+				'ly:2018年5月改版后，关键词没了，改用当前图片页面下userIllusts列表中当前图片的pageCount属性来判断
+				'"69233846":{"illustId":"69233846","illustTitle":"\u30ea\u30e7\u30ca\u30d5\u30ea\u30fc\u4f01\u753b\uff12","id":"69233846","title":"\u30ea\u30e7\u30ca\u30d5\u30ea\u30fc\u4f01\u753b\uff12","illustType":0,"xRestrict":1,"url":"https:\/\/i.pximg.net\/c\/240x240\/img-master\/img\/2018\/06\/15\/01\/00\/19\/69233846_p0_master1200.jpg","tags":["R-18","\u30ea\u30e7\u30ca","\u8179\u30d1\u30f3","\u8179\u30d1\u30f3\u30c1","\u8179\u8cac\u3081","\u62d8\u675f","\u767e\u5408","\u30ec\u30ba\u30ec\u30a4\u30d7"],"userId":"119791","width":1600,"height":958,"pageCount":4,"isBookmarkable":true,"bookmarkData":null}
+				'ly:之前判断过是否漫画的就不再判断了
+				If page_count <> null and IsNumeric(page_count) Then
+					manga_count=int(page_count)
+				Else
+					regex.Pattern = """" & matches_cache.Item(cache_index-1).SubMatches(0) & """:{" & "(?:[\s\S]*?)" & """pageCount"":(\d+)"
+					page_count = regex.Execute(html_str).Item(0).SubMatches(0)
+					If IsNumeric(page_count) Then manga_count=int(page_count)
+				End If
+
+				'ly:2018年5月改版后，用新的条件判断页数之后，managa_count大于1才能将单页漫画筛选出来
+				If manga_count>1 Then
 					next_page_str="1|inet|10,13|" & root_str & "/member_illust.php?mode=manga_big&illust_id=" & matches_cache.Item(cache_index-1).SubMatches(0) & "&page=0"
 				Else
 					manga_count=1
@@ -242,7 +260,7 @@ On Error Resume Next
 			If php_name="ranking.php" and cache_index = 0 Then html_str=format_ranking_html(html_str)
 			regex.Pattern = """illust_id"":""([0-9]{1,})"",[\s\S]*?""(?:illust_title)"":""([^""]*)"",[\s\S]*?""illust_type"":""([012])"""
 			Set matches = regex.Execute(html_str)
-			
+
 			If matches.Count = 0 Then
 				If process_retry=false Then reg_bigmode="":cache_index=0:next_page_str=parent_next_page_str:parent_next_page_str=""
 			Else
@@ -252,7 +270,13 @@ On Error Resume Next
 			
 		'setp1图片列表获取ids
 		ElseIf cache_index=0 and reg_bigmode="" Then
-			regex.Pattern ="<a(?:\s*href=""/?(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))(?:(?!ref=)[^""])*""\s*class=""(work[^""]*)"")[^>]*?>[\s\S]*?""_layout-thumbnail""[\s\S]*?<img(?:\s*(?:src=""([^""]+)(?:_(?:s|m|(?:master\d+))\.)(\w+)[^""]*""|\w+=""[^""]*""))[^>]*?>" 
+			'ly:2018年5月改版后，search页面关键词改变，增加条件判断来适配search页面
+			'"data-items="[{&quot;illustId&quot;:&quot;69716612&quot;,&quot;illustTitle&quot;:&quot;\u6a39\u751f\u306b\u8a00\u3063\u3066\u3082\u3089\u3044\u305f\u3044\u53f0\u8a5e&quot;,&quot;illustType&quot;:&quot;0&quot;,&quot;url&quot;:&quot;https:\/\/i.pximg.net\/c\/240x240\/img-master\/img\/2018\/07\/16\/15\/42\/01\/69716612_p0_master1200.jpg&quot;,&quot;tags&quot;:[&quot;\u7b4b\u8089&quot;,&quot;\u767d\u90fd\u6a39\u751f&quot;,&quot;\u30ae\u30e3\u30b0&quot;,&quot;\u30e1\u30ac\u30ed\u30dc\u30af\u30b9&quot;,&quot;megalobox&quot;,&quot;\u767d\u90fd\u3086\u304d\u5b50&quot;,&quot;\u5317\u6597\u306e\u62f3&quot;,&quot;\u30b8\u30e3\u30ae&quot;],&quot;userId&quot;:&quot;17839338&quot;,&quot;userName&quot;:&quot;\u7af9\u82e5\u30c8\u30e2\u30cf\u30eb&quot;,&quot;userImage&quot;:&quot;https:\/\/i.pximg.net\/user-profile\/img\/2018\/04\/03\/21\/35\/48\/14045682_3c416de77956c0b8a97da95c5aacd00e_50.jpg&quot;,&quot;isBookmarkable&quot;:true,&quot;isBookmarked&quot;:false,&quot;width&quot;:800,&quot;height&quot;:1133,&quot;pageCount&quot;:1,&quot;bookmarkCount&quot;:10,&quot;responseCount&quot;:0},
+			If InStr(LCase(html_str),"href=""/search.php?") and InStr(LCase(html_str),"""data-items=""[{") Then
+				regex.Pattern ="{&quot;illustId&quot;:&quot;(\d+)&quot;[^}]*?}"
+			Else
+				regex.Pattern ="<a(?:\s*href=""/?(member_illust\.php\?mode=(\w+)&(?:amp;)?illust_id=(\d+))(?:(?!ref=)[^""])*""\s*class=""(work[^""]*)"")[^>]*?>[\s\S]*?""_layout-thumbnail""[\s\S]*?<img(?:\s*(?:src=""([^""]+)(?:_(?:s|m|(?:master\d+))\.)(\w+)[^""]*""|\w+=""[^""]*""))[^>]*?>"
+			End If
 			Set matches = regex.Execute(html_str)
 			'{"recommendations":[49730141,49844639,49762616,50011024]}
 			If matches.Count = 0 and Left(LCase(html_str),len("{""recommendations"":["))<>"{""recommendations"":[" Then
@@ -263,14 +287,21 @@ On Error Resume Next
 					ids=Mid(html_str,21)
 					ids=Left(ids,len(ids)-2)
 				Else
-					For Each match In matches
-						Select Case match.SubMatches(1)
-							Case "medium"
-								If IsNumeric(match.SubMatches(2)) Then ids=ids & match.SubMatches(2) & ","
-						End Select
-					Next
+				'ly:重新适配search页面
+					If InStr(LCase(html_str),"href=""/search.php?") and InStr(LCase(html_str),"""data-items=""[{") Then
+						For Each match In matches
+							If IsNumeric(match.SubMatches(0)) Then ids=ids & match.SubMatches(0) & ","
+						Next
+					Else
+						For Each match In matches
+							Select Case match.SubMatches(1)
+								Case "medium"
+									If IsNumeric(match.SubMatches(2)) Then ids=ids & match.SubMatches(2) & ","
+							End Select
+						Next
+					End If
 				End If
-				
+
 				If Right(ids,1)="," Then ids=Left(ids,Len(ids)-1)
 				retries_count = 0
 				next_page_str = "0"
@@ -361,7 +392,8 @@ Function Set_next_json_url()
 		If php_name="ranking.php" and ranking_page>0 and ranking_page<11 Then
 			reg_bigmode="json"
 			ranking_page=ranking_page+1
-			If ranking_page<11 then parent_next_page_str = "1|inet|10,13|" & root_str & "/" & ranking_url & "&p=" & ranking_page	
+			'ly:ranking页面读不出来是因为多加了一个"/"
+			If ranking_page<11 then parent_next_page_str = "1|inet|10,13|" & root_str & ranking_url & "&p=" & ranking_page	
 		End If
 	End If
 End Function
@@ -444,10 +476,11 @@ End Function
 Function add_download_list_big(byval big_str, ByRef download_list)
 On Error Resume Next
 	Dim file_ID,file_name,file_Url
-	'data-src="http://i2.pixiv.net/img-original/img/2015/01/09/00/04/21/48069269_p0.jpg" class="original-image">
-	big_str=mid(big_str,1,InStr(LCase(big_str),"class=""original-image"""))
-	big_str=mid(big_str,InStrrev(LCase(big_str),"data-src=""")+10)
-	file_Url=mid(big_str,1,instr(big_str,"""")-1)
+	'ly:2018年5月改版后，关键词和格式有改动，做相应修改
+	'"original":"https:\/\/i.pximg.net\/img-original\/img\/2018\/06\/30\/17\/47\/45\/69471286_p0.jpg"}
+	big_str=mid(big_str,InStr(LCase(big_str),"""original"":")+12)
+	big_str=mid(big_str,1,InStr(LCase(big_str),"""}")-1)
+	file_Url=Replace(big_str,"\/","/")
 	file_Url=Cls_Chr63(file_Url)
 	big_str=mid(file_Url,InStrrev(file_Url,"."))
 	
@@ -488,22 +521,20 @@ On Error Resume Next
 		'pixiv.context.illustId         = "44387029";
 		'pixiv.context.illustTitle      = "Hello ミク";pixiv.context.userId           = "395595";
 		'pixiv.context.userName         = "KD"
-		'{"src":"http:\/\/i2.pixiv.net\/img-zip-ugoira\/img\/2014\/06\/29\/14\/08\/25\/44387029_ugoira1920x1080.zip"
+		'ly:2018年5月改版后，关键词和格式有改动，下载地址也变了，做相应修改
+		'"original":"https:\/\/i.pximg.net\/img-original\/img\/2018\/07\/14\/23\/39\/49\/69689053_ugoira0.jpg"}
+		'https://i.pximg.net/img-zip-ugoira/img/2018/07/14/23/39/49/69689053_ugoira1920x1080.zip
 		Dim file_ID,file_name,file_Url,file_description
 		
-		ugoira_str=mid(ugoira_str,1,instr(LCase(ugoira_str),LCase("_ugoira1920x1080.zip"))) & "ugoira1920x1080.zip"
+		ugoira_str=mid(ugoira_str,InStr(LCase(ugoira_str),"""original"":")+12)
 		
-		file_Url=Mid(ugoira_str,InStrrev(ugoira_str,chr(34))+1)
+		file_Url=mid(ugoira_str,1,InStr(LCase(ugoira_str),"ugoira0")-1) & "ugoira1920x1080.zip"
 		file_Url=replace(file_Url,"\/","/")
-		
-		file_ID=mid(ugoira_str,InStr(LCase(ugoira_str),LCase("pixiv.context.illustId")))
-		file_ID=mid(file_ID,InStr(file_ID,"""")+1)
-		file_ID=mid(file_ID,1,InStr(file_ID,"""")-1)
+		file_Url=replace(file_Url,"img-original","img-zip-ugoira")
 
-		file_description=mid(ugoira_str,InStr(LCase(ugoira_str),LCase("pixiv.context.illustTitle")))
-		file_description=mid(file_description,InStr(file_description,"""")+1)
-		file_description=mid(file_description,1,InStr(file_description,"""")-1)
-		file_description=fix_Unicode_Name(file_description)
+		file_ID=matches_cache.Item(cache_index-1).SubMatches(0)
+
+		file_description=fix_Unicode_Name(matches_cache.Item(cache_index-1).SubMatches(1))
 		file_name=file_description
 		
 		If Len(file_name)>200 Then file_name=left(file_name,200)
@@ -553,7 +584,8 @@ On Error Resume Next
 								 '<span class="next"><a href="?mode=daily&amp;p=2&amp;ref=rn-h-next" rel="next" class="_button" title="下一面"><i class="_icon sprites-next-linked"></i></a></span>
 	If php_name="ranking.php" and ranking_page>0 and ranking_page<10 Then
 		ranking_page=ranking_page+1
-		get_next_page = "1|inet|10,13|" & root_str & "/" & ranking_url & "&p=" & ranking_page
+		'ly:ranking页面读不出来是因为多加了一个"/"
+		get_next_page = "1|inet|10,13|" & root_str & ranking_url & "&p=" & ranking_page
 		Exit Function
 	End If
 

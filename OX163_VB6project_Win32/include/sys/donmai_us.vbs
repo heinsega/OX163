@@ -1,4 +1,4 @@
-'2017-1-18 163.shanhaijing.net
+'2018-7-23 163.shanhaijing.net
 Dim url_parent, tags, page, pic_counter, url_instr, retry_time, login_TF
 
 Function return_download_url(ByVal url_str)
@@ -108,7 +108,7 @@ If InStr(LCase(html_str), LCase(key_str)) > 0 Then
 		    file_url=Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase(key_str)) + len(key_str))
 				key_str="</file-url>"
 		    file_url=Mid(file_url,1,InStr(LCase(file_url), LCase(key_str))-1)
-		    file_url=url_parent & file_url
+		    file_url=file_url
 		  Else
 		  	file_url=""
 		 	End If
@@ -190,7 +190,7 @@ If url_instr="/posts/" Then
 	    'url
 	    html_str = Mid(html_str,InStr(LCase(html_str), "size: <a href=""")+len("size: <a href="""))
 	    html_str = Mid(html_str, 1, InStr(html_str, Chr(34)) - 1)
-	    html_str = url_parent & html_str
+	    html_str = html_str
 	    
 	    'alt
 	    pic_alt = Mid(pic_alt,InStr(LCase(pic_alt), "id=""post_tag_string"""))
