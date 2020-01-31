@@ -1,7 +1,7 @@
 <p><img src=http://www.shanhaijing.net/163/ox163.jpg border=0 /></p>
 <b>功能：163相册下载，支持外部脚本扩展，支持在线搜索</b><br><br>
 <b>下载：请前往homepage查看，或前往<a href="http://pan.baidu.com/s/1hqvHdA0#dir/path=%2FOX163%2FOX163%20archivers" target="_blank">网盘</a>查看</b><br><br>
-<b>homepage: </b>http://www.shanhaijing.net/163/<br><br>
+<b>homepage: </b>http://shj.ugschina.com/163/<br><br>
 <b>forum: </b>http://www.ugschina.com/forum/forumTopicList.asp?id=17<br><br>
 <p><strong>0.6.0beta(2016.02.22)</strong></p>
 <br><br>
