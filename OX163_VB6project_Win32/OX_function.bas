@@ -192,7 +192,7 @@ Public Function OX_Default_Setting() As sysSetting
     '版本
     OX_Default_Setting.ver = ver_info
     '更新服务器
-    OX_Default_Setting.update_host = "http://www.shanhaijing.net/163/" '默认参数
+    OX_Default_Setting.update_host = "http://shj.ugschina.com/163/" '默认参数
     '下载区块
     OX_Default_Setting.downloadblock = 10240
     '检查更新
@@ -409,7 +409,7 @@ Public Function OX_GetIni_Setting(ByRef OX_SysSet As sysSetting)
     OX_Global_Err_Num = 0
     
     OX_SysSet.update_host = GetIniStr("maincenter", "update_host")
-    If OX_SysSet.update_host = "" Then OX_SysSet.update_host = "http://www.shanhaijing.net/163/"
+    If OX_SysSet.update_host = "" Then OX_SysSet.update_host = "http://shj.ugschina.com/163/"
     
     OX_SysSet.downloadblock = CLng(GetIniStr("maincenter", "downloadblock"))
     OX_SysSet.time_out = CInt(GetIniStr("maincenter", "time_out"))
