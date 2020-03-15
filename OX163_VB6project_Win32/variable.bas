@@ -3,7 +3,7 @@ Attribute VB_Name = "OX_variable"
 '-----------------OX163常用全部变量-------------------------
 '-----------------------------------------------------------
 
-Public Const title_info = "OX163 plus(0.6.2build160617 beta)"
+Public Const title_info = "OX163 plus(0.6.2beta build160617)"
 Public Const ver_info = 62
 'Public Const update_host_info = "http://shj.ugschina.com/163/|国外默认" & vbCrLf & "http://shanhaijing.net/163/|国内默认" & vbCrLf & "http://163.shanhaijing.net/163/|国内备份" & vbCrLf & "http://www.ugschina.com/163/|国外备份"
 Public Const update_host_info1 = "http://shj.ugschina.com/163/"

@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "ieframe.dll"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.OCX"
 Begin VB.Form Form1 
    AutoRedraw      =   -1  'True
@@ -3014,7 +3014,7 @@ Private Sub Load_Form()
         Form_Laoding.Move Me.ScaleWidth * (i / 20), Me.ScaleHeight * (i / 20), Me.ScaleWidth * (10 - i) / 10, Me.ScaleHeight * (10 - i) / 10
         Form_LaodingLab.Move (Form_Laoding.Width - Form_LaodingLab.Width) / 2, (Form_Laoding.Height - Form_LaodingLab.Height) / 2
         DoEvents
-        Sleep 5
+        Sleep 15
     Next
     
     Form_Laoding.Visible = False
@@ -3527,6 +3527,7 @@ Private Sub search_internt_Click()
     Web_Search.Width = Frame1.Width
     Web_Search.Visible = True
     If InStr(LCase(s136_title), LCase("OX163")) < 1 Then
+    delay 1
         Web_Search.Navigate "http://163.ugschina.com/"
     End If
     Call Web_Search_StatusTextChange("打开163相册搜索...")
@@ -3726,7 +3727,7 @@ Private Sub list_check_Click()
     j = 1
     i = 1
     
-    user_list.ColumnHeaders.Item(1).Text = "序号▲"
+    user_list.ColumnHeaders.Item(1).Text = "序号"
     user_list.ColumnHeaders.Item(2).Text = "相册名称"
     user_list.ColumnHeaders.Item(3).Text = "相册密码"
     user_list.ColumnHeaders.Item(4).Text = "序号/链接"
@@ -6004,9 +6005,9 @@ End Sub
 
 Private Sub view_command_Click()
     url_input_LostFocus
-    If Trim(url_input.Text) = "" Or Trim(url_input.Text) = "http://" Then url_input.Text = "http://photo.163.com/"
+    If Trim(url_input.Text) = "" Or Trim(url_input.Text) = "http://" Then url_input.Text = "http://shj.ugschina.com/163/"
     url_input.Text = Trim(url_input.Text)
-    If is_username(url_input.Text) = True Then url_input.Text = "http://photo.163.com/photos/" & format_username(url_input.Text, 2) & "/"
+    'If is_username(url_input.Text) = True Then url_input.Text = "http://photo.163.com/photos/" & format_username(url_input.Text, 2) & "/"
     'buttom_enable False
     form_height = 3000
     If Form1.WindowState = 0 Then
@@ -6023,8 +6024,8 @@ Private Sub view_command_Click()
     Web_Browser_Close.Left = Web_Browser.Width - 23 * Screen.TwipsPerPixelX
     Call Web_Browser_StatusTextChange("前往 " & Trim(url_input.Text))
     
-    If Trim(url_input.Text) = "http://www.shanhaijing.net/163/ua.asp" Then
-        Web_Browser.Navigate2 "http://www.shanhaijing.net/163/ua.asp"
+    If Trim(url_input.Text) = "http://shj.ugschina.com/163/ua.asp" Then
+        Web_Browser.Navigate2 "http://shj.ugschina.com/163/ua.asp"
     ElseIf InStr(url_temp, "Referer: ") = 1 Then
         Web_Browser.Navigate2 Trim(url_input.Text), , , , url_temp & vbCrLf & sysSet.OX_HTTP_Head
     Else
@@ -6218,7 +6219,7 @@ Private Sub Web_Toolbar_ButtonMenuClick(ByVal ButtonMenu As MSComctlLib.ButtonMe
     Case "shj_ie"
         Shell "explorer.exe " & App_path & "\regfile\", vbNormalFocus
     Case "shj_ua"
-        Web_Browser.Navigate "http://www.shanhaijing.net/163/ua.asp"
+        Web_Browser.Navigate "http://shj.ugschina.com/163/ua.asp"
     Case "shj_eht"
     
         Dim ex_ipb_member_id As String, ex_ipb_pass_hash As String
@@ -6379,7 +6380,7 @@ Private Sub Web_Browser_NavigateComplete2(ByVal pDisp As Object, url As Variant)
             script_retrun_code = Script_App.Eval("OX163_Web_Browser_url(" & Chr(34) & script_retrun_code & Chr(34) & ")")
             url_temp = script_retrun_code
             url_input.Text = script_retrun_code
-            If LCase(url_input.Text) = "http://www.shanhaijing.net/163/ua.asp" Then
+            If LCase(url_input.Text) = "http://shj.ugschina.com/163/ua.asp" Then
                 Web_Browser.Document.parentWindow.execScript "var OX163UA=""" & Replace(sysSet.Customize_UA, """", "") & """", "JavaScript"
             End If
             buttom_enable True
@@ -6626,7 +6627,7 @@ Private Sub save_list_image(ByVal floder_path)
             
             
             
-            download_FileName = floder_path & "\" & name_rules_add & List1.ListItems(i).ListSubItems(1).Text
+            download_FileName = floder_path & "\" & Trim(name_rules_add & List1.ListItems(i).ListSubItems(1).Text)
             strURL = Trim(List1.ListItems(i).ListSubItems(3).Text)
             
             If form_quit = True Then GoTo end_sub
@@ -6851,8 +6852,9 @@ Sub start_fast()
     
     strURL_error
     If sysSet.DelCache_BefDL = 1 Or sysSet.DelCache_BefDL > 2 Then OX_DeleteUrlCacheEntryW strURL
-    
+        
     If start_fast_method = "" Then
+
         If urlpage_Referer = "" Then
             fast_down.Execute Trim(strURL), "GET", , sysSet.OX_HTTP_Head
         Else
@@ -6944,13 +6946,18 @@ End Function
 Private Sub check_FileName()
     On Error Resume Next
     
-    Dim count As Integer, filename_len As Integer
+    Dim count As Integer, filename_len As Integer, path_split
     Dim path_filename As String, temp_filename As String, text_sortname As String
     Dim dir_tf
     temp_filename = download_FileName
     '---------------------------------------------------------
     path_filename = ""
     path_filename = Mid(download_FileName, 1, InStrRev(download_FileName, "\")) '取得文件路径：path_filename
+    path_split = Split(path_filename, "\") '去除路径错误的头尾空格：C:\ aaaa \
+    For path_i = 0 To UBound(path_split)
+        path_split(path_i) = Trim(path_split(path_i))
+    Next
+    path_filename = Join(path_split, "\")
     temp_filename = Mid(temp_filename, InStrRev(temp_filename, "\") + 1) '单独文件名：temp_filename
     '-------------------------------------------------------------------
     text_sortname = GetShortName(path_filename)
@@ -7033,12 +7040,12 @@ restart:
         temp_filename = path_filename & s_filename & "(" & count & ")" & end_filename
         GoTo restart
     End If
-    
+        
     If OX_GreatFile(temp_filename) = True Then
         download_FileName = GetShortName(temp_filename)
-        '2015.03.17
         download_FileFullName = temp_filename
     Else
+    '待修正，文件名不存在，不再进行下载操作，现在是还在下载
         download_FileName = ""
         download_FileFullName = ""
     End If
@@ -7907,7 +7914,7 @@ new163_password_OK:
                     If is_username(OX_Script_Type) = True And IsNumeric(Replace(user_list.ListItems(i).ListSubItems(3).Text, "new163_ID_", "")) = True Then
                         download_FileName = floder_path & "\" & reName_Str(user_list.ListItems(i).ListSubItems(1).Text) & "(AID_" & Replace(user_list.ListItems(i).ListSubItems(3).Text, "new163_ID_", "") & ")\" & name_rules_add & List1.ListItems(save_img_i).ListSubItems(1).Text
                     Else
-                        download_FileName = floder_path & "\" & reName_Str(user_list.ListItems(i).ListSubItems(1).Text) & "\" & name_rules_add & List1.ListItems(save_img_i).ListSubItems(1).Text
+                        download_FileName = floder_path & "\" & Trim(reName_Str(user_list.ListItems(i).ListSubItems(1).Text)) & "\" & Trim(name_rules_add & List1.ListItems(save_img_i).ListSubItems(1).Text)
                     End If
                     
                     If form_quit = True Then GoTo end_sub
@@ -8804,7 +8811,7 @@ Private Sub list_album_script(ByVal album_info)
             If i < UBound(albmInfos) Then
                 Dim currentListItem As ListItem
                 'album sort ID
-                Set currentListItem = user_list.ListItems.Add(user_list.ListItems.count + 1, , Format$(user_list.ListItems.count, "00000"))
+                Set currentListItem = user_list.ListItems.Add(user_list.ListItems.count + 1, , Format$(user_list.ListItems.count + 1, "00000"))
                 'album_name
                 Call currentListItem.ListSubItems.Add(, , albmInfos(i).AlbumName)
                 'list_album_password

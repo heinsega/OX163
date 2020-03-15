@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form sys 
    AutoRedraw      =   -1  'True
    BorderStyle     =   1  'Fixed Single
@@ -653,7 +653,7 @@ Begin VB.Form sys
          Top             =   240
          Width           =   5895
          Begin VB.CommandButton manifest_Com 
-            Caption         =   "应用(需重启程序)"
+            Caption         =   "应用以上设置(需重启程序)"
             BeginProperty Font 
                Name            =   "宋体"
                Size            =   9
@@ -665,19 +665,19 @@ Begin VB.Form sys
             EndProperty
             Height          =   375
             Left            =   120
+            MaskColor       =   &H80000012&
             TabIndex        =   221
             Top             =   1400
             Width           =   5655
          End
          Begin VB.CheckBox manifest_check 
-            Caption         =   "以管理员身份运行(可解决大部分运行问题)"
+            Caption         =   "管理员身份运行(解决大部分问题，但win10可能遇到提权失败)"
             ForeColor       =   &H000000FF&
             Height          =   255
             Index           =   2
             Left            =   120
             TabIndex        =   220
             Top             =   1080
-            Value           =   1  'Checked
             Width           =   5655
          End
          Begin VB.CheckBox manifest_check 
@@ -1203,12 +1203,12 @@ Begin VB.Form sys
          Begin VB.PictureBox FrameL1_bgs 
             AutoSize        =   -1  'True
             BorderStyle     =   0  'None
-            Height          =   6735
+            Height          =   7335
             Left            =   0
-            ScaleHeight     =   6735
+            ScaleHeight     =   7335
             ScaleWidth      =   5865
             TabIndex        =   158
-            Top             =   -2160
+            Top             =   -3000
             Width           =   5865
             Begin VB.HScrollBar VS_retry 
                Height          =   225
@@ -1315,17 +1315,17 @@ Begin VB.Form sys
                End
             End
             Begin VB.Frame FrameL1_Frame1 
-               Height          =   2925
+               Height          =   3525
                Left            =   0
                TabIndex        =   159
                Top             =   3720
                Width           =   5775
                Begin VB.PictureBox FrameL1_Picture 
                   BorderStyle     =   0  'None
-                  Height          =   675
+                  Height          =   1275
                   Index           =   2
                   Left            =   120
-                  ScaleHeight     =   675
+                  ScaleHeight     =   1275
                   ScaleWidth      =   5535
                   TabIndex        =   168
                   Top             =   2160
@@ -1340,8 +1340,10 @@ Begin VB.Form sys
                         Italic          =   0   'False
                         Strikethrough   =   0   'False
                      EndProperty
-                     Height          =   315
+                     Height          =   915
                      Left            =   0
+                     MultiLine       =   -1  'True
+                     ScrollBars      =   2  'Vertical
                      TabIndex        =   170
                      Top             =   360
                      Width           =   5535
@@ -1360,7 +1362,7 @@ Begin VB.Form sys
                      AutoSize        =   -1  'True
                      Caption         =   "用户代理(User-Agent):"
                      ForeColor       =   &H00C00000&
-                     Height          =   180
+                     Height          =   270
                      Index           =   7
                      Left            =   0
                      MousePointer    =   14  'Arrow and Question
@@ -1610,7 +1612,7 @@ Begin VB.Form sys
       End
    End
    Begin VB.Frame FrameL 
-      Caption         =   "常规参数设置"
+      Caption         =   "更新与通用设置"
       ForeColor       =   &H00C00000&
       Height          =   5295
       Index           =   5
@@ -1864,7 +1866,7 @@ Begin VB.Form sys
          End
          Begin VB.Label sys_lab5 
             AutoSize        =   -1  'True
-            Caption         =   "常规设置"
+            Caption         =   "通用设置"
             ForeColor       =   &H00C00000&
             Height          =   180
             Index           =   0
@@ -2618,6 +2620,8 @@ End If
 End Sub
 
 Private Sub Customize_UA_txt_Change()
+On Error Resume Next
+Customize_UA_txt = Trim(Replace(Replace(Replace(Customize_UA_txt, Chr(0), ""), Chr(13), ""), Chr(10), ""))
 Customize_UA_txt.ToolTipText = Customize_UA_txt
 End Sub
 
@@ -2915,7 +2919,7 @@ Private Sub Build_TVW_Menu()
     Call SysTreeView.Nodes.Add(, 4, "TVW2", "文件目录操作", 2, 2 + 9)
     Call SysTreeView.Nodes.Add(, 4, "TVW3", "脚本控制", 3, 3 + 9)
     Call SysTreeView.Nodes.Add(, 4, "TVW4", "代理服务器", 4, 4 + 9)
-    Call SysTreeView.Nodes.Add(, 4, "TVW5", "常规参数设置", 5, 5 + 9)
+    Call SysTreeView.Nodes.Add(, 4, "TVW5", "更新与通用设置", 5, 5 + 9)
     Call SysTreeView.Nodes.Add(, 4, "TVW6", "热键与警告框", 6, 6 + 9)
     Call SysTreeView.Nodes.Add(, 4, "TVW7", "网易相册设置", 7, 7 + 9)
     Call SysTreeView.Nodes.Add(, 4, "TVW8", "内置浏览器", 8, 8 + 9)
@@ -3173,7 +3177,7 @@ Private Sub sys_apply_Click()
     If Left(LCase(update_host_Text), 7) = "http://" Or Left(LCase(update_host_Text), 8) = "https://" Then
         WriteIniStr "maincenter", "update_host", update_host_Text
     Else
-        WriteIniStr "maincenter", "update_host", "http://www.shanhaijing.net/163/"
+        WriteIniStr "maincenter", "update_host", "http://shj.ugschina.com/163/"
     End If
     '列表时显示列表
         WriteIniTF "maincenter", "listshow", listOp(1).Value = True
@@ -3349,7 +3353,7 @@ Private Sub sys_def(ByVal frameID As Byte)
         '自动更新
         autoOp(1).Value = True
         '更新服务器设置
-        update_host_Combo.List(0) = "默认设置|" & "http://www.shanhaijing.net/163/"
+        update_host_Combo.List(0) = "默认设置|" & "http://shj.ugschina.com/163/"
         update_host_1 = Split(update_host_info1, "|")
         update_host_2 = Split(update_host_info2, "|")
         For i = 0 To UBound(update_host_1)
@@ -3575,8 +3579,9 @@ Private Sub load_ini(ByVal frameID As Byte)
         If load_ini_sysSetting.autocheck = False Then autoOp(0).Value = True
         '更新服务器设置
         update_host_Combo.List(0) = "INI设置|" & load_ini_sysSetting.update_host
-        If update_host_Combo.List(0) = "INI设置|" & "http://www.shanhaijing.net/163/" Then update_host_Combo.List(0) = "默认设置|" & "http://www.shanhaijing.net/163/"
+        If update_host_Combo.List(0) = "INI设置|" & "http://shj.ugschina.com/163/" Then update_host_Combo.List(0) = "默认设置|" & "http://shj.ugschina.com/163/"
         update_host_Combo.ListIndex = 0
+        update_host_Text = load_ini_sysSetting.update_host
         '列表时显示列表
         If load_ini_sysSetting.listshow = True Then listOp(1).Value = True
         '是否最小化到系统托盘
