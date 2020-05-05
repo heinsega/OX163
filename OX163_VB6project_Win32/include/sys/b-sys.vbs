@@ -1,4 +1,4 @@
-'2016-3-6 163.shanhaijing.net
+'2020-5-5 163.shanhaijing.net
 Dim http_type, url_parent, tags, page, Next_page, page_counter, retry_counter
 
 Function return_download_url(ByVal url_str)
@@ -244,7 +244,9 @@ ElseIf InStr(LCase(html_str), "class=""thumb""><a id=""") > 0 Then
 	  html_str = Mid(html_str,InStr(html_str, "/")+1)
 	  html_str = Mid(html_str,InStr(html_str, "/")+1)
 	  'pic url
-		url_str="http://" & url_parent & "/images/" & html_str & "/" & url_str	
+		url_str="http://" & url_parent & "/images/" & html_str & "/" & url_str
+		'http://animalcrossingpatterns.booru.org/images/thumbnails/1/499940af57af3241e6bdd67d038dd8c3a2d88782.jpg
+		url_str=replace(url_str,"/thumbnails/","/")
 		If InStr(url_str,"?")>1 Then url_str=mid(url_str,1,InStr(url_str,"?")-1)
 		pic_type=Mid(url_str,instrrev(url_str,"."))
 		

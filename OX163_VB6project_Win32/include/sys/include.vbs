@@ -1,4 +1,5 @@
 b-sys.vbs|vbscript|UTF-8|photo|b http://?*
+b-sys.vbs|vbscript|UTF-8|photo|b https://?*
 booru.vbs|vbscript|UTF-8|photo|http://rule34.xxx/?*
 booru.vbs|vbscript|UTF-8|photo|http://rule34.booru.org/?*
 b-sys.vbs|vbscript|UTF-8|photo|http://?*.booru.org/?*
