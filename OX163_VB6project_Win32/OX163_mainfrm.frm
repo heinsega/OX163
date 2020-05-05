@@ -1859,6 +1859,7 @@ Dim list_scoll_id As Double
 Dim list_scoll_idm As Double
 Dim s136_title As String
 Dim s136_newwin As Boolean
+Dim ox_isClick_view_command_tf As Boolean
 'Dim form_IsDelay_TF As Boolean '是否正在延时等待
 
 '---------------------------------------------------------------------------------------------------------
@@ -6024,6 +6025,7 @@ Private Sub view_command_Click()
     Web_Browser_Close.Left = Web_Browser.Width - 23 * Screen.TwipsPerPixelX
     Call Web_Browser_StatusTextChange("前往 " & Trim(url_input.Text))
     
+    ox_isClick_view_command_tf = True
     If Trim(url_input.Text) = "http://shj.ugschina.com/163/ua.asp" Then
         Web_Browser.Navigate2 "http://shj.ugschina.com/163/ua.asp"
     ElseIf InStr(url_temp, "Referer: ") = 1 Then
@@ -6291,6 +6293,11 @@ Private Sub Web_Browser_BeforeNavigate2(ByVal pDisp As Object, url As Variant, f
     web_postdata = ""
     If LenB(PostData) > 0 Then
         web_postdata = OX_Bin2CharsetTypeStr(PostData, Web_Browser.Document.Charset)
+    End If
+    
+    If ox_isClick_view_command_tf = True Then
+        If url <> url_input.Text Then url = url_input.Text
+        ox_isClick_view_command_tf = False
     End If
     script_retrun_code = Script_App.Run("OX163_Web_Browser_ctrl", url, flags, TargetFrameName, web_postdata, Headers)
     
