@@ -1,4 +1,4 @@
-'2015-10-11 163.shanhaijing.net
+'2022-5-5 163.shanhaijing.net
 Dim url_parent, Next_page, retry_counter, url_host
 
 Function return_download_url(ByVal url_str)
@@ -7,6 +7,7 @@ Function return_download_url(ByVal url_str)
 'http://www.zerochan.net/Izumi+no+Kami+Kanesada?p=2
 'http://www.zerochan.net/Izumi+no+Kami+Kanesada?d=1&p=2
 'http://www.zerochan.net/Kuroko+no+Basuke?d=2&o=1257633
+'https://www.zerochan.net/Takada+Akemi?p=2
 On Error Resume Next
 return_download_url = ""
 Next_page = ""
@@ -47,8 +48,8 @@ retry_counter = 0
 return_download_url = "inet|10,13|" & url_str & "|" & url_str
 OX163_urlpage_Referer = url_str
 
-'http://www.zerochan.net/Kuroko+no+Basuke?d=2&o=
-url_parent = url_parent & p_str & "o="
+'http://www.zerochan.net/Kuroko+no+Basuke?d=2&
+'url_parent = url_parent & p_str
 
 End Function
 
@@ -58,67 +59,52 @@ On Error Resume Next
 Dim split_str, sid, key_str, Next_oID
 
 '<a href="?p=2" tabindex="1" rel="next">Next &raquo;</a>
-'<a href="?o=142660" tabindex="1" rel="next">Next &raquo;</a>
 key_str = "rel=""next"""
-Next_oID = 0
-If InStr(LCase(html_str), LCase(key_str)) > 0 Then Next_oID = 1
-
-key_str = "<ul id=""thumbs2"">"
+Next_oID = ""
 If InStr(LCase(html_str), LCase(key_str)) > 0 Then
+	Next_oID = Mid(html_str, 1, InStr(LCase(html_str), key_str))
+	Next_oID = Mid(Next_oID, InStrRev(Next_oID, "?"))
+	Next_oID = Mid(Next_oID, 1, InStr(Next_oID, """") - 1)
+End If
+
+'{"@type": ["ListItem","ImageObject"], "position": "18", "name": "Ayukawa Madoka", "url": "https://static.zerochan.net/Ayukawa.Madoka.full.457682.jpg", "thumbnailUrl": "https://s3.zerochan.net/Ayukawa.Madoka.240.457682.jpg"}
+key_str = "{""@type"": [""ListItem"",""ImageObject""],"
+If InStr(LCase(html_str), LCase(key_str)) > 0 Then
+  Next_page = ""
+  retry_counter = 0
     
-    Next_page = ""
-    retry_counter = 0
+  html_str = Mid(html_str, InStr(LCase(html_str), LCase(key_str)) + Len(key_str))
+  'html_str = Mid(html_str, InStr(LCase(html_str), LCase("""name"": """)) + 9)
+  html_str = Mid(html_str, 1, InStr(LCase(html_str), "</script>"))
     
-    html_str = Mid(html_str, InStr(LCase(html_str), LCase(key_str)) + Len(key_str))
-    html_str = Mid(html_str, InStr(LCase(html_str), LCase("src=""")) + 5)
-    html_str = Mid(html_str, 1, InStr(LCase(html_str), "</ul>"))
-    
-    split_str = Split(html_str, "src=""")
-    
+  split_str = Split(html_str, key_str)
+  
   For split_i = 0 To UBound(split_str)
   
-        'http://host/name.full.id.type
-        url_str = "" 'url
-        html_str = "" 'name
-        sid = "" 'id
-    key_str = "" 'type
+		'http://host/name.full.id.type
+		url_str = "" 'url
+		html_str = "" 'name
+		sid = "" 'id
+		key_str = "" 'type
+		
+		'url
+		url_str = Mid(split_str(split_i), InStr(LCase(split_str(split_i)), LCase("""url"": """)) + 8)
+		url_str = Mid(url_str, 1, InStr(url_str, Chr(34)) - 1)
+		'https://static.zerochan.net/Ayukawa.Madoka.full.457682.jpg
+
+		'name
+		'Ayukawa.Madoka.full.457682.jpg
+		html_str = Mid(url_str, InStr(url_str, ".zerochan.net/") + len(".zerochan.net/"))
+		'Ayukawa.Madoka.full.457682.jpg
     
-        'http://s3.zerochan.net/Kuroko.no.Basuke.240.1770944.jpg==>http://static.zerochan.net/Kuroko.no.Basuke.full.1770944.jpg
-        
-        '#1=http://s3.zerochan.net/Kuroko.no.Basuke.240.1770944.jpg
-      url_str = Mid(split_str(split_i), 1, InStr(split_str(split_i), Chr(34)) - 1)
-        '#2=.zerochan.net/Kuroko.no.Basuke.240.1770944.jpg
-        split_str(split_i) = "http://"
-        split_str(split_i) = Mid(url_str, 1, InStr(url_str, "//") + 1)
-      url_str = Mid(url_str, InStr(url_str, "."))
-      
-      'name
-      'Kuroko.no.Basuke.240.1770944.jpg
-      html_str = Mid(url_str, InStr(url_str, "/") + 1)
-      'Kuroko.no.Basuke.240.1770944.jpg->Kuroko.no.Basuke.240.1770944->Kuroko.no.Basuke.240->Kuroko.no.Basuke
-      For i = 1 To 3
-        html_str = Mid(html_str, 1, InStrRev(html_str, ".") - 1)
-        Next
-        
-        'id
-        sid = Mid(url_str, 1, InStrRev(url_str, ".") - 1)
-        sid = Mid(sid, InStrRev(sid, ".") + 1)
-        
-        'type
-        key_str = Mid(url_str, InStrRev(url_str, ".") + 1)
-        
-        'url
-        url_str = Mid(url_str, 1, InStr(url_str, "/") - 1)
-        url_str = split_str(split_i) & "static" & url_str & "/" & html_str & ".full." & sid & "." & key_str
-        
-        'OK
-        split_str(split_i) = ""
-        split_str(split_i) = key_str & "|" & url_str & "|(" & url_host & "-" & sid & ")" & UTF8DecodeURI(html_str) & "|"
-        
-        If Next_oID > 0 Then Next_page = sid
+		'OK
+		split_str(split_i) = ""
+		split_str(split_i) = "|" & url_str & "|(" & url_host & ")" & UTF8DecodeURI(html_str) & "|"
+
   Next
   return_download_list = Join(split_str, vbCrLf) & vbCrLf
-  If Next_oID > 0 Then
+  If Next_oID <>"" Then  	
+		Next_page = Next_oID
     return_download_list = return_download_list & "1|inet|10,13|" & url_parent & Next_page
   End If
   
