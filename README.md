@@ -2,8 +2,8 @@
 <p><img src="http://shj.ugschina.com/163/ox163.jpg" boroder=0/></p>
 功能：163相册下载 支持外部脚本扩展 <s>在线搜索</s><br><br>
 下载：请前往homepage查看<br><br>
-<b>homepage: </b><A href="http://shj.ugschina.com/163/" target="_blank">http://shj.ugschina.com/163/</A><br><br>
-<b>forum: </b><A href="http://www.ugschina.com/forum/forumTopicList.asp?id=17" target="_blank">http://www.ugschina.com/forum/forumTopicList.asp?id=17</A><br><br>
+homepage: <A href="http://shj.ugschina.com/163/" target="_blank">http://shj.ugschina.com/163/</A><br><br>
+forum: <A href="http://www.ugschina.com/forum/forumTopicList.asp?id=17" target="_blank">http://www.ugschina.com/forum/forumTopicList.asp?id=17</A><br><br>
 <p>Last release：0.6.1build160616 beta</p>
 
 使用教程：<A href="http://www.ugschina.com/forum/forumTopicRead.asp?id=943" target="_blank">简易教程在本站查看</A>,  <A href="https://bbs.saraba1st.com/2b/thread-375674-1-1.html" target="_blank">在STAGE1查看</A><BR>
