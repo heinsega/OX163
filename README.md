@@ -1,4 +1,4 @@
-<p>【软件已停止维护】</p>
+<p><b>【软件已停止维护】</b></p>
 <p><img src="http://shj.ugschina.com/163/ox163.jpg" boroder=0/></p>
 <b>功能：163相册下载 支持外部脚本扩展</b> <s>在线搜索</s><br><br>
 <b>下载：请前往homepage查看</b><br><br>
