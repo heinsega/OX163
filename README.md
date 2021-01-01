@@ -1,6 +1,6 @@
 <p>【软件已停止维护】</p>
-<p><img src=http://shj.ugschina.com/163/ox163.jpg></p>
-<b>功能：163相册下载 支持外部脚本扩展</b> <s>支持在线搜索</s><br><br>
+![](http://shj.ugschina.com/163/ox163.jpg)
+<b>功能：163相册下载 支持外部脚本扩展</b> <s>在线搜索</s><br><br>
 <b>下载：请前往homepage查看</b><br><br>
 <b>homepage: </b><A href="http://shj.ugschina.com/163/" target="_blank">http://shj.ugschina.com/163/</A><br><br>
 <b>forum: </b><A href="http://www.ugschina.com/forum/forumTopicList.asp?id=17" target="_blank">http://www.ugschina.com/forum/forumTopicList.asp?id=17</A><br><br>
