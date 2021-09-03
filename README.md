@@ -1,7 +1,7 @@
 <p><b>【软件暂停维护】</b></p>
 <p><img src="http://shj.ugschina.com/163/ox163.jpg" boroder=0/></p>
-功能：163相册下载 支持外部脚本扩展 <s><i>在线搜索</i></s><br><br>
-下载/homepage：<A href="http://shj.ugschina.com/163/" target="_blank">http://shj.ugschina.com/163/</A><br><br>
+原程序用于163相册下载，通过外部脚本扩展，支持下载booru、eht之类网站 <s><i>在线搜索</i></s><br><br>
+download：<A href="http://shj.ugschina.com/163/" target="_blank">http://shj.ugschina.com/163/</A><br><br>
 forum: <A href="http://www.ugschina.com/forum/forumTopicList.asp?id=17" target="_blank">http://www.ugschina.com/forum/forumTopicList.asp?id=17</A><br><br>
 <p>Last release：0.6.1build160616 beta</p>
 
