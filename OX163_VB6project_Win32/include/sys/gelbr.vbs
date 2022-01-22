@@ -1,5 +1,5 @@
-'2015-10-19 163.shanhaijing.net
-Dim url_parent, tags, page, Next_page, page_counter, retry_counter, delay_tf, url_instr, start_time
+'2022-1-23 163.shanhaijing.net
+Dim url_parent, tags, page, Next_page, page_counter, retry_counter, delay_tf, url_instr, start_time, HTTPS
 
 Function return_download_url(ByVal url_str)
 'http://gelbooru.com/index.php?page=post&s=list&pid=336960
@@ -15,9 +15,13 @@ Dim XML_TF
 return_download_url=""
 delay_tf=0
 
-url_str="http://" & mid(url_str,InStr(LCase(url_str), "http://")+7)
+HTTPS="http://"
+If InStr(LCase(url_str), "https://")=1 Then HTTPS="https://"
 
-url_parent=mid(url_str,InStr(LCase(url_str), "http://")+7)
+
+url_str=HTTPS & mid(url_str,InStr(LCase(url_str), HTTPS)+len(HTTPS))
+
+url_parent=mid(url_str,InStr(LCase(url_str), HTTPS)+len(HTTPS))
 
 If InStr(LCase(url_parent), "/index.php?")>0 Then
 	url_parent=mid(url_parent,1,InStr(LCase(url_parent), "/index.php?")-1)
@@ -70,15 +74,15 @@ Else  'If InStr(LCase(url_str), "page=post") >1 and InStr(LCase(url_str), "s=lis
 	If XML_TF=1 Then
 	 	page_counter=0
 	 	Next_page=-1
-	 	url_instr="http://" & url_parent & "/index.php?page=dapi&s=post&q=index" & tags
-	 	return_download_url = "inet|10,13|" & url_instr & "|" & "http://" & url_parent & "/"
+	 	url_instr=HTTPS & url_parent & "/index.php?page=dapi&s=post&q=index" & tags
+	 	return_download_url = "inet|10,13|" & url_instr & "|" & HTTPS & url_parent & "/"
 	Else
-	 	url_instr="http://" & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & page
-		return_download_url = "inet|10,13|" & url_instr & "|" & "http://" & url_parent & "/"
+	 	url_instr=HTTPS & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & page
+		return_download_url = "inet|10,13|" & url_instr & "|" & HTTPS & url_parent & "/"
 	End If
 End If
-return_download_url=return_download_url & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.00)"
-OX163_urlpage_Referer="http://" & url_parent & "/" & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.00)"
+return_download_url=return_download_url & vbcrlf & "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
+OX163_urlpage_Referer=HTTPS & url_parent & "/" & vbcrlf & "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
 
 End Function
 
@@ -93,7 +97,7 @@ If delay_tf=1 and DateDiff("s", start_time, Now()) < 12 Then
 	Exit Function
 ElseIf delay_tf=1 Then
 	delay_tf=2
-	return_download_list = "1|inet|10,13|http://gelbooru.com/intermission.php"'skip ads
+	return_download_list = "1|inet|10,13|" & HTTPS & "gelbooru.com/intermission.php"'skip ads
 	Exit Function
 ElseIf delay_tf>0 Then
 	delay_tf=0
@@ -134,7 +138,7 @@ If page="pool" Then
 	  html_str = Mid(html_str,InStr(html_str, "/")+1)
 	  html_str = Mid(html_str,InStr(html_str, "/")+1)
 	  'pic url
-		url_str="http://" & url_parent & "/images/" & html_str & "/" & url_str
+		url_str=HTTPS & url_parent & "/images/" & html_str & "/" & url_str
 		If InStr(url_str,"?")>1 Then url_str=mid(url_str,1,InStr(url_str,"?")-1)
 		pic_type=Mid(url_str,instrrev(url_str,"."))
 		
@@ -150,20 +154,19 @@ If page="pool" Then
   return_download_list=join(split_str,vbCrLf) & vbCrLf
 
 ElseIf Next_page<0 Then
-	
-	If InStr(LCase(html_str), "<posts count=""") > 0 Then
+'xml mode	
+	If InStr(LCase(html_str), """ count=""") > 0 Then
 		Next_page=-2
 		retry_counter=0
 		Dim key_word
-		key_word="<posts count="""
+		key_word=""" count="""
 		url_str=Mid(html_str, InStr(LCase(html_str), key_word) + len(key_word))
 		url_str=Mid(url_str,1,InStr(url_str, chr(34))-1)
 		If IsNumeric(url_str) Then page_counter=Int(url_str)
-	
-		html_str = Mid(html_str, InStr(LCase(html_str), key_word) + len(key_word))
-		html_str = Mid(html_str, InStr(LCase(html_str), "<post ") + len("<post "))
+			
+		html_str = Mid(html_str, InStr(LCase(html_str), "<post>") + len("<post>"))
 		html_str = Mid(html_str, 1, InStr(LCase(html_str), "</posts>")-1)
-		split_str = Split(html_str, "/><post ")
+		split_str = Split(html_str, "<post>")
 	  For split_i = 0 To UBound(split_str)
 			html_str=""
 			url_str=""
@@ -171,21 +174,22 @@ ElseIf Next_page<0 Then
 			pic_type=""
 					
 	  	'sid
-	  	key_word=""" id="""
+	  	key_word="<id>"
 		  sid = Mid(split_str(split_i), InStr(split_str(split_i), key_word) + len(key_word))
-		  sid = Mid(sid,1,InStr(sid, chr(34))-1)
+		  sid = Mid(sid,1,InStr(sid, "<")-1)
 		  	  	  
 		  'file_url
-	  	key_word=""" file_url="""
+	  	key_word="<file_url>"
 		  url_str = Mid(split_str(split_i), InStr(split_str(split_i), key_word) + len(key_word))
-		  url_str = Mid(url_str,1,InStr(url_str, chr(34))-1)	  
+		  url_str = Mid(url_str,1,InStr(url_str, "<")-1)
+		  If left(url_str,2)="//" Then url_str=HTTPS & mid(url_str,3)
 		  
 			pic_type=Mid(url_str,instrrev(url_str,"."))
 			
 			'pic name
-	  	key_word=""" tags="""
+	  	key_word="<tags>"
 		  html_str = Mid(split_str(split_i), InStr(split_str(split_i), key_word) + len(key_word))
-		  html_str = Mid(html_str,1,InStr(html_str, chr(34))-1)
+		  html_str = Mid(html_str,1,InStr(html_str, "<")-1)
 		  
 		  If Len(html_str)>180 Then html_str=Left(html_str,179) & "~"
 		  html_str = replace(html_str,"|","_")
@@ -196,7 +200,7 @@ ElseIf Next_page<0 Then
 	  return_download_list=join(split_str,vbCrLf) & vbCrLf
 	  If (page+1)*100<page_counter Then
 	  	page=page+1
-	  	url_instr="http://" & url_parent & "/index.php?page=dapi&s=post&q=index" & tags & "&pid=" & page
+	  	url_instr=HTTPS & url_parent & "/index.php?page=dapi&s=post&q=index" & tags & "&pid=" & page
 	  	return_download_list=return_download_list & "1|inet|10,13|" & url_instr
 		End If
 		
@@ -211,8 +215,8 @@ ElseIf Next_page<0 Then
 		End If
 	Else
 		Next_page=0
-		url_instr="http://" & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & page
-		return_download_list = "1|inet|10,13|" & url_instr & "|" & "http://" & url_parent & "/"
+		url_instr=HTTPS & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & page
+		return_download_list = "1|inet|10,13|" & url_instr & "|" & HTTPS & url_parent & "/"
 	End If
   
 ElseIf InStr(LCase(html_str), "class=""thumb""><a id=""") > 0 Then
@@ -259,7 +263,7 @@ ElseIf InStr(LCase(html_str), "class=""thumb""><a id=""") > 0 Then
 	  html_str = Mid(html_str,InStr(html_str, "/")+1)
 	  html_str = Mid(html_str,InStr(html_str, "/")+1)
 	  'pic url
-		url_str="http://" & url_parent & "/images/" & html_str & "/" & url_str	
+		url_str=HTTPS & url_parent & "/images/" & html_str & "/" & url_str	
 		If InStr(url_str,"?")>1 Then url_str=mid(url_str,1,InStr(url_str,"?")-1)
 		pic_type=Mid(url_str,instrrev(url_str,"."))
 		
@@ -274,7 +278,7 @@ ElseIf InStr(LCase(html_str), "class=""thumb""><a id=""") > 0 Then
   Next
   return_download_list=join(split_str,vbCrLf) & vbCrLf
   If Next_page>0 Then
-  	url_instr="http://" & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & Next_page
+  	url_instr=HTTPS & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & Next_page
   	return_download_list=return_download_list & "1|inet|10,13|" & url_instr
 	End If
 ElseIf retry_counter<5 Then

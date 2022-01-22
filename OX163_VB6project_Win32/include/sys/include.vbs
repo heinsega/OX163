@@ -1,19 +1,19 @@
 b-sys.vbs|vbscript|UTF-8|photo|b http://?*
 b-sys.vbs|vbscript|UTF-8|photo|b https://?*
-booru.vbs|vbscript|UTF-8|photo|http://rule34.xxx/?*
-booru.vbs|vbscript|UTF-8|photo|http://rule34.booru.org/?*
-b-sys.vbs|vbscript|UTF-8|photo|http://?*.booru.org/?*
-b-sys.vbs|vbscript|UTF-8|photo|http://safebooru.org/?*
-b-sys.vbs|vbscript|UTF-8|photo|http://lolibooru.com/?*
+booru.vbs|vbscript|UTF-8|photo|http*://rule34.xxx/?*
+booru.vbs|vbscript|UTF-8|photo|http*://rule34.booru.org/?*
+b-sys.vbs|vbscript|UTF-8|photo|http*://?*.booru.org/?*
+b-sys.vbs|vbscript|UTF-8|photo|http*://safebooru.org/?*
+b-sys.vbs|vbscript|UTF-8|photo|http*://lolibooru.com/?*
 b-sys.vbs|vbscript|UTF-8|photo|http://www.allthefallen.org/gallery/?*
 imouto.vbs|vbscript|UTF-8|photo|http://yande.re/*
 imouto.vbs|vbscript|UTF-8|photo|https://yande.re/*
 donmai_us.vbs|vbscript|UTF-8|photo|http://?*.donmai.us/*
 donmai_us.vbs|vbscript|UTF-8|photo|https://?*.donmai.us/*
-konachan.vbs|vbscript|UTF-8|photo|http://konachan.com/*
-konachan.vbs|vbscript|UTF-8|photo|http://konachan.net/*
-behoimi.vbs|vbscript|UTF-8|photo|http://behoimi.org/*
-behoimi.vbs|vbscript|UTF-8|photo|http://www.behoimi.org/*
+konachan.vbs|vbscript|UTF-8|photo|http*://konachan.com/*
+konachan.vbs|vbscript|UTF-8|photo|http*://konachan.net/*
+behoimi.vbs|vbscript|UTF-8|photo|http*://behoimi.org/*
+behoimi.vbs|vbscript|UTF-8|photo|http*://www.behoimi.org/*
 sankakucomplex.vbs|vbscript|UTF-8|photo|http://*.sankakucomplex.com*
 sankakucomplex.vbs|vbscript|UTF-8|photo|https://*.sankakucomplex.com*
 gelbr.vbs|vbscript|UTF-8|photo|http://gelbooru.com/*
@@ -122,8 +122,8 @@ rosiyy.vbs|vbscript|UTF-8|photo|http://www.rosiyy.com/?*/?*.html
 rosiyy.vbs|vbscript|UTF-8|album|http://www.rosiyy.com*
 youtube.vbs|vbscript|UTF-8|photo|http://www.youtube.com/watch?v=?*
 youtube.vbs|vbscript|UTF-8|photo|https://www.youtube.com/watch?v=?*
-moeyo.vbs|vbscript|UTF-8|photo|http://www.moeyo.com/?*/?*/?*.html
-moeyo.vbs|vbscript|UTF-8|photo|http://www.moeyo.com/article/?*
+moeyo.vbs|vbscript|UTF-8|photo|http*://www.moeyo.com/?*/?*/?*.html
+moeyo.vbs|vbscript|UTF-8|photo|http*://www.moeyo.com/article/?*
 3dm.vbs|vbscript|UTF-8|photo|http://bbs.3dmgame.com/home.php?mod=space&uid=*&id=*
 3dm.vbs|vbscript|UTF-8|album|http://bbs.3dmgame.com/home.php?mod=space&uid=*
 3dm.vbs|vbscript|UTF-8|album|http://bbs.3dmgame.com/space-uid-*
