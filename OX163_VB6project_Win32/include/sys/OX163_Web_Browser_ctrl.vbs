@@ -1,4 +1,4 @@
-'2014-10-23 163.shanhaijing.net
+'2022-5-4 163.shanhaijing.net
 
 Function OX163_Web_Browser_ctrl(ByVal URL,ByVal Flags,ByVal TargetFrameName,ByVal PostData,ByVal Headers)
 On Error Resume Next
@@ -24,6 +24,9 @@ ElseIf InStr(LCase(URL),"http://picasaweb.google.")=1 or InStr(LCase(URL),"picas
 ElseIf InStr(LCase(URL),"http://behoimi.org")=1 or InStr(LCase(URL),"http://www.behoimi.org")=1 Then
 	Headers="User-Agent: QuickTime/7.6.2 (qtver=7.6.2;os=Windows NT 5.1Service Pack 2)"
 	OX163_Web_Browser_ctrl=URL & vbCrLf & vbCrLf & Flags & vbCrLf & vbCrLf & TargetFrameName & vbCrLf & vbCrLf & PostData & vbCrLf & vbCrLf & Headers
+ElseIf InStr(LCase(URL),"http://exhentai.org")=1 or InStr(LCase(URL),"http://g.e-hentai.org")=1 Then
+	URL="https://" & Mid(URL,8)
+	OX163_Web_Browser_ctrl=URL & vbCrLf & vbCrLf & "" & vbCrLf & vbCrLf & "" & vbCrLf & vbCrLf & "" & vbCrLf & vbCrLf & ""
 End If
 End Function
 
@@ -35,5 +38,6 @@ If InStr(LCase(URL),"b http://")=1 or InStr(LCase(URL),"b%20http://")=1 or InStr
   URL=Mid(URL,InStr(LCase(URL),"b"))
   URL="b http:" & Mid(URL,InStr(LCase(URL),"//"))
   OX163_Web_Browser_url=URL
- End If
+End If
+
 End Function
