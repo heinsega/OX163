@@ -1,4 +1,4 @@
-'2020-5-5 163.shanhaijing.net
+'2024-1-8 163.shanhaijing.net
 Dim http_type, url_parent, tags, page, Next_page, page_counter, retry_counter
 
 Function return_download_url(ByVal url_str)
@@ -72,13 +72,13 @@ Else  'If InStr(LCase(url_str), "page=post") >1 and InStr(LCase(url_str), "s=lis
 	If XML_TF=1 Then
 	 	page_counter=0
 	 	Next_page=-1
-	 	return_download_url = "inet|10,13|http://" & url_parent & "/index.php?page=dapi&s=post&q=index" & tags & "|" & "http://" & url_parent & "/"
+	 	return_download_url = "inet|10,13|" & http_type & url_parent & "/index.php?page=dapi&s=post&q=index" & tags & "|" & http_type & url_parent & "/"
 	Else
-		return_download_url = "inet|10,13|http://" & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & page & "|" & "http://" & url_parent & "/"
+		return_download_url = "inet|10,13|" & http_type & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & page & "|" & http_type & url_parent & "/"
 	End If
 End If
 return_download_url=return_download_url & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.00)"
-OX163_urlpage_Referer="http://" & url_parent & "/" & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.00)"
+OX163_urlpage_Referer=http_type & url_parent & "/" & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.00)"
 
 End Function
 
@@ -119,7 +119,7 @@ If page="pool" Then
 	  html_str = Mid(html_str,InStr(html_str, "/")+1)
 	  html_str = Mid(html_str,InStr(html_str, "/")+1)
 	  'pic url
-		url_str="http://" & url_parent & "/images/" & html_str & "/" & url_str
+		url_str=http_type & url_parent & "/images/" & html_str & "/" & url_str
 		If InStr(url_str,"?")>1 Then url_str=mid(url_str,1,InStr(url_str,"?")-1)
 		pic_type=Mid(url_str,instrrev(url_str,"."))
 		
@@ -181,19 +181,19 @@ ElseIf Next_page<0 Then
 	  return_download_list=join(split_str,vbCrLf) & vbCrLf
 	  If (page+1)*100<page_counter Then
 	  	page=page+1
-	  	return_download_list=return_download_list & "1|inet|10,13|http://" & url_parent & "/index.php?page=dapi&s=post&q=index" & tags & "&pid=" & page
+	  	return_download_list=return_download_list & "1|inet|10,13|" & http_type & url_parent & "/index.php?page=dapi&s=post&q=index" & tags & "&pid=" & page
 		End If
 		
 	ElseIf Next_page<-1 Then
 		If retry_counter<3 Then
 			retry_counter=retry_counter+1
-			return_download_list="1|inet|10,13|http://" & url_parent & "/index.php?page=dapi&s=post&q=index" & tags & "&pid=" & page
+			return_download_list="1|inet|10,13|" & http_type & url_parent & "/index.php?page=dapi&s=post&q=index" & tags & "&pid=" & page
 		Else
 			return_download_list="0"
 		End If
 	Else
 		Next_page=0
-		return_download_list = "1|inet|10,13|http://" & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & page & "|" & "http://" & url_parent & "/"
+		return_download_list = "1|inet|10,13|" & http_type & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & page & "|" & http_type & url_parent & "/"
 	End If
   
 ElseIf InStr(LCase(html_str), "class=""thumb""><a id=""") > 0 Then
@@ -244,7 +244,7 @@ ElseIf InStr(LCase(html_str), "class=""thumb""><a id=""") > 0 Then
 	  html_str = Mid(html_str,InStr(html_str, "/")+1)
 	  html_str = Mid(html_str,InStr(html_str, "/")+1)
 	  'pic url
-		url_str="http://" & url_parent & "/images/" & html_str & "/" & url_str
+		url_str=http_type & url_parent & "/images/" & html_str & "/" & url_str
 		'http://animalcrossingpatterns.booru.org/images/thumbnails/1/499940af57af3241e6bdd67d038dd8c3a2d88782.jpg
 		url_str=replace(url_str,"/thumbnails/","/")
 		If InStr(url_str,"?")>1 Then url_str=mid(url_str,1,InStr(url_str,"?")-1)
@@ -261,11 +261,11 @@ ElseIf InStr(LCase(html_str), "class=""thumb""><a id=""") > 0 Then
   Next
   return_download_list=join(split_str,vbCrLf) & vbCrLf
   If Next_page>0 Then
-  	return_download_list=return_download_list & "1|inet|10,13|http://" & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & Next_page
+  	return_download_list=return_download_list & "1|inet|10,13|" & http_type & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & Next_page
 	End If
 ElseIf retry_counter<3 Then
 	retry_counter=retry_counter+1
-  return_download_list="1|inet|10,13|http://" & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & Next_page
+  return_download_list="1|inet|10,13|" & http_type & url_parent & "/index.php?page=post&s=list" & tags & "&pid=" & Next_page
 Else
 return_download_list = "0"
 End If
