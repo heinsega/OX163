@@ -1,4 +1,4 @@
-'2014-9-8 163.shanhaijing.net
+'2022-5-6 163.shanhaijing.net
 Dim deep_DL, split_str, split_c0, split_c1
 Dim tags, page, page_counter, url_instr, pool, url_head, url_http
 Dim retry_time, retry_url, delay_time, start_time, delay_url
@@ -46,12 +46,12 @@ Function return_download_url(ByVal url_str)
     End If
     
 '---------------------------单独页面-----------------------------------------
-    If InStr(LCase(url_str), ".sankakucomplex.com/post/show/") >0 Then
+    If InStr(LCase(url_str), "/post/show/") >0 Then
         pool = "post"
         return_download_url = "inet|10,13|" & url_str
         retry_url = return_download_url
-    		return_download_url = return_download_url & "|User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
-				OX163_urlpage_Referer = "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
+    		return_download_url = return_download_url & "|User-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.147 Safari/537.36"
+				OX163_urlpage_Referer = "User-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.147 Safari/537.36"
         Exit Function
     End If
 '----------------------------------------------------------------------------
@@ -94,7 +94,7 @@ Function return_download_url(ByVal url_str)
     
     retry_url = return_download_url
     
-    return_download_url = return_download_url & "|http://chan.sankakucomplex.com/post/show/1936676" & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
+    return_download_url = return_download_url & "|" & url_head & ".sankakucomplex.com/post/show/1936676" & vbcrlf & "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
 		OX163_urlpage_Referer = "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)"
     deep_DL = MsgBox("是否使用快速分析？" & vbCrLf & "(部分非JPG图片如PNG/GIF等可能无法正常获取)" & vbCrLf & vbCrLf & "[YES]快速分析" & vbCrLf & "[NO]深入分析", vbYesNo, "询问")
 End Function
@@ -132,7 +132,7 @@ Function return_download_list(ByVal html_str, ByVal url_str)
             url_str = url_str & "_" & pic_alt
             If Len(url_str) > 180 Then url_str = Left(url_str, 179) & "~"
             
-            'url
+            'file_url
             If InStr(LCase(html_str), "<li>original:") > 0 Then
 	            html_str = Mid(html_str, InStr(LCase(html_str), "<li>original:"))
 	            html_str = Mid(html_str, InStr(LCase(html_str), "<a href=""") + 9)
@@ -143,10 +143,17 @@ Function return_download_list(ByVal html_str, ByVal url_str)
             	html_str = Mid(html_str,InStrrev(html_str, Chr(34)) + 1)
           	End If
           	If left(html_str,2)="//" Then html_str=url_http & html_str
+						'https://v.sankakucomplex.com/data/c2/f8/c2f8d27d9b679821204309f6939e59a0.gif?e=1651808910&amp;m=bvY8eIsbcxehslh0uEcKKA&amp;expires=1651808910&amp;token=qa0Qi3fLtFIFyiGAOkulgF73EcF0cf12YzyAp6PR07w
+						'convert &
+						'https://v.sankakucomplex.com/data/c2/f8/c2f8d27d9b679821204309f6939e59a0.gif?e=1651808910&m=bvY8eIsbcxehslh0uEcKKA&expires=1651808910&token=qa0Qi3fLtFIFyiGAOkulgF73EcF0cf12YzyAp6PR07w
+						html_str=replace(html_str,"&amp;","&")
           	
+          	'file_type
           	key_str=Mid(html_str, InStrRev(html_str, "."))
+          	
             If instr(key_str,"?")>2 Then key_str=Mid(key_str,1,InStr(key_str, "?")-1)
             url_str = Replace(url_str, " ", "-") & key_str
+            
             If pool = "deep_DL" Then
             		split_str(split_c0)=""
                 Do While split_str(split_c0) = "" And split_c0 < split_c1
@@ -244,7 +251,7 @@ Function return_download_list(ByVal html_str, ByVal url_str)
     						ElseIf url_head = "http://chan" or url_head = "https://chan" Then
                 		file_url = url_http & "//cs.sankakucomplex.com/data/" & Left(md5_code, 2) & "/" & Mid(md5_code, 3, 2) & "/" & md5_code & file_type
 								End If
-								             
+								
                 'ID
                 add_temp = ""
                 key_str = ",""id"":"

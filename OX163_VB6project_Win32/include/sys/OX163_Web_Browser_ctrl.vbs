@@ -18,12 +18,18 @@ ElseIf InStr(LCase(URL),"http://b%20http//")=1 or InStr(LCase(URL),"http://b%20h
   If InStr(LCase(URL),"http://b%20https//")=1 Then URL="https://" & Mid(URL,19)
 	OX163_Web_Browser_ctrl=URL & vbCrLf & vbCrLf & "" & vbCrLf & vbCrLf & "" & vbCrLf & vbCrLf & "" & vbCrLf & vbCrLf & ""
 
+ElseIf InStr(LCase(URL),"http://chan.sankakucomplex.com")=1 or InStr(LCase(URL),"http://idol.sankakucomplex.com")=1 Then
+	URL="https://" & Mid(URL,8)
+	OX163_Web_Browser_ctrl=URL & vbCrLf & vbCrLf & Flags & vbCrLf & vbCrLf & TargetFrameName & vbCrLf & vbCrLf & PostData & vbCrLf & vbCrLf & Headers
+	
 ElseIf InStr(LCase(URL),"http://picasaweb.google.")=1 or InStr(LCase(URL),"picasaweb.google.")=1 Then
 	URL="https://picasaweb.google." & Mid(URL,InStr(LCase(URL),"picasaweb.google.")+Len("picasaweb.google."))
 	OX163_Web_Browser_ctrl=URL & vbCrLf & vbCrLf & Flags & vbCrLf & vbCrLf & TargetFrameName & vbCrLf & vbCrLf & PostData & vbCrLf & vbCrLf & Headers
+	
 ElseIf InStr(LCase(URL),"http://behoimi.org")=1 or InStr(LCase(URL),"http://www.behoimi.org")=1 Then
 	Headers="User-Agent: QuickTime/7.6.2 (qtver=7.6.2;os=Windows NT 5.1Service Pack 2)"
 	OX163_Web_Browser_ctrl=URL & vbCrLf & vbCrLf & Flags & vbCrLf & vbCrLf & TargetFrameName & vbCrLf & vbCrLf & PostData & vbCrLf & vbCrLf & Headers
+	
 ElseIf InStr(LCase(URL),"http://exhentai.org")=1 or InStr(LCase(URL),"http://g.e-hentai.org")=1 Then
 	URL="https://" & Mid(URL,8)
 	OX163_Web_Browser_ctrl=URL & vbCrLf & vbCrLf & "" & vbCrLf & vbCrLf & "" & vbCrLf & vbCrLf & "" & vbCrLf & vbCrLf & ""
